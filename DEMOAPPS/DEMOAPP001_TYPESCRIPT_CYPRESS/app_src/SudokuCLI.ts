@@ -43,6 +43,6 @@ export class SudokuCLI {
 
         console.log(`\nResult: ${status}`);
         this.displayGrid();
-        console.log("\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n");
     }
 }
