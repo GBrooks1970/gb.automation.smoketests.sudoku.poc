@@ -1,0 +1,68 @@
+{
+  "puzzles": [
+    {
+      "name": "Easy Scan Grid",
+      "difficulty": "easy",
+      "description": "Solvable with basic techniques - good for testing Unit Completion and Hidden Singles",
+      "grid": [
+        [5, 3, 0, 0, 7, 0, 0, 0, 0],
+        [6, 0, 0, 1, 9, 5, 0, 0, 0],
+        [0, 9, 8, 0, 0, 0, 0, 6, 0],
+        [8, 0, 0, 0, 6, 0, 0, 0, 3],
+        [4, 0, 0, 8, 0, 3, 0, 0, 1],
+        [7, 0, 0, 0, 2, 0, 0, 0, 6],
+        [0, 6, 0, 0, 0, 0, 2, 8, 0],
+        [0, 0, 0, 4, 1, 9, 0, 0, 5],
+        [0, 0, 0, 0, 8, 0, 0, 7, 9]
+      ]
+    },
+    {
+      "name": "Logic Squeeze Grid",
+      "difficulty": "medium",
+      "description": "Requires combination of all three basic techniques",
+      "grid": [
+        [0, 0, 0, 2, 6, 0, 7, 0, 1],
+        [6, 8, 0, 0, 7, 0, 0, 9, 0],
+        [1, 9, 0, 0, 0, 4, 5, 0, 0],
+        [8, 2, 0, 1, 0, 0, 0, 4, 0],
+        [0, 0, 4, 6, 0, 2, 9, 0, 0],
+        [0, 5, 0, 0, 0, 3, 0, 2, 8],
+        [0, 0, 9, 3, 0, 0, 0, 7, 4],
+        [0, 4, 0, 0, 5, 0, 0, 3, 6],
+        [7, 0, 3, 0, 1, 8, 0, 0, 0]
+      ]
+    },
+    {
+      "name": "Minimal Clues",
+      "difficulty": "hard",
+      "description": "Puzzle with 17 clues - the theoretical minimum for a valid Sudoku",
+      "grid": [
+        [0, 0, 0, 7, 0, 0, 0, 0, 0],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 4, 3, 0, 2, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 6],
+        [0, 0, 0, 5, 0, 9, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 4, 1, 8],
+        [0, 0, 0, 0, 8, 1, 0, 0, 0],
+        [0, 0, 2, 0, 0, 0, 0, 5, 0],
+        [0, 4, 0, 0, 0, 0, 3, 0, 0]
+      ]
+    },
+    {
+      "name": "Empty Grid",
+      "difficulty": "test",
+      "description": "Empty grid for testing STUCK_ON_ADVANCED_LOGIC status",
+      "grid": [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0]
+      ]
+    }
+  ]
+}

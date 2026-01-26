@@ -1,0 +1,19 @@
+{
+  "name": "sudoku-solver-demo",
+  "version": "1.0.0",
+  "description": "Sudoku solver implementing basic solving techniques",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "ts-node app_src/index.ts",
+    "build": "tsc",
+    "run": "node dist/index.js"
+  },
+  "keywords": ["sudoku", "solver", "typescript"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  }
+}
