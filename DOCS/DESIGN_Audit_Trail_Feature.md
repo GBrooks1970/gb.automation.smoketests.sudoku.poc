@@ -71,7 +71,7 @@ This document outlines the design for implementing a comprehensive audit trail s
                          │ contains
                          ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                    AuditEntry (Interface)                   │
+│                    AuditEvent (Interface)                   │
 │  - timestamp, iteration, algorithm                          │
 │  - cellChanges[], gridSnapshot (optional)                   │
 └─────────────────────────────────────────────────────────────┘
@@ -96,15 +96,14 @@ interface AuditConfig {
 }
 
 interface CellChange {
-    row: number;
-    col: number;
+    cell: {"row": 0, "col": 0},
     oldValue: number;
     newValue: number;
     reason?: string; // e.g., "only valid candidate", "last empty in row"
 }
 
-interface AuditEntry {
-    entryId: number;
+interface AuditEvent {
+    eventId: number; // uuid
     timestamp: string; // ISO 8601
     iteration: number;
     algorithm: 'UnitCompletion' | 'HiddenSingles' | 'NakedSingles';
@@ -123,7 +122,7 @@ interface AuditTrail {
     status: 'SOLVED' | 'STUCK_ON_ADVANCED_LOGIC';
     totalIterations: number;
     totalChanges: number;
-    entries: AuditEntry[];
+    events: AuditEvent[];
     statistics: AuditStatistics;
 }
 
@@ -164,9 +163,9 @@ interface AuditStatistics {
 // app_src/audit/AuditLogger.ts
 export class AuditLogger {
     private config: AuditConfig;
-    private entries: AuditEntry[] = [];
+    private events: AuditEvent[] = [];
     private currentIteration: number = 0;
-    private entryIdCounter: number = 0;
+    private eventIdCounter: number = 0;
     private startTime: Date;
     private puzzleName: string;
     private initialGrid: number[][];
@@ -218,8 +217,7 @@ export class SudokuSolver {
                 // Log the change
                 if (this.auditLogger) {
                     changesMade.push({
-                        row: r,
-                        col: colIndex,
+                        cell: {row: r, col: colIndex},
                         oldValue: 0,
                         newValue: missing,
                         reason: `Last empty cell in row ${r}`
@@ -342,9 +340,9 @@ audit_logs/
   "status": "SOLVED",
   "totalIterations": 12,
   "totalChanges": 51,
-  "entries": [
+  "events": [
     {
-      "entryId": 1,
+      "eventId": 1,
       "timestamp": "2026-01-26T19:30:45.125Z",
       "iteration": 1,
       "algorithm": "UnitCompletion",
@@ -359,7 +357,7 @@ audit_logs/
       ]
     },
     {
-      "entryId": 2,
+      "eventId": 2,
       "timestamp": "2026-01-26T19:30:45.130Z",
       "iteration": 1,
       "algorithm": "HiddenSingles",
