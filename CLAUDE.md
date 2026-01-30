@@ -29,16 +29,20 @@ gb.automation.smoketests.sudoku.poc/
 │       ├── package.json                # Node.js dependencies and scripts
 │       └── tsconfig.json               # TypeScript configuration
 ├── DOCS/
+│   ├── .design/                        # Design documents directory
+│   │   ├── README.md                   # Design documents guide
+│   │   ├── TEMPLATE_Design_Document.md # Template for design/analysis/planning/refactor
+│   │   ├── DESIGN_Sudoku_Solver_Specification.md  # Tech-agnostic specification
+│   │   ├── DESIGN_Audit_Trail_Feature.md       # Design doc for audit trail feature
+│   │   └── DESIGN_REST_API_Wrapper.md          # Design doc for REST API wrapper
 │   ├── .implementation/                # Implementation logs directory
 │   │   ├── README.md                   # Implementation logs guide
 │   │   ├── TEMPLATE_Implementation_Log.md  # Template for new logs
 │   │   └── IMPL_LOG_2026-01-30_Initial_Project_Creation.md
 │   ├── .review/                        # Code review templates and outputs
+│   │   ├── README.md                   # Code review directory guide
 │   │   └── code-review-template.md     # Comprehensive code review template
-│   ├── ALGORITHM_Sudoku_Basic_Solver.md    # Algorithm documentation
-│   ├── DESIGN_Sudoku_Solver_Specification.md  # Tech-agnostic specification
-│   ├── DESIGN_Audit_Trail_Feature.md       # Design doc for audit trail feature
-│   └── DESIGN_REST_API_Wrapper.md          # Design doc for REST API wrapper
+│   └── ALGORITHM_Sudoku_Basic_Solver.md    # Algorithm documentation
 ├── README.md                           # Project README
 ├── CLAUDE.md                           # AI assistant guide (this file)
 └── .gitignore
@@ -186,7 +190,7 @@ Test categories include:
 ## Planned Features
 
 ### Audit Trail Feature (Design Complete)
-Design document: `DOCS/DESIGN_Audit_Trail_Feature.md`
+Design document: `DOCS/.design/DESIGN_Audit_Trail_Feature.md`
 
 Will add:
 - Logging of every cell change during solving
@@ -236,6 +240,33 @@ Files to be created:
 - The `grid` property is the working copy that gets modified during solving
 - Deep copies are used to prevent mutation of original data
 - The solver is stateless between puzzle instances
+
+---
+
+## Design Documents
+
+Comprehensive design documents for features, analysis reports, planning artifacts, and refactoring strategies are maintained in the [DOCS/.design](../DOCS/.design/) directory.
+
+**Template:**
+- [TEMPLATE_Design_Document.md](../DOCS/.design/TEMPLATE_Design_Document.md) - Comprehensive template for design/analysis/planning/refactor documents
+
+**Document Types:**
+- **Design Documents (DESIGN_*.md)** - Complete architectural and implementation designs
+- **Analysis Documents (ANALYSIS_*.md)** - Problem investigation and research
+- **Planning Documents (PLAN_*.md)** - Project planning and task breakdown
+- **Refactoring Documents (REFACTOR_*.md)** - Detailed refactoring strategies
+
+**When to Use:**
+- Before implementing significant new features
+- When refactoring major components
+- For architectural changes affecting multiple parts
+- When documenting complex algorithms or data structures
+- For feasibility studies and technology evaluations
+
+**Existing Design Documents:**
+- [DESIGN_Sudoku_Solver_Specification.md](../DOCS/.design/DESIGN_Sudoku_Solver_Specification.md) - Core solver design (tech-agnostic)
+- [DESIGN_Audit_Trail_Feature.md](../DOCS/.design/DESIGN_Audit_Trail_Feature.md) - Audit logging system
+- [DESIGN_REST_API_Wrapper.md](../DOCS/.design/DESIGN_REST_API_Wrapper.md) - REST API specification
 
 ---
 

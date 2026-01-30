@@ -5,7 +5,7 @@
 **Version:** v1.0
 **Date:** 2026-01-30T20:00:00Z
 
-This demo application implements the [Sudoku Solver Design Specification](../../DOCS/DESIGN_Sudoku_Solver_Specification.md) using TypeScript and Node.js, demonstrating clean architecture principles and modern JavaScript development practices.
+This demo application implements the [Sudoku Solver Design Specification](../../DOCS/.design/DESIGN_Sudoku_Solver_Specification.md) using TypeScript and Node.js, demonstrating clean architecture principles and modern JavaScript development practices.
 
 ---
 
@@ -389,7 +389,7 @@ As per the design specification:
 
 Based on the design documents in `/DOCS`:
 
-### 1. Audit Trail Feature ([DESIGN_Audit_Trail_Feature.md](../../DOCS/DESIGN_Audit_Trail_Feature.md))
+### 1. Audit Trail Feature ([DESIGN_Audit_Trail_Feature.md](../../DOCS/.design/DESIGN_Audit_Trail_Feature.md))
 
 **Status:** Design complete, implementation pending
 
@@ -415,7 +415,7 @@ Based on the design documents in `/DOCS`:
 }
 ```
 
-### 2. REST API Wrapper ([DESIGN_REST_API_Wrapper.md](../../DOCS/DESIGN_REST_API_Wrapper.md))
+### 2. REST API Wrapper ([DESIGN_REST_API_Wrapper.md](../../DOCS/.design/DESIGN_REST_API_Wrapper.md))
 
 **Status:** Design complete, implementation pending
 
@@ -493,7 +493,7 @@ npm install
 ## References
 
 - [Parent README](../../README.md) - Repository overview
-- [Design Specification](../../DOCS/DESIGN_Sudoku_Solver_Specification.md) - Tech-agnostic spec
+- [Design Specification](../../DOCS/.design/DESIGN_Sudoku_Solver_Specification.md) - Tech-agnostic spec
 - [Algorithm Details](../../DOCS/ALGORITHM_Sudoku_Basic_Solver.md) - Algorithm explanations
 - [Test Scenarios](tests/BasicSudokuSolverLogic.feature) - BDD test specifications
 
@@ -501,6 +501,6 @@ npm install
 
 ## Questions or Issues?
 
-- Check the [tech-agnostic specification](../../DOCS/DESIGN_Sudoku_Solver_Specification.md) first
+- Check the [tech-agnostic specification](../../DOCS/.design/DESIGN_Sudoku_Solver_Specification.md) first
 - Review [algorithm documentation](../../DOCS/ALGORITHM_Sudoku_Basic_Solver.md) for technique details
 - Examine the [test scenarios](tests/BasicSudokuSolverLogic.feature) for expected behaviors

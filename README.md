@@ -46,10 +46,11 @@ All implementations follow the same:
 ```
 gb.automation.smoketests.sudoku.poc/
 ├── DOCS/                                    # Tech-agnostic documentation
-│   ├── DESIGN_Sudoku_Solver_Specification.md    # Core specification (language agnostic)
-│   ├── ALGORITHM_Sudoku_Basic_Solver.md         # Algorithm details with pseudocode
-│   ├── DESIGN_Audit_Trail_Feature.md            # Audit trail feature design
-│   └── DESIGN_REST_API_Wrapper.md               # REST API wrapper design
+│   ├── .design/                             # Design documents
+│   │   ├── DESIGN_Sudoku_Solver_Specification.md    # Core specification (language agnostic)
+│   │   ├── DESIGN_Audit_Trail_Feature.md            # Audit trail feature design
+│   │   └── DESIGN_REST_API_Wrapper.md               # REST API wrapper design
+│   └── ALGORITHM_Sudoku_Basic_Solver.md         # Algorithm details with pseudocode
 │
 ├── DEMOAPPS/                                # Technology-specific implementations
 │   ├── DEMOAPP001_TYPESCRIPT_CYPRESS/       # TypeScript + Node.js implementation
@@ -70,7 +71,7 @@ gb.automation.smoketests.sudoku.poc/
 
 | Document | Purpose | Audience |
 |----------|---------|----------|
-| [DESIGN_Sudoku_Solver_Specification.md](DOCS/DESIGN_Sudoku_Solver_Specification.md) | Complete implementation specification | Developers implementing in any language |
+| [DESIGN_Sudoku_Solver_Specification.md](DOCS/.design/DESIGN_Sudoku_Solver_Specification.md) | Complete implementation specification | Developers implementing in any language |
 | [ALGORITHM_Sudoku_Basic_Solver.md](DOCS/ALGORITHM_Sudoku_Basic_Solver.md) | Detailed algorithm descriptions with examples | Developers & educators |
 | [BasicSudokuSolverLogic.feature](DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/BasicSudokuSolverLogic.feature) | BDD test scenarios (Gherkin) | QA & developers |
 
@@ -78,8 +79,8 @@ gb.automation.smoketests.sudoku.poc/
 
 | Document | Purpose | Status |
 |----------|---------|--------|
-| [DESIGN_Audit_Trail_Feature.md](DOCS/DESIGN_Audit_Trail_Feature.md) | Audit trail logging system | Design complete |
-| [DESIGN_REST_API_Wrapper.md](DOCS/DESIGN_REST_API_Wrapper.md) | REST API wrapper specification | Design complete |
+| [DESIGN_Audit_Trail_Feature.md](DOCS/.design/DESIGN_Audit_Trail_Feature.md) | Audit trail logging system | Design complete |
+| [DESIGN_REST_API_Wrapper.md](DOCS/.design/DESIGN_REST_API_Wrapper.md) | REST API wrapper specification | Design complete |
 
 ## Demo Applications
 
@@ -121,7 +122,7 @@ See [DEMOAPP001 README](DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/README.md) for im
 ## Key Design Principles
 
 ### 1. Tech-Agnostic Specification
-The [core design specification](DOCS/DESIGN_Sudoku_Solver_Specification.md) uses pseudocode and conceptual descriptions, allowing implementation in any language.
+The [core design specification](DOCS/.design/DESIGN_Sudoku_Solver_Specification.md) uses pseudocode and conceptual descriptions, allowing implementation in any language.
 
 ### 2. Clean Architecture (Simple, SOLID, Testable)
 
@@ -174,7 +175,7 @@ All implementations follow established software engineering principles:
 - **Test Pyramid** - Unit tests (fast), integration tests (medium), BDD tests (slow but comprehensive)
 
 **Cross-References and Traceability:**
-- **Canonical Source** - [DESIGN_Sudoku_Solver_Specification.md](DOCS/DESIGN_Sudoku_Solver_Specification.md) is the authoritative specification
+- **Canonical Source** - [DESIGN_Sudoku_Solver_Specification.md](DOCS/.design/DESIGN_Sudoku_Solver_Specification.md) is the authoritative specification
 - **Algorithm Details** - [ALGORITHM_Sudoku_Basic_Solver.md](DOCS/ALGORITHM_Sudoku_Basic_Solver.md) provides pseudocode and examples
 - **Implementation Links** - Code comments reference specification sections for traceability
 - **Test-to-Spec Mapping** - Each Gherkin scenario maps to specification requirements
@@ -199,7 +200,7 @@ All implementations follow established software engineering principles:
 
 When implementing in a new technology stack:
 
-1. **Follow the specification** in [DESIGN_Sudoku_Solver_Specification.md](DOCS/DESIGN_Sudoku_Solver_Specification.md)
+1. **Follow the specification** in [DESIGN_Sudoku_Solver_Specification.md](DOCS/.design/DESIGN_Sudoku_Solver_Specification.md)
 2. **Create a new DEMOAPP folder** (e.g., `DEMOAPP002_PYTHON_PYTEST`)
 3. **Include a README** specific to that implementation
 4. **Implement the Gherkin scenarios** from the test specification
@@ -211,6 +212,6 @@ This is an educational project. See LICENSE file for details.
 
 ## Questions or Feedback?
 
-- 📖 Start with the [Design Specification](DOCS/DESIGN_Sudoku_Solver_Specification.md)
+- 📖 Start with the [Design Specification](DOCS/.design/DESIGN_Sudoku_Solver_Specification.md)
 - 🧩 See [Algorithm Details](DOCS/ALGORITHM_Sudoku_Basic_Solver.md) for technique explanations
 - 💻 Check [DEMOAPP001 README](DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/README.md) for implementation example
