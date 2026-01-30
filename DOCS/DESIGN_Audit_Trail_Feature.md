@@ -1,5 +1,8 @@
 # Audit Trail Feature Design Document
 
+**Version:** v1.0
+**Date:** 2026-01-30T20:00:00Z
+
 ## Overview
 
 This document outlines the design for implementing a comprehensive audit trail system that logs every change made to the Sudoku grid during the solving process. The audit trail will capture deltas (changes) at each step, providing full traceability of how the solver arrived at the solution.

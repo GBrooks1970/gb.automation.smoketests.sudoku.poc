@@ -3,7 +3,9 @@
 > **Document Type:** Implementation Specification
 > **Audience:** Mid-level software engineers
 > **Scope:** Technology and language agnostic
-> **Version:** 1.0
+
+**Version:** v1.0
+**Date:** 2026-01-30T20:00:00Z
 
 ---
 

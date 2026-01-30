@@ -1,106 +1,216 @@
-# gb.automation.smoketests.sudoku.poc
-Sudoku Solver App with pedagogical test automation projects
+# Sudoku Solver - Tech-Agnostic Design Specification
+
+> **A pedagogical project demonstrating clean architecture, test automation, and multi-stack implementations of the same design specification.**
+
+**Version:** v1.0
+**Date:** 2026-01-30T20:00:00Z
 
 ## Overview
 
-This repository demonstrates a TypeScript-based Sudoku solver implementing three fundamental solving techniques:
+This repository contains:
+1. **A comprehensive, tech-agnostic design specification** for a Sudoku solver
+2. **Multiple implementations** of the same specification in different technology stacks
+3. **Design documents** for extended features (audit trails, REST APIs)
+4. **Test specifications** using Gherkin/BDD for behavior verification
 
-1. **Unit Completion** - Fills cells in rows/columns/blocks with only one empty space
-2. **Hidden Singles** - Finds where a digit must go within a unit
-3. **Naked Singles** - Finds cells that can only contain one digit
+The solver implements three fundamental Sudoku solving techniques:
+- **Unit Completion** - Fills cells in rows/columns/blocks with only one empty space
+- **Hidden Singles** - Finds where a digit must go within a unit
+- **Naked Singles** - Finds cells that can only contain one digit
 
-The implementation follows clean architecture principles with separated concerns:
-- [SudokuSolver.ts](DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts) - Core solving algorithms
-- [SudokuOrchestrator.ts](DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuOrchestrator.ts) - Coordinates solving strategy
-- [SudokuCLI.ts](DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuCLI.ts) - Terminal interface and display
-- [PuzzleLoader.ts](DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/PuzzleLoader.ts) - Loads puzzles from JSON files
-- [index.ts](DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/index.ts) - Entry point that orchestrates puzzle loading and solving
-- [puzzles.json](DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/puzzles.json) - Collection of Sudoku puzzles with metadata
+## Design-First Approach
 
-For algorithm details, see [ALGORITHM_Sudoku_Basic_Solver.md](DOCS/ALGORITHM_Sudoku_Basic_Solver.md)
+This project follows a **specification-driven development** model:
 
-## Running the Sudoku Solver
+```
+    ┌──────────────────────────────────────┐
+    │  Tech-Agnostic Design Specification  │  ← Single source of truth
+    └────────────────┬─────────────────────┘
+                 │
+        ┌────────┴────────┬─────────────────┐
+        ▼                 ▼                 ▼
+   ┌──────────┐      ┌─────────┐      ┌─────────┐
+   │TypeScript│      │  Python │      │   C#    │  ← Multiple implementations
+   │  + Node  │      │ + Flask │      │ + .NET  │
+   └──────────┘      └─────────┘      └─────────┘
+```
 
-### Prerequisites
-- Node.js (v16 or higher)
+All implementations follow the same:
+- Architecture patterns (SRP, clean architecture)
+- Algorithm specifications (deterministic, logic-based)
+- Component responsibilities (Solver, Orchestrator, Loader, Display)
+- Behavior expectations (testable via Gherkin scenarios)
 
-### Quick Start
+## Repository Structure
 
-1. Navigate to the demo app directory:
-   ```bash
-   cd DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS
-   ```
+```
+gb.automation.smoketests.sudoku.poc/
+├── DOCS/                                    # Tech-agnostic documentation
+│   ├── DESIGN_Sudoku_Solver_Specification.md    # Core specification (language agnostic)
+│   ├── ALGORITHM_Sudoku_Basic_Solver.md         # Algorithm details with pseudocode
+│   ├── DESIGN_Audit_Trail_Feature.md            # Audit trail feature design
+│   └── DESIGN_REST_API_Wrapper.md               # REST API wrapper design
+│
+├── DEMOAPPS/                                # Technology-specific implementations
+│   ├── DEMOAPP001_TYPESCRIPT_CYPRESS/       # TypeScript + Node.js implementation
+│   │   ├── README.md                        # Implementation-specific guide
+│   │   ├── app_src/                         # TypeScript source code
+│   │   ├── tests/                           # Test specifications
+│   │   └── puzzles.json                     # Test puzzle data
+│   │
+│   ├── DEMOAPP002_PYTHON_PYTEST/            # (Planned) Python implementation
+│   └── DEMOAPP003_CSHARP_NUNIT/             # (Planned) C# implementation
+│
+└── README.md                                # This file
+```
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+## Documentation
 
-3. Run the solver:
-   ```bash
-   npm start
-   ```
+### Core Specifications
 
-The application will load all puzzles from `puzzles.json` and solve them sequentially.
+| Document | Purpose | Audience |
+|----------|---------|----------|
+| [DESIGN_Sudoku_Solver_Specification.md](DOCS/DESIGN_Sudoku_Solver_Specification.md) | Complete implementation specification | Developers implementing in any language |
+| [ALGORITHM_Sudoku_Basic_Solver.md](DOCS/ALGORITHM_Sudoku_Basic_Solver.md) | Detailed algorithm descriptions with examples | Developers & educators |
+| [BasicSudokuSolverLogic.feature](DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/BasicSudokuSolverLogic.feature) | BDD test scenarios (Gherkin) | QA & developers |
 
-### Alternative: Build and Run
+### Extended Feature Designs
 
-To compile TypeScript to JavaScript and run the compiled version:
+| Document | Purpose | Status |
+|----------|---------|--------|
+| [DESIGN_Audit_Trail_Feature.md](DOCS/DESIGN_Audit_Trail_Feature.md) | Audit trail logging system | Design complete |
+| [DESIGN_REST_API_Wrapper.md](DOCS/DESIGN_REST_API_Wrapper.md) | REST API wrapper specification | Design complete |
 
+## Demo Applications
+
+### DEMOAPP001: TypeScript + Node.js
+
+**Status:** ✅ Implemented
+
+**Tech Stack:** TypeScript, Node.js, ts-node, Express.js (planned)
+
+**Quick Start:**
 ```bash
-npm run build   # Compiles to dist/
-npm run run     # Runs compiled JavaScript
+cd DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS
+npm install
+npm start
 ```
 
-## Managing Puzzles
+**Features:**
+- ✅ Three core solving algorithms
+- ✅ CLI interface with grid visualization
+- ✅ JSON-based puzzle loading
+- ✅ Comprehensive test scenarios (Gherkin)
+- 🚧 Audit trail feature (design complete)
+- 🚧 REST API wrapper (design complete)
 
-### Puzzle File Structure
+See [DEMOAPP001 README](DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/README.md) for implementation details.
 
-Puzzles are stored in [puzzles.json](DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/puzzles.json) with the following structure:
+### DEMOAPP002: Python + Flask (Planned)
 
-```json
-{
-  "puzzles": [
-    {
-      "name": "Easy Scan Grid",
-      "difficulty": "easy",
-      "description": "Description of the puzzle",
-      "grid": [
-        [5, 3, 0, 0, 7, 0, 0, 0, 0],
-        ...9 rows total, each with 9 values (0 = empty)
-      ]
-    }
-  ]
-}
-```
+**Status:** 📋 Planned
 
-### Adding New Puzzles
+**Tech Stack:** Python 3.x, Flask, pytest
 
-1. Open `puzzles.json`
-2. Add a new puzzle object to the `puzzles` array
-3. Ensure the grid is exactly 9x9 with values 0-9 (0 = empty cell)
-4. Run `npm start` to solve all puzzles including your new one
+### DEMOAPP003: C# + .NET (Planned)
 
-### Using PuzzleLoader in Code
+**Status:** 📋 Planned
 
-The `PuzzleLoader` class provides flexible ways to load puzzles:
+**Tech Stack:** C# 10+, .NET 6+, NUnit
 
-```typescript
-import { PuzzleLoader } from "./PuzzleLoader";
+## Key Design Principles
 
-const loader = new PuzzleLoader("../puzzles.json");
+### 1. Tech-Agnostic Specification
+The [core design specification](DOCS/DESIGN_Sudoku_Solver_Specification.md) uses pseudocode and conceptual descriptions, allowing implementation in any language.
 
-// Get all puzzles
-const all = loader.getAllPuzzles();
+### 2. Clean Architecture (Simple, SOLID, Testable)
 
-// Get by name
-const puzzle = loader.getPuzzleByName("Easy Scan Grid");
+All implementations follow established software engineering principles:
 
-// Get by difficulty
-const easyPuzzles = loader.getPuzzlesByDifficulty("easy");
+**SOLID Principles:**
+- **Single Responsibility Principle (SRP)** - Each component has one clear purpose
+- **Open/Closed Principle** - Algorithms can be extended without modifying core logic
+- **Dependency Inversion** - Components depend on abstractions, not implementations
+- **Separation of Concerns** - Solver, Orchestrator, Loader, Display are independent
 
-// Get by index
-const first = loader.getPuzzleByIndex(0);
-```
+**Design Philosophy:**
+- **KISS (Keep It Simple, Stupid)** - Straightforward implementations, no over-engineering
+- **YAGNI (You Aren't Gonna Need It)** - Only implement what's specified, no premature features
+- **Test Pyramid** - Unit tests for algorithms, integration tests for orchestration, BDD for behavior
+- **REST/OpenAPI Alignment** - API designs follow RESTful conventions and OpenAPI standards
 
-See [index.ts](DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/index.ts) for usage examples.
+**Testing Approach:**
+- **ISTQB Techniques** - Boundary value analysis, equivalence partitioning where valuable
+- **BDD (Gherkin)** - Behavior-driven test scenarios for acceptance criteria
+- **Unit Testability** - Each algorithm callable independently with deterministic results
+
+**Code Quality:**
+- **Minimal Comments** - Code should be self-documenting through clear naming
+- **Pedagogical Comments** - Concise explanations only where algorithms or logic need clarity
+- **Simple Design** - Avoid complexity; prioritize readability and maintainability
+
+### 3. Testability
+- **BDD scenarios** in Gherkin for behavior verification
+- **Unit testable** algorithms (each can be called independently)
+- **Deterministic** solving (same input always produces same moves)
+
+### 4. Pedagogical Value (Learning and Teaching Effectiveness)
+
+**Primary Audience:**
+- **Mid-level QA Automation Testers** - Learning test automation patterns and BDD
+- **Mid-level Software Engineers** - Implementing clean architecture and SOLID principles
+- **Technical Educators** - Teaching algorithmic problem-solving and testing practices
+
+**Documentation Approach:**
+- **Comprehensive Design Specs** - Tech-agnostic specifications serve as learning blueprints
+- **Pedagogical Code Comments** - Inline documentation explains *why*, not just *what*
+- **Visual Diagrams** - Architecture diagrams, data flows, and algorithm examples
+- **Incremental Complexity** - Techniques ordered from simplest (Unit Completion) to most complex (Naked Singles)
+
+**Testing Patterns:**
+- **AAA Pattern Consistency** - All tests follow Arrange-Act-Assert structure
+- **BDD Scenarios** - Given-When-Then format for clear behavior specification
+- **Gherkin Examples** - 35+ test scenarios demonstrating comprehensive coverage
+- **Test Pyramid** - Unit tests (fast), integration tests (medium), BDD tests (slow but comprehensive)
+
+**Cross-References and Traceability:**
+- **Canonical Source** - [DESIGN_Sudoku_Solver_Specification.md](DOCS/DESIGN_Sudoku_Solver_Specification.md) is the authoritative specification
+- **Algorithm Details** - [ALGORITHM_Sudoku_Basic_Solver.md](DOCS/ALGORITHM_Sudoku_Basic_Solver.md) provides pseudocode and examples
+- **Implementation Links** - Code comments reference specification sections for traceability
+- **Test-to-Spec Mapping** - Each Gherkin scenario maps to specification requirements
+
+**Transparency and Reasoning:**
+- **Deterministic Logic** - Same input always produces same solving sequence
+- **Audit Capability** - Each move has a logical justification (design available)
+- **Step-by-Step Visibility** - Clear progression through solving techniques
+
+## Solving Capabilities
+
+| Puzzle Difficulty | Typical Outcome | Techniques Required |
+|-------------------|-----------------|---------------------|
+| Easy | ✅ Solved | Mostly Unit Completion |
+| Medium | ✅ Often solved | All three basic techniques |
+| Hard | ⚠️ Usually stuck | Requires advanced techniques |
+| Expert | ❌ Stuck | Requires advanced techniques |
+
+**By Design:** The solver does NOT use backtracking or brute-force methods. Puzzles requiring advanced techniques (Naked Pairs, X-Wing, etc.) will return `STUCK_ON_ADVANCED_LOGIC`.
+
+## Contributing
+
+When implementing in a new technology stack:
+
+1. **Follow the specification** in [DESIGN_Sudoku_Solver_Specification.md](DOCS/DESIGN_Sudoku_Solver_Specification.md)
+2. **Create a new DEMOAPP folder** (e.g., `DEMOAPP002_PYTHON_PYTEST`)
+3. **Include a README** specific to that implementation
+4. **Implement the Gherkin scenarios** from the test specification
+5. **Maintain the same behavior** across all implementations
+
+## License
+
+This is an educational project. See LICENSE file for details.
+
+## Questions or Feedback?
+
+- 📖 Start with the [Design Specification](DOCS/DESIGN_Sudoku_Solver_Specification.md)
+- 🧩 See [Algorithm Details](DOCS/ALGORITHM_Sudoku_Basic_Solver.md) for technique explanations
+- 💻 Check [DEMOAPP001 README](DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/README.md) for implementation example

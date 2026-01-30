@@ -1,5 +1,8 @@
 # REST API Wrapper for Sudoku Solver - Design Document
 
+**Version:** v1.0
+**Date:** 2026-01-30T20:00:00Z
+
 ## Overview
 
 This document outlines the design for a RESTful API that wraps the Sudoku Solver, providing HTTP endpoints to execute solving techniques individually or run the complete solving loop. The API will expose the three fundamental solving techniques (Unit Completion, Hidden Singles, Naked Singles) as separate endpoints and provide a main solve endpoint.

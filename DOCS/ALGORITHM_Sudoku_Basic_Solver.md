@@ -1,5 +1,8 @@
 # Sudoku Basic Solver Algorithm
 
+**Version:** v1.0
+**Date:** 2026-01-30T20:00:00Z
+
 This document describes the implementation of three fundamental Sudoku solving techniques used in the [TypeScript Sudoku Solver](../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts).
 
 ## Overview
