@@ -5,7 +5,8 @@
       "Bash(exit 0)",
       "Bash(npx typescript --version)",
       "Bash(npm install:*)",
-      "Bash(npm start)"
+      "Bash(npm start)",
+      "Bash(git add:*)"
     ]
   }
 }

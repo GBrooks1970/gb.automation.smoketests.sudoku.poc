@@ -39,9 +39,13 @@ gb.automation.smoketests.sudoku.poc/
 │   │   ├── README.md                   # Implementation logs guide
 │   │   ├── TEMPLATE_Implementation_Log.md  # Template for new logs
 │   │   └── IMPL_LOG_2026-01-30_Initial_Project_Creation.md
+│   ├── .planning/                      # Project planning directory
+│   │   ├── README.md                   # Planning process guide
+│   │   └── BACKLOG.md                  # Product backlog and sprint planning
 │   ├── .review/                        # Code review templates and outputs
 │   │   ├── README.md                   # Code review directory guide
-│   │   └── code-review-template.md     # Comprehensive code review template
+│   │   ├── code-review-template.md     # Comprehensive code review template
+│   │   └── CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/  # Latest review
 │   └── ALGORITHM_Sudoku_Basic_Solver.md    # Algorithm documentation
 ├── README.md                           # Project README
 ├── CLAUDE.md                           # AI assistant guide (this file)
@@ -297,3 +301,44 @@ A comprehensive code review template is available for conducting thorough review
 - Architecture reviews
 - Post-implementation retrospectives
 - Knowledge transfer to new team members
+
+**Available Reviews:**
+- [CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z](../DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/) - Comprehensive code review conducted 2026-01-30
+
+---
+
+## Project Planning
+
+Project planning artifacts, including the product backlog, sprint plans, and roadmap documents are maintained in the [DOCS/.planning](../DOCS/.planning/) directory.
+
+**Core Documents:**
+- [BACKLOG.md](../DOCS/.planning/BACKLOG.md) - Product backlog with prioritized work items, sprint planning, and progress tracking
+- [README.md](../DOCS/.planning/README.md) - Planning process guide and backlog management
+
+**Backlog Structure:**
+- **Current Sprint:** Active sprint backlog items
+- **High Priority:** Critical items for next 1-4 sprints
+- **Medium Priority:** Important items for next 3-6 sprints
+- **Low Priority:** Nice-to-have items for later
+- **Future Enhancements:** Ideas and long-term vision
+
+**Status Indicators:**
+- 🔴 Not Started - Item in backlog, not yet assigned
+- 🟡 In Progress - Actively being worked on
+- 🟢 Completed - Done and verified
+- ⏸️ Blocked - Waiting on dependencies
+- 📋 Planned - Future work, not prioritized
+- 💡 Idea - Concept stage, needs design
+
+**Workflow:**
+1. Code reviews and design documents generate backlog items
+2. Weekly backlog refinement prioritizes and estimates items
+3. Bi-weekly sprint planning commits items to sprint
+4. Completed items documented in implementation logs
+5. Sprint retrospectives refine process and estimates
+
+**Integration:**
+- **From Code Reviews:** Risks and recommendations become backlog items
+- **From Design Docs:** Approved designs become implementation backlog items
+- **To Implementation Logs:** Completed backlog items documented with details
+- **To Testing:** Acceptance criteria inform test scenarios
