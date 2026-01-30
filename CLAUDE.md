@@ -29,9 +29,18 @@ gb.automation.smoketests.sudoku.poc/
 │       ├── package.json                # Node.js dependencies and scripts
 │       └── tsconfig.json               # TypeScript configuration
 ├── DOCS/
+│   ├── .implementation/                # Implementation logs directory
+│   │   ├── README.md                   # Implementation logs guide
+│   │   ├── TEMPLATE_Implementation_Log.md  # Template for new logs
+│   │   └── IMPL_LOG_2026-01-30_Initial_Project_Creation.md
+│   ├── .review/                        # Code review templates and outputs
+│   │   └── code-review-template.md     # Comprehensive code review template
 │   ├── ALGORITHM_Sudoku_Basic_Solver.md    # Algorithm documentation
-│   └── DESIGN_Audit_Trail_Feature.md       # Design doc for future audit feature
+│   ├── DESIGN_Sudoku_Solver_Specification.md  # Tech-agnostic specification
+│   ├── DESIGN_Audit_Trail_Feature.md       # Design doc for audit trail feature
+│   └── DESIGN_REST_API_Wrapper.md          # Design doc for REST API wrapper
 ├── README.md                           # Project README
+├── CLAUDE.md                           # AI assistant guide (this file)
 └── .gitignore
 ```
 
@@ -227,3 +236,33 @@ Files to be created:
 - The `grid` property is the working copy that gets modified during solving
 - Deep copies are used to prevent mutation of original data
 - The solver is stateless between puzzle instances
+
+---
+
+## Implementation Logs
+
+Detailed implementation logs documenting development sessions, bugs fixed, and lessons learned are maintained in the [DOCS/.implementation](../DOCS/.implementation/) directory.
+
+**Available Logs:**
+- [IMPL_LOG_2026-01-30_Initial_Project_Creation.md](../DOCS/.implementation/IMPL_LOG_2026-01-30_Initial_Project_Creation.md) - Initial project setup, algorithm fixes, and documentation restructuring
+
+---
+
+## Code Reviews
+
+A comprehensive code review template is available for conducting thorough reviews of the codebase. The template provides a structured approach for assessing design quality, identifying risks, and providing actionable recommendations.
+
+**Template:**
+- [code-review-template.md](../DOCS/.review/code-review-template.md) - Comprehensive code review framework for test automation projects
+
+**Review Structure:**
+- Role: Senior Test Automation Architect / Senior Software Engineer
+- Deliverables: Executive summary, risks/issues, project reviews, cross-cutting analyses, recommendations, architecture assessment, migration plans
+- Output: Structured markdown files in `DOCS/.review/CODE_REVIEW_{Reviewer}__{UTC_TIMESTAMP}/` directory
+
+**When to Use:**
+- Initial codebase assessment
+- Pre-release quality checks
+- Architecture reviews
+- Post-implementation retrospectives
+- Knowledge transfer to new team members
