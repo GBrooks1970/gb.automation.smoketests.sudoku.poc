@@ -1,7 +1,7 @@
 # Web UI Solver Visualisation - Design Document
 
-**Version:** v1.0
-**Date:** 2026-02-06T00:00:00Z
+**Version:** v1.1
+**Date:** 2026-02-18T00:00:00Z
 **Author:** AI Assistant (CLAUDE Opus 4.6)
 **Reviewer:** Pending
 **Status:** Draft
@@ -20,6 +20,7 @@
 8. [Alternatives Considered](#8-alternatives-considered)
 9. [Open Questions](#9-open-questions)
 10. [Appendices](#10-appendices)
+11. [UI Wireframes](#11-ui-wireframes)
 
 ---
 
@@ -1234,6 +1235,7 @@ DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
 | v1.0 | 2026-02-06 | AI Assistant (CLAUDE Opus 4.6) | Initial design document |
+| v1.1 | 2026-02-18 | AI Assistant (CLAUDE Opus 4.6) | Added UI wireframes (Section 11) |
 
 ---
 
@@ -1315,6 +1317,531 @@ This design provides a simple, focused web-based visualisation of the Sudoku sol
 5. **Serves the project's core purpose** — Demonstrates clean architecture and algorithm behaviour in a visual, interactive format
 
 The phased implementation plan allows for incremental delivery, with a functional grid display (Phase 1-3) providing early value before full playback and statistics are added (Phase 4-5).
+
+---
+
+## 11. UI Wireframes
+
+This section provides detailed visual representations of the webpage at different stages of interaction. All wireframes use the **Easy Scan Grid** puzzle for realistic data. Colour annotations are shown in brackets since ASCII cannot render colour.
+
+### Wireframe Colour Key
+
+```
+Cell notation in wireframes:
+  5    = Original clue (bold black text on grey background)
+ [4]   = Filled by Unit Completion (blue background #dbeafe)
+ {1}   = Filled by Hidden Singles (green background #dcfce7)
+ (9)   = Filled by Naked Singles (orange background #fed7aa)
+ *7*   = Currently highlighted step (red pulsing border)
+  .    = Empty cell (white background)
+```
+
+---
+
+### 11.1 Wireframe: Initial Page Load (Step 0 of 51)
+
+The page after the user selects "Easy Scan Grid" but before any solving steps are played.
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                         │
+│   Sudoku Solver Visualisation                                                           │
+│                                                                                         │
+│   Puzzle: [Easy Scan Grid      ▼]   EASY     Solvable with basic techniques - good      │
+│                                               for testing Unit Completion and            │
+│                                               Hidden Singles                             │
+│                                                                                         │
+├──────────────────────────────────────────────┬──────────────────────────────────────────┤
+│                                              │                                          │
+│   ┌───────────┬───────────┬───────────┐      │   Event Log                              │
+│   │  5  3  .  │  .  7  .  │  .  .  .  │      │   ┌──────────────────────────────────┐   │
+│   │  6  .  .  │  1  9  5  │  .  .  .  │      │   │                                  │   │
+│   │  .  9  8  │  .  .  .  │  .  6  .  │      │   │                                  │   │
+│   ├───────────┼───────────┼───────────┤      │   │    Select a puzzle and press      │   │
+│   │  8  .  .  │  .  6  .  │  .  .  3  │      │   │    Play to begin solving.         │   │
+│   │  4  .  .  │  8  .  3  │  .  .  1  │      │   │                                  │   │
+│   │  7  .  .  │  .  2  .  │  .  .  6  │      │   │                                  │   │
+│   ├───────────┼───────────┼───────────┤      │   │                                  │   │
+│   │  .  6  .  │  .  .  .  │  2  8  .  │      │   │                                  │   │
+│   │  .  .  .  │  4  1  9  │  .  .  5  │      │   │                                  │   │
+│   │  .  .  .  │  .  8  .  │  .  7  9  │      │   │                                  │   │
+│   └───────────┴───────────┴───────────┘      │   │                                  │   │
+│                                              │   └──────────────────────────────────┘   │
+│   [|◁]  [◁]  [ ▷ Play ]  [▷|]  [⏩]        │                                          │
+│   Step 0 of 51                               │   Statistics                              │
+│                                              │   ┌──────────────────────────────────┐   │
+│   Speed: slow |=====○===========| fast       │   │                                  │   │
+│                                              │   │   Status:  --                     │   │
+│   Legend:                                    │   │   Steps:   0 / 51                 │   │
+│   ■ Original   ■ Unit Completion             │   │   Iter.:   --                     │   │
+│   ■ Hidden Singles   ■ Naked Singles         │   │                                  │   │
+│                                              │   └──────────────────────────────────┘   │
+│                                              │                                          │
+└──────────────────────────────────────────────┴──────────────────────────────────────────┘
+```
+
+**Notes:**
+- All non-zero cells are rendered as original clues (bold, grey background)
+- Empty cells (0 values) shown as `.`
+- Playback controls are enabled but event log is empty
+- Statistics show dashes until solving begins
+- Grid uses thick borders for 3x3 block boundaries, thin borders for cells
+
+---
+
+### 11.2 Wireframe: Mid-Solve (Step 12 of 51)
+
+The page after 12 steps have been played. Cells filled by different algorithms show their colour coding. The most recently placed cell is highlighted.
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                         │
+│   Sudoku Solver Visualisation                                                           │
+│                                                                                         │
+│   Puzzle: [Easy Scan Grid      ▼]   EASY     Solvable with basic techniques - good      │
+│                                               for testing Unit Completion and            │
+│                                               Hidden Singles                             │
+│                                                                                         │
+├──────────────────────────────────────────────┬──────────────────────────────────────────┤
+│                                              │                                          │
+│   ┌───────────┬───────────┬───────────┐      │   Event Log                              │
+│   │  5  3 {4} │ {6} 7 {8} │  .  .  .  │      │   ┌──────────────────────────────────┐   │
+│   │  6  .  .  │  1  9  5  │  .  .  .  │      │   │  7. [HiddenSingles(4)] (0,2)     │   │
+│   │ {1} 9  8  │  .  .  .  │  .  6  .  │      │   │     Cell (0,2): . -> 4           │   │
+│   ├───────────┼───────────┼───────────┤      │   │  8. [HiddenSingles(6)] (0,3)     │   │
+│   │  8  .  .  │  .  6  .  │  .  .  3  │      │   │     Cell (0,3): . -> 6           │   │
+│   │  4  .  .  │  8  .  3  │  .  .  1  │      │   │  9. [HiddenSingles(8)] (0,5)     │   │
+│   │  7  .  .  │  .  2  .  │  .  .  6  │      │   │     Cell (0,5): . -> 8           │   │
+│   ├───────────┼───────────┼───────────┤      │   │ 10. [UnitCompletion]   (7,0)      │   │
+│   │  .  6  .  │  .  .  .  │  2  8  .  │      │   │     Cell (7,0): . -> 2           │   │
+│   │ [2] .  .  │  4  1  9  │  .  .  5  │      │   │ 11. [HiddenSingles(3)] (8,1)     │   │
+│   │  .  .  .  │  .  8 *2* │  .  7  9  │      │   │     Cell (8,1): . -> 3           │   │
+│   └───────────┴───────────┴───────────┘      │   │ 12. [HiddenSingles(2)] (8,5)  <- │   │
+│                                              │   │     Cell (8,5): . -> 2           │   │
+│   [|◁]  [◁]  [ ‖ Pause ]  [▷|]  [⏩]       │   └──────────────────────────────────┘   │
+│   Step 12 of 51                              │                                          │
+│                                              │   Statistics                              │
+│   Speed: slow |=====○===========| fast       │   ┌──────────────────────────────────┐   │
+│                                              │   │                                  │   │
+│   Legend:                                    │   │   Status:  In Progress...         │   │
+│   ■ Original   ■ Unit Completion             │   │   Steps:   12 / 51               │   │
+│   ■ Hidden Singles   ■ Naked Singles         │   │   Iter.:   2                      │   │
+│                                              │   │                                  │   │
+│                                              │   │   Unit Completion:  2  (17%)      │   │
+│                                              │   │   ████░░░░░░░░░░░░░░░░░░         │   │
+│                                              │   │   Hidden Singles:  10  (83%)      │   │
+│                                              │   │   ████████████████████░░         │   │
+│                                              │   │   Naked Singles:    0   (0%)      │   │
+│                                              │   │   ░░░░░░░░░░░░░░░░░░░░░░         │   │
+│                                              │   └──────────────────────────────────┘   │
+│                                              │                                          │
+└──────────────────────────────────────────────┴──────────────────────────────────────────┘
+```
+
+**Notes:**
+- `{4}`, `{1}`, `{6}`, `{8}`, `{2}` = Cells filled by Hidden Singles (green background)
+- `[2]` = Cell filled by Unit Completion (blue background)
+- `*2*` at cell (8,5) = Most recently placed cell with red highlight border
+- `<-` marker in event log indicates the current step
+- Play button has changed to Pause (auto-play is running)
+- Statistics panel shows running totals and percentage bars
+- Event log auto-scrolls to keep the current step visible
+
+---
+
+### 11.3 Wireframe: Solved State (Step 51 of 51)
+
+The page after all steps have been played. The puzzle is fully solved.
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                         │
+│   Sudoku Solver Visualisation                                                           │
+│                                                                                         │
+│   Puzzle: [Easy Scan Grid      ▼]   EASY     Solvable with basic techniques - good      │
+│                                               for testing Unit Completion and            │
+│                                               Hidden Singles                             │
+│                                                                                         │
+├──────────────────────────────────────────────┬──────────────────────────────────────────┤
+│                                              │                                          │
+│   ┌───────────┬───────────┬───────────┐      │   Event Log                              │
+│   │  5  3 {4} │ {6} 7 {8} │ (9) {1}(2)│      │   ┌──────────────────────────────────┐   │
+│   │  6 {7}(2) │  1  9  5  │ (3)(4)(8) │      │   │ 47. [NakedSingles]     (5,6)     │   │
+│   │ {1} 9  8  │ (3){4}(2) │ (5) 6 (7) │      │   │     Cell (5,6): . -> 5           │   │
+│   ├───────────┼───────────┼───────────┤      │   │ 48. [UnitCompletion]   (5,3)      │   │
+│   │  8 (5){9} │ (7) 6 {1} │ (4)(2) 3  │      │   │     Cell (5,3): . -> 9           │   │
+│   │  4 (2)(6) │  8 (5) 3  │ (7)(9) 1  │      │   │ 49. [NakedSingles]     (6,5)     │   │
+│   │  7 {1}(3) │ (9) 2 {4} │ (8)(5) 6  │      │   │     Cell (6,5): . -> 7           │   │
+│   ├───────────┼───────────┼───────────┤      │   │ 50. [UnitCompletion]   (6,0)      │   │
+│   │ (9) 6 {1} │ (5)(3)(7) │  2  8 {4} │      │   │     Cell (6,0): . -> 9           │   │
+│   │ [2](8){7} │  4  1  9  │ [6][3] 5  │      │   │ 51. [UnitCompletion]   (6,8)  <- │   │
+│   │ (3){4}(5) │ {2} 8 {6} │ [1] 7  9  │      │   │     Cell (6,8): . -> 4           │   │
+│   └───────────┴───────────┴───────────┘      │   └──────────────────────────────────┘   │
+│                                              │                                          │
+│   [|◁]  [◁]  [ ▷ Play ]  [▷|]  [⏩]        │   Statistics                              │
+│   Step 51 of 51                              │   ┌──────────────────────────────────┐   │
+│                                              │   │  ┌─────────────────────────────┐ │   │
+│   Speed: slow |=====○===========| fast       │   │  │        ✓  SOLVED            │ │   │
+│                                              │   │  └─────────────────────────────┘ │   │
+│   Legend:                                    │   │                                  │   │
+│   ■ Original   ■ Unit Completion             │   │   Total Steps:   51              │   │
+│   ■ Hidden Singles   ■ Naked Singles         │   │   Iterations:    12              │   │
+│                                              │   │                                  │   │
+│                                              │   │   Unit Completion:  15  (29%)    │   │
+│                                              │   │   ████████░░░░░░░░░░░░░░░░░     │   │
+│                                              │   │   Hidden Singles:   28  (55%)    │   │
+│                                              │   │   ██████████████░░░░░░░░░░░     │   │
+│                                              │   │   Naked Singles:     8  (16%)    │   │
+│                                              │   │   ████░░░░░░░░░░░░░░░░░░░░░     │   │
+│                                              │   │                                  │   │
+│                                              │   └──────────────────────────────────┘   │
+│                                              │                                          │
+└──────────────────────────────────────────────┴──────────────────────────────────────────┘
+```
+
+**Notes:**
+- All 81 cells are filled — no `.` empty cells remain
+- Status banner shows "SOLVED" in green with a checkmark
+- Grid cells show colour coding for all three algorithms
+- The event log shows the final steps (47-51) with the last step marked as current
+- Final statistics: 15 Unit Completion (29%), 28 Hidden Singles (55%), 8 Naked Singles (16%)
+- Play button is re-enabled (auto-play stopped at final step)
+
+---
+
+### 11.4 Wireframe: Stuck State (Minimal Clues Puzzle)
+
+The page when the solver cannot complete the puzzle with basic techniques.
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                         │
+│   Sudoku Solver Visualisation                                                           │
+│                                                                                         │
+│   Puzzle: [Minimal Clues       ▼]   HARD     Puzzle with 17 clues - the theoretical     │
+│                                               minimum for a valid Sudoku                │
+│                                                                                         │
+├──────────────────────────────────────────────┬──────────────────────────────────────────┤
+│                                              │                                          │
+│   ┌───────────┬───────────┬───────────┐      │   Event Log                              │
+│   │  .  .  .  │  7  .  .  │  .  .  .  │      │   ┌──────────────────────────────────┐   │
+│   │  1  .  .  │  .  .  .  │  .  .  .  │      │   │  1. [HiddenSingles(1)] (7,2)     │   │
+│   │  .  .  .  │  4  3  .  │  2  .  .  │      │   │     Cell (7,2): . -> 2           │   │
+│   ├───────────┼───────────┼───────────┤      │   │  2. [HiddenSingles(8)] (5,8)     │   │
+│   │  .  .  .  │  .  .  .  │  .  .  6  │      │   │     Cell (5,8): . -> 8           │   │
+│   │  .  .  .  │  5  .  9  │  .  .  .  │      │   │  3. [NakedSingles]     (5,7)  <- │   │
+│   │  .  .  .  │  .  .  .  │  4  1  8  │      │   │     Cell (5,7): . -> 1           │   │
+│   ├───────────┼───────────┼───────────┤      │   │                                  │   │
+│   │  .  .  .  │  .  8  1  │  .  .  .  │      │   │                                  │   │
+│   │  .  . {2} │  .  .  .  │  .  5  .  │      │   │                                  │   │
+│   │  .  4  .  │  .  .  .  │  3  .  .  │      │   │                                  │   │
+│   └───────────┴───────────┴───────────┘      │   │                                  │   │
+│                                              │   └──────────────────────────────────┘   │
+│   [|◁]  [◁]  [ ▷ Play ]  [▷|]  [⏩]        │                                          │
+│   Step 3 of 3                                │   Statistics                              │
+│                                              │   ┌──────────────────────────────────┐   │
+│   Speed: slow |=====○===========| fast       │   │  ┌─────────────────────────────┐ │   │
+│                                              │   │  │  ⚠  STUCK ON ADVANCED LOGIC │ │   │
+│   Legend:                                    │   │  └─────────────────────────────┘ │   │
+│   ■ Original   ■ Unit Completion             │   │                                  │   │
+│   ■ Hidden Singles   ■ Naked Singles         │   │   Total Steps:   3               │   │
+│                                              │   │   Iterations:    1               │   │
+│                                              │   │   Remaining:     61 empty cells  │   │
+│                                              │   │                                  │   │
+│                                              │   │   Unit Completion:   0   (0%)    │   │
+│                                              │   │   ░░░░░░░░░░░░░░░░░░░░░░░░░     │   │
+│                                              │   │   Hidden Singles:    2  (67%)    │   │
+│                                              │   │   ████████████████░░░░░░░░░     │   │
+│                                              │   │   Naked Singles:     1  (33%)    │   │
+│                                              │   │   ████████░░░░░░░░░░░░░░░░░     │   │
+│                                              │   │                                  │   │
+│                                              │   └──────────────────────────────────┘   │
+│                                              │                                          │
+└──────────────────────────────────────────────┴──────────────────────────────────────────┘
+```
+
+**Notes:**
+- Status banner shows "STUCK ON ADVANCED LOGIC" in amber/yellow with a warning icon
+- Only 3 steps were possible before the solver exhausted basic techniques
+- 61 of 81 cells remain empty — the grid is mostly unsolved
+- Statistics show the remaining empty cell count (unique to stuck state)
+- Event log is short — only 3 entries
+- Most cells are either original clues or still empty
+
+---
+
+### 11.5 Wireframe: Grid Cell Detail
+
+Close-up of the 9x9 grid showing border weights, cell sizing, and colour application.
+
+```
+        Col 0   Col 1   Col 2     Col 3   Col 4   Col 5     Col 6   Col 7   Col 8
+       ┃       ┃       ┃       ┃┃       ┃       ┃       ┃┃       ┃       ┃       ┃
+       ┃  2px thick block borders       ┃┃  1px thin cell borders          ┃┃       ┃
+  ━━━━━╋━━━━━━━╋━━━━━━━╋━━━━━━━╋╋━━━━━━━╋━━━━━━━╋━━━━━━━╋╋━━━━━━━╋━━━━━━━╋━━━━━━━╋━━━
+       ┃░░░░░░░┃░░░░░░░┃       ┃┃       ┃░░░░░░░┃       ┃┃       ┃       ┃       ┃
+Row 0  ┃░░ 5 ░░┃░░ 3 ░░┃▓▓▓4▓▓┃┃▓▓▓6▓▓▓┃░░ 7 ░░┃▓▓▓8▓▓▓┃┃:::9:::┃▓▓▓1▓▓▓┃:::2:::┃
+       ┃░░░░░░░┃░░░░░░░┃       ┃┃       ┃░░░░░░░┃       ┃┃       ┃       ┃       ┃
+  ─────╂───────╂───────╂───────╂╂───────╂───────╂───────╂╂───────╂───────╂───────╂───
+       ┃░░░░░░░┃       ┃       ┃┃░░░░░░░┃░░░░░░░┃░░░░░░░┃┃       ┃       ┃       ┃
+Row 1  ┃░░ 6 ░░┃▓▓▓7▓▓▓┃:::2:::┃┃░░ 1 ░░┃░░ 9 ░░┃░░ 5 ░░┃┃:::3:::┃:::4:::┃:::8:::┃
+       ┃░░░░░░░┃       ┃       ┃┃░░░░░░░┃░░░░░░░┃░░░░░░░┃┃       ┃       ┃       ┃
+  ─────╂───────╂───────╂───────╂╂───────╂───────╂───────╂╂───────╂───────╂───────╂───
+       ┃       ┃░░░░░░░┃░░░░░░░┃┃       ┃       ┃       ┃┃       ┃░░░░░░░┃       ┃
+Row 2  ┃▓▓▓1▓▓▓┃░░ 9 ░░┃░░ 8 ░░┃┃:::3:::┃▓▓▓4▓▓▓┃:::2:::┃┃:::5:::┃░░ 6 ░░┃:::7:::┃
+       ┃       ┃░░░░░░░┃░░░░░░░┃┃       ┃       ┃       ┃┃       ┃░░░░░░░┃       ┃
+  ━━━━━╋━━━━━━━╋━━━━━━━╋━━━━━━━╋╋━━━━━━━╋━━━━━━━╋━━━━━━━╋╋━━━━━━━╋━━━━━━━╋━━━━━━━╋━━━
+       ┃       ┃       ┃       ┃┃       ┃       ┃       ┃┃       ┃       ┃       ┃
+
+
+Cell background patterns:
+
+  ░░░░░░░   Original clue      Background: #f3f4f6 (grey-100)    Text: #111827 bold
+  ▓▓▓▓▓▓▓   Hidden Singles     Background: #dcfce7 (green-100)   Text: #166534
+  :::::::   Naked Singles      Background: #fed7aa (orange-200)  Text: #9a3412
+  ▒▒▒▒▒▒▒   Unit Completion    Background: #dbeafe (blue-100)    Text: #1e40af
+  (empty)   Empty cell         Background: #ffffff (white)        Text: n/a
+
+Cell dimensions:
+  Width:  48px (each cell)
+  Height: 48px (each cell)
+  Font:   24px monospace, centred
+
+Border weights:
+  Block boundary: 2px solid #374151 (grey-700)  ━━━ and ┃
+  Cell boundary:  1px solid #d1d5db (grey-300)  ─── and │
+  Highlight:      3px solid #ef4444 (red-500) with CSS pulse animation
+```
+
+---
+
+### 11.6 Wireframe: Playback Controls Detail
+
+Close-up of the control bar showing button states and the speed slider.
+
+```
+Playing state:
+┌──────────────────────────────────────────────────────────────────────┐
+│                                                                      │
+│  ┌─────┐  ┌─────┐  ┌──────────────┐  ┌─────┐  ┌─────┐             │
+│  │ |◁  │  │  ◁  │  │  ‖  Pause    │  │  ▷| │  │  ⏩ │             │
+│  │     │  │     │  │  (highlighted)│  │     │  │     │             │
+│  └─────┘  └─────┘  └──────────────┘  └─────┘  └─────┘             │
+│                                                                      │
+│  Step 12 of 51                    ████████████░░░░░░░░░░░  24%      │
+│                                   (progress bar)                     │
+│                                                                      │
+│  Speed:  100ms  ├──────────●──────────────────┤  2000ms             │
+│                 fast                       slow                      │
+│                     Current: 500ms                                   │
+│                                                                      │
+└──────────────────────────────────────────────────────────────────────┘
+
+Paused / stepping state:
+┌──────────────────────────────────────────────────────────────────────┐
+│                                                                      │
+│  ┌─────┐  ┌─────┐  ┌──────────────┐  ┌─────┐  ┌─────┐             │
+│  │ |◁  │  │  ◁  │  │  ▷  Play     │  │  ▷| │  │  ⏩ │             │
+│  │     │  │     │  │              │  │     │  │     │             │
+│  └─────┘  └─────┘  └──────────────┘  └─────┘  └─────┘             │
+│                                                                      │
+│  Step 0 of 51                     ░░░░░░░░░░░░░░░░░░░░░░   0%      │
+│                                                                      │
+└──────────────────────────────────────────────────────────────────────┘
+
+Button states:
+  |◁  First    - Disabled when stepIndex === 0
+  ◁   Previous - Disabled when stepIndex === 0
+  ▷   Play     - Disabled when stepIndex === totalSteps (all played)
+  ▷|  Next     - Disabled when stepIndex === totalSteps
+  ⏩  Last     - Disabled when stepIndex === totalSteps
+```
+
+---
+
+### 11.7 Wireframe: Event Log Detail
+
+Close-up of the event log panel showing entry format and visual cues.
+
+```
+┌─ Event Log ──────────────────────────────────────────────────────────┐
+│                                                                      │
+│  ┌── Iteration 1 ──────────────────────────────────────────────────┐ │
+│  │                                                                  │ │
+│  │   1.  [HiddenSingles(1)]  Cell (2, 0): . → 1                   │ │
+│  │       Only valid location for 1 in block (0,0)                  │ │
+│  │                                                                  │ │
+│  │   2.  [HiddenSingles(2)]  Cell (2, 5): . → 2                   │ │
+│  │       Only valid location for 2 in block (0,1)                  │ │
+│  │                                                                  │ │
+│  │   3.  [HiddenSingles(3)]  Cell (2, 3): . → 3                   │ │
+│  │       Only valid location for 3 in block (0,1)                  │ │
+│  │                                                                  │ │
+│  │   4.  [HiddenSingles(4)]  Cell (0, 2): . → 4                   │ │
+│  │       Only valid location for 4 in block (0,0)                  │ │
+│  │                                                                  │ │
+│  │   5.  [HiddenSingles(4)]  Cell (2, 4): . → 4                   │ │
+│  │       Only valid location for 4 in block (0,1)                  │ │
+│  │                                                                  │ │
+│  │   6.  [HiddenSingles(5)]  Cell (2, 6): . → 5                   │ │
+│  │       Only valid location for 5 in block (0,2)                  │ │
+│  │                                                                  │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+│  ┌── Iteration 2 ──────────────────────────────────────────────────┐ │
+│  │                                                                  │ │
+│  │   7.  [HiddenSingles(4)]  Cell (0, 2): . → 4                   │ │
+│  │       ...                                                        │ │
+│  │                                                                  │ │
+│  │  12.  [HiddenSingles(2)]  Cell (8, 5): . → 2           ← CURRENT│ │
+│  │       Only valid location for 2 in block (2,1)                  │ │
+│  │                                                                  │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+│                                                                      │
+│  ┌── Iteration 3 ────── (future steps greyed out) ─────────────────┐ │
+│  │  13.  [UnitCompletion]    Cell (0, 6): . → 9                    │ │
+│  │  ...                                                             │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+│                                                                      │
+│                              ▼ scroll for more                       │
+└──────────────────────────────────────────────────────────────────────┘
+
+Entry format:
+  {step#}.  [{Algorithm}({param})]  Cell ({row}, {col}): {old} → {new}
+            {reason text, if available}
+
+Visual cues:
+  - Current step has highlighted background and ← CURRENT marker
+  - Past steps: normal text, coloured left border matching algorithm
+  - Future steps: greyed out text (not yet played)
+  - Iteration boundaries: collapsible section headers
+  - Clicking any entry jumps playback to that step
+```
+
+---
+
+### 11.8 Wireframe: Statistics Panel Detail
+
+Close-up of the statistics panel in all three states.
+
+```
+Before solving (initial):               During solve (in progress):
+┌──────────────────────────┐            ┌──────────────────────────┐
+│  Statistics               │            │  Statistics               │
+│                           │            │                           │
+│  Status:  --              │            │  Status:  In Progress...  │
+│  Steps:   0 / --          │            │  Steps:   12 / 51        │
+│  Iter.:   --              │            │  Iter.:   2               │
+│                           │            │                           │
+│                           │            │  Unit Completion:  2      │
+│                           │            │  ████░░░░░░░░░░░░  17%   │
+│                           │            │                           │
+│                           │            │  Hidden Singles:  10      │
+│                           │            │  ████████████████  83%   │
+│                           │            │                           │
+│                           │            │  Naked Singles:    0      │
+│                           │            │  ░░░░░░░░░░░░░░░░   0%   │
+└──────────────────────────┘            └──────────────────────────┘
+
+After solve - SOLVED:                   After solve - STUCK:
+┌──────────────────────────┐            ┌──────────────────────────┐
+│  Statistics               │            │  Statistics               │
+│                           │            │                           │
+│  ┌──────────────────────┐ │            │  ┌──────────────────────┐ │
+│  │   ✓  SOLVED          │ │            │  │  ⚠  STUCK ON         │ │
+│  │   (green background) │ │            │  │     ADVANCED LOGIC   │ │
+│  └──────────────────────┘ │            │  │  (amber background)  │ │
+│                           │            │  └──────────────────────┘ │
+│  Total Steps:    51       │            │                           │
+│  Iterations:     12       │            │  Total Steps:     3       │
+│                           │            │  Iterations:      1       │
+│  Unit Completion:  15     │            │  Remaining:  61 empty     │
+│  ████████░░░░░░░░  29%   │            │                           │
+│                           │            │  Unit Completion:   0     │
+│  Hidden Singles:   28     │            │  ░░░░░░░░░░░░░░░░   0%   │
+│  ██████████████░░  55%   │            │                           │
+│                           │            │  Hidden Singles:    2     │
+│  Naked Singles:     8     │            │  ██████████░░░░░░  67%   │
+│  ████░░░░░░░░░░░░  16%   │            │                           │
+│                           │            │  Naked Singles:     1     │
+│                           │            │  █████░░░░░░░░░░░  33%   │
+└──────────────────────────┘            └──────────────────────────┘
+
+Percentage bar rendering (CSS-only):
+  ┌─────────────────────────────────────────────────┐
+  │ <div class="bar-container">                     │
+  │   <div class="bar-fill" style="width: 55%">     │
+  │     (coloured div inside grey container)         │
+  │   </div>                                         │
+  │ </div>                                           │
+  │                                                  │
+  │ Container: height 12px, background #e5e7eb       │
+  │ Fill:      height 12px, background matches algo  │
+  │            border-radius 6px                     │
+  └─────────────────────────────────────────────────┘
+```
+
+---
+
+### 11.9 Wireframe: Responsive Behaviour (Narrow Viewport)
+
+At viewports narrower than 900px, the layout stacks vertically.
+
+```
+┌──────────────────────────────────────────┐
+│                                          │
+│  Sudoku Solver Visualisation             │
+│                                          │
+│  Puzzle: [Easy Scan Grid          ▼]     │
+│  EASY  Solvable with basic techniques    │
+│                                          │
+├──────────────────────────────────────────┤
+│                                          │
+│  ┌────────────────────────────────────┐  │
+│  │  5  3  .  |  .  7  .  |  .  .  .  │  │
+│  │  6  .  .  |  1  9  5  |  .  .  .  │  │
+│  │  .  9  8  |  .  .  .  |  .  6  .  │  │
+│  │───────────┼───────────┼───────────│  │
+│  │  8  .  .  |  .  6  .  |  .  .  3  │  │
+│  │  4  .  .  |  8  .  3  |  .  .  1  │  │
+│  │  7  .  .  |  .  2  .  |  .  .  6  │  │
+│  │───────────┼───────────┼───────────│  │
+│  │  .  6  .  |  .  .  .  |  2  8  .  │  │
+│  │  .  .  .  |  4  1  9  |  .  .  5  │  │
+│  │  .  .  .  |  .  8  .  |  .  7  9  │  │
+│  └────────────────────────────────────┘  │
+│                                          │
+│  [|◁] [◁] [ ▷ Play ] [▷|] [⏩]         │
+│  Step 0 of 51                            │
+│  Speed: |=====○===========|              │
+│                                          │
+│  ■ Original  ■ UnitComp                  │
+│  ■ Hidden    ■ Naked                     │
+│                                          │
+├──────────────────────────────────────────┤
+│                                          │
+│  Statistics                              │
+│  Status: --   Steps: 0/51   Iter: --     │
+│                                          │
+├──────────────────────────────────────────┤
+│                                          │
+│  Event Log                               │
+│  ┌────────────────────────────────────┐  │
+│  │  Select a puzzle and press Play    │  │
+│  │  to begin solving.                 │  │
+│  └────────────────────────────────────┘  │
+│                                          │
+└──────────────────────────────────────────┘
+
+Responsive breakpoints:
+  > 1024px:  Two-column layout (grid left, log right) — default
+  900-1024px: Two-column, narrower info panel
+  < 900px:   Single-column stacked (grid → controls → stats → log)
+
+Grid cell sizing at narrow viewport:
+  Width:  36px (down from 48px)
+  Height: 36px
+  Font:   18px (down from 24px)
+```
 
 ---
 
