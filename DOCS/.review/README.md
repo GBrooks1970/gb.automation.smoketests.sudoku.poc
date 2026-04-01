@@ -209,7 +209,8 @@ mkdir ANNEX
 
 ## Available Reviews
 
-*No code reviews have been completed yet. When reviews are conducted, they will be listed here with links and brief descriptions.*
+- [CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z](CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/00_CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z.md) - Initial full comprehensive review baseline.
+- [CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z](CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z/00_CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z.md) - Follow-up comprehensive review aligned to the same template and format.
 
 ---
 
