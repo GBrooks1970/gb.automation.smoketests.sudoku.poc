@@ -1,7 +1,8 @@
 # Audit Trail Feature Design Document
 
-**Version:** v1.0
-**Date:** 2026-01-30T20:00:00Z
+**Version:** v1.1
+**Date:** 2026-04-02T00:00:00Z
+**Previous Version:** v1.0 (2026-01-30)
 
 ## Overview
 
@@ -99,11 +100,14 @@ interface AuditConfig {
 }
 
 interface CellChange {
-    cell: {"row": 0, "col": 0},
+    cell: { row: number; col: number };
     oldValue: number;
     newValue: number;
     reason?: string; // e.g., "only valid candidate", "last empty in row"
 }
+// NOTE: CellChange is the shared cross-feature base interface.
+// The Web UI's SolveStep (DESIGN_Web_UI_Solver_Visualisation.md §5.1) extends
+// CellChange directly. Import from app_src/audit/AuditTypes.ts — do not redefine.
 
 interface AuditEvent {
     eventId: number; // uuid

@@ -1,7 +1,8 @@
 # Web UI Solver Visualisation - Design Document
 
-**Version:** v1.1
-**Date:** 2026-02-18T00:00:00Z
+**Version:** v1.2
+**Date:** 2026-04-02T00:00:00Z
+**Previous Version:** v1.1 (2026-02-18)
 **Author:** AI Assistant (CLAUDE Opus 4.6)
 **Reviewer:** Pending
 **Status:** Draft
@@ -358,14 +359,28 @@ The solver was designed as a CLI tool with a clear separation of concerns. The `
 **Public Interface:**
 
 ```typescript
-interface SolveStep {
+// CellChange is imported from app_src/audit/AuditTypes.ts (BACKLOG-008).
+// It is the shared cross-feature base. Do not redefine cell/oldValue/newValue here.
+//
+// interface CellChange {               ← lives in AuditTypes.ts
+//     cell: { row: number; col: number };
+//     oldValue: number;
+//     newValue: number;
+//     reason?: string;
+// }
+
+// SolveStep extends CellChange, inheriting cell, oldValue, newValue, reason?.
+// It adds step-context fields that are specific to the Web UI playback view.
+interface SolveStep extends CellChange {
     stepNumber: number;
     iteration: number;
     algorithm: 'UnitCompletion' | 'HiddenSingles' | 'NakedSingles';
     algorithmParam?: number;       // target digit for HiddenSingles
-    cell: { row: number; col: number };
-    oldValue: number;              // always 0 (was empty)
-    newValue: number;              // 1-9 (digit placed)
+    // Inherited from CellChange:
+    // cell: { row: number; col: number }
+    // oldValue: number;            // always 0 (was empty)
+    // newValue: number;            // 1-9 (digit placed)
+    // reason?: string;             // human-readable attribution from solver
 }
 
 interface SolveStatistics {
@@ -395,6 +410,7 @@ interface SolveResult {
 ```typescript
 // web/SolveStepTracker.ts
 import { SudokuSolver } from '../app_src/SudokuSolver';
+import { CellChange } from '../app_src/audit/AuditTypes';
 
 export class SolveStepTracker {
     private solver: SudokuSolver;
@@ -472,9 +488,11 @@ export class SolveStepTracker {
                             iteration,
                             algorithm,
                             algorithmParam: param,
+                            // CellChange fields (inherited):
                             cell: { row: r, col: c },
                             oldValue: before[r][c],
-                            newValue: this.solver.grid[r][c]
+                            newValue: this.solver.grid[r][c],
+                            reason: undefined  // populated when AuditLogger is integrated (BACKLOG-008)
                         });
                     }
                 }
@@ -894,14 +912,15 @@ SolveResult
 ├── initialGrid: number[9][9]
 ├── finalGrid: number[9][9]
 ├── steps: SolveStep[]
-│   └── SolveStep
-│       ├── stepNumber: number
-│       ├── iteration: number
-│       ├── algorithm: string
-│       ├── algorithmParam?: number
-│       ├── cell: { row: number, col: number }
-│       ├── oldValue: number
-│       └── newValue: number
+│   └── SolveStep extends CellChange          ← from app_src/audit/AuditTypes.ts
+│       ├── stepNumber: number                 ← SolveStep-specific
+│       ├── iteration: number                  ← SolveStep-specific
+│       ├── algorithm: string                  ← SolveStep-specific
+│       ├── algorithmParam?: number            ← SolveStep-specific
+│       ├── cell: { row: number, col: number } ← inherited from CellChange
+│       ├── oldValue: number                   ← inherited from CellChange
+│       ├── newValue: number                   ← inherited from CellChange
+│       └── reason?: string                    ← inherited from CellChange
 └── statistics: SolveStatistics
     ├── totalSteps: number
     ├── totalIterations: number
@@ -996,7 +1015,7 @@ AppState
 | Browser compatibility issues | Low | Low | Use only standard CSS/JS, no bleeding-edge features |
 | Express port conflicts | Low | Low | Configurable via `WEB_PORT` environment variable |
 | Large step counts slow rendering | Low | Low | 9x9 grid updates are O(81), negligible even at high speed |
-| Audit Trail feature overlap | Medium | Low | SolveStepTracker is designed to be replaceable |
+| Audit Trail interface divergence | Low | Mitigated | Resolved: `SolveStep extends CellChange` from `AuditTypes.ts`. No duplication. |
 
 ---
 
@@ -1140,11 +1159,11 @@ Feature: Web UI Solve API
 - **Current Decision:** Use separate ports for now (web UI on 3000, REST API on 3001 when implemented). Merge later if desired.
 - **Status:** Resolved (proceed with standalone)
 
-**Q2: Should the SolveStepTracker be reused by the Audit Trail feature?**
+**Q2: Should the SolveStepTracker share interfaces with the Audit Trail feature?**
 - **Impact:** Medium
 - **Blocking:** No
-- **Current Decision:** Build SolveStepTracker as standalone. When Audit Trail is implemented, the web UI can switch to using AuditLogger output instead.
-- **Status:** Resolved (design for replaceability)
+- **Current Decision (updated 2026-04-02):** `SolveStep` extends `CellChange` from `AuditTypes.ts` (BACKLOG-008). The shared fields (`cell`, `oldValue`, `newValue`, `reason?`) are defined once in `CellChange` and inherited. `SolveStep` adds the step-context fields (`stepNumber`, `iteration`, `algorithm`, `algorithmParam?`). When BACKLOG-008 is implemented, `SolveStepTracker` becomes an adapter over `AuditLogger` output rather than a standalone before/after diff tracker — the `reason` field will then be populated by `AuditLogger` rather than left `undefined`.
+- **Status:** Resolved (CellChange as shared base; SolveStep extends it)
 
 **Q3: Should keyboard shortcuts be supported for playback?**
 - **Impact:** Low

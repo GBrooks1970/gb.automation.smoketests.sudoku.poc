@@ -1,8 +1,9 @@
 # TODO: Web UI Solver Visualisation
 
 **Created:** 2026-02-06T00:00:00Z
+**Last Updated:** 2026-04-02T00:00:00Z
 **Design Document:** [DESIGN_Web_UI_Solver_Visualisation.md](../DOCS/.design/DESIGN_Web_UI_Solver_Visualisation.md)
-**Backlog Reference:** BACKLOG-015 (Interactive Sudoku Tutor - MVP)
+**Backlog Reference:** BACKLOG-018 (Implement Web UI Solver Visualisation)
 **Branch:** `claude/sudoku-solver-design-f3NRI`
 
 ---
@@ -20,29 +21,35 @@ This is the MVP implementation of the web-based solver visualisation feature.
 
 ## Prerequisites
 
-Before starting implementation, these items should ideally be completed (but are not strictly blocking):
+> **Architecture note (updated 2026-04-02, per BACKLOG-017/018):** The Web UI is **not a standalone app**. It is served as static files from the REST API's Express server (BACKLOG-009). Phases 1 and 2.4 below were originally written assuming a separate `web/server.ts` — see the updated notes on each phase for how to adapt under the unified architecture.
 
-- [ ] **BACKLOG-008: Audit Trail Feature** - Provides structured step data. If not implemented, the web UI will need its own lightweight step-tracking mechanism.
-- [ ] **Review design document** - Read `DOCS/.design/DESIGN_Web_UI_Solver_Visualisation.md` thoroughly before starting.
+- [ ] **BACKLOG-009: Implement REST API Wrapper** — **Required.** The Express server that serves the Web UI's static files and provides `GET /api/puzzles` and `POST /api/solve`. Do not create a separate Express server for the Web UI.
+- [ ] **BACKLOG-008: Audit Trail Feature** — **Required.** Provides the `AuditLogger` and `CellChange` interface. `SolveStepTracker` is an adapter over `AuditLogger` output, not an independent wrapper of `SudokuSolver`. See Phase 2 notes.
+- [ ] **BACKLOG-017: Unify Feature Design Overlap** — Complete first. Establishes the shared `CellChange` interface and single-server architecture that this TODO depends on.
+- [ ] **Review design document** — Read `DOCS/.design/DESIGN_Web_UI_Solver_Visualisation.md` thoroughly before starting.
 
 ---
 
 ## Phase 1: Project Setup and Server Foundation
 
-- [ ] **1.1** Create web app directory structure at `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/web/`
-- [ ] **1.2** Create `web/server.ts` - Express server to serve static files and API endpoints
+> **Architecture note (updated 2026-04-02):** Per BACKLOG-017/018, there is no separate web server. The REST API Express server (BACKLOG-009, `api/server.ts`) serves the Web UI static files via `express.static('web/public')`. Tasks 1.2, 1.4, and 1.5 are replaced by a single static-file mount in the existing server. Task 1.6 verification is done against the REST API's port.
+
+- [ ] **1.1** Create web app static asset directory at `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/web/public/`
+- [ ] **1.2** ~~Create `web/server.ts`~~ — **Not required.** Add `app.use(express.static('web/public'))` to the REST API server (`api/server.ts`) instead.
 - [ ] **1.3** Create `web/public/` directory for static assets (HTML, CSS, JS)
-- [ ] **1.4** Update `package.json` - Add Express dependency and `npm run web` script
-- [ ] **1.5** Create `web/tsconfig.json` if separate compilation config is needed
-- [ ] **1.6** Verify server starts and serves a placeholder page on `http://localhost:3000`
+- [ ] **1.4** ~~Update `package.json` — Add `npm run web` script~~ — **Not required.** Web UI is served by `npm run api`.
+- [ ] **1.5** ~~Create `web/tsconfig.json`~~ — **Not required.** No TypeScript compilation needed for vanilla JS frontend.
+- [ ] **1.6** Verify REST API server serves a placeholder `index.html` from `web/public/` on `http://localhost:{PORT}`
 
 ## Phase 2: Solve Engine with Step Tracking
 
-- [ ] **2.1** Create `web/SolveStepTracker.ts` - Wraps SudokuSolver to capture each cell change with algorithm attribution
-- [ ] **2.2** Define `SolveStep` interface: `{ iteration, algorithm, cell: {row, col}, oldValue, newValue, reason }`
-- [ ] **2.3** Define `SolveResult` interface: `{ puzzleName, difficulty, status, initialGrid, finalGrid, steps[], statistics }`
-- [ ] **2.4** Create `web/routes/api.ts` - API endpoint `GET /api/puzzles` (list puzzles) and `POST /api/solve` (solve with step tracking)
-- [ ] **2.5** Verify API returns correct JSON for all four test puzzles
+> **Architecture note (updated 2026-04-02):** Per BACKLOG-017/018, `SolveStepTracker` is an **adapter over `AuditLogger`** (from BACKLOG-008), not an independent wrapper around `SudokuSolver`. `SolveStep` maps directly from `AuditEvent`/`CellChange` in `AuditTypes.ts`. Task 2.4 is replaced by the existing REST API endpoints from BACKLOG-009 (`GET /api/puzzles`, `POST /api/solve`).
+
+- [ ] **2.1** Create `web/SolveStepTracker.ts` — Adapts `AuditTrail` (from `AuditLogger.getTrail()`) into the frontend `SolveResult` format. Does **not** wrap `SudokuSolver` directly.
+- [ ] **2.2** `interface SolveStep extends CellChange` — import `CellChange` from `app_src/audit/AuditTypes.ts`. `SolveStep` inherits `cell`, `oldValue`, `newValue`, `reason?` and adds `stepNumber`, `iteration`, `algorithm`, `algorithmParam?`. Do not redefine the shared fields.
+- [ ] **2.3** Define `SolveResult` interface: `{ puzzleName, difficulty, status, initialGrid, finalGrid, steps[], statistics }` — aligns with `AuditTrail`; add frontend-specific fields only.
+- [ ] **2.4** ~~Create `web/routes/api.ts`~~ — **Not required.** Puzzle listing and solve endpoints already provided by REST API (BACKLOG-009). Web UI frontend calls the existing `GET /api/puzzles` and `POST /api/solve`.
+- [ ] **2.5** Verify REST API returns correct JSON for all four test puzzles (coordinate with BACKLOG-009)
 
 ## Phase 3: Frontend - Puzzle Grid Display
 
@@ -124,11 +131,13 @@ Phase 1 (Server) ──→ Phase 2 (Step Tracker) ──→ Phase 3 (Grid Displa
 
 ## Notes for Implementing Agent
 
-- The existing solver classes (`SudokuSolver`, `SudokuOrchestrator`) should NOT be modified. The step tracker wraps them.
+- The existing solver classes (`SudokuSolver`, `SudokuOrchestrator`) should NOT be modified. The step tracker adapts AuditLogger output.
 - The `puzzles.json` file is the single source of truth for puzzle data.
-- If the Audit Trail feature (BACKLOG-008) is implemented before this, use `AuditLogger` instead of creating `SolveStepTracker`.
-- The web UI should work independently of the CLI - both are separate consumers of the solver library.
-- Keep the frontend simple - this is a pedagogical tool, not a production SaaS app.
+- **BACKLOG-008 (Audit Trail) must be implemented before this feature.** `SolveStepTracker` is an adapter over `AuditLogger` — it is not an independent mechanism. Do not create a parallel change-tracking implementation.
+- **BACKLOG-009 (REST API) must be implemented before this feature.** The Web UI has no server of its own; it is served as static files from the REST API's Express server and calls the REST API's existing endpoints.
+- The web UI should work independently of the CLI — both are separate consumers of the solver library.
+- Keep the frontend simple — this is a pedagogical tool, not a production SaaS app.
+- **Estimated effort reduction:** Because the server and API endpoints are provided by BACKLOG-009, the effective effort for this feature is closer to 12-18 hours (frontend only), not the original 20-30 hours.
 
 ---
 

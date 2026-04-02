@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-03-30T16:30:00Z
+**Last Updated:** 2026-04-02T02:00:00Z
 **Sources:**
 - [Code Review - Claude Sonnet 4.5 (2026-01-30)](../DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/00_CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z.md)
 - [Code Review - Claude Opus 4.6 (2026-03-30)](../DOCS/.review/CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z/00_CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z.md)
@@ -82,7 +82,7 @@ Fix critical code gaps, establish code quality tooling, and unify feature design
 **Priority:** HIGH | **Estimate:** 4-6 hours | **Sprint:** 1
 **Risk Reference:** [Risk 2 - Opus 4.6 Review](../DOCS/.review/CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z/02_RISKS_AND_ISSUES.md)
 **Status:** 🔴 Not Started
-**TODO Reference:** N/A (standalone fix)
+**TODO Reference:** [TODO_Hidden_Singles_Complete_Implementation.md](TODO_Hidden_Singles_Complete_Implementation.md)
 
 **Description:**
 Current `hiddenSingles()` implementation only checks 3x3 blocks, omitting row and column analysis per specification. This is the highest-priority code fix.
@@ -165,12 +165,13 @@ Create implementation log documenting both code review findings and actions take
 Reconcile the three feature designs (Audit Trail, REST API, Web UI) to share a common change-tracking interface and Express server. Prevent duplicate code before implementation begins.
 
 **Acceptance Criteria:**
-- [ ] Shared `CellChange` interface specification agreed across all designs
+- [ ] Shared `CellChange` interface specified in `AuditTypes.ts` as the single definition — `SolveStep extends CellChange`, REST API `ChangeTracker` returns `CellChange[]`
+- [x] `SolveStep extends CellChange` inheritance documented in `DESIGN_Web_UI_Solver_Visualisation.md` v1.2 (2026-04-02)
 - [ ] Single Express server approach documented (REST API hosts Web UI)
 - [ ] SolveStepTracker defined as adapter over AuditLogger
-- [ ] Design documents updated with cross-references
-- [ ] TODO task lists updated to reflect shared foundations
-- [ ] No contradictions between the three designs
+- [x] Design documents updated with cross-references (Audit Trail v1.1, Web UI v1.2, 2026-04-02)
+- [x] TODO task lists updated to reflect shared foundations (2026-04-02)
+- [x] No contradictions between the three designs (interface gap resolved)
 
 **Dependencies:** None (design-level work)
 
