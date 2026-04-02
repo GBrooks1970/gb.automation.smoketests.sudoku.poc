@@ -1,6 +1,7 @@
 # TODO: Audit Trail Feature
 
 **Created:** 2026-02-12T00:00:00Z
+**Last Updated:** 2026-04-02T00:00:00Z
 **Design Document:** [DESIGN_Audit_Trail_Feature.md](../DOCS/.design/DESIGN_Audit_Trail_Feature.md)
 **Backlog Reference:** BACKLOG-008 (Implement Audit Trail Feature)
 **Estimated Effort:** 20-30 hours
@@ -16,6 +17,7 @@ Implementation task list for a comprehensive audit trail system that logs every 
 ## Prerequisites
 
 - [ ] **Review design document** — Read `DOCS/.design/DESIGN_Audit_Trail_Feature.md` thoroughly before starting.
+- [ ] **BACKLOG-017: Unify Feature Design Overlap** — Complete first. The `AuditTypes.ts` `CellChange` interface defined here becomes the **shared data model** consumed by the REST API (`ChangeTracker`) and Web UI (`SolveStepTracker`). The interface must be agreed before implementation to avoid post-hoc refactoring in BACKLOG-009 and BACKLOG-018.
 - [ ] **BACKLOG-007: Decouple Console Output with DI** — Recommended (not blocking). If implemented, audit output can use the `IOutput` interface. If not, audit can write directly to console and files.
 - [ ] **Existing solver code is unmodified** — Verify `SudokuSolver.ts`, `SudokuOrchestrator.ts` compile and `npm start` runs before starting.
 
@@ -28,11 +30,11 @@ Implementation task list for a comprehensive audit trail system that logs every 
 - [ ] **1.1.1** Create directory `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/audit/`
 - [ ] **1.1.2** Create `app_src/audit/AuditTypes.ts` with the following interfaces:
   - `AuditConfig` — enabled, outputToFile, outputToConsole, includeGridSnapshots, filePath, verbosityLevel
-  - `CellChange` — cell {row, col}, oldValue, newValue, reason
+  - `CellChange` — `cell: { row: number; col: number }`, oldValue, newValue, `reason?` — **this is the shared cross-feature base interface**; the Web UI's `SolveStep` (`web/SolveStepTracker.ts`) extends it, and the REST API's `ChangeTracker` returns it. Define it once here.
   - `AuditEvent` — eventId, timestamp, iteration, algorithm, algorithmParameter, cellChanges[], gridSnapshotAfter?
   - `AuditTrail` — puzzleName, startTime, endTime, totalDurationMs, initialGrid, finalGrid, status, totalIterations, totalChanges, events[], statistics
   - `AuditStatistics` — changesByAlgorithm, iterationsByAlgorithm, averageChangesPerIteration
-- [ ] **1.1.3** Export all interfaces from `app_src/audit/index.ts` barrel file
+- [ ] **1.1.3** Export all interfaces from `app_src/audit/index.ts` barrel file — ensure `CellChange` is a named export so downstream consumers (`web/SolveStepTracker.ts`, `api/services/SudokuApiService.ts`) can import it directly
 
 ### 1.2 Create AuditLogger Class
 

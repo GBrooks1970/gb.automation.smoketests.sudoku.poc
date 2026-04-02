@@ -1,6 +1,7 @@
 # TODO: REST API Wrapper
 
 **Created:** 2026-02-12T00:00:00Z
+**Last Updated:** 2026-04-02T00:00:00Z
 **Design Document:** [DESIGN_REST_API_Wrapper.md](../DOCS/.design/DESIGN_REST_API_Wrapper.md)
 **Backlog Reference:** BACKLOG-009 (Implement REST API Wrapper)
 **Estimated Effort:** 24-32 hours
@@ -16,7 +17,9 @@ Implementation task list for a RESTful API that wraps the Sudoku Solver, providi
 ## Prerequisites
 
 - [ ] **Review design document** — Read `DOCS/.design/DESIGN_REST_API_Wrapper.md` thoroughly before starting.
+- [ ] **BACKLOG-008: Implement Audit Trail Feature** — Required. The REST API's solve endpoint uses `AuditLogger` for per-algorithm change tracking. The `CellChange` interface from `AuditTypes.ts` replaces the standalone `ChangeTracker` helper (Phase 3.2). Do not build the `ChangeTracker` if `AuditLogger` is available — use it directly.
 - [ ] **BACKLOG-007: Decouple Console Output with DI** — Required per backlog. The API should not produce console output during request handling.
+- [ ] **BACKLOG-017: Unify Feature Design Overlap** — Required. Confirms the single-server architecture: this Express server also hosts the Web UI static files (BACKLOG-018). No separate web server will be created.
 - [ ] **Existing solver code compiles** — Verify `npm start` runs before starting.
 - [ ] **Node.js 16+ available** — Express.js 4.x requires Node.js 16+.
 
@@ -135,7 +138,9 @@ Implementation task list for a RESTful API that wraps the Sudoku Solver, providi
 
 ### 3.2 ChangeTracker Helper
 
-- [ ] **3.2.1** Create `ChangeTracker` class (private to SudokuApiService or in utils)
+> **Note (updated 2026-04-02):** If BACKLOG-008 (Audit Trail) is implemented first, the standalone `ChangeTracker` below can be replaced by integrating `AuditLogger` directly into `SudokuApiService`. The `CellChange` type from `AuditTypes.ts` is the shared interface. Only build this helper if AuditLogger is not yet available.
+
+- [ ] **3.2.1** Create `ChangeTracker` class (private to SudokuApiService or in utils) — **skip if AuditLogger available**
 - [ ] **3.2.2** Constructor takes grid snapshot (deep copy)
 - [ ] **3.2.3** Implement `getChanges(afterGrid, includeReason)` — compares before/after, returns CellChange[]
 - [ ] **3.2.4** Implement `inferReason(row, col, value)` — generates human-readable reason string (basic: `"Cell [r,c] set to v"`)
@@ -371,8 +376,8 @@ Phases 5, 6, 7, 8 can be worked on in parallel once Phase 4 is complete.
 - The design document shows `api/` at the same level as `app_src/` inside `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/`. Follow this convention.
 - The solve endpoint currently **cannot provide per-algorithm statistics** without either modifying the orchestrator or implementing a step tracker (like the Web UI's `SolveStepTracker` or the Audit Trail's `AuditLogger`). For MVP, return zeroed statistics with a TODO comment. These will be populated when the Audit Trail (BACKLOG-008) is integrated.
 - The design document mentions `Joi` or `Zod` for validation. For simplicity, a custom `GridValidator` is recommended instead — the validation rules are straightforward (9x9 grid, values 0-9) and don't warrant an additional dependency.
-- **Port conflicts**: The Web UI design also uses port 3000. If both features coexist, use `PORT` env var or default to different ports (API: 3001, Web: 3000). Or consolidate into a single Express server.
-- The `ChangeTracker` helper's `inferReason()` method starts basic (`"Cell [r,c] set to v"`). It can be enhanced later when the Audit Trail provides richer context.
+- **Single server (resolved)**: Per BACKLOG-017/018, the Web UI (BACKLOG-018) is served as static files from **this** Express server — there is no separate web server. Serve static assets from `web/public/` via `express.static`. No port conflict exists.
+- The `ChangeTracker` helper's `inferReason()` method starts basic (`"Cell [r,c] set to v"`). It can be enhanced later when the Audit Trail provides richer context — or eliminated entirely if BACKLOG-008 is implemented first (see Phase 3.2 note).
 - Supertest requires the Express `app` to be exported (not just started with `listen`). Structure `server.ts` accordingly.
 - All endpoints return JSON. Set `Content-Type: application/json` consistently.
 
