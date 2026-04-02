@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug SudokuSolver",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "node",
+            "runtimeArgs": [
+                "--require", "ts-node/register"
+            ],
+            "args": [
+                "${workspaceFolder}/DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/index.ts"
+            ],
+            "cwd": "${workspaceFolder}/DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS",
+            "env": {
+                "TS_NODE_PROJECT": "${workspaceFolder}/DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tsconfig.json"
+            },
+            "sourceMaps": true,
+            "console": "integratedTerminal",
+            "skipFiles": [
+                "<node_internals>/**",
+                "**/node_modules/**"
+            ]
+        }
+    ]
+}
