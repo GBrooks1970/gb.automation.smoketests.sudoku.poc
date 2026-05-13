@@ -1,4 +1,4 @@
-import { SudokuSolver } from "./SudokuSolver";
+import { SudokuSolver, GRID_SIZE, BLOCK_SIZE, EMPTY_CELL } from "./SudokuSolver";
 import { SudokuOrchestrator } from "./SudokuOrchestrator";
 
 /**
@@ -18,15 +18,15 @@ export class SudokuCLI {
     public displayGrid(): void {
         console.log(`\n--${this.solver.name}----`);
         console.log("\n-------------------------");
-        for (let i = 0; i < 9; i++) {
+        for (let i = 0; i < GRID_SIZE; i++) {
             let rowString = "| ";
-            for (let j = 0; j < 9; j++) {
+            for (let j = 0; j < GRID_SIZE; j++) {
                 const cellValue = this.solver.grid[i][j];
-                rowString += (cellValue === 0 ? "." : cellValue) + " ";
-                if ((j + 1) % 3 === 0) rowString += "| ";
+                rowString += (cellValue === EMPTY_CELL ? "." : cellValue) + " ";
+                if ((j + 1) % BLOCK_SIZE === 0) rowString += "| ";
             }
             console.log(rowString);
-            if ((i + 1) % 3 === 0) console.log("-------------------------");
+            if ((i + 1) % BLOCK_SIZE === 0) console.log("-------------------------");
         }
     }
 

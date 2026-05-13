@@ -1,4 +1,4 @@
-import { SudokuSolver } from "./SudokuSolver";
+import { SudokuSolver, GRID_SIZE, EMPTY_CELL } from "./SudokuSolver";
 
 /**
  * Main Controller for Sudoku Logic.
@@ -36,7 +36,7 @@ export class SudokuOrchestrator {
 
             // Step 2: Hidden Singles (medium complexity - scan per digit)
             // For each digit 1-9, find units where that digit can only go in one place
-            for (let digit = 1; digit <= 9; digit++) {
+            for (let digit = 1; digit <= GRID_SIZE; digit++) {
                 if (this.solver.hiddenSingles(digit)) {
                     changedThisPass = true;
                 }
@@ -60,6 +60,6 @@ export class SudokuOrchestrator {
      * @returns true if all cells contain non-zero values
      */
     public isGridFull(): boolean {
-        return this.solver.grid.every(row => row.every(cell => cell !== 0));
+        return this.solver.grid.every(row => row.every(cell => cell !== EMPTY_CELL));
     }
 }

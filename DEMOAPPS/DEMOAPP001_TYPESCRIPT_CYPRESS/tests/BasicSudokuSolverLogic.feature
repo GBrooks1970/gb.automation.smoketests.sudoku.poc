@@ -102,21 +102,21 @@ Feature: Basic Sudoku Solver Logic
 
   Scenario Outline: Validate moves against Sudoku constraints
     Given a cell at <row>, <col> is empty
-    And the grid state is <grid_state>
+    And the grid state is <gridState>
     When attempting to place <value> at that position
     Then the move should be validated against row, column, and block constraints
     And the validation result should be <result>
 
     Examples:
-      | row | col | value | grid_state          | result  |
-      | 0   | 0   | 5     | empty_grid          | VALID   |
-      | 0   | 1   | 5     | has_5_in_same_row   | INVALID |
-      | 2   | 0   | 3     | has_3_in_same_col   | INVALID |
-      | 1   | 1   | 7     | has_7_in_same_block | INVALID |
-      | 4   | 4   | 9     | no_conflicts        | VALID   |
-      | 8   | 8   | 1     | has_1_in_row_col    | INVALID |
-      | 3   | 6   | 8     | fully_constrained   | INVALID |
-      | 5   | 3   | 4     | no_constraints      | VALID   |
+      | row | col | value | gridState          | result  |
+      | 0   | 0   | 5     | emptyGrid          | VALID   |
+      | 0   | 1   | 5     | has5InSameRow      | INVALID |
+      | 2   | 0   | 3     | has3InSameCol      | INVALID |
+      | 1   | 1   | 7     | has7InSameBlock    | INVALID |
+      | 4   | 4   | 9     | noConflicts        | VALID   |
+      | 8   | 8   | 1     | has1InRowAndCol    | INVALID |
+      | 3   | 6   | 8     | fullyConstrained   | INVALID |
+      | 5   | 3   | 4     | noConstraints      | VALID   |
 
   # =============================================================================
   # Orchestration and Main Execution Loop Tests
