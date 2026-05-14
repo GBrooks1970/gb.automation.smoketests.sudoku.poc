@@ -1,17 +1,24 @@
-import { GRID_SIZE, BLOCK_SIZE, EMPTY_CELL } from "./constants";
+import { GRID_SIZE, BLOCK_SIZE, EMPTY_CELL } from './constants';
 
 export class SudokuSolver {
   public grid: number[][];
 
   constructor(
     public readonly name: string,
-    public readonly origGrid: number[][] = Array.from({ length: GRID_SIZE }, () => Array(GRID_SIZE).fill(EMPTY_CELL))
+    public readonly origGrid: number[][] = Array.from({ length: GRID_SIZE }, () =>
+      Array(GRID_SIZE).fill(EMPTY_CELL)
+    )
   ) {
     // Deep copy the original grid to the working grid
-    this.grid = origGrid.map(row => [...row]);
+    this.grid = origGrid.map((row) => [...row]);
   }
 
-  static named(name: string = "S000", origGrid: number[][] = Array.from({ length: GRID_SIZE }, () => Array(GRID_SIZE).fill(EMPTY_CELL))): SudokuSolver {
+  static named(
+    name: string = 'S000',
+    origGrid: number[][] = Array.from({ length: GRID_SIZE }, () =>
+      Array(GRID_SIZE).fill(EMPTY_CELL)
+    )
+  ): SudokuSolver {
     return new SudokuSolver(name, origGrid);
   }
 
@@ -28,7 +35,7 @@ export class SudokuSolver {
 
     // Check all rows
     for (let row = 0; row < GRID_SIZE; row++) {
-      const empties = this.grid[row].filter(cell => cell === EMPTY_CELL);
+      const empties = this.grid[row].filter((cell) => cell === EMPTY_CELL);
       if (empties.length === 1) {
         const colIndex = this.grid[row].indexOf(EMPTY_CELL);
         const missing = this.findMissingDigit(this.grid[row]);
@@ -39,8 +46,8 @@ export class SudokuSolver {
 
     // Check all columns
     for (let col = 0; col < GRID_SIZE; col++) {
-      const column = this.grid.map(row => row[col]);
-      const empties = column.filter(cell => cell === EMPTY_CELL);
+      const column = this.grid.map((row) => row[col]);
+      const empties = column.filter((cell) => cell === EMPTY_CELL);
       if (empties.length === 1) {
         const rowIndex = column.indexOf(EMPTY_CELL);
         const missing = this.findMissingDigit(column);
@@ -85,13 +92,13 @@ export class SudokuSolver {
     // Check each row: if target can only go in one empty cell in this row
     for (let row = 0; row < GRID_SIZE; row++) {
       if (this.isInRow(target, row)) continue;
-      const candidates: {row: number, col: number}[] = [];
+      const candidates: { row: number; col: number }[] = [];
       for (let col = 0; col < GRID_SIZE; col++) {
         if (this.grid[row][col] !== EMPTY_CELL) continue;
         const blockRow = Math.floor(row / BLOCK_SIZE);
         const blockCol = Math.floor(col / BLOCK_SIZE);
         if (!this.isInCol(target, col) && !this.isNumberInBlock(target, blockRow, blockCol)) {
-          candidates.push({row, col});
+          candidates.push({ row, col });
         }
       }
       if (candidates.length === 1) {
@@ -103,13 +110,13 @@ export class SudokuSolver {
     // Check each column: if target can only go in one empty cell in this column
     for (let col = 0; col < GRID_SIZE; col++) {
       if (this.isInCol(target, col)) continue;
-      const candidates: {row: number, col: number}[] = [];
+      const candidates: { row: number; col: number }[] = [];
       for (let row = 0; row < GRID_SIZE; row++) {
         if (this.grid[row][col] !== EMPTY_CELL) continue;
         const blockRow = Math.floor(row / BLOCK_SIZE);
         const blockCol = Math.floor(col / BLOCK_SIZE);
         if (!this.isInRow(target, row) && !this.isNumberInBlock(target, blockRow, blockCol)) {
-          candidates.push({row, col});
+          candidates.push({ row, col });
         }
       }
       if (candidates.length === 1) {
@@ -122,8 +129,9 @@ export class SudokuSolver {
     for (let blockRow = 0; blockRow < BLOCK_SIZE; blockRow++) {
       for (let blockCol = 0; blockCol < BLOCK_SIZE; blockCol++) {
         if (this.isNumberInBlock(target, blockRow, blockCol)) continue;
-        const candidates = this.getBlockEmptyCells(blockRow, blockCol)
-          .filter(cell => !this.isInRow(target, cell.row) && !this.isInCol(target, cell.col));
+        const candidates = this.getBlockEmptyCells(blockRow, blockCol).filter(
+          (cell) => !this.isInRow(target, cell.row) && !this.isInCol(target, cell.col)
+        );
         if (candidates.length === 1) {
           this.grid[candidates[0].row][candidates[0].col] = target;
           changed = true;
@@ -166,7 +174,7 @@ export class SudokuSolver {
   }
 
   private isInCol(v: number, col: number): boolean {
-    return this.grid.some(row => row[col] === v);
+    return this.grid.some((row) => row[col] === v);
   }
 
   private isNumberInBlock(v: number, blockRow: number, blockCol: number): boolean {
@@ -180,14 +188,14 @@ export class SudokuSolver {
     return false;
   }
 
-  private getBlockEmptyCells(blockRow: number, blockCol: number): {row: number, col: number}[] {
+  private getBlockEmptyCells(blockRow: number, blockCol: number): { row: number; col: number }[] {
     const startRow = blockRow * BLOCK_SIZE;
     const startCol = blockCol * BLOCK_SIZE;
-    const cells: {row: number, col: number}[] = [];
+    const cells: { row: number; col: number }[] = [];
     for (let r = startRow; r < startRow + BLOCK_SIZE; r++) {
       for (let c = startCol; c < startCol + BLOCK_SIZE; c++) {
         if (this.grid[r][c] === EMPTY_CELL) {
-          cells.push({row: r, col: c});
+          cells.push({ row: r, col: c });
         }
       }
     }
@@ -235,10 +243,10 @@ export class SudokuSolver {
   }
 
   private findMissingDigit(values: number[]): number {
-    const present = new Set(values.filter(v => v !== EMPTY_CELL));
+    const present = new Set(values.filter((v) => v !== EMPTY_CELL));
     for (let i = 1; i <= GRID_SIZE; i++) {
       if (!present.has(i)) return i;
     }
-    throw new Error("No missing digit found - invalid sudoku state");
+    throw new Error('No missing digit found - invalid sudoku state');
   }
 }

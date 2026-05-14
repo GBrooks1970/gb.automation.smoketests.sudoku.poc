@@ -8,6 +8,8 @@
     "build": "tsc",
     "run": "node dist/index.js",
     "lint": "eslint app_src/**/*.ts",
+    "format": "prettier --write app_src/**/*.ts",
+    "format:check": "prettier --check app_src/**/*.ts",
     "test": "cucumber-js"
   },
   "keywords": [
@@ -24,6 +26,8 @@
     "@typescript-eslint/eslint-plugin": "^8.59.3",
     "@typescript-eslint/parser": "^8.59.3",
     "eslint": "^10.3.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.3",
     "ts-node": "^10.9.0",
     "typescript": "^5.0.0"
   }
