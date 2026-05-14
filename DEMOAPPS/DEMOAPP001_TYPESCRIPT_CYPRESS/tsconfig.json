@@ -13,6 +13,6 @@
     "moduleResolution": "node",
     "ignoreDeprecations": "5.0"
   },
-  "include": ["app_src/**/*", "tests"],
+  "include": ["app_src/**/*"],
   "exclude": ["node_modules", "dist"]
 }

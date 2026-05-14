@@ -7,7 +7,8 @@
     "start": "ts-node app_src/index.ts",
     "build": "tsc",
     "run": "node dist/index.js",
-    "lint": "eslint app_src/**/*.ts"
+    "lint": "eslint app_src/**/*.ts",
+    "test": "cucumber-js"
   },
   "keywords": [
     "sudoku",
@@ -17,6 +18,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@cucumber/cucumber": "^12.8.3",
+    "@cucumber/pretty-formatter": "^3.3.0",
     "@types/node": "^20.0.0",
     "@typescript-eslint/eslint-plugin": "^8.59.3",
     "@typescript-eslint/parser": "^8.59.3",

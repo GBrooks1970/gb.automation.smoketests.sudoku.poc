@@ -165,7 +165,7 @@ Feature: Basic Sudoku Solver Logic
   Scenario: Load puzzles from JSON file
     Given a puzzles.json file exists with 5 puzzles
     When the PuzzleLoader is initialized with "../puzzles.json"
-    Then 4 puzzles should be successfully loaded
+    Then 5 puzzles should be successfully loaded
     And each puzzle should have a name, difficulty, description, and grid
 
   Scenario: Validate puzzle grid dimensions on load
