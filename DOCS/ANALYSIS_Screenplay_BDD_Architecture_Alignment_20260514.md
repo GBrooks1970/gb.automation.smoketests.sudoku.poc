@@ -1,7 +1,7 @@
 # Screenplay-BDD Reference Architecture — Alignment & Migration Report
 
 **Date:** 2026-05-14
-**Updated:** 2026-05-14 (v1.1 adoption; Phase 0 fully complete; Phase 1 complete)
+**Updated:** 2026-05-14 (v1.1 adoption; Phases 0, 1, 2 complete)
 **Analyst:** CLAUDE Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` vs. `REFERENCE_ARCHITECTURE.md` v1.1
 **Status:** Living — updated when RA version changes
@@ -12,28 +12,30 @@
 
 This report scores the project against every normative obligation in the Screenplay-BDD Reference Architecture (`REFERENCE_ARCHITECTURE.md`, Status: Accepted, 2026-05-14). The analysis covers structure, pattern compliance, surface-type contract, documentation, and orchestration.
 
-**Overall compliance: Moderate** *(upgraded from Low–Moderate — Phases 0 and 1 complete)*
+**Overall compliance: Moderate–High** *(upgraded — Phases 0, 1, 2 complete)*
 
-The project's documentation scaffold and canonical feature store are fully established. The remaining gap is the Screenplay implementation layer (Phases 2–4), which has a complete design but no code yet.
+The documentation scaffold, canonical feature store, and Screenplay infrastructure layer (Abilities, Cast, Memory keys) are all established. The remaining gap is Tasks, Questions, and Step Definitions (Phases 3–4), followed by documentation and orchestration (Phases 5–8).
 
 | Area | Status | Severity |
 |------|--------|----------|
-| Screenplay Layer (Actor / Ability / Task / Question) | Not implemented | Critical |
+| Screenplay Layer 4 — Abilities + Cast | ✅ Complete — Phase 2 (DR-008) | — |
+| Screenplay Layer 3 — Tasks + Questions | Absent — Phase 3 | Critical |
+| Screenplay Layer 2 — Step Definitions | Absent — Phase 4 | Critical |
 | Canonical Feature Store (`features_shared/`) | ✅ Complete — Phase 1 (DR-007) | — |
-| Memory key constants | Absent — Phase 2 | High |
-| Directory blueprint compliance | Partial — `features_shared/` + `tests/features/` added; Screenplay dirs absent | High |
+| Memory key constants | ✅ Complete — Phase 2 (6 constants, RA §8.1) | — |
+| Directory blueprint — Screenplay dirs | Partial — `abilities/`, `actors/`, `support/` present; `tasks/`, `questions/`, `step_definitions/` empty | High |
 | CLI surface contract | Partial | High |
 | Repository-level required documents | ✅ All present and at correct paths | — |
 | Stack-level documentation | Absent — Phase 5 | High |
 | `DOCS/templates/` mandate | ✅ Complete — all 14 templates present | — |
-| `DECISION_REGISTER.md` | ✅ DR-001–DR-007 | — |
+| `DECISION_REGISTER.md` | ✅ DR-001–DR-008 | — |
 | Orchestration scripts + metrics | Absent — Phase 7 | Medium |
 | AI agent instruction file | ✅ Complete — Phase 0 | — |
 | Algorithm documentation | ✅ Aligned | — |
 | Code review directory | Structurally minor drift (inside DOCS/, not root) | Low |
 | Implementation logs | ✅ Aligned | — |
 
-> **Current migration status (2026-05-14):** Phase 0 fully complete (DR-001–007, 14/14 templates, all governance docs). Phase 1 complete (DR-007, `features_shared/` established, `@util @stack-demoapp001` tags live, 43 scenarios green). Phases 2–8 open.
+> **Current migration status (2026-05-14):** Phase 0 fully complete (DR-001–008, 14/14 templates). Phase 1 complete (features_shared/, @util tags, 43 scenarios green). Phase 2 complete (@serenity-js 3.43.2, Abilities, Cast, Memory keys — 43 scenarios undefined, no errors). Phases 3–8 open.
 
 ---
 
@@ -164,12 +166,13 @@ DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/  DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/
   tests/                               tests/
     features/             PRESENT ✅     features/BasicSudokuSolverLogic.feature ✅ (@util @stack-demoapp001)
     step_definitions/     PARTIAL ✓      step_definitions/solver_steps.js (exists, wrong form — Phase 4)
-    screenplay/           ABSENT ✗       (Phase 2–3)
-      abilities/          ABSENT ✗
-      actors/             ABSENT ✗
-      tasks/              ABSENT ✗
-      questions/          ABSENT ✗
-      support/            ABSENT ✗
+    screenplay/           PARTIAL ✓      (Phase 2 — foundation present)
+      abilities/          PRESENT ✅     UseSudokuSolver.ts, LoadPuzzles.ts
+      actors/             PRESENT ✅     SudokuActors.ts (Cast)
+      tasks/              ABSENT ✗       (Phase 3)
+      questions/          ABSENT ✗       (Phase 3)
+      support/            PRESENT ✅     memory-keys.ts, configure.ts
+      step_definitions/   ABSENT ✗       (Phase 4)
   tooling/                ABSENT ✗       (Phase 5)
   docs/                   ABSENT ✗       (Phase 5)
 
@@ -190,7 +193,7 @@ code-review/ OR .review/   PRESENT as DOCS/.review/ (inside DOCS, not at root)
 README.md                  ✅
 CHANGELOG.md               ✅ (Phase 0)
 BACKLOG.md (at root)       NOT REQUIRED by v1.1 — present as convenience redirect only
-DECISION_REGISTER.md       ✅ (Phase 0/1 — DR-001–DR-007)
+DECISION_REGISTER.md       ✅ (Phases 0–2 — DR-001–DR-008)
 CLAUDE.md (agent file)     ✅ (Phase 0 — stack inventory, risk register, procedure; Phase 1 — feature sync note updated)
 ```
 
@@ -408,11 +411,15 @@ It is worth stating clearly what the project gets right, as these are the founda
 | **Implementation logs** | Well-maintained, timestamped, append-only |
 | **Code review discipline** | Multiple reviews archived, timestamped, immutable |
 | **BACKLOG.md** | Detailed sprint tracking; root summary + `DOCS/.planning/` detail |
-| **Decision Register** | DR-001–007 — all structural decisions recorded with full context |
+| **Decision Register** | DR-001–008 — all structural decisions recorded with full context |
 | **Template mandate** | 14/14 templates in `DOCS/templates/` — Phase 0 complete |
 | **Canonical Feature Store** | `features_shared/util-tests/sudoku-solver/` — Phase 1 complete |
 | **Feature tagging** | `@util` on canonical; `@util @stack-demoapp001` on Stack-local copy |
 | **cucumber.js routing** | Reads from `tests/features/` only — no duplicate scenario risk |
+| **Serenity/JS infrastructure** | v3.43.2 installed; `@serenity-js/core`, `cucumber`, `assertions` — Phase 2 |
+| **Memory key constants** | 6 `UPPER_SNAKE_CASE` constants in `memory-keys.ts`; name = value (RA §8.1) |
+| **Ability layer (Layer 4)** | `UseSudokuSolver` + `LoadPuzzles` extend base `Ability`; DR-008 documents API deviations |
+| **Cast — SudokuActors** | Equips every Actor with both Abilities; configured via `support/configure.ts` |
 
 ---
 
@@ -472,34 +479,32 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 
 ---
 
-### Phase 2 — Screenplay Layer — Foundation (2–3 hours)
-*Implements the design from `DESIGN_Screenplay_Migration.md` §5.1–5.2.*
+### Phase 2 — Screenplay Layer — Foundation ✅ COMPLETE
 
-**Actions:**
-1. Install `@serenity-js/core`, `@serenity-js/cucumber`, `@serenity-js/assertions`
-2. Create directory structure:
-   ```
-   tests/screenplay/
-     abilities/
-     actors/
-     tasks/
-     questions/
-     support/
-   ```
-3. Create `tests/screenplay/support/memory-keys.ts` with constants:
-   ```typescript
-   export const SOLVE_RESULT       = 'SOLVE_RESULT';
-   export const ALGORITHM_PROGRESS = 'ALGORITHM_PROGRESS';
-   export const LAST_ERROR         = 'LAST_ERROR';
-   export const TARGET_CELL        = 'TARGET_CELL';
-   export const GRID_SNAPSHOT      = 'GRID_SNAPSHOT';
-   export const VALIDATION_RESULT  = 'VALIDATION_RESULT';
-   ```
-4. Implement `UseSudokuSolver` and `LoadPuzzles` Abilities (verbatim from design §5.2)
-5. Implement `SudokuActors` Cast (verbatim from design §5.5)
-6. Update `cucumber.js` to use `@serenity-js/cucumber` and `SudokuActors`
+**Commit:** `b1c31b0` — *Phase 2: Serenity/JS Screenplay Foundation (RA §3, §4)*
 
-**Verification:** Cucumber runs with no step definitions yet — no errors, all scenarios pending.
+| # | Action | Status | Notes |
+|---|--------|--------|-------|
+| 1 | Install `@serenity-js/core`, `@serenity-js/cucumber`, `@serenity-js/assertions` | ✅ Done | v3.43.2 |
+| 2 | Create `tests/screenplay/` directory structure | ✅ Done | `abilities/`, `actors/`, `tasks/`, `questions/`, `support/`, `step_definitions/` |
+| 3 | Create `tests/screenplay/support/memory-keys.ts` | ✅ Done | 6 constants; name = value (RA §8.1) |
+| 4 | Implement `UseSudokuSolver` Ability | ✅ Done | `extends Ability` (DR-008); import path corrected to `../../../app_src/` |
+| 5 | Implement `LoadPuzzles` Ability | ✅ Done | `extends Ability`, `private constructor`, `static from()` factory |
+| 6 | Implement `SudokuActors` Cast | ✅ Done | Equips Actor with `UseSudokuSolver` + `LoadPuzzles` |
+| 7 | Create `support/configure.ts` | ✅ Done | Registers Cast via `configure({ crew: [], actors: SudokuActors })` |
+| 8 | Update `cucumber.js` | ✅ Done | `requireModule` adds `@serenity-js/cucumber`; `require` points to screenplay dirs; Cast via support file |
+| 9 | Record DR-008 | ✅ Done | Documents 3 Serenity/JS 3.43.2 API deviations from design doc |
+
+**Deviation from design doc — DR-008:**
+- Design used `implements Ability`; 3.43.2 requires `extends Ability` (base class, not interface)
+- Design defined `static as()` override; base class provides this via generics — override removed
+- Design import paths `../../app_src/` were wrong; corrected to `../../../app_src/`
+
+**Verification:**
+- `npm test` — 43 scenarios (43 undefined) / 241 steps (241 undefined) ✅
+- No TypeScript errors ✅
+- No runtime errors — Serenity/JS 3.43.2 loads cleanly ✅
+- `@util @stack-demoapp001` tags visible in runner output ✅
 
 ---
 
@@ -599,7 +604,7 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 |-------|--------------------------|--------|--------|--------|
 | 0 — Documentation scaffold | §10.1, §10.5, §10.6, §10.4 | 1–2 days | Sprint 3 | ✅ Fully complete (DR-001–007; 14/14 templates; all governance docs) |
 | 1 — Canonical Feature Store | §5.1–5.3 | 0.5 day | Sprint 3 | ✅ Complete — `features_shared/` live; DR-007; 43 scenarios green |
-| 2 — Screenplay Foundation | §3, §4 (abilities, actors) | 2–3 h | Sprint 3 | 🔲 Open |
+| 2 — Screenplay Foundation | §3, §4 (abilities, actors) | 2–3 h | Sprint 3 | ✅ Complete — Serenity/JS 3.43.2; Abilities, Cast, Memory keys; DR-008 |
 | 3 — Tasks and Questions | §3.3, §3.4 | 4–6 h | Sprint 3 | 🔲 Open |
 | 4 — Step Definition Migration | §2.2, §3, layer model | 4–6 h | Sprint 3 | 🔲 Open |
 | 5 — Stack Documentation | §10.2 | 1 day | Sprint 3 | 🔲 Open |
@@ -607,7 +612,7 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 | 7 — Orchestration and Metrics | §9 | 0.5 day | Sprint 4 | 🔲 Open |
 | 8 — CLI Hardening | §6.3 | 1–2 days | Sprint 5 | 🔲 Open |
 
-**Critical path to minimum viable compliance:** Phases 2 → 3 → 4 (Sprint 3). Phases 0 and 1 are done. Phases 5–8 complete full compliance.
+**Critical path to minimum viable compliance:** Phases 3 → 4 (Sprint 3). Phases 0, 1, 2 are done. Phases 5–8 complete full compliance.
 
 ---
 
@@ -624,9 +629,9 @@ The following items should be added to `DOCS/.planning/BACKLOG.md` and cross-ref
 | NEW-005 | Create DOCS/templates/ with all 14 required templates | 0 | High | ✅ Done — 14/14 templates |
 | NEW-005a | Record v1.1 adoption as DR-006 | 0 | High | ✅ Done — DR-006 |
 | NEW-006 | Create features_shared/ canonical feature store | 1 | High | ✅ Done — DR-007 |
-| NEW-007 | Install Serenity/JS and create Screenplay directory structure | 2 | High | 🔲 Open |
-| NEW-008 | Define Memory key constants in screenplay/support/memory-keys.ts | 2 | High | 🔲 Open |
-| NEW-009 | Implement UseSudokuSolver and LoadPuzzles Abilities | 2 | High | 🔲 Open |
+| NEW-007 | Install Serenity/JS and create Screenplay directory structure | 2 | High | ✅ Done — v3.43.2; 6 dirs |
+| NEW-008 | Define Memory key constants in screenplay/support/memory-keys.ts | 2 | High | ✅ Done — 6 constants |
+| NEW-009 | Implement UseSudokuSolver and LoadPuzzles Abilities | 2 | High | ✅ Done — DR-008 (extends Ability) |
 | NEW-010 | Implement all Tasks and Questions | 3 | High | 🔲 Open |
 | NEW-011 | Migrate step definitions to Screenplay (replace solver_steps.js) | 4 | High | 🔲 Open |
 | NEW-012 | Refactor over-specified step text to parameterised form | 4 | Medium | 🔲 Open |
