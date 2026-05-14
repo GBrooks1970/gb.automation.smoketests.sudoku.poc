@@ -13,8 +13,12 @@
 ```
 DOCS/
 ├── README.md                               <- This file (master index)
-├── ALGORITHM_Sudoku_Basic_Solver.md        <- Core algorithm pseudocode + complexity
-├── ALGORITHM_Sudoku_Advanced_Solver.md     <- Advanced techniques reference
+│
+├── .algorithm/                             <- Language-agnostic algorithm pseudocode
+│   ├── README.md                           <- Algorithm directory guide
+│   ├── TEMPLATE_Algorithm.md
+│   ├── ALGORITHM_Sudoku_Basic_Solver.md    <- Core algorithm pseudocode + complexity
+│   └── ALGORITHM_Sudoku_Advanced_Solver.md <- Advanced techniques reference
 │
 ├── .design/                                <- Design & specification documents
 │   ├── README.md                           <- Design directory guide
@@ -59,10 +63,12 @@ DOCS/
 
 ## Algorithm Documentation
 
+Stored in [.algorithm/](.algorithm/) — language-agnostic pseudocode for every algorithm in the project.
+
 | File | Purpose | Version |
 |------|---------|---------|
-| [ALGORITHM_Sudoku_Basic_Solver.md](ALGORITHM_Sudoku_Basic_Solver.md) | Unit Completion, Hidden Singles, Naked Singles pseudocode | v1.0 |
-| [ALGORITHM_Sudoku_Advanced_Solver.md](ALGORITHM_Sudoku_Advanced_Solver.md) | Naked/Hidden Pairs, X-Wing, chain techniques | Draft |
+| [ALGORITHM_Sudoku_Basic_Solver.md](.algorithm/ALGORITHM_Sudoku_Basic_Solver.md) | Unit Completion, Hidden Singles, Naked Singles pseudocode | v1.0 |
+| [ALGORITHM_Sudoku_Advanced_Solver.md](.algorithm/ALGORITHM_Sudoku_Advanced_Solver.md) | Naked/Hidden Pairs, X-Wing, chain techniques | Draft |
 
 ---
 
@@ -127,6 +133,7 @@ Reviews are snapshots: timestamped, immutable once written.
 ## Maintenance Notes
 
 - When adding a document, update this index **in the same commit**
+- All algorithm docs must also be listed in [.algorithm/README.md](.algorithm/README.md)
 - All design docs must also be listed in [.design/README.md](.design/README.md)
 - All code reviews must also be listed in [.review/README.md](.review/README.md)
 - Implementation logs are append-only — never modify a completed log

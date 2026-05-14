@@ -72,7 +72,7 @@ gb.automation.smoketests.sudoku.poc/
 | Document | Purpose | Audience |
 |----------|---------|----------|
 | [DESIGN_Sudoku_Solver_Specification.md](DOCS/.design/DESIGN_Sudoku_Solver_Specification.md) | Complete implementation specification | Developers implementing in any language |
-| [ALGORITHM_Sudoku_Basic_Solver.md](DOCS/ALGORITHM_Sudoku_Basic_Solver.md) | Detailed algorithm descriptions with examples | Developers & educators |
+| [ALGORITHM_Sudoku_Basic_Solver.md](DOCS/.algorithm/ALGORITHM_Sudoku_Basic_Solver.md) | Detailed algorithm descriptions with examples | Developers & educators |
 | [BasicSudokuSolverLogic.feature](DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/BasicSudokuSolverLogic.feature) | BDD test scenarios (Gherkin) | QA & developers |
 
 ### Extended Feature Designs
@@ -176,7 +176,7 @@ All implementations follow established software engineering principles:
 
 **Cross-References and Traceability:**
 - **Canonical Source** - [DESIGN_Sudoku_Solver_Specification.md](DOCS/.design/DESIGN_Sudoku_Solver_Specification.md) is the authoritative specification
-- **Algorithm Details** - [ALGORITHM_Sudoku_Basic_Solver.md](DOCS/ALGORITHM_Sudoku_Basic_Solver.md) provides pseudocode and examples
+- **Algorithm Details** - [ALGORITHM_Sudoku_Basic_Solver.md](DOCS/.algorithm/ALGORITHM_Sudoku_Basic_Solver.md) provides pseudocode and examples
 - **Implementation Links** - Code comments reference specification sections for traceability
 - **Test-to-Spec Mapping** - Each Gherkin scenario maps to specification requirements
 
@@ -213,5 +213,5 @@ This is an educational project. See LICENSE file for details.
 ## Questions or Feedback?
 
 - 📖 Start with the [Design Specification](DOCS/.design/DESIGN_Sudoku_Solver_Specification.md)
-- 🧩 See [Algorithm Details](DOCS/ALGORITHM_Sudoku_Basic_Solver.md) for technique explanations
+- 🧩 See [Algorithm Details](DOCS/.algorithm/ALGORITHM_Sudoku_Basic_Solver.md) for technique explanations
 - 💻 Check [DEMOAPP001 README](DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/README.md) for implementation example

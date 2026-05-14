@@ -3,7 +3,7 @@
 **Version:** v1.0
 **Date:** 2026-01-30T20:00:00Z
 
-This document describes the implementation of three fundamental Sudoku solving techniques used in the [TypeScript Sudoku Solver](../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts).
+This document describes the implementation of three fundamental Sudoku solving techniques used in the [TypeScript Sudoku Solver](../../../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts).
 
 ## Overview
 
@@ -44,7 +44,7 @@ FUNCTION UnitCompletion():
 ```
 
 ### Implementation Reference
-- TypeScript: [`unitCompletion()`](../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts#L24)
+- TypeScript: [`unitCompletion()`](../../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts#L24)
 - Complexity: **O(n)** per unit (27 units total: 9 rows + 9 columns + 9 blocks)
 
 ---
@@ -102,7 +102,7 @@ FUNCTION HiddenSingles(target_number):
 ```
 
 ### Implementation Reference
-- TypeScript: [`hiddenSingles(target)`](../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts#L66)
+- TypeScript: [`hiddenSingles(target)`](../../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts#L66)
 - Called 9 times per iteration (once for each digit 1-9)
 - Complexity: **O(n)** per digit scan
 
@@ -146,7 +146,7 @@ FUNCTION NakedSingles():
 ```
 
 ### Implementation Reference
-- TypeScript: [`nakedSingles()`](../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts#L98)
+- TypeScript: [`nakedSingles()`](../../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts#L98)
 - Complexity: **O(n²)** - examines all empty cells
 
 ---
@@ -194,7 +194,7 @@ FUNCTION SolveSudoku():
 ```
 
 ### Implementation Reference
-- TypeScript: [`SudokuOrchestrator.solve()`](../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuOrchestrator.ts#L25)
+- TypeScript: [`SudokuOrchestrator.solve()`](../../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuOrchestrator.ts#L25)
 - Returns: `"SOLVED"` or `"STUCK_ON_ADVANCED_LOGIC"`
 
 ### Execution Order Importance
@@ -240,15 +240,15 @@ When the basic algorithm returns `"STUCK_ON_ADVANCED_LOGIC"`, the puzzle require
 ## Testing
 
 The algorithm is tested comprehensively in:
-- **Feature File**: [BasicSudokuSolverLogic.feature](../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/BasicSudokuSolverLogic.feature)
-- **Test Puzzles**: [puzzles.json](../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/puzzles.json)
+- **Feature File**: [BasicSudokuSolverLogic.feature](../../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/BasicSudokuSolverLogic.feature)
+- **Test Puzzles**: [puzzles.json](../../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/puzzles.json)
 
-See the [README](../README.md) for instructions on running the solver and tests.
+See the [README](../../README.md) for instructions on running the solver and tests.
 
 ---
 
 ## References
 
 - [Sudoku Solving Techniques](https://www.sudokuwiki.org/sudoku.htm)
-- [SudokuSolver.ts Implementation](../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts)
-- [SudokuOrchestrator.ts Implementation](../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuOrchestrator.ts)
+- [SudokuSolver.ts Implementation](../../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts)
+- [SudokuOrchestrator.ts Implementation](../../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuOrchestrator.ts)

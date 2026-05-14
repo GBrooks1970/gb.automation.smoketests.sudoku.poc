@@ -46,7 +46,11 @@ gb.automation.smoketests.sudoku.poc/
 │   │   ├── README.md                   # Code review directory guide
 │   │   ├── code-review-template.md     # Comprehensive code review template
 │   │   └── CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/  # Latest review
-│   └── ALGORITHM_Sudoku_Basic_Solver.md    # Algorithm documentation
+│   ├── .algorithm/                     # Language-agnostic algorithm pseudocode
+│   │   ├── README.md                   # Algorithm directory guide
+│   │   ├── TEMPLATE_Algorithm.md       # Template for new algorithm docs
+│   │   ├── ALGORITHM_Sudoku_Basic_Solver.md   # Basic solver pseudocode
+│   │   └── ALGORITHM_Sudoku_Advanced_Solver.md # Advanced techniques pseudocode
 ├── README.md                           # Project README
 ├── CLAUDE.md                           # AI assistant guide (this file)
 └── .gitignore
@@ -219,7 +223,7 @@ Files to be created:
 1. Add method to `SudokuSolver` class
 2. Integrate into `SudokuOrchestrator.solve()` loop
 3. Add corresponding test scenarios to feature file
-4. Update algorithm documentation in `DOCS/ALGORITHM_Sudoku_Basic_Solver.md`
+4. Update algorithm documentation in `DOCS/.algorithm/ALGORITHM_Sudoku_Basic_Solver.md`
 
 ### Modifying Display Output
 - Edit `SudokuCLI.ts` - all terminal output is handled here

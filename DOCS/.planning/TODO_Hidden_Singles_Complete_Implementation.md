@@ -355,7 +355,7 @@ All three documentation files that reference the limitation must be updated. No 
 | `app_src/SudokuSolver.ts` | Add row scan and column scan loops to `hiddenSingles()` |
 | `puzzles.json` | Add `"Row Column Hidden Singles"` puzzle |
 | `tests/BasicSudokuSolverLogic.feature` | Add integration scenario for new puzzle; annotate existing row/column scenarios with hand-traced grids |
-| `DOCS/ALGORITHM_Sudoku_Basic_Solver.md` | Remove limitation warning; update version |
+| `DOCS/.algorithm/ALGORITHM_Sudoku_Basic_Solver.md` | Remove limitation warning; update version |
 | `CLAUDE.md` | Remove Known Limitation; update algorithm description |
 | `DOCS/.planning/BACKLOG.md` | Mark BACKLOG-001 complete |
 | `DOCS/.implementation/IMPL_LOG_[date]_...md` | Create implementation log |
