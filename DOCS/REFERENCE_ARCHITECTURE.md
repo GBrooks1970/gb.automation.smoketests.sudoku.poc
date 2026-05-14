@@ -1,6 +1,6 @@
 # Screenplay-BDD Test Automation — Agnostic Reference Architecture
 
-**Version:** 1.0
+**Version:** 1.1
 **Status:** Accepted
 **Date:** 2026-05-14
 **Applies to:** Any project adopting the Screenplay-BDD structure described herein
@@ -259,7 +259,10 @@ repository-root/
 ├── DOCS/                             # Project-wide documentation (Section 10)
 │   ├── algorithm/                    # Algorithm specifications (one file per algorithm)
 │   ├── architecture/                 # Cross-cutting architectural specifications
+│   ├── design/                       # Design standards and conventions
+│   │   └── NAMING_CONVENTIONS.md     # REQUIRED (Section 10.9)
 │   ├── planning/                     # Backlog, roadmap, work tracking
+│   │   └── BACKLOG.md                # REQUIRED (Section 10.1)
 │   ├── implementation-logs/          # Development session logs (Section 10.8)
 │   └── templates/                    # MANDATORY document templates (Section 10.5)
 │
@@ -272,9 +275,7 @@ repository-root/
 │
 ├── README.md                         # REQUIRED (Section 10.1)
 ├── CHANGELOG.md                      # REQUIRED (Section 10.1)
-├── BACKLOG.md                        # REQUIRED (Section 10.1)
 ├── DECISION_REGISTER.md              # REQUIRED (Section 10.6)
-├── NAMING_CONVENTIONS.md             # REQUIRED (Section 10.9)
 └── [ai-agent-instruction-file]       # REQUIRED (Section 10.4)
 ```
 
@@ -311,7 +312,7 @@ When a feature file in `features_shared/` is created or updated, the change MUST
 1. Update or create the feature file in `features_shared/`
 2. Copy the updated file to the corresponding path in each Stack's `features/` directory
 3. Add Stack-specific tags to the local copy (do not add tags to the canonical file)
-4. Update `BACKLOG.md` if any Stack cannot yet implement the new scenario (see Section 10.1)
+4. Update `DOCS/planning/BACKLOG.md` if any Stack cannot yet implement the new scenario (see Section 10.1)
 5. Record the decision in `DECISION_REGISTER.md` if the change represents a structural choice (see Section 10.6)
 
 ### 5.3 Tag Taxonomy
@@ -488,7 +489,7 @@ Additional keys for other surface types and project-specific state MUST follow t
 
 Step definitions MUST be parameterised (see Section 5.4). The Gherkin text of each step MUST be identical across all Stacks. Only the implementation body differs.
 
-A Stack MUST NOT add or remove Gherkin steps relative to the canonical feature files. If a step cannot be implemented in a Stack's language or framework, that gap MUST be recorded in `BACKLOG.md` and the scenario tagged `@pending` locally.
+A Stack MUST NOT add or remove Gherkin steps relative to the canonical feature files. If a step cannot be implemented in a Stack's language or framework, that gap MUST be recorded in `DOCS/planning/BACKLOG.md` and the scenario tagged `@pending` locally.
 
 ### 8.3 Screenplay Component Signatures
 
@@ -510,7 +511,7 @@ A Stack is considered in parity when:
 2. All Memory key constants match the canonical values exactly
 3. All step definition Gherkin text matches the canonical text exactly
 4. All Screenplay component signatures match the parity contract document
-5. No item in `BACKLOG.md` is marked as an unacknowledged parity gap for this Stack
+5. No item in `DOCS/planning/BACKLOG.md` is marked as an unacknowledged parity gap for this Stack
 
 ---
 
@@ -597,18 +598,18 @@ All documentation in this architecture is governed by two rules: **every documen
 
 ### 10.1 Repository-Level Documents
 
-The following documents MUST exist at the repository root. Each is governed by its named template.
+The following documents MUST exist at the paths shown. Each is governed by its named template.
 
-| Document | Template | Purpose |
-|---|---|---|
-| `README.md` | `templates/readme.template.md` | Project purpose, prerequisites, quick-start per Stack, links to all other docs |
-| `CHANGELOG.md` | `templates/changelog.template.md` | Version history, notable changes, known issues |
-| `BACKLOG.md` | `templates/backlog.template.md` | Outstanding and future work required to keep all Stacks in parity. Each item MUST identify: affected Stack(s), nature of the gap, and priority |
-| `DECISION_REGISTER.md` | `templates/decision-record.template.md` | Structural and process decisions (see Section 10.6) |
+| Document | Path | Template | Purpose |
+|---|---|---|---|
+| `README.md` | repository root | `templates/readme.template.md` | Project purpose, prerequisites, quick-start per Stack, links to all other docs |
+| `CHANGELOG.md` | repository root | `templates/changelog.template.md` | Version history, notable changes, known issues |
+| `DOCS/planning/BACKLOG.md` | `DOCS/planning/` | `templates/backlog.template.md` | Outstanding and future work required to keep all Stacks in parity. Each item MUST identify: affected Stack(s), nature of the gap, and priority |
+| `DECISION_REGISTER.md` | repository root | `templates/decision-record.template.md` | Structural and process decisions (see Section 10.6) |
 
-**BACKLOG.md — additional rules:**
+**`DOCS/planning/BACKLOG.md` — additional rules:**
 
-- If a gap between Stacks exists and is not listed in `BACKLOG.md`, it is a defect, not a decision
+- If a gap between Stacks exists and is not listed in `DOCS/planning/BACKLOG.md`, it is a defect, not a decision
 - Backlog items that resolve into a structural choice MUST produce a `DECISION_REGISTER.md` entry before the work is closed
 - Items MUST carry one of three statuses: `Open`, `In Progress`, `Resolved`
 - `Resolved` items MUST NOT be deleted — they MUST be retained as a record that the gap existed
@@ -678,7 +679,7 @@ An Agent or developer creating any document without a corresponding template fir
 - Decisions MUST be immutable once `Accepted` — they MAY only be `Superseded` by a newer entry that references the original by ID
 - A `Superseded` entry MUST contain a forward reference to its replacement
 - The replacement entry MUST contain a back reference to the entry it supersedes
-- `BACKLOG.md` items that resolve into a structural choice MUST produce a Decision Register entry before the work item is marked `Resolved`
+- `DOCS/planning/BACKLOG.md` items that resolve into a structural choice MUST produce a Decision Register entry before the work item is marked `Resolved`
 - The AI Agent Instruction File (Section 10.4) MUST reference `DECISION_REGISTER.md` as the authoritative source for any rule it restates
 
 **Entry identification:**
@@ -700,7 +701,7 @@ A `code-review/` or `.review/` directory MUST exist at the repository root. It h
 - Every review output MUST be authored from `templates/code-review.template.md`
 - Review files MUST be named with a date prefix and a short subject slug (e.g. `2026-05-14_screenplay-ability-layer.md`) to allow chronological ordering
 - Review outputs are read-only once written — findings MUST NOT be edited after the fact; a new review supersedes an old one
-- Action items raised in a review MUST be tracked in `BACKLOG.md` or `DECISION_REGISTER.md` as appropriate; they MUST NOT remain only inside the review file
+- Action items raised in a review MUST be tracked in `DOCS/planning/BACKLOG.md` or `DECISION_REGISTER.md` as appropriate; they MUST NOT remain only inside the review file
 
 ### 10.8 Implementation Logs Directory
 
@@ -722,7 +723,7 @@ An `implementation-logs/` directory MUST exist under `DOCS/` or at the repositor
 
 ### 10.9 Naming Conventions — Project Standard
 
-A `NAMING_CONVENTIONS.md` document MUST exist, either at the repository root or under `DOCS/`. It records the naming conventions adopted for the project and serves as the authoritative reference for any Agent or developer making naming decisions.
+A `DOCS/design/NAMING_CONVENTIONS.md` document MUST exist at `DOCS/design/NAMING_CONVENTIONS.md`. It records the naming conventions adopted for the project and serves as the authoritative reference for any Agent or developer making naming decisions.
 
 **The document MUST cover, at minimum:**
 
@@ -805,7 +806,7 @@ The following checklist MUST be completed in order when adding a new Stack to a 
 - [ ] Confirm all step definition Gherkin text matches canonical text exactly (Section 8.2)
 - [ ] Confirm all Screenplay component signatures match the parity contract document (Section 8.3)
 - [ ] Run the full parity checklist in Section 8.4
-- [ ] If any gap exists, add it to `BACKLOG.md` before marking onboarding complete
+- [ ] If any gap exists, add it to `DOCS/planning/BACKLOG.md` before marking onboarding complete
 
 ---
 
@@ -817,7 +818,7 @@ The following templates MUST exist under `DOCS/templates/` before the first docu
 |---|---|
 | `readme.template.md` | Root `README.md` |
 | `changelog.template.md` | Root `CHANGELOG.md` |
-| `backlog.template.md` | Root `BACKLOG.md` |
+| `backlog.template.md` | `DOCS/planning/BACKLOG.md` |
 | `decision-record.template.md` | Root `DECISION_REGISTER.md` entries |
 | `stack-architecture.template.md` | `docs/ARCHITECTURE.md` per Stack |
 | `screenplay-guide.template.md` | `docs/SCREENPLAY_GUIDE.md` per Stack |
@@ -827,7 +828,7 @@ The following templates MUST exist under `DOCS/templates/` before the first docu
 | `subject-app-contract.template.md` | `DOCS/architecture/` subject application contract |
 | `code-review.template.md` | `code-review/` or `.review/` review outputs |
 | `implementation-log.template.md` | `DOCS/implementation-logs/` session logs |
-| `naming-conventions.template.md` | Root or `DOCS/` `NAMING_CONVENTIONS.md` |
+| `naming-conventions.template.md` | `DOCS/design/NAMING_CONVENTIONS.md` |
 | `algorithm.template.md` | `DOCS/algorithm/` algorithm specification files |
 
 ---
@@ -858,7 +859,7 @@ SCREENPLAY COMPONENTS
   [ ] Memory keys written/read match documented contract
 
 BACKLOG
-  [ ] Any known gap is listed in BACKLOG.md
+  [ ] Any known gap is listed in DOCS/planning/BACKLOG.md
   [ ] No undocumented intentional drift exists
 ```
 
