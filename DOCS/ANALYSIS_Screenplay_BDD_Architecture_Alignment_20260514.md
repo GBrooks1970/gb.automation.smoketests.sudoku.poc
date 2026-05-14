@@ -25,7 +25,7 @@ The project's domain logic is well-written and testable, and a detailed Screenpl
 | CLI surface contract | Partial | High |
 | Repository-level required documents | 3 of 3 present; `NAMING_CONVENTIONS.md` at wrong path ⚠ | High |
 | Stack-level documentation | Absent | High |
-| `DOCS/templates/` mandate | Partial — 4 of 14 templates created | High |
+| `DOCS/templates/` mandate | ✅ Complete — all 14 templates present | — |
 | `DECISION_REGISTER.md` | ✅ Created (Phase 0) — DR-001–DR-005 | — |
 | Orchestration scripts + metrics | Absent | Medium |
 | AI agent instruction file | Partial | Medium |
@@ -183,7 +183,7 @@ DOCS/
   planning/                PRESENT as .planning/ (DR-001 dot-prefix — name drift)
     BACKLOG.md             PRESENT at DOCS/.planning/BACKLOG.md ✅ (v1.1 §10.1)
   implementation-logs/     PRESENT as .implementation/ (DR-001 dot-prefix — name drift)
-  templates/               PRESENT ✅ (Phase 0 — 4 of 14 templates created)
+  templates/               PRESENT ✅ (Phase 0 — all 14 templates created)
 
 code-review/ OR .review/   PRESENT as DOCS/.review/ (inside DOCS, not at root)
 
@@ -329,41 +329,28 @@ No `DOCS/architecture/` directory exists. All four required documents are absent
 
 ## 9. Template Mandate (§10.5)
 
-`DOCS/templates/` was created in Phase 0 with 4 of the 14 required templates. The remaining 10 are still missing.
+`DOCS/templates/` was created in Phase 0 and all 14 required templates are now present.
 
-### 9.1 Created (Phase 0)
+### 9.1 All 14 Templates Present in `DOCS/templates/`
 
-| Template | Governs |
-|----------|---------|
-| `DOCS/templates/TEMPLATE_Decision_Record.md` | `DECISION_REGISTER.md` entries |
-| `DOCS/templates/TEMPLATE_Changelog.md` | Root `CHANGELOG.md` |
-| `DOCS/templates/TEMPLATE_Backlog.md` | `DOCS/.planning/BACKLOG.md` (v1.1: target is `DOCS/planning/BACKLOG.md`) |
-| `DOCS/templates/TEMPLATE_Naming_Conventions.md` | `DOCS/.design/NAMING_CONVENTIONS.md` (v1.1: `DOCS/design/NAMING_CONVENTIONS.md`) |
+| Template | Governs | Migration Phase |
+|----------|---------|----------------|
+| `TEMPLATE_Decision_Record.md` | `DECISION_REGISTER.md` entries | 0 |
+| `TEMPLATE_Changelog.md` | Root `CHANGELOG.md` | 0 |
+| `TEMPLATE_Backlog.md` | `DOCS/.planning/BACKLOG.md` | 0 |
+| `TEMPLATE_Naming_Conventions.md` | `DOCS/.design/NAMING_CONVENTIONS.md` | 0 |
+| `TEMPLATE_Readme.md` | Root `README.md` | 0 |
+| `TEMPLATE_Stack_Architecture.md` | `[STACK]/docs/ARCHITECTURE.md` | 5 |
+| `TEMPLATE_Screenplay_Guide.md` | `[STACK]/docs/SCREENPLAY_GUIDE.md` | 5 |
+| `TEMPLATE_QA_Strategy.md` | `[STACK]/docs/QA_STRATEGY.md` | 5 |
+| `TEMPLATE_Stack_Readme.md` | `[STACK]/docs/README.md` | 5 |
+| `TEMPLATE_Parity_Contract.md` | `DOCS/architecture/` parity contract | 6 |
+| `TEMPLATE_Subject_App_Contract.md` | `DOCS/architecture/` subject app contract | 6 |
+| `TEMPLATE_Algorithm.md` | `DOCS/.algorithm/ALGORITHM_*.md` | — |
+| `TEMPLATE_Implementation_Log.md` | `DOCS/.implementation/IMPL_LOG_*.md` | — |
+| `TEMPLATE_Code_Review.md` | `DOCS/.review/CODE_REVIEW_*/` | — |
 
-### 9.2 Existing but not yet in `DOCS/templates/`
-
-These templates exist in their subdirectory locations. They satisfy local usage but do not satisfy the RA's requirement that all templates reside under `DOCS/templates/`.
-
-| Current location | Required as |
-|-----------------|-------------|
-| `DOCS/.design/TEMPLATE_Design_Document.md` | `DOCS/templates/TEMPLATE_Design_Document.md` |
-| `DOCS/.implementation/TEMPLATE_Implementation_Log.md` | `DOCS/templates/TEMPLATE_Implementation_Log.md` |
-| `DOCS/.howto/TEMPLATE_HowTo.md` | `DOCS/templates/TEMPLATE_HowTo.md` |
-| `DOCS/.algorithm/TEMPLATE_Algorithm.md` | `DOCS/templates/TEMPLATE_Algorithm.md` |
-| `DOCS/.review/code-review-template.md` | `DOCS/templates/TEMPLATE_Code_Review.md` |
-
-### 9.3 Missing Entirely
-
-| Template | Governs |
-|----------|---------|
-| `TEMPLATE_Readme.md` | Root `README.md` |
-| `TEMPLATE_Stack_Architecture.md` | Stack `docs/ARCHITECTURE.md` |
-| `TEMPLATE_Screenplay_Guide.md` | Stack `docs/SCREENPLAY_GUIDE.md` |
-| `TEMPLATE_QA_Strategy.md` | Stack `docs/QA_STRATEGY.md` |
-| `TEMPLATE_Stack_Readme.md` | Stack `docs/README.md` |
-| `TEMPLATE_Parity_Contract.md` | `DOCS/architecture/` parity contract |
-| `TEMPLATE_Subject_App_Contract.md` | `DOCS/architecture/` subject app contract |
-| `TEMPLATE_Implementation_Log.md` | (to be consolidated into `DOCS/templates/`) |
+> Convenience copies of Algorithm, Implementation Log, and Code Review templates remain in their subdirectories for local reference. The canonical versions are in `DOCS/templates/`.
 
 ---
 
@@ -452,7 +439,7 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 - `DECISION_REGISTER.md` at root ✅
 - `DOCS/.planning/BACKLOG.md` ✅ (pre-existing; this is the required path in v1.1)
 - `DOCS/.design/NAMING_CONVENTIONS.md` ✅
-- `DOCS/templates/` with 4 templates ✅ (10 more still needed for full compliance)
+- `DOCS/templates/` with all 14 templates ✅
 
 ---
 
@@ -597,7 +584,7 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 
 | Phase | Closes gap in RA section | Effort | Sprint | Status |
 |-------|--------------------------|--------|--------|--------|
-| 0 — Documentation scaffold | §10.1, §10.5, §10.6, §10.4 | 1–2 days | Sprint 3 | ✅ Complete (1 action open: DR-006) |
+| 0 — Documentation scaffold | §10.1, §10.5, §10.6, §10.4 | 1–2 days | Sprint 3 | ✅ Fully complete (DR-001–007; 14/14 templates) |
 | 1 — Canonical Feature Store | §5.1–5.3 | 0.5 day | Sprint 3 | 🔲 Open |
 | 2 — Screenplay Foundation | §3, §4 (abilities, actors) | 2–3 h | Sprint 3 | 🔲 Open |
 | 3 — Tasks and Questions | §3.3, §3.4 | 4–6 h | Sprint 3 | 🔲 Open |

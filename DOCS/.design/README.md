@@ -374,6 +374,7 @@ Provide feedback in structured format with specific references to sections.
 |----------|---------|---------|
 | [DESIGN_Sudoku_Solver_Specification.md](DESIGN_Sudoku_Solver_Specification.md) | Core solver design (tech-agnostic) | v1.0 |
 | [DESIGN_Naming_Conventions.md](DESIGN_Naming_Conventions.md) | TypeScript naming standards — adopted and enforced via ESLint | v1.0 |
+| [NAMING_CONVENTIONS.md](NAMING_CONVENTIONS.md) | **Authoritative naming conventions** (RA §10.9 required document — supersedes DESIGN_Naming_Conventions.md as the reference standard) | v1.0 |
 
 ### Approved — Not Yet Implemented
 

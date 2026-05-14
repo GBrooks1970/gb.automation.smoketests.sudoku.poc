@@ -72,19 +72,26 @@ DOCS/
 
 ## Templates
 
-Canonical template store — all document templates live here. Use a template before creating any new document of the corresponding type.
+Canonical template store — all document templates live here. Use a template before creating any new document of the corresponding type. Source of truth: `DOCS/templates/`.
 
-| Template | Governs |
-|----------|---------|
-| [TEMPLATE_Decision_Record.md](templates/TEMPLATE_Decision_Record.md) | `DECISION_REGISTER.md` entries |
-| [TEMPLATE_Changelog.md](templates/TEMPLATE_Changelog.md) | Root `CHANGELOG.md` |
-| [TEMPLATE_Backlog.md](templates/TEMPLATE_Backlog.md) | Root `BACKLOG.md` |
-| [TEMPLATE_Naming_Conventions.md](templates/TEMPLATE_Naming_Conventions.md) | `NAMING_CONVENTIONS.md` |
-| [TEMPLATE_Design_Document.md](.design/TEMPLATE_Design_Document.md) | Design / analysis / planning / refactor docs |
-| [TEMPLATE_Implementation_Log.md](.implementation/TEMPLATE_Implementation_Log.md) | Implementation session logs |
-| [TEMPLATE_Algorithm.md](.algorithm/TEMPLATE_Algorithm.md) | Algorithm pseudocode documents |
-| [TEMPLATE_HowTo.md](.howto/TEMPLATE_HowTo.md) | How-to guides |
-| [code-review-template.md](.review/code-review-template.md) | Code review outputs |
+| Template | Governs | Phase |
+|----------|---------|-------|
+| [TEMPLATE_Decision_Record.md](templates/TEMPLATE_Decision_Record.md) | `DECISION_REGISTER.md` entries | 0 |
+| [TEMPLATE_Changelog.md](templates/TEMPLATE_Changelog.md) | Root `CHANGELOG.md` | 0 |
+| [TEMPLATE_Backlog.md](templates/TEMPLATE_Backlog.md) | `DOCS/.planning/BACKLOG.md` | 0 |
+| [TEMPLATE_Naming_Conventions.md](templates/TEMPLATE_Naming_Conventions.md) | `DOCS/.design/NAMING_CONVENTIONS.md` | 0 |
+| [TEMPLATE_Readme.md](templates/TEMPLATE_Readme.md) | Root `README.md` | 0 |
+| [TEMPLATE_Stack_Architecture.md](templates/TEMPLATE_Stack_Architecture.md) | `[STACK]/docs/ARCHITECTURE.md` | 5 |
+| [TEMPLATE_Screenplay_Guide.md](templates/TEMPLATE_Screenplay_Guide.md) | `[STACK]/docs/SCREENPLAY_GUIDE.md` | 5 |
+| [TEMPLATE_QA_Strategy.md](templates/TEMPLATE_QA_Strategy.md) | `[STACK]/docs/QA_STRATEGY.md` | 5 |
+| [TEMPLATE_Stack_Readme.md](templates/TEMPLATE_Stack_Readme.md) | `[STACK]/docs/README.md` | 5 |
+| [TEMPLATE_Parity_Contract.md](templates/TEMPLATE_Parity_Contract.md) | `DOCS/architecture/screenplay-parity-contract.md` | 6 |
+| [TEMPLATE_Subject_App_Contract.md](templates/TEMPLATE_Subject_App_Contract.md) | `DOCS/architecture/subject-app-contract.md` | 6 |
+| [TEMPLATE_Algorithm.md](templates/TEMPLATE_Algorithm.md) | `DOCS/.algorithm/ALGORITHM_*.md` | — |
+| [TEMPLATE_Implementation_Log.md](templates/TEMPLATE_Implementation_Log.md) | `DOCS/.implementation/IMPL_LOG_*.md` | — |
+| [TEMPLATE_Code_Review.md](templates/TEMPLATE_Code_Review.md) | `DOCS/.review/CODE_REVIEW_*/` | — |
+
+> Convenience copies of Algorithm, Implementation Log, and Code Review templates also exist in their respective subdirectories for local reference.
 
 ---
 
@@ -98,7 +105,7 @@ The following documents MUST exist at the repository root per the Reference Arch
 | [CHANGELOG.md](../CHANGELOG.md) | Version history, notable changes |
 | [BACKLOG.md](../BACKLOG.md) | Backlog summary — detailed at [DOCS/.planning/BACKLOG.md](.planning/BACKLOG.md) |
 | [DECISION_REGISTER.md](../DECISION_REGISTER.md) | Structural and process decisions (DR-001 onwards) |
-| [NAMING_CONVENTIONS.md](../NAMING_CONVENTIONS.md) | Authoritative naming conventions for all code and docs |
+| [NAMING_CONVENTIONS.md](.design/NAMING_CONVENTIONS.md) | Authoritative naming conventions for all code and docs (RA v1.1: `DOCS/design/`; DR-001: stored in `.design/`) |
 
 ---
 
