@@ -1,6 +1,6 @@
 # DOCS — Documentation Index
 
-**Last Updated:** 2026-05-14T11:00Z
+**Last Updated:** 2026-05-14T15:00Z
 **Maintainer:** Project Lead / Development Team
 
 > This is the master index for all project documentation. Every file in DOCS is
@@ -13,6 +13,15 @@
 ```
 DOCS/
 ├── README.md                               <- This file (master index)
+├── REFERENCE_ARCHITECTURE.md              <- Screenplay-BDD Reference Architecture v1.0
+├── ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md
+├── Documentation_Review_20260514T1100Z.md
+│
+├── templates/                              <- Canonical template store (RA §10.5)
+│   ├── TEMPLATE_Decision_Record.md        <- For DECISION_REGISTER.md entries
+│   ├── TEMPLATE_Changelog.md              <- For root CHANGELOG.md
+│   ├── TEMPLATE_Backlog.md                <- For root BACKLOG.md
+│   └── TEMPLATE_Naming_Conventions.md     <- For NAMING_CONVENTIONS.md
 │
 ├── .algorithm/                             <- Language-agnostic algorithm pseudocode
 │   ├── README.md                           <- Algorithm directory guide
@@ -58,6 +67,38 @@ DOCS/
     ├── CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z/
     └── CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z/
 ```
+
+---
+
+## Templates
+
+Canonical template store — all document templates live here. Use a template before creating any new document of the corresponding type.
+
+| Template | Governs |
+|----------|---------|
+| [TEMPLATE_Decision_Record.md](templates/TEMPLATE_Decision_Record.md) | `DECISION_REGISTER.md` entries |
+| [TEMPLATE_Changelog.md](templates/TEMPLATE_Changelog.md) | Root `CHANGELOG.md` |
+| [TEMPLATE_Backlog.md](templates/TEMPLATE_Backlog.md) | Root `BACKLOG.md` |
+| [TEMPLATE_Naming_Conventions.md](templates/TEMPLATE_Naming_Conventions.md) | `NAMING_CONVENTIONS.md` |
+| [TEMPLATE_Design_Document.md](.design/TEMPLATE_Design_Document.md) | Design / analysis / planning / refactor docs |
+| [TEMPLATE_Implementation_Log.md](.implementation/TEMPLATE_Implementation_Log.md) | Implementation session logs |
+| [TEMPLATE_Algorithm.md](.algorithm/TEMPLATE_Algorithm.md) | Algorithm pseudocode documents |
+| [TEMPLATE_HowTo.md](.howto/TEMPLATE_HowTo.md) | How-to guides |
+| [code-review-template.md](.review/code-review-template.md) | Code review outputs |
+
+---
+
+## Root-Level Governance Documents
+
+The following documents MUST exist at the repository root per the Reference Architecture §10.1, §10.6, §10.9.
+
+| Document | Purpose |
+|----------|---------|
+| [README.md](../README.md) | Project overview, quick-start |
+| [CHANGELOG.md](../CHANGELOG.md) | Version history, notable changes |
+| [BACKLOG.md](../BACKLOG.md) | Backlog summary — detailed at [DOCS/.planning/BACKLOG.md](.planning/BACKLOG.md) |
+| [DECISION_REGISTER.md](../DECISION_REGISTER.md) | Structural and process decisions (DR-001 onwards) |
+| [NAMING_CONVENTIONS.md](../NAMING_CONVENTIONS.md) | Authoritative naming conventions for all code and docs |
 
 ---
 
@@ -130,10 +171,22 @@ Reviews are snapshots: timestamped, immutable once written.
 
 ---
 
+## Analysis Reports
+
+One-time assessments that are not code reviews.
+
+| Report | Date | Topic |
+|--------|------|-------|
+| [ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md](ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md) | 2026-05-14 | Project alignment vs. Reference Architecture |
+
+---
+
 ## Maintenance Notes
 
 - When adding a document, update this index **in the same commit**
+- Before creating any new document type, check `DOCS/templates/` for a template first
 - All algorithm docs must also be listed in [.algorithm/README.md](.algorithm/README.md)
 - All design docs must also be listed in [.design/README.md](.design/README.md)
 - All code reviews must also be listed in [.review/README.md](.review/README.md)
 - Implementation logs are append-only — never modify a completed log
+- Any structural decision (new folder, new doc type, naming deviation) MUST produce a `DECISION_REGISTER.md` entry

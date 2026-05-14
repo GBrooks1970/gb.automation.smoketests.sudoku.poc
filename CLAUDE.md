@@ -212,6 +212,63 @@ Files to be created:
 - `app_src/audit/AuditTypes.ts`
 - `app_src/audit/AuditFormatter.ts`
 
+## Stack Inventory
+
+| Stack name | Language | Framework | Surface type | Entry point |
+|-----------|----------|-----------|-------------|-------------|
+| `DEMOAPP001_TYPESCRIPT_CYPRESS` | TypeScript 5.x | Cucumber.js v12 + ts-node | `@util` (in-process class testing) | `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/` |
+
+Future stacks (not yet implemented):
+- Python Stack — `pytest-bdd`, `@util` surface, Sprint 4
+- C# Stack — SpecFlow, `@util` surface, Sprint 5
+
+---
+
+## Canonical Feature Update Procedure
+
+When adding or modifying a Gherkin scenario, follow these steps in order:
+
+1. Update or create the feature file in `features_shared/util-tests/sudoku-solver/` (the Canonical Feature Store — **not** inside the Stack directory).
+2. Copy the updated file to `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/features/` (the Stack-local copy).
+3. Add Stack-specific tags to the local copy only (e.g., `@stack-demoapp001`). Do **not** add Stack tags to the canonical file.
+4. Implement or update step definitions in `tests/screenplay/step_definitions/` to cover any new steps.
+5. Run `npm test` — all existing scenarios must remain green.
+6. If a scenario cannot yet be implemented, tag it `@pending` in the local copy and add a backlog item to `BACKLOG.md`.
+7. If the change represents a structural decision, record it in `DECISION_REGISTER.md` before marking the work complete.
+
+> **Note:** `features_shared/` does not yet exist (Phase 1 of the RA migration). Until it is created, the canonical feature file is at `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/BasicSudokuSolverLogic.feature`. Follow steps 4–7 as above.
+
+---
+
+## Risk Register
+
+Known fragile areas. Check these before making changes.
+
+| Risk | Area | What to check |
+|------|------|--------------|
+| Step definition coupling | `tests/step_definitions/solver_steps.js` | This is a compiled JS file. The TypeScript source it was compiled from is the authoritative version. Any changes must be made to the `.ts` source, then recompiled. Do not edit the `.js` file directly. |
+| Grid deep-copy assumption | `SudokuSolver` constructor | The `grid` property is a deep copy of `origGrid`. Any code that passes a grid reference instead of a copy will silently mutate the original puzzle. Always verify deep-copy semantics when changing the constructor or factory method. |
+| Hidden Singles — all three units | `SudokuSolver.hiddenSingles()` | The algorithm now checks rows, columns, AND blocks. Earlier code reviews flagged it as blocks-only. Verify the row and column loops are intact after any change to this method. |
+| Memory key parity | `screenplay/support/memory-keys.ts` (not yet created) | When created, constant names MUST equal their string values exactly (e.g., `SOLVE_RESULT = 'SOLVE_RESULT'`). This rule is non-negotiable per the Reference Architecture and DECISION_REGISTER.md. |
+| Over-specified step text | `BasicSudokuSolverLogic.feature` | Several steps contain inline array literals. These cannot be shared across Stacks without modification. See NEW-012 in BACKLOG.md. |
+| Feature file location | `tests/BasicSudokuSolverLogic.feature` | The feature file is not yet in `features_shared/` (Phase 1 gap). Do not move it without following the canonical feature update procedure above. |
+
+---
+
+## Authoritative References
+
+> When a rule in this file conflicts with a rule in `DECISION_REGISTER.md`, `DECISION_REGISTER.md` wins.
+
+| Document | Authority for |
+|----------|--------------|
+| `DECISION_REGISTER.md` | All structural and process decisions — supersedes any restatement here |
+| `NAMING_CONVENTIONS.md` | All naming decisions — file names, identifiers, Memory keys, Decision Record IDs |
+| `REFERENCE_ARCHITECTURE.md` | The reference standard this project migrates toward |
+| `DOCS/.design/DESIGN_Screenplay_Migration.md` | Screenplay implementation design for DEMOAPP001 |
+| `DOCS/ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md` | Full gap analysis vs Reference Architecture with migration phases |
+
+---
+
 ## Common Tasks for AI Assistants
 
 ### Adding a New Puzzle
@@ -234,7 +291,7 @@ Files to be created:
 
 1. **No Advanced Techniques**: Cannot solve puzzles requiring Naked Pairs, X-Wing, etc.
 2. **No Backtracking**: Does not implement trial-and-error for hard puzzles
-4. **No Test Runner Configured**: Feature file exists but test framework not set up
+3. **No Screenplay Layer**: Step definitions are procedural (`SudokuWorld`); Screenplay migration is designed but not yet implemented (see `BACKLOG.md` NEW-007 through NEW-011)
 
 ## Git Workflow
 

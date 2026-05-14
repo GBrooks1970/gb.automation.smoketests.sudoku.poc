@@ -6,7 +6,8 @@
       "Bash(npx typescript --version)",
       "Bash(npm install:*)",
       "Bash(npm start)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(Select-String -Pattern \"DECISION_REGISTER|CHANGELOG|BACKLOG|NAMING_CONVENTIONS\")"
     ]
   }
 }
