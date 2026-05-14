@@ -1,7 +1,7 @@
 # Screenplay-BDD Reference Architecture — Alignment & Migration Report
 
 **Date:** 2026-05-14
-**Updated:** 2026-05-14 (revised against `REFERENCE_ARCHITECTURE.md` v1.1)
+**Updated:** 2026-05-14 (v1.1 adoption; Phase 0 fully complete; Phase 1 complete)
 **Analyst:** CLAUDE Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` vs. `REFERENCE_ARCHITECTURE.md` v1.1
 **Status:** Living — updated when RA version changes
@@ -12,28 +12,28 @@
 
 This report scores the project against every normative obligation in the Screenplay-BDD Reference Architecture (`REFERENCE_ARCHITECTURE.md`, Status: Accepted, 2026-05-14). The analysis covers structure, pattern compliance, surface-type contract, documentation, and orchestration.
 
-**Overall compliance: Low–Moderate**
+**Overall compliance: Moderate** *(upgraded from Low–Moderate — Phases 0 and 1 complete)*
 
-The project's domain logic is well-written and testable, and a detailed Screenplay migration design exists. The gap is entirely in the test automation layer and the surrounding documentation scaffold — none of which has been built yet.
+The project's documentation scaffold and canonical feature store are fully established. The remaining gap is the Screenplay implementation layer (Phases 2–4), which has a complete design but no code yet.
 
 | Area | Status | Severity |
 |------|--------|----------|
 | Screenplay Layer (Actor / Ability / Task / Question) | Not implemented | Critical |
-| Canonical Feature Store (`features_shared/`) | Absent | Critical |
-| Memory key constants | Absent | Critical |
-| Directory blueprint compliance | Partial | High |
+| Canonical Feature Store (`features_shared/`) | ✅ Complete — Phase 1 (DR-007) | — |
+| Memory key constants | Absent — Phase 2 | High |
+| Directory blueprint compliance | Partial — `features_shared/` + `tests/features/` added; Screenplay dirs absent | High |
 | CLI surface contract | Partial | High |
-| Repository-level required documents | 3 of 3 present; `NAMING_CONVENTIONS.md` at wrong path ⚠ | High |
-| Stack-level documentation | Absent | High |
+| Repository-level required documents | ✅ All present and at correct paths | — |
+| Stack-level documentation | Absent — Phase 5 | High |
 | `DOCS/templates/` mandate | ✅ Complete — all 14 templates present | — |
-| `DECISION_REGISTER.md` | ✅ Created (Phase 0) — DR-001–DR-005 | — |
-| Orchestration scripts + metrics | Absent | Medium |
-| AI agent instruction file | Partial | Medium |
-| Algorithm documentation | Aligned | — |
-| Code review directory | Structurally minor drift | Low |
-| Implementation logs | Aligned in intent | Low |
+| `DECISION_REGISTER.md` | ✅ DR-001–DR-007 | — |
+| Orchestration scripts + metrics | Absent — Phase 7 | Medium |
+| AI agent instruction file | ✅ Complete — Phase 0 | — |
+| Algorithm documentation | ✅ Aligned | — |
+| Code review directory | Structurally minor drift (inside DOCS/, not root) | Low |
+| Implementation logs | ✅ Aligned | — |
 
-> **Phase 0 status (2026-05-14):** `DECISION_REGISTER.md` (DR-001–005), `CHANGELOG.md`, root `BACKLOG.md` (convenience), `DOCS/templates/` (4 templates), and updated `CLAUDE.md` are all complete. `NAMING_CONVENTIONS.md` was created at root but v1.1 requires it at `DOCS/design/NAMING_CONVENTIONS.md` — corrected to `DOCS/.design/NAMING_CONVENTIONS.md` per DR-001.
+> **Current migration status (2026-05-14):** Phase 0 fully complete (DR-001–007, 14/14 templates, all governance docs). Phase 1 complete (DR-007, `features_shared/` established, `@util @stack-demoapp001` tags live, 43 scenarios green). Phases 2–8 open.
 
 ---
 
@@ -154,24 +154,24 @@ export const GRID_SNAPSHOT        = 'GRID_SNAPSHOT';
 ```
 REQUIRED (§4)                          ACTUAL
 ─────────────────────────────────────  ───────────────────────────────────────────────
-features_shared/                       ABSENT ✗
+features_shared/                       PRESENT ✅ (Phase 1 — DR-007)
   util-tests/
-    solver-logic/
-      *.feature
+    sudoku-solver/
+      BasicSudokuSolverLogic.feature   PRESENT ✅ (@util tag; canonical source)
 
 DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/  DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/
   app_src/                (subject)      app_src/               ✅
   tests/                               tests/
-    features/             ABSENT ✗       BasicSudokuSolverLogic.feature (not in features/)
-    step_definitions/     PARTIAL ✓      step_definitions/solver_steps.js ✅ (exists, wrong form)
-    screenplay/           ABSENT ✗       (no screenplay directory)
+    features/             PRESENT ✅     features/BasicSudokuSolverLogic.feature ✅ (@util @stack-demoapp001)
+    step_definitions/     PARTIAL ✓      step_definitions/solver_steps.js (exists, wrong form — Phase 4)
+    screenplay/           ABSENT ✗       (Phase 2–3)
       abilities/          ABSENT ✗
       actors/             ABSENT ✗
       tasks/              ABSENT ✗
       questions/          ABSENT ✗
       support/            ABSENT ✗
-  tooling/                ABSENT ✗       (no tooling directory)
-  docs/                   ABSENT ✗       (stack-level docs don't exist)
+  tooling/                ABSENT ✗       (Phase 5)
+  docs/                   ABSENT ✗       (Phase 5)
 
 packages/                  ABSENT (optional, not yet needed)
 .batch/ OR scripts/        ABSENT ✗       (no orchestration)
@@ -190,15 +190,15 @@ code-review/ OR .review/   PRESENT as DOCS/.review/ (inside DOCS, not at root)
 README.md                  ✅
 CHANGELOG.md               ✅ (Phase 0)
 BACKLOG.md (at root)       NOT REQUIRED by v1.1 — present as convenience redirect only
-DECISION_REGISTER.md       ✅ (Phase 0 — DR-001–DR-005)
-CLAUDE.md (agent file)     ✅ (Phase 0 — stack inventory, risk register, procedure added)
+DECISION_REGISTER.md       ✅ (Phase 0/1 — DR-001–DR-007)
+CLAUDE.md (agent file)     ✅ (Phase 0 — stack inventory, risk register, procedure; Phase 1 — feature sync note updated)
 ```
 
 ### 4.2 DOCS Subdirectory Naming Drift
 
 The project uses dot-prefixed directory names (`DOCS/.algorithm/`, `DOCS/.design/`, `DOCS/.implementation/`, `DOCS/.planning/`, `DOCS/.review/`, `DOCS/.howto/`). The Reference Architecture uses non-dotted names (`DOCS/algorithm/`, `DOCS/architecture/`, `DOCS/planning/`, `DOCS/implementation-logs/`).
 
-The dot-prefix convention may be intentional (keeping documentation directories visually separate from file-browser tools that sort dots first), but it is not in the reference architecture and creates a divergence. This should be recorded in `DECISION_REGISTER.md`.
+The dot-prefix convention is intentional — keeping documentation directories visually distinct and sort-first in file explorers. It is a documented divergence from the Reference Architecture, recorded as DR-001.
 
 ---
 
@@ -206,12 +206,14 @@ The dot-prefix convention may be intentional (keeping documentation directories 
 
 ### 5.1 Current State
 
-There is no `features_shared/` directory. The sole feature file lives at:
+**Phase 1 complete (DR-007).** The Canonical Feature Store now exists:
+
 ```
-DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/BasicSudokuSolverLogic.feature
+features_shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature   ← canonical (@util)
+DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/features/BasicSudokuSolverLogic.feature  ← Stack-local (@util @stack-demoapp001)
 ```
 
-This means the feature file is owned by the Stack, not by the Canonical Feature Store. When a second Stack (Python, C#) is added, there will be no authoritative source to copy from.
+When a second Stack (Python, C#) is onboarded, it copies from `features_shared/` — the authoritative source is now in place.
 
 ### 5.2 Feature File Quality Assessment
 
@@ -224,8 +226,8 @@ Despite the location issue, the feature file quality is high:
 | Background step for shared precondition | ✅ |
 | Scenario Outline with Examples table | ✅ |
 | Parameterised steps (many use `{int}`, `{string}`, `{word}`) | ✅ Mostly |
-| Surface tags (`@util`, `@cli`) | ❌ None |
-| Lifecycle tags (`@requires-app`) | ❌ None |
+| Surface tags (`@util`) | ✅ Added — Feature-level `@util` in canonical file (Phase 1) |
+| Lifecycle tags (`@requires-app`) | N/A — `@util` surface requires no app startup |
 | Over-specified steps | Partial — see §5.3 |
 
 ### 5.3 Step Text — Over-Specified Examples
@@ -265,7 +267,7 @@ Then the system should place {int} in the only valid cell in row {int}
 |----------|---------------------|--------|-------|
 | `README.md` | Repository root | ✅ Exists, comprehensive | — |
 | `CHANGELOG.md` | Repository root | ✅ Created (Phase 0) | — |
-| `DECISION_REGISTER.md` | Repository root | ✅ Created (Phase 0) — DR-001–DR-005 | — |
+| `DECISION_REGISTER.md` | Repository root | ✅ DR-001–DR-007 | — |
 | AI agent instruction file | Repository root | ✅ `CLAUDE.md` — updated Phase 0 | — |
 
 ### 6.2 DOCS-Level Documents (§10.1, §10.9)
@@ -277,17 +279,19 @@ Then the system should place {int} in the only valid cell in row {int}
 
 > **Root `BACKLOG.md`:** Created in Phase 0 as a convenience summary linking to `DOCS/.planning/BACKLOG.md`. Not required by v1.1 but harmless to retain. Should note explicitly that it is a summary redirect.
 
-### 6.3 Decisions Backfilled to DECISION_REGISTER.md (Phase 0 complete)
+### 6.3 Decisions Recorded in DECISION_REGISTER.md
 
-| DR ID | Decision |
-|-------|---------|
-| DR-001 | Dot-prefixed DOCS subdirectories (documented divergence from RA) |
-| DR-002 | TypeScript + Cucumber.js for DEMOAPP001 |
-| DR-003 | @util surface — in-process class testing |
-| DR-004 | Sequential Stack migration strategy (TS → Python → C#) |
-| DR-005 | Feature file unchanged during Screenplay migration |
+| DR ID | Decision | Phase |
+|-------|---------|-------|
+| DR-001 | Dot-prefixed DOCS subdirectories (documented divergence from RA) | 0 |
+| DR-002 | TypeScript + Cucumber.js for DEMOAPP001 | 0 |
+| DR-003 | @util surface — in-process class testing | 0 |
+| DR-004 | Sequential Stack migration strategy (TS → Python → C#) | 0 |
+| DR-005 | Feature file unchanged during Screenplay migration | 0 |
+| DR-006 | Adopt RA v1.1; correct NAMING_CONVENTIONS.md and BACKLOG.md paths | 0 |
+| DR-007 | Establish features_shared/ as Canonical Feature Store | 1 |
 
-### 6.4 Decision Needed — v1.1 Adoption (DR-006)
+### 6.4 ~~Decision Needed~~ — v1.1 Adoption: DR-006 ✅
 
 The project now operates under v1.1. A `DECISION_REGISTER.md` entry should record this:
 
@@ -400,10 +404,15 @@ It is worth stating clearly what the project gets right, as these are the founda
 | **Algorithm correctness** | Well-tested by feature scenarios, all 4 puzzles solve correctly |
 | **Gherkin scenario quality** | High — good coverage, Background pattern, Scenario Outline, mostly parameterised steps |
 | **Screenplay migration design** | Complete — `DESIGN_Screenplay_Migration.md` maps every existing scenario to Tasks/Questions |
-| **Algorithm documentation** | Good — pseudocode, complexity, examples, now in `DOCS/.algorithm/` |
+| **Algorithm documentation** | Good — pseudocode, complexity, examples, in `DOCS/.algorithm/` |
 | **Implementation logs** | Well-maintained, timestamped, append-only |
 | **Code review discipline** | Multiple reviews archived, timestamped, immutable |
-| **BACKLOG.md** | Detailed sprint tracking, good item format |
+| **BACKLOG.md** | Detailed sprint tracking; root summary + `DOCS/.planning/` detail |
+| **Decision Register** | DR-001–007 — all structural decisions recorded with full context |
+| **Template mandate** | 14/14 templates in `DOCS/templates/` — Phase 0 complete |
+| **Canonical Feature Store** | `features_shared/util-tests/sudoku-solver/` — Phase 1 complete |
+| **Feature tagging** | `@util` on canonical; `@util @stack-demoapp001` on Stack-local copy |
+| **cucumber.js routing** | Reads from `tests/features/` only — no duplicate scenario risk |
 
 ---
 
@@ -426,36 +435,40 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 | 3 | Create `CHANGELOG.md` at root | ✅ Done | Full project history v0.1.0–Unreleased |
 | 4 | ~~Root `BACKLOG.md`~~ → **not required by v1.1** | ⚠ Created as convenience | `DOCS/.planning/BACKLOG.md` is the required location per v1.1 §10.1; root file retained as summary redirect |
 | 5 | `NAMING_CONVENTIONS.md` — **v1.1 requires `DOCS/design/`** | ✅ Corrected | Initially created at root (v1.0 assumption); moved to `DOCS/.design/NAMING_CONVENTIONS.md` on v1.1 adoption |
-| 6 | Create `DOCS/templates/` | ✅ Done | 4 core templates created |
-| 7 | Create Phase-0 templates | ✅ Done | `TEMPLATE_Decision_Record`, `TEMPLATE_Changelog`, `TEMPLATE_Backlog`, `TEMPLATE_Naming_Conventions` |
-| 8 | Update `CLAUDE.md` | ✅ Done | Stack inventory, risk register, canonical feature procedure, `DECISION_REGISTER.md` reference |
-| 9 | Record v1.1 adoption | 🔲 Open | DR-006 needed: document adoption of RA v1.1 and path corrections |
+| 6 | Create `DOCS/templates/` | ✅ Done | All 14 templates created (7 new + 3 adapted + 4 from original Phase 0) |
+| 7 | Create all required templates | ✅ Done | 14/14: Decision Record, Changelog, Backlog, Naming Conventions, Readme, Stack Architecture, Screenplay Guide, QA Strategy, Stack Readme, Parity Contract, Subject App Contract, Algorithm, Implementation Log, Code Review |
+| 8 | Update `CLAUDE.md` | ✅ Done | Stack inventory, risk register, canonical feature procedure, `DECISION_REGISTER.md` reference; updated in Phase 1 for feature sync note |
+| 9 | Record v1.1 adoption | ✅ Done | DR-006 — adoption of RA v1.1, NAMING_CONVENTIONS.md path correction, root BACKLOG.md status |
 
-**Remaining from Phase 0:**
-- Create DR-006 in `DECISION_REGISTER.md`: adoption of RA v1.1, `NAMING_CONVENTIONS.md` path correction, root `BACKLOG.md` status
-
-**Verification (v1.1):**
+**Verification (v1.1) — all passing:**
 - `CHANGELOG.md` at root ✅
-- `DECISION_REGISTER.md` at root ✅
-- `DOCS/.planning/BACKLOG.md` ✅ (pre-existing; this is the required path in v1.1)
+- `DECISION_REGISTER.md` at root (DR-001–007) ✅
+- `DOCS/.planning/BACKLOG.md` ✅
 - `DOCS/.design/NAMING_CONVENTIONS.md` ✅
-- `DOCS/templates/` with all 14 templates ✅
+- `DOCS/templates/` — 14/14 templates ✅
 
 ---
 
-### Phase 1 — Canonical Feature Store (half day)
-*Establishes the single source of truth before the Screenplay layer is built.*
+### Phase 1 — Canonical Feature Store ✅ COMPLETE
 
-**Actions:**
-1. Create `features_shared/util-tests/sudoku-solver/` at repository root
-2. Copy `BasicSudokuSolverLogic.feature` to `features_shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature`
-3. Add `@util` tag to all scenarios in the canonical copy
-4. Create `tests/features/` inside the Stack and copy canonical file there (do not modify canonical)
-5. Add Stack-specific tags to the local copy (e.g., `@stack-demoapp001`)
-6. Update `cucumber.js` to reference `tests/features/` as the feature path
-7. Record in `DECISION_REGISTER.md` (DR-006): "Feature file is `@util` surface — in-process algorithm testing, no live subject required"
+**Commit:** `fa75cec` — *Phase 1: Establish Canonical Feature Store (RA §5)*
 
-**Verification:** `npm test` still passes all 43 scenarios from the new path.
+| # | Action | Status | Notes |
+|---|--------|--------|-------|
+| 1 | Create `features_shared/util-tests/sudoku-solver/` | ✅ Done | — |
+| 2 | Write canonical feature file with `@util` at Feature level | ✅ Done | Surface tag only — no Stack tags |
+| 3 | Create `tests/features/` Stack-local directory | ✅ Done | — |
+| 4 | Write Stack-local copy with `@util @stack-demoapp001` | ✅ Done | Inherits `@util`; adds Stack tag |
+| 5 | Remove old `tests/BasicSudokuSolverLogic.feature` | ✅ Done | Replaced by `tests/features/` copy |
+| 6 | Update `cucumber.js` paths to `tests/features/**/*.feature` | ✅ Done | Prevents duplicate scenario pickup |
+| 7 | Record DR-007 in `DECISION_REGISTER.md` | ✅ Done | Rationale: canonical store, tag taxonomy, symlink rejection |
+
+**Verification:**
+- `npm test` — 43 scenarios / 241 steps, all passing ✅
+- `@util @stack-demoapp001` tags visible on all scenarios in runner output ✅
+- `features_shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature` — canonical source ✅
+- `tests/features/BasicSudokuSolverLogic.feature` — Stack-local copy ✅
+- `DECISION_REGISTER.md` DR-007 — recorded ✅
 
 ---
 
@@ -584,8 +597,8 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 
 | Phase | Closes gap in RA section | Effort | Sprint | Status |
 |-------|--------------------------|--------|--------|--------|
-| 0 — Documentation scaffold | §10.1, §10.5, §10.6, §10.4 | 1–2 days | Sprint 3 | ✅ Fully complete (DR-001–007; 14/14 templates) |
-| 1 — Canonical Feature Store | §5.1–5.3 | 0.5 day | Sprint 3 | 🔲 Open |
+| 0 — Documentation scaffold | §10.1, §10.5, §10.6, §10.4 | 1–2 days | Sprint 3 | ✅ Fully complete (DR-001–007; 14/14 templates; all governance docs) |
+| 1 — Canonical Feature Store | §5.1–5.3 | 0.5 day | Sprint 3 | ✅ Complete — `features_shared/` live; DR-007; 43 scenarios green |
 | 2 — Screenplay Foundation | §3, §4 (abilities, actors) | 2–3 h | Sprint 3 | 🔲 Open |
 | 3 — Tasks and Questions | §3.3, §3.4 | 4–6 h | Sprint 3 | 🔲 Open |
 | 4 — Step Definition Migration | §2.2, §3, layer model | 4–6 h | Sprint 3 | 🔲 Open |
@@ -594,7 +607,7 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 | 7 — Orchestration and Metrics | §9 | 0.5 day | Sprint 4 | 🔲 Open |
 | 8 — CLI Hardening | §6.3 | 1–2 days | Sprint 5 | 🔲 Open |
 
-**Critical path to minimum viable compliance:** Phases 1 → 2 → 3 → 4 (Sprint 3). Phase 0 is done. Phases 5–8 complete full compliance.
+**Critical path to minimum viable compliance:** Phases 2 → 3 → 4 (Sprint 3). Phases 0 and 1 are done. Phases 5–8 complete full compliance.
 
 ---
 
@@ -608,9 +621,9 @@ The following items should be added to `DOCS/.planning/BACKLOG.md` and cross-ref
 | NEW-002 | Create CHANGELOG.md at repository root | 0 | High | ✅ Done |
 | NEW-003 | ~~Promote BACKLOG.md to root~~ → **not required by v1.1** | 0 | — | ⚠ Superseded — `DOCS/.planning/BACKLOG.md` is the required location |
 | NEW-004 | Create NAMING_CONVENTIONS.md at `DOCS/.design/` (v1.1: `DOCS/design/`) | 0 | High | ✅ Done (corrected from root) |
-| NEW-005 | Create DOCS/templates/ with Phase-0 templates | 0 | High | ✅ Done (4 templates; 10 remaining) |
-| NEW-005a | Record v1.1 adoption as DR-006 | 0 | High | 🔲 Open |
-| NEW-006 | Create features_shared/ canonical feature store | 1 | High | 🔲 Open |
+| NEW-005 | Create DOCS/templates/ with all 14 required templates | 0 | High | ✅ Done — 14/14 templates |
+| NEW-005a | Record v1.1 adoption as DR-006 | 0 | High | ✅ Done — DR-006 |
+| NEW-006 | Create features_shared/ canonical feature store | 1 | High | ✅ Done — DR-007 |
 | NEW-007 | Install Serenity/JS and create Screenplay directory structure | 2 | High | 🔲 Open |
 | NEW-008 | Define Memory key constants in screenplay/support/memory-keys.ts | 2 | High | 🔲 Open |
 | NEW-009 | Implement UseSudokuSolver and LoadPuzzles Abilities | 2 | High | 🔲 Open |
@@ -631,10 +644,10 @@ The following items should be added to `DOCS/.planning/BACKLOG.md` and cross-ref
 | v1.0 | 2026-05-14 | Initial version. `BACKLOG.md` at root; `NAMING_CONVENTIONS.md` at root or DOCS/. |
 | v1.1 | 2026-05-14 | `BACKLOG.md` moved to `DOCS/planning/BACKLOG.md`. `NAMING_CONVENTIONS.md` pinned to `DOCS/design/NAMING_CONVENTIONS.md`. `DOCS/design/` added as a named subdirectory. All internal `BACKLOG.md` references updated to path-qualified form. |
 
-**Impact of v1.0 → v1.1 on this project:**
-- Root `BACKLOG.md` created in Phase 0 is no longer a required document — retained as convenience redirect
-- `NAMING_CONVENTIONS.md` created at root in Phase 0 corrected to `DOCS/.design/NAMING_CONVENTIONS.md` (using DR-001 dot-prefix convention)
-- DR-006 needed to record the v1.1 adoption and consequent path corrections
+**Impact of v1.0 → v1.1 on this project (resolved):**
+- Root `BACKLOG.md` created in Phase 0 is no longer a required document — retained as convenience redirect only
+- `NAMING_CONVENTIONS.md` created at root in Phase 0 corrected to `DOCS/.design/NAMING_CONVENTIONS.md` (DR-001 dot-prefix convention applied)
+- DR-006 records the v1.1 adoption and both path corrections — ✅ complete
 
 ---
 
