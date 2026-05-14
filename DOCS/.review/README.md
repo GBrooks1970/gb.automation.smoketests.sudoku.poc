@@ -209,8 +209,12 @@ mkdir ANNEX
 
 ## Available Reviews
 
-- [CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z](CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/00_CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z.md) - Initial full comprehensive review baseline.
-- [CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z](CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z/00_CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z.md) - Follow-up comprehensive review aligned to the same template and format.
+| Review | Reviewer | Date | Grade | Notes |
+|--------|---------|------|-------|-------|
+| [CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z](CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/00_CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z.md) | CLAUDE Sonnet 4.5 | 2026-01-30 | A- | Baseline review |
+| [CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z](CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z/00_CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z.md) | GPT-5.3 Codex | 2026-03-30 | — | Parallel review (same template) |
+| [CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z](CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z/00_CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z.md) | CLAUDE Opus 4.6 | 2026-03-30 | B+ | Second iteration; identified design-implementation gap |
+| [CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z](CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z/00_CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z.md) | CLAUDE Sonnet 4.6 | 2026-05-13 | A- | Third iteration; constants + Prettier gaps identified |
 
 ---
 

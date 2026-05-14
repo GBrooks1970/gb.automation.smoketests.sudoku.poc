@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-14T10:30Z
+**Last Updated:** 2026-05-14T11:30Z
 **Sources:**
 - [Code Review - Claude Sonnet 4.5 (2026-01-30)](../DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/00_CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z.md)
 - [Code Review - Claude Opus 4.6 (2026-03-30)](../DOCS/.review/CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z/00_CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z.md)
@@ -347,6 +347,77 @@ the REST API and Web UI both depend on for change tracking.
 
 ---
 
+#### BACKLOG-019: Migrate TypeScript Tests to Screenplay Pattern
+**Priority:** MEDIUM | **Estimate:** 11-17h | **Sprint:** 3
+**Design Reference:** [DESIGN_Screenplay_Migration.md](../DOCS/.design/DESIGN_Screenplay_Migration.md)
+**Status:** 🔴 Not Started
+
+**Description:**
+Replace the monolithic `SudokuWorld` step definitions with a proper Screenplay layer
+using Serenity/JS. All 43 existing Gherkin scenarios must continue to pass unchanged
+after migration. Produces Serenity BDD HTML living-documentation reports.
+
+**Acceptance Criteria:**
+- [ ] `@serenity-js/core`, `@serenity-js/cucumber`, `@serenity-js/assertions`, `@serenity-js/serenity-bdd` installed
+- [ ] `tests/screenplay/` directory created with Abilities, Tasks, Questions, Actors
+- [ ] `UseSudokuSolver` and `LoadPuzzles` Abilities implemented
+- [ ] All Tasks implemented: `InitialiseGrid`, `ApplyAlgorithm`, `SolvePuzzle`, `LoadPuzzleByName`, `SetupGridState`, `AttemptPlacement`
+- [ ] All Questions implemented: `SolveStatus`, `GridCell`, `AlgorithmMadeProgress`, `LoadedPuzzleCount`, `PlacementValidity`, `ErrorThrown`
+- [ ] Step definitions split into 10 focused files (one per scenario category)
+- [ ] All 43 scenarios pass — zero regressions
+- [ ] No single step definitions file exceeds 80 lines
+- [ ] `npm run serenity:report` generates HTML living documentation
+- [ ] `npm run build`, `npm run lint`, `npm run format:check` all clean
+
+**Dependencies:** BACKLOG-002 (complete), BACKLOG-004 (recommended — CI validates migration)
+
+---
+
+#### BACKLOG-020: Python Screenplay-style Step Definitions (DEMOAPP002)
+**Priority:** MEDIUM | **Estimate:** 8-12h | **Sprint:** 4-5
+**Design Reference:** [DESIGN_Screenplay_Migration.md](../DOCS/.design/DESIGN_Screenplay_Migration.md#61-python--pytest-bdd--screenplay-style)
+**Status:** 🔴 Not Started
+
+**Description:**
+Implement Python-equivalent Screenplay-style Abilities and step definitions that share
+the same `BasicSudokuSolverLogic.feature` file. Uses pytest-bdd with dataclass-based
+Abilities (no formal Screenplay library required).
+
+**Acceptance Criteria:**
+- [ ] `DEMOAPPS/DEMOAPP002_PYTHON_PYTEST/` directory created
+- [ ] Python solver implementation follows `DESIGN_Sudoku_Solver_Specification.md`
+- [ ] Screenplay-style Abilities: `UseSudokuSolver`, `LoadPuzzles` (Python dataclasses)
+- [ ] Screenplay-style Tasks and Questions implemented as pytest fixtures / functions
+- [ ] All 43 Gherkin scenarios pass using the shared `.feature` file
+- [ ] `pytest` runs with `pytest-bdd`
+- [ ] `pyproject.toml` / `requirements.txt` present
+
+**Dependencies:** BACKLOG-012 (Python version), BACKLOG-019 (TypeScript Screenplay baseline)
+
+---
+
+#### BACKLOG-021: C# Screenplay-style Step Definitions (DEMOAPP003)
+**Priority:** MEDIUM | **Estimate:** 8-12h | **Sprint:** 5-6
+**Design Reference:** [DESIGN_Screenplay_Migration.md](../DOCS/.design/DESIGN_Screenplay_Migration.md#63-c--specflow--screenplay-style)
+**Status:** 🔴 Not Started
+
+**Description:**
+Implement C# Screenplay-style Abilities and step definitions using SpecFlow and the
+shared `.feature` file. Follows the interface-based `IAbility` / `ITask` / `IQuestion<T>`
+pattern described in the design document.
+
+**Acceptance Criteria:**
+- [ ] `DEMOAPPS/DEMOAPP003_CSHARP_SPECFLOW/` directory created
+- [ ] C# solver implementation follows `DESIGN_Sudoku_Solver_Specification.md`
+- [ ] Screenplay-style `IAbility`, `ITask`, `IQuestion<T>` interfaces defined
+- [ ] `UseSudokuSolver`, `LoadPuzzles` Abilities implemented
+- [ ] All 43 Gherkin scenarios pass using the shared `.feature` file
+- [ ] `dotnet test` runs with SpecFlow
+
+**Dependencies:** BACKLOG-013 (C# version), BACKLOG-019 (TypeScript Screenplay baseline)
+
+---
+
 ### LOW Priority (Sprint 7+)
 
 #### BACKLOG-010: Docker Compose for Local Development
@@ -382,9 +453,11 @@ the REST API and Web UI both depend on for change tracking.
 
 #### BACKLOG-012: Implement Python Version (DEMOAPP002)
 **Estimate:** 40-60h | **Status:** 📋 Planned
+**Note:** Python solver implementation (solver logic). Screenplay-style step definitions covered by BACKLOG-020.
 
 #### BACKLOG-013: Implement C# Version (DEMOAPP003)
 **Estimate:** 40-60h | **Status:** 📋 Planned
+**Note:** C# solver implementation (solver logic). Screenplay-style step definitions covered by BACKLOG-021.
 
 #### BACKLOG-014: Advanced Solving Techniques
 **Estimate:** 60-80h | **Status:** 📋 Planned
@@ -424,12 +497,14 @@ the STUCK_ON_ADVANCED_LOGIC path to be exercised beyond the Empty Grid.
 | 5 | Test Runner | `npm test` 43/43 pass | 🟢 |
 | 6 | CI | Pipeline green on GitHub Actions, badge in README | 🔴 |
 
-### Technical Debt Rules (From Sonnet 4.6 Review)
+### Technical Debt Rules (From Sonnet 4.6 Review + Documentation Review 2026-05-14)
 
 1. Only start a backlog item when all its acceptance criteria can be completed in the sprint
 2. Create an implementation log entry at every sprint close
 3. Verify all acceptance criteria explicitly before marking an item complete
 4. Run CLAUDE.md currency check at each sprint close
+5. Update `DOCS/README.md` in the same commit as any new document addition
+6. Update the relevant sub-directory README (`.design/README.md`, `.review/README.md`) when adding documents
 
 ---
 
@@ -438,10 +513,10 @@ the STUCK_ON_ADVANCED_LOGIC path to be exercised beyond the Empty Grid.
 | Sprint | Dates | Focus | Key Items | Status |
 |--------|-------|-------|-----------|--------|
 | 2 | 2026-05-14 to 2026-05-27 | Close Persistent Risks | BACKLOG-001 ✅, BACKLOG-002 ✅, BACKLOG-003 ✅, BACKLOG-005-NEW ✅, BACKLOG-006-COMPLETE ✅, BACKLOG-004 | 🟡 In Progress (Step 6 remaining) |
-| 3 | 2026-05-28 to 2026-06-10 | Output + Design + Audit Start | BACKLOG-007, BACKLOG-017 (close), BACKLOG-008 (start) | 🔴 |
-| 4 | 2026-06-11 to 2026-06-24 | Audit + API Start | BACKLOG-008 (finish), BACKLOG-009 (start) | 🔴 |
-| 5 | 2026-06-25 to 2026-07-08 | API + Web UI Start | BACKLOG-009 (finish), BACKLOG-018 (start) | 🔴 |
-| 6 | 2026-07-09 to 2026-07-22 | Web UI + Polish | BACKLOG-018 (finish) | 🔴 |
+| 3 | 2026-05-28 to 2026-06-10 | Output + Screenplay + Audit Start | BACKLOG-007, BACKLOG-017 (close), BACKLOG-019, BACKLOG-008 (start) | 🔴 |
+| 4 | 2026-06-11 to 2026-06-24 | Audit + API + Python | BACKLOG-008 (finish), BACKLOG-009 (start), BACKLOG-020 (start) | 🔴 |
+| 5 | 2026-06-25 to 2026-07-08 | API + Web UI + C# | BACKLOG-009 (finish), BACKLOG-018 (start), BACKLOG-021 (start) | 🔴 |
+| 6 | 2026-07-09 to 2026-07-22 | Web UI + Multi-stack Polish | BACKLOG-018 (finish), BACKLOG-020/021 (finish) | 🔴 |
 | 7+ | 2026-07-23+ | Infrastructure | BACKLOG-010, BACKLOG-011 | 🔴 |
 
 ---
