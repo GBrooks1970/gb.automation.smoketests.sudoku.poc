@@ -1,5 +1,6 @@
-import { SudokuSolver, GRID_SIZE, BLOCK_SIZE, EMPTY_CELL } from "./SudokuSolver";
+import { SudokuSolver } from "./SudokuSolver";
 import { SudokuOrchestrator } from "./SudokuOrchestrator";
+import { GRID_SIZE, BLOCK_SIZE, EMPTY_CELL } from "./constants";
 
 /**
  * Handles Terminal Interaction and Formatting.

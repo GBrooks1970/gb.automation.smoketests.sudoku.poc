@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import { GRID_SIZE, EMPTY_CELL, MAX_DIGIT } from "./constants";
 
 /**
  * Represents a single puzzle with metadata
@@ -48,19 +49,19 @@ export class PuzzleLoader {
      */
     private validatePuzzles(): void {
         this.puzzles.forEach((puzzle, index) => {
-            if (!puzzle.grid || puzzle.grid.length !== 9) {
+            if (!puzzle.grid || puzzle.grid.length !== GRID_SIZE) {
                 throw new Error(`Puzzle "${puzzle.name}" (index ${index}) must have exactly 9 rows`);
             }
 
             puzzle.grid.forEach((row, rowIndex) => {
-                if (row.length !== 9) {
+                if (row.length !== GRID_SIZE) {
                     throw new Error(
                         `Puzzle "${puzzle.name}" row ${rowIndex} must have exactly 9 columns`
                     );
                 }
 
                 row.forEach((cell, colIndex) => {
-                    if (!Number.isInteger(cell) || cell < 0 || cell > 9) {
+                    if (!Number.isInteger(cell) || cell < EMPTY_CELL || cell > MAX_DIGIT) {
                         throw new Error(
                             `Puzzle "${puzzle.name}" has invalid value at [${rowIndex}][${colIndex}]: ${cell}`
                         );

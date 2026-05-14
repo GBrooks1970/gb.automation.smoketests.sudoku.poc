@@ -1,4 +1,5 @@
-import { SudokuSolver, GRID_SIZE, EMPTY_CELL } from "./SudokuSolver";
+import { SudokuSolver } from "./SudokuSolver";
+import { GRID_SIZE, EMPTY_CELL } from "./constants";
 
 /**
  * Main Controller for Sudoku Logic.

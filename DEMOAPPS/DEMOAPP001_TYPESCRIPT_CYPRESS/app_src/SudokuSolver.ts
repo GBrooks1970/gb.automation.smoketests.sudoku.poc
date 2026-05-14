@@ -1,6 +1,4 @@
-export const GRID_SIZE = 9;
-export const BLOCK_SIZE = 3;
-export const EMPTY_CELL = 0;
+import { GRID_SIZE, BLOCK_SIZE, EMPTY_CELL } from "./constants";
 
 export class SudokuSolver {
   public grid: number[][];

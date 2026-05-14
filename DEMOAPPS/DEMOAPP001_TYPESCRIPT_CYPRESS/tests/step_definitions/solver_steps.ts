@@ -1,7 +1,8 @@
 import { Given, When, Then, setWorldConstructor, World } from '@cucumber/cucumber';
 import * as assert from 'assert';
 import * as path from 'path';
-import { SudokuSolver, GRID_SIZE, BLOCK_SIZE, EMPTY_CELL } from '../../app_src/SudokuSolver';
+import { SudokuSolver } from '../../app_src/SudokuSolver';
+import { GRID_SIZE, BLOCK_SIZE, EMPTY_CELL } from '../../app_src/constants';
 import { SudokuOrchestrator } from '../../app_src/SudokuOrchestrator';
 import { PuzzleLoader } from '../../app_src/PuzzleLoader';
 
