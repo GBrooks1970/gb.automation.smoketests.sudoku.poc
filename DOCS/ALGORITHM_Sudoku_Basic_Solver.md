@@ -106,9 +106,6 @@ FUNCTION HiddenSingles(target_number):
 - Called 9 times per iteration (once for each digit 1-9)
 - Complexity: **O(n)** per digit scan
 
-### ⚠️ Current Implementation Limitation
-The current TypeScript implementation **only checks 3×3 blocks**, not rows or columns. This is incomplete compared to the algorithm specification.
-
 ---
 
 ## 3. Naked Singles Algorithm

@@ -10,8 +10,8 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "moduleResolution": "bundler",
-    "ignoreDeprecations": "6.0"
+    "moduleResolution": "node",
+    "ignoreDeprecations": "5.0"
   },
   "include": ["app_src/**/*", "tests"],
   "exclude": ["node_modules", "dist"]

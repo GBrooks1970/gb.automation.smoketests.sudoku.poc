@@ -163,7 +163,7 @@ Feature: Basic Sudoku Solver Logic
   # =============================================================================
 
   Scenario: Load puzzles from JSON file
-    Given a puzzles.json file exists with 4 puzzles
+    Given a puzzles.json file exists with 5 puzzles
     When the PuzzleLoader is initialized with "../puzzles.json"
     Then 4 puzzles should be successfully loaded
     And each puzzle should have a name, difficulty, description, and grid
@@ -237,12 +237,19 @@ Feature: Basic Sudoku Solver Logic
     And the puzzle should require all three techniques
     And the solution should be valid
 
-  Scenario: Fail to solve "Minimal Clues" puzzle with basic techniques
+  Scenario: Solve "Minimal Clues" puzzle using complete Hidden Singles
     Given the puzzle "Minimal Clues" is loaded from JSON
-    When the solver attempts to solve it with basic techniques only
-    Then the status should be "STUCK_ON_ADVANCED_LOGIC"
-    And some cells should still be empty
-    And no constraint violations should exist in partially filled cells
+    When the solver attempts to solve it
+    Then the status should be "SOLVED"
+    And all cells should be filled
+    And the solution should be valid (no constraint violations)
+
+  Scenario: Solve "Crosshatch Challenge" puzzle using row and column Hidden Singles
+    Given the puzzle "Crosshatch Challenge" is loaded from JSON
+    When the solver attempts to solve it
+    Then the status should be "SOLVED"
+    And all cells should be filled
+    And the solution should be valid (no constraint violations)
 
   Scenario: Handle empty grid appropriately
     Given an empty 9x9 grid with all zeros

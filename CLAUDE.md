@@ -104,7 +104,7 @@ The solver implements three techniques applied in order of efficiency:
    - Location: `app_src/SudokuSolver.ts:24`
 
 2. **Hidden Singles** (`SudokuSolver.hiddenSingles(target)`)
-   - Finds where a digit must go within a 3x3 block
+   - Finds where a digit must go within a row, column, or 3x3 block
    - Called 9 times (once per digit 1-9)
    - Location: `app_src/SudokuSolver.ts:80`
    - **Note**: Current implementation only checks blocks, not rows/columns
@@ -172,7 +172,8 @@ Puzzles are stored in `puzzles.json`:
 |------|------------|-----------------|
 | Easy Scan Grid | easy | SOLVED |
 | Logic Squeeze Grid | medium | SOLVED |
-| Minimal Clues | hard | STUCK_ON_ADVANCED_LOGIC |
+| Minimal Clues | hard | SOLVED |
+| Crosshatch Challenge | medium | SOLVED |
 | Empty Grid | test | STUCK_ON_ADVANCED_LOGIC |
 
 ## Testing Approach
@@ -227,9 +228,8 @@ Files to be created:
 
 ## Known Limitations
 
-1. **Hidden Singles**: Only checks 3x3 blocks, not rows/columns (incomplete implementation)
-2. **No Advanced Techniques**: Cannot solve puzzles requiring Naked Pairs, X-Wing, etc.
-3. **No Backtracking**: Does not implement trial-and-error for hard puzzles
+1. **No Advanced Techniques**: Cannot solve puzzles requiring Naked Pairs, X-Wing, etc.
+2. **No Backtracking**: Does not implement trial-and-error for hard puzzles
 4. **No Test Runner Configured**: Feature file exists but test framework not set up
 
 ## Git Workflow

@@ -84,13 +84,48 @@ export class SudokuSolver {
   public hiddenSingles(target: number): boolean {
     let changed = false;
 
-    // Check each 3x3 block
+    // Check each row: if target can only go in one empty cell in this row
+    for (let row = 0; row < GRID_SIZE; row++) {
+      if (this.isInRow(target, row)) continue;
+      const candidates: {row: number, col: number}[] = [];
+      for (let col = 0; col < GRID_SIZE; col++) {
+        if (this.grid[row][col] !== EMPTY_CELL) continue;
+        const blockRow = Math.floor(row / BLOCK_SIZE);
+        const blockCol = Math.floor(col / BLOCK_SIZE);
+        if (!this.isInCol(target, col) && !this.isNumberInBlock(target, blockRow, blockCol)) {
+          candidates.push({row, col});
+        }
+      }
+      if (candidates.length === 1) {
+        this.grid[candidates[0].row][candidates[0].col] = target;
+        changed = true;
+      }
+    }
+
+    // Check each column: if target can only go in one empty cell in this column
+    for (let col = 0; col < GRID_SIZE; col++) {
+      if (this.isInCol(target, col)) continue;
+      const candidates: {row: number, col: number}[] = [];
+      for (let row = 0; row < GRID_SIZE; row++) {
+        if (this.grid[row][col] !== EMPTY_CELL) continue;
+        const blockRow = Math.floor(row / BLOCK_SIZE);
+        const blockCol = Math.floor(col / BLOCK_SIZE);
+        if (!this.isInRow(target, row) && !this.isNumberInBlock(target, blockRow, blockCol)) {
+          candidates.push({row, col});
+        }
+      }
+      if (candidates.length === 1) {
+        this.grid[candidates[0].row][candidates[0].col] = target;
+        changed = true;
+      }
+    }
+
+    // Check each 3x3 block: if target can only go in one empty cell in this block
     for (let blockRow = 0; blockRow < BLOCK_SIZE; blockRow++) {
       for (let blockCol = 0; blockCol < BLOCK_SIZE; blockCol++) {
         if (this.isNumberInBlock(target, blockRow, blockCol)) continue;
         const candidates = this.getBlockEmptyCells(blockRow, blockCol)
           .filter(cell => !this.isInRow(target, cell.row) && !this.isInCol(target, cell.col));
-
         if (candidates.length === 1) {
           this.grid[candidates[0].row][candidates[0].col] = target;
           changed = true;
