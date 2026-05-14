@@ -3,7 +3,7 @@ module.exports = {
     require: ['tests/step_definitions/**/*.ts'],
     requireModule: ['ts-node/register'],
     format: ['@cucumber/pretty-formatter'],
-    paths: ['tests/**/*.feature'],
+    paths: ['tests/features/**/*.feature'],
     publishQuiet: true,
     worldParameters: {}
   }

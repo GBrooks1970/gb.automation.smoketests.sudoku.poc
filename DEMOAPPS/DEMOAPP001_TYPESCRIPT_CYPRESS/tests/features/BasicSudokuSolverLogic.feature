@@ -1,3 +1,4 @@
+@util @stack-demoapp001
 Feature: Basic Sudoku Solver Logic
   As an automated Sudoku solver
   I want to apply three fundamental solving techniques systematically

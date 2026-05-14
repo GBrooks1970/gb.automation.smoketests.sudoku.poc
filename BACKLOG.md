@@ -5,8 +5,8 @@
 **Governed by:** `REFERENCE_ARCHITECTURE.md` §10.1
 **Template:** `DOCS/templates/TEMPLATE_Backlog.md`
 
-> **Detailed backlog:** `DOCS/.planning/BACKLOG.md` — full sprint plans, acceptance criteria, and item history.
-> This file is the root-level index required by the Reference Architecture. It summarises status and links to the detail.
+> **Authoritative backlog:** [`DOCS/.planning/BACKLOG.md`](DOCS/.planning/BACKLOG.md) — full sprint plans, acceptance criteria, and item history.
+> **Note (DR-006):** Under Reference Architecture v1.1, the required backlog location is `DOCS/planning/BACKLOG.md` (project: `DOCS/.planning/BACKLOG.md` via DR-001). This root file is a **convenience summary only** — not the required document. Always update the detailed backlog; this file reflects it.
 
 ---
 
@@ -48,7 +48,7 @@
 
 | ID | Title | Stack(s) | Nature of Gap | Phase |
 |----|-------|----------|--------------|-------|
-| NEW-006 | Create features_shared/ canonical feature store | ALL | RA §5 — no canonical store | 1 |
+| ~~NEW-006~~ | ~~Create features_shared/ canonical feature store~~ | ALL | ✅ Done — DR-007 | 1 |
 | NEW-007 | Install Serenity/JS — create Screenplay directory structure | DEMOAPP001 | RA §3, §4 — no Screenplay layer | 2 |
 | NEW-008 | Define Memory key constants in screenplay/support/memory-keys.ts | DEMOAPP001 | RA §3.5, §8.1 — no memory keys | 2 |
 | NEW-009 | Implement UseSudokuSolver and LoadPuzzles Abilities | DEMOAPP001 | RA §3.2, §7.3 — no Abilities | 2 |

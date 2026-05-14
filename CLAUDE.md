@@ -236,7 +236,7 @@ When adding or modifying a Gherkin scenario, follow these steps in order:
 6. If a scenario cannot yet be implemented, tag it `@pending` in the local copy and add a backlog item to `BACKLOG.md`.
 7. If the change represents a structural decision, record it in `DECISION_REGISTER.md` before marking the work complete.
 
-> **Note:** `features_shared/` does not yet exist (Phase 1 of the RA migration). Until it is created, the canonical feature file is at `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/BasicSudokuSolverLogic.feature`. Follow steps 4–7 as above.
+> **Note:** `features_shared/` was created in Phase 1 (DR-007). The canonical file is `features_shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature`. The Stack-local copy is `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/features/BasicSudokuSolverLogic.feature`.
 
 ---
 
@@ -251,7 +251,7 @@ Known fragile areas. Check these before making changes.
 | Hidden Singles — all three units | `SudokuSolver.hiddenSingles()` | The algorithm now checks rows, columns, AND blocks. Earlier code reviews flagged it as blocks-only. Verify the row and column loops are intact after any change to this method. |
 | Memory key parity | `screenplay/support/memory-keys.ts` (not yet created) | When created, constant names MUST equal their string values exactly (e.g., `SOLVE_RESULT = 'SOLVE_RESULT'`). This rule is non-negotiable per the Reference Architecture and DECISION_REGISTER.md. |
 | Over-specified step text | `BasicSudokuSolverLogic.feature` | Several steps contain inline array literals. These cannot be shared across Stacks without modification. See NEW-012 in BACKLOG.md. |
-| Feature file location | `tests/BasicSudokuSolverLogic.feature` | The feature file is not yet in `features_shared/` (Phase 1 gap). Do not move it without following the canonical feature update procedure above. |
+| Feature file sync | `features_shared/util-tests/sudoku-solver/` + `tests/features/` | Two files must stay in sync. Always update the canonical file first, then propagate to the Stack-local copy. Do NOT edit the Stack-local copy directly for content changes. Tag additions (`@stack-*`) in the local copy only. |
 
 ---
 
@@ -262,7 +262,7 @@ Known fragile areas. Check these before making changes.
 | Document | Authority for |
 |----------|--------------|
 | `DECISION_REGISTER.md` | All structural and process decisions — supersedes any restatement here |
-| `NAMING_CONVENTIONS.md` | All naming decisions — file names, identifiers, Memory keys, Decision Record IDs |
+| `DOCS/.design/NAMING_CONVENTIONS.md` | All naming decisions — file names, identifiers, Memory keys, Decision Record IDs |
 | `REFERENCE_ARCHITECTURE.md` | The reference standard this project migrates toward |
 | `DOCS/.design/DESIGN_Screenplay_Migration.md` | Screenplay implementation design for DEMOAPP001 |
 | `DOCS/ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md` | Full gap analysis vs Reference Architecture with migration phases |

@@ -12,7 +12,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - `DECISION_REGISTER.md` at repository root with DR-001–DR-005 backfilled (Phase 0 migration)
 - `CHANGELOG.md` at repository root (this file)
 - `BACKLOG.md` at repository root (summary; detailed backlog at `DOCS/.planning/BACKLOG.md`)
-- `NAMING_CONVENTIONS.md` at repository root (promoted from `DOCS/.design/DESIGN_Naming_Conventions.md`)
+- `DOCS/.design/NAMING_CONVENTIONS.md` — authoritative naming conventions (RA v1.1: `DOCS/design/`; DR-001 dot-prefix applied; initially created at root then corrected)
 - `DOCS/templates/` directory with project-specific templates:
   - `TEMPLATE_Decision_Record.md` (adapted from Reference Architecture §10.6)
   - `TEMPLATE_Changelog.md`
@@ -21,13 +21,22 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - `DOCS/.algorithm/` directory with algorithm pseudocode documents (moved from DOCS root)
 - `DOCS/.algorithm/TEMPLATE_Algorithm.md` — template for algorithm documentation
 - `DOCS/.algorithm/README.md` — algorithm directory guide
-- `DOCS/REFERENCE_ARCHITECTURE.md` — Screenplay-BDD Reference Architecture v1.0
-- `DOCS/ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md` — alignment report
+- `DOCS/REFERENCE_ARCHITECTURE.md` — Screenplay-BDD Reference Architecture (v1.1)
+- `DOCS/ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md` — alignment report (updated for v1.1)
+- `DR-006` in `DECISION_REGISTER.md` — records adoption of RA v1.1 and path corrections
+- `DR-007` in `DECISION_REGISTER.md` — records establishment of features_shared/ canonical store
+- `features_shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature` — canonical feature store (Phase 1 migration)
+- `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/features/BasicSudokuSolverLogic.feature` — Stack-local copy with `@util @stack-demoapp001` tags
 
 ### Changed
-- `CLAUDE.md` updated: added Stack inventory, risk register, canonical feature update procedure, reference to `DECISION_REGISTER.md`
-- `DOCS/README.md` updated: reflects new `.algorithm/`, `templates/` directories and root-level documents
+- `DOCS/REFERENCE_ARCHITECTURE.md` updated from v1.0 to v1.1 (DR-006)
+- `CLAUDE.md` updated: Stack inventory, risk register, canonical feature update procedure, `DECISION_REGISTER.md` reference, `NAMING_CONVENTIONS.md` path corrected to `DOCS/.design/`
+- `DOCS/README.md` updated: reflects `.algorithm/`, `templates/` directories, root-level governance documents, `NAMING_CONVENTIONS.md` at corrected path
 - `DOCS/.algorithm/ALGORITHM_Sudoku_Basic_Solver.md` and `ALGORITHM_Sudoku_Advanced_Solver.md` — relative paths updated after move to `.algorithm/`
+- `DOCS/ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md` — revised against RA v1.1; Phase 0 completion status added; §6, §9, §13, §14, §15 updated
+
+### Removed
+- `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/BasicSudokuSolverLogic.feature` — replaced by Stack-local copy at `tests/features/`
 
 ---
 

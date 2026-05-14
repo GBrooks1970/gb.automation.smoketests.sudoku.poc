@@ -1,9 +1,10 @@
 # Screenplay-BDD Reference Architecture — Alignment & Migration Report
 
 **Date:** 2026-05-14
+**Updated:** 2026-05-14 (revised against `REFERENCE_ARCHITECTURE.md` v1.1)
 **Analyst:** CLAUDE Sonnet 4.6
-**Subject:** `gb.automation.smoketests.sudoku.poc` vs. `REFERENCE_ARCHITECTURE.md` v1.0
-**Status:** Final
+**Subject:** `gb.automation.smoketests.sudoku.poc` vs. `REFERENCE_ARCHITECTURE.md` v1.1
+**Status:** Living — updated when RA version changes
 
 ---
 
@@ -22,15 +23,17 @@ The project's domain logic is well-written and testable, and a detailed Screenpl
 | Memory key constants | Absent | Critical |
 | Directory blueprint compliance | Partial | High |
 | CLI surface contract | Partial | High |
-| Repository-level required documents | 2 of 4 missing | High |
+| Repository-level required documents | 3 of 3 present; `NAMING_CONVENTIONS.md` at wrong path ⚠ | High |
 | Stack-level documentation | Absent | High |
-| `DOCS/templates/` mandate | Absent | High |
-| `DECISION_REGISTER.md` | Absent | High |
+| `DOCS/templates/` mandate | Partial — 4 of 14 templates created | High |
+| `DECISION_REGISTER.md` | ✅ Created (Phase 0) — DR-001–DR-005 | — |
 | Orchestration scripts + metrics | Absent | Medium |
 | AI agent instruction file | Partial | Medium |
 | Algorithm documentation | Aligned | — |
 | Code review directory | Structurally minor drift | Low |
 | Implementation logs | Aligned in intent | Low |
+
+> **Phase 0 status (2026-05-14):** `DECISION_REGISTER.md` (DR-001–005), `CHANGELOG.md`, root `BACKLOG.md` (convenience), `DOCS/templates/` (4 templates), and updated `CLAUDE.md` are all complete. `NAMING_CONVENTIONS.md` was created at root but v1.1 requires it at `DOCS/design/NAMING_CONVENTIONS.md` — corrected to `DOCS/.design/NAMING_CONVENTIONS.md` per DR-001.
 
 ---
 
@@ -173,20 +176,22 @@ DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/  DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/
 packages/                  ABSENT (optional, not yet needed)
 .batch/ OR scripts/        ABSENT ✗       (no orchestration)
 DOCS/
-  algorithm/               PRESENT as .algorithm/ (name drift)
+  algorithm/               PRESENT as .algorithm/ (DR-001 dot-prefix — name drift)
   architecture/            ABSENT ✗
-  planning/                PRESENT as .planning/ (name drift)
-  implementation-logs/     PRESENT as .implementation/ (name drift)
-  templates/               ABSENT ✗
+  design/                  PRESENT as .design/ (DR-001 dot-prefix — name drift)
+    NAMING_CONVENTIONS.md  PRESENT as DOCS/.design/NAMING_CONVENTIONS.md ✅ (v1.1 §10.9)
+  planning/                PRESENT as .planning/ (DR-001 dot-prefix — name drift)
+    BACKLOG.md             PRESENT at DOCS/.planning/BACKLOG.md ✅ (v1.1 §10.1)
+  implementation-logs/     PRESENT as .implementation/ (DR-001 dot-prefix — name drift)
+  templates/               PRESENT ✅ (Phase 0 — 4 of 14 templates created)
 
 code-review/ OR .review/   PRESENT as DOCS/.review/ (inside DOCS, not at root)
 
 README.md                  ✅
-CHANGELOG.md               ABSENT ✗
-BACKLOG.md (at root)       ABSENT (exists at DOCS/.planning/BACKLOG.md)
-DECISION_REGISTER.md       ABSENT ✗
-NAMING_CONVENTIONS.md      ABSENT (DESIGN_Naming_Conventions.md exists, different format)
-CLAUDE.md (agent file)     PRESENT, partially compliant
+CHANGELOG.md               ✅ (Phase 0)
+BACKLOG.md (at root)       NOT REQUIRED by v1.1 — present as convenience redirect only
+DECISION_REGISTER.md       ✅ (Phase 0 — DR-001–DR-005)
+CLAUDE.md (agent file)     ✅ (Phase 0 — stack inventory, risk register, procedure added)
 ```
 
 ### 4.2 DOCS Subdirectory Naming Drift
@@ -250,27 +255,47 @@ Then the system should place {int} in the only valid cell in row {int}
 
 ---
 
-## 6. Required Repository Documents (§10.1)
+## 6. Required Documents (§10.1, §10.9) — v1.1 Paths
 
-| Document | Required | Status | Gap |
-|----------|----------|--------|-----|
-| `README.md` | MUST | ✅ Exists, comprehensive | — |
-| `CHANGELOG.md` | MUST | ❌ Absent | Needs creation from template |
-| `BACKLOG.md` (at root) | MUST | ❌ Absent at root | Exists at `DOCS/.planning/BACKLOG.md` — must be moved or symlinked to root |
-| `DECISION_REGISTER.md` | MUST | ❌ Absent | Needs creation; multiple past decisions should be backfilled |
-| `NAMING_CONVENTIONS.md` | MUST | ❌ Absent | `DESIGN_Naming_Conventions.md` exists but is a design doc, not a conventions reference |
+> **v1.1 change note:** `BACKLOG.md` is no longer a root-level requirement — it is required at `DOCS/planning/BACKLOG.md`. `NAMING_CONVENTIONS.md` is no longer root/DOCS-flexible — it is required at `DOCS/design/NAMING_CONVENTIONS.md`. The root document set is now: `README.md`, `CHANGELOG.md`, `DECISION_REGISTER.md`, and the AI agent instruction file.
 
-### 6.1 Decisions That Need Backfilling to DECISION_REGISTER.md
+### 6.1 Root-Level Documents (§10.1)
 
-The following structural choices exist in the codebase with no formal record:
+| Document | Required path (v1.1) | Status | Notes |
+|----------|---------------------|--------|-------|
+| `README.md` | Repository root | ✅ Exists, comprehensive | — |
+| `CHANGELOG.md` | Repository root | ✅ Created (Phase 0) | — |
+| `DECISION_REGISTER.md` | Repository root | ✅ Created (Phase 0) — DR-001–DR-005 | — |
+| AI agent instruction file | Repository root | ✅ `CLAUDE.md` — updated Phase 0 | — |
 
-| Decision | Evidence | Suggested DR ID |
-|----------|----------|----------------|
-| Use dot-prefixed DOCS subdirectories | Directory structure | DR-001 |
-| Use TypeScript + Cucumber.js for DEMOAPP001 | `package.json` | DR-002 |
-| Use `@util` surface (in-process testing vs CLI invocation) | `solver_steps.js` imports | DR-003 |
-| One-Stack-at-a-time migration strategy (TS → Python → C#) | `DESIGN_Screenplay_Migration.md` §7 | DR-004 |
-| Feature file stays unchanged across Screenplay migration | `DESIGN_Screenplay_Migration.md` §2.3 | DR-005 |
+### 6.2 DOCS-Level Documents (§10.1, §10.9)
+
+| Document | Required path (v1.1) | Project path (DR-001 dot-prefix) | Status |
+|----------|---------------------|----------------------------------|--------|
+| `BACKLOG.md` | `DOCS/planning/BACKLOG.md` | `DOCS/.planning/BACKLOG.md` | ✅ Exists — detailed sprint backlog |
+| `NAMING_CONVENTIONS.md` | `DOCS/design/NAMING_CONVENTIONS.md` | `DOCS/.design/NAMING_CONVENTIONS.md` | ✅ Moved Phase 0 (corrected from root) |
+
+> **Root `BACKLOG.md`:** Created in Phase 0 as a convenience summary linking to `DOCS/.planning/BACKLOG.md`. Not required by v1.1 but harmless to retain. Should note explicitly that it is a summary redirect.
+
+### 6.3 Decisions Backfilled to DECISION_REGISTER.md (Phase 0 complete)
+
+| DR ID | Decision |
+|-------|---------|
+| DR-001 | Dot-prefixed DOCS subdirectories (documented divergence from RA) |
+| DR-002 | TypeScript + Cucumber.js for DEMOAPP001 |
+| DR-003 | @util surface — in-process class testing |
+| DR-004 | Sequential Stack migration strategy (TS → Python → C#) |
+| DR-005 | Feature file unchanged during Screenplay migration |
+
+### 6.4 Decision Needed — v1.1 Adoption (DR-006)
+
+The project now operates under v1.1. A `DECISION_REGISTER.md` entry should record this:
+
+| Field | Value |
+|-------|-------|
+| **Context** | RA updated from v1.0 to v1.1; two path requirements changed |
+| **Decision** | Adopt RA v1.1; relocate `NAMING_CONVENTIONS.md` to `DOCS/.design/`; treat root `BACKLOG.md` as convenience redirect only |
+| **Consequences** | Phase 0 `NAMING_CONVENTIONS.md` path corrected; root `BACKLOG.md` demoted from required to optional |
 
 ---
 
@@ -304,31 +329,41 @@ No `DOCS/architecture/` directory exists. All four required documents are absent
 
 ## 9. Template Mandate (§10.5)
 
-No `DOCS/templates/` directory exists. Templates are scattered across subdirectories:
+`DOCS/templates/` was created in Phase 0 with 4 of the 14 required templates. The remaining 10 are still missing.
 
-| Template location (current) | Required location |
-|----------------------------|-------------------|
-| `DOCS/.design/TEMPLATE_Design_Document.md` | `DOCS/templates/design.template.md` |
-| `DOCS/.implementation/TEMPLATE_Implementation_Log.md` | `DOCS/templates/implementation-log.template.md` |
-| `DOCS/.howto/TEMPLATE_HowTo.md` | `DOCS/templates/howto.template.md` |
-| `DOCS/.algorithm/TEMPLATE_Algorithm.md` | `DOCS/templates/algorithm.template.md` |
-| `DOCS/.review/code-review-template.md` | `DOCS/templates/code-review.template.md` |
-
-The following templates are **missing entirely** (required by reference architecture Appendix A):
+### 9.1 Created (Phase 0)
 
 | Template | Governs |
 |----------|---------|
-| `readme.template.md` | Root README |
-| `changelog.template.md` | Root CHANGELOG |
-| `backlog.template.md` | Root BACKLOG |
-| `decision-record.template.md` | DECISION_REGISTER entries |
-| `stack-architecture.template.md` | Stack ARCHITECTURE.md |
-| `screenplay-guide.template.md` | Stack SCREENPLAY_GUIDE.md |
-| `qa-strategy.template.md` | Stack QA_STRATEGY.md |
-| `stack-readme.template.md` | Stack README.md |
-| `parity-contract.template.md` | Parity contract |
-| `subject-app-contract.template.md` | Subject application contract |
-| `naming-conventions.template.md` | NAMING_CONVENTIONS.md |
+| `DOCS/templates/TEMPLATE_Decision_Record.md` | `DECISION_REGISTER.md` entries |
+| `DOCS/templates/TEMPLATE_Changelog.md` | Root `CHANGELOG.md` |
+| `DOCS/templates/TEMPLATE_Backlog.md` | `DOCS/.planning/BACKLOG.md` (v1.1: target is `DOCS/planning/BACKLOG.md`) |
+| `DOCS/templates/TEMPLATE_Naming_Conventions.md` | `DOCS/.design/NAMING_CONVENTIONS.md` (v1.1: `DOCS/design/NAMING_CONVENTIONS.md`) |
+
+### 9.2 Existing but not yet in `DOCS/templates/`
+
+These templates exist in their subdirectory locations. They satisfy local usage but do not satisfy the RA's requirement that all templates reside under `DOCS/templates/`.
+
+| Current location | Required as |
+|-----------------|-------------|
+| `DOCS/.design/TEMPLATE_Design_Document.md` | `DOCS/templates/TEMPLATE_Design_Document.md` |
+| `DOCS/.implementation/TEMPLATE_Implementation_Log.md` | `DOCS/templates/TEMPLATE_Implementation_Log.md` |
+| `DOCS/.howto/TEMPLATE_HowTo.md` | `DOCS/templates/TEMPLATE_HowTo.md` |
+| `DOCS/.algorithm/TEMPLATE_Algorithm.md` | `DOCS/templates/TEMPLATE_Algorithm.md` |
+| `DOCS/.review/code-review-template.md` | `DOCS/templates/TEMPLATE_Code_Review.md` |
+
+### 9.3 Missing Entirely
+
+| Template | Governs |
+|----------|---------|
+| `TEMPLATE_Readme.md` | Root `README.md` |
+| `TEMPLATE_Stack_Architecture.md` | Stack `docs/ARCHITECTURE.md` |
+| `TEMPLATE_Screenplay_Guide.md` | Stack `docs/SCREENPLAY_GUIDE.md` |
+| `TEMPLATE_QA_Strategy.md` | Stack `docs/QA_STRATEGY.md` |
+| `TEMPLATE_Stack_Readme.md` | Stack `docs/README.md` |
+| `TEMPLATE_Parity_Contract.md` | `DOCS/architecture/` parity contract |
+| `TEMPLATE_Subject_App_Contract.md` | `DOCS/architecture/` subject app contract |
+| `TEMPLATE_Implementation_Log.md` | (to be consolidated into `DOCS/templates/`) |
 
 ---
 
@@ -338,11 +373,11 @@ The following templates are **missing entirely** (required by reference architec
 
 | Requirement | Status | Notes |
 |-------------|--------|-------|
-| Stack inventory (name, language, framework, surface type, port/entry) | Partial | Has language/framework; missing formal surface type and port/entry |
-| Canonical feature update procedure | ❌ Absent | No procedure for distributing features to stacks |
-| Parity rules summary (Memory keys, step shape, signatures) | ❌ Absent | Not yet relevant (one Stack), but should be added before Stack 2 |
-| Risk register | ❌ Absent | Known fragile areas not documented |
-| Reference to `DECISION_REGISTER.md` | ❌ Absent | Cannot reference a file that doesn't exist |
+| Stack inventory (name, language, framework, surface type, port/entry) | ✅ Added Phase 0 | Table with DEMOAPP001 and future Python/C# stacks |
+| Canonical feature update procedure | ✅ Added Phase 0 | 7-step procedure; includes note that `features_shared/` doesn't yet exist |
+| Parity rules summary (Memory keys, step shape, signatures) | ⚠ Deferred | Not yet relevant (one Stack); added to Risk Register for pre-Stack-2 action |
+| Risk register | ✅ Added Phase 0 | 6 entries covering fragile areas |
+| Reference to `DECISION_REGISTER.md` | ✅ Added Phase 0 | Authoritative References table added |
 
 ---
 
@@ -391,20 +426,33 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 
 ---
 
-### Phase 0 — Documentation Scaffold (1–2 days)
-*Prerequisite for everything else. Without this, every subsequent phase creates undocumented decisions.*
+### Phase 0 — Documentation Scaffold ✅ COMPLETE (with v1.1 correction)
 
-**Actions:**
-1. Create `DECISION_REGISTER.md` at repository root (from a `decision-record.template.md` to be created)
-2. Backfill DR-001 through DR-005 from §6.1 above
-3. Create `CHANGELOG.md` at repository root
-4. Move or alias `BACKLOG.md` to repository root (or add a root `BACKLOG.md` that references `DOCS/.planning/BACKLOG.md`)
-5. Create `NAMING_CONVENTIONS.md` at repository root or `DOCS/` (promote `DESIGN_Naming_Conventions.md` content)
-6. Create `DOCS/templates/` directory and consolidate all templates there
-7. Create the missing templates: `decision-record`, `changelog`, `backlog`, `stack-architecture`, `screenplay-guide`, `qa-strategy`, `stack-readme`, `parity-contract`, `naming-conventions`
-8. Update `CLAUDE.md` to reference `DECISION_REGISTER.md` and add risk register + canonical feature update procedure
+> **v1.1 impact on Phase 0:** Two actions below had path errors because Phase 0 was designed against v1.0. Both were corrected when v1.1 was adopted.
 
-**Verification:** `BACKLOG.md`, `CHANGELOG.md`, `DECISION_REGISTER.md`, `NAMING_CONVENTIONS.md` all exist at root. All templates under `DOCS/templates/`.
+**Actions and status:**
+
+| # | Action | Status | Notes |
+|---|--------|--------|-------|
+| 1 | Create `DECISION_REGISTER.md` at root | ✅ Done | DR-001–DR-005 backfilled |
+| 2 | Backfill DR-001–005 | ✅ Done | See `DECISION_REGISTER.md` |
+| 3 | Create `CHANGELOG.md` at root | ✅ Done | Full project history v0.1.0–Unreleased |
+| 4 | ~~Root `BACKLOG.md`~~ → **not required by v1.1** | ⚠ Created as convenience | `DOCS/.planning/BACKLOG.md` is the required location per v1.1 §10.1; root file retained as summary redirect |
+| 5 | `NAMING_CONVENTIONS.md` — **v1.1 requires `DOCS/design/`** | ✅ Corrected | Initially created at root (v1.0 assumption); moved to `DOCS/.design/NAMING_CONVENTIONS.md` on v1.1 adoption |
+| 6 | Create `DOCS/templates/` | ✅ Done | 4 core templates created |
+| 7 | Create Phase-0 templates | ✅ Done | `TEMPLATE_Decision_Record`, `TEMPLATE_Changelog`, `TEMPLATE_Backlog`, `TEMPLATE_Naming_Conventions` |
+| 8 | Update `CLAUDE.md` | ✅ Done | Stack inventory, risk register, canonical feature procedure, `DECISION_REGISTER.md` reference |
+| 9 | Record v1.1 adoption | 🔲 Open | DR-006 needed: document adoption of RA v1.1 and path corrections |
+
+**Remaining from Phase 0:**
+- Create DR-006 in `DECISION_REGISTER.md`: adoption of RA v1.1, `NAMING_CONVENTIONS.md` path correction, root `BACKLOG.md` status
+
+**Verification (v1.1):**
+- `CHANGELOG.md` at root ✅
+- `DECISION_REGISTER.md` at root ✅
+- `DOCS/.planning/BACKLOG.md` ✅ (pre-existing; this is the required path in v1.1)
+- `DOCS/.design/NAMING_CONVENTIONS.md` ✅
+- `DOCS/templates/` with 4 templates ✅ (10 more still needed for full compliance)
 
 ---
 
@@ -547,19 +595,19 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 
 ## 14. Compliance Roadmap Summary
 
-| Phase | Closes gap in RA section | Effort | Sprint |
-|-------|--------------------------|--------|--------|
-| 0 — Documentation scaffold | §10.1, §10.5, §10.6, §10.4 | 1–2 days | Sprint 3 |
-| 1 — Canonical Feature Store | §5.1–5.3 | 0.5 day | Sprint 3 |
-| 2 — Screenplay Foundation | §3, §4 (abilities, actors) | 2–3 h | Sprint 3 |
-| 3 — Tasks and Questions | §3.3, §3.4 | 4–6 h | Sprint 3 |
-| 4 — Step Definition Migration | §2.2, §3, layer model | 4–6 h | Sprint 3 |
-| 5 — Stack Documentation | §10.2 | 1 day | Sprint 3 |
-| 6 — Architecture Documents | §10.3 | 0.5 day | Sprint 4 |
-| 7 — Orchestration and Metrics | §9 | 0.5 day | Sprint 4 |
-| 8 — CLI Hardening | §6.3 | 1–2 days | Sprint 5 |
+| Phase | Closes gap in RA section | Effort | Sprint | Status |
+|-------|--------------------------|--------|--------|--------|
+| 0 — Documentation scaffold | §10.1, §10.5, §10.6, §10.4 | 1–2 days | Sprint 3 | ✅ Complete (1 action open: DR-006) |
+| 1 — Canonical Feature Store | §5.1–5.3 | 0.5 day | Sprint 3 | 🔲 Open |
+| 2 — Screenplay Foundation | §3, §4 (abilities, actors) | 2–3 h | Sprint 3 | 🔲 Open |
+| 3 — Tasks and Questions | §3.3, §3.4 | 4–6 h | Sprint 3 | 🔲 Open |
+| 4 — Step Definition Migration | §2.2, §3, layer model | 4–6 h | Sprint 3 | 🔲 Open |
+| 5 — Stack Documentation | §10.2 | 1 day | Sprint 3 | 🔲 Open |
+| 6 — Architecture Documents | §10.3 | 0.5 day | Sprint 4 | 🔲 Open |
+| 7 — Orchestration and Metrics | §9 | 0.5 day | Sprint 4 | 🔲 Open |
+| 8 — CLI Hardening | §6.3 | 1–2 days | Sprint 5 | 🔲 Open |
 
-**Critical path to minimum viable compliance:** Phases 0 → 1 → 2 → 3 → 4 (all in Sprint 3). Phases 5–8 complete full compliance.
+**Critical path to minimum viable compliance:** Phases 1 → 2 → 3 → 4 (Sprint 3). Phase 0 is done. Phases 5–8 complete full compliance.
 
 ---
 
@@ -567,25 +615,40 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 
 The following items should be added to `DOCS/.planning/BACKLOG.md` and cross-referenced to `DECISION_REGISTER.md` as appropriate:
 
-| ID | Title | Phase | Priority |
-|----|-------|-------|----------|
-| NEW-001 | Create DECISION_REGISTER.md and backfill DR-001–005 | 0 | High |
-| NEW-002 | Create CHANGELOG.md at repository root | 0 | High |
-| NEW-003 | Promote BACKLOG.md to repository root | 0 | High |
-| NEW-004 | Create NAMING_CONVENTIONS.md | 0 | High |
-| NEW-005 | Create DOCS/templates/ and consolidate all templates | 0 | High |
-| NEW-006 | Create features_shared/ canonical feature store | 1 | High |
-| NEW-007 | Install Serenity/JS and create Screenplay directory structure | 2 | High |
-| NEW-008 | Define Memory key constants in screenplay/support/memory-keys.ts | 2 | High |
-| NEW-009 | Implement UseSudokuSolver and LoadPuzzles Abilities | 2 | High |
-| NEW-010 | Implement all Tasks and Questions | 3 | High |
-| NEW-011 | Migrate step definitions to Screenplay (replace solver_steps.js) | 4 | High |
-| NEW-012 | Refactor over-specified step text to parameterised form | 4 | Medium |
-| NEW-013 | Create stack-level docs/ directory with 4 required documents | 5 | Medium |
-| NEW-014 | Create DOCS/architecture/ with 4 required documents | 6 | Medium |
-| NEW-015 | Create .batch/run-demoapp001 orchestration script + metrics output | 7 | Medium |
-| NEW-016 | Add exit codes and stderr to SudokuCLI for @cli surface compliance | 8 | Low |
+| ID | Title | Phase | Priority | Status |
+|----|-------|-------|----------|--------|
+| NEW-001 | Create DECISION_REGISTER.md and backfill DR-001–005 | 0 | High | ✅ Done |
+| NEW-002 | Create CHANGELOG.md at repository root | 0 | High | ✅ Done |
+| NEW-003 | ~~Promote BACKLOG.md to root~~ → **not required by v1.1** | 0 | — | ⚠ Superseded — `DOCS/.planning/BACKLOG.md` is the required location |
+| NEW-004 | Create NAMING_CONVENTIONS.md at `DOCS/.design/` (v1.1: `DOCS/design/`) | 0 | High | ✅ Done (corrected from root) |
+| NEW-005 | Create DOCS/templates/ with Phase-0 templates | 0 | High | ✅ Done (4 templates; 10 remaining) |
+| NEW-005a | Record v1.1 adoption as DR-006 | 0 | High | 🔲 Open |
+| NEW-006 | Create features_shared/ canonical feature store | 1 | High | 🔲 Open |
+| NEW-007 | Install Serenity/JS and create Screenplay directory structure | 2 | High | 🔲 Open |
+| NEW-008 | Define Memory key constants in screenplay/support/memory-keys.ts | 2 | High | 🔲 Open |
+| NEW-009 | Implement UseSudokuSolver and LoadPuzzles Abilities | 2 | High | 🔲 Open |
+| NEW-010 | Implement all Tasks and Questions | 3 | High | 🔲 Open |
+| NEW-011 | Migrate step definitions to Screenplay (replace solver_steps.js) | 4 | High | 🔲 Open |
+| NEW-012 | Refactor over-specified step text to parameterised form | 4 | Medium | 🔲 Open |
+| NEW-013 | Create stack-level docs/ directory with 4 required documents | 5 | Medium | 🔲 Open |
+| NEW-014 | Create DOCS/architecture/ with 4 required documents | 6 | Medium | 🔲 Open |
+| NEW-015 | Create .batch/run-demoapp001 orchestration script + metrics output | 7 | Medium | 🔲 Open |
+| NEW-016 | Add exit codes and stderr to SudokuCLI for @cli surface compliance | 8 | Low | 🔲 Open |
 
 ---
 
-*This analysis was conducted against `REFERENCE_ARCHITECTURE.md` v1.0 (Status: Accepted, 2026-05-14). Re-run this analysis when a second Stack is added — parity compliance (§8) cannot be assessed until there are two Stacks to compare.*
+## 16. Reference Architecture Version History
+
+| RA Version | Date | Key changes affecting this project |
+|------------|------|-------------------------------------|
+| v1.0 | 2026-05-14 | Initial version. `BACKLOG.md` at root; `NAMING_CONVENTIONS.md` at root or DOCS/. |
+| v1.1 | 2026-05-14 | `BACKLOG.md` moved to `DOCS/planning/BACKLOG.md`. `NAMING_CONVENTIONS.md` pinned to `DOCS/design/NAMING_CONVENTIONS.md`. `DOCS/design/` added as a named subdirectory. All internal `BACKLOG.md` references updated to path-qualified form. |
+
+**Impact of v1.0 → v1.1 on this project:**
+- Root `BACKLOG.md` created in Phase 0 is no longer a required document — retained as convenience redirect
+- `NAMING_CONVENTIONS.md` created at root in Phase 0 corrected to `DOCS/.design/NAMING_CONVENTIONS.md` (using DR-001 dot-prefix convention)
+- DR-006 needed to record the v1.1 adoption and consequent path corrections
+
+---
+
+*This analysis is maintained against the current version of `REFERENCE_ARCHITECTURE.md`. Re-run when the RA version changes or when a second Stack is added — parity compliance (§8) cannot be assessed until there are two Stacks to compare.*

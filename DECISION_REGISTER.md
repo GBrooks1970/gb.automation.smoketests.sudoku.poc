@@ -236,6 +236,97 @@ All 43 Gherkin scenarios in `BasicSudokuSolverLogic.feature` remain unchanged du
 
 ---
 
+## DR-006 — Adopt Reference Architecture v1.1 and correct Phase 0 document paths
+
+**Date:** 2026-05-14
+**Status:** Accepted — 2026-05-14
+
+### Context
+
+The Reference Architecture was updated from v1.0 to v1.1 on 2026-05-14. Two path requirements changed: `BACKLOG.md` moved from a root-level requirement to `DOCS/planning/BACKLOG.md`, and `NAMING_CONVENTIONS.md` was pinned from "root or DOCS/" to specifically `DOCS/design/NAMING_CONVENTIONS.md`. Phase 0 had already been executed against v1.0, placing both documents at the wrong paths.
+
+### Decision
+
+Adopt RA v1.1 as the governing version. Correct the two path errors introduced by Phase 0:
+1. Move `NAMING_CONVENTIONS.md` from repository root to `DOCS/.design/NAMING_CONVENTIONS.md` (applying the DR-001 dot-prefix convention to the RA's `DOCS/design/` requirement).
+2. Demote the root `BACKLOG.md` from a required document to a convenience summary redirect; the required document is `DOCS/.planning/BACKLOG.md`, which already existed before Phase 0.
+
+### Consequences
+
+**Outcomes:**
+- The project is now governed by RA v1.1, which is more specific about document paths.
+- `NAMING_CONVENTIONS.md` is co-located with design documents in `DOCS/.design/`, consistent with DR-001.
+- `DOCS/.planning/BACKLOG.md` remains the single authoritative backlog.
+
+**Trade-offs:**
+- The root `BACKLOG.md` created in Phase 0 is now a non-required convenience file. It must include a clear redirect to `DOCS/.planning/BACKLOG.md` to avoid confusion.
+- Any external links or CLAUDE.md references that pointed to root `NAMING_CONVENTIONS.md` must be updated.
+
+**Compliance note:**
+- `DOCS/.design/NAMING_CONVENTIONS.md` maps to the RA v1.1 requirement `DOCS/design/NAMING_CONVENTIONS.md` via DR-001 (dot-prefix convention).
+
+### Alternatives Considered
+
+**Alternative: Continue under v1.0**
+- Description: Do not adopt v1.1; keep documents at v1.0 paths.
+- Rejected because: v1.1 is the accepted version of the governing architecture. Using a superseded version would invalidate the compliance roadmap.
+
+**Alternative: Move documents to RA-literal paths (no dot-prefix)**
+- Description: Place files at `DOCS/design/NAMING_CONVENTIONS.md` literally, without dot-prefix.
+- Rejected because: DR-001 is an accepted decision. Introducing a single non-dot-prefixed DOCS subdirectory would create inconsistency within the DOCS tree.
+
+### Related Decisions
+
+- DR-001 — Dot-prefix convention applied to map `DOCS/design/` → `DOCS/.design/`
+- DR-005 — NAMING_CONVENTIONS.md content derived from work done under Phase 0
+
+---
+
+## DR-007 — Establish features_shared/ as the Canonical Feature Store
+
+**Date:** 2026-05-14
+**Status:** Accepted — 2026-05-14
+
+### Context
+
+Phase 1 of the Reference Architecture migration required creating a Canonical Feature Store at `features_shared/` (RA §5.1). The sole feature file previously lived at `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/BasicSudokuSolverLogic.feature`, owned by the Stack rather than by a shared store. With a second Stack (Python, C#) planned, an authoritative single source of truth was needed before adding any further Stack.
+
+### Decision
+
+Create `features_shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature` as the canonical source. Tag it with `@util` at Feature level (surface tag only, per RA §5.3). Create a Stack-local copy at `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/features/BasicSudokuSolverLogic.feature` with additional `@stack-demoapp001` tag. Update `cucumber.js` to read from `tests/features/` only. Remove the old `tests/BasicSudokuSolverLogic.feature`.
+
+### Consequences
+
+**Outcomes:**
+- A canonical Canonical Feature Store exists at `features_shared/`. Future Stacks copy from here.
+- The Stack-local file is the only file Cucumber reads; it carries both the surface tag and the Stack tag.
+- The `@util` surface tag is applied to all 43 scenarios via Feature-level tagging, enabling future tag-filtered runs.
+- `@stack-demoapp001` identifies scenarios that have been implemented in this Stack, supporting future parity gap tracking.
+
+**Trade-offs:**
+- Two files must be kept in sync when scenarios change. The canonical feature update procedure in `CLAUDE.md` governs this.
+- The `features_shared/` path structure (`util-tests/sudoku-solver/`) must be maintained consistently when future feature groups are added.
+
+**Compliance note:**
+- Fully aligned with RA v1.1 §5.1 (single source of truth), §5.2 (feature distribution), §5.3 (tag taxonomy).
+
+### Alternatives Considered
+
+**Alternative: Symlink tests/features/ to features_shared/**
+- Description: Use a filesystem symlink so there is only one physical file.
+- Rejected because: Symlinks have cross-platform issues (Windows requires elevated permissions) and obscure the intent of the Stack-local copy bearing Stack-specific tags.
+
+**Alternative: Keep feature file inside the Stack, defer features_shared/ to multi-stack phase**
+- Description: Do not create features_shared/ until a second Stack is ready.
+- Rejected because: Creating the canonical store now establishes the correct structure before habits form. Retrofitting after two Stacks exist is harder and risks parity drift.
+
+### Related Decisions
+
+- DR-003 — @util surface confirmed; feature file tagged accordingly
+- DR-005 — feature file content unchanged (43 scenarios identical); only tags and path changed
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -254,5 +345,5 @@ All 43 Gherkin scenarios in `BasicSudokuSolverLogic.feature` remain unchanged du
 
 ---
 
-*Last entry: DR-005. Next ID: DR-006.*
+*Last entry: DR-007. Next ID: DR-008.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*
