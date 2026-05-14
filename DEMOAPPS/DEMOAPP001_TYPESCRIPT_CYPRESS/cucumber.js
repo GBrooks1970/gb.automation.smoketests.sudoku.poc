@@ -1,11 +1,13 @@
 module.exports = {
   default: {
-    require: ['tests/step_definitions/**/*.ts'],
-    requireModule: ['ts-node/register'],
+    require: [
+      'tests/screenplay/support/configure.ts',
+      'tests/screenplay/step_definitions/**/*.ts',
+    ],
+    requireModule: ['ts-node/register', '@serenity-js/cucumber'],
     format: ['@cucumber/pretty-formatter'],
     paths: ['tests/features/**/*.feature'],
     publishQuiet: true,
-    worldParameters: {}
   }
 };
 

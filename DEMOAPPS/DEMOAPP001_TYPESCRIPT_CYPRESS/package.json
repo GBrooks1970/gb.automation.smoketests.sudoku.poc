@@ -22,6 +22,9 @@
   "devDependencies": {
     "@cucumber/cucumber": "^12.8.3",
     "@cucumber/pretty-formatter": "^3.3.0",
+    "@serenity-js/assertions": "^3.43.2",
+    "@serenity-js/core": "^3.43.2",
+    "@serenity-js/cucumber": "^3.43.2",
     "@types/node": "^20.0.0",
     "@typescript-eslint/eslint-plugin": "^8.59.3",
     "@typescript-eslint/parser": "^8.59.3",

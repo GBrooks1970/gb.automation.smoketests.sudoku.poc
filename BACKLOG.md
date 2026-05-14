@@ -49,9 +49,9 @@
 | ID | Title | Stack(s) | Nature of Gap | Phase |
 |----|-------|----------|--------------|-------|
 | ~~NEW-006~~ | ~~Create features_shared/ canonical feature store~~ | ALL | ✅ Done — DR-007 | 1 |
-| NEW-007 | Install Serenity/JS — create Screenplay directory structure | DEMOAPP001 | RA §3, §4 — no Screenplay layer | 2 |
-| NEW-008 | Define Memory key constants in screenplay/support/memory-keys.ts | DEMOAPP001 | RA §3.5, §8.1 — no memory keys | 2 |
-| NEW-009 | Implement UseSudokuSolver and LoadPuzzles Abilities | DEMOAPP001 | RA §3.2, §7.3 — no Abilities | 2 |
+| ~~NEW-007~~ | ~~Install Serenity/JS — create Screenplay directory structure~~ | DEMOAPP001 | ✅ Done — v3.43.2; DR-008 | 2 |
+| ~~NEW-008~~ | ~~Define Memory key constants in screenplay/support/memory-keys.ts~~ | DEMOAPP001 | ✅ Done — 6 constants | 2 |
+| ~~NEW-009~~ | ~~Implement UseSudokuSolver and LoadPuzzles Abilities~~ | DEMOAPP001 | ✅ Done — extends Ability (DR-008) | 2 |
 | NEW-010 | Implement all Tasks and Questions | DEMOAPP001 | RA §3.3, §3.4 — no Tasks/Questions | 3 |
 | NEW-011 | Migrate step definitions to Screenplay (replace solver_steps.js) | DEMOAPP001 | RA §2.2 — layer coupling | 4 |
 | NEW-012 | Refactor over-specified step text to parameterised form | DEMOAPP001 | RA §5.4 — over-specification | 4 |

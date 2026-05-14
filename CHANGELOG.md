@@ -9,6 +9,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Added
+- Phase 2 — Serenity/JS Screenplay Foundation:
+  - `@serenity-js/core`, `@serenity-js/cucumber`, `@serenity-js/assertions` v3.43.2 installed
+  - `tests/screenplay/` directory structure: `abilities/`, `actors/`, `tasks/`, `questions/`, `support/`, `step_definitions/`
+  - `tests/screenplay/support/memory-keys.ts` — 6 Memory key constants (RA §8.1 compliant)
+  - `tests/screenplay/abilities/UseSudokuSolver.ts` — wraps SudokuSolver + SudokuOrchestrator
+  - `tests/screenplay/abilities/LoadPuzzles.ts` — wraps PuzzleLoader
+  - `tests/screenplay/actors/SudokuActors.ts` — Cast equipping UseSudokuSolver + LoadPuzzles
+  - `tests/screenplay/support/configure.ts` — registers Cast with Serenity/JS
+  - `DR-008` — documents Serenity/JS 3.43.2 API adaptations (`extends Ability`, path corrections)
 - `DECISION_REGISTER.md` at repository root with DR-001–DR-005 backfilled (Phase 0 migration)
 - `CHANGELOG.md` at repository root (this file)
 - `BACKLOG.md` at repository root (summary; detailed backlog at `DOCS/.planning/BACKLOG.md`)
@@ -29,6 +38,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/features/BasicSudokuSolverLogic.feature` — Stack-local copy with `@util @stack-demoapp001` tags
 
 ### Changed
+- `cucumber.js` — requireModule now includes `@serenity-js/cucumber`; require path changed to `tests/screenplay/step_definitions/`; worldParameters removed (Cast configured via support/configure.ts)
 - `DOCS/REFERENCE_ARCHITECTURE.md` updated from v1.0 to v1.1 (DR-006)
 - `CLAUDE.md` updated: Stack inventory, risk register, canonical feature update procedure, `DECISION_REGISTER.md` reference, `NAMING_CONVENTIONS.md` path corrected to `DOCS/.design/`
 - `DOCS/README.md` updated: reflects `.algorithm/`, `templates/` directories, root-level governance documents, `NAMING_CONVENTIONS.md` at corrected path

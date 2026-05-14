@@ -183,7 +183,7 @@ private getBlockEmptyCells(...): { r: number; c: number }[]
 | Format | `DR-NNN` (zero-padded to 3 digits) |
 | Uniqueness | IDs MUST NOT be reused, even when superseded |
 | Sequence | Sequential, starting at `DR-001` |
-| Current next ID | `DR-008` |
+| Current next ID | `DR-009` |
 
 ---
 

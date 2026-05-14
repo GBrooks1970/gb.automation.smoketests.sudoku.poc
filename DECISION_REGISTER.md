@@ -327,6 +327,47 @@ Create `features_shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature`
 
 ---
 
+## DR-008 — Serenity/JS integration: extends Ability, remove static as() override
+
+**Date:** 2026-05-14
+**Status:** Accepted — 2026-05-14
+
+### Context
+
+The Screenplay migration design (`DESIGN_Screenplay_Migration.md`) was authored against an earlier version of Serenity/JS. When implementing Phase 2 against the installed version (3.43.2), two deviations from the design were required due to API changes in the library.
+
+### Decision
+
+1. **`extends Ability` not `implements Ability`:** In Serenity/JS 3.43.2, `Ability` is a base class with a protected constructor, `toJSON()`, and `abilityType` already implemented. Custom ability classes must `extends Ability` and call `super()` in their public constructor. Using `implements Ability` results in a TypeScript error about missing properties.
+2. **Remove custom `static as()` override:** The base `Ability` class provides a generic `static as<S extends Ability>(this: AbilityType<S>, actor: UsesAbilities): S` method that correctly returns the concrete type. Defining `static as(actor: Actor): UseSudokuSolver` in the subclass conflicts with the base class signature. Removing the override allows the inherited method to work correctly; `UseSudokuSolver.as(actor)` returns `UseSudokuSolver` via TypeScript's generic inference.
+3. **Import paths corrected:** Design doc showed `../../app_src/` from the abilities directory; the correct depth is `../../../app_src/` given the `tests/screenplay/abilities/` nesting.
+
+### Consequences
+
+**Outcomes:**
+- Both Ability classes compile cleanly with Serenity/JS 3.43.2.
+- `UseSudokuSolver.as(actor)` and `LoadPuzzles.as(actor)` work correctly in Tasks via inherited generics.
+- The `configure()` approach (in `support/configure.ts`) registers the Cast with Serenity/JS before scenarios run.
+
+**Trade-offs:**
+- Any future update of `@serenity-js/core` beyond 3.x may require revisiting the base class API.
+
+**Compliance note:**
+- `DESIGN_Screenplay_Migration.md` should be updated to reflect the `extends Ability` pattern and path corrections (post-Phase-4 clean-up task).
+
+### Alternatives Considered
+
+**Alternative: Pin @serenity-js/core to an older version matching the design doc**
+- Description: Install an earlier 3.x version where `Ability` was an interface.
+- Rejected because: Using outdated versions accumulates security debt and distances from the supported API surface.
+
+### Related Decisions
+
+- DR-002 — TypeScript + Cucumber.js Stack choice; Serenity/JS is the migration target
+- DR-003 — @util surface; Abilities wrap in-process classes, not CLI or HTTP clients
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -345,5 +386,5 @@ Create `features_shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature`
 
 ---
 
-*Last entry: DR-007. Next ID: DR-008.*
+*Last entry: DR-008. Next ID: DR-009.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*
