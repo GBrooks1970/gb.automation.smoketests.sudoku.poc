@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-14T10:00Z
+**Last Updated:** 2026-05-14T10:30Z
 **Sources:**
 - [Code Review - Claude Sonnet 4.5 (2026-01-30)](../DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/00_CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z.md)
 - [Code Review - Claude Opus 4.6 (2026-03-30)](../DOCS/.review/CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z/00_CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z.md)
@@ -14,8 +14,8 @@
 ## Overview
 
 This backlog tracks planned work for the Sudoku Solver POC project. Updated 2026-05-14 after
-completing BACKLOG-001, BACKLOG-002, and BACKLOG-003 during Sprint 2. Sprint 2 is ongoing
-(2026-05-14 to 2026-05-27) with three items remaining.
+completing BACKLOG-005-NEW and BACKLOG-006-COMPLETE during Sprint 2. Sprint 2 is ongoing
+(2026-05-14 to 2026-05-27) with only Step 6 (GitHub Actions CI) remaining.
 
 ### Overall Project Health
 
@@ -23,9 +23,9 @@ completing BACKLOG-001, BACKLOG-002, and BACKLOG-003 during Sprint 2. Sprint 2 i
 |--------|--------|
 | Overall Grade | A- (upgraded from B+ — both HIGH risks resolved, test suite live) |
 | Critical Issues | 0 (was 2 — BACKLOG-001 and BACKLOG-002 now closed) |
-| Medium Issues | 4 (BACKLOG-005-NEW, 006-COMPLETE, 004, 017) |
-| Low Issues | 3 (BACKLOG-007 dead code, console coupling, impl log currency) |
-| Approved Designs Pending Implementation | 4 (Audit Trail, REST API, Web UI, constants.ts) |
+| Medium Issues | 2 (BACKLOG-004, BACKLOG-017) |
+| Low Issues | 1 (BACKLOG-007: dead code + console coupling) |
+| Approved Designs Pending Implementation | 3 (Audit Trail, REST API, Web UI) |
 | Code Reviews | 3 (Sonnet 4.5, Opus 4.6, Sonnet 4.6) |
 | Test Scenarios | 43 passing / 241 steps (was 0 executable) |
 | Puzzles in Test Suite | 5 (Easy, Logic Squeeze, Minimal Clues, Crosshatch Challenge, Empty) |
@@ -35,7 +35,7 @@ completing BACKLOG-001, BACKLOG-002, and BACKLOG-003 during Sprint 2. Sprint 2 i
 | Dimension | Grade | Change from Last Review |
 |-----------|-------|------------------------|
 | Design Quality | A | Unchanged |
-| Code Quality | A | Unchanged (naming, constants, ESLint in place) |
+| Code Quality | A+ | Improved (constants centralised in constants.ts, Prettier formatting baseline applied) |
 | Documentation | A+ | Improved (implementation log added) |
 | Test Coverage | A | Major improvement — 43 scenarios all green (was D) |
 | Implementation Progress | B | Improved (3 backlog items closed this sprint) |
@@ -47,7 +47,7 @@ completing BACKLOG-001, BACKLOG-002, and BACKLOG-003 during Sprint 2. Sprint 2 i
 - **Sprint Duration:** 2 weeks
 - **Current Sprint:** Sprint 2 (2026-05-14 to 2026-05-27)
 - **Sprint Goal:** Complete remaining Sprint 2 items — constants.ts refactor, Prettier, and GitHub Actions CI
-- **Sprint Progress:** 3 of 6 steps complete (Steps 3, 4, 5 done; Steps 1, 2, 6 remaining)
+- **Sprint Progress:** 5 of 6 steps complete (Steps 1, 2, 3, 4, 5 done; Step 6 remaining)
 
 ---
 
@@ -55,7 +55,7 @@ completing BACKLOG-001, BACKLOG-002, and BACKLOG-003 during Sprint 2. Sprint 2 i
 
 ```
 Sprint 2: constants.ts + Prettier + Hidden Singles + Test Runner + CI
-    [Steps 3, 4, 5 DONE — Steps 1, 2, 6 remaining]
+    [Steps 1, 2, 3, 4, 5 ALL DONE — only Step 6 (CI) remaining]
     |
 Sprint 3: Console Output Decoupling (IOutput) + close BACKLOG-017
     |
@@ -82,33 +82,33 @@ Resolve all persistent technical debt from prior sprints and establish automated
 
 | Step | Item | Hours | Dependency | Status |
 |------|------|-------|-----------|--------|
-| 1 | Create constants.ts + update all 5 source files | 2h | None | 🔴 Not Started |
-| 2 | Add Prettier + eslint-config-prettier | 1-2h | None (parallel with Step 1) | 🔴 Not Started |
+| 1 | Create constants.ts + update all 5 source files | 2h | None | 🟢 Completed (2026-05-14) |
+| 2 | Add Prettier + eslint-config-prettier | 1-2h | None (parallel with Step 1) | 🟢 Completed (2026-05-14) |
 | 3 | Fix Hidden Singles (rows + columns) + add test puzzle | 4-6h | - | 🟢 Completed (2026-05-14) |
 | 4 | Create Implementation Log for this cycle | 1h | - | 🟢 Completed (2026-05-14) |
 | 5 | Implement Cucumber.js test runner + all step definitions | 16-24h | - | 🟢 Completed (2026-05-14) |
 | 6 | Create minimal GitHub Actions CI workflow | 2-3h | Step 5 | 🔴 Not Started |
 
-**Sprint 2 Remaining Estimate:** 5-8 hours (Steps 1, 2, 6)
+**Sprint 2 Remaining Estimate:** 2-3 hours (Step 6 only)
 
-### Step 1 Details: Create constants.ts (2h) — OUTSTANDING
+### Step 1 Details: Create constants.ts — COMPLETED 2026-05-14
+- Created `app_src/constants.ts` with GRID_SIZE, BLOCK_SIZE, EMPTY_CELL, MIN_DIGIT, MAX_DIGIT
+- Removed 3 `export const` lines from `SudokuSolver.ts`; added import from `./constants`
+- Updated SudokuOrchestrator.ts, SudokuCLI.ts, PuzzleLoader.ts, and step_definitions to import from `./constants`
+- Fixed all 3 hardcoded `9` values in `PuzzleLoader.validatePuzzles()` with GRID_SIZE, EMPTY_CELL, MAX_DIGIT
+- `npm run build` clean, `npm run lint` clean, `npm test` 43/43, bat file unchanged
+- Commit: `a85e17a`
+- Closed BACKLOG-005-NEW
 
-- Create `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/constants.ts`
-- Contents: `GRID_SIZE = 9`, `BLOCK_SIZE = 3`, `EMPTY_CELL = 0`, `MIN_DIGIT = 1`, `MAX_DIGIT = 9`
-- Remove constant exports from `SudokuSolver.ts` (they move to constants.ts)
-- Update all 5 source files to import from `./constants` (SudokuSolver, Orchestrator, CLI, PuzzleLoader, index)
-- Fix `PuzzleLoader.ts` hardcoded `9` values in `validatePuzzles()`
-- `npm run build` clean, `npm run lint` clean, `npm test` still 43/43
-- Closes BACKLOG-005-NEW fully
-
-### Step 2 Details: Add Prettier (1-2h, parallel with Step 1) — OUTSTANDING
-
-- `npm install --save-dev prettier eslint-config-prettier`
-- Create `.prettierrc`: 2-space indent, single quotes, trailing commas (ES5)
-- Add `format` and `format:check` scripts to `package.json`
-- Update `eslint.config.js` to spread `eslintConfigPrettier` last (disables conflicting rules)
-- Run `npm run format` to establish formatting baseline
-- Closes BACKLOG-006-COMPLETE fully
+### Step 2 Details: Add Prettier — COMPLETED 2026-05-14
+- Installed `prettier` and `eslint-config-prettier`
+- Created `.prettierrc`: tabWidth 2, singleQuote, trailingComma es5, semi, printWidth 100
+- Added `format` and `format:check` scripts to `package.json`
+- Added `prettierConfig` as last entry in `eslint.config.js` (disables conflicting rules)
+- Applied `npm run format` baseline — 5 source files reformatted; `npm run format:check` passes
+- `npm run build` clean, `npm run lint` clean, `npm test` 43/43, bat file unchanged
+- Commit: `e8c984d`
+- Closed BACKLOG-006-COMPLETE
 
 ### Step 3 Details: Fix Hidden Singles — COMPLETED 2026-05-14
 - Extended `SudokuSolver.hiddenSingles()` with row-based and column-based checks
@@ -189,6 +189,37 @@ Resolve all persistent technical debt from prior sprints and establish automated
 
 ---
 
+#### BACKLOG-005-NEW: Centralize Constants in constants.ts
+**Priority:** MEDIUM | **Estimate:** 2h | **Sprint:** 2
+**Status:** 🟢 Completed (2026-05-14)
+**Commit:** `a85e17a`
+
+**Acceptance Criteria:**
+- [x] `app_src/constants.ts` created with GRID_SIZE, BLOCK_SIZE, EMPTY_CELL, MIN_DIGIT, MAX_DIGIT
+- [x] Constant exports removed from `SudokuSolver.ts`
+- [x] All source files import from `./constants` (SudokuSolver, Orchestrator, CLI, PuzzleLoader, step_definitions)
+- [x] `PuzzleLoader.ts` uses GRID_SIZE, EMPTY_CELL, MAX_DIGIT in validation (removes hardcoded `9`)
+- [x] `npm run build` succeeds, `npm run lint` passes, `npm test` still 43/43
+- [x] Bat file output identical to pre-change output
+
+---
+
+#### BACKLOG-006-COMPLETE: Add Prettier to ESLint Setup
+**Priority:** MEDIUM | **Estimate:** 1-2h | **Sprint:** 2
+**Status:** 🟢 Completed (2026-05-14)
+**Commit:** `e8c984d`
+
+**Acceptance Criteria:**
+- [x] ESLint installed with `@typescript-eslint/naming-convention` rule
+- [x] `npm run lint` script added to `package.json`
+- [x] Prettier installed (`prettier`, `eslint-config-prettier`)
+- [x] `.prettierrc` created with project settings (tabWidth 2, singleQuote, trailingComma es5)
+- [x] `npm run format` and `npm run format:check` scripts added
+- [x] `eslint-config-prettier` added to `eslint.config.js` to disable conflicting rules
+- [x] All existing code passes `npm run format:check`
+
+---
+
 ### HIGH Priority
 
 *(All HIGH items now closed. None remain.)*
@@ -196,49 +227,6 @@ Resolve all persistent technical debt from prior sprints and establish automated
 ---
 
 ### MEDIUM Priority
-
-#### BACKLOG-005-NEW: Centralize Constants in constants.ts
-**Priority:** MEDIUM | **Estimate:** 2h | **Sprint:** 2 (Step 1)
-**Risk Reference:** [Risk 3 - Sonnet 4.6 Review](../DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z/02_RISKS_AND_ISSUES.md)
-**Status:** 🔴 Not Started
-
-**Description:**
-Constants (`GRID_SIZE`, `BLOCK_SIZE`, `EMPTY_CELL`) are currently exported from `SudokuSolver.ts`,
-creating implicit cross-module coupling. `PuzzleLoader.ts` still has three hardcoded `9` values.
-This item implements the original BACKLOG-005 acceptance criteria (a dedicated `constants.ts`).
-
-**Acceptance Criteria:**
-- [ ] `app_src/constants.ts` created with GRID_SIZE, BLOCK_SIZE, EMPTY_CELL, MIN_DIGIT, MAX_DIGIT
-- [ ] Constant exports removed from `SudokuSolver.ts`
-- [ ] All 5 source files import from `./constants`
-- [ ] `PuzzleLoader.ts` uses GRID_SIZE in validation (removes hardcoded `9`)
-- [ ] `npm run build` succeeds, `npm run lint` passes, `npm test` still 43/43
-- [ ] Bat file output identical to pre-change output
-
-**Dependencies:** None
-
----
-
-#### BACKLOG-006-COMPLETE: Add Prettier to ESLint Setup
-**Priority:** MEDIUM | **Estimate:** 1-2h | **Sprint:** 2 (Step 2)
-**Status:** 🟡 In Progress (ESLint done, Prettier outstanding)
-
-**Description:**
-ESLint with naming-convention rule was added in the naming conventions session. Prettier and
-`eslint-config-prettier` remain outstanding from the original BACKLOG-006 specification.
-
-**Acceptance Criteria:**
-- [x] ESLint installed with `@typescript-eslint/naming-convention` rule
-- [x] `npm run lint` script added to `package.json`
-- [ ] Prettier installed (`prettier`, `eslint-config-prettier`)
-- [ ] `.prettierrc` created with project settings
-- [ ] `npm run format` and `npm run format:check` scripts added
-- [ ] `eslint-config-prettier` added to `eslint.config.js` to disable conflicting rules
-- [ ] All existing code passes `npm run format:check`
-
-**Dependencies:** None
-
----
 
 #### BACKLOG-004: Setup GitHub Actions CI/CD
 **Priority:** MEDIUM | **Estimate:** 2-3h | **Sprint:** 2 (Step 6)
@@ -429,8 +417,8 @@ the STUCK_ON_ADVANCED_LOGIC path to be exercised beyond the Empty Grid.
 
 | Step | Item | Verification | Status |
 |------|------|-------------|--------|
-| 1 | constants.ts | `npm run build` clean, `npm run lint` clean, `npm test` 43/43, bat output identical | 🔴 |
-| 2 | Prettier | `npm run format:check` passes, `npm run lint` still passes | 🔴 |
+| 1 | constants.ts | `npm run build` clean, `npm run lint` clean, `npm test` 43/43, bat output identical | 🟢 |
+| 2 | Prettier | `npm run format:check` passes, `npm run lint` still passes | 🟢 |
 | 3 | Hidden Singles | 5 puzzles all correct results in bat output | 🟢 |
 | 4 | Implementation Log | Log complete and accurate | 🟢 |
 | 5 | Test Runner | `npm test` 43/43 pass | 🟢 |
@@ -449,7 +437,7 @@ the STUCK_ON_ADVANCED_LOGIC path to be exercised beyond the Empty Grid.
 
 | Sprint | Dates | Focus | Key Items | Status |
 |--------|-------|-------|-----------|--------|
-| 2 | 2026-05-14 to 2026-05-27 | Close Persistent Risks | BACKLOG-001 ✅, BACKLOG-002 ✅, BACKLOG-003 ✅, BACKLOG-005-NEW, BACKLOG-006-COMPLETE, BACKLOG-004 | 🟡 In Progress |
+| 2 | 2026-05-14 to 2026-05-27 | Close Persistent Risks | BACKLOG-001 ✅, BACKLOG-002 ✅, BACKLOG-003 ✅, BACKLOG-005-NEW ✅, BACKLOG-006-COMPLETE ✅, BACKLOG-004 | 🟡 In Progress (Step 6 remaining) |
 | 3 | 2026-05-28 to 2026-06-10 | Output + Design + Audit Start | BACKLOG-007, BACKLOG-017 (close), BACKLOG-008 (start) | 🔴 |
 | 4 | 2026-06-11 to 2026-06-24 | Audit + API Start | BACKLOG-008 (finish), BACKLOG-009 (start) | 🔴 |
 | 5 | 2026-06-25 to 2026-07-08 | API + Web UI Start | BACKLOG-009 (finish), BACKLOG-018 (start) | 🔴 |
