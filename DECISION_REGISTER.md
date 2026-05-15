@@ -595,6 +595,53 @@ Adopt `REFERENCE_ARCHITECTURE.md` v1.3 as the governing architecture for this re
 
 ---
 
+## DR-013 — Add RA-literal DOCS compatibility paths
+
+### Context [REQUIRED]
+
+`REFERENCE_ARCHITECTURE.md` v1.3 requires literal documentation paths such as `DOCS/planning/BACKLOG.md`, `DOCS/design/NAMING_CONVENTIONS.md`, and `DOCS/implementation-logs/`. This repository already has accepted historical dot-prefixed documentation directories under DR-001: `DOCS/.planning/`, `DOCS/.design/`, and `DOCS/.implementation/`. Moving the authoritative documents immediately would create a broad path migration and risk breaking existing references while MIG-09 still needs to normalize implementation log policy.
+
+### Decision [REQUIRED]
+
+Keep the dot-prefixed DOCS directories as the authoritative content locations for existing planning, design, and implementation-log documents until a later decision supersedes this one. Add v1.3 literal compatibility paths that point agents and validators to the authoritative locations: `DOCS/planning/BACKLOG.md`, `DOCS/design/NAMING_CONVENTIONS.md`, and `DOCS/implementation-logs/README.md`.
+
+### Status [REQUIRED]
+
+`Accepted` — 2026-05-15
+
+### Consequences [REQUIRED]
+
+**Outcomes:**
+- Strict v1.3 path checks can find the required DOCS path roles.
+- Existing links to dot-prefixed documentation continue to work.
+- Future agents have explicit bridge files that identify the authoritative source of truth.
+
+**Trade-offs:**
+- The repository temporarily has both RA-literal compatibility paths and historical dot-prefixed authoritative paths.
+- Bridge files must remain synchronized with any future relocation decision.
+- A later migration is still required if the project chooses to make RA-literal directories fully authoritative.
+
+**Compliance note:**
+- This is a documented compatibility strategy for v1.3 Section 10.1, Section 10.8, and Section 10.9 path requirements.
+- DR-001 remains the historical naming decision for dot-prefixed DOCS directories.
+
+### Alternatives Considered [REQUIRED]
+
+**Alternative: Move authoritative documents to literal v1.3 paths immediately**
+- Description: Move `DOCS/.planning/BACKLOG.md`, `DOCS/.design/NAMING_CONVENTIONS.md`, and all `DOCS/.implementation/` logs into the v1.3 literal directories.
+- Rejected because: This would mix a broad historical path migration into MIG-02 and would require updating many existing references before the implementation-log policy has been normalized.
+
+**Alternative: Use filesystem symlinks**
+- Description: Create symlinks from the v1.3 literal paths to the dot-prefixed directories.
+- Rejected because: The repository is Windows-based and symlink creation can require elevated privileges or create portability issues across developer machines.
+
+### Related Decisions
+
+- DR-001 — Dot-prefix convention for DOCS subdirectories.
+- DR-012 — Active v1.3 architecture baseline.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -613,5 +660,5 @@ Adopt `REFERENCE_ARCHITECTURE.md` v1.3 as the governing architecture for this re
 
 ---
 
-*Last entry: DR-012. Next ID: DR-013.*
+*Last entry: DR-013. Next ID: DR-014.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

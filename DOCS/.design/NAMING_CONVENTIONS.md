@@ -24,6 +24,7 @@
 | TypeScript class files | `PascalCase` | `SudokuSolver.ts` |
 | Config / ecosystem files | `kebab-case` | `tsconfig.json`, `eslint.config.js` |
 | DOCS subdirectories | `snake_case` with leading dot | `.design/`, `.planning/` |
+| DOCS compatibility directories | RA-literal names, bridge files only | `planning/`, `design/`, `implementation-logs/` |
 | DOCS document files | `PREFIX_Title_Case.md` | `DESIGN_Audit_Trail_Feature.md` |
 | Feature files | `PascalCase` | `BasicSudokuSolverLogic.feature` |
 | Screenplay Memory keys | `UPPER_SNAKE_CASE` (constant name = string value) | `SOLVE_RESULT = 'SOLVE_RESULT'` |
@@ -102,9 +103,11 @@ private getBlockEmptyCells(...): { r: number; c: number }[]
 | Test directory | `lowercase` | None | `tests/` |
 | Screenplay subdirectories | `lowercase` | None | `abilities/`, `actors/`, `tasks/`, `questions/`, `support/` |
 | DOCS type-specific subdirectories | `snake_case` with leading dot | Underscore | `.design/`, `.planning/`, `.algorithm/` |
+| DOCS RA-literal compatibility directories | Reference Architecture literal names | As specified by RA | `planning/`, `design/`, `implementation-logs/` |
 | Stack root directories | `UPPER_SNAKE_CASE` | Underscore | `DEMOAPP001_TYPESCRIPT_CYPRESS/` |
 
 > **Decision DR-001:** The leading dot on DOCS subdirectories is a documented divergence from the Reference Architecture.
+> **Decision DR-013:** Non-dot DOCS directories required by RA v1.3 are compatibility bridges only unless a later decision makes them authoritative.
 > `app_src/` is grandfathered as-is. Future source folders should use `kebab-case` (e.g., `app-api/`).
 
 ---
@@ -183,7 +186,7 @@ private getBlockEmptyCells(...): { r: number; c: number }[]
 | Format | `DR-NNN` (zero-padded to 3 digits) |
 | Uniqueness | IDs MUST NOT be reused, even when superseded |
 | Sequence | Sequential, starting at `DR-001` |
-| Current next ID | `DR-009` |
+| Current next ID | `DR-014` |
 
 ---
 
