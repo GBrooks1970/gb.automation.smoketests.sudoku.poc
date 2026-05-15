@@ -1,7 +1,7 @@
 # Screenplay-BDD Reference Architecture — Alignment & Migration Report
 
 **Date:** 2026-05-14
-**Updated:** 2026-05-15 (Phases 5 and 6 complete — stack and architecture documentation aligned)
+**Updated:** 2026-05-15 (Phase 7 complete — orchestration and metrics baseline implemented)
 **Analyst:** CLAUDE Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` vs. `REFERENCE_ARCHITECTURE.md` v1.1
 **Status:** Living — updated when RA version changes
@@ -12,9 +12,9 @@
 
 This report scores the project against every normative obligation in the Screenplay-BDD Reference Architecture (`REFERENCE_ARCHITECTURE.md`, Status: Accepted, 2026-05-14). The analysis covers structure, pattern compliance, surface-type contract, documentation, and orchestration.
 
-**Overall compliance: High** *(upgraded — Phases 0–6 complete)*
+**Overall compliance: High** *(upgraded — Phases 0–7 complete)*
 
-The full Screenplay layer is now implemented. Layer 2 (Step Definitions), Layer 3 (Tasks + Questions), and Layer 4 (Abilities + Cast) are all operational. All 43 scenarios pass with the new Screenplay step definitions. Stack-level documentation and tooling configuration are in place (Phase 5), and cross-cutting architecture documentation is now established in `DOCS/architecture/` (Phase 6). Remaining gaps are orchestration scripts and metrics (Phase 7).
+The full Screenplay layer is now implemented. Layer 2 (Step Definitions), Layer 3 (Tasks + Questions), and Layer 4 (Abilities + Cast) are all operational. All 43 scenarios pass with the new Screenplay step definitions. Stack-level documentation and tooling configuration are in place (Phase 5), cross-cutting architecture documentation is established (Phase 6), and orchestration plus metrics artifacts are now implemented (Phase 7). Remaining work is CLI hardening for future `@cli` parity (Phase 8).
 
 | Area | Status | Severity |
 |------|--------|----------|
@@ -30,13 +30,13 @@ The full Screenplay layer is now implemented. Layer 2 (Step Definitions), Layer 
 | `DOCS/templates/` mandate | ✅ Complete — all 14 templates present | — |
 | `DECISION_REGISTER.md` | ✅ DR-001–DR-008 | — |
 | Cross-cutting architecture docs (`DOCS/architecture/`) | ✅ Complete — Phase 6 (4 required documents) | — |
-| Orchestration scripts + metrics | Absent — Phase 7 | Medium |
+| Orchestration scripts + metrics | ✅ Complete — Phase 7 (`.batch/run-demoapp001.ps1` + `.results/.metrics`) | — |
 | AI agent instruction file | ✅ Complete — Phase 0 | — |
 | Algorithm documentation | ✅ Aligned | — |
 | Code review directory | Structurally minor drift (inside DOCS/, not root) | Low |
 | Implementation logs | ✅ Aligned | — |
 
-> **Current migration status (2026-05-15):** Phases 0–6 fully complete. Full Screenplay layer operational: 6 Abilities/Cast methods, 6 Tasks, 6 Questions, 10 step definition files. Stack docs created (`ARCHITECTURE.md`, `SCREENPLAY_GUIDE.md`, `QA_STRATEGY.md`, `README.md`) and `tooling/cucumber.js` configured. Cross-cutting architecture docs created (`screenplay-parity-contract.md`, `subject-app-contract.md`, `orchestration-design.md`, `logging-design.md`). 43 scenarios / 241 steps all passing. Phases 7–8 open.
+> **Current migration status (2026-05-15):** Phases 0–7 fully complete. Full Screenplay layer operational: 6 Abilities/Cast methods, 6 Tasks, 6 Questions, 10 step definition files. Stack docs created (`ARCHITECTURE.md`, `SCREENPLAY_GUIDE.md`, `QA_STRATEGY.md`, `README.md`) and `tooling/cucumber.js` configured. Cross-cutting architecture docs created (`screenplay-parity-contract.md`, `subject-app-contract.md`, `orchestration-design.md`, `logging-design.md`). Orchestration runner implemented at `.batch/run-demoapp001.ps1` with timestamped metrics in `.results/.metrics/`. 43 scenarios / 241 steps all passing. Phase 8 remains open.
 
 ---
 
@@ -607,7 +607,7 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 
 ---
 
-### Phase 7 — Orchestration and Metrics (half day)
+### Phase 7 — Orchestration and Metrics ✅ COMPLETE
 *Closes the §9 gap.*
 
 **Actions:**
@@ -619,6 +619,14 @@ Sequenced in dependency order. Each phase produces a shippable increment.
    - Writes key-value metrics to `.results/.metrics/DEMOAPP001_<timestamp>.txt`
    - Writes markdown summary to `.results/.metrics/DEMOAPP001_<timestamp>.md`
 3. Add `.results/` to `.gitignore`
+
+**Verification:**
+- `.batch/run-demoapp001.ps1` executes end-to-end with build and test stages ✅
+- Timestamped metrics generated: `.results/.metrics/DEMOAPP001_<timestamp>.txt` and `.md` ✅
+- Key-value metrics include exit code, test counts, duration, and log path ✅
+- Markdown summary table generated for human-readable reporting ✅
+- `.results/` added to `.gitignore` ✅
+- Latest orchestration run: BuildExitCode=0, TestExitCode=0, OverallExitCode=0; 43 scenarios passed ✅
 
 ---
 
@@ -645,10 +653,10 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 | 4 — Step Definition Migration | §2.2, §3, layer model | 4–6 h | Sprint 3 | ✅ Complete — 10 step files; 43 scenarios / 241 steps passing; procedural World deleted |
 | 5 — Stack Documentation | §10.2 | 1 day | Sprint 3 | ✅ Complete — stack docs + tooling config |
 | 6 — Architecture Documents | §10.3 | 0.5 day | Sprint 4 | ✅ Complete — `DOCS/architecture/` with 4 required docs |
-| 7 — Orchestration and Metrics | §9 | 0.5 day | Sprint 4 | 🔲 Open |
+| 7 — Orchestration and Metrics | §9 | 0.5 day | Sprint 4 | ✅ Complete — `.batch/run-demoapp001.ps1`, `.results/.metrics`, `.gitignore` update |
 | 8 — CLI Hardening | §6.3 | 1–2 days | Sprint 5 | 🔲 Open |
 
-**Critical path to minimum viable compliance:** Phases 3 → 4 (Sprint 3), Phase 5 (stack docs), and Phase 6 (architecture docs) are complete. Phases 7–8 complete full compliance.
+**Critical path to minimum viable compliance:** Phases 3 → 4 (Sprint 3), Phase 5 (stack docs), Phase 6 (architecture docs), and Phase 7 (orchestration/metrics) are complete. Phase 8 completes full compliance for future `@cli` parity.
 
 ---
 
@@ -673,7 +681,7 @@ The following items should be added to `DOCS/.planning/BACKLOG.md` and cross-ref
 | NEW-012 | Refactor over-specified step text to parameterised form | 4 | Medium | ⏸ Deferred — Gherkin unchanged per DR-005; over-specified steps remain in place |
 | NEW-013 | Create stack-level docs/ directory with 4 required documents | 5 | Medium | ✅ Done |
 | NEW-014 | Create DOCS/architecture/ with 4 required documents | 6 | Medium | ✅ Done |
-| NEW-015 | Create .batch/run-demoapp001 orchestration script + metrics output | 7 | Medium | 🔲 Open |
+| NEW-015 | Create .batch/run-demoapp001 orchestration script + metrics output | 7 | Medium | ✅ Done |
 | NEW-016 | Add exit codes and stderr to SudokuCLI for @cli surface compliance | 8 | Low | 🔲 Open |
 
 ---

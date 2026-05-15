@@ -1,3 +1,4 @@
 /DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/node_modules
 /DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/dist
 /.batch/output/*.txt
+/.results/
