@@ -1,12 +1,15 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-14T11:30Z
+**Last Updated:** 2026-05-15T14:00Z
+**Governed by:** Reference Architecture v1.2 §10.1 — Backlog Taxonomy
+**Purpose:** Track outstanding and future work required to keep all Stacks in parity; maintain single source of truth for prioritized work
 **Sources:**
 - [Code Review - Claude Sonnet 4.5 (2026-01-30)](../DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/00_CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z.md)
 - [Code Review - Claude Opus 4.6 (2026-03-30)](../DOCS/.review/CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z/00_CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z.md)
 - [Code Review - Claude Sonnet 4.6 (2026-05-13)](../DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z/00_CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z.md)
 - [Implementation Log - Sprint 2 (2026-05-14)](../DOCS/.implementation/IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md)
+- [Reference Alignment Analysis v1.2 (2026-05-15)](../DOCS/ref-arch-alignment_2026-05-15.md) — compliance baseline
 **Status:** Active Development
 
 ---
@@ -17,7 +20,13 @@ This backlog tracks planned work for the Sudoku Solver POC project. Updated 2026
 completing BACKLOG-005-NEW and BACKLOG-006-COMPLETE during Sprint 2. Sprint 2 is ongoing
 (2026-05-14 to 2026-05-27) with only Step 6 (GitHub Actions CI) remaining.
 
-### Overall Project Health
+### Summary
+
+| Metric | Count |
+|--------|-------|
+| Open | 16 |
+| In Progress | 2 |
+| Resolved | 6 |
 
 | Metric | Status |
 |--------|--------|
@@ -29,6 +38,13 @@ completing BACKLOG-005-NEW and BACKLOG-006-COMPLETE during Sprint 2. Sprint 2 is
 | Code Reviews | 3 (Sonnet 4.5, Opus 4.6, Sonnet 4.6) |
 | Test Scenarios | 43 passing / 241 steps (was 0 executable) |
 | Puzzles in Test Suite | 5 (Easy, Logic Squeeze, Minimal Clues, Crosshatch Challenge, Empty) |
+
+### Backlog Parity Tracking
+
+This backlog tracks work required to keep all Stacks in parity with the Reference Architecture v1.2, specifically:
+- Outstanding gaps identified in the reference alignment analysis
+- Cross-Stack parity requirements (shared interfaces, feature consistency, documentation)
+- Gaps will be resolved in Phase A–D migration work per the alignment plan
 
 ### Grade Dimension Breakdown (post Sprint 2)
 
@@ -145,7 +161,7 @@ Resolve all persistent technical debt from prior sprints and establish automated
 
 #### BACKLOG-001: Complete Hidden Singles Implementation
 **Priority:** HIGH | **Estimate:** 4-6h | **Sprint:** 2
-**Status:** 🟢 Completed (2026-05-14)
+**Status:** Resolved (2026-05-14)
 **Commit:** `f171d63`
 
 **Acceptance Criteria:**
@@ -161,7 +177,7 @@ Resolve all persistent technical debt from prior sprints and establish automated
 
 #### BACKLOG-002: Implement Automated Test Runner
 **Priority:** HIGH | **Estimate:** 16-24h | **Sprint:** 2
-**Status:** 🟢 Completed (2026-05-14)
+**Status:** Resolved (2026-05-14)
 **Commit:** `5891e1d`
 
 **Acceptance Criteria:**
@@ -177,7 +193,7 @@ Resolve all persistent technical debt from prior sprints and establish automated
 
 #### BACKLOG-003: Create Implementation Logs
 **Priority:** HIGH | **Estimate:** 1h | **Sprint:** 2
-**Status:** 🟢 Completed (2026-05-14)
+**Status:** Resolved (2026-05-14)
 **Commit:** `89e7a9a`
 
 **Acceptance Criteria:**
@@ -191,7 +207,7 @@ Resolve all persistent technical debt from prior sprints and establish automated
 
 #### BACKLOG-005-NEW: Centralize Constants in constants.ts
 **Priority:** MEDIUM | **Estimate:** 2h | **Sprint:** 2
-**Status:** 🟢 Completed (2026-05-14)
+**Status:** Resolved (2026-05-14)
 **Commit:** `a85e17a`
 
 **Acceptance Criteria:**
@@ -206,7 +222,7 @@ Resolve all persistent technical debt from prior sprints and establish automated
 
 #### BACKLOG-006-COMPLETE: Add Prettier to ESLint Setup
 **Priority:** MEDIUM | **Estimate:** 1-2h | **Sprint:** 2
-**Status:** 🟢 Completed (2026-05-14)
+**Status:** Resolved (2026-05-14)
 **Commit:** `e8c984d`
 
 **Acceptance Criteria:**
@@ -230,7 +246,7 @@ Resolve all persistent technical debt from prior sprints and establish automated
 
 #### BACKLOG-004: Setup GitHub Actions CI/CD
 **Priority:** MEDIUM | **Estimate:** 2-3h | **Sprint:** 2 (Step 6)
-**Status:** 🔴 Not Started
+**Status:** Open
 **Note:** Previously blocked on BACKLOG-002 (test step). BACKLOG-002 is now complete — unblocked.
 
 **Description:**
@@ -250,7 +266,7 @@ Minimal GitHub Actions workflow running build, lint, and test on every push and 
 
 #### BACKLOG-017: Unify Feature Design Overlap
 **Priority:** MEDIUM | **Estimate:** 1h remaining | **Sprint:** 3
-**Status:** 🟡 In Progress
+**Status:** In Progress
 **Note:** Moved to Sprint 3 — one criterion remaining; not blocking Sprint 2 code work.
 
 **Description:**
@@ -271,7 +287,7 @@ Express server. Most acceptance criteria completed in April 2026.
 
 #### BACKLOG-007: Decouple Console Output
 **Priority:** MEDIUM | **Estimate:** 4-6h | **Sprint:** 3
-**Status:** 🔴 Not Started
+**Status:** Open
 
 **Description:**
 Introduce `IOutput` interface to decouple `console.log` from `SudokuCLI`. Prerequisite for
@@ -293,7 +309,7 @@ Also: remove `SudokuSolver.named()` dead code at the same time (30-minute add-on
 #### BACKLOG-008: Implement Audit Trail Feature
 **Priority:** MEDIUM | **Estimate:** 20-30h | **Sprint:** 3-4
 **Design Reference:** [DESIGN_Audit_Trail_Feature.md](../DOCS/.design/DESIGN_Audit_Trail_Feature.md)
-**Status:** 🔴 Not Started
+**Status:** Open
 
 **Description:**
 Implement audit logging per approved design. Provides the shared `CellChange` interface that
@@ -315,7 +331,7 @@ the REST API and Web UI both depend on for change tracking.
 #### BACKLOG-009: Implement REST API Wrapper
 **Priority:** MEDIUM | **Estimate:** 24-32h | **Sprint:** 4-5
 **Design Reference:** [DESIGN_REST_API_Wrapper.md](../DOCS/.design/DESIGN_REST_API_Wrapper.md)
-**Status:** 🔴 Not Started
+**Status:** Open
 
 **Acceptance Criteria:**
 - [ ] Express.js server (also serves Web UI static files in Phase 5)
@@ -333,7 +349,7 @@ the REST API and Web UI both depend on for change tracking.
 #### BACKLOG-018: Implement Web UI Solver Visualisation
 **Priority:** MEDIUM | **Estimate:** 20-30h | **Sprint:** 5-6
 **Design Reference:** [DESIGN_Web_UI_Solver_Visualisation.md](../DOCS/.design/DESIGN_Web_UI_Solver_Visualisation.md)
-**Status:** 🔴 Not Started
+**Status:** Open
 
 **Acceptance Criteria:**
 - [ ] `SolveStepTracker` as thin adapter over `AuditLogger` (formats for frontend)
@@ -350,7 +366,7 @@ the REST API and Web UI both depend on for change tracking.
 #### BACKLOG-019: Migrate TypeScript Tests to Screenplay Pattern
 **Priority:** MEDIUM | **Estimate:** 11-17h | **Sprint:** 3
 **Design Reference:** [DESIGN_Screenplay_Migration.md](../DOCS/.design/DESIGN_Screenplay_Migration.md)
-**Status:** 🔴 Not Started
+**Status:** Open
 
 **Description:**
 Replace the monolithic `SudokuWorld` step definitions with a proper Screenplay layer
@@ -376,7 +392,7 @@ after migration. Produces Serenity BDD HTML living-documentation reports.
 #### BACKLOG-020: Python Screenplay-style Step Definitions (DEMOAPP002)
 **Priority:** MEDIUM | **Estimate:** 8-12h | **Sprint:** 4-5
 **Design Reference:** [DESIGN_Screenplay_Migration.md](../DOCS/.design/DESIGN_Screenplay_Migration.md#61-python--pytest-bdd--screenplay-style)
-**Status:** 🔴 Not Started
+**Status:** Open
 
 **Description:**
 Implement Python-equivalent Screenplay-style Abilities and step definitions that share
@@ -399,7 +415,7 @@ Abilities (no formal Screenplay library required).
 #### BACKLOG-021: C# Screenplay-style Step Definitions (DEMOAPP003)
 **Priority:** MEDIUM | **Estimate:** 8-12h | **Sprint:** 5-6
 **Design Reference:** [DESIGN_Screenplay_Migration.md](../DOCS/.design/DESIGN_Screenplay_Migration.md#63-c--specflow--screenplay-style)
-**Status:** 🔴 Not Started
+**Status:** Open
 
 **Description:**
 Implement C# Screenplay-style Abilities and step definitions using SpecFlow and the
@@ -422,7 +438,7 @@ pattern described in the design document.
 
 #### BACKLOG-010: Docker Compose for Local Development
 **Priority:** LOW | **Estimate:** 8-12h | **Sprint:** 7+
-**Status:** 🔴 Not Started
+**Status:** Open
 
 **Acceptance Criteria:**
 - [ ] Dockerfile with multi-stage build
@@ -436,7 +452,7 @@ pattern described in the design document.
 
 #### BACKLOG-011: Performance Benchmarking Suite
 **Priority:** LOW | **Estimate:** 12-16h | **Sprint:** 7+
-**Status:** 🔴 Not Started
+**Status:** Open
 
 **Acceptance Criteria:**
 - [ ] Benchmark puzzle set (10+ puzzles of varying difficulty)
@@ -452,50 +468,54 @@ pattern described in the design document.
 ### Future Enhancements (Not Prioritised)
 
 #### BACKLOG-012: Implement Python Version (DEMOAPP002)
-**Estimate:** 40-60h | **Status:** 📋 Planned
+**Estimate:** 40-60h | **Status:** Open (future)
 **Note:** Python solver implementation (solver logic). Screenplay-style step definitions covered by BACKLOG-020.
 
 #### BACKLOG-013: Implement C# Version (DEMOAPP003)
-**Estimate:** 40-60h | **Status:** 📋 Planned
+**Estimate:** 40-60h | **Status:** Open (future)
 **Note:** C# solver implementation (solver logic). Screenplay-style step definitions covered by BACKLOG-021.
 
 #### BACKLOG-014: Advanced Solving Techniques
-**Estimate:** 60-80h | **Status:** 📋 Planned
+**Estimate:** 60-80h | **Status:** Open (future)
 **Note:** Naked Pairs, X-Wing, Swordfish. The "Minimal Clues" puzzle now solves with the
 complete basic algorithm — a truly "advanced techniques only" puzzle is still needed for
 the STUCK_ON_ADVANCED_LOGIC path to be exercised beyond the Empty Grid.
 
 #### BACKLOG-015: Interactive Sudoku Tutor
-**Estimate:** 80-120h | **Status:** 💡 Idea
+**Estimate:** 80-120h | **Status:** Open (idea)
 
 #### BACKLOG-016: Puzzle Generator
-**Estimate:** 40-60h | **Status:** 💡 Idea
+**Estimate:** 40-60h | **Status:** Open (idea)
 
 ---
 
 ## Backlog Maintenance
 
-### Status Indicators
+### Status Values
 
-| Icon | Status | Description |
-|------|--------|-------------|
-| 🔴 | Not Started | Item not yet begun |
-| 🟡 | In Progress | Actively being worked on |
-| 🟢 | Completed | Done and verified |
-| ⏸️ | Blocked | Waiting on dependencies |
-| 📋 | Planned | Future work, not prioritised |
-| 💡 | Idea | Concept stage, needs design |
+All items use one of three statuses per Reference Architecture v1.2 §10.1:
+
+| Status | Description | Lifecycle |
+|--------|-------------|----------|
+| Open | Item in backlog, not yet started | Initial state |
+| In Progress | Actively being worked on | Work in current sprint |
+| Resolved | Done and verified | Final state; immutable record |
+
+**Additional qualifiers (in parentheses):**
+- *future* — planned for later sprints, not immediate priority
+- *idea* — concept stage, design needed before prioritization
+- *blocked* — waiting on dependencies (noted in item description)
 
 ### Sprint 2 Quality Checkpoints
 
 | Step | Item | Verification | Status |
 |------|------|-------------|--------|
-| 1 | constants.ts | `npm run build` clean, `npm run lint` clean, `npm test` 43/43, bat output identical | 🟢 |
-| 2 | Prettier | `npm run format:check` passes, `npm run lint` still passes | 🟢 |
-| 3 | Hidden Singles | 5 puzzles all correct results in bat output | 🟢 |
-| 4 | Implementation Log | Log complete and accurate | 🟢 |
-| 5 | Test Runner | `npm test` 43/43 pass | 🟢 |
-| 6 | CI | Pipeline green on GitHub Actions, badge in README | 🔴 |
+| 1 | constants.ts | `npm run build` clean, `npm run lint` clean, `npm test` 43/43, bat output identical | Resolved |
+| 2 | Prettier | `npm run format:check` passes, `npm run lint` still passes | Resolved |
+| 3 | Hidden Singles | 5 puzzles all correct results in bat output | Resolved |
+| 4 | Implementation Log | Log complete and accurate | Resolved |
+| 5 | Test Runner | `npm test` 43/43 pass | Resolved |
+| 6 | CI | Pipeline green on GitHub Actions, badge in README | Open |
 
 ### Technical Debt Rules (From Sonnet 4.6 Review + Documentation Review 2026-05-14)
 
@@ -512,7 +532,7 @@ the STUCK_ON_ADVANCED_LOGIC path to be exercised beyond the Empty Grid.
 
 | Sprint | Dates | Focus | Key Items | Status |
 |--------|-------|-------|-----------|--------|
-| 2 | 2026-05-14 to 2026-05-27 | Close Persistent Risks | BACKLOG-001 ✅, BACKLOG-002 ✅, BACKLOG-003 ✅, BACKLOG-005-NEW ✅, BACKLOG-006-COMPLETE ✅, BACKLOG-004 | 🟡 In Progress (Step 6 remaining) |
+| 2 | 2026-05-14 to 2026-05-27 | Close Persistent Risks | BACKLOG-001 ✅, BACKLOG-002 ✅, BACKLOG-003 ✅, BACKLOG-005-NEW ✅, BACKLOG-006-COMPLETE ✅, BACKLOG-004 | In Progress (Step 6 remaining) |
 | 3 | 2026-05-28 to 2026-06-10 | Output + Screenplay + Audit Start | BACKLOG-007, BACKLOG-017 (close), BACKLOG-019, BACKLOG-008 (start) | 🔴 |
 | 4 | 2026-06-11 to 2026-06-24 | Audit + API + Python | BACKLOG-008 (finish), BACKLOG-009 (start), BACKLOG-020 (start) | 🔴 |
 | 5 | 2026-06-25 to 2026-07-08 | API + Web UI + C# | BACKLOG-009 (finish), BACKLOG-018 (start), BACKLOG-021 (start) | 🔴 |

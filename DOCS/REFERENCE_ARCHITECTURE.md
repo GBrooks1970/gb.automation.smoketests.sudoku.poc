@@ -1,8 +1,8 @@
 # Screenplay-BDD Test Automation — Agnostic Reference Architecture
 
-**Version:** 1.1
+**Version:** 1.2
 **Status:** Accepted
-**Date:** 2026-05-14
+**Date:** 2026-05-15
 **Applies to:** Any project adopting the Screenplay-BDD structure described herein
 
 ---
@@ -696,10 +696,20 @@ A `code-review/` or `.review/` directory MUST exist at the repository root. It h
 - Assessment outputs produced by automated agents or tooling
 - Any follow-up notes that document how a review finding was resolved
 
+**Accepted output shapes:**
+
+| Shape | Naming convention | Intended use |
+|---|---|---|
+| Single-file review | `.review/YYYY-MM-DD_short-slug.md` | Focused assessments and lightweight follow-up reviews |
+| Multi-file review bundle | `.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/` | Comprehensive reviews with separate executive summary, risk, recommendation, migration, and annex files |
+
+`[UTC]` MUST use the compact UTC timestamp format `YYYYMMDDTHHMMZ`. The multi-file review bundle convention is an accepted extension recorded in `DECISION_REGISTER.md` as DR-012.
+
 **Rules:**
 
 - Every review output MUST be authored from `templates/code-review.template.md`
-- Review files MUST be named with a date prefix and a short subject slug (e.g. `2026-05-14_screenplay-ability-layer.md`) to allow chronological ordering
+- Review outputs MUST use one of the accepted output shapes above
+- Multi-file review bundles MUST include a main index file named `00_CODE_REVIEW_[AGENT]_v[N]_[UTC].md`
 - Review outputs are read-only once written — findings MUST NOT be edited after the fact; a new review supersedes an old one
 - Action items raised in a review MUST be tracked in `DOCS/planning/BACKLOG.md` or `DECISION_REGISTER.md` as appropriate; they MUST NOT remain only inside the review file
 

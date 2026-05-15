@@ -368,6 +368,58 @@ The Screenplay migration design (`DESIGN_Screenplay_Migration.md`) was authored 
 
 ---
 
+## DR-009 — Adopt Reference Architecture v1.2 and normalize governance documents
+
+**Date:** 2026-05-15
+**Status:** Accepted — 2026-05-15
+
+### Context
+
+The Reference Architecture was updated to v1.2 on 2026-05-15. This version introduces tightened requirements around template naming (Appendix A), backlog status taxonomy (Section 10.1), results archival behavior (Section 9.3), review output shape and naming (Section 10.7), and decision register entries for extension patterns (referencing DR-012).
+
+Phase 0–8 of the migration plan (as documented in prior alignment reports) was authored and executed against v1.1. The v1.2 update re-opens governance work to bring the project into alignment with the new, more prescriptive requirements.
+
+### Decision
+
+Adopt REFERENCE_ARCHITECTURE.md v1.2 (2026-05-15) as the governing architecture. Execute normalization work across four domains:
+
+1. **Template filename contract:** Create all required Appendix A lower-case template filenames under DOCS/templates.
+2. **Backlog status taxonomy:** Normalize all backlog items to use exactly `Open`, `In Progress`, or `Resolved` statuses.
+3. **Review decision lineage:** Add decision entry for review output shape and multi-file bundle naming strategy (provisional DR-012 placeholder until v1.2 semantics are fully implemented).
+4. **Results archival behavior:** Update orchestration script to preserve markdown summary files when purging old logs, per Section 9.3 mandate.
+
+### Consequences
+
+**Outcomes:**
+- Project governance is now compliant with v1.2 normative language.
+- New Stacks (Python, C#) onboarded after this decision will work against v1.2 baseline, not a mixed v1.1/v1.2 state.
+- Template naming is predictable and automatable for tooling and agents.
+- Backlog status values are consistent and queryable.
+
+**Trade-offs:**
+- Phase A–D migration effort required to normalize existing documents.
+- Any external references to prior uppercase template names must be updated.
+
+**Compliance note:**
+- v1.2 explicitly allows dot-prefix convention divergence at the "MAY vary" level of directory naming (Section 4 blueprint note). This project's use of DR-001 dot-prefixed DOCS subdirectories remains compliant via the existing decision.
+
+### Alternatives Considered
+
+**Alternative: Continue under v1.1 for this Stack only**
+- Description: Defer v1.2 adoption until Stack 2 onboarding.
+- Rejected because: Delaying normalization accumulates debt. v1.2 is the accepted current version; working against a superseded version creates unnecessary divergence.
+
+**Alternative: Adopt v1.2 statement-only without backlog work**
+- Description: Record the adoption but do not execute normalization phases.
+- Rejected because: Compliance requires actual alignment, not ceremonial declaration.
+
+### Related Decisions
+
+- DR-001 — Dot-prefix convention for DOCS subdirectories remains compliant under v1.2 MAY-level directory naming latitude.
+- DR-004 — Sequential Stack migration strategy; v1.2 adoption now ensures Python Stack onboarding (Stack 2) uses modern baseline.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -386,5 +438,5 @@ The Screenplay migration design (`DESIGN_Screenplay_Migration.md`) was authored 
 
 ---
 
-*Last entry: DR-008. Next ID: DR-009.*
+*Last entry: DR-009. Next ID: DR-010.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*
