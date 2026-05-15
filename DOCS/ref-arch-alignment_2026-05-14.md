@@ -1,7 +1,7 @@
 # Screenplay-BDD Reference Architecture — Alignment & Migration Report
 
 **Date:** 2026-05-14
-**Updated:** 2026-05-15 (Phase 5 complete — stack documentation and tooling aligned)
+**Updated:** 2026-05-15 (Phases 5 and 6 complete — stack and architecture documentation aligned)
 **Analyst:** CLAUDE Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` vs. `REFERENCE_ARCHITECTURE.md` v1.1
 **Status:** Living — updated when RA version changes
@@ -12,9 +12,9 @@
 
 This report scores the project against every normative obligation in the Screenplay-BDD Reference Architecture (`REFERENCE_ARCHITECTURE.md`, Status: Accepted, 2026-05-14). The analysis covers structure, pattern compliance, surface-type contract, documentation, and orchestration.
 
-**Overall compliance: High** *(upgraded — Phases 0–5 complete)*
+**Overall compliance: High** *(upgraded — Phases 0–6 complete)*
 
-The full Screenplay layer is now implemented. Layer 2 (Step Definitions), Layer 3 (Tasks + Questions), and Layer 4 (Abilities + Cast) are all operational. All 43 scenarios pass with the new Screenplay step definitions. Stack-level documentation and tooling configuration are now in place (Phase 5). Remaining gaps are architecture documents (Phase 6) and orchestration scripts (Phase 7).
+The full Screenplay layer is now implemented. Layer 2 (Step Definitions), Layer 3 (Tasks + Questions), and Layer 4 (Abilities + Cast) are all operational. All 43 scenarios pass with the new Screenplay step definitions. Stack-level documentation and tooling configuration are in place (Phase 5), and cross-cutting architecture documentation is now established in `DOCS/architecture/` (Phase 6). Remaining gaps are orchestration scripts and metrics (Phase 7).
 
 | Area | Status | Severity |
 |------|--------|----------|
@@ -29,13 +29,14 @@ The full Screenplay layer is now implemented. Layer 2 (Step Definitions), Layer 
 | Stack-level documentation | ✅ Complete — Phase 5 (`docs/` + 4 required files) | — |
 | `DOCS/templates/` mandate | ✅ Complete — all 14 templates present | — |
 | `DECISION_REGISTER.md` | ✅ DR-001–DR-008 | — |
+| Cross-cutting architecture docs (`DOCS/architecture/`) | ✅ Complete — Phase 6 (4 required documents) | — |
 | Orchestration scripts + metrics | Absent — Phase 7 | Medium |
 | AI agent instruction file | ✅ Complete — Phase 0 | — |
 | Algorithm documentation | ✅ Aligned | — |
 | Code review directory | Structurally minor drift (inside DOCS/, not root) | Low |
 | Implementation logs | ✅ Aligned | — |
 
-> **Current migration status (2026-05-15):** Phases 0–5 fully complete. Full Screenplay layer operational: 6 Abilities/Cast methods, 6 Tasks, 6 Questions, 10 step definition files. Stack docs created (`ARCHITECTURE.md`, `SCREENPLAY_GUIDE.md`, `QA_STRATEGY.md`, `README.md`) and `tooling/cucumber.js` configured. 43 scenarios / 241 steps all passing. Phases 6–8 open.
+> **Current migration status (2026-05-15):** Phases 0–6 fully complete. Full Screenplay layer operational: 6 Abilities/Cast methods, 6 Tasks, 6 Questions, 10 step definition files. Stack docs created (`ARCHITECTURE.md`, `SCREENPLAY_GUIDE.md`, `QA_STRATEGY.md`, `README.md`) and `tooling/cucumber.js` configured. Cross-cutting architecture docs created (`screenplay-parity-contract.md`, `subject-app-contract.md`, `orchestration-design.md`, `logging-design.md`). 43 scenarios / 241 steps all passing. Phases 7–8 open.
 
 ---
 
@@ -326,14 +327,19 @@ Phase 5 validation confirms all four documents exist, include template reference
 
 ## 8. Cross-Cutting Architecture Documents (§10.3)
 
-No `DOCS/architecture/` directory exists. All four required documents are absent:
+Phase 6 is complete. `DOCS/architecture/` now exists with all required documents.
 
 | Document | Status |
 |----------|--------|
-| Screenplay parity contract | ❌ Absent |
-| Subject application contract | ❌ Absent (details are in `DESIGN_Sudoku_Solver_Specification.md` but not in the required format) |
-| Orchestration design | ❌ Absent |
-| Logging design | ❌ Absent |
+| Screenplay parity contract | ✅ Present — `DOCS/architecture/screenplay-parity-contract.md` |
+| Subject application contract | ✅ Present — `DOCS/architecture/subject-app-contract.md` |
+| Orchestration design | ✅ Present — `DOCS/architecture/orchestration-design.md` |
+| Logging design | ✅ Present — `DOCS/architecture/logging-design.md` |
+
+**Verification:**
+- All four files exist in `DOCS/architecture/` ✅
+- Template references are included for the two template-governed files ✅
+- Regression check remains green: 43 scenarios / 241 steps passing ✅
 
 ---
 
@@ -584,7 +590,7 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 
 ---
 
-### Phase 6 — Architecture Documents (half day)
+### Phase 6 — Architecture Documents ✅ COMPLETE
 *Creates `DOCS/architecture/` (§10.3).*
 
 **Actions:**
@@ -593,6 +599,11 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 3. Author `DOCS/architecture/subject-app-contract.md` — formalises the `@util` surface contract (in-process class interface) and the potential future `@cli` surface contract (exit codes, stdout format, timeout)
 4. Author `DOCS/architecture/orchestration-design.md` — documents the `@util` lifecycle: build → test → metrics
 5. Author `DOCS/architecture/logging-design.md` — documents Serenity/JS report output and any future structured logging
+
+**Verification:**
+- `DOCS/architecture/` created with all four required documents ✅
+- `screenplay-parity-contract.md` and `subject-app-contract.md` reference their governing templates ✅
+- `npm test` remains green: 43 scenarios / 241 steps passing ✅
 
 ---
 
@@ -633,11 +644,11 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 | 3 — Tasks and Questions | §3.3, §3.4 | 4–6 h | Sprint 3 | ✅ Complete — 6 Tasks, 6 Questions; `Interaction.where()` pattern |
 | 4 — Step Definition Migration | §2.2, §3, layer model | 4–6 h | Sprint 3 | ✅ Complete — 10 step files; 43 scenarios / 241 steps passing; procedural World deleted |
 | 5 — Stack Documentation | §10.2 | 1 day | Sprint 3 | ✅ Complete — stack docs + tooling config |
-| 6 — Architecture Documents | §10.3 | 0.5 day | Sprint 4 | 🔲 Open |
+| 6 — Architecture Documents | §10.3 | 0.5 day | Sprint 4 | ✅ Complete — `DOCS/architecture/` with 4 required docs |
 | 7 — Orchestration and Metrics | §9 | 0.5 day | Sprint 4 | 🔲 Open |
 | 8 — CLI Hardening | §6.3 | 1–2 days | Sprint 5 | 🔲 Open |
 
-**Critical path to minimum viable compliance:** Phases 3 → 4 (Sprint 3) and Phase 5 (stack docs) are complete. Phases 6–8 complete full compliance.
+**Critical path to minimum viable compliance:** Phases 3 → 4 (Sprint 3), Phase 5 (stack docs), and Phase 6 (architecture docs) are complete. Phases 7–8 complete full compliance.
 
 ---
 
@@ -661,7 +672,7 @@ The following items should be added to `DOCS/.planning/BACKLOG.md` and cross-ref
 | NEW-011 | Migrate step definitions to Screenplay (replace solver_steps.js) | 4 | High | ✅ Done — 10 step files, 43/241 passing, procedural World deleted |
 | NEW-012 | Refactor over-specified step text to parameterised form | 4 | Medium | ⏸ Deferred — Gherkin unchanged per DR-005; over-specified steps remain in place |
 | NEW-013 | Create stack-level docs/ directory with 4 required documents | 5 | Medium | ✅ Done |
-| NEW-014 | Create DOCS/architecture/ with 4 required documents | 6 | Medium | 🔲 Open |
+| NEW-014 | Create DOCS/architecture/ with 4 required documents | 6 | Medium | ✅ Done |
 | NEW-015 | Create .batch/run-demoapp001 orchestration script + metrics output | 7 | Medium | 🔲 Open |
 | NEW-016 | Add exit codes and stderr to SudokuCLI for @cli surface compliance | 8 | Low | 🔲 Open |
 
