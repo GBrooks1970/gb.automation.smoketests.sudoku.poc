@@ -43,6 +43,21 @@ npm install
 npm start
 ```
 
+### CLI Options
+
+```bash
+# Show help
+npm start -- --help
+
+# Enforce max runtime in milliseconds
+npm start -- --timeout 10000
+npm start -- --timeout=10000
+```
+
+Exit code contract:
+- `0` when all puzzles finish with `SOLVED`
+- `1` when any puzzle returns `STUCK_ON_ADVANCED_LOGIC`, timeout is exceeded, or an input/runtime error occurs
+
 **Expected Output:**
 ```
 ===========================================

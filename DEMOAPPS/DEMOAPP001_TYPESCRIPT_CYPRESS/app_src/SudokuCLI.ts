@@ -34,7 +34,7 @@ export class SudokuCLI {
   /**
    * Executes the solve process and prints the results.
    */
-  public run(): void {
+  public run(): string {
     console.log('\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
     console.log('Initial Puzzle:');
     this.displayGrid();
@@ -45,5 +45,7 @@ export class SudokuCLI {
     console.log(`\nResult: ${status}`);
     this.displayGrid();
     console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n');
+
+    return status;
   }
 }

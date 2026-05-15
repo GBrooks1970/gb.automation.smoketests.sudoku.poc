@@ -8,6 +8,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 
 ## [Unreleased]
 
+### Breaking Changes
+- Phase 8 — CLI surface hardening for `DEMOAPP001_TYPESCRIPT_CYPRESS`:
+  - `npm start` now returns exit code `0` only when all puzzles resolve to `SOLVED`
+  - `npm start` now returns non-zero (`1`) when any puzzle is `STUCK_ON_ADVANCED_LOGIC`, timeout is exceeded, or an argument/runtime error occurs
+  - Added CLI options: `--help` and `--timeout <ms>` / `--timeout=<ms>`
+
 ### Added
 - Phase 2 — Serenity/JS Screenplay Foundation:
   - `@serenity-js/core`, `@serenity-js/cucumber`, `@serenity-js/assertions` v3.43.2 installed

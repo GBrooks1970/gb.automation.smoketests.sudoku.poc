@@ -1,7 +1,7 @@
 # Screenplay-BDD Reference Architecture — Alignment & Migration Report
 
 **Date:** 2026-05-14
-**Updated:** 2026-05-15 (Phase 7 complete — orchestration and metrics baseline implemented)
+**Updated:** 2026-05-15 (Phase 8 complete — CLI contract hardened and migration phases closed)
 **Analyst:** CLAUDE Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` vs. `REFERENCE_ARCHITECTURE.md` v1.1
 **Status:** Living — updated when RA version changes
@@ -12,9 +12,9 @@
 
 This report scores the project against every normative obligation in the Screenplay-BDD Reference Architecture (`REFERENCE_ARCHITECTURE.md`, Status: Accepted, 2026-05-14). The analysis covers structure, pattern compliance, surface-type contract, documentation, and orchestration.
 
-**Overall compliance: High** *(upgraded — Phases 0–7 complete)*
+**Overall compliance: High** *(upgraded — Phases 0–8 complete)*
 
-The full Screenplay layer is now implemented. Layer 2 (Step Definitions), Layer 3 (Tasks + Questions), and Layer 4 (Abilities + Cast) are all operational. All 43 scenarios pass with the new Screenplay step definitions. Stack-level documentation and tooling configuration are in place (Phase 5), cross-cutting architecture documentation is established (Phase 6), and orchestration plus metrics artifacts are now implemented (Phase 7). Remaining work is CLI hardening for future `@cli` parity (Phase 8).
+The full Screenplay layer is now implemented. Layer 2 (Step Definitions), Layer 3 (Tasks + Questions), and Layer 4 (Abilities + Cast) are all operational. All 43 scenarios pass with the new Screenplay step definitions. Stack-level documentation and tooling configuration are in place (Phase 5), cross-cutting architecture documentation is established (Phase 6), orchestration plus metrics artifacts are implemented (Phase 7), and CLI contract hardening is complete (Phase 8).
 
 | Area | Status | Severity |
 |------|--------|----------|
@@ -36,7 +36,7 @@ The full Screenplay layer is now implemented. Layer 2 (Step Definitions), Layer 
 | Code review directory | Structurally minor drift (inside DOCS/, not root) | Low |
 | Implementation logs | ✅ Aligned | — |
 
-> **Current migration status (2026-05-15):** Phases 0–7 fully complete. Full Screenplay layer operational: 6 Abilities/Cast methods, 6 Tasks, 6 Questions, 10 step definition files. Stack docs created (`ARCHITECTURE.md`, `SCREENPLAY_GUIDE.md`, `QA_STRATEGY.md`, `README.md`) and `tooling/cucumber.js` configured. Cross-cutting architecture docs created (`screenplay-parity-contract.md`, `subject-app-contract.md`, `orchestration-design.md`, `logging-design.md`). Orchestration runner implemented at `.batch/run-demoapp001.ps1` with timestamped metrics in `.results/.metrics/`. 43 scenarios / 241 steps all passing. Phase 8 remains open.
+> **Current migration status (2026-05-15):** Phases 0–8 fully complete. Full Screenplay layer operational: 6 Abilities/Cast methods, 6 Tasks, 6 Questions, 10 step definition files. Stack docs created (`ARCHITECTURE.md`, `SCREENPLAY_GUIDE.md`, `QA_STRATEGY.md`, `README.md`) and `tooling/cucumber.js` configured. Cross-cutting architecture docs created (`screenplay-parity-contract.md`, `subject-app-contract.md`, `orchestration-design.md`, `logging-design.md`). Orchestration runner implemented at `.batch/run-demoapp001.ps1` with timestamped metrics in `.results/.metrics/`. CLI now supports `--help`, `--timeout`, timeout enforcement, and explicit exit-code mapping. 43 scenarios / 241 steps all passing.
 
 ---
 
@@ -57,18 +57,18 @@ This is an important distinction — the two possible target states are:
 
 Option A is the correct interpretation for this project's current scope. The Screenplay migration design (`DESIGN_Screenplay_Migration.md`) confirms this: the `UseSudokuSolver` Ability wraps the TypeScript classes directly, not the CLI output. Scenarios should be tagged `@util` in the canonical feature store.
 
-### 1.2 CLI Contract Gaps (§6.3)
+### 1.2 CLI Contract Status (§6.3)
 
-Even under Option A, the CLI surface has compliance gaps relevant to any future `@cli` Stack:
+Phase 8 closes the previously identified CLI hardening gaps while preserving the current `@util` test strategy.
 
 | Requirement | Current state | Gap |
 |-------------|--------------|-----|
 | Invokable as single command | `npm start` ✅ | — |
-| Documented argument/option interface | Implied by `index.ts` only | No `--help`, no documented interface |
-| Exit code: 0 for success, non-zero for failure | Always exits 0 | `SudokuCLI.run()` never calls `process.exit()` |
-| Stdout for output, stderr for errors | `console.log()` only | No stderr usage; errors swallowed silently |
+| Documented argument/option interface | `--help`, `--timeout <ms>`, `--timeout=<ms>` ✅ | — |
+| Exit code: 0 for success, non-zero for failure | Explicit mapping in `index.ts` ✅ | — |
+| Stdout for output, stderr for errors | Human-readable output to stdout; errors to stderr ✅ | — |
 | Deterministic output for given inputs | Yes ✅ | — |
-| Documented time bound | None | No timeout mechanism |
+| Documented time bound | Optional timeout via `--timeout` ✅ | — |
 
 ---
 
@@ -630,7 +630,7 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 
 ---
 
-### Phase 8 — CLI Surface Hardening (optional / future)
+### Phase 8 — CLI Surface Hardening ✅ COMPLETE
 *Completes §6.3 compliance for any future `@cli` Stack.*
 
 **Actions:**
@@ -639,6 +639,14 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 3. Add `--help` option documentation
 4. Add an optional `--timeout <ms>` argument with enforced limit
 5. Record changes in `CHANGELOG.md` as a breaking change to the CLI interface
+
+**Verification:**
+- `npm run build` passes ✅
+- `npm test` remains green (43 scenarios / 241 steps passing) ✅
+- `npm start -- --help` exits 0 and documents supported options ✅
+- `npm start -- --timeout 1` exits 1 with timeout error on stderr ✅
+- `npm start` exits 1 when a puzzle reaches `STUCK_ON_ADVANCED_LOGIC` (explicit non-zero failure contract) ✅
+- `CHANGELOG.md` records the breaking CLI interface update ✅
 
 ---
 
@@ -654,9 +662,9 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 | 5 — Stack Documentation | §10.2 | 1 day | Sprint 3 | ✅ Complete — stack docs + tooling config |
 | 6 — Architecture Documents | §10.3 | 0.5 day | Sprint 4 | ✅ Complete — `DOCS/architecture/` with 4 required docs |
 | 7 — Orchestration and Metrics | §9 | 0.5 day | Sprint 4 | ✅ Complete — `.batch/run-demoapp001.ps1`, `.results/.metrics`, `.gitignore` update |
-| 8 — CLI Hardening | §6.3 | 1–2 days | Sprint 5 | 🔲 Open |
+| 8 — CLI Hardening | §6.3 | 1–2 days | Sprint 5 | ✅ Complete — exit codes, stderr routing, help and timeout options |
 
-**Critical path to minimum viable compliance:** Phases 3 → 4 (Sprint 3), Phase 5 (stack docs), Phase 6 (architecture docs), and Phase 7 (orchestration/metrics) are complete. Phase 8 completes full compliance for future `@cli` parity.
+**Critical path to minimum viable compliance:** Phases 3 → 4 (Sprint 3), Phase 5 (stack docs), Phase 6 (architecture docs), Phase 7 (orchestration/metrics), and Phase 8 (CLI hardening) are complete.
 
 ---
 
@@ -682,7 +690,7 @@ The following items should be added to `DOCS/.planning/BACKLOG.md` and cross-ref
 | NEW-013 | Create stack-level docs/ directory with 4 required documents | 5 | Medium | ✅ Done |
 | NEW-014 | Create DOCS/architecture/ with 4 required documents | 6 | Medium | ✅ Done |
 | NEW-015 | Create .batch/run-demoapp001 orchestration script + metrics output | 7 | Medium | ✅ Done |
-| NEW-016 | Add exit codes and stderr to SudokuCLI for @cli surface compliance | 8 | Low | 🔲 Open |
+| NEW-016 | Add exit codes and stderr to SudokuCLI for @cli surface compliance | 8 | Low | ✅ Done |
 
 ---
 

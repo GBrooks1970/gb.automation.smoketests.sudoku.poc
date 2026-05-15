@@ -32,12 +32,12 @@ A `@util` surface tests logic in-process without spawning a live application pro
 | Requirement (RA §6.3) | Status | Notes |
 |-----------------------|--------|-------|
 | Invokable as single command | ✅ | `npm start` |
-| Documented argument/option interface | ❌ | No formal CLI argument contract or `--help` yet |
-| Exit code 0 for success, non-zero for failure | ❌ | Current implementation does not enforce exit code map |
+| Documented argument/option interface | ✅ | `--help`, `--timeout <ms>`, `--timeout=<ms>` |
+| Exit code 0 for success, non-zero for failure | ✅ | Exit 0 only when all puzzles are `SOLVED`; otherwise exit 1 |
 | Human-readable output to stdout | ✅ | CLI prints grids and solve status |
-| Error detail to stderr | ❌ | Errors are not consistently routed to `console.error` |
+| Error detail to stderr | ✅ | Runtime and timeout errors routed to `console.error` |
 | Deterministic output for given inputs | ✅ | Output is deterministic for fixed puzzle data |
-| Documented time bound | ❌ | No timeout parameter or formal run bound |
+| Documented time bound | ✅ | Optional runtime limit via `--timeout` |
 
 ---
 
@@ -55,12 +55,7 @@ Not applicable for current project scope.
 
 ## 6. Known Gaps
 
-| Requirement | Gap | Mitigation / Deferred to |
-|-------------|-----|--------------------------|
-| @cli documented argument interface | Missing help/options contract | Phase 8 (CLI hardening) |
-| @cli exit code mapping | Missing success/failure code policy | Phase 8 (CLI hardening) |
-| @cli stderr routing | Missing dedicated error channel | Phase 8 (CLI hardening) |
-| @cli time-bound behavior | Missing timeout contract | Phase 8 (CLI hardening) |
+No active contract gaps remain for the current @util surface and the documented @cli baseline.
 
 ---
 
@@ -69,7 +64,7 @@ Not applicable for current project scope.
 | Item | Verified by | Date |
 |------|-------------|------|
 | Surface contract documented for active @util mode | GitHub Copilot | 2026-05-15 |
-| Known CLI gaps recorded and deferred | GitHub Copilot | 2026-05-15 |
+| CLI baseline contract hardened (`--help`, timeout, exit codes, stderr) | GitHub Copilot | 2026-05-15 |
 
 ---
 
