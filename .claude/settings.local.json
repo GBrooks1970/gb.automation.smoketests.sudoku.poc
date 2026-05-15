@@ -13,7 +13,9 @@
       "PowerShell(New-Item -ItemType Directory -Path \"d:\\\\__GB_DEV\\\\_GitHub\\\\gb.automation.smoketests.sudoku.poc\\\\DEMOAPPS\\\\DEMOAPP001_TYPESCRIPT_CYPRESS\\\\tests\\\\features\" -Force)",
       "Bash(git commit -m ' *)",
       "PowerShell(Head -10)",
-      "PowerShell(node -e \"const core = require\\('@serenity-js/core'\\); console.log\\(Object.keys\\(core\\).filter\\(k => k.toLowerCase\\(\\).includes\\('ability'\\)\\)\\)\" 2>&1)"
+      "PowerShell(node -e \"const core = require\\('@serenity-js/core'\\); console.log\\(Object.keys\\(core\\).filter\\(k => k.toLowerCase\\(\\).includes\\('ability'\\)\\)\\)\" 2>&1)",
+      "Bash(Move-Item \"d:\\\\__GB_DEV\\\\_GitHub\\\\gb.automation.smoketests.sudoku.poc\\\\DOCS\\\\ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md\" \"d:\\\\__GB_DEV\\\\_GitHub\\\\gb.automation.smoketests.sudoku.poc\\\\DOCS\\\\ref-arch-alignment_2026-05-14.md\")",
+      "Bash(node -e \"const {Ability} = require\\('@serenity-js/core'\\); console.log\\(Object.getOwnPropertyNames\\(Ability\\)\\);\")"
     ]
   }
 }
