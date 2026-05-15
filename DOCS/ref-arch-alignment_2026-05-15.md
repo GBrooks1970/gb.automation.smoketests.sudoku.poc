@@ -17,9 +17,9 @@ The project remains execution-stable and substantially aligned at the Stack impl
 - 241 steps passed
 - Metrics written to `.results/.metrics/DEMOAPP001_20260515T165829Z.txt` and `.md`
 
-The v1.3 reference architecture bump re-opened compliance work. MIG-01 and MIG-02 are now complete: `DECISION_REGISTER.md` adopts v1.3 through DR-012, DR-012 records the multi-file review bundle convention required by v1.3 Section 10.7, and DR-013 records the compatibility strategy for v1.3 DOCS paths. The remaining largest gaps are not solver correctness problems. They are review-output implementation and Screenplay contract gaps:
+The v1.3 reference architecture bump re-opened compliance work. MIG-01, MIG-02, and MIG-03 are now complete: `DECISION_REGISTER.md` adopts v1.3 through DR-012, DR-012 records the multi-file review bundle convention required by v1.3 Section 10.7, DR-013 records the compatibility strategy for v1.3 DOCS paths, and DR-014 creates root `.review/` as the future review-output location. The remaining largest gaps are not solver correctness problems. They are Screenplay contract and stale guidance gaps:
 
-- The v1.3 DOCS literal paths now exist as compatibility bridges, while the dot-prefixed directories remain authoritative under DR-013.
+- The v1.3 DOCS literal paths and root review path now exist; historical dot-prefixed documentation remains preserved by decision.
 - The Screenplay layer exists and passes, but Memory key constants are mostly documentary; Tasks and Questions store/read state through Ability instance fields instead of Actor Memory.
 - Several step definitions directly call Abilities, so Layer 2 is not consistently thin.
 - `CLAUDE.md`, `DOCS/.planning/BACKLOG.md`, and some template metadata still describe v1.2 or older pre-Screenplay state.
@@ -36,7 +36,7 @@ The v1.3 architecture tightens or makes explicit these obligations:
 
 | Area | v1.3 requirement | Current effect |
 |------|------------------|----------------|
-| Code review directory | Root `code-review/` or `.review/` MUST exist; bundle convention recorded as DR-012 | DR-012 is recorded; reviews still live under `DOCS/.review`; root review directory pending MIG-03 |
+| Code review directory | Root `code-review/` or `.review/` MUST exist; bundle convention recorded as DR-012 | Root `.review/` exists for future reviews via DR-014; historical reviews remain under `DOCS/.review/` |
 | Implementation logs | `implementation-logs/` MUST exist under `DOCS/` or root | `DOCS/implementation-logs/README.md` now bridges to `DOCS/.implementation/` via DR-013 |
 | Naming conventions | `DOCS/design/NAMING_CONVENTIONS.md` MUST exist | `DOCS/design/NAMING_CONVENTIONS.md` now bridges to `DOCS/.design/NAMING_CONVENTIONS.md` via DR-013 |
 | Backlog | `DOCS/planning/BACKLOG.md` MUST exist and use `Open` / `In Progress` / `Resolved` | `DOCS/planning/BACKLOG.md` now bridges to `DOCS/.planning/BACKLOG.md`; authoritative backlog content remains stale |
@@ -51,13 +51,13 @@ The v1.3 architecture tightens or makes explicit these obligations:
 |--------|--------|-------|
 | Section 2 layer model | Partial | Layers exist, but some step definitions call Abilities directly |
 | Section 3 Screenplay contracts | Partial | Actor/Ability/Task/Question structures exist; Actor Memory contract is not fully implemented |
-| Section 4 directory blueprint | Partial | Core roles exist; DOCS literal paths are bridged; root review path pending MIG-03 |
+| Section 4 directory blueprint | Partial | Core roles and v1.3 compatibility paths exist; remaining drift is mostly historical dot-prefix organization |
 | Section 5 canonical feature store | Compliant | `features_shared/` exists; stack-local copy matches canonical body after tag line |
 | Section 6 subject application contract | Compliant for current scope | `@util` surface is active; CLI baseline is documented and hardened |
 | Section 7 ability taxonomy | Mostly compliant | Current `@util` ability model is project-specific; future `@cli` work needs `InvokeExecutable` |
 | Section 8 multi-Stack parity | Pre-parity / partial | One Stack exists; parity contract exists; Memory keys are not wired into Actor Memory |
 | Section 9 orchestration and metrics | Mostly compliant | Runner emits key-value and markdown metrics; markdown summaries are preserved |
-| Section 10 documentation obligations | Partial | DR-012 and DOCS path bridges are in place; root review path, template, backlog, and agent-guide gaps remain |
+| Section 10 documentation obligations | Partial | DR-012, DR-013, DR-014, DOCS path bridges, and root `.review/` are in place; template, backlog, and agent-guide gaps remain |
 | Section 11 new Stack readiness | Partial | TypeScript baseline passes, but v1.3 governance should be normalized before Stack 2 |
 
 ---
@@ -120,11 +120,13 @@ The v1.3 architecture tightens or makes explicit these obligations:
 
 **Migration:** MIG-07.
 
-### M3. Review outputs do not match the v1.3 accepted bundle naming
+### M3. Review output location and naming were not v1.3-aligned - Resolved by MIG-03
 
-Existing review bundles use names such as `CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z`. v1.3 expects `CODE_REVIEW_[AGENT]_v[N]_[UTC]` and an index named `00_CODE_REVIEW_[AGENT]_v[N]_[UTC].md`.
+**Observed before migration:** Existing review bundles used names such as `CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z`, and no repository-root `.review/` or `code-review/` directory existed.
 
-**Migration:** MIG-03.
+**Resolution:** DR-014 now makes repository-root `.review/` the authoritative location for future reviews. Root `.review/README.md` defines the future `CODE_REVIEW_[AGENT]_v[N]_[UTC]` bundle naming and historical handling; `DOCS/.review/README.md`, `DOCS/templates/code-review.template.md`, and `DOCS/.design/NAMING_CONVENTIONS.md` now point future reviews to the v1.3 shape without renaming historical review bundles.
+
+**Migration:** MIG-03 resolved on 2026-05-15.
 
 ### M4. Template mandate is not fully satisfied
 
@@ -188,13 +190,15 @@ Test log confirms:
 ### Governance
 
 - `REFERENCE_ARCHITECTURE.md` is v1.3 dated 2026-05-15.
-- `DECISION_REGISTER.md` last entry is DR-013; next ID is DR-014.
+- `DECISION_REGISTER.md` last entry is DR-014; next ID is DR-015.
 - DR-012 records v1.3 adoption and the multi-file review bundle convention.
 - DR-013 records the DOCS compatibility path strategy.
+- DR-014 records root `.review/` as the future review-output location.
 - `DOCS/templates/` contains all 14 lowercase Appendix A filenames.
-- Root `.review/` and root `code-review/` are absent.
+- Root `.review/README.md` exists and defines future v1.3 review output naming.
 - `DOCS/planning/BACKLOG.md`, `DOCS/design/NAMING_CONVENTIONS.md`, and `DOCS/implementation-logs/README.md` exist as compatibility bridges.
 - Dot-prefix authoritative sources remain under `DOCS/.planning`, `DOCS/.design`, and `DOCS/.implementation`.
+- Historical review outputs remain under `DOCS/.review/` unchanged.
 
 ---
 
@@ -206,7 +210,7 @@ All future migration tasks are labelled `MIG-**` as requested.
 |----|--------|----------|---------------|------|---------------------|
 | MIG-01 | Resolved 2026-05-15 | High | Decision Register | Record v1.3 adoption and create DR-012 for the multi-file review bundle convention | DR-012 exists; register header references v1.3 and `decision-record.template.md`; `Last entry` and `Next ID` updated |
 | MIG-02 | Resolved 2026-05-15 | High | Documentation paths | Decide and implement the v1.3 path strategy for `DOCS/planning`, `DOCS/design`, and `DOCS/implementation-logs` | Compatibility files/directories exist with DR-013-backed sync policy |
-| MIG-03 | Open | High | Code review outputs | Align review storage and naming with v1.3 | Root `.review/` or `code-review/` exists; future bundle naming uses `CODE_REVIEW_[AGENT]_v[N]_[UTC]`; historical handling is documented without editing findings |
+| MIG-03 | Resolved 2026-05-15 | High | Code review outputs | Align review storage and naming with v1.3 | Root `.review/` exists; future bundle naming uses `CODE_REVIEW_[AGENT]_v[N]_[UTC]`; historical handling is documented without editing findings |
 | MIG-04 | Open | High | Screenplay Memory | Wire runtime state through Actor Memory or an explicitly documented Serenity/JS equivalent | Tasks write named Memory keys; Questions read named Memory keys; parity contract and docs match runtime behavior |
 | MIG-05 | Open | High | Step definitions | Remove direct Ability calls from step definitions | Step files delegate through `actor.attemptsTo(...)` and `actor.answer(...)`; missing Tasks/Questions are added |
 | MIG-06 | Open | Medium | AI agent guide | Refresh `CLAUDE.md` for v1.3 and current Screenplay implementation | No v1.2 stale baseline; no "No Screenplay Layer" limitation; current feature paths, DR range, backlog taxonomy, and risks are accurate |
@@ -221,13 +225,12 @@ All future migration tasks are labelled `MIG-**` as requested.
 
 ## 6. Recommended Sequence
 
-1. Complete MIG-03 next. This finishes the v1.3 review-output baseline.
-2. Complete MIG-06 through MIG-08 next. These remove stale guidance that can mislead future agents.
-3. Complete MIG-04 and MIG-05 before onboarding Stack 2. These are the actual portability blockers.
-4. Complete MIG-09 through MIG-12 as part of the Stack 2 readiness work.
+1. Complete MIG-06 through MIG-08 next. These remove stale guidance that can mislead future agents.
+2. Complete MIG-04 and MIG-05 before onboarding Stack 2. These are the actual portability blockers.
+3. Complete MIG-09 through MIG-12 as part of the Stack 2 readiness work.
 
 ---
 
 ## 7. Conclusion
 
-The TypeScript Stack is green and useful as the current reference implementation, but the repository is not fully v1.3-compliant. MIG-01 and MIG-02 have reset the governance baseline around DR-012 and DR-013. The remaining v1.3 work should focus on root review-output alignment, Actor Memory usage, thin step definitions, and updated agent/backlog guidance.
+The TypeScript Stack is green and useful as the current reference implementation, but the repository is not fully v1.3-compliant. MIG-01 through MIG-03 have reset the governance baseline around DR-012, DR-013, and DR-014. The remaining v1.3 work should focus on Actor Memory usage, thin step definitions, and updated agent/backlog/template guidance.

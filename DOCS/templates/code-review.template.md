@@ -2,29 +2,29 @@
 
 **Intended audience:** The reviewer (AI or human) conducting a comprehensive code review.
 **Template version:** 1.0 (2026-05-14)
-**Governed by:** `REFERENCE_ARCHITECTURE.md` §10.7
-**Produces:** `DOCS/.review/CODE_REVIEW_{Reviewer}__{UTC_TIMESTAMP}/`
+**Governed by:** `REFERENCE_ARCHITECTURE.md` v1.3 §10.7
+**Produces:** `.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/`
 
-> This template is the canonical version. The copy at `DOCS/.review/code-review-template.md` is a detailed project-specific version.
+> This template is the canonical version. The copy at `DOCS/.review/code-review-template.md` is a historical project-specific version.
 > Review outputs are **read-only** once written — do not edit findings after the fact.
-> Action items raised MUST be tracked in `DOCS/.planning/BACKLOG.md` or `DECISION_REGISTER.md`.
+> Action items raised MUST be tracked in `DOCS/planning/BACKLOG.md` or `DECISION_REGISTER.md`.
 
 ---
 
 ## How to Use This Template
 
-1. Create the output directory: `DOCS/.review/CODE_REVIEW_{Reviewer}__{UTC_TIMESTAMP}/`
+1. Create the output directory: `.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/`
 2. Author each file below from scratch — no copy-paste from previous reviews.
 3. Timestamp format: `YYYYMMDDTHHMMZ` (UTC, no seconds).
-4. After writing, add action items to `DOCS/.planning/BACKLOG.md` before closing the session.
+4. After writing, add action items to `DOCS/planning/BACKLOG.md` before closing the session.
 
 ---
 
 ## Required Output Files [REQUIRED — all must be present]
 
 ```
-DOCS/.review/CODE_REVIEW_{Reviewer}__{UTC_TIMESTAMP}/
-├── 00_CODE_REVIEW_{Reviewer}__{UTC_TIMESTAMP}.md  # Index and metadata
+.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/
+├── 00_CODE_REVIEW_[AGENT]_v[N]_[UTC].md           # Index and metadata
 ├── 01_EXECUTIVE_SUMMARY.md
 ├── 02_RISKS_AND_ISSUES.md
 ├── 03_PROJECT_REVIEWS/

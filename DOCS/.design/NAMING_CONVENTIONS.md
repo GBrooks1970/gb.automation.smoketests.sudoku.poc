@@ -134,9 +134,9 @@ private getBlockEmptyCells(...): { r: number; c: number }[]
 | How-to guides | `HOWTO_Title_Case.md` | `HOWTO_Debug_SudokuSolver.md` |
 | Implementation logs | `IMPL_LOG_YYYY-MM-DD_Title_Case.md` | `IMPL_LOG_2026-01-30_Initial_Project_Creation.md` |
 | Templates | `TEMPLATE_Title_Case.md` | `TEMPLATE_Decision_Record.md` |
-| Code review output dirs | `CODE_REVIEW_Reviewer__Timestamp/` | `CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z/` |
+| Code review output dirs | `CODE_REVIEW_[AGENT]_v[N]_[UTC]/` | `CODE_REVIEW_CLAUDE_SONNET_v1_20260513T2217Z/` |
 
-> **Separator:** Single underscore (`_`) between words. Double underscore (`__`) is reserved as the separator between reviewer name and timestamp in code-review folder names only.
+> **Separator:** Single underscore (`_`) between words. Historical review bundles under `DOCS/.review/` use a double underscore (`__`) between reviewer name and timestamp; new review bundles under root `.review/` use the v1.3 pattern from DR-012 and DR-014.
 
 ---
 
@@ -186,7 +186,7 @@ private getBlockEmptyCells(...): { r: number; c: number }[]
 | Format | `DR-NNN` (zero-padded to 3 digits) |
 | Uniqueness | IDs MUST NOT be reused, even when superseded |
 | Sequence | Sequential, starting at `DR-001` |
-| Current next ID | `DR-014` |
+| Current next ID | `DR-015` |
 
 ---
 

@@ -642,6 +642,53 @@ Keep the dot-prefixed DOCS directories as the authoritative content locations fo
 
 ---
 
+## DR-014 — Use root .review for future reviews
+
+### Context [REQUIRED]
+
+`REFERENCE_ARCHITECTURE.md` v1.3 requires a repository-root `code-review/` or `.review/` directory for code review outputs. Historical project reviews currently live under `DOCS/.review/` and use the earlier `CODE_REVIEW_{Reviewer}__{UTC_TIMESTAMP}` naming shape. Those historical review outputs are read-only snapshots, so renaming or moving them would rewrite provenance rather than improve future compliance.
+
+### Decision [REQUIRED]
+
+Create repository-root `.review/` as the v1.3 location for future code review outputs. Future comprehensive reviews MUST use `.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/` and include a main index named `00_CODE_REVIEW_[AGENT]_v[N]_[UTC].md`; historical reviews remain unchanged under `DOCS/.review/` and are treated as a read-only archive.
+
+### Status [REQUIRED]
+
+`Accepted` — 2026-05-15
+
+### Consequences [REQUIRED]
+
+**Outcomes:**
+- The repository now satisfies the v1.3 root review directory requirement.
+- Future review naming is aligned with DR-012 and v1.3 Section 10.7.
+- Historical review bundles remain intact and traceable.
+
+**Trade-offs:**
+- Review outputs now have a historical archive location and a future authoritative location.
+- Agents must consult the root `.review/README.md` before creating new reviews.
+- Existing links to `DOCS/.review/` remain valid but should be understood as historical, not the target for new reviews.
+
+**Compliance note:**
+- This decision implements the root `.review/` path accepted by v1.3 Section 10.7.
+- DR-012 defines the future bundle naming convention; DR-014 defines the active repository location and historical handling.
+
+### Alternatives Considered [REQUIRED]
+
+**Alternative: Move all historical reviews to root `.review/`**
+- Description: Relocate and rename every existing review bundle from `DOCS/.review/` to the v1.3 root path and naming format.
+- Rejected because: review outputs are read-only once written. Moving and renaming historical review bundles would obscure their original provenance and require broad link updates.
+
+**Alternative: Keep `DOCS/.review/` as the only review location**
+- Description: Continue writing future reviews under `DOCS/.review/` while relying on DR-010 as a documented divergence.
+- Rejected because: v1.3 makes the repository-root review directory a MUST, so this would leave a known compliance gap.
+
+### Related Decisions
+
+- DR-010 — Historical code review directory placement under `DOCS/.review/`.
+- DR-012 — Active v1.3 review bundle naming convention.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -660,5 +707,5 @@ Keep the dot-prefixed DOCS directories as the authoritative content locations fo
 
 ---
 
-*Last entry: DR-013. Next ID: DR-014.*
+*Last entry: DR-014. Next ID: DR-015.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*
