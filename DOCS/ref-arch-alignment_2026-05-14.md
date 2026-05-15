@@ -1,7 +1,7 @@
 # Screenplay-BDD Reference Architecture — Alignment & Migration Report
 
 **Date:** 2026-05-14
-**Updated:** 2026-05-15 (Phases 3 and 4 complete — full Screenplay layer implemented)
+**Updated:** 2026-05-15 (Phase 5 complete — stack documentation and tooling aligned)
 **Analyst:** CLAUDE Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` vs. `REFERENCE_ARCHITECTURE.md` v1.1
 **Status:** Living — updated when RA version changes
@@ -12,9 +12,9 @@
 
 This report scores the project against every normative obligation in the Screenplay-BDD Reference Architecture (`REFERENCE_ARCHITECTURE.md`, Status: Accepted, 2026-05-14). The analysis covers structure, pattern compliance, surface-type contract, documentation, and orchestration.
 
-**Overall compliance: High** *(upgraded — Phases 0–4 complete)*
+**Overall compliance: High** *(upgraded — Phases 0–5 complete)*
 
-The full Screenplay layer is now implemented. Layer 2 (Step Definitions), Layer 3 (Tasks + Questions), and Layer 4 (Abilities + Cast) are all operational. All 43 scenarios pass with the new Screenplay step definitions. Remaining gaps are documentation (Phase 5), architecture documents (Phase 6), and orchestration scripts (Phase 7).
+The full Screenplay layer is now implemented. Layer 2 (Step Definitions), Layer 3 (Tasks + Questions), and Layer 4 (Abilities + Cast) are all operational. All 43 scenarios pass with the new Screenplay step definitions. Stack-level documentation and tooling configuration are now in place (Phase 5). Remaining gaps are architecture documents (Phase 6) and orchestration scripts (Phase 7).
 
 | Area | Status | Severity |
 |------|--------|----------|
@@ -26,7 +26,7 @@ The full Screenplay layer is now implemented. Layer 2 (Step Definitions), Layer 
 | Directory blueprint — Screenplay dirs | ✅ Complete — all 6 dirs populated (abilities, actors, tasks, questions, support, step_definitions) | — |
 | CLI surface contract | Partial | High |
 | Repository-level required documents | ✅ All present and at correct paths | — |
-| Stack-level documentation | Absent — Phase 5 | High |
+| Stack-level documentation | ✅ Complete — Phase 5 (`docs/` + 4 required files) | — |
 | `DOCS/templates/` mandate | ✅ Complete — all 14 templates present | — |
 | `DECISION_REGISTER.md` | ✅ DR-001–DR-008 | — |
 | Orchestration scripts + metrics | Absent — Phase 7 | Medium |
@@ -35,7 +35,7 @@ The full Screenplay layer is now implemented. Layer 2 (Step Definitions), Layer 
 | Code review directory | Structurally minor drift (inside DOCS/, not root) | Low |
 | Implementation logs | ✅ Aligned | — |
 
-> **Current migration status (2026-05-15):** Phases 0–4 fully complete. Full Screenplay layer operational: 6 Abilities/Cast methods, 6 Tasks, 6 Questions, 10 step definition files. Procedural `solver_steps.ts/js` deleted. 43 scenarios / 241 steps all passing. Phases 5–8 open.
+> **Current migration status (2026-05-15):** Phases 0–5 fully complete. Full Screenplay layer operational: 6 Abilities/Cast methods, 6 Tasks, 6 Questions, 10 step definition files. Stack docs created (`ARCHITECTURE.md`, `SCREENPLAY_GUIDE.md`, `QA_STRATEGY.md`, `README.md`) and `tooling/cucumber.js` configured. 43 scenarios / 241 steps all passing. Phases 6–8 open.
 
 ---
 
@@ -176,8 +176,8 @@ DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/  DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/
       questions/          ABSENT ✗       (Phase 3)
       support/            PRESENT ✅     memory-keys.ts, configure.ts
       step_definitions/   ABSENT ✗       (Phase 4)
-  tooling/                ABSENT ✗       (Phase 5)
-  docs/                   ABSENT ✗       (Phase 5)
+  tooling/                PRESENT ✅     tooling/cucumber.js (Phase 5)
+  docs/                   PRESENT ✅     ARCHITECTURE.md, SCREENPLAY_GUIDE.md, QA_STRATEGY.md, README.md (Phase 5)
 
 packages/                  ABSENT (optional, not yet needed)
 .batch/ OR scripts/        ABSENT ✗       (no orchestration)
@@ -311,16 +311,16 @@ The project now operates under v1.1. A `DECISION_REGISTER.md` entry should recor
 
 ## 7. Stack-Level Documentation (§10.2)
 
-No stack-level `docs/` directory exists inside `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/`. All four required documents are absent:
+Stack-level documentation is now present inside `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/docs/` and aligned to the required templates.
 
 | Document | Template | Status |
 |----------|----------|--------|
-| `docs/ARCHITECTURE.md` | `stack-architecture.template.md` | ❌ Absent |
-| `docs/SCREENPLAY_GUIDE.md` | `screenplay-guide.template.md` | ❌ Absent |
-| `docs/QA_STRATEGY.md` | `qa-strategy.template.md` | ❌ Absent |
-| `docs/README.md` | `stack-readme.template.md` | ❌ Absent |
+| `docs/ARCHITECTURE.md` | `TEMPLATE_Stack_Architecture.md` | ✅ Present |
+| `docs/SCREENPLAY_GUIDE.md` | `TEMPLATE_Screenplay_Guide.md` | ✅ Present |
+| `docs/QA_STRATEGY.md` | `TEMPLATE_QA_Strategy.md` | ✅ Present |
+| `docs/README.md` | `TEMPLATE_Stack_Readme.md` | ✅ Present |
 
-**Note:** The project-level `DOCS/` folder is well-maintained. The gap is specifically the *stack-level* `docs/` directory inside `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/`.
+Phase 5 validation confirms all four documents exist, include template references, and preserve green tests (`43 scenarios / 241 steps passing`).
 
 ---
 
@@ -565,18 +565,22 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 
 ---
 
-### Phase 5 — Stack Documentation (1 day)
+### Phase 5 — Stack Documentation ✅ COMPLETE
 *Creates required stack-level documents (§10.2).*
 
 **Actions:**
 1. Create `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/docs/` directory
-2. Author `docs/ARCHITECTURE.md` from `DOCS/templates/stack-architecture.template.md`
-3. Author `docs/SCREENPLAY_GUIDE.md` from `DOCS/templates/screenplay-guide.template.md`
-4. Author `docs/QA_STRATEGY.md` from `DOCS/templates/qa-strategy.template.md`
-5. Author `docs/README.md` from `DOCS/templates/stack-readme.template.md`
+2. Author `docs/ARCHITECTURE.md` from `DOCS/templates/TEMPLATE_Stack_Architecture.md`
+3. Author `docs/SCREENPLAY_GUIDE.md` from `DOCS/templates/TEMPLATE_Screenplay_Guide.md`
+4. Author `docs/QA_STRATEGY.md` from `DOCS/templates/TEMPLATE_QA_Strategy.md`
+5. Author `docs/README.md` from `DOCS/templates/TEMPLATE_Stack_Readme.md`
 6. Create `tooling/` directory with `cucumber.js` configuration
 
-**Verification:** All four documents exist and reference the correct Templates.
+**Verification:**
+- `docs/ARCHITECTURE.md`, `docs/SCREENPLAY_GUIDE.md`, `docs/QA_STRATEGY.md`, and `docs/README.md` exist ✅
+- All four documents reference their source templates in `DOCS/templates/` ✅
+- `tooling/cucumber.js` created and `npm test` routes via `--config tooling/cucumber.js` ✅
+- `npm test` remains green: 43 scenarios / 241 steps passing ✅
 
 ---
 
@@ -628,12 +632,12 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 | 2 — Screenplay Foundation | §3, §4 (abilities, actors) | 2–3 h | Sprint 3 | ✅ Complete — Serenity/JS 3.43.2; Abilities, Cast, Memory keys; DR-008 |
 | 3 — Tasks and Questions | §3.3, §3.4 | 4–6 h | Sprint 3 | ✅ Complete — 6 Tasks, 6 Questions; `Interaction.where()` pattern |
 | 4 — Step Definition Migration | §2.2, §3, layer model | 4–6 h | Sprint 3 | ✅ Complete — 10 step files; 43 scenarios / 241 steps passing; procedural World deleted |
-| 5 — Stack Documentation | §10.2 | 1 day | Sprint 3 | 🔲 Open |
+| 5 — Stack Documentation | §10.2 | 1 day | Sprint 3 | ✅ Complete — stack docs + tooling config |
 | 6 — Architecture Documents | §10.3 | 0.5 day | Sprint 4 | 🔲 Open |
 | 7 — Orchestration and Metrics | §9 | 0.5 day | Sprint 4 | 🔲 Open |
 | 8 — CLI Hardening | §6.3 | 1–2 days | Sprint 5 | 🔲 Open |
 
-**Critical path to minimum viable compliance:** Phases 3 → 4 (Sprint 3). Phases 0, 1, 2 are done. Phases 5–8 complete full compliance.
+**Critical path to minimum viable compliance:** Phases 3 → 4 (Sprint 3) and Phase 5 (stack docs) are complete. Phases 6–8 complete full compliance.
 
 ---
 
@@ -656,7 +660,7 @@ The following items should be added to `DOCS/.planning/BACKLOG.md` and cross-ref
 | NEW-010 | Implement all Tasks and Questions | 3 | High | ✅ Done — 6 Tasks (Interaction.where pattern), 6 Questions |
 | NEW-011 | Migrate step definitions to Screenplay (replace solver_steps.js) | 4 | High | ✅ Done — 10 step files, 43/241 passing, procedural World deleted |
 | NEW-012 | Refactor over-specified step text to parameterised form | 4 | Medium | ⏸ Deferred — Gherkin unchanged per DR-005; over-specified steps remain in place |
-| NEW-013 | Create stack-level docs/ directory with 4 required documents | 5 | Medium | 🔲 Open |
+| NEW-013 | Create stack-level docs/ directory with 4 required documents | 5 | Medium | ✅ Done |
 | NEW-014 | Create DOCS/architecture/ with 4 required documents | 6 | Medium | 🔲 Open |
 | NEW-015 | Create .batch/run-demoapp001 orchestration script + metrics output | 7 | Medium | 🔲 Open |
 | NEW-016 | Add exit codes and stderr to SudokuCLI for @cli surface compliance | 8 | Low | 🔲 Open |

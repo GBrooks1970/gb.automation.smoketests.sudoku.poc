@@ -10,7 +10,7 @@
     "lint": "eslint app_src/**/*.ts",
     "format": "prettier --write app_src/**/*.ts",
     "format:check": "prettier --check app_src/**/*.ts",
-    "test": "cucumber-js"
+    "test": "cucumber-js --config tooling/cucumber.js"
   },
   "keywords": [
     "sudoku",
