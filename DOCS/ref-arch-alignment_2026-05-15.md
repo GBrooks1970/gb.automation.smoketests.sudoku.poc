@@ -17,12 +17,12 @@ The project remains execution-stable and substantially aligned at the Stack impl
 - 241 steps passed
 - Metrics written to `.results/.metrics/DEMOAPP001_20260515T165829Z.txt` and `.md`
 
-The v1.3 reference architecture bump re-opened compliance work. MIG-01, MIG-02, and MIG-03 are now complete: `DECISION_REGISTER.md` adopts v1.3 through DR-012, DR-012 records the multi-file review bundle convention required by v1.3 Section 10.7, DR-013 records the compatibility strategy for v1.3 DOCS paths, and DR-014 creates root `.review/` as the future review-output location. The remaining largest gaps are not solver correctness problems. They are Screenplay contract and stale guidance gaps:
+The v1.3 reference architecture bump re-opened compliance work. MIG-01, MIG-02, MIG-03, and MIG-06 are now complete: `DECISION_REGISTER.md` adopts v1.3 through DR-012, DR-012 records the multi-file review bundle convention required by v1.3 Section 10.7, DR-013 records the compatibility strategy for v1.3 DOCS paths, DR-014 creates root `.review/` as the future review-output location, and `CLAUDE.md` now reflects the current v1.3/Screenplay baseline. The remaining largest gaps are not solver correctness problems. They are Screenplay contract, backlog, and template gaps:
 
 - The v1.3 DOCS literal paths and root review path now exist; historical dot-prefixed documentation remains preserved by decision.
 - The Screenplay layer exists and passes, but Memory key constants are mostly documentary; Tasks and Questions store/read state through Ability instance fields instead of Actor Memory.
 - Several step definitions directly call Abilities, so Layer 2 is not consistently thin.
-- `CLAUDE.md`, `DOCS/.planning/BACKLOG.md`, and some template metadata still describe v1.2 or older pre-Screenplay state.
+- `DOCS/.planning/BACKLOG.md` and some template metadata still describe v1.2 or older pre-Screenplay state.
 
 ### Overall v1.3 Compliance
 
@@ -57,7 +57,7 @@ The v1.3 architecture tightens or makes explicit these obligations:
 | Section 7 ability taxonomy | Mostly compliant | Current `@util` ability model is project-specific; future `@cli` work needs `InvokeExecutable` |
 | Section 8 multi-Stack parity | Pre-parity / partial | One Stack exists; parity contract exists; Memory keys are not wired into Actor Memory |
 | Section 9 orchestration and metrics | Mostly compliant | Runner emits key-value and markdown metrics; markdown summaries are preserved |
-| Section 10 documentation obligations | Partial | DR-012, DR-013, DR-014, DOCS path bridges, and root `.review/` are in place; template, backlog, and agent-guide gaps remain |
+| Section 10 documentation obligations | Partial | DR-012, DR-013, DR-014, DOCS path bridges, root `.review/`, and refreshed agent guide are in place; template and backlog gaps remain |
 | Section 11 new Stack readiness | Partial | TypeScript baseline passes, but v1.3 governance should be normalized before Stack 2 |
 
 ---
@@ -108,11 +108,13 @@ The v1.3 architecture tightens or makes explicit these obligations:
 
 ## Medium Severity
 
-### M1. AI agent guide is stale against v1.3 and current implementation
+### M1. AI agent guide is stale against v1.3 and current implementation - Resolved by MIG-06
 
-`CLAUDE.md` still references v1.2, DR-011 as latest, old status symbols, the old feature-file path, and a "No Screenplay Layer" known limitation. It also says Hidden Singles is blocks-only, which conflicts with current code and backlog status.
+**Observed before migration:** `CLAUDE.md` referenced v1.2, DR-011 as latest, old status symbols, the old feature-file path, and a "No Screenplay Layer" known limitation. It also said Hidden Singles was blocks-only, which conflicted with current code.
 
-**Migration:** MIG-06.
+**Resolution:** `CLAUDE.md` now states the active v1.3 baseline, DR-001 through DR-014 authority range, current Stack and feature paths, root `.review/` policy, exact backlog status taxonomy, and current Screenplay implementation status. It now treats MIG-04 and MIG-05 as remaining Screenplay conformance work rather than claiming Screenplay is absent.
+
+**Migration:** MIG-06 resolved on 2026-05-15.
 
 ### M2. Backlog content no longer reflects current compliance state
 
@@ -194,6 +196,7 @@ Test log confirms:
 - DR-012 records v1.3 adoption and the multi-file review bundle convention.
 - DR-013 records the DOCS compatibility path strategy.
 - DR-014 records root `.review/` as the future review-output location.
+- `CLAUDE.md` now reflects v1.3, current Screenplay implementation status, current paths, and current decision range.
 - `DOCS/templates/` contains all 14 lowercase Appendix A filenames.
 - Root `.review/README.md` exists and defines future v1.3 review output naming.
 - `DOCS/planning/BACKLOG.md`, `DOCS/design/NAMING_CONVENTIONS.md`, and `DOCS/implementation-logs/README.md` exist as compatibility bridges.
@@ -213,7 +216,7 @@ All future migration tasks are labelled `MIG-**` as requested.
 | MIG-03 | Resolved 2026-05-15 | High | Code review outputs | Align review storage and naming with v1.3 | Root `.review/` exists; future bundle naming uses `CODE_REVIEW_[AGENT]_v[N]_[UTC]`; historical handling is documented without editing findings |
 | MIG-04 | Open | High | Screenplay Memory | Wire runtime state through Actor Memory or an explicitly documented Serenity/JS equivalent | Tasks write named Memory keys; Questions read named Memory keys; parity contract and docs match runtime behavior |
 | MIG-05 | Open | High | Step definitions | Remove direct Ability calls from step definitions | Step files delegate through `actor.attemptsTo(...)` and `actor.answer(...)`; missing Tasks/Questions are added |
-| MIG-06 | Open | Medium | AI agent guide | Refresh `CLAUDE.md` for v1.3 and current Screenplay implementation | No v1.2 stale baseline; no "No Screenplay Layer" limitation; current feature paths, DR range, backlog taxonomy, and risks are accurate |
+| MIG-06 | Resolved 2026-05-15 | Medium | AI agent guide | Refresh `CLAUDE.md` for v1.3 and current Screenplay implementation | No v1.2 stale baseline; no "No Screenplay Layer" limitation; current feature paths, DR range, backlog taxonomy, and risks are accurate |
 | MIG-07 | Open | Medium | Backlog | Reconcile backlog against current v1.3 state | Governance references v1.3; summary counts match item statuses; `BACKLOG-019` is resolved or split into remaining Screenplay-contract work; MIG items are tracked |
 | MIG-08 | Open | Medium | Templates | Complete template mandate details | `backlog.template.md`, `changelog.template.md`, and `naming-conventions.template.md` mark mandatory fields with `[REQUIRED]`; governed docs reference lowercase templates |
 | MIG-09 | Open | Medium | Implementation logs | Normalize implementation-log location and naming policy | `implementation-logs` path strategy implemented; future log naming follows `YYYY-MM-DD_short-session-topic.md`; legacy files are preserved or mapped |
@@ -225,7 +228,7 @@ All future migration tasks are labelled `MIG-**` as requested.
 
 ## 6. Recommended Sequence
 
-1. Complete MIG-06 through MIG-08 next. These remove stale guidance that can mislead future agents.
+1. Complete MIG-07 and MIG-08 next. These remove stale backlog and template guidance that can mislead future agents.
 2. Complete MIG-04 and MIG-05 before onboarding Stack 2. These are the actual portability blockers.
 3. Complete MIG-09 through MIG-12 as part of the Stack 2 readiness work.
 
@@ -233,4 +236,4 @@ All future migration tasks are labelled `MIG-**` as requested.
 
 ## 7. Conclusion
 
-The TypeScript Stack is green and useful as the current reference implementation, but the repository is not fully v1.3-compliant. MIG-01 through MIG-03 have reset the governance baseline around DR-012, DR-013, and DR-014. The remaining v1.3 work should focus on Actor Memory usage, thin step definitions, and updated agent/backlog/template guidance.
+The TypeScript Stack is green and useful as the current reference implementation, but the repository is not fully v1.3-compliant. MIG-01 through MIG-03 and MIG-06 have reset the governance baseline and agent guide around DR-012, DR-013, and DR-014. The remaining v1.3 work should focus on Actor Memory usage, thin step definitions, and updated backlog/template guidance.
