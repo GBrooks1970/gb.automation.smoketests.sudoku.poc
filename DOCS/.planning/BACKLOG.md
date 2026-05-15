@@ -1,279 +1,113 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-15T14:00Z
-**Governed by:** Reference Architecture v1.2 §10.1 — Backlog Taxonomy
-**Purpose:** Track outstanding and future work required to keep all Stacks in parity; maintain single source of truth for prioritized work
-**Sources:**
-- [Code Review - Claude Sonnet 4.5 (2026-01-30)](../DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/00_CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z.md)
-- [Code Review - Claude Opus 4.6 (2026-03-30)](../DOCS/.review/CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z/00_CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z.md)
-- [Code Review - Claude Sonnet 4.6 (2026-05-13)](../DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z/00_CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z.md)
-- [Implementation Log - Sprint 2 (2026-05-14)](../DOCS/.implementation/IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md)
-- [Reference Alignment Analysis v1.2 (2026-05-15)](../DOCS/ref-arch-alignment_2026-05-15.md) — compliance baseline
+**Last Updated:** 2026-05-15T17:25Z
+**Governed by:** `REFERENCE_ARCHITECTURE.md` v1.3 Section 10.1
+**Authoritative path:** `DOCS/.planning/BACKLOG.md`
+**Compatibility path:** `DOCS/planning/BACKLOG.md` (DR-013 bridge)
 **Status:** Active Development
 
 ---
 
-## Overview
+## Purpose
 
-This backlog tracks planned work for the Sudoku Solver POC project. Updated 2026-05-14 after
-completing BACKLOG-005-NEW and BACKLOG-006-COMPLETE during Sprint 2. Sprint 2 is ongoing
-(2026-05-14 to 2026-05-27) with only Step 6 (GitHub Actions CI) remaining.
+This backlog tracks product, technical debt, and Reference Architecture migration work required to keep current and future Stacks in parity.
 
-### Summary
+Per v1.3 Section 10.1:
 
-| Metric | Count |
+- Every tracked item uses exactly one status: `Open`, `In Progress`, or `Resolved`.
+- Resolved items are retained as a record that the gap existed.
+- Structural choices must be recorded in `DECISION_REGISTER.md` before the related work is closed.
+
+---
+
+## Summary
+
+| Status | Count |
 |--------|-------|
-| Open | 16 |
-| In Progress | 2 |
-| Resolved | 6 |
+| Open | 21 |
+| In Progress | 1 |
+| Resolved | 11 |
+| **Total** | **33** |
 
-| Metric | Status |
-|--------|--------|
-| Overall Grade | A- (upgraded from B+ — both HIGH risks resolved, test suite live) |
-| Critical Issues | 0 (was 2 — BACKLOG-001 and BACKLOG-002 now closed) |
-| Medium Issues | 2 (BACKLOG-004, BACKLOG-017) |
-| Low Issues | 1 (BACKLOG-007: dead code + console coupling) |
-| Approved Designs Pending Implementation | 3 (Audit Trail, REST API, Web UI) |
-| Code Reviews | 3 (Sonnet 4.5, Opus 4.6, Sonnet 4.6) |
-| Test Scenarios | 43 passing / 241 steps (was 0 executable) |
-| Puzzles in Test Suite | 5 (Easy, Logic Squeeze, Minimal Clues, Crosshatch Challenge, Empty) |
-
-### Backlog Parity Tracking
-
-This backlog tracks work required to keep all Stacks in parity with the Reference Architecture v1.2, specifically:
-- Outstanding gaps identified in the reference alignment analysis
-- Cross-Stack parity requirements (shared interfaces, feature consistency, documentation)
-- Gaps will be resolved in Phase A–D migration work per the alignment plan
-
-### Grade Dimension Breakdown (post Sprint 2)
-
-| Dimension | Grade | Change from Last Review |
-|-----------|-------|------------------------|
-| Design Quality | A | Unchanged |
-| Code Quality | A+ | Improved (constants centralised in constants.ts, Prettier formatting baseline applied) |
-| Documentation | A+ | Improved (implementation log added) |
-| Test Coverage | A | Major improvement — 43 scenarios all green (was D) |
-| Implementation Progress | B | Improved (3 backlog items closed this sprint) |
-| Pedagogical Value | A | Unchanged |
-| **Overall** | **A-** | **Upgraded from B+** |
-
-### Sprint Planning
-
-- **Sprint Duration:** 2 weeks
-- **Current Sprint:** Sprint 2 (2026-05-14 to 2026-05-27)
-- **Sprint Goal:** Complete remaining Sprint 2 items — constants.ts refactor, Prettier, and GitHub Actions CI
-- **Sprint Progress:** 5 of 6 steps complete (Steps 1, 2, 3, 4, 5 done; Step 6 remaining)
+| Area | Current state |
+|------|---------------|
+| Current execution baseline | 43 scenarios / 241 steps passing |
+| Active Reference Architecture | v1.3 |
+| Active Stack | `DEMOAPP001_TYPESCRIPT_CYPRESS` |
+| Current sprint focus | CI, v1.3 governance cleanup, output decoupling planning |
+| Highest parity risks | MIG-04 Actor Memory, MIG-05 thin step definitions |
 
 ---
 
-## Implementation Strategy
+## Reference Architecture Migration Items
 
-```
-Sprint 2: constants.ts + Prettier + Hidden Singles + Test Runner + CI
-    [Steps 1, 2, 3, 4, 5 ALL DONE — only Step 6 (CI) remaining]
-    |
-Sprint 3: Console Output Decoupling (IOutput) + close BACKLOG-017
-    |
-Sprint 3-4: Audit Trail Core (shared CellChange interface)
-    |
-Sprint 4-5: REST API (uses AuditLogger for change tracking)
-    |
-Sprint 5-6: Web UI (SolveStepTracker adapts AuditLogger, served by REST API)
-    |
-Sprint 7: Docker + Performance + Polish
-```
-
-**Key Principle:** Backlog items are only started when all acceptance criteria can be
-completed within the sprint. Partial completion creates more risk than deferral.
+| ID | Title | Stack(s) | Nature of Gap | Priority | Status | Decision Record |
+|----|-------|----------|---------------|----------|--------|-----------------|
+| MIG-01 | Adopt Reference Architecture v1.3 and create DR-012 | All | Governance baseline | High | Resolved | DR-012 |
+| MIG-02 | Add RA-literal DOCS path bridges | All | Documentation path compatibility | High | Resolved | DR-013 |
+| MIG-03 | Align code review output location and naming | All | Review output compliance | High | Resolved | DR-014 |
+| MIG-04 | Wire Screenplay runtime state through Actor Memory | DEMOAPP001 and future Stacks | Screenplay parity contract | High | Open | Pending |
+| MIG-05 | Remove direct Ability calls from step definitions | DEMOAPP001 and future Stacks | Layer 2 thinness | High | Open | Pending |
+| MIG-06 | Refresh AI agent guide for v1.3 | All | Agent guidance currency | Medium | Resolved | DR-012, DR-013, DR-014 |
+| MIG-07 | Reconcile backlog against v1.3 state | All | Planning currency | Medium | Resolved | None required |
+| MIG-08 | Complete template mandate details | All | Template compliance | Medium | Open | Pending if structural |
+| MIG-09 | Normalize implementation-log location and naming policy | All | Documentation path and naming | Medium | Open | Pending |
+| MIG-10 | Add feature parity validation report process | All | Generated parity artifacts | Medium | Open | Pending |
+| MIG-11 | Parameterize over-specified canonical Gherkin steps | All | Gherkin portability | Low | Open | Pending if step contract changes |
+| MIG-12 | Decide metrics Stack identifier policy | All | Multi-Stack reporting | Low | Open | Pending |
 
 ---
 
-## Sprint 2 Plan: Step-by-Step (2026-05-14 to 2026-05-27)
+## Active Product and Technical Work
 
-### Sprint 2 Goal
-Resolve all persistent technical debt from prior sprints and establish automated testing.
-
-### Step-by-Step Execution Order
-
-| Step | Item | Hours | Dependency | Status |
-|------|------|-------|-----------|--------|
-| 1 | Create constants.ts + update all 5 source files | 2h | None | 🟢 Completed (2026-05-14) |
-| 2 | Add Prettier + eslint-config-prettier | 1-2h | None (parallel with Step 1) | 🟢 Completed (2026-05-14) |
-| 3 | Fix Hidden Singles (rows + columns) + add test puzzle | 4-6h | - | 🟢 Completed (2026-05-14) |
-| 4 | Create Implementation Log for this cycle | 1h | - | 🟢 Completed (2026-05-14) |
-| 5 | Implement Cucumber.js test runner + all step definitions | 16-24h | - | 🟢 Completed (2026-05-14) |
-| 6 | Create minimal GitHub Actions CI workflow | 2-3h | Step 5 | 🔴 Not Started |
-
-**Sprint 2 Remaining Estimate:** 2-3 hours (Step 6 only)
-
-### Step 1 Details: Create constants.ts — COMPLETED 2026-05-14
-- Created `app_src/constants.ts` with GRID_SIZE, BLOCK_SIZE, EMPTY_CELL, MIN_DIGIT, MAX_DIGIT
-- Removed 3 `export const` lines from `SudokuSolver.ts`; added import from `./constants`
-- Updated SudokuOrchestrator.ts, SudokuCLI.ts, PuzzleLoader.ts, and step_definitions to import from `./constants`
-- Fixed all 3 hardcoded `9` values in `PuzzleLoader.validatePuzzles()` with GRID_SIZE, EMPTY_CELL, MAX_DIGIT
-- `npm run build` clean, `npm run lint` clean, `npm test` 43/43, bat file unchanged
-- Commit: `a85e17a`
-- Closed BACKLOG-005-NEW
-
-### Step 2 Details: Add Prettier — COMPLETED 2026-05-14
-- Installed `prettier` and `eslint-config-prettier`
-- Created `.prettierrc`: tabWidth 2, singleQuote, trailingComma es5, semi, printWidth 100
-- Added `format` and `format:check` scripts to `package.json`
-- Added `prettierConfig` as last entry in `eslint.config.js` (disables conflicting rules)
-- Applied `npm run format` baseline — 5 source files reformatted; `npm run format:check` passes
-- `npm run build` clean, `npm run lint` clean, `npm test` 43/43, bat file unchanged
-- Commit: `e8c984d`
-- Closed BACKLOG-006-COMPLETE
-
-### Step 3 Details: Fix Hidden Singles — COMPLETED 2026-05-14
-- Extended `SudokuSolver.hiddenSingles()` with row-based and column-based checks
-- Added "Crosshatch Challenge" puzzle to `puzzles.json` (5th puzzle)
-- Unexpected result: "Minimal Clues" (17-clue puzzle) now SOLVED — row/col hidden singles were the missing piece
-- Updated CLAUDE.md, ALGORITHM_Sudoku_Basic_Solver.md, BasicSudokuSolverLogic.feature
-- Closed BACKLOG-001
-
-### Step 4 Details: Implementation Log — COMPLETED 2026-05-14
-- `IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md` created
-- Documents all work from naming convention session through BACKLOG-001 and BACKLOG-002
-- Closed BACKLOG-003
-
-### Step 5 Details: Cucumber.js Test Runner — COMPLETED 2026-05-14
-- Installed `@cucumber/cucumber` and `@cucumber/pretty-formatter`
-- Created `cucumber.js` config and `tsconfig.cucumber.json` (separate tsconfig to avoid rootDir conflict)
-- Created `tests/step_definitions/solver_steps.ts`: 43 scenarios, 241 steps, 0 failures
-- `npm test` script added to `package.json`
-- Closed BACKLOG-002
-
-### Step 6 Details: GitHub Actions CI (2-3h) — OUTSTANDING
-
-- Create `.github/workflows/ci.yml`
-- Triggers: push and pull_request to all branches
-- Steps: checkout, Node.js 20 setup, `npm ci`, `npm run lint`, `npm run build`, `npm test`
-- Add CI status badge to `README.md`
-- Closes BACKLOG-004 (first stage)
+| ID | Title | Stack(s) | Nature of Gap | Priority | Status |
+|----|-------|----------|---------------|----------|--------|
+| BACKLOG-004 | Setup GitHub Actions CI/CD | DEMOAPP001 | CI automation | Medium | Open |
+| BACKLOG-017 | Unify Feature Design Overlap | All planned app surfaces | Design consistency | Medium | In Progress |
+| BACKLOG-007 | Decouple Console Output | DEMOAPP001 | CLI/API extensibility | Medium | Open |
+| BACKLOG-008 | Implement Audit Trail Feature | DEMOAPP001 | Feature implementation | Medium | Open |
+| BACKLOG-009 | Implement REST API Wrapper | DEMOAPP001 future API surface | Feature implementation | Medium | Open |
+| BACKLOG-018 | Implement Web UI Solver Visualisation | DEMOAPP001 future UI surface | Feature implementation | Medium | Open |
+| BACKLOG-020 | Python Screenplay-style Step Definitions | DEMOAPP002 | Future Stack parity | Medium | Open |
+| BACKLOG-021 | C# Screenplay-style Step Definitions | DEMOAPP003 | Future Stack parity | Medium | Open |
+| BACKLOG-010 | Docker Compose for Local Development | All | Local development infrastructure | Low | Open |
+| BACKLOG-011 | Performance Benchmarking Suite | All | Performance regression detection | Low | Open |
+| BACKLOG-012 | Implement Python Version | DEMOAPP002 | Future Stack implementation | Future | Open |
+| BACKLOG-013 | Implement C# Version | DEMOAPP003 | Future Stack implementation | Future | Open |
+| BACKLOG-014 | Advanced Solving Techniques | DEMOAPP001 and future Stacks | Solver capability | Future | Open |
+| BACKLOG-015 | Interactive Sudoku Tutor | Future product surface | Product idea | Future | Open |
+| BACKLOG-016 | Puzzle Generator | Future product surface | Product idea | Future | Open |
 
 ---
 
-## Product Backlog
+## Active Item Details
 
-### COMPLETED
+### BACKLOG-004: Setup GitHub Actions CI/CD
 
-#### BACKLOG-001: Complete Hidden Singles Implementation
-**Priority:** HIGH | **Estimate:** 4-6h | **Sprint:** 2
-**Status:** Resolved (2026-05-14)
-**Commit:** `f171d63`
-
-**Acceptance Criteria:**
-- [x] `hiddenSingles()` checks rows for hidden singles
-- [x] `hiddenSingles()` checks columns for hidden singles
-- [x] `hiddenSingles()` checks blocks for hidden singles (existing preserved)
-- [x] Test puzzle added that requires row/column hidden singles (Crosshatch Challenge)
-- [x] Algorithm documentation updated (limitation note removed from ALGORITHM doc and CLAUDE.md)
-- [x] CLAUDE.md Known Limitations updated (entry removed)
-- [x] BONUS: Minimal Clues puzzle now SOLVED (previously STUCK_ON_ADVANCED_LOGIC)
-
----
-
-#### BACKLOG-002: Implement Automated Test Runner
-**Priority:** HIGH | **Estimate:** 16-24h | **Sprint:** 2
-**Status:** Resolved (2026-05-14)
-**Commit:** `5891e1d`
-
-**Acceptance Criteria:**
-- [x] `@cucumber/cucumber` installed with TypeScript support (`@cucumber/pretty-formatter` also added)
-- [x] `tests/step_definitions/solver_steps.ts` created
-- [x] Step definitions implemented for all 43 scenarios (241 steps)
-- [x] `npm test` script runs all scenarios
-- [x] `cucumber.js` configuration file present
-- [x] `tsconfig.cucumber.json` created (separate tsconfig for test compilation)
-- [x] All 43 scenarios green
-
----
-
-#### BACKLOG-003: Create Implementation Logs
-**Priority:** HIGH | **Estimate:** 1h | **Sprint:** 2
-**Status:** Resolved (2026-05-14)
-**Commit:** `89e7a9a`
-
-**Acceptance Criteria:**
-- [x] `IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md` created
-- [x] Constants architecture decision documented (why constants are in SudokuSolver.ts, not constants.ts)
-- [x] Hidden Singles fix approach documented (row/col scanning pattern)
-- [x] Naming conventions cycle decisions documented
-- [x] All 5 phases of the session documented with errors and solutions
-
----
-
-#### BACKLOG-005-NEW: Centralize Constants in constants.ts
-**Priority:** MEDIUM | **Estimate:** 2h | **Sprint:** 2
-**Status:** Resolved (2026-05-14)
-**Commit:** `a85e17a`
-
-**Acceptance Criteria:**
-- [x] `app_src/constants.ts` created with GRID_SIZE, BLOCK_SIZE, EMPTY_CELL, MIN_DIGIT, MAX_DIGIT
-- [x] Constant exports removed from `SudokuSolver.ts`
-- [x] All source files import from `./constants` (SudokuSolver, Orchestrator, CLI, PuzzleLoader, step_definitions)
-- [x] `PuzzleLoader.ts` uses GRID_SIZE, EMPTY_CELL, MAX_DIGIT in validation (removes hardcoded `9`)
-- [x] `npm run build` succeeds, `npm run lint` passes, `npm test` still 43/43
-- [x] Bat file output identical to pre-change output
-
----
-
-#### BACKLOG-006-COMPLETE: Add Prettier to ESLint Setup
-**Priority:** MEDIUM | **Estimate:** 1-2h | **Sprint:** 2
-**Status:** Resolved (2026-05-14)
-**Commit:** `e8c984d`
-
-**Acceptance Criteria:**
-- [x] ESLint installed with `@typescript-eslint/naming-convention` rule
-- [x] `npm run lint` script added to `package.json`
-- [x] Prettier installed (`prettier`, `eslint-config-prettier`)
-- [x] `.prettierrc` created with project settings (tabWidth 2, singleQuote, trailingComma es5)
-- [x] `npm run format` and `npm run format:check` scripts added
-- [x] `eslint-config-prettier` added to `eslint.config.js` to disable conflicting rules
-- [x] All existing code passes `npm run format:check`
-
----
-
-### HIGH Priority
-
-*(All HIGH items now closed. None remain.)*
-
----
-
-### MEDIUM Priority
-
-#### BACKLOG-004: Setup GitHub Actions CI/CD
-**Priority:** MEDIUM | **Estimate:** 2-3h | **Sprint:** 2 (Step 6)
+**Priority:** Medium
 **Status:** Open
-**Note:** Previously blocked on BACKLOG-002 (test step). BACKLOG-002 is now complete — unblocked.
+**Stack(s):** DEMOAPP001
+**Nature of Gap:** CI automation
 
-**Description:**
-Minimal GitHub Actions workflow running build, lint, and test on every push and pull request.
+Acceptance criteria:
 
-**Acceptance Criteria:**
 - [ ] `.github/workflows/ci.yml` created
-- [ ] Build step: `npm ci` + `npm run build`
-- [ ] Lint step: `npm run lint`
-- [ ] Test step: `npm test` (43 scenarios must pass)
+- [ ] Build step runs `npm ci` and `npm run build`
+- [ ] Lint step runs `npm run lint`
+- [ ] Test step runs `npm test`
 - [ ] PR status checks visible in GitHub
 - [ ] `README.md` updated with CI badge
 
-**Dependencies:** ~~BACKLOG-002~~ (complete)
+### BACKLOG-017: Unify Feature Design Overlap
 
----
-
-#### BACKLOG-017: Unify Feature Design Overlap
-**Priority:** MEDIUM | **Estimate:** 1h remaining | **Sprint:** 3
+**Priority:** Medium
 **Status:** In Progress
-**Note:** Moved to Sprint 3 — one criterion remaining; not blocking Sprint 2 code work.
+**Stack(s):** All planned app surfaces
+**Nature of Gap:** Design consistency
 
-**Description:**
-Reconcile the three feature designs (Audit Trail, REST API, Web UI) on shared data models and
-Express server. Most acceptance criteria completed in April 2026.
+Acceptance criteria:
 
-**Acceptance Criteria:**
 - [x] Shared `CellChange` interface specified as single definition
 - [x] `SolveStep extends CellChange` inheritance documented
 - [ ] Single Express server approach explicitly documented in REST API design document
@@ -281,250 +115,127 @@ Express server. Most acceptance criteria completed in April 2026.
 - [x] TODO task lists updated to reflect shared foundations
 - [x] No contradictions between the three designs
 
-**Dependencies:** None
+### BACKLOG-007: Decouple Console Output
 
----
-
-#### BACKLOG-007: Decouple Console Output
-**Priority:** MEDIUM | **Estimate:** 4-6h | **Sprint:** 3
+**Priority:** Medium
 **Status:** Open
+**Stack(s):** DEMOAPP001
+**Nature of Gap:** CLI/API extensibility
 
-**Description:**
-Introduce `IOutput` interface to decouple `console.log` from `SudokuCLI`. Prerequisite for
-REST API response generation and for Cucumber step definitions that assert CLI output.
-Also: remove `SudokuSolver.named()` dead code at the same time (30-minute add-on).
+Acceptance criteria:
 
-**Acceptance Criteria:**
 - [ ] `app_src/output/IOutput.ts` interface created with `write(message: string): void`
-- [ ] `app_src/output/ConsoleOutput.ts` implementation (default)
-- [ ] `SudokuCLI` refactored to accept `IOutput` constructor parameter with `ConsoleOutput` default
+- [ ] `app_src/output/ConsoleOutput.ts` implementation created
+- [ ] `SudokuCLI` accepts an `IOutput` constructor parameter with `ConsoleOutput` default
 - [ ] `SudokuSolver.named()` removed or used in `index.ts`
-- [ ] Default behaviour unchanged — bat file output identical
-- [ ] `npm test` still 43/43
+- [ ] Default CLI behavior unchanged
+- [ ] `npm test` remains green
 
-**Dependencies:** BACKLOG-002 (complete — test runner available for verification)
+### BACKLOG-008: Implement Audit Trail Feature
 
----
-
-#### BACKLOG-008: Implement Audit Trail Feature
-**Priority:** MEDIUM | **Estimate:** 20-30h | **Sprint:** 3-4
-**Design Reference:** [DESIGN_Audit_Trail_Feature.md](../DOCS/.design/DESIGN_Audit_Trail_Feature.md)
+**Priority:** Medium
 **Status:** Open
+**Stack(s):** DEMOAPP001
+**Nature of Gap:** Feature implementation
 
-**Description:**
-Implement audit logging per approved design. Provides the shared `CellChange` interface that
-the REST API and Web UI both depend on for change tracking.
+Design reference: `DOCS/.design/DESIGN_Audit_Trail_Feature.md`
 
-**Acceptance Criteria:**
-- [ ] `app_src/audit/AuditTypes.ts` with shared `CellChange`, `AuditEvent`, `AuditTrail` interfaces
+Acceptance criteria:
+
+- [ ] `app_src/audit/AuditTypes.ts` with shared audit interfaces
 - [ ] `app_src/audit/AuditLogger.ts` with iteration tracking and change recording
 - [ ] `app_src/audit/AuditFormatter.ts` with JSON export and console summary
-- [ ] `SudokuSolver.setAuditLogger()` integration (optional injection, null by default)
+- [ ] Optional `SudokuSolver.setAuditLogger()` integration
 - [ ] Algorithm attribution for each cell change recorded
 - [ ] Less than 5% solver performance overhead
-- [ ] Cucumber step definitions added for audit scenarios
+- [ ] Gherkin coverage added for audit scenarios
 
-**Dependencies:** BACKLOG-017 (shared interface design), BACKLOG-007 (recommended)
+### BACKLOG-009: Implement REST API Wrapper
 
----
-
-#### BACKLOG-009: Implement REST API Wrapper
-**Priority:** MEDIUM | **Estimate:** 24-32h | **Sprint:** 4-5
-**Design Reference:** [DESIGN_REST_API_Wrapper.md](../DOCS/.design/DESIGN_REST_API_Wrapper.md)
+**Priority:** Medium
 **Status:** Open
+**Stack(s):** DEMOAPP001 future API surface
+**Nature of Gap:** Feature implementation
 
-**Acceptance Criteria:**
-- [ ] Express.js server (also serves Web UI static files in Phase 5)
-- [ ] Technique endpoints: unit-completion, hidden-singles, naked-singles
-- [ ] Solve endpoint with step tracking (uses AuditLogger)
-- [ ] Puzzle endpoints: list, get by name
+Design reference: `DOCS/.design/DESIGN_REST_API_Wrapper.md`
+
+Acceptance criteria:
+
+- [ ] Express.js server
+- [ ] Technique endpoints for unit-completion, hidden-singles, and naked-singles
+- [ ] Solve endpoint with step tracking using AuditLogger
+- [ ] Puzzle endpoints: list and get by name
 - [ ] Validate endpoint
-- [ ] Request validation middleware and error handling middleware
-- [ ] Jest + Supertest API tests for all endpoints
+- [ ] Request validation and error handling middleware
+- [ ] API tests for all endpoints
 
-**Dependencies:** BACKLOG-008, BACKLOG-007
+### BACKLOG-018: Implement Web UI Solver Visualisation
 
----
-
-#### BACKLOG-018: Implement Web UI Solver Visualisation
-**Priority:** MEDIUM | **Estimate:** 20-30h | **Sprint:** 5-6
-**Design Reference:** [DESIGN_Web_UI_Solver_Visualisation.md](../DOCS/.design/DESIGN_Web_UI_Solver_Visualisation.md)
+**Priority:** Medium
 **Status:** Open
+**Stack(s):** DEMOAPP001 future UI surface
+**Nature of Gap:** Feature implementation
 
-**Acceptance Criteria:**
-- [ ] `SolveStepTracker` as thin adapter over `AuditLogger` (formats for frontend)
-- [ ] HTML grid display with algorithm colour coding
-- [ ] Step-by-step playback controls (next, prev, play, pause)
+Design reference: `DOCS/.design/DESIGN_Web_UI_Solver_Visualisation.md`
+
+Acceptance criteria:
+
+- [ ] `SolveStepTracker` adapter over `AuditLogger`
+- [ ] HTML grid display with algorithm color coding
+- [ ] Step-by-step playback controls
 - [ ] Event log panel with current step highlighting
-- [ ] Statistics panel (algorithm breakdown, solve status)
-- [ ] Served from existing REST API Express server (no separate server)
+- [ ] Statistics panel
+- [ ] Served from the REST API Express server
 
-**Dependencies:** BACKLOG-009, BACKLOG-008
+### BACKLOG-020: Python Screenplay-style Step Definitions
 
----
-
-#### BACKLOG-019: Migrate TypeScript Tests to Screenplay Pattern
-**Priority:** MEDIUM | **Estimate:** 11-17h | **Sprint:** 3
-**Design Reference:** [DESIGN_Screenplay_Migration.md](../DOCS/.design/DESIGN_Screenplay_Migration.md)
+**Priority:** Medium
 **Status:** Open
+**Stack(s):** DEMOAPP002
+**Nature of Gap:** Future Stack parity
 
-**Description:**
-Replace the monolithic `SudokuWorld` step definitions with a proper Screenplay layer
-using Serenity/JS. All 43 existing Gherkin scenarios must continue to pass unchanged
-after migration. Produces Serenity BDD HTML living-documentation reports.
+Acceptance criteria:
 
-**Acceptance Criteria:**
-- [ ] `@serenity-js/core`, `@serenity-js/cucumber`, `@serenity-js/assertions`, `@serenity-js/serenity-bdd` installed
-- [ ] `tests/screenplay/` directory created with Abilities, Tasks, Questions, Actors
-- [ ] `UseSudokuSolver` and `LoadPuzzles` Abilities implemented
-- [ ] All Tasks implemented: `InitialiseGrid`, `ApplyAlgorithm`, `SolvePuzzle`, `LoadPuzzleByName`, `SetupGridState`, `AttemptPlacement`
-- [ ] All Questions implemented: `SolveStatus`, `GridCell`, `AlgorithmMadeProgress`, `LoadedPuzzleCount`, `PlacementValidity`, `ErrorThrown`
-- [ ] Step definitions split into 10 focused files (one per scenario category)
-- [ ] All 43 scenarios pass — zero regressions
-- [ ] No single step definitions file exceeds 80 lines
-- [ ] `npm run serenity:report` generates HTML living documentation
-- [ ] `npm run build`, `npm run lint`, `npm run format:check` all clean
-
-**Dependencies:** BACKLOG-002 (complete), BACKLOG-004 (recommended — CI validates migration)
-
----
-
-#### BACKLOG-020: Python Screenplay-style Step Definitions (DEMOAPP002)
-**Priority:** MEDIUM | **Estimate:** 8-12h | **Sprint:** 4-5
-**Design Reference:** [DESIGN_Screenplay_Migration.md](../DOCS/.design/DESIGN_Screenplay_Migration.md#61-python--pytest-bdd--screenplay-style)
-**Status:** Open
-
-**Description:**
-Implement Python-equivalent Screenplay-style Abilities and step definitions that share
-the same `BasicSudokuSolverLogic.feature` file. Uses pytest-bdd with dataclass-based
-Abilities (no formal Screenplay library required).
-
-**Acceptance Criteria:**
 - [ ] `DEMOAPPS/DEMOAPP002_PYTHON_PYTEST/` directory created
-- [ ] Python solver implementation follows `DESIGN_Sudoku_Solver_Specification.md`
-- [ ] Screenplay-style Abilities: `UseSudokuSolver`, `LoadPuzzles` (Python dataclasses)
-- [ ] Screenplay-style Tasks and Questions implemented as pytest fixtures / functions
-- [ ] All 43 Gherkin scenarios pass using the shared `.feature` file
-- [ ] `pytest` runs with `pytest-bdd`
-- [ ] `pyproject.toml` / `requirements.txt` present
+- [ ] Python solver implementation follows the solver specification
+- [ ] `UseSudokuSolver` and `LoadPuzzles` abilities implemented
+- [ ] Tasks and Questions implemented in Python-appropriate style
+- [ ] All canonical Gherkin scenarios pass
+- [ ] Python project configuration present
 
-**Dependencies:** BACKLOG-012 (Python version), BACKLOG-019 (TypeScript Screenplay baseline)
+### BACKLOG-021: C# Screenplay-style Step Definitions
 
----
-
-#### BACKLOG-021: C# Screenplay-style Step Definitions (DEMOAPP003)
-**Priority:** MEDIUM | **Estimate:** 8-12h | **Sprint:** 5-6
-**Design Reference:** [DESIGN_Screenplay_Migration.md](../DOCS/.design/DESIGN_Screenplay_Migration.md#63-c--specflow--screenplay-style)
+**Priority:** Medium
 **Status:** Open
+**Stack(s):** DEMOAPP003
+**Nature of Gap:** Future Stack parity
 
-**Description:**
-Implement C# Screenplay-style Abilities and step definitions using SpecFlow and the
-shared `.feature` file. Follows the interface-based `IAbility` / `ITask` / `IQuestion<T>`
-pattern described in the design document.
+Acceptance criteria:
 
-**Acceptance Criteria:**
 - [ ] `DEMOAPPS/DEMOAPP003_CSHARP_SPECFLOW/` directory created
-- [ ] C# solver implementation follows `DESIGN_Sudoku_Solver_Specification.md`
-- [ ] Screenplay-style `IAbility`, `ITask`, `IQuestion<T>` interfaces defined
-- [ ] `UseSudokuSolver`, `LoadPuzzles` Abilities implemented
-- [ ] All 43 Gherkin scenarios pass using the shared `.feature` file
+- [ ] C# solver implementation follows the solver specification
+- [ ] Screenplay-style `IAbility`, `ITask`, and `IQuestion<T>` interfaces defined
+- [ ] `UseSudokuSolver` and `LoadPuzzles` abilities implemented
+- [ ] All canonical Gherkin scenarios pass
 - [ ] `dotnet test` runs with SpecFlow
 
-**Dependencies:** BACKLOG-013 (C# version), BACKLOG-019 (TypeScript Screenplay baseline)
-
 ---
 
-### LOW Priority (Sprint 7+)
+## Resolved Items
 
-#### BACKLOG-010: Docker Compose for Local Development
-**Priority:** LOW | **Estimate:** 8-12h | **Sprint:** 7+
-**Status:** Open
-
-**Acceptance Criteria:**
-- [ ] Dockerfile with multi-stage build
-- [ ] `docker-compose.yml` for development environment
-- [ ] Source code volume mounting for live reload
-- [ ] Documentation updated
-
-**Dependencies:** None
-
----
-
-#### BACKLOG-011: Performance Benchmarking Suite
-**Priority:** LOW | **Estimate:** 12-16h | **Sprint:** 7+
-**Status:** Open
-
-**Acceptance Criteria:**
-- [ ] Benchmark puzzle set (10+ puzzles of varying difficulty)
-- [ ] Performance measurement harness
-- [ ] Baseline metrics established (solve time per puzzle)
-- [ ] Audit Trail overhead verified under 5% target
-- [ ] Regression detection integrated into CI
-
-**Dependencies:** BACKLOG-002 (complete), BACKLOG-004
-
----
-
-### Future Enhancements (Not Prioritised)
-
-#### BACKLOG-012: Implement Python Version (DEMOAPP002)
-**Estimate:** 40-60h | **Status:** Open (future)
-**Note:** Python solver implementation (solver logic). Screenplay-style step definitions covered by BACKLOG-020.
-
-#### BACKLOG-013: Implement C# Version (DEMOAPP003)
-**Estimate:** 40-60h | **Status:** Open (future)
-**Note:** C# solver implementation (solver logic). Screenplay-style step definitions covered by BACKLOG-021.
-
-#### BACKLOG-014: Advanced Solving Techniques
-**Estimate:** 60-80h | **Status:** Open (future)
-**Note:** Naked Pairs, X-Wing, Swordfish. The "Minimal Clues" puzzle now solves with the
-complete basic algorithm — a truly "advanced techniques only" puzzle is still needed for
-the STUCK_ON_ADVANCED_LOGIC path to be exercised beyond the Empty Grid.
-
-#### BACKLOG-015: Interactive Sudoku Tutor
-**Estimate:** 80-120h | **Status:** Open (idea)
-
-#### BACKLOG-016: Puzzle Generator
-**Estimate:** 40-60h | **Status:** Open (idea)
-
----
-
-## Backlog Maintenance
-
-### Status Values
-
-All items use one of three statuses per Reference Architecture v1.2 §10.1:
-
-| Status | Description | Lifecycle |
-|--------|-------------|----------|
-| Open | Item in backlog, not yet started | Initial state |
-| In Progress | Actively being worked on | Work in current sprint |
-| Resolved | Done and verified | Final state; immutable record |
-
-**Additional qualifiers (in parentheses):**
-- *future* — planned for later sprints, not immediate priority
-- *idea* — concept stage, design needed before prioritization
-- *blocked* — waiting on dependencies (noted in item description)
-
-### Sprint 2 Quality Checkpoints
-
-| Step | Item | Verification | Status |
-|------|------|-------------|--------|
-| 1 | constants.ts | `npm run build` clean, `npm run lint` clean, `npm test` 43/43, bat output identical | Resolved |
-| 2 | Prettier | `npm run format:check` passes, `npm run lint` still passes | Resolved |
-| 3 | Hidden Singles | 5 puzzles all correct results in bat output | Resolved |
-| 4 | Implementation Log | Log complete and accurate | Resolved |
-| 5 | Test Runner | `npm test` 43/43 pass | Resolved |
-| 6 | CI | Pipeline green on GitHub Actions, badge in README | Open |
-
-### Technical Debt Rules (From Sonnet 4.6 Review + Documentation Review 2026-05-14)
-
-1. Only start a backlog item when all its acceptance criteria can be completed in the sprint
-2. Create an implementation log entry at every sprint close
-3. Verify all acceptance criteria explicitly before marking an item complete
-4. Run CLAUDE.md currency check at each sprint close
-5. Update `DOCS/README.md` in the same commit as any new document addition
-6. Update the relevant sub-directory README (`.design/README.md`, `.review/README.md`) when adding documents
+| ID | Title | Stack(s) | Resolved | Notes |
+|----|-------|----------|----------|-------|
+| BACKLOG-001 | Complete Hidden Singles Implementation | DEMOAPP001 | 2026-05-14 | Rows, columns, and blocks now checked |
+| BACKLOG-002 | Implement Automated Test Runner | DEMOAPP001 | 2026-05-14 | Cucumber test runner established |
+| BACKLOG-003 | Create Implementation Logs | All | 2026-05-14 | Initial implementation logs created |
+| BACKLOG-005-NEW | Centralize Constants in constants.ts | DEMOAPP001 | 2026-05-14 | Grid constants centralized |
+| BACKLOG-006-COMPLETE | Add Prettier to ESLint Setup | DEMOAPP001 | 2026-05-14 | Formatting baseline established |
+| BACKLOG-019 | Migrate TypeScript Tests to Screenplay Pattern | DEMOAPP001 | 2026-05-15 | Screenplay layer implemented and green; residual RA conformance tracked by MIG-04 and MIG-05 |
+| MIG-01 | Adopt Reference Architecture v1.3 and create DR-012 | All | 2026-05-15 | DR-012 |
+| MIG-02 | Add RA-literal DOCS path bridges | All | 2026-05-15 | DR-013 |
+| MIG-03 | Align code review output location and naming | All | 2026-05-15 | DR-014 |
+| MIG-06 | Refresh AI agent guide for v1.3 | All | 2026-05-15 | `CLAUDE.md` current |
+| MIG-07 | Reconcile backlog against v1.3 state | All | 2026-05-15 | This update |
 
 ---
 
@@ -532,14 +243,24 @@ All items use one of three statuses per Reference Architecture v1.2 §10.1:
 
 | Sprint | Dates | Focus | Key Items | Status |
 |--------|-------|-------|-----------|--------|
-| 2 | 2026-05-14 to 2026-05-27 | Close Persistent Risks | BACKLOG-001 ✅, BACKLOG-002 ✅, BACKLOG-003 ✅, BACKLOG-005-NEW ✅, BACKLOG-006-COMPLETE ✅, BACKLOG-004 | In Progress (Step 6 remaining) |
-| 3 | 2026-05-28 to 2026-06-10 | Output + Screenplay + Audit Start | BACKLOG-007, BACKLOG-017 (close), BACKLOG-019, BACKLOG-008 (start) | 🔴 |
-| 4 | 2026-06-11 to 2026-06-24 | Audit + API + Python | BACKLOG-008 (finish), BACKLOG-009 (start), BACKLOG-020 (start) | 🔴 |
-| 5 | 2026-06-25 to 2026-07-08 | API + Web UI + C# | BACKLOG-009 (finish), BACKLOG-018 (start), BACKLOG-021 (start) | 🔴 |
-| 6 | 2026-07-09 to 2026-07-22 | Web UI + Multi-stack Polish | BACKLOG-018 (finish), BACKLOG-020/021 (finish) | 🔴 |
-| 7+ | 2026-07-23+ | Infrastructure | BACKLOG-010, BACKLOG-011 | 🔴 |
+| 2 | 2026-05-14 to 2026-05-27 | Close persistent risks and governance drift | BACKLOG-004, MIG-08 | In Progress |
+| 3 | 2026-05-28 to 2026-06-10 | Output decoupling and Screenplay contract tightening | BACKLOG-007, BACKLOG-017, MIG-04, MIG-05 | Open |
+| 4 | 2026-06-11 to 2026-06-24 | Audit/API foundations and Python Stack start | BACKLOG-008, BACKLOG-009, BACKLOG-020 | Open |
+| 5 | 2026-06-25 to 2026-07-08 | API/Web UI and C# Stack start | BACKLOG-018, BACKLOG-021 | Open |
+| 6+ | 2026-07-09 onward | Multi-Stack polish and infrastructure | BACKLOG-010, BACKLOG-011, MIG-09 through MIG-12 | Open |
 
 ---
 
-**Next Review Date:** 2026-05-27 (End of Sprint 2)
+## Maintenance Rules
+
+1. Keep item statuses exactly `Open`, `In Progress`, or `Resolved`.
+2. Update the summary counts whenever an item status changes.
+3. Do not delete resolved items.
+4. Add a Decision Register entry before closing any item that resolves into a structural choice.
+5. Update `DOCS/ref-arch-alignment_2026-05-15.md` when Reference Architecture migration status changes.
+6. Keep `DOCS/planning/BACKLOG.md` as a bridge only unless DR-013 is superseded.
+
+---
+
+**Next Review Date:** 2026-05-27
 **Backlog Owner:** Project Lead / Development Team
