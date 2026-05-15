@@ -420,6 +420,132 @@ Adopt REFERENCE_ARCHITECTURE.md v1.2 (2026-05-15) as the governing architecture.
 
 ---
 
+## DR-010 — Code review directory placement under DOCS/.review with dot-prefix convention
+
+**Date:** 2026-05-15
+**Status:** Accepted — 2026-05-15
+
+### Context
+
+Reference Architecture v1.2 §10.7 specifies that code review outputs may be stored in either a repository-root `.review/` directory or a project-specific location. The project currently maintains reviews under `DOCS/.review/`, which is a divergence from the RA v1.2 default root location.
+
+This decision formalizes the location choice and applies the previously-accepted DR-001 dot-prefix convention. The choice prioritizes co-location of all project documentation (all reviews alongside design docs, implementation logs, and planning artifacts) over literal RA v1.2 directory naming.
+
+### Decision
+
+Code review outputs remain under `DOCS/.review/` rather than migrating to repository root `.review/`. This placement is justified by:
+
+1. **Consistency with DR-001:** The dot-prefix convention (established in Phase 0) is applied to all DOCS subdirectories. `DOCS/.review/` is the natural extension of this pattern.
+2. **Documentation co-location:** All project governance and review outputs are unified under DOCS, making the documentation tree self-contained.
+3. **No functional impact:** Review output naming, shape, and file structure remain compliant with v1.2 §10.7 regardless of parent directory location.
+
+Future code review output files **MUST** follow the v1.2-compliant naming and bundling scheme:
+- Directory name: `CODE_REVIEW_{Reviewer}__{UTC_TIMESTAMP}/` (timestamp format: YYYYMMDDTHHMMZ)
+- Required files: 00_INDEX.md, 01_EXECUTIVE_SUMMARY.md, 02_RISKS_AND_ISSUES.md, 03_PROJECT_REVIEWS/, 04_CROSS_PROJECT_ANALYSIS.md, 05_RECOMMENDATIONS.md, 06_ARCHITECTURE_ASSESSMENT.md, 07_MIGRATION_PLANS.md
+- Multi-file bundle extension: Deferred to DR-012 (provisional — semantics TBD for Stack-specific review extensions)
+
+### Consequences
+
+**Outcomes:**
+- Review directory placement is now formally recorded as a deliberate divergence from RA v1.2 default.
+- Future reviews generated will follow v1.2 shape compliance regardless of this location decision.
+- Documentation tree remains unified and discoverable under DOCS.
+
+**Trade-offs:**
+- Code review directory does not sit at repository root `.review/` as RA v1.2 example shows (MAY-level latitude — not a MUST requirement).
+- Automated tooling that assumes root `.review/` would need configuration adjustment. No such tooling is currently integrated.
+
+**Compliance note:**
+- This is an accepted and documented divergence at the MAY-level of RA v1.2 §10.7. The decision preserves compliance with the normative MUST requirements (output shape and naming format) while diverging on location via the MAY-level latitude clause.
+
+### Alternatives Considered
+
+**Alternative: Migrate reviews to root `.review/`**
+- Description: Move all existing DOCS/.review/ contents to root `.review/`, then update CLAUDE.md and CI references.
+- Rejected because: Introduces directory-level divergence from established DR-001 pattern without functional benefit. Co-location of all documentation under DOCS is more valuable than RA v1.2 example path matching.
+
+**Alternative: Use both locations (root and DOCS)**
+- Description: Keep existing reviews at DOCS/.review and add new reviews to root `.review/`, migrating over time.
+- Rejected because: Creates inconsistency and two sources of truth for where reviews live. Better to formalize one location.
+
+### Related Decisions
+
+- DR-001 — Dot-prefix convention for DOCS subdirectories applied consistently.
+- DR-009 — v1.2 adoption implies this location decision must be explicitly recorded.
+
+---
+
+## DR-011 — Code review output shape and multi-file bundle strategy aligned to RA v1.2
+
+**Date:** 2026-05-15
+**Status:** Accepted — 2026-05-15
+
+### Context
+
+Reference Architecture v1.2 §10.7 specifies accepted shapes for code review outputs and references "DR-012" as the formal decision governing multi-file bundle extensions (for Stack-specific or specialized review types). The project currently produces reviews following the template shape defined in v1.2 Appendix A (`code-review.template.md`), but this decision was not explicitly recorded in the decision register.
+
+This decision formalizes the commitment to v1.2 shape compliance and records the multi-file bundle strategy for future Stack-specific reviews (e.g., Stack 2 Python review outputs, Stack 3 C# review outputs).
+
+### Decision
+
+All code review outputs **MUST** follow the RA v1.2 shape specified in `code-review.template.md`:
+
+**Required output directory:** `DOCS/.review/CODE_REVIEW_{Reviewer}__{UTC_TIMESTAMP}/`
+
+**Required files (all MUST be present):**
+1. `00_CODE_REVIEW_{Reviewer}__{UTC_TIMESTAMP}.md` — Index and metadata
+2. `01_EXECUTIVE_SUMMARY.md` — Grade, dimension breakdown, key strengths, key risks
+3. `02_RISKS_AND_ISSUES.md` — Numbered issues high-to-low priority
+4. `03_PROJECT_REVIEWS/` — One .md file per project reviewed
+5. `04_CROSS_PROJECT_ANALYSIS.md` — Parity, documentation, test coverage metrics
+6. `05_RECOMMENDATIONS.md` — Prioritized improvements with backlog references
+7. `06_ARCHITECTURE_ASSESSMENT.md` — SOLID/KISS/YAGNI/DRY assessment
+8. `07_MIGRATION_PLANS.md` — Priority strategies with effort/risk
+
+**Timestamp format:** UTC, `YYYYMMDDTHHMMZ` (no seconds; zero-padded)
+
+**Reviewer attribution:** `AI assistant (CLAUDE [model])` or `[First name, Role]`
+
+**Multi-file bundle extension strategy (DR-012 semantics):**
+When reviews are specialized by Stack or surface type (e.g., Stack-specific code review for Python implementation), the bundle MAY be extended with:
+- Subdirectory: `03_PROJECT_REVIEWS/` remains present and contains Stack-agnostic analysis
+- New subdirectory: `STACK_SPECIFIC_REVIEWS/` MAY be added containing Stack-specific `.md` files
+- File naming: `STACK_{StackName}_{AnalysisType}.md`
+- Example: `STACK_DEMOAPP002_PYTHON_SCREENPLAY_PARITY_ANALYSIS.md`
+
+This extension is provisional and subject to refinement as Stacks 2 and 3 are onboarded.
+
+### Consequences
+
+**Outcomes:**
+- All code review outputs are now formally required to meet v1.2 shape specification.
+- The multi-file bundle structure provides flexibility for Stack-specific analysis without breaking the standard shape.
+- Future reviews can include Stack-specific findings without fragmenting the review output.
+
+**Trade-offs:**
+- The bundle shape is prescriptive; reviewers must follow the exact file naming and structure.
+- Stack-specific extensions are deferred; they will be refined when Stack 2 (Python) review is generated.
+
+**Compliance note:**
+- Fully aligned with RA v1.2 §10.7. This decision serves as the project's formal recording of "DR-012 semantics" referenced in the RA.
+
+### Alternatives Considered
+
+**Alternative: Create single-file review documents**
+- Description: Output reviews as single `CODE_REVIEW_{Reviewer}__{UTC_TIMESTAMP}.md` files instead of bundled directories.
+- Rejected because: The multi-file structure enables cleaner organization, section-specific linking, and easier updates to individual sections (e.g., new risks, updated recommendations).
+
+**Alternative: Extend RA v1.2 shape beyond what is specified**
+- Description: Add custom sections (e.g., Sprint-specific analysis, Team feedback).
+- Rejected because: v1.2 shape is the baseline. Custom sections should be added only after multi-Stack experience demonstrates a clear need.
+
+### Related Decisions
+
+- DR-010 — Code review directory location (DOCS/.review vs root); this decision is orthogonal to shape compliance.
+- DR-009 — v1.2 adoption; this decision operationalizes §10.7 shape requirements.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -438,5 +564,5 @@ Adopt REFERENCE_ARCHITECTURE.md v1.2 (2026-05-15) as the governing architecture.
 
 ---
 
-*Last entry: DR-009. Next ID: DR-010.*
+*Last entry: DR-011. Next ID: DR-012.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

@@ -187,11 +187,20 @@ Completed items:
 - BACKLOG.md status values confirmed as `Open`, `In Progress`, or `Resolved` (no emoji or mixed terminology).
 - BACKLOG.md header updated with v1.2 governance reference and explicit parity tracking purpose statement.
 
-## Phase B — Review & Provenance Alignment (High/Medium)
+## Phase B — Review & Provenance Alignment (Completed 2026-05-15)
 
-1. Decide root review directory strategy (`.review/` at root vs documented divergence).
-2. Add decision entry for review output shape and naming strategy aligned to v1.2.
-3. Standardize new review output naming to one accepted v1.2 shape.
+**Status:** ✅ Resolved
+
+Completed items:
+1. ✅ Decided on review directory strategy: `DOCS/.review/` with dot-prefix convention justification (DR-010).
+2. ✅ Added formal decision entry for review output shape and naming strategy aligned to v1.2 (DR-011).
+3. ✅ Standardized review output naming and structure to v1.2-compliant bundle shape.
+
+**Validation:**
+- DECISION_REGISTER.md now contains DR-010 (review directory divergence justification via DR-001 consistency).
+- DECISION_REGISTER.md now contains DR-011 (review output shape compliance and DR-012 multi-file bundle strategy).
+- All existing review outputs in DOCS/.review already follow v1.2 shape (no changes needed to historical reviews).
+- Future reviews will be generated using v1.2-compliant naming and structure.
 
 ## Phase C — Orchestration Archival Compliance (Medium)
 
@@ -212,7 +221,7 @@ Completed items:
 | NEW-017 | Adopt RA v1.2 in decision register | High | Resolved (2026-05-15) | Governance |
 | NEW-018 | Add Appendix A exact template filenames in DOCS/templates | High | Resolved (2026-05-15) | Documentation templates |
 | NEW-019 | Normalize backlog status taxonomy to Open/In Progress/Resolved | High | Resolved (2026-05-15) | Planning |
-| NEW-020 | Align review output policy with v1.2 and record decision lineage | Medium | Open | Reviews |
+| NEW-020 | Align review output policy with v1.2 and record decision lineage | Medium | Resolved (2026-05-15) | Reviews |
 | NEW-021 | Preserve metrics summaries during archival cleanup | Medium | Open | Orchestration |
 | NEW-022 | Refresh CLAUDE.md for post-migration reality and v1.2 parity rules | Medium | Open | Agent guidance |
 
