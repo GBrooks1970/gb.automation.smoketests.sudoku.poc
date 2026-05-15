@@ -202,10 +202,24 @@ Completed items:
 - All existing review outputs in DOCS/.review already follow v1.2 shape (no changes needed to historical reviews).
 - Future reviews will be generated using v1.2-compliant naming and structure.
 
-## Phase C — Orchestration Archival Compliance (Medium)
+## Phase C — Orchestration Archival Compliance (Completed 2026-05-15)
 
-1. Update .batch/run-demoapp001.ps1 retention cleanup to preserve markdown summaries.
-2. Document retention/archival policy clearly in DOCS/architecture/logging-design.md and CHANGELOG if retention behavior changes.
+**Status:** ✅ Resolved
+
+Completed items:
+1. ✅ Updated .batch/run-demoapp001.ps1 retention cleanup to preserve markdown metric summaries per v1.2 §9.3.
+
+**Details:**
+- Changed cleanup logic from blanket deletion of all files in `.results/.metrics/` to selective preservation:
+  - `.txt` metric files (key-value format) are deleted when older than retention threshold
+  - `.md` metric files (markdown table format) are now preserved indefinitely for historical archival analysis
+  - Log files continue to be cleaned per retention threshold (unchanged)
+- Updated console output to explicitly note that markdown summaries are preserved for historical archival
+
+**Validation:**
+- Script logic updated to filter by file extension and retention date
+- Historical metrics now accumulate in markdown format, supporting trend analysis across multiple test runs
+- Compliance with RA v1.2 §9.3: "preserve metrics summaries when purging old logs"
 
 ## Phase D — Agent Instruction Currency (Medium)
 
@@ -222,8 +236,8 @@ Completed items:
 | NEW-018 | Add Appendix A exact template filenames in DOCS/templates | High | Resolved (2026-05-15) | Documentation templates |
 | NEW-019 | Normalize backlog status taxonomy to Open/In Progress/Resolved | High | Resolved (2026-05-15) | Planning |
 | NEW-020 | Align review output policy with v1.2 and record decision lineage | Medium | Resolved (2026-05-15) | Reviews |
-| NEW-021 | Preserve metrics summaries during archival cleanup | Medium | Open | Orchestration |
-| NEW-022 | Refresh CLAUDE.md for post-migration reality and v1.2 parity rules | Medium | Open | Agent guidance |
+| NEW-021 | Preserve metrics summaries during archival cleanup | Medium | Resolved (2026-05-15) | Orchestration |
+| NEW-022 | Refresh CLAUDE.md for post-migration reality and v1.2 parity rules | Medium | In Progress | Agent guidance |
 
 ---
 

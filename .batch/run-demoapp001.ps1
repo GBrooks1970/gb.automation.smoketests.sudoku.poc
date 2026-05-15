@@ -113,15 +113,20 @@ $mdLines = @(
 $mdLines | Out-File -FilePath $metricsMd -Encoding utf8
 
 # Retention cleanup for logs/metrics older than retention threshold
+# Per RA v1.2 §9.3: Preserve markdown metric summary files, purge old log files
 $cutoff = (Get-Date).ToUniversalTime().AddDays(-$RetentionDays)
+
+# Remove old log files (no preservation required)
 Get-ChildItem -Path $logsDir -File | Where-Object { $_.LastWriteTimeUtc -lt $cutoff } | Remove-Item -Force -ErrorAction SilentlyContinue
-Get-ChildItem -Path $metricsDir -File | Where-Object { $_.LastWriteTimeUtc -lt $cutoff } | Remove-Item -Force -ErrorAction SilentlyContinue
+
+# Remove old .txt metric files but PRESERVE markdown summaries for historical analysis
+Get-ChildItem -Path $metricsDir -Filter "*.txt" | Where-Object { $_.LastWriteTimeUtc -lt $cutoff } | Remove-Item -Force -ErrorAction SilentlyContinue
 
 Write-Host "BuildExitCode: $buildExitCode"
 Write-Host "TestExitCode: $testExitCode"
 Write-Host "OverallExitCode: $overallExitCode"
 Write-Host "MetricsTxt: $metricsTxt"
-Write-Host "MetricsMd: $metricsMd"
+Write-Host "MetricsMd: $metricsMd (preserved for historical archival)"
 Write-Host "TestLog: $testLog"
 
 exit $overallExitCode
