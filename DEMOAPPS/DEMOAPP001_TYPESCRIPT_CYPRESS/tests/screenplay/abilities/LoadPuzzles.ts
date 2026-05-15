@@ -16,7 +16,7 @@ export class LoadPuzzles extends Ability {
     return new LoadPuzzles(filePath);
   }
 
-  private constructor(filePath: string) {
+  constructor(filePath: string) {
     super();
     try {
       this.loader = new PuzzleLoader(path.resolve(filePath));
