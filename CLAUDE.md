@@ -24,35 +24,56 @@ gb.automation.smoketests.sudoku.poc/
 │       │   ├── SudokuCLI.ts            # Terminal interface and display
 │       │   └── PuzzleLoader.ts         # Loads puzzles from JSON files
 │       ├── tests/
-│       │   └── BasicSudokuSolverLogic.feature  # Gherkin test specifications
+│       │   ├── features/
+│       │   │   └── BasicSudokuSolverLogic.feature  # Stack-local Gherkin test scenarios
+│       │   └── screenplay/               # Screenplay Pattern layer (BDD automation)
+│       │       ├── abilities/             # Actor capabilities (what actors can do)
+│       │       ├── actors/                # Actor definitions and personas
+│       │       ├── questions/             # Questions (state queries for assertions)
+│       │       ├── step_definitions/      # Gherkin step definitions (*.steps.ts)
+│       │       ├── support/               # Screenplay runtime support and memory keys
+│       │       └── tasks/                 # Tasks (what actors do in each step)
+│       ├── cucumber.js                # Cucumber.js configuration for test runner
 │       ├── puzzles.json                # Collection of test puzzles
 │       ├── package.json                # Node.js dependencies and scripts
 │       └── tsconfig.json               # TypeScript configuration
+├── features_shared/
+│   └── util-tests/sudoku-solver/
+│       └── BasicSudokuSolverLogic.feature  # Canonical Gherkin feature file (multi-Stack)
 ├── DOCS/
-│   ├── .design/                        # Design documents directory
-│   │   ├── README.md                   # Design documents guide
-│   │   ├── TEMPLATE_Design_Document.md # Template for design/analysis/planning/refactor
-│   │   ├── DESIGN_Sudoku_Solver_Specification.md  # Tech-agnostic specification
-│   │   ├── DESIGN_Audit_Trail_Feature.md       # Design doc for audit trail feature
-│   │   └── DESIGN_REST_API_Wrapper.md          # Design doc for REST API wrapper
-│   ├── .implementation/                # Implementation logs directory
-│   │   ├── README.md                   # Implementation logs guide
-│   │   ├── TEMPLATE_Implementation_Log.md  # Template for new logs
-│   │   └── IMPL_LOG_2026-01-30_Initial_Project_Creation.md
-│   ├── .planning/                      # Project planning directory
-│   │   ├── README.md                   # Planning process guide
-│   │   └── BACKLOG.md                  # Product backlog and sprint planning
-│   ├── .review/                        # Code review templates and outputs
-│   │   ├── README.md                   # Code review directory guide
-│   │   ├── code-review-template.md     # Comprehensive code review template
-│   │   └── CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/  # Latest review
-│   ├── .algorithm/                     # Language-agnostic algorithm pseudocode
-│   │   ├── README.md                   # Algorithm directory guide
-│   │   ├── TEMPLATE_Algorithm.md       # Template for new algorithm docs
-│   │   ├── ALGORITHM_Sudoku_Basic_Solver.md   # Basic solver pseudocode
-│   │   └── ALGORITHM_Sudoku_Advanced_Solver.md # Advanced techniques pseudocode
-├── README.md                           # Project README
+│   ├── templates/                      # v1.2-compliant document templates (Appendix A)
+│   │   ├── *.template.md               # Lowercase template filenames per v1.2 contract
+│   │   │   ├── readme.template.md
+│   │   │   ├── backlog.template.md
+│   │   │   ├── decision-record.template.md
+│   │   │   ├── code-review.template.md
+│   │   │   └── ... (14 total templates)
+│   │   └── TEMPLATE_*.md               # Legacy uppercase filenames (retained for transition)
+│   ├── .design/                        # Design documents (dot-prefix convention)
+│   │   ├── README.md
+│   │   ├── DESIGN_*.md
+│   │   └── ANALYSIS_*.md
+│   ├── .implementation/                # Implementation logs and session records
+│   │   ├── README.md
+│   │   └── IMPL_LOG_*.md
+│   ├── .planning/                      # Project planning and backlog
+│   │   ├── README.md
+│   │   └── BACKLOG.md                  # Single source of truth for parity-gap work
+│   ├── .review/                        # Code review outputs (dot-prefix convention)
+│   │   ├── README.md
+│   │   ├── code-review-template.md
+│   │   └── CODE_REVIEW_*__*/           # Review bundle directories
+│   ├── .algorithm/                     # Language-agnostic algorithm documentation
+│   │   ├── README.md
+│   │   └── ALGORITHM_*.md
+│   ├── REFERENCE_ARCHITECTURE.md       # v1.2 reference baseline (authoritative)
+│   ├── ref-arch-alignment_*.md         # Compliance analysis documents
+│   └── README.md
+├── DECISION_REGISTER.md                # Immutable decision record (DR-001 through DR-011)
+├── BACKLOG.md                          # [LEGACY] Redirects to DOCS/.planning/BACKLOG.md
+├── CHANGELOG.md                        # Project changelog
 ├── CLAUDE.md                           # AI assistant guide (this file)
+├── README.md                           # Project README
 └── .gitignore
 ```
 
@@ -246,12 +267,33 @@ Known fragile areas. Check these before making changes.
 
 | Risk | Area | What to check |
 |------|------|--------------|
-| Step definition coupling | `tests/step_definitions/solver_steps.js` | This is a compiled JS file. The TypeScript source it was compiled from is the authoritative version. Any changes must be made to the `.ts` source, then recompiled. Do not edit the `.js` file directly. |
+| Step definition coupling | `tests/screenplay/step_definitions/*.steps.ts` | These are TypeScript source files compiled via ts-node at test runtime. Each .steps.ts file defines step definitions for a feature domain. Any changes must be made to the .ts source; do not edit generated files. Verify all step definitions match canonical feature file after changes. |
 | Grid deep-copy assumption | `SudokuSolver` constructor | The `grid` property is a deep copy of `origGrid`. Any code that passes a grid reference instead of a copy will silently mutate the original puzzle. Always verify deep-copy semantics when changing the constructor or factory method. |
 | Hidden Singles — all three units | `SudokuSolver.hiddenSingles()` | The algorithm now checks rows, columns, AND blocks. Earlier code reviews flagged it as blocks-only. Verify the row and column loops are intact after any change to this method. |
-| Memory key parity | `screenplay/support/memory-keys.ts` (not yet created) | When created, constant names MUST equal their string values exactly (e.g., `SOLVE_RESULT = 'SOLVE_RESULT'`). This rule is non-negotiable per the Reference Architecture and DECISION_REGISTER.md. |
+| Memory key parity | `tests/screenplay/support/memory-keys.ts` | Constant names MUST equal their string values exactly (e.g., `SOLVE_RESULT = 'SOLVE_RESULT'`). This rule is non-negotiable per DECISION_REGISTER.md and Reference Architecture v1.2 §8. Use grep to verify parity when adding new memory keys. |
 | Over-specified step text | `BasicSudokuSolverLogic.feature` | Several steps contain inline array literals. These cannot be shared across Stacks without modification. See NEW-012 in BACKLOG.md. |
 | Feature file sync | `features_shared/util-tests/sudoku-solver/` + `tests/features/` | Two files must stay in sync. Always update the canonical file first, then propagate to the Stack-local copy. Do NOT edit the Stack-local copy directly for content changes. Tag additions (`@stack-*`) in the local copy only. |
+
+---
+
+## v1.2 Parity Rules Summary
+
+**Governed by:** Reference Architecture v1.2 (adopted via DR-009, 2026-05-15)
+
+Per RA v1.2 §8 (Multi-Stack Orchestration), the following rules apply across all Stacks (DEMOAPP001_TYPESCRIPT_CYPRESS and future Stack 2, Stack 3):
+
+| Rule | Applies To | Reference |
+|------|-----------|-----------|
+| **Decision Register Supremacy** | All Stacks | DR-XXX entries supersede any restatement elsewhere. DECISION_REGISTER.md is authoritative. |
+| **Template Filename Contract** | All Stacks | Appendix A (RA v1.2): All templates named as lowercase `*.template.md` (e.g., `readme.template.md`, `backlog.template.md`). |
+| **Backlog Status Taxonomy** | All Stacks | §10.1: Status values are exactly `Open`, `In Progress`, or `Resolved`. No emoji or mixed terminology. Single source of truth at BACKLOG.md. |
+| **Review Output Shape** | All Stacks | §10.7: Code reviews follow multi-file bundle with 7 required sections (00_INDEX through 07_MIGRATION_PLANS). Naming: `CODE_REVIEW_{Reviewer}__{YYYYMMDDTHHMMZ}/`. |
+| **Memory Key Parity** | All Stacks | §8: Screenplay memory key constant names MUST equal string values exactly. Enables safe refactoring across language boundaries. |
+| **Orchestration Archival** | All Stacks | §9.3: Markdown metric summaries are preserved during cleanup; log files removed per retention policy. |
+| **Directory Conventions** | All Stacks | §5.2: Dot-prefix for DOCS subdirectories (DOCS/.review/, DOCS/.design/, etc.). User-facing deliverables at root or top-level DOCS/. |
+
+**Non-Normative Latitude (MAY-level):**
+- Review directory placement: RA v1.2 shows example at root `.review/` but DOCS/.review/ is compliant per §10.7 MAY-level latitude. Current Stack 1 uses DOCS/.review/ per DR-010. Stacks 2+ can diverge per documented decision.
 
 ---
 
@@ -261,11 +303,10 @@ Known fragile areas. Check these before making changes.
 
 | Document | Authority for |
 |----------|--------------|
-| `DECISION_REGISTER.md` | All structural and process decisions — supersedes any restatement here |
-| `DOCS/.design/NAMING_CONVENTIONS.md` | All naming decisions — file names, identifiers, Memory keys, Decision Record IDs |
-| `REFERENCE_ARCHITECTURE.md` | The reference standard this project migrates toward |
-| `DOCS/.design/DESIGN_Screenplay_Migration.md` | Screenplay implementation design for DEMOAPP001 |
-| `DOCS/ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md` | Full gap analysis vs Reference Architecture with migration phases |
+| `DECISION_REGISTER.md` | All structural and process decisions — supersedes any restatement here. Current: DR-001 through DR-011. |
+| `DOCS/REFERENCE_ARCHITECTURE.md` | The v1.2 reference standard for all Stacks. Adopted via DR-009 (2026-05-15). |
+| `DOCS/.planning/BACKLOG.md` | Multi-Stack parity work tracking. Single source of truth for Open/In Progress/Resolved items. Status taxonomy per v1.2 §10.1. |
+| `DOCS/templates/` | v1.2-compliant template definitions. Lowercase filenames per Appendix A (readme.template.md, backlog.template.md, etc.). |
 
 ---
 

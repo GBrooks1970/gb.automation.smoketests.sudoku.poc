@@ -221,10 +221,47 @@ Completed items:
 - Historical metrics now accumulate in markdown format, supporting trend analysis across multiple test runs
 - Compliance with RA v1.2 §9.3: "preserve metrics summaries when purging old logs"
 
-## Phase D — Agent Instruction Currency (Medium)
+## Phase D — Agent Instruction Currency (Completed 2026-05-15)
 
-1. Update CLAUDE.md stale references (removed files, outdated risk entries, backlog path references).
-2. Add explicit parity-rules summary section aligned with v1.2 Section 8 language.
+**Status:** ✅ Resolved
+
+Completed items:
+1. ✅ Updated CLAUDE.md stale references and obsolete documentation.
+2. ✅ Added explicit v1.2 parity rules summary section.
+
+**Changes Made:**
+
+**1. Risk Register Update:**
+- Fixed path `tests/step_definitions/solver_steps.js` → `tests/screenplay/step_definitions/*.steps.ts` (accurate to current Screenplay layer)
+- Updated Memory key parity entry: Changed "not yet created" to "exists at tests/screenplay/support/memory-keys.ts" with parity verification guidance
+- Added cross-reference to DECISION_REGISTER.md and RA v1.2 §8 for authority
+
+**2. Repository Structure Refresh:**
+- Added DOCS/templates/ directory with distinction between v1.2-compliant lowercase (.template.md) and legacy uppercase (TEMPLATE_*.md) files
+- Added DOCS/.algorithm/, .design/, .implementation/, .planning/, .review/ with dot-prefix convention explanation
+- Added features_shared/ canonical feature directory
+- Added Stack-specific Screenplay layer architecture (abilities/, actors/, questions/, step_definitions/, support/, tasks/)
+- Clarified DECISION_REGISTER.md location and backlog file structure
+
+**3. New v1.2 Parity Rules Section:**
+- Documented all normative requirements from RA v1.2 §8 (Multi-Stack Orchestration)
+- Listed rules: Decision Register Supremacy, Template Filename Contract, Backlog Status Taxonomy, Review Output Shape, Memory Key Parity, Orchestration Archival, Directory Conventions
+- Added MAY-level latitude clarification for review directory placement (DOCS/.review vs root, per DR-010)
+- Applies to DEMOAPP001 and future Stacks (Python, C#, etc.)
+
+**4. Authoritative References Update:**
+- Updated to reference DECISION_REGISTER.md as supreme authority (DR-001 through DR-011)
+- Changed from "reference standard to migrate toward" to "v1.2 reference standard for all Stacks" (adopted status)
+- Updated BACKLOG.md location to DOCS/.planning/BACKLOG.md
+- Removed stale references to ANALYSIS_Screenplay_BDD_Architecture_Alignment and DESIGN_Screenplay_Migration
+- Added DOCS/templates/ reference with Appendix A contract explanation
+
+**Validation:**
+- CLAUDE.md memory-keys risk entry verified as accurate (file exists at indicated path)
+- Step definitions verified at tests/screenplay/step_definitions/*.steps.ts
+- Repository structure section accurately reflects current DOCS organization with 6 dot-prefix subdirectories + templates/
+- v1.2 Parity Rules section maps to DECISION_REGISTER entries (DR-010, DR-011, etc.)
+- Authoritative References section now references post-adoption v1.2 (not "migrate toward")
 
 ---
 
@@ -237,7 +274,7 @@ Completed items:
 | NEW-019 | Normalize backlog status taxonomy to Open/In Progress/Resolved | High | Resolved (2026-05-15) | Planning |
 | NEW-020 | Align review output policy with v1.2 and record decision lineage | Medium | Resolved (2026-05-15) | Reviews |
 | NEW-021 | Preserve metrics summaries during archival cleanup | Medium | Resolved (2026-05-15) | Orchestration |
-| NEW-022 | Refresh CLAUDE.md for post-migration reality and v1.2 parity rules | Medium | In Progress | Agent guidance |
+| NEW-022 | Refresh CLAUDE.md for post-migration reality and v1.2 parity rules | Medium | Resolved (2026-05-15) | Agent guidance |
 
 ---
 
