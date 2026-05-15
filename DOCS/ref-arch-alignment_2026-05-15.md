@@ -1,285 +1,232 @@
-# Screenplay-BDD Reference Architecture — Alignment & Migration Report
+# Screenplay-BDD Reference Architecture - Alignment & Migration Report
 
 **Date:** 2026-05-15
-**Analyst:** GitHub Copilot (GPT-5.3-Codex)
-**Subject:** gb.automation.smoketests.sudoku.poc vs REFERENCE_ARCHITECTURE.md v1.2
-**Status:** New baseline for v1.2 (supersedes prior v1.1-focused alignment)
+**Analyst:** Codex (GPT-5)
+**Subject:** `gb.automation.smoketests.sudoku.poc` vs `REFERENCE_ARCHITECTURE.md` v1.3
+**Status:** v1.3 re-baseline; supersedes the v1.2 alignment text in this file
 
 ---
 
 ## Executive Summary
 
-The repository remains strong on implementation architecture (Screenplay layering, canonical feature store, stack documentation, architecture docs, orchestration runner, and CLI hardening). Core execution quality is stable, with test baseline confirmed at:
+The project remains execution-stable and substantially aligned at the Stack implementation level. The current orchestration run completed successfully:
 
-- 43 scenarios (43 passed)
-- 241 steps (241 passed)
+- Build exit code: 0
+- Test exit code: 0
+- 43 scenarios passed
+- 241 steps passed
+- Metrics written to `.results/.metrics/DEMOAPP001_20260515T165829Z.txt` and `.md`
 
-However, with REFERENCE_ARCHITECTURE.md now at v1.2, compliance is no longer "phase-complete". New and tightened v1.2 obligations introduce governance/documentation drift that now requires a focused follow-up migration cycle.
+The v1.3 reference architecture bump re-opened compliance work. MIG-01 is now complete: `DECISION_REGISTER.md` adopts v1.3 through DR-012, and DR-012 records the multi-file review bundle convention required by v1.3 Section 10.7. The remaining largest gaps are not solver correctness problems. They are path, review-output implementation, and Screenplay contract gaps:
 
-### Overall compliance (v1.2)
+- Several v1.3 literal documentation paths do not exist because the repo uses the DR-001 dot-prefix convention (`DOCS/.planning`, `DOCS/.design`, `DOCS/.implementation`, `DOCS/.review`).
+- The Screenplay layer exists and passes, but Memory key constants are mostly documentary; Tasks and Questions store/read state through Ability instance fields instead of Actor Memory.
+- Several step definitions directly call Abilities, so Layer 2 is not consistently thin.
+- `CLAUDE.md`, `DOCS/.planning/BACKLOG.md`, and some template metadata still describe v1.2 or older pre-Screenplay state.
 
-**Status:** High, but not full compliance.
+### Overall v1.3 Compliance
 
-### What is fully aligned
-
-- Layered Screenplay architecture for DEMOAPP001
-- Canonical feature store pattern with stack-local propagation
-- Stack-level docs present
-- Cross-cutting architecture docs present
-- CLI hardening implemented (`--help`, `--timeout`, explicit exit contract)
-- Orchestration runner emits two metrics formats with UTC timestamped files
-
-### What is newly out of alignment under v1.2
-
-- Template filename contract in Appendix A (exact lower-case names) is not met in DOCS/templates
-- Backlog status taxonomy does not use required `Open` / `In Progress` / `Resolved`
-- Review-output extension rule references DR-012, but project decision register currently ends at DR-008
-- Code review directory placement is still under DOCS/.review rather than repository root `code-review/` or `.review/`
-- Retention cleanup in orchestration script deletes metrics summaries instead of preserving them when purging old logs
-- CLAUDE.md contains stale migration-era references (for example deleted step-definition paths, outdated memory-key notes)
+**Status:** Partial compliance. Execution quality is high; governance and strict architecture conformance require migration.
 
 ---
 
-## 1. Version Delta: v1.1 -> v1.2
+## 1. v1.3 Delta Impact
 
-The v1.2 bump adds or tightens governance requirements that materially affect this repository:
+The v1.3 architecture tightens or makes explicit these obligations:
 
-| Area | v1.2 Impact | Repository Effect |
-|------|-------------|------------------|
-| Code review outputs (10.7) | Adds accepted output shapes and explicit bundle naming requirements; references DR-012 for multi-file bundle extension | Current review bundle naming does not match the specified v1.2 extension format; DR-012 absent |
-| Template index (Appendix A) | Requires exact lower-case template file names under DOCS/templates | Current template set is mostly uppercase TEMPLATE_*.md; required filenames missing |
-| Backlog status rules (10.1) | Requires statuses exactly `Open`, `In Progress`, `Resolved` | Current backlog uses emoji statuses and mixed labels |
-| Results archival (9.3) | Requires preserving metrics summary when old logs are purged | Current cleanup removes all old files in logs and metrics together |
+| Area | v1.3 requirement | Current effect |
+|------|------------------|----------------|
+| Code review directory | Root `code-review/` or `.review/` MUST exist; bundle convention recorded as DR-012 | DR-012 is recorded; reviews still live under `DOCS/.review`; root review directory pending MIG-03 |
+| Implementation logs | `implementation-logs/` MUST exist under `DOCS/` or root | Current role exists as `DOCS/.implementation` by DR-001, but literal path is absent |
+| Naming conventions | `DOCS/design/NAMING_CONVENTIONS.md` MUST exist | Current role exists as `DOCS/.design/NAMING_CONVENTIONS.md`, literal path absent |
+| Backlog | `DOCS/planning/BACKLOG.md` MUST exist and use `Open` / `In Progress` / `Resolved` | Current authoritative backlog is `DOCS/.planning/BACKLOG.md`; statuses mostly normalized, content stale |
+| Templates | Every document type in Sections 10.1-10.9 needs a template with `[REQUIRED]` mandatory fields | Lowercase filenames exist, but some templates lack `[REQUIRED]` annotations |
+| Feature parity reports | Generated parity reports go to `.results/feature-parity/FEATURE_PARITY_[YYYYMMDDTHHMMZ].md` | No parity report generator yet; not blocking one-Stack execution |
 
 ---
 
-## 2. Current Compliance Snapshot
+## 2. Compliance Snapshot
 
 | Domain | Status | Notes |
-|-------|--------|-------|
-| Section 2 Layer model | ✅ | Implemented and stable |
-| Section 3 Screenplay contracts | ✅ | Actor/Abilities/Tasks/Questions in place |
-| Section 4 structure (role-level) | ✅ | Structural roles present; naming divergence remains intentional |
-| Section 5 canonical feature store | ✅ | features_shared present and in use |
-| Section 6 CLI contract | ✅ | Help/options, timeout, exit mapping, stderr behavior present |
-| Section 7 Ability taxonomy relevance | ⚪ | API/UI canonical abilities not required for current @util stack |
-| Section 8 parity rules (single-stack pre-parity) | ⚠️ | Internal consistency good; multi-stack parity not yet testable |
-| Section 9 orchestration/metrics | ⚠️ | Metrics format compliant; archival behavior partially non-compliant |
-| Section 10 documentation obligations | ⚠️ | Most docs exist, but v1.2 template filename contract and some placement rules are not fully met |
-| Section 11 onboarding checklist readiness | ⚠️ | Foundation exists, but governance docs must be normalized before Stack 2 onboarding |
-
-Legend: ✅ compliant, ⚠️ partial/non-compliant, ⚪ not currently applicable
+|--------|--------|-------|
+| Section 2 layer model | Partial | Layers exist, but some step definitions call Abilities directly |
+| Section 3 Screenplay contracts | Partial | Actor/Ability/Task/Question structures exist; Actor Memory contract is not fully implemented |
+| Section 4 directory blueprint | Partial | Core roles exist; several v1.3 literal paths are missing due to dot-prefix convention |
+| Section 5 canonical feature store | Compliant | `features_shared/` exists; stack-local copy matches canonical body after tag line |
+| Section 6 subject application contract | Compliant for current scope | `@util` surface is active; CLI baseline is documented and hardened |
+| Section 7 ability taxonomy | Mostly compliant | Current `@util` ability model is project-specific; future `@cli` work needs `InvokeExecutable` |
+| Section 8 multi-Stack parity | Pre-parity / partial | One Stack exists; parity contract exists; Memory keys are not wired into Actor Memory |
+| Section 9 orchestration and metrics | Mostly compliant | Runner emits key-value and markdown metrics; markdown summaries are preserved |
+| Section 10 documentation obligations | Partial | Required docs mostly exist by role, but v1.3 path, DR-012, template, and agent-guide gaps remain |
+| Section 11 new Stack readiness | Partial | TypeScript baseline passes, but v1.3 governance should be normalized before Stack 2 |
 
 ---
 
-## 3. Detailed Findings (ordered by severity)
+## 3. Detailed Findings
 
 ## High Severity
 
-### H1. Appendix A template filename contract not met
+### H1. v1.3 adoption and DR-012 are not recorded - Resolved by MIG-01
 
-**Requirement (v1.2):** exact template files under DOCS/templates using lower-case `*.template.md` names.
+**Requirement:** `DECISION_REGISTER.md` is authoritative for structural and process decisions. v1.3 Section 10.7 states that the multi-file review bundle convention is recorded as DR-012.
 
-**Observed:** DOCS/templates currently contains uppercase names (for example `TEMPLATE_Stack_Architecture.md`, `TEMPLATE_Code_Review.md`) and does not contain the required lower-case filenames.
+**Observed before migration:** The register ended at DR-011 and contained v1.2 adoption language. Header metadata also referenced the legacy uppercase template name.
 
-**Risk:** Automated governance checks or future stack onboarding against v1.2 template paths will fail.
+**Resolution:** DR-012 now adopts `REFERENCE_ARCHITECTURE.md` v1.3 as the active governance baseline and records the future multi-file review bundle naming convention required by Section 10.7. The register header now references v1.3 and `DOCS/templates/decision-record.template.md`; the footer now reports last entry DR-012 and next ID DR-013.
 
-**Recommended migration:** Add v1.2-compliant lower-case template files (can be canonical copies of existing content), then update document metadata links to those canonical names.
+**Migration:** MIG-01 resolved on 2026-05-15.
 
-### H2. Backlog status taxonomy non-compliant
+### H2. v1.3 literal documentation paths are missing
 
-**Requirement (10.1):** all backlog items MUST use `Open`, `In Progress`, or `Resolved`.
+**Requirement:** v1.3 names literal paths for `DOCS/planning/BACKLOG.md`, `DOCS/design/NAMING_CONVENTIONS.md`, `DOCS/implementation-logs/`, and root `code-review/` or `.review/`.
 
-**Observed:** DOCS/.planning/BACKLOG.md uses emoji statuses (`🔴 Not Started`, `🟢 Completed`, `🟡 In Progress`) and mixed terminology.
+**Observed:** The project uses `DOCS/.planning`, `DOCS/.design`, `DOCS/.implementation`, and `DOCS/.review` under DR-001. None of the v1.3 literal path checks exists except `DOCS/architecture` and `DOCS/templates`.
 
-**Risk:** Governance non-compliance and ambiguous automation/reporting semantics.
+**Risk:** Strict v1.3 validators and future agents will report missing mandatory documents even though equivalent role directories exist.
 
-**Recommended migration:** Normalize status fields in DOCS/.planning/BACKLOG.md to required values and preserve current meaning in a one-time mapping table.
+**Migration:** MIG-02 and MIG-03.
 
-### H3. Review-output extension references DR-012, but DR-012 absent
+### H3. Actor Memory contract is not fully implemented
 
-**Requirement (10.7):** multi-file bundle extension is accepted in v1.2 and explicitly recorded as DR-012.
+**Requirement:** Memory is a scenario-scoped key-value store. Tasks write Memory and Questions read Memory using named key constants.
 
-**Observed:** DECISION_REGISTER.md currently states last entry DR-008; no DR-012 exists.
+**Observed:** `tests/screenplay/support/memory-keys.ts` defines the expected constants, but Tasks and Questions read/write state through fields on `UseSudokuSolver` and `LoadPuzzles`. Searches found no `remember(...)` or `recall(...)` usage in the Screenplay layer.
 
-**Risk:** If project continues using bundle review format, provenance is incomplete under v1.2.
+**Risk:** Cross-stack parity can drift because the documented Memory contract is not the runtime state contract.
 
-**Recommended migration:** Add decisions DR-009 through DR-012, or (minimum) add DR-009 that explicitly adopts v1.2 and introduces local decision ID for review output shape, then align naming convention accordingly.
+**Migration:** MIG-04.
+
+### H4. Step definitions are not consistently thin
+
+**Requirement:** Step definitions map Gherkin to Screenplay interactions; business mechanics belong in Tasks, Questions, and Abilities.
+
+**Observed:** Several step files import and call Abilities directly, especially `puzzleLoader.steps.ts`, `orchestration.steps.ts`, `edgeCases.steps.ts`, `gridInitialisation.steps.ts`, and `nakedSingles.steps.ts`.
+
+**Risk:** Layer 2 remains partially coupled to lower-level mechanics, reducing portability for the planned Python and C# Stacks.
+
+**Migration:** MIG-05.
 
 ## Medium Severity
 
-### M1. Code review directory location differs from v1.2 root expectation
+### M1. AI agent guide is stale against v1.3 and current implementation
 
-**Requirement (10.7):** `code-review/` or `.review/` at repository root.
+`CLAUDE.md` still references v1.2, DR-011 as latest, old status symbols, the old feature-file path, and a "No Screenplay Layer" known limitation. It also says Hidden Singles is blocks-only, which conflicts with current code and backlog status.
 
-**Observed:** reviews are in DOCS/.review.
+**Migration:** MIG-06.
 
-**Risk:** Moderate. Functional organization is fine, but literal-path compliance is off unless formally superseded by decision.
+### M2. Backlog content no longer reflects current compliance state
 
-**Recommended migration options:**
+`DOCS/.planning/BACKLOG.md` is governed by v1.2, has stale summary counts, and still lists `BACKLOG-019: Migrate TypeScript Tests to Screenplay Pattern` as `Open` even though the Screenplay implementation is present and passing.
 
-1. Move/duplicate review root to repository `.review/`.
-2. Keep DOCS/.review and record an explicit accepted divergence decision against v1.2 path literal.
+**Migration:** MIG-07.
 
-### M2. Metrics archival logic does not preserve summary files
+### M3. Review outputs do not match the v1.3 accepted bundle naming
 
-**Requirement (9.3):** metrics summary must be preserved after log purge.
+Existing review bundles use names such as `CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z`. v1.3 expects `CODE_REVIEW_[AGENT]_v[N]_[UTC]` and an index named `00_CODE_REVIEW_[AGENT]_v[N]_[UTC].md`.
 
-**Observed:** .batch/run-demoapp001.ps1 purges old files in both .results/logs and .results/.metrics, including markdown summaries.
+**Migration:** MIG-03.
 
-**Risk:** Historical compliance visibility can be lost.
+### M4. Template mandate is not fully satisfied
 
-**Recommended migration:** Change cleanup policy to purge old logs and machine-readable metrics selectively, while retaining markdown summaries (or retaining latest N summaries per suite).
+All 14 lowercase Appendix A template files exist under `DOCS/templates/`. However, `backlog.template.md`, `changelog.template.md`, and `naming-conventions.template.md` do not contain `[REQUIRED]` annotations for mandatory fields. Several governed documents still reference legacy uppercase template filenames.
 
-### M3. CLAUDE.md contains stale references that conflict with current architecture state
+**Migration:** MIG-08.
 
-**Observed examples:** references to deleted step-definition path/tests and memory-keys "not yet created".
+### M5. Implementation log location and naming diverge from v1.3
 
-**Risk:** AI agent context drift and incorrect future edits.
+Implementation logs exist, but under `DOCS/.implementation/` with names like `IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md`. v1.3 expects an `implementation-logs/` directory and UTC date-prefix plus short slug naming.
 
-**Recommended migration:** Refresh CLAUDE.md risk register and authoritative-reference sections to match current repository state and v1.2 obligations.
+**Migration:** MIG-09.
 
 ## Low Severity
 
-### L1. Dot-prefix DOCS subdirectory strategy still diverges from literal RA path examples
+### L1. Over-specified Gherkin remains
 
-**Observed:** project continues to use DR-001 dot-prefixed folders (for example DOCS/.planning, DOCS/.design).
+Some canonical steps still embed literal values, for example array literals in setup steps. v1.3 Section 5.4 says these SHOULD be refactored to parameterized forms.
 
-**Risk:** Low if documented and consistently enforced.
+**Migration:** MIG-11.
 
-**Recommended migration:** No immediate structural change required if decision record remains explicit and cross-referenced in compliance docs.
+### L2. Metrics use short Stack identifier
+
+Metrics currently use `DEMOAPP001` rather than the full canonical Stack directory name `DEMOAPP001_TYPESCRIPT_CYPRESS`. This is workable, but should be explicitly documented or normalized before multi-Stack reporting.
+
+**Migration:** MIG-12.
 
 ---
 
 ## 4. Evidence Snapshot
 
-### Verified execution state
+### Execution
 
-- npm test result: 43 scenarios passed, 241 steps passed.
-- Orchestration runner execution: BuildExitCode=0, TestExitCode=0, OverallExitCode=0.
-- Metrics artifacts generated in .results/.metrics with UTC timestamp suffix.
+Latest orchestration run:
 
-### Verified governance state
+```text
+BuildExitCode: 0
+TestExitCode: 0
+OverallExitCode: 0
+DEMOAPP001_BDD_Tests=43
+DEMOAPP001_BDD_Passed=43
+DEMOAPP001_BDD_Failed=0
+DEMOAPP001_BDD_Skipped=0
+```
 
-- REFERENCE_ARCHITECTURE.md is v1.2 (2026-05-15).
-- DECISION_REGISTER.md currently ends at DR-008.
-- DOCS/templates lacks required lower-case Appendix A template filenames.
-- DOCS/.planning/BACKLOG.md status taxonomy not normalized to required three states.
-- Existing alignment file for 2026-05-14 includes stale pre-migration sections and is no longer authoritative for v1.2.
+Test log confirms:
 
----
+```text
+43 scenarios (43 passed)
+241 steps (241 passed)
+```
 
-## 5. Future Migration Work (v1.2 Compliance Plan)
+### Feature Store
 
-## Phase A — Governance Normalization (Completed 2026-05-15)
+- Canonical feature: `features_shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature`
+- Stack-local feature: `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/features/BasicSudokuSolverLogic.feature`
+- Feature bodies match after the tag line.
+- Canonical tag: `@util`
+- Stack-local tags: `@util @stack-demoapp001`
 
-**Status:** ✅ Resolved
+### Governance
 
-Completed items:
-1. ✅ Adopted v1.2 formally in DECISION_REGISTER with new decision entry (DR-009).
-2. ✅ Added required template filenames under DOCS/templates in exact Appendix A names (14 lower-case .template.md files).
-3. ✅ Normalized DOCS/.planning/BACKLOG.md statuses to Open/In Progress/Resolved across all 24 items.
-4. ✅ Updated backlog metadata to include explicit parity-gap tracking language per v1.2 §10.1.
-
-**Validation:**
-- DECISION_REGISTER.md now contains DR-009 with full v1.2 adoption context and consequences.
-- DOCS/templates now contains both legacy uppercase TEMPLATE_*.md (for transition) and required lowercase *.template.md files.
-- BACKLOG.md status values confirmed as `Open`, `In Progress`, or `Resolved` (no emoji or mixed terminology).
-- BACKLOG.md header updated with v1.2 governance reference and explicit parity tracking purpose statement.
-
-## Phase B — Review & Provenance Alignment (Completed 2026-05-15)
-
-**Status:** ✅ Resolved
-
-Completed items:
-1. ✅ Decided on review directory strategy: `DOCS/.review/` with dot-prefix convention justification (DR-010).
-2. ✅ Added formal decision entry for review output shape and naming strategy aligned to v1.2 (DR-011).
-3. ✅ Standardized review output naming and structure to v1.2-compliant bundle shape.
-
-**Validation:**
-- DECISION_REGISTER.md now contains DR-010 (review directory divergence justification via DR-001 consistency).
-- DECISION_REGISTER.md now contains DR-011 (review output shape compliance and DR-012 multi-file bundle strategy).
-- All existing review outputs in DOCS/.review already follow v1.2 shape (no changes needed to historical reviews).
-- Future reviews will be generated using v1.2-compliant naming and structure.
-
-## Phase C — Orchestration Archival Compliance (Completed 2026-05-15)
-
-**Status:** ✅ Resolved
-
-Completed items:
-1. ✅ Updated .batch/run-demoapp001.ps1 retention cleanup to preserve markdown metric summaries per v1.2 §9.3.
-
-**Details:**
-- Changed cleanup logic from blanket deletion of all files in `.results/.metrics/` to selective preservation:
-  - `.txt` metric files (key-value format) are deleted when older than retention threshold
-  - `.md` metric files (markdown table format) are now preserved indefinitely for historical archival analysis
-  - Log files continue to be cleaned per retention threshold (unchanged)
-- Updated console output to explicitly note that markdown summaries are preserved for historical archival
-
-**Validation:**
-- Script logic updated to filter by file extension and retention date
-- Historical metrics now accumulate in markdown format, supporting trend analysis across multiple test runs
-- Compliance with RA v1.2 §9.3: "preserve metrics summaries when purging old logs"
-
-## Phase D — Agent Instruction Currency (Completed 2026-05-15)
-
-**Status:** ✅ Resolved
-
-Completed items:
-1. ✅ Updated CLAUDE.md stale references and obsolete documentation.
-2. ✅ Added explicit v1.2 parity rules summary section.
-
-**Changes Made:**
-
-**1. Risk Register Update:**
-- Fixed path `tests/step_definitions/solver_steps.js` → `tests/screenplay/step_definitions/*.steps.ts` (accurate to current Screenplay layer)
-- Updated Memory key parity entry: Changed "not yet created" to "exists at tests/screenplay/support/memory-keys.ts" with parity verification guidance
-- Added cross-reference to DECISION_REGISTER.md and RA v1.2 §8 for authority
-
-**2. Repository Structure Refresh:**
-- Added DOCS/templates/ directory with distinction between v1.2-compliant lowercase (.template.md) and legacy uppercase (TEMPLATE_*.md) files
-- Added DOCS/.algorithm/, .design/, .implementation/, .planning/, .review/ with dot-prefix convention explanation
-- Added features_shared/ canonical feature directory
-- Added Stack-specific Screenplay layer architecture (abilities/, actors/, questions/, step_definitions/, support/, tasks/)
-- Clarified DECISION_REGISTER.md location and backlog file structure
-
-**3. New v1.2 Parity Rules Section:**
-- Documented all normative requirements from RA v1.2 §8 (Multi-Stack Orchestration)
-- Listed rules: Decision Register Supremacy, Template Filename Contract, Backlog Status Taxonomy, Review Output Shape, Memory Key Parity, Orchestration Archival, Directory Conventions
-- Added MAY-level latitude clarification for review directory placement (DOCS/.review vs root, per DR-010)
-- Applies to DEMOAPP001 and future Stacks (Python, C#, etc.)
-
-**4. Authoritative References Update:**
-- Updated to reference DECISION_REGISTER.md as supreme authority (DR-001 through DR-011)
-- Changed from "reference standard to migrate toward" to "v1.2 reference standard for all Stacks" (adopted status)
-- Updated BACKLOG.md location to DOCS/.planning/BACKLOG.md
-- Removed stale references to ANALYSIS_Screenplay_BDD_Architecture_Alignment and DESIGN_Screenplay_Migration
-- Added DOCS/templates/ reference with Appendix A contract explanation
-
-**Validation:**
-- CLAUDE.md memory-keys risk entry verified as accurate (file exists at indicated path)
-- Step definitions verified at tests/screenplay/step_definitions/*.steps.ts
-- Repository structure section accurately reflects current DOCS organization with 6 dot-prefix subdirectories + templates/
-- v1.2 Parity Rules section maps to DECISION_REGISTER entries (DR-010, DR-011, etc.)
-- Authoritative References section now references post-adoption v1.2 (not "migrate toward")
+- `REFERENCE_ARCHITECTURE.md` is v1.3 dated 2026-05-15.
+- `DECISION_REGISTER.md` last entry is DR-012; next ID is DR-013.
+- DR-012 records v1.3 adoption and the multi-file review bundle convention.
+- `DOCS/templates/` contains all 14 lowercase Appendix A filenames.
+- Root `.review/` and root `code-review/` are absent.
+- `DOCS/planning/BACKLOG.md`, `DOCS/design/NAMING_CONVENTIONS.md`, and `DOCS/implementation-logs/` are absent.
+- Dot-prefix equivalents exist under `DOCS/.planning`, `DOCS/.design`, and `DOCS/.implementation`.
 
 ---
 
-## 6. Proposed Backlog Additions
+## 5. Migration Work
 
-| ID | Title | Priority | Status | Affected area |
-|----|-------|----------|--------|---------------|
-| NEW-017 | Adopt RA v1.2 in decision register | High | Resolved (2026-05-15) | Governance |
-| NEW-018 | Add Appendix A exact template filenames in DOCS/templates | High | Resolved (2026-05-15) | Documentation templates |
-| NEW-019 | Normalize backlog status taxonomy to Open/In Progress/Resolved | High | Resolved (2026-05-15) | Planning |
-| NEW-020 | Align review output policy with v1.2 and record decision lineage | Medium | Resolved (2026-05-15) | Reviews |
-| NEW-021 | Preserve metrics summaries during archival cleanup | Medium | Resolved (2026-05-15) | Orchestration |
-| NEW-022 | Refresh CLAUDE.md for post-migration reality and v1.2 parity rules | Medium | Resolved (2026-05-15) | Agent guidance |
+All future migration tasks are labelled `MIG-**` as requested.
+
+| ID | Status | Priority | Affected area | Task | Acceptance criteria |
+|----|--------|----------|---------------|------|---------------------|
+| MIG-01 | Resolved 2026-05-15 | High | Decision Register | Record v1.3 adoption and create DR-012 for the multi-file review bundle convention | DR-012 exists; register header references v1.3 and `decision-record.template.md`; `Last entry` and `Next ID` updated |
+| MIG-02 | Open | High | Documentation paths | Decide and implement the v1.3 path strategy for `DOCS/planning`, `DOCS/design`, and `DOCS/implementation-logs` | Either literal paths become authoritative, or compatibility files/directories exist with a DR-backed sync policy |
+| MIG-03 | Open | High | Code review outputs | Align review storage and naming with v1.3 | Root `.review/` or `code-review/` exists; future bundle naming uses `CODE_REVIEW_[AGENT]_v[N]_[UTC]`; historical handling is documented without editing findings |
+| MIG-04 | Open | High | Screenplay Memory | Wire runtime state through Actor Memory or an explicitly documented Serenity/JS equivalent | Tasks write named Memory keys; Questions read named Memory keys; parity contract and docs match runtime behavior |
+| MIG-05 | Open | High | Step definitions | Remove direct Ability calls from step definitions | Step files delegate through `actor.attemptsTo(...)` and `actor.answer(...)`; missing Tasks/Questions are added |
+| MIG-06 | Open | Medium | AI agent guide | Refresh `CLAUDE.md` for v1.3 and current Screenplay implementation | No v1.2 stale baseline; no "No Screenplay Layer" limitation; current feature paths, DR range, backlog taxonomy, and risks are accurate |
+| MIG-07 | Open | Medium | Backlog | Reconcile backlog against current v1.3 state | Governance references v1.3; summary counts match item statuses; `BACKLOG-019` is resolved or split into remaining Screenplay-contract work; MIG items are tracked |
+| MIG-08 | Open | Medium | Templates | Complete template mandate details | `backlog.template.md`, `changelog.template.md`, and `naming-conventions.template.md` mark mandatory fields with `[REQUIRED]`; governed docs reference lowercase templates |
+| MIG-09 | Open | Medium | Implementation logs | Normalize implementation-log location and naming policy | `implementation-logs` path strategy implemented; future log naming follows `YYYY-MM-DD_short-session-topic.md`; legacy files are preserved or mapped |
+| MIG-10 | Open | Medium | Parity artifacts | Add feature parity validation report process | Generated reports go to `.results/feature-parity/FEATURE_PARITY_[YYYYMMDDTHHMMZ].md`; process documented in orchestration design |
+| MIG-11 | Open | Low | Gherkin | Parameterize over-specified canonical steps before Stack 2 | Literal setup arrays are moved to parameters or Examples tables; canonical and Stack-local features remain synchronized |
+| MIG-12 | Open | Low | Metrics | Decide metric Stack identifier policy | Metrics use either full Stack names or a documented short-name mapping; orchestration docs and metrics output agree |
+
+---
+
+## 6. Recommended Sequence
+
+1. Complete MIG-02 through MIG-03 next. These finish the v1.3 governance path and review-output baseline.
+2. Complete MIG-06 through MIG-08 next. These remove stale guidance that can mislead future agents.
+3. Complete MIG-04 and MIG-05 before onboarding Stack 2. These are the actual portability blockers.
+4. Complete MIG-09 through MIG-12 as part of the Stack 2 readiness work.
 
 ---
 
 ## 7. Conclusion
 
-The repository remains technically healthy and execution-stable, but the v1.2 architecture bump re-opens compliance work in governance and documentation mechanics. The migration burden is now primarily procedural rather than algorithmic.
-
-With Phases A through D completed, the project should return to full compliance posture under v1.2 and be better prepared for Stack 2 onboarding and parity verification.
+The TypeScript Stack is green and useful as the current reference implementation, but the repository is not fully v1.3-compliant. The most important next step is to stop treating the v1.2 alignment as complete. Under v1.3, the compliance baseline should be reset around DR-012, literal path strategy, Actor Memory usage, thin step definitions, and updated agent/backlog guidance.

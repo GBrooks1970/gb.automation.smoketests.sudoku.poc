@@ -1,9 +1,9 @@
 # Decision Register
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-05-14
-**Governed by:** `REFERENCE_ARCHITECTURE.md` §10.6
-**Template:** `DOCS/templates/TEMPLATE_Decision_Record.md`
+**Last Updated:** 2026-05-15
+**Governed by:** `REFERENCE_ARCHITECTURE.md` v1.3 §10.6
+**Template:** `DOCS/templates/decision-record.template.md`
 
 > This register is the authoritative source for every structural and process decision in this project.
 > Any rule restated in `CLAUDE.md`, stack documentation, or design documents defers to this file.
@@ -546,6 +546,55 @@ This extension is provisional and subject to refinement as Stacks 2 and 3 are on
 
 ---
 
+## DR-012 — Adopt RA v1.3 and review bundle convention
+
+### Context [REQUIRED]
+
+`REFERENCE_ARCHITECTURE.md` was updated to v1.3 on 2026-05-15. The v1.3 update makes the repository-root code review directory requirement explicit and states that the multi-file review bundle convention is recorded in the Decision Register as DR-012. Without this decision, the project would continue to claim alignment through v1.2-era entries while the current accepted architecture requires v1.3 governance and DR-012 provenance.
+
+### Decision [REQUIRED]
+
+Adopt `REFERENCE_ARCHITECTURE.md` v1.3 as the governing architecture for this repository. Use DR-012 as the authoritative decision for future multi-file code review bundle naming: future comprehensive review bundles MUST use `.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/` with a main index file named `00_CODE_REVIEW_[AGENT]_v[N]_[UTC].md`, where `[UTC]` uses `YYYYMMDDTHHMMZ`.
+
+### Status [REQUIRED]
+
+`Accepted` — 2026-05-15
+
+### Consequences [REQUIRED]
+
+**Outcomes:**
+- v1.3 is now the active reference architecture baseline for all repository governance work.
+- DR-012 now exists as the required provenance entry for multi-file review bundle naming.
+- Future review outputs have an unambiguous v1.3 naming target.
+
+**Trade-offs:**
+- Existing historical review bundles remain in their original v1.2-era names to preserve read-only review history.
+- A follow-up migration is required to provide the repository-root `.review/` or `code-review/` location expected by v1.3.
+- Agent guidance and planning documents must be refreshed so they no longer present v1.2 as the current baseline.
+
+**Compliance note:**
+- This decision satisfies the v1.3 §10.7 requirement that the multi-file review bundle convention be recorded as DR-012.
+- DR-009 remains historical provenance for v1.2 adoption; DR-012 supersedes it as the active architecture version baseline.
+- DR-011 remains historical provenance for the v1.2 review bundle shape; DR-012 is authoritative for future v1.3 review bundle names.
+
+### Alternatives Considered [REQUIRED]
+
+**Alternative: Keep DR-011 as the review bundle authority**
+- Description: Continue treating DR-011 as the governing review output decision and avoid adding a new DR-012 entry.
+- Rejected because: v1.3 explicitly names DR-012 as the recorded extension for multi-file review bundles.
+
+**Alternative: Rename historical review bundles immediately**
+- Description: Move and rename all existing review bundle directories to the v1.3 naming convention.
+- Rejected because: review outputs are read-only once written. Historical bundle names should remain intact, with v1.3 applied to future outputs and compatibility locations.
+
+### Related Decisions
+
+- DR-009 — Historical adoption of `REFERENCE_ARCHITECTURE.md` v1.2.
+- DR-010 — Historical review directory placement under `DOCS/.review/`.
+- DR-011 — Historical v1.2 review bundle shape.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -564,5 +613,5 @@ This extension is provisional and subject to refinement as Stacks 2 and 3 are on
 
 ---
 
-*Last entry: DR-011. Next ID: DR-012.*
+*Last entry: DR-012. Next ID: DR-013.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*
