@@ -1,6 +1,6 @@
 # Screenplay-BDD Test Automation — Agnostic Reference Architecture
 
-**Version:** 1.2
+**Version:** 1.3
 **Status:** Accepted
 **Date:** 2026-05-15
 **Applies to:** Any project adopting the Screenplay-BDD structure described herein
@@ -295,6 +295,10 @@ The Canonical Feature Store contains only `.feature` files and MUST be readable 
 - Subject application source code
 - Any import of a framework-specific test runner
 
+### 4.3 Optional Stack Group Directory
+
+A project MAY place Stack directories under one project-specific Stack group directory when the grouping is documented in `DOCS/design/NAMING_CONVENTIONS.md`. The group directory does not change the canonical Stack name. For example, `_API_TESTING_GHERKIN_/DEMOAPP001_TYPESCRIPT_CYPRESS/` still has the Stack name `DEMOAPP001_TYPESCRIPT_CYPRESS`.
+
 ---
 
 ## 5. The Canonical Feature Store
@@ -303,21 +307,21 @@ The Canonical Feature Store contains only `.feature` files and MUST be readable 
 
 All Gherkin feature files originate in `features_shared/`. This directory is the **only** authoritative source of behavioral specifications.
 
-No Stack MUST author its own feature files independently. A Stack's local `features/` directory is a copy of the canonical files, extended only with Stack-specific tags.
+A Stack MUST NOT author its own feature files independently. A Stack's local `features/` directory is a copy of the canonical files, extended only with Stack-specific or lifecycle tags.
 
 ### 5.2 Feature Distribution
 
 When a feature file in `features_shared/` is created or updated, the change MUST be propagated to all Stacks before the work is considered complete. The propagation process is:
 
-1. Update or create the feature file in `features_shared/`
+1. Update or create the feature file in `features_shared/` with the required canonical scope tag
 2. Copy the updated file to the corresponding path in each Stack's `features/` directory
-3. Add Stack-specific tags to the local copy (do not add tags to the canonical file)
+3. Add Stack-specific or lifecycle tags to the local copy only
 4. Update `DOCS/planning/BACKLOG.md` if any Stack cannot yet implement the new scenario (see Section 10.1)
 5. Record the decision in `DECISION_REGISTER.md` if the change represents a structural choice (see Section 10.6)
 
 ### 5.3 Tag Taxonomy
 
-Tags in feature files serve two purposes: lifecycle control (start/stop the subject application) and scope filtering (run a subset of tests).
+Tags in feature files serve three purposes: scope filtering (run a subset of tests), lifecycle control (start/stop the subject application), and stack applicability.
 
 **Reserved tag categories:**
 
@@ -326,9 +330,13 @@ Tags in feature files serve two purposes: lifecycle control (start/stop the subj
 | Surface tag | Identifies which surface type the scenario exercises | `@api`, `@ui`, `@cli` |
 | Lifecycle tag | Signals that the subject application must be running | `@requires-app` |
 | Utility tag | Marks tests that exercise logic without a live subject | `@util` |
-| Stack tag | Marks scenarios that apply only to a specific Stack | `@stack-[name]` |
+| Stack tag | Marks scenarios that apply only to a specific Stack | `@stack-demoapp001` |
 
-Tags in the canonical file MUST only be surface tags. All other tags are Stack-local additions.
+Canonical feature files MUST contain exactly one canonical scope tag:
+- Surface features under `features_shared/api/`, `features_shared/ui/`, or `features_shared/cli/` MUST use the matching surface tag (`@api`, `@ui`, or `@cli`)
+- Utility features under `features_shared/util-tests/` MUST use `@util`
+
+Lifecycle tags (`@requires-app`) and Stack tags are Stack-local additions unless a Decision Register entry explicitly authorises a canonical exception. Stack tags MUST use the lowercase short Stack identifier format `@stack-demoappNNN` (for example, `@stack-demoapp001`).
 
 ### 5.4 Step Definition Shape
 
@@ -582,6 +590,8 @@ OverallExitCode=[0|non-zero]
 
 Metrics files MUST be named with a UTC timestamp suffix to prevent overwriting. Metrics files MUST be written to `.results/.metrics/`.
 
+Feature parity validation reports are generated validation artifacts. When produced, they MUST be written to `.results/feature-parity/` and named `FEATURE_PARITY_[YYYYMMDDTHHMMZ].md`.
+
 ### 9.3 Results Archival
 
 Test result logs and metrics MUST be retained for a documented minimum period. The default retention policy is seven calendar days. Results older than the retention period MAY be deleted by an automated archival process.
@@ -746,7 +756,9 @@ A `DOCS/design/NAMING_CONVENTIONS.md` document MUST exist at `DOCS/design/NAMING
 | Screenplay component names | Actor, Ability, Task, Question naming patterns |
 | Memory key names | casing, word separator, prefix/suffix conventions |
 | Step definition text | tense, voice (active/passive), parameter placeholder format |
+| Tag names | canonical scope tags, lifecycle tags, Stack tag format |
 | Document names | which documents use fixed names vs date-prefixed names |
+| Generated artifact names | files and directories excluded from manual naming rules |
 
 **Rules:**
 
@@ -771,7 +783,7 @@ The following checklist MUST be completed in order when adding a new Stack to a 
 
 ### Phase 2 — Create the Directory Structure
 
-- [ ] Create the Stack directory at the repository root following the blueprint in Section 4
+- [ ] Create the Stack directory at the repository root, or under the documented Stack group directory, following the blueprint in Section 4
 - [ ] Create `screenplay/abilities/`, `screenplay/actors/`, `screenplay/tasks/`, `screenplay/questions/`, `screenplay/support/` directories
 - [ ] Create `tooling/` for test runner configuration
 - [ ] Create `docs/` for Stack-level documentation
@@ -792,7 +804,7 @@ The following checklist MUST be completed in order when adding a new Stack to a 
 ### Phase 5 — Implement Step Definitions
 
 - [ ] Copy canonical feature files from `features_shared/` to the Stack's local `features/` directory (Section 5.2)
-- [ ] Add Stack-specific tags to local feature files (do not modify the canonical files)
+- [ ] Add Stack-specific or lifecycle tags to local feature files (do not modify the canonical files)
 - [ ] Implement step definitions using the parameterised pattern from Section 5.4
 - [ ] Verify that every step in every copied feature file has a corresponding step definition
 
@@ -856,7 +868,7 @@ MEMORY KEYS
 FEATURE FILES
   [ ] All canonical features present in Stack's local features/ directory
   [ ] No scenarios added or removed relative to canonical files
-  [ ] Stack-specific tags added locally only (canonical files unmodified)
+  [ ] Stack-specific and lifecycle tags added locally only (canonical files unmodified)
   [ ] @pending tag applied to any scenario not yet implemented
 
 STEP DEFINITIONS
