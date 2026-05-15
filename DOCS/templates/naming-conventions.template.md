@@ -8,6 +8,7 @@
 
 ## How to Use This Template
 
+- Replace every `[REQUIRED]` placeholder before publishing.
 - Populate every category row. If a category does not apply to this project, write "N/A — [reason]".
 - This document is authoritative. When a conflict arises between this document and any other source (code comments, AI memory, convention assumptions), this document wins.
 - When a new naming pattern is introduced that is not covered here, update this document **before** using the new pattern.
@@ -18,10 +19,12 @@
 ```markdown
 # Naming Conventions
 
-**Project:** [Project name]
-**Last Updated:** YYYY-MM-DD
-**Status:** Adopted
-**Authoritative for:** All Stacks, all document types
+**Project:** [Project name] [REQUIRED]
+**Last Updated:** YYYY-MM-DD [REQUIRED]
+**Status:** Adopted [REQUIRED]
+**Governed by:** [Reference document and section] [REQUIRED]
+**Template:** `DOCS/templates/naming-conventions.template.md` [REQUIRED]
+**Authoritative for:** All Stacks, all document types [REQUIRED]
 
 ---
 
@@ -29,7 +32,7 @@
 
 | Element | Convention |
 |---------|-----------|
-| [Element] | [Convention] |
+| [Element] [REQUIRED] | [Convention] [REQUIRED] |
 
 ---
 
@@ -37,7 +40,7 @@
 
 | Scope | Convention | Separator | Example |
 |-------|-----------|-----------|---------|
-| [Scope] | [Case style] | [char] | [example/] |
+| [Scope] [REQUIRED] | [Case style] [REQUIRED] | [char or N/A] [REQUIRED] | [example/] [REQUIRED] |
 
 ---
 
@@ -45,7 +48,7 @@
 
 | File type | Convention | Separator | Example |
 |-----------|-----------|-----------|---------|
-| [Type] | [Case style] | [char] | [file.ext] |
+| [Type] [REQUIRED] | [Case style] [REQUIRED] | [char or N/A] [REQUIRED] | [file.ext] [REQUIRED] |
 
 ---
 
@@ -53,10 +56,10 @@
 
 | Rule | Value |
 |------|-------|
-| Format | [e.g. UPPER_SNAKE_CASE] |
-| Uniqueness | [Must be unique across the repository] |
-| Allowed characters | [e.g. A–Z, 0–9, underscore] |
-| Example | [DEMOAPP001_TYPESCRIPT_CYPRESS] |
+| Format | [e.g. UPPER_SNAKE_CASE] [REQUIRED] |
+| Uniqueness | [Must be unique across the repository] [REQUIRED] |
+| Allowed characters | [e.g. A-Z, 0-9, underscore] [REQUIRED] |
+| Example | [DEMOAPP001_TYPESCRIPT_CYPRESS] [REQUIRED] |
 
 ---
 
@@ -64,10 +67,10 @@
 
 | Rule | Value |
 |------|-------|
-| Case | [e.g. PascalCase] |
-| Word separator | [e.g. none / underscore] |
-| Must match | [e.g. the primary scenario subject] |
-| Example | [BasicSudokuSolverLogic.feature] |
+| Case | [e.g. PascalCase] [REQUIRED] |
+| Word separator | [e.g. none / underscore] [REQUIRED] |
+| Must match | [e.g. the primary scenario subject] [REQUIRED] |
+| Example | [BasicSudokuSolverLogic.feature] [REQUIRED] |
 
 ---
 
@@ -75,10 +78,10 @@
 
 | Component | Pattern | Example |
 |-----------|---------|---------|
-| Actor | [e.g. PascalCase noun phrase] | [AnAutomatedSolver] |
-| Ability | [e.g. PascalCase verb phrase] | [UseSudokuSolver] |
-| Task | [e.g. PascalCase verb phrase] | [SolvePuzzle] |
-| Question | [e.g. PascalCase noun phrase] | [SolveStatus] |
+| Actor | [e.g. PascalCase noun phrase] [REQUIRED] | [AnAutomatedSolver] [REQUIRED] |
+| Ability | [e.g. PascalCase verb phrase] [REQUIRED] | [UseSudokuSolver] [REQUIRED] |
+| Task | [e.g. PascalCase verb phrase] [REQUIRED] | [SolvePuzzle] [REQUIRED] |
+| Question | [e.g. PascalCase noun phrase] [REQUIRED] | [SolveStatus] [REQUIRED] |
 
 ---
 
@@ -86,11 +89,11 @@
 
 | Rule | Value |
 |------|-------|
-| Case | [e.g. UPPER_SNAKE_CASE] |
-| Word separator | [underscore] |
-| Constant name equals string value | [YES — MUST be identical] |
-| Namespaced for mixed surfaces | [e.g. CLI_LAST_EXIT_CODE, API_LAST_RESPONSE] |
-| Defined in | [screenplay/support/memory-keys.ts] |
+| Case | [e.g. UPPER_SNAKE_CASE] [REQUIRED] |
+| Word separator | [underscore] [REQUIRED] |
+| Constant name equals string value | [YES - MUST be identical] [REQUIRED] |
+| Namespaced for mixed surfaces | [e.g. CLI_LAST_EXIT_CODE, API_LAST_RESPONSE] [REQUIRED] |
+| Defined in | [screenplay/support/memory-keys.ts] [REQUIRED] |
 
 ---
 
@@ -98,22 +101,40 @@
 
 | Rule | Value |
 |------|-------|
-| Tense | [e.g. present simple] |
-| Voice | [e.g. active] |
-| Parameter placeholders | [e.g. {int}, {string}, {word}] |
-| Over-specification policy | [No inline values — use parameters] |
+| Tense | [e.g. present simple] [REQUIRED] |
+| Voice | [e.g. active] [REQUIRED] |
+| Parameter placeholders | [e.g. {int}, {string}, {word}] [REQUIRED] |
+| Over-specification policy | [No inline values - use parameters] [REQUIRED] |
 
 ---
 
-## 8. Document Names
+## 8. Tag Names
+
+| Tag type | Convention | Example |
+|----------|------------|---------|
+| Canonical scope tags | [pattern] [REQUIRED] | [@util] [REQUIRED] |
+| Lifecycle tags | [pattern] [REQUIRED] | [@pending] [REQUIRED] |
+| Stack tags | [pattern] [REQUIRED] | [@stack-demoapp001] [REQUIRED] |
+
+---
+
+## 9. Document Names
 
 | Document type | Pattern | Fixed or date-prefixed |
 |---------------|---------|----------------------|
-| [Type] | [Pattern] | [Fixed / Date-prefixed] |
+| [Type] [REQUIRED] | [Pattern] [REQUIRED] | [Fixed / Date-prefixed] [REQUIRED] |
 
 ---
 
-## 9. Decision Record IDs
+## 10. Generated Artifact Names
+
+| Artifact | Pattern | Excluded from manual naming rules |
+|----------|---------|-----------------------------------|
+| [Artifact type] [REQUIRED] | [Pattern] [REQUIRED] | Yes / No [REQUIRED] |
+
+---
+
+## 11. Decision Record IDs
 
 | Rule | Value |
 |------|-------|
@@ -123,9 +144,9 @@
 
 ---
 
-## 10. Enforcement
+## 12. Enforcement
 
 | Convention category | Enforcement mechanism |
 |--------------------|----------------------|
-| [Category] | [ESLint rule / Code review / Convention-only] |
+| [Category] [REQUIRED] | [ESLint rule / Code review / Convention-only] [REQUIRED] |
 ```

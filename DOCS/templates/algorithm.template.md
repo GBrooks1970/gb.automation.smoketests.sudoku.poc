@@ -5,7 +5,7 @@
 **Governed by:** `REFERENCE_ARCHITECTURE.md` Appendix A
 **Produces:** `DOCS/.algorithm/ALGORITHM_[Domain]_[Name].md`
 
-> This template is the canonical version. The copy at `DOCS/.algorithm/TEMPLATE_Algorithm.md` is a convenience reference for the algorithm directory.
+> This lowercase file is the canonical template. Legacy convenience copies may exist under dot-prefixed documentation folders, but new algorithm documents should start from this file.
 
 ---
 

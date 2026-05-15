@@ -5,7 +5,7 @@
 **Governed by:** `REFERENCE_ARCHITECTURE.md` §10.8
 **Produces:** `DOCS/.implementation/IMPL_LOG_YYYY-MM-DD_Topic_Slug.md`
 
-> This template is the canonical version. The copy at `DOCS/.implementation/TEMPLATE_Implementation_Log.md` is a convenience reference.
+> This lowercase file is the canonical template. Legacy convenience copies may exist under dot-prefixed documentation folders, but new implementation logs should start from this file.
 > Logs are **append-only**. Once written, do not edit past entries.
 > Any structural decision recorded in a log MUST also produce a `DECISION_REGISTER.md` entry.
 

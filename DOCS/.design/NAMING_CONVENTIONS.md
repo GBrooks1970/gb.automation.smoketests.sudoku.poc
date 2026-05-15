@@ -1,10 +1,10 @@
 # Naming Conventions
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-05-14
+**Last Updated:** 2026-05-15
 **Status:** Adopted
 **Governed by:** `REFERENCE_ARCHITECTURE.md` §10.9
-**Template:** `DOCS/templates/TEMPLATE_Naming_Conventions.md`
+**Template:** `DOCS/templates/naming-conventions.template.md`
 **Authoritative for:** All Stacks, all document types, all code in this repository
 
 > This document is the single source of truth for naming decisions.
@@ -133,7 +133,7 @@ private getBlockEmptyCells(...): { r: number; c: number }[]
 | Algorithm documents | `ALGORITHM_Domain_Name.md` | `ALGORITHM_Sudoku_Basic_Solver.md` |
 | How-to guides | `HOWTO_Title_Case.md` | `HOWTO_Debug_SudokuSolver.md` |
 | Implementation logs | `IMPL_LOG_YYYY-MM-DD_Title_Case.md` | `IMPL_LOG_2026-01-30_Initial_Project_Creation.md` |
-| Templates | `TEMPLATE_Title_Case.md` | `TEMPLATE_Decision_Record.md` |
+| Templates | `kebab-purpose.template.md` | `decision-record.template.md` |
 | Code review output dirs | `CODE_REVIEW_[AGENT]_v[N]_[UTC]/` | `CODE_REVIEW_CLAUDE_SONNET_v1_20260513T2217Z/` |
 
 > **Separator:** Single underscore (`_`) between words. Historical review bundles under `DOCS/.review/` use a double underscore (`__`) between reviewer name and timestamp; new review bundles under root `.review/` use the v1.3 pattern from DR-012 and DR-014.

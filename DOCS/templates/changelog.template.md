@@ -8,6 +8,7 @@
 
 ## How to Use This Template
 
+- Replace every `[REQUIRED]` placeholder before publishing.
 - Add new entries at the **top** of the changelog (newest first).
 - Use `[Unreleased]` for changes not yet tagged.
 - On release: rename `[Unreleased]` to `[vX.Y.Z] — YYYY-MM-DD`.
@@ -19,40 +20,47 @@
 ```markdown
 # Changelog
 
-All notable changes to this project are documented here.
-Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
+**Project:** [Project name] [REQUIRED]
+All notable changes to this project are documented here. [REQUIRED]
+Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) [REQUIRED]
 
 ---
 
-## [Unreleased]
+## [Unreleased] [REQUIRED]
 
 ### Added
-- [New feature, file, or capability introduced]
+- [New feature, file, or capability introduced] [REQUIRED if applicable]
 
 ### Changed
-- [Modification to existing behaviour]
+- [Modification to existing behaviour] [REQUIRED if applicable]
 
 ### Fixed
-- [Bug correction]
+- [Bug correction] [REQUIRED if applicable]
 
 ### Removed
-- [Feature, file, or capability that was deleted]
+- [Feature, file, or capability that was deleted] [REQUIRED if applicable]
 
 ### Deprecated
-- [Feature that will be removed in a future version]
+- [Feature that will be removed in a future version] [REQUIRED if applicable]
 
 ### Security
-- [Vulnerability fixed or security posture improved]
+- [Vulnerability fixed or security posture improved] [REQUIRED if applicable]
+
+### Known Issues
+- [Known issue, limitation, or `None`] [REQUIRED]
 
 ---
 
-## [vX.Y.Z] — YYYY-MM-DD
+## [vX.Y.Z] — YYYY-MM-DD [REQUIRED for each release]
 
 ### Added
-- [Entry]
+- [Entry] [REQUIRED if section is present]
 
 ### Changed
-- [Entry]
+- [Entry] [REQUIRED if section is present]
+
+### Known Issues
+- [Known issue, limitation, or `None`] [REQUIRED]
 
 ---
 ```

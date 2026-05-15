@@ -111,4 +111,4 @@ If a Stack cannot implement a scenario, it MUST tag the local copy `@pending` an
 
 ---
 
-Template source: `../templates/TEMPLATE_Parity_Contract.md`
+Template source: `../templates/parity-contract.template.md`

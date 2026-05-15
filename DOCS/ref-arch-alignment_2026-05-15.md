@@ -17,12 +17,11 @@ The project remains execution-stable and substantially aligned at the Stack impl
 - 241 steps passed
 - Metrics written to `.results/.metrics/DEMOAPP001_20260515T165829Z.txt` and `.md`
 
-The v1.3 reference architecture bump re-opened compliance work. MIG-01, MIG-02, MIG-03, MIG-06, and MIG-07 are now complete: `DECISION_REGISTER.md` adopts v1.3 through DR-012, DR-012 records the multi-file review bundle convention required by v1.3 Section 10.7, DR-013 records the compatibility strategy for v1.3 DOCS paths, DR-014 creates root `.review/` as the future review-output location, `CLAUDE.md` now reflects the current v1.3/Screenplay baseline, and the authoritative backlog is reconciled against the current migration state. The remaining largest gaps are not solver correctness problems. They are Screenplay contract and template gaps:
+The v1.3 reference architecture bump re-opened compliance work. MIG-01, MIG-02, MIG-03, MIG-06, MIG-07, and MIG-08 are now complete: `DECISION_REGISTER.md` adopts v1.3 through DR-012, DR-012 records the multi-file review bundle convention required by v1.3 Section 10.7, DR-013 records the compatibility strategy for v1.3 DOCS paths, DR-014 creates root `.review/` as the future review-output location, `CLAUDE.md` now reflects the current v1.3/Screenplay baseline, the authoritative backlog is reconciled against the current migration state, and current governed docs now reference lowercase templates with mandatory fields annotated where MIG-08 required it. The remaining largest gaps are not solver correctness problems. They are Screenplay contract and migration-process gaps:
 
 - The v1.3 DOCS literal paths and root review path now exist; historical dot-prefixed documentation remains preserved by decision.
 - The Screenplay layer exists and passes, but Memory key constants are mostly documentary; Tasks and Questions store/read state through Ability instance fields instead of Actor Memory.
 - Several step definitions directly call Abilities, so Layer 2 is not consistently thin.
-- Some template metadata still lacks mandatory-field annotations or references legacy uppercase template names.
 
 ### Overall v1.3 Compliance
 
@@ -39,8 +38,8 @@ The v1.3 architecture tightens or makes explicit these obligations:
 | Code review directory | Root `code-review/` or `.review/` MUST exist; bundle convention recorded as DR-012 | Root `.review/` exists for future reviews via DR-014; historical reviews remain under `DOCS/.review/` |
 | Implementation logs | `implementation-logs/` MUST exist under `DOCS/` or root | `DOCS/implementation-logs/README.md` now bridges to `DOCS/.implementation/` via DR-013 |
 | Naming conventions | `DOCS/design/NAMING_CONVENTIONS.md` MUST exist | `DOCS/design/NAMING_CONVENTIONS.md` now bridges to `DOCS/.design/NAMING_CONVENTIONS.md` via DR-013 |
-| Backlog | `DOCS/planning/BACKLOG.md` MUST exist and use `Open` / `In Progress` / `Resolved` | `DOCS/planning/BACKLOG.md` bridges to the reconciled authoritative backlog at `DOCS/.planning/BACKLOG.md`; current counts are Open 21, In Progress 1, Resolved 11 |
-| Templates | Every document type in Sections 10.1-10.9 needs a template with `[REQUIRED]` mandatory fields | Lowercase filenames exist, but some templates lack `[REQUIRED]` annotations |
+| Backlog | `DOCS/planning/BACKLOG.md` MUST exist and use `Open` / `In Progress` / `Resolved` | `DOCS/planning/BACKLOG.md` bridges to the reconciled authoritative backlog at `DOCS/.planning/BACKLOG.md`; current counts are Open 20, In Progress 1, Resolved 12 |
+| Templates | Every document type in Sections 10.1-10.9 needs a template with `[REQUIRED]` mandatory fields | Lowercase filenames exist; MIG-08 added mandatory-field annotations to the backlog, changelog, and naming-conventions templates and updated current governed docs to lowercase references |
 | Feature parity reports | Generated parity reports go to `.results/feature-parity/FEATURE_PARITY_[YYYYMMDDTHHMMZ].md` | No parity report generator yet; not blocking one-Stack execution |
 
 ---
@@ -57,7 +56,7 @@ The v1.3 architecture tightens or makes explicit these obligations:
 | Section 7 ability taxonomy | Mostly compliant | Current `@util` ability model is project-specific; future `@cli` work needs `InvokeExecutable` |
 | Section 8 multi-Stack parity | Pre-parity / partial | One Stack exists; parity contract exists; Memory keys are not wired into Actor Memory |
 | Section 9 orchestration and metrics | Mostly compliant | Runner emits key-value and markdown metrics; markdown summaries are preserved |
-| Section 10 documentation obligations | Partial | DR-012, DR-013, DR-014, DOCS path bridges, root `.review/`, refreshed agent guide, and reconciled backlog are in place; template gaps remain |
+| Section 10 documentation obligations | Partial | DR-012, DR-013, DR-014, DOCS path bridges, root `.review/`, refreshed agent guide, reconciled backlog, and template cleanup are in place; implementation-log naming/path and parity report process remain |
 | Section 11 new Stack readiness | Partial | TypeScript baseline passes, but v1.3 governance should be normalized before Stack 2 |
 
 ---
@@ -120,7 +119,7 @@ The v1.3 architecture tightens or makes explicit these obligations:
 
 **Observed before migration:** `DOCS/.planning/BACKLOG.md` was governed by v1.2, had stale summary counts, and still listed `BACKLOG-019: Migrate TypeScript Tests to Screenplay Pattern` as `Open` even though the Screenplay implementation was present and passing.
 
-**Resolution:** `DOCS/.planning/BACKLOG.md` now references `REFERENCE_ARCHITECTURE.md` v1.3, uses only the v1.3 status taxonomy, and reconciles summary counts to Open 21, In Progress 1, Resolved 11. `BACKLOG-019` is resolved with residual Screenplay conformance tracked by MIG-04 and MIG-05, and the MIG-01 through MIG-12 migration set is tracked directly in the backlog.
+**Resolution:** `DOCS/.planning/BACKLOG.md` now references `REFERENCE_ARCHITECTURE.md` v1.3, uses only the v1.3 status taxonomy, and reconciles summary counts to Open 20, In Progress 1, Resolved 12. `BACKLOG-019` is resolved with residual Screenplay conformance tracked by MIG-04 and MIG-05, and the MIG-01 through MIG-12 migration set is tracked directly in the backlog.
 
 **Migration:** MIG-07 resolved on 2026-05-15.
 
@@ -132,11 +131,13 @@ The v1.3 architecture tightens or makes explicit these obligations:
 
 **Migration:** MIG-03 resolved on 2026-05-15.
 
-### M4. Template mandate is not fully satisfied
+### M4. Template mandate is not fully satisfied - Resolved by MIG-08
 
-All 14 lowercase Appendix A template files exist under `DOCS/templates/`. However, `backlog.template.md`, `changelog.template.md`, and `naming-conventions.template.md` do not contain `[REQUIRED]` annotations for mandatory fields. Several governed documents still reference legacy uppercase template filenames.
+**Observed before migration:** All 14 lowercase Appendix A template files existed under `DOCS/templates/`, but `backlog.template.md`, `changelog.template.md`, and `naming-conventions.template.md` did not contain `[REQUIRED]` annotations for mandatory fields. Several current governed documents still referenced legacy uppercase template filenames.
 
-**Migration:** MIG-08.
+**Resolution:** The three affected lowercase templates now mark mandatory fields with `[REQUIRED]`. Current governed docs now reference lowercase template filenames, including `DOCS/README.md`, `CHANGELOG.md`, `DOCS/.design/NAMING_CONVENTIONS.md`, `DOCS/.planning/BACKLOG.md`, architecture contracts, and `DEMOAPP001_TYPESCRIPT_CYPRESS/docs/*`.
+
+**Migration:** MIG-08 resolved on 2026-05-15.
 
 ### M5. Implementation log location and naming diverge from v1.3
 
@@ -199,8 +200,10 @@ Test log confirms:
 - DR-013 records the DOCS compatibility path strategy.
 - DR-014 records root `.review/` as the future review-output location.
 - `CLAUDE.md` now reflects v1.3, current Screenplay implementation status, current paths, and current decision range.
-- `DOCS/.planning/BACKLOG.md` now reflects v1.3, tracks MIG-01 through MIG-12, and reports Open 21 / In Progress 1 / Resolved 11.
+- `DOCS/.planning/BACKLOG.md` now reflects v1.3, tracks MIG-01 through MIG-12, and reports Open 20 / In Progress 1 / Resolved 12.
 - `DOCS/templates/` contains all 14 lowercase Appendix A filenames.
+- `backlog.template.md`, `changelog.template.md`, and `naming-conventions.template.md` now mark mandatory fields with `[REQUIRED]`.
+- Current governed docs now reference lowercase template filenames.
 - Root `.review/README.md` exists and defines future v1.3 review output naming.
 - `DOCS/planning/BACKLOG.md`, `DOCS/design/NAMING_CONVENTIONS.md`, and `DOCS/implementation-logs/README.md` exist as compatibility bridges.
 - Dot-prefix authoritative sources remain under `DOCS/.planning`, `DOCS/.design`, and `DOCS/.implementation`.
@@ -221,7 +224,7 @@ All future migration tasks are labelled `MIG-**` as requested.
 | MIG-05 | Open | High | Step definitions | Remove direct Ability calls from step definitions | Step files delegate through `actor.attemptsTo(...)` and `actor.answer(...)`; missing Tasks/Questions are added |
 | MIG-06 | Resolved 2026-05-15 | Medium | AI agent guide | Refresh `CLAUDE.md` for v1.3 and current Screenplay implementation | No v1.2 stale baseline; no "No Screenplay Layer" limitation; current feature paths, DR range, backlog taxonomy, and risks are accurate |
 | MIG-07 | Resolved 2026-05-15 | Medium | Backlog | Reconcile backlog against current v1.3 state | Governance references v1.3; summary counts match item statuses; `BACKLOG-019` is resolved with residual work tracked by MIG-04 and MIG-05; MIG items are tracked |
-| MIG-08 | Open | Medium | Templates | Complete template mandate details | `backlog.template.md`, `changelog.template.md`, and `naming-conventions.template.md` mark mandatory fields with `[REQUIRED]`; governed docs reference lowercase templates |
+| MIG-08 | Resolved 2026-05-15 | Medium | Templates | Complete template mandate details | `backlog.template.md`, `changelog.template.md`, and `naming-conventions.template.md` mark mandatory fields with `[REQUIRED]`; current governed docs reference lowercase templates |
 | MIG-09 | Open | Medium | Implementation logs | Normalize implementation-log location and naming policy | `implementation-logs` path strategy implemented; future log naming follows `YYYY-MM-DD_short-session-topic.md`; legacy files are preserved or mapped |
 | MIG-10 | Open | Medium | Parity artifacts | Add feature parity validation report process | Generated reports go to `.results/feature-parity/FEATURE_PARITY_[YYYYMMDDTHHMMZ].md`; process documented in orchestration design |
 | MIG-11 | Open | Low | Gherkin | Parameterize over-specified canonical steps before Stack 2 | Literal setup arrays are moved to parameters or Examples tables; canonical and Stack-local features remain synchronized |
@@ -231,12 +234,11 @@ All future migration tasks are labelled `MIG-**` as requested.
 
 ## 6. Recommended Sequence
 
-1. Complete MIG-08 next. This removes stale template guidance that can mislead future agents.
-2. Complete MIG-04 and MIG-05 before onboarding Stack 2. These are the actual portability blockers.
-3. Complete MIG-09 through MIG-12 as part of the Stack 2 readiness work.
+1. Complete MIG-04 and MIG-05 before onboarding Stack 2. These are the actual portability blockers.
+2. Complete MIG-09 through MIG-12 as part of the Stack 2 readiness work.
 
 ---
 
 ## 7. Conclusion
 
-The TypeScript Stack is green and useful as the current reference implementation, but the repository is not fully v1.3-compliant. MIG-01 through MIG-03, MIG-06, and MIG-07 have reset the governance baseline, agent guide, and backlog around DR-012, DR-013, and DR-014. The remaining v1.3 work should focus on Actor Memory usage, thin step definitions, and updated template guidance.
+The TypeScript Stack is green and useful as the current reference implementation, but the repository is not fully v1.3-compliant. MIG-01 through MIG-03 and MIG-06 through MIG-08 have reset the governance baseline, agent guide, backlog, and template references around DR-012, DR-013, and DR-014. The remaining v1.3 work should focus on Actor Memory usage, thin step definitions, implementation-log naming, parity reporting, Gherkin portability, and metrics naming policy.

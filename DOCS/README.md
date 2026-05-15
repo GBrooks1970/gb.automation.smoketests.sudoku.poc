@@ -1,9 +1,9 @@
 # DOCS — Documentation Index
 
-**Last Updated:** 2026-05-14T15:00Z
+**Last Updated:** 2026-05-15T18:29Z
 **Maintainer:** Project Lead / Development Team
 
-> This is the master index for all project documentation. Every file in DOCS is
+> This is the master index for project documentation. Active governed docs and canonical templates are
 > cross-referenced here. If you add a new document, update this index.
 
 ---
@@ -13,25 +13,23 @@
 ```
 DOCS/
 ├── README.md                               <- This file (master index)
-├── REFERENCE_ARCHITECTURE.md              <- Screenplay-BDD Reference Architecture v1.0
+├── REFERENCE_ARCHITECTURE.md              <- Screenplay-BDD Reference Architecture v1.3
 ├── ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md
 ├── Documentation_Review_20260514T1100Z.md
 │
 ├── templates/                              <- Canonical template store (RA §10.5)
-│   ├── TEMPLATE_Decision_Record.md        <- For DECISION_REGISTER.md entries
-│   ├── TEMPLATE_Changelog.md              <- For root CHANGELOG.md
-│   ├── TEMPLATE_Backlog.md                <- For root BACKLOG.md
-│   └── TEMPLATE_Naming_Conventions.md     <- For NAMING_CONVENTIONS.md
+│   ├── decision-record.template.md        <- For DECISION_REGISTER.md entries
+│   ├── changelog.template.md              <- For root CHANGELOG.md
+│   ├── backlog.template.md                <- For DOCS/.planning/BACKLOG.md
+│   └── naming-conventions.template.md     <- For NAMING_CONVENTIONS.md
 │
 ├── .algorithm/                             <- Language-agnostic algorithm pseudocode
 │   ├── README.md                           <- Algorithm directory guide
-│   ├── TEMPLATE_Algorithm.md
 │   ├── ALGORITHM_Sudoku_Basic_Solver.md    <- Core algorithm pseudocode + complexity
 │   └── ALGORITHM_Sudoku_Advanced_Solver.md <- Advanced techniques reference
 │
 ├── .design/                                <- Design & specification documents
 │   ├── README.md                           <- Design directory guide
-│   ├── TEMPLATE_Design_Document.md
 │   ├── DESIGN_Sudoku_Solver_Specification.md
 │   ├── DESIGN_Audit_Trail_Feature.md
 │   ├── DESIGN_REST_API_Wrapper.md
@@ -50,13 +48,11 @@ DOCS/
 │
 ├── .implementation/                        <- Session implementation logs
 │   ├── README.md
-│   ├── TEMPLATE_Implementation_Log.md
 │   ├── IMPL_LOG_2026-01-30_Initial_Project_Creation.md
 │   └── IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md
 │
 ├── .howto/                                 <- Practical how-to guides
 │   ├── README.md
-│   ├── TEMPLATE_HowTo.md
 │   └── HOWTO_Debug_SudokuSolver.md
 │
 └── .review/                                <- Code review outputs and template
@@ -76,22 +72,22 @@ Canonical template store — all document templates live here. Use a template be
 
 | Template | Governs | Phase |
 |----------|---------|-------|
-| [TEMPLATE_Decision_Record.md](templates/TEMPLATE_Decision_Record.md) | `DECISION_REGISTER.md` entries | 0 |
-| [TEMPLATE_Changelog.md](templates/TEMPLATE_Changelog.md) | Root `CHANGELOG.md` | 0 |
-| [TEMPLATE_Backlog.md](templates/TEMPLATE_Backlog.md) | `DOCS/.planning/BACKLOG.md` | 0 |
-| [TEMPLATE_Naming_Conventions.md](templates/TEMPLATE_Naming_Conventions.md) | `DOCS/.design/NAMING_CONVENTIONS.md` | 0 |
-| [TEMPLATE_Readme.md](templates/TEMPLATE_Readme.md) | Root `README.md` | 0 |
-| [TEMPLATE_Stack_Architecture.md](templates/TEMPLATE_Stack_Architecture.md) | `[STACK]/docs/ARCHITECTURE.md` | 5 |
-| [TEMPLATE_Screenplay_Guide.md](templates/TEMPLATE_Screenplay_Guide.md) | `[STACK]/docs/SCREENPLAY_GUIDE.md` | 5 |
-| [TEMPLATE_QA_Strategy.md](templates/TEMPLATE_QA_Strategy.md) | `[STACK]/docs/QA_STRATEGY.md` | 5 |
-| [TEMPLATE_Stack_Readme.md](templates/TEMPLATE_Stack_Readme.md) | `[STACK]/docs/README.md` | 5 |
-| [TEMPLATE_Parity_Contract.md](templates/TEMPLATE_Parity_Contract.md) | `DOCS/architecture/screenplay-parity-contract.md` | 6 |
-| [TEMPLATE_Subject_App_Contract.md](templates/TEMPLATE_Subject_App_Contract.md) | `DOCS/architecture/subject-app-contract.md` | 6 |
-| [TEMPLATE_Algorithm.md](templates/TEMPLATE_Algorithm.md) | `DOCS/.algorithm/ALGORITHM_*.md` | — |
-| [TEMPLATE_Implementation_Log.md](templates/TEMPLATE_Implementation_Log.md) | `DOCS/.implementation/IMPL_LOG_*.md` | — |
-| [TEMPLATE_Code_Review.md](templates/TEMPLATE_Code_Review.md) | `DOCS/.review/CODE_REVIEW_*/` | — |
+| [decision-record.template.md](templates/decision-record.template.md) | `DECISION_REGISTER.md` entries | 0 |
+| [changelog.template.md](templates/changelog.template.md) | Root `CHANGELOG.md` | 0 |
+| [backlog.template.md](templates/backlog.template.md) | `DOCS/.planning/BACKLOG.md` | 0 |
+| [naming-conventions.template.md](templates/naming-conventions.template.md) | `DOCS/.design/NAMING_CONVENTIONS.md` | 0 |
+| [readme.template.md](templates/readme.template.md) | Root `README.md` | 0 |
+| [stack-architecture.template.md](templates/stack-architecture.template.md) | `[STACK]/docs/ARCHITECTURE.md` | 5 |
+| [screenplay-guide.template.md](templates/screenplay-guide.template.md) | `[STACK]/docs/SCREENPLAY_GUIDE.md` | 5 |
+| [qa-strategy.template.md](templates/qa-strategy.template.md) | `[STACK]/docs/QA_STRATEGY.md` | 5 |
+| [stack-readme.template.md](templates/stack-readme.template.md) | `[STACK]/docs/README.md` | 5 |
+| [parity-contract.template.md](templates/parity-contract.template.md) | `DOCS/architecture/screenplay-parity-contract.md` | 6 |
+| [subject-app-contract.template.md](templates/subject-app-contract.template.md) | `DOCS/architecture/subject-app-contract.md` | 6 |
+| [algorithm.template.md](templates/algorithm.template.md) | `DOCS/.algorithm/ALGORITHM_*.md` | — |
+| [implementation-log.template.md](templates/implementation-log.template.md) | `DOCS/.implementation/IMPL_LOG_*.md` | — |
+| [code-review.template.md](templates/code-review.template.md) | `.review/CODE_REVIEW_*/` | — |
 
-> Convenience copies of Algorithm, Implementation Log, and Code Review templates also exist in their respective subdirectories for local reference.
+> Legacy convenience copies may exist in dot-prefixed subdirectories, but the canonical templates are the lowercase files in `DOCS/templates/`.
 
 ---
 
@@ -105,7 +101,7 @@ The following documents MUST exist at the repository root per the Reference Arch
 | [CHANGELOG.md](../CHANGELOG.md) | Version history, notable changes |
 | [BACKLOG.md](../BACKLOG.md) | Backlog summary — detailed at [DOCS/.planning/BACKLOG.md](.planning/BACKLOG.md) |
 | [DECISION_REGISTER.md](../DECISION_REGISTER.md) | Structural and process decisions (DR-001 onwards) |
-| [NAMING_CONVENTIONS.md](.design/NAMING_CONVENTIONS.md) | Authoritative naming conventions for all code and docs (RA v1.1: `DOCS/design/`; DR-001: stored in `.design/`) |
+| [NAMING_CONVENTIONS.md](.design/NAMING_CONVENTIONS.md) | Authoritative naming conventions for all code and docs (RA v1.3: `DOCS/design/`; DR-001/DR-013: authoritative copy stored in `.design/`) |
 
 ---
 

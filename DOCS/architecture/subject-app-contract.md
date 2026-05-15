@@ -68,4 +68,4 @@ No active contract gaps remain for the current @util surface and the documented 
 
 ---
 
-Template source: `../templates/TEMPLATE_Subject_App_Contract.md`
+Template source: `../templates/subject-app-contract.template.md`
