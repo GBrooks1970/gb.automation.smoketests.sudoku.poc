@@ -12,7 +12,7 @@ When documents conflict, use this order:
 4. Stack-level docs under `demo-apps/demoapp001-typescript-cypress/docs/`
 5. This guide
 
-`DECISION_REGISTER.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-016.
+`DECISION_REGISTER.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-018.
 
 ## Current Architecture Baseline
 
@@ -22,7 +22,9 @@ When documents conflict, use this order:
 - Canonical feature store: `features-shared/`
 - Stack-local feature copy: `demo-apps/demoapp001-typescript-cypress/tests/features/`
 - Screenplay implementation: present and passing with Serenity/JS + Cucumber.js (MIG-04 and MIG-05 resolved by DR-015)
-- Known RA v1.3 gaps still tracked: MIG-09, MIG-10, MIG-11, MIG-12, MIG-13
+- Implementation logs: authoritative at `DOCS/implementation-logs/` (MIG-09, DR-017)
+- Feature parity script: `.batch/generate-feature-parity-report.ps1` (MIG-10)
+- All RA v1.3 migration gaps resolved: MIG-01 through MIG-13 all Resolved
 
 ## Repository Map
 

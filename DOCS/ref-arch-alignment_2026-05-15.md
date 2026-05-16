@@ -19,7 +19,7 @@ The project remains execution-stable and substantially aligned at the Stack impl
 
 The v1.3 reference architecture bump re-opened compliance work. MIG-01, MIG-02, MIG-03, MIG-06, MIG-07, and MIG-08 are now complete: `DECISION_REGISTER.md` adopts v1.3 through DR-012, DR-012 records the multi-file review bundle convention required by v1.3 Section 10.7, DR-013 records the compatibility strategy for v1.3 DOCS paths, DR-014 creates root `.review/` as the future review-output location, `CLAUDE.md` now reflects the current v1.3/Screenplay baseline, the authoritative backlog is reconciled against the current migration state, and current governed docs now reference lowercase templates with mandatory fields annotated where MIG-08 required it. MIG-04 and MIG-05 are now complete: Actor Memory is wired via TakeNotes (`notes<SudokuNotes>()` pattern) — all six Memory key constants are now runtime-active. All step definition files are thin; no step file imports or calls Abilities directly. All 43 scenarios pass after the migration.
 
-The remaining gaps are process and tooling items (MIG-09 through MIG-12), not Screenplay contract gaps.
+MIG-09 through MIG-12 are now resolved (2026-05-16). All RA v1.3 migration items (MIG-01 through MIG-13) are now Resolved. The repository is fully ready for Stack 2 onboarding.
 
 ### Overall v1.3 Compliance
 
@@ -54,7 +54,7 @@ The v1.3 architecture tightens or makes explicit these obligations:
 | Section 7 ability taxonomy | Mostly compliant | Current `@util` ability model is project-specific; future `@cli` work needs `InvokeExecutable` |
 | Section 8 multi-Stack parity | Pre-parity / partial | One Stack exists; parity contract exists; Memory keys are not wired into Actor Memory |
 | Section 9 orchestration and metrics | Mostly compliant | Runner emits key-value and markdown metrics; markdown summaries are preserved |
-| Section 10 documentation obligations | Partial | DR-012, DR-013, DR-014, DOCS path bridges, root `.review/`, refreshed agent guide, reconciled backlog, and template cleanup are in place; implementation-log naming/path and parity report process remain |
+| Section 10 documentation obligations | Compliant | DR-012 through DR-018 in place; DOCS path bridges, root `.review/`, agent guide, backlog, templates, implementation-log path (DR-017), parity report process, and metrics mapping all resolved |
 | Section 11 new Stack readiness | Partial | TypeScript baseline passes, but v1.3 governance should be normalized before Stack 2 |
 
 ---
@@ -247,10 +247,21 @@ All future migration tasks are labelled `MIG-**` as requested.
 ## 6. Recommended Sequence
 
 1. ~~Complete MIG-04 and MIG-05 before onboarding Stack 2.~~ **Done** (2026-05-16).
-2. Complete MIG-09 through MIG-12 as part of the Stack 2 readiness work.
+2. ~~Complete MIG-09 through MIG-12 as part of the Stack 2 readiness work.~~ **Done** (2026-05-16).
+3. All RA v1.3 migration items complete. Proceed with Stack 2 onboarding.
 
 ---
 
 ## 7. Conclusion
 
-The TypeScript Stack is green and fully aligned on the Screenplay contract. MIG-01 through MIG-08 reset the governance baseline, agent guide, backlog, and template references. MIG-04 (Actor Memory via TakeNotes) and MIG-05 (thin step definitions) are now resolved — all six Memory key constants are runtime-active and no step file accesses Abilities directly. The remaining v1.3 work (MIG-09 through MIG-12) covers implementation-log naming, parity reporting, Gherkin portability, and metrics naming — process and tooling items rather than Screenplay contract gaps. The repository is ready for Stack 2 onboarding.
+The TypeScript Stack is green and fully aligned against `REFERENCE_ARCHITECTURE.md` v1.3. All 13 migration items (MIG-01 through MIG-13) are now Resolved:
+
+- **MIG-01–MIG-08** (resolved 2026-05-15): v1.3 adoption, DOCS path bridges, review directory, Screenplay Actor Memory, thin step definitions, agent guide, backlog reconciliation, and template mandate.
+- **MIG-04 and MIG-05** (resolved 2026-05-16): Actor Memory wired via TakeNotes; all six Memory key constants are runtime-active; no step file accesses Abilities directly.
+- **MIG-13** (resolved 2026-05-16): Stack filesystem directories renamed to kebab-case per DR-016.
+- **MIG-09** (resolved 2026-05-16): Implementation logs moved to `DOCS/implementation-logs/` with v1.3 `YYYY-MM-DD_slug` naming; DR-017.
+- **MIG-10** (resolved 2026-05-16): Feature parity report script created (`.batch/generate-feature-parity-report.ps1`); reports write to `.results/feature-parity/`; orchestration design updated.
+- **MIG-11** (resolved 2026-05-16): Two over-specified Gherkin scenarios converted to Scenario Outlines with Examples tables; step definitions parameterized; 43/43 pass; parity PASS; DR-018.
+- **MIG-12** (resolved 2026-05-16): Short identifier `DEMOAPP001` documented in orchestration script and design; mapping table in orchestration-design.md Section 6; DR-016.
+
+The repository is fully ready for Stack 2 onboarding with no open RA v1.3 compliance gaps.
