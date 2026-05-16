@@ -1,6 +1,7 @@
-import { Actor, Cast } from '@serenity-js/core';
+import { Actor, Cast, TakeNotes } from '@serenity-js/core';
 import { UseSudokuSolver } from '../abilities/UseSudokuSolver';
 import { LoadPuzzles } from '../abilities/LoadPuzzles';
+import { SudokuNotes } from '../support/memory-keys';
 import * as path from 'path';
 
 const PUZZLES_PATH = path.resolve(__dirname, '../../../puzzles.json');
@@ -20,6 +21,7 @@ export const SudokuActors: Cast = {
     return actor.whoCan(
       new UseSudokuSolver(),
       LoadPuzzles.from(PUZZLES_PATH),
+      TakeNotes.usingAnEmptyNotepad<SudokuNotes>(),
     );
   },
 };

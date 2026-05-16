@@ -87,4 +87,19 @@ export const GridCell = {
     Question.about('no constraint violations in filled cells', actor =>
       UseSudokuSolver.as(actor).noConstraintViolations()
     ),
+
+  isDeepCopy: () =>
+    Question.about('working grid is a deep copy of the snapshot (same values, different reference)', actor => {
+      const ability = UseSudokuSolver.as(actor);
+      const grid = ability.getSolver().grid;
+      const snapshot = ability.gridSnapshot;
+      const sameReference = (grid as unknown) === (snapshot as unknown);
+      if (sameReference) return false;
+      for (let r = 0; r < GRID_SIZE; r++) {
+        for (let c = 0; c < GRID_SIZE; c++) {
+          if (grid[r][c] !== snapshot[r][c]) return false;
+        }
+      }
+      return true;
+    }),
 };

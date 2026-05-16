@@ -689,6 +689,62 @@ Create repository-root `.review/` as the v1.3 location for future code review ou
 
 ---
 
+## DR-015 — Actor Memory via TakeNotes and thin step definitions (MIG-04 / MIG-05)
+
+**Date:** 2026-05-16
+**Status:** Accepted — 2026-05-16
+
+### Context
+
+`REFERENCE_ARCHITECTURE.md` v1.3 §3.5 requires that Memory keys be defined as named constants, and that Tasks write to Actor Memory while Questions read from it. Prior to MIG-04, the six constants in `tests/screenplay/support/memory-keys.ts` were defined but unused at runtime — all cross-step state flowed through private fields on `UseSudokuSolver` instead of through named Actor Memory keys. This left a parity risk: the documented Memory contract was not the runtime contract.
+
+§2.1 additionally requires step definitions to be thin — delegating to `actor.attemptsTo(Task)` and `actor.answer(Question)`. Multiple step definition files imported `UseSudokuSolver` and `LoadPuzzles` and called their methods inline (MIG-05 finding).
+
+### Decision
+
+**MIG-04:** Add `TakeNotes.usingAnEmptyNotepad<SudokuNotes>()` to the Cast in `SudokuActors.ts`. Add a `SudokuNotes` typed interface to `memory-keys.ts`. Update all outcome Tasks to write to Actor Memory using `notes<SudokuNotes>().set(KEY, value).performAs(actor)` after their core action. Update the four outcome Questions (`SolveStatus`, `AlgorithmMadeProgress`, `PlacementValidity`, `ErrorThrown`) to read from Actor Memory using `actor.answer(notes<SudokuNotes>().get(KEY))`. All six keys now participate in runtime.
+
+**MIG-05:** Create new Tasks (`SetTargetCell`, `SolvePuzzle.withCurrentGrid`, `SimulateError`, `CheckAlgorithmProgress`, `LoadPuzzleByIndex`, `LoadPuzzlesByDifficulty`, `LoadPuzzleByName.andInitialiseOrDefault`, `InitialiseGrid.fromPuzzleNamed`) and new Questions (`GridSnapshot`, `MultipleSolvers`, `LoadedPuzzles`, `CurrentSolver`, `TargetCell`), plus `GridCell.isDeepCopy()`. Update `SetupGridState.valuesInRow/Column/Block` to read `TARGET_CELL` from Actor Memory. Remove all direct Ability imports from step definition files.
+
+The project-standard pattern for writing to Actor Memory inside `Interaction.where()` lambdas is `notes<SudokuNotes>().set(KEY, value).performAs(actor)` rather than `actor.attemptsTo(...)`, because the actor parameter inside `Interaction.where()` is typed as `UsesAbilities & AnswersQuestions & CollectsArtifacts` which does not expose `attemptsTo()`.
+
+All 43 scenarios pass after the migration.
+
+### Status
+
+`Accepted` — 2026-05-16
+
+### Consequences
+
+**Outcomes:**
+- The documented Memory contract is now the runtime contract. Future Stacks can implement the same six key constants and be in parity with the TypeScript Stack.
+- Step definition files no longer import `UseSudokuSolver` or `LoadPuzzles`; Layer 2 is consistently thin.
+- `notes<SudokuNotes>().set(KEY, value).performAs(actor)` is the canonical project pattern for writing to Actor Memory inside Task lambdas.
+
+**Trade-offs:**
+- Each outcome Task performs an additional `notes().set()` call per execution.
+- Structural-state Questions (`GridCell`, `LoadedPuzzleCount`) continue to read from Ability fields; this is accepted because structural state is part of the Subject Application interface, not a published Memory key.
+
+**Compliance note:**
+- Implements `REFERENCE_ARCHITECTURE.md` v1.3 §3.3 (Tasks write Memory), §3.4 (Questions read Memory), §3.5 (Memory key constants), §2.1 (Layer 2 thin), §8.1 (Memory key parity).
+
+### Alternatives Considered
+
+**Alternative: Document Ability-field pattern as the authoritative Memory implementation**
+- Description: Record that Ability fields are the project's implementation of Actor Memory without migrating to `notes()`.
+- Rejected because: MIG-04 acceptance criteria requires Tasks to write and Questions to read named Memory keys; documentation only would leave the parity risk unresolved.
+
+**Alternative: Use `actor.remember()` / `actor.recall()` directly**
+- Description: Call `actor.remember(key, value)` and `actor.recall(key)` as described in RA §3.1.
+- Rejected because: inside `Interaction.where()` the actor is typed as `UsesAbilities & AnswersQuestions & CollectsArtifacts`, which does not expose `remember()` or `recall()` in Serenity/JS v3.43.
+
+### Related Decisions
+
+- DR-008 — Serenity/JS Ability extension pattern.
+- DR-012 — Active governance baseline (RA v1.3).
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -707,5 +763,5 @@ Create repository-root `.review/` as the v1.3 location for future code review ou
 
 ---
 
-*Last entry: DR-014. Next ID: DR-015.*
+*Last entry: DR-015. Next ID: DR-016.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

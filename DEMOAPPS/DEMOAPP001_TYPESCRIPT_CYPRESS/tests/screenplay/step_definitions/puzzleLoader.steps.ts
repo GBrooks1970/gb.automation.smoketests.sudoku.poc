@@ -1,10 +1,15 @@
 import { Given, When, Then } from '@cucumber/cucumber';
 import { actorCalled } from '@serenity-js/core';
 import * as assert from 'assert';
+import { LoadPuzzleByName } from '../tasks/LoadPuzzleByName';
+import { LoadPuzzleByIndex } from '../tasks/LoadPuzzleByIndex';
+import { LoadPuzzlesByDifficulty } from '../tasks/LoadPuzzlesByDifficulty';
+import { SimulateError } from '../tasks/SimulateError';
 import { LoadedPuzzleCount } from '../questions/LoadedPuzzleCount';
 import { ErrorThrown } from '../questions/ErrorThrown';
-import { UseSudokuSolver } from '../abilities/UseSudokuSolver';
-import { LoadPuzzles } from '../abilities/LoadPuzzles';
+import { LoadedPuzzles } from '../questions/LoadedPuzzles';
+import { CurrentSolver } from '../questions/CurrentSolver';
+import { MultipleSolvers } from '../questions/MultipleSolvers';
 import { GRID_SIZE } from '../../../app_src/constants';
 
 // ---------------------------------------------------------------------------
@@ -15,14 +20,12 @@ Given('a puzzles.json file exists with {int} puzzles', (_count: number) => {
   // Context only — file exists on disk
 });
 
-Given('a puzzle with an 8x9 grid in the JSON file', () => {
-  const ability = UseSudokuSolver.as(actorCalled('Solver'));
-  ability.setSolverError(new Error(`Puzzle "Bad" (index 0) must have exactly 9 rows`));
+Given('a puzzle with an 8x9 grid in the JSON file', async () => {
+  await actorCalled('Solver').attemptsTo(SimulateError.forInvalidRowCount(8));
 });
 
-Given('a puzzle with a cell value of {int} in the JSON file', (_value: number) => {
-  const ability = UseSudokuSolver.as(actorCalled('Solver'));
-  ability.setSolverError(new Error(`Puzzle "Bad" has invalid value at [0][0]: ${_value}`));
+Given('a puzzle with a cell value of {int} in the JSON file', async (_value: number) => {
+  await actorCalled('Solver').attemptsTo(SimulateError.forInvalidCellValue(_value));
 });
 
 Given('puzzles are loaded from JSON', () => {
@@ -46,39 +49,20 @@ When('the PuzzleLoader attempts to load the file', () => {
 });
 
 When('requesting a puzzle by name {string}', async (name: string) => {
-  const puzzle = LoadPuzzles.as(actorCalled('Solver')).getByName(name);
-  const ability = UseSudokuSolver.as(actorCalled('Solver'));
-  if (puzzle) {
-    ability.initialise(puzzle.name, puzzle.grid);
-  } else {
-    ability.initialise('notfound');
-  }
+  await actorCalled('Solver').attemptsTo(LoadPuzzleByName.andInitialiseOrDefault(name));
 });
 
-When('requesting puzzles with difficulty {string}', (difficulty: string) => {
-  const puzzles = LoadPuzzles.as(actorCalled('Solver')).getByDifficulty(difficulty);
-  UseSudokuSolver.as(actorCalled('Solver')).storeSolversFromPuzzles(puzzles);
+When('requesting puzzles with difficulty {string}', async (difficulty: string) => {
+  await actorCalled('Solver').attemptsTo(LoadPuzzlesByDifficulty.andStore(difficulty));
 });
 
 When('requesting puzzle at index {int}', async (index: number) => {
-  const puzzle = LoadPuzzles.as(actorCalled('Solver')).getByIndex(index);
-  const ability = UseSudokuSolver.as(actorCalled('Solver'));
-  if (puzzle) {
-    ability.initialise(puzzle.name, puzzle.grid);
-  } else {
-    ability.initialise('notfound');
-  }
+  await actorCalled('Solver').attemptsTo(LoadPuzzleByIndex.andInitialise(index));
 });
 
-When('the PuzzleLoader is initialized', () => {
-  // For "file does not exist" scenario: LoadPuzzles is pre-loaded via Cast,
-  // but testing the error case by capturing it on the ability
-  const error = LoadPuzzles.as(actorCalled('Solver')).getError();
-  if (!error) {
-    UseSudokuSolver.as(actorCalled('Solver')).setSolverError(
-      new Error('Puzzle file not found')
-    );
-  }
+When('the PuzzleLoader is initialized', async () => {
+  // For the "file does not exist" scenario, simulate the missing file error
+  await actorCalled('Solver').attemptsTo(SimulateError.forMissingFile());
 });
 
 // ---------------------------------------------------------------------------
@@ -90,8 +74,8 @@ Then('{int} puzzles should be successfully loaded', async (count: number) => {
   assert.strictEqual(actual, count);
 });
 
-Then('each puzzle should have a name, difficulty, description, and grid', () => {
-  const puzzles = LoadPuzzles.as(actorCalled('Solver')).getAll();
+Then('each puzzle should have a name, difficulty, description, and grid', async () => {
+  const puzzles = await actorCalled('Solver').answer(LoadedPuzzles.all());
   for (const p of puzzles) {
     assert.ok(p.name, 'Missing name');
     assert.ok(p.difficulty, 'Missing difficulty');
@@ -111,29 +95,28 @@ Then('the error message should indicate {string}', async (msg: string) => {
     `Expected error to contain "${msg}", got: ${error?.message}`);
 });
 
-Then('the correct puzzle should be returned', () => {
-  const name = UseSudokuSolver.as(actorCalled('Solver')).getSolver().name;
+Then('the correct puzzle should be returned', async () => {
+  const name = await actorCalled('Solver').answer(CurrentSolver.name());
   assert.strictEqual(name, 'Easy Scan Grid');
 });
 
-Then('the puzzle grid should be a 9x9 array', () => {
-  const solver = UseSudokuSolver.as(actorCalled('Solver')).getSolver();
-  assert.strictEqual(solver.origGrid.length, GRID_SIZE);
-  assert.strictEqual(solver.origGrid[0].length, GRID_SIZE);
+Then('the puzzle grid should be a 9x9 array', async () => {
+  const valid = await actorCalled('Solver').answer(CurrentSolver.hasValidGrid());
+  assert.ok(valid, 'Expected a 9x9 origGrid');
 });
 
-Then('only puzzles marked as {string} should be returned', (difficulty: string) => {
-  const solvers = UseSudokuSolver.as(actorCalled('Solver')).multipleSolvers;
-  assert.ok(solvers.length > 0, `Expected at least one puzzle with difficulty ${difficulty}`);
+Then('only puzzles marked as {string} should be returned', async (difficulty: string) => {
+  const count = await actorCalled('Solver').answer(MultipleSolvers.count());
+  assert.ok(count > 0, `Expected at least one puzzle with difficulty ${difficulty}`);
 });
 
-Then('the result should be an array of matching puzzles', () => {
-  const solvers = UseSudokuSolver.as(actorCalled('Solver')).multipleSolvers;
-  assert.ok(Array.isArray(solvers));
+Then('the result should be an array of matching puzzles', async () => {
+  const count = await actorCalled('Solver').answer(MultipleSolvers.count());
+  assert.ok(count >= 0, 'Expected an array of solvers');
 });
 
-Then('the first puzzle in the collection should be returned', () => {
-  const name = UseSudokuSolver.as(actorCalled('Solver')).getSolver().name;
+Then('the first puzzle in the collection should be returned', async () => {
+  const name = await actorCalled('Solver').answer(CurrentSolver.name());
   assert.strictEqual(name, 'Easy Scan Grid');
 });
 

@@ -1,15 +1,16 @@
-import { Question } from '@serenity-js/core';
-import { UseSudokuSolver } from '../abilities/UseSudokuSolver';
+import { Question, notes } from '@serenity-js/core';
+import { VALIDATION_RESULT, SudokuNotes } from '../support/memory-keys';
 
 /**
  * Question: PlacementValidity
  *
- * Returns the validation result for the most recent AttemptPlacement task:
- *   "VALID" | "INVALID"
+ * Reads VALIDATION_RESULT from Actor Memory — written by AttemptPlacement (MIG-04).
+ * Returns "VALID" | "INVALID".
  */
 export const PlacementValidity = {
   ofLastAttempt: () =>
-    Question.about('the placement validity result', actor =>
-      UseSudokuSolver.as(actor).validationResult
-    ),
+    Question.about('the placement validity result', async actor => {
+      const result = await actor.answer(notes<SudokuNotes>().get(VALIDATION_RESULT));
+      return result ?? '';
+    }),
 };

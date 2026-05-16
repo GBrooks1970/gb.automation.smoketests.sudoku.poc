@@ -1,11 +1,10 @@
 import { Given, When, Then } from '@cucumber/cucumber';
 import { actorCalled } from '@serenity-js/core';
 import * as assert from 'assert';
-import { ApplyAlgorithm } from '../tasks/ApplyAlgorithm';
 import { SetupGridState } from '../tasks/SetupGridState';
 import { AlgorithmMadeProgress } from '../questions/AlgorithmMadeProgress';
 import { GridCell } from '../questions/GridCell';
-import { UseSudokuSolver } from '../abilities/UseSudokuSolver';
+import { TargetCell } from '../questions/TargetCell';
 import { EMPTY_CELL } from '../../../app_src/constants';
 
 // ---------------------------------------------------------------------------
@@ -18,23 +17,17 @@ Given('an empty cell at row {int}, column {int}', async (row: number, col: numbe
 
 Given('the numbers {int}, {int}, {int} are in the same row',
   async (a: number, b: number, c: number) => {
-    const actor = actorCalled('Solver');
-    const { row, col } = UseSudokuSolver.as(actor).targetCell;
-    await actor.attemptsTo(SetupGridState.valuesInRow(row, col, [a, b, c]));
+    await actorCalled('Solver').attemptsTo(SetupGridState.valuesInRow([a, b, c]));
   });
 
 Given('the numbers {int}, {int}, {int} are in the same column',
   async (a: number, b: number, c: number) => {
-    const actor = actorCalled('Solver');
-    const { row, col } = UseSudokuSolver.as(actor).targetCell;
-    await actor.attemptsTo(SetupGridState.valuesInColumn(col, row, [a, b, c]));
+    await actorCalled('Solver').attemptsTo(SetupGridState.valuesInColumn([a, b, c]));
   });
 
 Given('the numbers {int}, {int} are in the same 3x3 block',
   async (a: number, b: number) => {
-    const actor = actorCalled('Solver');
-    const { row, col } = UseSudokuSolver.as(actor).targetCell;
-    await actor.attemptsTo(SetupGridState.valuesInBlock(row, col, row, col, [a, b]));
+    await actorCalled('Solver').attemptsTo(SetupGridState.valuesInBlock([a, b]));
   });
 
 Given('an empty cell has 3 possible candidates: [2, 5, 8]', async () => {
@@ -58,7 +51,7 @@ Then('the system should determine the only possible value is {int}',
     const actor = actorCalled('Solver');
     const made = await actor.answer(AlgorithmMadeProgress.afterLastCall());
     assert.ok(made, 'Expected nakedSingles to return true');
-    const { row, col } = UseSudokuSolver.as(actor).targetCell;
+    const { row, col } = await actor.answer(TargetCell.current());
     const cellValue = await actor.answer(GridCell.at(row, col));
     assert.strictEqual(cellValue, value);
   });
@@ -71,7 +64,7 @@ Then('the cell at row {int}, column {int} should be updated to {int}',
 
 Then('the cell should not be filled', async () => {
   const actor = actorCalled('Solver');
-  const { row, col } = UseSudokuSolver.as(actor).targetCell;
+  const { row, col } = await actor.answer(TargetCell.current());
   const cellValue = await actor.answer(GridCell.at(row, col));
   assert.strictEqual(cellValue, EMPTY_CELL);
 });

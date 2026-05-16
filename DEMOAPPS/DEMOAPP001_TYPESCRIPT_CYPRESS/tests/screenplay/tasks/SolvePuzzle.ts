@@ -1,12 +1,13 @@
-import { Interaction } from '@serenity-js/core';
+import { Interaction, notes } from '@serenity-js/core';
 import { UseSudokuSolver } from '../abilities/UseSudokuSolver';
 import { LoadPuzzles } from '../abilities/LoadPuzzles';
+import { SOLVE_RESULT, SudokuNotes } from '../support/memory-keys';
 
 /**
  * Task: SolvePuzzle
  *
- * Loads a named puzzle from JSON and runs the full solving orchestration in one step.
- * Used by integration scenarios that load-and-solve in a single Given step.
+ * Runs the full solving orchestration loop.
+ * Writes SOLVE_RESULT to Actor Memory after the run (RA §3.3, MIG-04).
  */
 export const SolvePuzzle = {
   named: (puzzleName: string) =>
@@ -16,5 +17,13 @@ export const SolvePuzzle = {
       const ability = UseSudokuSolver.as(actor);
       ability.initialise(puzzle.name, puzzle.grid);
       ability.solvePuzzle();
+      await notes<SudokuNotes>().set(SOLVE_RESULT, ability.result).performAs(actor);
+    }),
+
+  withCurrentGrid: () =>
+    Interaction.where('#actor runs the solving loop on the current grid', async actor => {
+      const ability = UseSudokuSolver.as(actor);
+      ability.solvePuzzle();
+      await notes<SudokuNotes>().set(SOLVE_RESULT, ability.result).performAs(actor);
     }),
 };

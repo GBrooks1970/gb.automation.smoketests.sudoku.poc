@@ -1,9 +1,9 @@
 # Screenplay-BDD Reference Architecture - Alignment & Migration Report
 
-**Date:** 2026-05-15
-**Analyst:** Codex (GPT-5)
+**Date:** 2026-05-15 (updated 2026-05-16)
+**Analyst:** Codex (GPT-5); updated by Claude Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` vs `REFERENCE_ARCHITECTURE.md` v1.3
-**Status:** v1.3 re-baseline; supersedes the v1.2 alignment text in this file
+**Status:** v1.3 re-baseline; MIG-04 and MIG-05 resolved 2026-05-16
 
 ---
 
@@ -17,11 +17,9 @@ The project remains execution-stable and substantially aligned at the Stack impl
 - 241 steps passed
 - Metrics written to `.results/.metrics/DEMOAPP001_20260515T165829Z.txt` and `.md`
 
-The v1.3 reference architecture bump re-opened compliance work. MIG-01, MIG-02, MIG-03, MIG-06, MIG-07, and MIG-08 are now complete: `DECISION_REGISTER.md` adopts v1.3 through DR-012, DR-012 records the multi-file review bundle convention required by v1.3 Section 10.7, DR-013 records the compatibility strategy for v1.3 DOCS paths, DR-014 creates root `.review/` as the future review-output location, `CLAUDE.md` now reflects the current v1.3/Screenplay baseline, the authoritative backlog is reconciled against the current migration state, and current governed docs now reference lowercase templates with mandatory fields annotated where MIG-08 required it. The remaining largest gaps are not solver correctness problems. They are Screenplay contract and migration-process gaps:
+The v1.3 reference architecture bump re-opened compliance work. MIG-01, MIG-02, MIG-03, MIG-06, MIG-07, and MIG-08 are now complete: `DECISION_REGISTER.md` adopts v1.3 through DR-012, DR-012 records the multi-file review bundle convention required by v1.3 Section 10.7, DR-013 records the compatibility strategy for v1.3 DOCS paths, DR-014 creates root `.review/` as the future review-output location, `CLAUDE.md` now reflects the current v1.3/Screenplay baseline, the authoritative backlog is reconciled against the current migration state, and current governed docs now reference lowercase templates with mandatory fields annotated where MIG-08 required it. MIG-04 and MIG-05 are now complete: Actor Memory is wired via TakeNotes (`notes<SudokuNotes>()` pattern) — all six Memory key constants are now runtime-active. All step definition files are thin; no step file imports or calls Abilities directly. All 43 scenarios pass after the migration.
 
-- The v1.3 DOCS literal paths and root review path now exist; historical dot-prefixed documentation remains preserved by decision.
-- The Screenplay layer exists and passes, but Memory key constants are mostly documentary; Tasks and Questions store/read state through Ability instance fields instead of Actor Memory.
-- Several step definitions directly call Abilities, so Layer 2 is not consistently thin.
+The remaining gaps are process and tooling items (MIG-09 through MIG-12), not Screenplay contract gaps.
 
 ### Overall v1.3 Compliance
 
@@ -85,25 +83,25 @@ The v1.3 architecture tightens or makes explicit these obligations:
 
 **Migration:** MIG-02 resolved on 2026-05-15. Root code review path alignment remains tracked by MIG-03.
 
-### H3. Actor Memory contract is not fully implemented
+### H3. Actor Memory contract is not fully implemented - Resolved by MIG-04
 
 **Requirement:** Memory is a scenario-scoped key-value store. Tasks write Memory and Questions read Memory using named key constants.
 
-**Observed:** `tests/screenplay/support/memory-keys.ts` defines the expected constants, but Tasks and Questions read/write state through fields on `UseSudokuSolver` and `LoadPuzzles`. Searches found no `remember(...)` or `recall(...)` usage in the Screenplay layer.
+**Observed before migration:** `tests/screenplay/support/memory-keys.ts` defined the expected constants, but Tasks and Questions read/write state through fields on `UseSudokuSolver` and `LoadPuzzles`. No `remember(...)` or `recall(...)` usage was present.
 
-**Risk:** Cross-stack parity can drift because the documented Memory contract is not the runtime state contract.
+**Resolution:** `TakeNotes.usingAnEmptyNotepad<SudokuNotes>()` added to Cast. `SudokuNotes` interface added to `memory-keys.ts`. All outcome Tasks write their results to Actor Memory via `notes<SudokuNotes>().set(KEY, value).performAs(actor)`. The four outcome Questions (`SolveStatus`, `AlgorithmMadeProgress`, `PlacementValidity`, `ErrorThrown`) read from Actor Memory. All six Memory key constants are now runtime-active. DR-015 records the decision and the project-standard notes pattern.
 
-**Migration:** MIG-04.
+**Migration:** MIG-04 resolved on 2026-05-16.
 
-### H4. Step definitions are not consistently thin
+### H4. Step definitions are not consistently thin - Resolved by MIG-05
 
 **Requirement:** Step definitions map Gherkin to Screenplay interactions; business mechanics belong in Tasks, Questions, and Abilities.
 
-**Observed:** Several step files import and call Abilities directly, especially `puzzleLoader.steps.ts`, `orchestration.steps.ts`, `edgeCases.steps.ts`, `gridInitialisation.steps.ts`, and `nakedSingles.steps.ts`.
+**Observed before migration:** Several step files imported and called Abilities directly: `puzzleLoader.steps.ts`, `orchestration.steps.ts`, `edgeCases.steps.ts`, `gridInitialisation.steps.ts`, `nakedSingles.steps.ts`, `constraintValidation.steps.ts`, `integration.steps.ts`.
 
-**Risk:** Layer 2 remains partially coupled to lower-level mechanics, reducing portability for the planned Python and C# Stacks.
+**Resolution:** New Tasks created: `SetTargetCell`, `SolvePuzzle.withCurrentGrid`, `SimulateError`, `CheckAlgorithmProgress`, `LoadPuzzleByIndex`, `LoadPuzzlesByDifficulty`, `LoadPuzzleByName.andInitialiseOrDefault`, `InitialiseGrid.fromPuzzleNamed`. New Questions created: `GridSnapshot`, `MultipleSolvers`, `LoadedPuzzles`, `CurrentSolver`, `TargetCell`, plus `GridCell.isDeepCopy()`. All seven affected step files updated to remove Ability imports. `SetupGridState.valuesInRow/Column/Block` now read `TARGET_CELL` from Actor Memory. All 43 scenarios pass.
 
-**Migration:** MIG-05.
+**Migration:** MIG-05 resolved on 2026-05-16.
 
 ## Medium Severity
 
@@ -220,8 +218,8 @@ All future migration tasks are labelled `MIG-**` as requested.
 | MIG-01 | Resolved 2026-05-15 | High | Decision Register | Record v1.3 adoption and create DR-012 for the multi-file review bundle convention | DR-012 exists; register header references v1.3 and `decision-record.template.md`; `Last entry` and `Next ID` updated |
 | MIG-02 | Resolved 2026-05-15 | High | Documentation paths | Decide and implement the v1.3 path strategy for `DOCS/planning`, `DOCS/design`, and `DOCS/implementation-logs` | Compatibility files/directories exist with DR-013-backed sync policy |
 | MIG-03 | Resolved 2026-05-15 | High | Code review outputs | Align review storage and naming with v1.3 | Root `.review/` exists; future bundle naming uses `CODE_REVIEW_[AGENT]_v[N]_[UTC]`; historical handling is documented without editing findings |
-| MIG-04 | Open | High | Screenplay Memory | Wire runtime state through Actor Memory or an explicitly documented Serenity/JS equivalent | Tasks write named Memory keys; Questions read named Memory keys; parity contract and docs match runtime behavior |
-| MIG-05 | Open | High | Step definitions | Remove direct Ability calls from step definitions | Step files delegate through `actor.attemptsTo(...)` and `actor.answer(...)`; missing Tasks/Questions are added |
+| MIG-04 | Resolved 2026-05-16 | High | Screenplay Memory | Wire runtime state through Actor Memory via TakeNotes | All six Memory key constants are runtime-active; Tasks write notes; Questions read notes; DR-015 records the pattern |
+| MIG-05 | Resolved 2026-05-16 | High | Step definitions | Remove direct Ability calls from step definitions | All step files delegate through `actor.attemptsTo(...)` and `actor.answer(...)`; 8 new Tasks and 5 new Questions added |
 | MIG-06 | Resolved 2026-05-15 | Medium | AI agent guide | Refresh `CLAUDE.md` for v1.3 and current Screenplay implementation | No v1.2 stale baseline; no "No Screenplay Layer" limitation; current feature paths, DR range, backlog taxonomy, and risks are accurate |
 | MIG-07 | Resolved 2026-05-15 | Medium | Backlog | Reconcile backlog against current v1.3 state | Governance references v1.3; summary counts match item statuses; `BACKLOG-019` is resolved with residual work tracked by MIG-04 and MIG-05; MIG items are tracked |
 | MIG-08 | Resolved 2026-05-15 | Medium | Templates | Complete template mandate details | `backlog.template.md`, `changelog.template.md`, and `naming-conventions.template.md` mark mandatory fields with `[REQUIRED]`; current governed docs reference lowercase templates |
@@ -234,11 +232,11 @@ All future migration tasks are labelled `MIG-**` as requested.
 
 ## 6. Recommended Sequence
 
-1. Complete MIG-04 and MIG-05 before onboarding Stack 2. These are the actual portability blockers.
+1. ~~Complete MIG-04 and MIG-05 before onboarding Stack 2.~~ **Done** (2026-05-16).
 2. Complete MIG-09 through MIG-12 as part of the Stack 2 readiness work.
 
 ---
 
 ## 7. Conclusion
 
-The TypeScript Stack is green and useful as the current reference implementation, but the repository is not fully v1.3-compliant. MIG-01 through MIG-03 and MIG-06 through MIG-08 have reset the governance baseline, agent guide, backlog, and template references around DR-012, DR-013, and DR-014. The remaining v1.3 work should focus on Actor Memory usage, thin step definitions, implementation-log naming, parity reporting, Gherkin portability, and metrics naming policy.
+The TypeScript Stack is green and fully aligned on the Screenplay contract. MIG-01 through MIG-08 reset the governance baseline, agent guide, backlog, and template references. MIG-04 (Actor Memory via TakeNotes) and MIG-05 (thin step definitions) are now resolved — all six Memory key constants are runtime-active and no step file accesses Abilities directly. The remaining v1.3 work (MIG-09 through MIG-12) covers implementation-log naming, parity reporting, Gherkin portability, and metrics naming — process and tooling items rather than Screenplay contract gaps. The repository is ready for Stack 2 onboarding.

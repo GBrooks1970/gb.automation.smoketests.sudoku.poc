@@ -3,9 +3,9 @@ import { actorCalled } from '@serenity-js/core';
 import * as assert from 'assert';
 import { InitialiseGrid } from '../tasks/InitialiseGrid';
 import { LoadPuzzleByName } from '../tasks/LoadPuzzleByName';
+import { SolvePuzzle } from '../tasks/SolvePuzzle';
 import { SolveStatus } from '../questions/SolveStatus';
 import { GridCell } from '../questions/GridCell';
-import { UseSudokuSolver } from '../abilities/UseSudokuSolver';
 
 // ---------------------------------------------------------------------------
 // Orchestration - Given steps
@@ -57,23 +57,23 @@ Given('the {string} puzzle is loaded', async (puzzleName: string) => {
 // ---------------------------------------------------------------------------
 
 When('the main solving loop executes one iteration', async () => {
-  UseSudokuSolver.as(actorCalled('Solver')).solvePuzzle();
+  await actorCalled('Solver').attemptsTo(SolvePuzzle.withCurrentGrid());
 });
 
 When('the solver executes the main loop', async () => {
-  UseSudokuSolver.as(actorCalled('Solver')).solvePuzzle();
+  await actorCalled('Solver').attemptsTo(SolvePuzzle.withCurrentGrid());
 });
 
 When('the main execution loop runs', async () => {
-  UseSudokuSolver.as(actorCalled('Solver')).solvePuzzle();
+  await actorCalled('Solver').attemptsTo(SolvePuzzle.withCurrentGrid());
 });
 
 When('the solver executes all three algorithms without making changes', async () => {
-  UseSudokuSolver.as(actorCalled('Solver')).solvePuzzle();
+  await actorCalled('Solver').attemptsTo(SolvePuzzle.withCurrentGrid());
 });
 
 When('the orchestrator solve method is called', async () => {
-  UseSudokuSolver.as(actorCalled('Solver')).solvePuzzle();
+  await actorCalled('Solver').attemptsTo(SolvePuzzle.withCurrentGrid());
 });
 
 // ---------------------------------------------------------------------------

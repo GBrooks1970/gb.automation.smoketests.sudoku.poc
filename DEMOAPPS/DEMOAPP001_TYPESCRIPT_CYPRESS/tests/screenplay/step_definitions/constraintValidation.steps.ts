@@ -1,18 +1,17 @@
 import { Given, When, Then } from '@cucumber/cucumber';
 import { actorCalled } from '@serenity-js/core';
 import * as assert from 'assert';
+import { SetTargetCell } from '../tasks/SetTargetCell';
 import { SetupGridState } from '../tasks/SetupGridState';
 import { AttemptPlacement } from '../tasks/AttemptPlacement';
 import { PlacementValidity } from '../questions/PlacementValidity';
-import { UseSudokuSolver } from '../abilities/UseSudokuSolver';
 
 // ---------------------------------------------------------------------------
 // Constraint Validation (Scenario Outline)
 // ---------------------------------------------------------------------------
 
-Given('a cell at {int}, {int} is empty', (_row: number, _col: number) => {
-  // Store target cell synchronously — the ability is already attached to the actor
-  UseSudokuSolver.as(actorCalled('Solver')).setTargetCell(_row, _col);
+Given('a cell at {int}, {int} is empty', async (_row: number, _col: number) => {
+  await actorCalled('Solver').attemptsTo(SetTargetCell.at(_row, _col));
 });
 
 Given('the grid state is {word}', async (gridState: string) => {

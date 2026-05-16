@@ -3,10 +3,9 @@ import { actorCalled } from '@serenity-js/core';
 import * as assert from 'assert';
 import { InitialiseGrid } from '../tasks/InitialiseGrid';
 import { SetupGridState } from '../tasks/SetupGridState';
+import { SolvePuzzle } from '../tasks/SolvePuzzle';
 import { GridCell } from '../questions/GridCell';
-import { UseSudokuSolver } from '../abilities/UseSudokuSolver';
-import { LoadPuzzles } from '../abilities/LoadPuzzles';
-import { GRID_SIZE } from '../../../app_src/constants';
+import { GridSnapshot } from '../questions/GridSnapshot';
 
 // ---------------------------------------------------------------------------
 // Grid Initialization - Given steps
@@ -28,13 +27,10 @@ Given('a puzzle grid with specific values', async () => {
   await actorCalled('Solver').attemptsTo(SetupGridState.fromSpecificGrid(SPECIFIC_GRID));
 });
 
-Given('a SudokuSolver is created with a puzzle grid', () => {
-  const actor = actorCalled('Solver');
-  const puzzle = LoadPuzzles.as(actor).getByName('Easy Scan Grid')!;
-  const ability = UseSudokuSolver.as(actor);
-  ability.initialise(puzzle.name, puzzle.grid);
-  // Snapshot origGrid so origMatchesSnapshot() can verify it later
-  ability.storeSnapshot(ability.getSolver().origGrid);
+Given('a SudokuSolver is created with a puzzle grid', async () => {
+  await actorCalled('Solver').attemptsTo(
+    InitialiseGrid.fromPuzzleNamed('Easy Scan Grid')
+  );
 });
 
 // ---------------------------------------------------------------------------
@@ -42,12 +38,12 @@ Given('a SudokuSolver is created with a puzzle grid', () => {
 // ---------------------------------------------------------------------------
 
 When('a SudokuSolver is created with that grid', async () => {
-  const snapshot = UseSudokuSolver.as(actorCalled('Solver')).gridSnapshot;
+  const snapshot = await actorCalled('Solver').answer(GridSnapshot.current());
   await actorCalled('Solver').attemptsTo(InitialiseGrid.withGrid('testPuzzle', snapshot));
 });
 
-When('the solver modifies cells during solving', () => {
-  UseSudokuSolver.as(actorCalled('Solver')).solvePuzzle();
+When('the solver modifies cells during solving', async () => {
+  await actorCalled('Solver').attemptsTo(SolvePuzzle.withCurrentGrid());
 });
 
 // ---------------------------------------------------------------------------
@@ -56,24 +52,13 @@ When('the solver modifies cells during solving', () => {
 
 Then("the solver's working grid should contain a deep copy of the puzzle", async () => {
   const actor = actorCalled('Solver');
-  const matches = await actor.answer(GridCell.matchesSnapshot());
-  assert.ok(matches, 'Expected working grid to match the snapshot');
-  // Verify deep copy — different reference
-  const ability = UseSudokuSolver.as(actor);
-  assert.notStrictEqual(ability.getSolver().grid, ability.gridSnapshot,
-    'Expected grid to be a deep copy, not the same reference');
+  const isDeepCopy = await actor.answer(GridCell.isDeepCopy());
+  assert.ok(isDeepCopy, 'Expected working grid to be a deep copy of the snapshot (same values, different reference)');
 });
 
-Then('the original grid should remain unchanged', () => {
-  const ability = UseSudokuSolver.as(actorCalled('Solver'));
-  const solver = ability.getSolver();
-  const snapshot = ability.gridSnapshot;
-  for (let r = 0; r < GRID_SIZE; r++) {
-    for (let c = 0; c < GRID_SIZE; c++) {
-      assert.strictEqual(solver.origGrid[r][c], snapshot[r][c],
-        `origGrid[${r}][${c}] changed unexpectedly`);
-    }
-  }
+Then('the original grid should remain unchanged', async () => {
+  const preserved = await actorCalled('Solver').answer(GridCell.origMatchesSnapshot());
+  assert.ok(preserved, 'origGrid changed unexpectedly');
 });
 
 Then('the origGrid property should remain unchanged', async () => {

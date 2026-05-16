@@ -3,9 +3,9 @@ import { actorCalled } from '@serenity-js/core';
 import * as assert from 'assert';
 import { LoadPuzzleByName } from '../tasks/LoadPuzzleByName';
 import { InitialiseGrid } from '../tasks/InitialiseGrid';
+import { SolvePuzzle } from '../tasks/SolvePuzzle';
 import { SolveStatus } from '../questions/SolveStatus';
 import { GridCell } from '../questions/GridCell';
-import { UseSudokuSolver } from '../abilities/UseSudokuSolver';
 
 // ---------------------------------------------------------------------------
 // Integration Tests - Given steps
@@ -23,12 +23,12 @@ Given('an empty 9x9 grid with all zeros', async () => {
 // Integration Tests - When steps (trigger the actual solve)
 // ---------------------------------------------------------------------------
 
-When('the solver attempts to solve it', () => {
-  UseSudokuSolver.as(actorCalled('Solver')).solvePuzzle();
+When('the solver attempts to solve it', async () => {
+  await actorCalled('Solver').attemptsTo(SolvePuzzle.withCurrentGrid());
 });
 
-When('the solver attempts to solve it with basic techniques only', () => {
-  UseSudokuSolver.as(actorCalled('Solver')).solvePuzzle();
+When('the solver attempts to solve it with basic techniques only', async () => {
+  await actorCalled('Solver').attemptsTo(SolvePuzzle.withCurrentGrid());
 });
 
 // ---------------------------------------------------------------------------

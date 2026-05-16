@@ -91,6 +91,10 @@ export class UseSudokuSolver extends Ability {
     this._gridSnapshot = grid.map(r => [...r]);
   }
 
+  reinitialiseFromSnapshot(): void {
+    this.initialise('check', this._gridSnapshot);
+  }
+
   setValidationResult(result: string): void {
     this._validationResult = result;
   }
@@ -355,6 +359,26 @@ export class UseSudokuSolver extends Ability {
           }
         }
         if (!setEquals(vals, digits)) return false;
+      }
+    }
+    return true;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Compound operations (used by Tasks for complex multi-step interactions)
+  // ---------------------------------------------------------------------------
+
+  /** Solves the first solver in multipleSolvers, returns true if the others are unchanged. */
+  solveFirstAndCheckIsolation(): boolean {
+    const solvers = this._multipleSolvers;
+    const snap1 = solvers[1].grid.map(r => [...r]);
+    const snap2 = solvers[2].grid.map(r => [...r]);
+    this.initialise(solvers[0].name, solvers[0].origGrid);
+    this.solvePuzzle();
+    for (let r = 0; r < solvers[1].grid.length; r++) {
+      for (let c = 0; c < solvers[1].grid[r].length; c++) {
+        if (solvers[1].grid[r][c] !== snap1[r][c]) return false;
+        if (solvers[2].grid[r][c] !== snap2[r][c]) return false;
       }
     }
     return true;

@@ -1,17 +1,16 @@
-import { Question } from '@serenity-js/core';
-import { UseSudokuSolver } from '../abilities/UseSudokuSolver';
-import { LoadPuzzles } from '../abilities/LoadPuzzles';
+import { Question, notes } from '@serenity-js/core';
+import { LAST_ERROR, SudokuNotes } from '../support/memory-keys';
 
 /**
  * Question: ErrorThrown
  *
- * Returns the last Error captured during a setup or interaction step,
- * or null if no error was thrown. Checks solver error first, then puzzle-loader error.
+ * Reads LAST_ERROR from Actor Memory — written by SimulateError tasks (MIG-04).
+ * Returns the Error instance or null if no error was captured in this scenario.
  */
 export const ErrorThrown = {
   last: () =>
-    Question.about('the last error thrown', actor =>
-      UseSudokuSolver.as(actor).solverError ??
-      LoadPuzzles.as(actor).getError()
-    ),
+    Question.about('the last error thrown', async actor => {
+      const error = await actor.answer(notes<SudokuNotes>().get(LAST_ERROR));
+      return error ?? null;
+    }),
 };

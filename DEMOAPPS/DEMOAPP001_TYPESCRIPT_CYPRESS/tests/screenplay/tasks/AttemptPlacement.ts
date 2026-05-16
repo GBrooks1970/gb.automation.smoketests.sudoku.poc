@@ -1,11 +1,12 @@
-import { Interaction } from '@serenity-js/core';
+import { Interaction, notes } from '@serenity-js/core';
 import { UseSudokuSolver } from '../abilities/UseSudokuSolver';
+import { VALIDATION_RESULT, SudokuNotes } from '../support/memory-keys';
 
 /**
  * Task: AttemptPlacement
  *
  * Stores a target value and immediately validates the placement at the actor's
- * current target cell. The result is stored in the Ability for PlacementValidity to read.
+ * current target cell. Writes VALIDATION_RESULT to Actor Memory (RA §3.3, MIG-04).
  */
 export const AttemptPlacement = {
   ofValue: (value: number) =>
@@ -14,5 +15,6 @@ export const AttemptPlacement = {
       ability.setTargetValue(value);
       const { row, col } = ability.targetCell;
       ability.validateAndStore(row, col, value);
+      await notes<SudokuNotes>().set(VALIDATION_RESULT, ability.validationResult).performAs(actor);
     }),
 };
