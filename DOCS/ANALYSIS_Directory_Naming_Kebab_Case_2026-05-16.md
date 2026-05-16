@@ -3,7 +3,7 @@
 **Date:** 2026-05-16
 **Author:** Claude Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` — impact of converting UPPER_CASE directory names (e.g. `DEMOAPPS`, `DEMOAPP001_TYPESCRIPT_CYPRESS`) to kebab-case equivalents (e.g. `demo-apps`, `demoapp001-typescript-cypress`)
-**Status:** Analysis — for decision and disposition
+**Status:** Phase 0 complete — DR-016 accepted 2026-05-16; MIG-13 open; Phases 1–5 pending
 
 ---
 
@@ -175,20 +175,25 @@ The strongest argument **against** renaming now is that the convention is docume
 
 ## 7. Implementation Plan
 
-### Phase 0 — Decision gate (before any file changes)
+### Phase 0 — Decision gate ✅ Complete 2026-05-16
 
-1. **Create DR-016** in `DECISION_REGISTER.md`:
+1. **DR-016 created** in `DECISION_REGISTER.md`:
    - Records the decision to adopt kebab-case for Stack group and Stack directories
    - Distinguishes directory name (filesystem) from canonical Stack name (metrics, Memory keys, parity docs)
    - References this analysis document as evidence
-   - Status: `Accepted`
+   - Status: `Accepted` — 2026-05-16
 
-2. **Update `DOCS/.design/NAMING_CONVENTIONS.md`**:
-   - Change Stack directory naming rule from UPPER_SNAKE_CASE to `kebab-case`
-   - Add note: the canonical Stack name for metrics and Memory key prefixes remains the `STACK_NAME` identifier (e.g. `DEMOAPP001`) regardless of directory casing
+2. **`DOCS/.design/NAMING_CONVENTIONS.md` updated**:
+   - Quick Reference: split `Stack names` into `Stack filesystem directories (kebab-case)` and `Stack canonical name (UPPER_SNAKE_CASE)`
+   - Section 3 Directories: `Stack root directories` row replaced with separate `Stack group container directory` and `Stack directory (filesystem)` rows, both kebab-case; DR-016 note added
+   - Section 4 Stack Names: added directory-vs-canonical-name distinction table; clarifies that `DEMOAPP001_TYPESCRIPT_CYPRESS` is the canonical identifier, not the directory path
+   - Section 9: `Current next ID` updated to `DR-017`
 
-3. **Update `DOCS/.planning/BACKLOG.md`**:
-   - Add a `MIG-13: Directory rename to kebab-case` work item with the acceptance criteria below
+3. **`DOCS/.planning/BACKLOG.md` updated**:
+   - MIG-04 and MIG-05 marked Resolved (2026-05-16, DR-015); Resolved Items table updated
+   - MIG-13 added as Open with DR-016, Medium priority, scheduled Sprint 3
+   - Summary counts updated: Open 19, In Progress 1, Resolved 14, Total 34
+   - Sprint roadmap updated: MIG-13 added to Sprint 3; Sprint 2 updated to reflect MIG-04/05 done
 
 **Acceptance criteria for MIG-13:**
 - `DEMOAPPS/` renamed to `demo-apps/`

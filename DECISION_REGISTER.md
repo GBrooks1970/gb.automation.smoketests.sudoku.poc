@@ -1,7 +1,7 @@
 # Decision Register
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-16
 **Governed by:** `REFERENCE_ARCHITECTURE.md` v1.3 §10.6
 **Template:** `DOCS/templates/decision-record.template.md`
 
@@ -745,6 +745,79 @@ All 43 scenarios pass after the migration.
 
 ---
 
+## DR-016 — Adopt kebab-case for Stack filesystem directories; distinguish from canonical Stack name
+
+**Date:** 2026-05-16
+**Status:** Accepted — 2026-05-16
+
+### Context
+
+The UPPER_SNAKE_CASE convention for the Stack group container (`DEMOAPPS/`) and Stack directory (`DEMOAPP001_TYPESCRIPT_CYPRESS/`) was adopted implicitly and was never recorded in the Decision Register. Analysis document `DOCS/ANALYSIS_Directory_Naming_Kebab_Case_2026-05-16.md` surfaced two problems with the current convention:
+
+1. **Case-sensitivity trap** — The repository is developed on a Windows (case-insensitive) filesystem and pushed to a Linux-hosted remote (case-sensitive). UPPER_CASE directory names create a latent risk where path mismatches silently succeed locally but fail on CI. This risk will become active when a CI pipeline is wired (BACKLOG-004).
+2. **Ecosystem friction** — Node.js, TypeScript, npm tooling, and modern CI/CD YAML all default to lowercase-hyphenated paths. UPPER_CASE directories require Shift-key input and are the outlier against `.batch/`, `.results/`, `features_shared/`, and all Screenplay subdirectories which are already lowercase.
+
+`REFERENCE_ARCHITECTURE.md` v1.3 §4.3 explicitly states that the Stack group directory does not define the canonical Stack name, opening the path to decouple the two conventions.
+
+### Decision
+
+**Filesystem directory names** for Stack group containers and Stack directories SHALL use `kebab-case`:
+
+| Previous path | Adopted path |
+|--------------|-------------|
+| `DEMOAPPS/` | `demo-apps/` |
+| `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/` | `demo-apps/demoapp001-typescript-cypress/` |
+
+Future Stack group containers and Stack directories MUST use `kebab-case`.
+
+**Canonical Stack name** — the identifier used in metrics output, Memory key prefixes, parity documentation, and the AI Agent Instruction File — remains `UPPER_SNAKE_CASE` and is INDEPENDENT of the filesystem directory name. For example:
+- Directory: `demo-apps/demoapp001-typescript-cypress/`
+- Canonical Stack name: `DEMOAPP001_TYPESCRIPT_CYPRESS`
+- Stack short identifier (metrics): `DEMOAPP001`
+
+The actual filesystem rename of existing directories is tracked as **MIG-13** in `DOCS/.planning/BACKLOG.md` and is scheduled as a dedicated sprint immediately before Stack 2 onboarding.
+
+### Status
+
+`Accepted` — 2026-05-16
+
+### Consequences
+
+**Outcomes:**
+- Removes the case-sensitivity trap for all future Stacks and for DEMOAPP001 once MIG-13 completes.
+- Makes Stack directory naming consistent with the ecosystem norm and with all other lowercase directories in the repository.
+- `NAMING_CONVENTIONS.md` §3 and §4 updated to reflect the decoupling of directory name from canonical Stack name.
+- Future Stack directories (`demo-apps/demoapp002-python-pytest/`, etc.) created with the correct convention from day one.
+
+**Trade-offs:**
+- MIG-13 requires updating approximately 220 references across ~80 files, including TypeScript path traversals, Cucumber config, orchestration scripts, and all documentation.
+- Canonical Stack name retains UPPER_SNAKE_CASE, creating a visible divergence between directory name and Stack name that must be understood by all contributors and agents.
+
+**Compliance note:**
+- The directory name convention is a project-local decision not explicitly prescribed by `REFERENCE_ARCHITECTURE.md` v1.3. The RA §4.3 explicitly permits the group directory to use any name without affecting the canonical Stack name.
+
+### Alternatives Considered
+
+**Alternative: Retain UPPER_SNAKE_CASE for directories and record it formally**
+- Description: Create a DR that formally adopts the implicit convention rather than changing it.
+- Rejected because: the case-sensitivity trap is a real latent risk that UPPER_CASE directories preserve. The convention was also never intentionally chosen — it was incidental. A formal decision to keep a problematic implicit convention is worse than adopting the ecosystem standard.
+
+**Alternative: Lowercase without hyphens (e.g., `demoapps/`, `demoapp001typescriptcypress/`)**
+- Description: Use plain lowercase without a separator character.
+- Rejected because: kebab-case is the ecosystem standard and is already used in project files (`tooling/`, `node_modules/`, npm script names). Removing word boundaries in `demoapp001typescriptcypress` makes the name unreadable.
+
+### Related Decisions
+
+- DR-001 — Dot-prefix convention for DOCS subdirectories (established lowercase for DOCS internals).
+- DR-012 — RA v1.3 adoption baseline.
+- DR-015 — Actor Memory via TakeNotes (references DEMOAPP001_TYPESCRIPT_CYPRESS as canonical Stack name in metrics).
+
+### Evidence
+
+- `DOCS/ANALYSIS_Directory_Naming_Kebab_Case_2026-05-16.md` — full impact analysis with blast radius assessment and implementation plan.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -763,5 +836,5 @@ All 43 scenarios pass after the migration.
 
 ---
 
-*Last entry: DR-015. Next ID: DR-016.*
+*Last entry: DR-016. Next ID: DR-017.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-15T18:29Z
+**Last Updated:** 2026-05-16
 **Governed by:** `REFERENCE_ARCHITECTURE.md` v1.3 Section 10.1
 **Template:** `DOCS/templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/BACKLOG.md`
@@ -26,18 +26,18 @@ Per v1.3 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 20 |
+| Open | 19 |
 | In Progress | 1 |
-| Resolved | 12 |
-| **Total** | **33** |
+| Resolved | 14 |
+| **Total** | **34** |
 
 | Area | Current state |
 |------|---------------|
 | Current execution baseline | 43 scenarios / 241 steps passing |
 | Active Reference Architecture | v1.3 |
-| Active Stack | `DEMOAPP001_TYPESCRIPT_CYPRESS` |
-| Current sprint focus | CI, v1.3 governance cleanup, output decoupling planning |
-| Highest parity risks | MIG-04 Actor Memory, MIG-05 thin step definitions |
+| Active Stack | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demoapp001-typescript-cypress/` — MIG-13 pending) |
+| Current sprint focus | Directory rename governance, CI wiring, output decoupling |
+| Highest parity risks | MIG-13 directory rename (pre-Stack 2); MIG-09 impl-log naming |
 
 ---
 
@@ -48,8 +48,8 @@ Per v1.3 Section 10.1:
 | MIG-01 | Adopt Reference Architecture v1.3 and create DR-012 | All | Governance baseline | High | Resolved | DR-012 |
 | MIG-02 | Add RA-literal DOCS path bridges | All | Documentation path compatibility | High | Resolved | DR-013 |
 | MIG-03 | Align code review output location and naming | All | Review output compliance | High | Resolved | DR-014 |
-| MIG-04 | Wire Screenplay runtime state through Actor Memory | DEMOAPP001 and future Stacks | Screenplay parity contract | High | Open | Pending |
-| MIG-05 | Remove direct Ability calls from step definitions | DEMOAPP001 and future Stacks | Layer 2 thinness | High | Open | Pending |
+| MIG-04 | Wire Screenplay runtime state through Actor Memory | DEMOAPP001 and future Stacks | Screenplay parity contract | High | Resolved | DR-015 |
+| MIG-05 | Remove direct Ability calls from step definitions | DEMOAPP001 and future Stacks | Layer 2 thinness | High | Resolved | DR-015 |
 | MIG-06 | Refresh AI agent guide for v1.3 | All | Agent guidance currency | Medium | Resolved | DR-012, DR-013, DR-014 |
 | MIG-07 | Reconcile backlog against v1.3 state | All | Planning currency | Medium | Resolved | None required |
 | MIG-08 | Complete template mandate details | All | Template compliance | Medium | Resolved | None required |
@@ -57,6 +57,7 @@ Per v1.3 Section 10.1:
 | MIG-10 | Add feature parity validation report process | All | Generated parity artifacts | Medium | Open | Pending |
 | MIG-11 | Parameterize over-specified canonical Gherkin steps | All | Gherkin portability | Low | Open | Pending if step contract changes |
 | MIG-12 | Decide metrics Stack identifier policy | All | Multi-Stack reporting | Low | Open | Pending |
+| MIG-13 | Rename Stack filesystem directories to kebab-case | DEMOAPP001 and future Stacks | Directory naming alignment | Medium | Open | DR-016 |
 
 ---
 
@@ -220,6 +221,29 @@ Acceptance criteria:
 - [ ] All canonical Gherkin scenarios pass
 - [ ] `dotnet test` runs with SpecFlow
 
+### MIG-13: Rename Stack filesystem directories to kebab-case
+
+**Priority:** Medium
+**Status:** Open
+**Stack(s):** DEMOAPP001 and future Stacks
+**Nature of Gap:** Directory naming alignment
+**Decision Record:** DR-016
+**Scheduled:** Sprint 3 (before Stack 2 onboarding)
+
+Analysis reference: `DOCS/ANALYSIS_Directory_Naming_Kebab_Case_2026-05-16.md`
+
+Acceptance criteria:
+
+- [ ] `DEMOAPPS/` renamed to `demo-apps/` using `git mv`
+- [ ] `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/` renamed to `demo-apps/demoapp001-typescript-cypress/` using `git mv`
+- [ ] (Optional) `features_shared/` renamed to `features-shared/`
+- [ ] All TypeScript `path.resolve()` / `__dirname` traversals updated and verified with `npm run build`
+- [ ] `tooling/cucumber.js`, `tsconfig.json`, `package.json` updated; `npm test` passes (43 scenarios, 241 steps)
+- [ ] All orchestration scripts in `.batch/` updated and smoke-tested
+- [ ] All markdown documentation updated (no broken relative links)
+- [ ] `NAMING_CONVENTIONS.md`, `CLAUDE.md`, `CHANGELOG.md` updated to reflect new paths
+- [ ] DR-016 referenced in commit message
+
 ---
 
 ## Resolved Items
@@ -231,13 +255,15 @@ Acceptance criteria:
 | BACKLOG-003 | Create Implementation Logs | All | 2026-05-14 | Initial implementation logs created |
 | BACKLOG-005-NEW | Centralize Constants in constants.ts | DEMOAPP001 | 2026-05-14 | Grid constants centralized |
 | BACKLOG-006-COMPLETE | Add Prettier to ESLint Setup | DEMOAPP001 | 2026-05-14 | Formatting baseline established |
-| BACKLOG-019 | Migrate TypeScript Tests to Screenplay Pattern | DEMOAPP001 | 2026-05-15 | Screenplay layer implemented and green; residual RA conformance tracked by MIG-04 and MIG-05 |
+| BACKLOG-019 | Migrate TypeScript Tests to Screenplay Pattern | DEMOAPP001 | 2026-05-15 | Screenplay layer implemented and green |
 | MIG-01 | Adopt Reference Architecture v1.3 and create DR-012 | All | 2026-05-15 | DR-012 |
 | MIG-02 | Add RA-literal DOCS path bridges | All | 2026-05-15 | DR-013 |
 | MIG-03 | Align code review output location and naming | All | 2026-05-15 | DR-014 |
 | MIG-06 | Refresh AI agent guide for v1.3 | All | 2026-05-15 | `CLAUDE.md` current |
 | MIG-07 | Reconcile backlog against v1.3 state | All | 2026-05-15 | This update |
 | MIG-08 | Complete template mandate details | All | 2026-05-15 | Required annotations added; current docs use lowercase template references |
+| MIG-04 | Wire Screenplay runtime state through Actor Memory | DEMOAPP001 | 2026-05-16 | TakeNotes wired; all 6 Memory keys runtime-active; DR-015 |
+| MIG-05 | Remove direct Ability calls from step definitions | DEMOAPP001 | 2026-05-16 | All step files thin; 8 new Tasks, 5 new Questions; DR-015 |
 
 ---
 
@@ -245,8 +271,8 @@ Acceptance criteria:
 
 | Sprint | Dates | Focus | Key Items | Status |
 |--------|-------|-------|-----------|--------|
-| 2 | 2026-05-14 to 2026-05-27 | Close persistent risks and governance drift | BACKLOG-004, MIG-08 | In Progress |
-| 3 | 2026-05-28 to 2026-06-10 | Output decoupling and Screenplay contract tightening | BACKLOG-007, BACKLOG-017, MIG-04, MIG-05 | Open |
+| 2 | 2026-05-14 to 2026-05-27 | Close persistent risks and governance drift | BACKLOG-004, MIG-08, MIG-04, MIG-05 | In Progress |
+| 3 | 2026-05-28 to 2026-06-10 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Open |
 | 4 | 2026-06-11 to 2026-06-24 | Audit/API foundations and Python Stack start | BACKLOG-008, BACKLOG-009, BACKLOG-020 | Open |
 | 5 | 2026-06-25 to 2026-07-08 | API/Web UI and C# Stack start | BACKLOG-018, BACKLOG-021 | Open |
 | 6+ | 2026-07-09 onward | Multi-Stack polish and infrastructure | BACKLOG-010, BACKLOG-011, MIG-09 through MIG-12 | Open |

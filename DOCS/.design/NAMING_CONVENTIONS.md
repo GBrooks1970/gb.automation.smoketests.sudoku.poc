@@ -1,7 +1,7 @@
 # Naming Conventions
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-16
 **Status:** Adopted
 **Governed by:** `REFERENCE_ARCHITECTURE.md` §10.9
 **Template:** `DOCS/templates/naming-conventions.template.md`
@@ -30,7 +30,8 @@
 | Screenplay Memory keys | `UPPER_SNAKE_CASE` (constant name = string value) | `SOLVE_RESULT = 'SOLVE_RESULT'` |
 | Screenplay component classes | `PascalCase` verb/noun phrase | `UseSudokuSolver`, `SolvePuzzle` |
 | Decision Record IDs | `DR-NNN` (zero-padded, sequential) | `DR-001`, `DR-042` |
-| Stack names | `UPPER_SNAKE_CASE` | `DEMOAPP001_TYPESCRIPT_CYPRESS` |
+| Stack filesystem directories | `kebab-case` | `demo-apps/`, `demoapp001-typescript-cypress/` |
+| Stack canonical name (metrics, parity) | `UPPER_SNAKE_CASE` | `DEMOAPP001_TYPESCRIPT_CYPRESS` |
 
 ---
 
@@ -104,15 +105,19 @@ private getBlockEmptyCells(...): { r: number; c: number }[]
 | Screenplay subdirectories | `lowercase` | None | `abilities/`, `actors/`, `tasks/`, `questions/`, `support/` |
 | DOCS type-specific subdirectories | `snake_case` with leading dot | Underscore | `.design/`, `.planning/`, `.algorithm/` |
 | DOCS RA-literal compatibility directories | Reference Architecture literal names | As specified by RA | `planning/`, `design/`, `implementation-logs/` |
-| Stack root directories | `UPPER_SNAKE_CASE` | Underscore | `DEMOAPP001_TYPESCRIPT_CYPRESS/` |
+| Stack group container directory | `kebab-case` | Hyphen | `demo-apps/` |
+| Stack directory (filesystem) | `kebab-case` | Hyphen | `demoapp001-typescript-cypress/` |
 
 > **Decision DR-001:** The leading dot on DOCS subdirectories is a documented divergence from the Reference Architecture.
 > **Decision DR-013:** Non-dot DOCS directories required by RA v1.3 are compatibility bridges only unless a later decision makes them authoritative.
+> **Decision DR-016:** Stack filesystem directories use `kebab-case`. The canonical Stack name (used in metrics and parity docs) is separate and remains `UPPER_SNAKE_CASE` — see Section 4.
 > `app_src/` is grandfathered as-is. Future source folders should use `kebab-case` (e.g., `app-api/`).
 
 ---
 
 ## 4. Stack Names
+
+The **canonical Stack name** is an identifier, not a filesystem path. It is used in metrics output, Memory key prefixes, parity documentation, the AI Agent Instruction File, and Stack tags. It MUST NOT be confused with the Stack's filesystem directory name (Section 3).
 
 | Rule | Value |
 |------|-------|
@@ -120,7 +125,18 @@ private getBlockEmptyCells(...): { r: number; c: number }[]
 | Pattern | `DEMOAPP[NNN]_[LANGUAGE]_[FRAMEWORK]` |
 | Uniqueness | Must be unique across the repository |
 | Allowed characters | A–Z, 0–9, underscore |
-| Current stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` |
+| Current canonical names | `DEMOAPP001_TYPESCRIPT_CYPRESS` |
+
+**Directory vs. canonical name (DR-016):**
+
+| Element | Convention | Example |
+|---------|-----------|---------|
+| Filesystem directory name | `kebab-case` (Section 3) | `demo-apps/demoapp001-typescript-cypress/` |
+| Canonical Stack name | `UPPER_SNAKE_CASE` (this section) | `DEMOAPP001_TYPESCRIPT_CYPRESS` |
+| Short Stack identifier (metrics) | `UPPER_SNAKE_CASE`, prefix of canonical name | `DEMOAPP001` |
+| Stack tag (Gherkin) | `@stack-[lowercase-short-id]` | `@stack-demoapp001` |
+
+The filesystem directory and the canonical name are separate concerns. A contributor working on the filesystem sees `demoapp001-typescript-cypress/`; a contributor reading metrics, Memory keys, or parity contracts sees `DEMOAPP001_TYPESCRIPT_CYPRESS`.
 
 ---
 
@@ -186,7 +202,7 @@ private getBlockEmptyCells(...): { r: number; c: number }[]
 | Format | `DR-NNN` (zero-padded to 3 digits) |
 | Uniqueness | IDs MUST NOT be reused, even when superseded |
 | Sequence | Sequential, starting at `DR-001` |
-| Current next ID | `DR-015` |
+| Current next ID | `DR-017` |
 
 ---
 
