@@ -3,9 +3,8 @@
 **Project:** Sudoku Solver POC
 **Last Updated:** 2026-05-16 (MIG-09 through MIG-12 resolved)
 **Governed by:** `REFERENCE_ARCHITECTURE.md` v1.3 Section 10.1
-**Template:** `DOCS/templates/backlog.template.md`
+**Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/BACKLOG.md`
-**Compatibility path:** `DOCS/planning/BACKLOG.md` (DR-013 bridge)
 **Status:** Active Development
 
 ---
@@ -37,7 +36,7 @@ Per v1.3 Section 10.1:
 | Active Reference Architecture | v1.3 |
 | Active Stack | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`) |
 | Current sprint focus | CI wiring, output decoupling, implementation-log normalization |
-| Highest parity risks | MIG-09 impl-log naming; MIG-10 parity report process (pre-Stack 2) |
+| Highest parity risks | MIG-09 through MIG-13 all Resolved; no active parity risks |
 
 ---
 
@@ -265,7 +264,7 @@ Acceptance criteria:
 | MIG-04 | Wire Screenplay runtime state through Actor Memory | DEMOAPP001 | 2026-05-16 | TakeNotes wired; all 6 Memory keys runtime-active; DR-015 |
 | MIG-05 | Remove direct Ability calls from step definitions | DEMOAPP001 | 2026-05-16 | All step files thin; 8 new Tasks, 5 new Questions; DR-015 |
 | MIG-13 | Rename Stack filesystem directories to kebab-case | DEMOAPP001 and future Stacks | 2026-05-16 | R100 renames via git mv; ~50 files updated; 43/43 pass; PR #13; DR-016 |
-| MIG-09 | Normalize implementation-log location and naming policy | All | 2026-05-16 | Log files moved to `DOCS/implementation-logs/` with v1.3 naming; archive in `.implementation/`; DR-017 |
+| MIG-09 | Normalize implementation-log location and naming policy | All | 2026-05-16 | Log files moved to `DOCS/.implementation-logs/` with v1.3 naming; archive in `.implementation/`; DR-017 |
 | MIG-10 | Add feature parity validation report process | All | 2026-05-16 | `.batch/generate-feature-parity-report.ps1` created; reports write to `.results/feature-parity/`; orchestration-design updated |
 | MIG-11 | Parameterize over-specified canonical Gherkin steps | All | 2026-05-16 | Two scenarios converted to Scenario Outlines with Examples; step defs parameterized; 43/43 pass; parity PASS; DR-018 |
 | MIG-12 | Decide metrics Stack identifier policy | All | 2026-05-16 | Short identifier `DEMOAPP001` documented in run script (DR-016 ref) and orchestration-design Section 6; stale RA v1.2 comment corrected |
@@ -291,7 +290,7 @@ Acceptance criteria:
 3. Do not delete resolved items.
 4. Add a Decision Register entry before closing any item that resolves into a structural choice.
 5. Update `DOCS/ref-arch-alignment_2026-05-15.md` when Reference Architecture migration status changes.
-6. Keep `DOCS/planning/BACKLOG.md` as a bridge only unless DR-013 is superseded.
+6. Keep `DOCS/.planning/BACKLOG.md` as a bridge only unless DR-013 is superseded.
 
 ---
 

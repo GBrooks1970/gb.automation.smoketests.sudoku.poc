@@ -1,10 +1,10 @@
 # Naming Conventions
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-05-16 (DR-017, DR-018, DR-019 next)
+**Last Updated:** 2026-05-16 (DR-019 — all DOCS subdirectories unified; DR-020 next)
 **Status:** Adopted
 **Governed by:** `REFERENCE_ARCHITECTURE.md` §10.9
-**Template:** `DOCS/templates/naming-conventions.template.md`
+**Template:** `DOCS/.templates/naming-conventions.template.md`
 **Authoritative for:** All Stacks, all document types, all code in this repository
 
 > This document is the single source of truth for naming decisions.
@@ -23,9 +23,7 @@
 | Status return strings | `UPPER_SNAKE_CASE` | `"SOLVED"`, `"STUCK_ON_ADVANCED_LOGIC"` |
 | TypeScript class files | `PascalCase` | `SudokuSolver.ts` |
 | Config / ecosystem files | `kebab-case` | `tsconfig.json`, `eslint.config.js` |
-| DOCS subdirectories | `snake_case` with leading dot | `.design/`, `.planning/` |
-| DOCS RA-literal bridge directories | RA-literal names, bridge files only | `planning/`, `design/` |
-| DOCS implementation logs (authoritative) | RA-literal name, full directory | `implementation-logs/` |
+| DOCS subdirectories | dot + `kebab-case` | `.design/`, `.planning/`, `.architecture/`, `.templates/`, `.implementation-logs/` |
 | DOCS document files | `PREFIX_Title_Case.md` | `DESIGN_Audit_Trail_Feature.md` |
 | Feature files | `PascalCase` | `BasicSudokuSolverLogic.feature` |
 | Screenplay Memory keys | `UPPER_SNAKE_CASE` (constant name = string value) | `SOLVE_RESULT = 'SOLVE_RESULT'` |
@@ -104,15 +102,12 @@ private getBlockEmptyCells(...): { r: number; c: number }[]
 | Application source | `snake_case` | Underscore | `app_src/` |
 | Test directory | `lowercase` | None | `tests/` |
 | Screenplay subdirectories | `lowercase` | None | `abilities/`, `actors/`, `tasks/`, `questions/`, `support/` |
-| DOCS type-specific subdirectories | `snake_case` with leading dot | Underscore | `.design/`, `.planning/`, `.algorithm/` |
-| DOCS RA-literal bridge directories | Reference Architecture literal names | As specified by RA | `planning/`, `design/` |
-| DOCS implementation logs directory | Authoritative; RA-literal name (DR-017) | As specified by RA | `implementation-logs/` |
+| DOCS type-specific subdirectories | dot + `kebab-case` | Hyphen | `.design/`, `.planning/`, `.algorithm/`, `.architecture/`, `.templates/`, `.implementation-logs/`, `.review/`, `.howto/` |
 | Stack group container directory | `kebab-case` | Hyphen | `demo-apps/` |
 | Stack directory (filesystem) | `kebab-case` | Hyphen | `demoapp001-typescript-cypress/` |
 
-> **Decision DR-001:** The leading dot on DOCS subdirectories is a documented divergence from the Reference Architecture.
-> **Decision DR-013:** Non-dot DOCS directories required by RA v1.3 are compatibility bridges only unless a later decision makes them authoritative.
-> **Decision DR-017:** `DOCS/implementation-logs/` is now the authoritative implementation-log directory (MIG-09). `DOCS/.implementation/` is a read-only archive.
+> **Decision DR-001:** The leading dot on DOCS subdirectories is the project-local convention, a documented divergence from the Reference Architecture.
+> **Decision DR-019:** The dot-prefix convention (DR-001) is extended to ALL DOCS type-specific subdirectories without exception. No plain-name subdirectories exist. Bridge directories (`planning/`, `design/`) removed. `architecture/`, `templates/`, and `implementation-logs/` renamed to `.architecture/`, `.templates/`, `.implementation-logs/`. Supersedes DR-013 and DR-017.
 > **Decision DR-016:** Stack filesystem directories use `kebab-case`. The canonical Stack name (used in metrics and parity docs) is separate and remains `UPPER_SNAKE_CASE` — see Section 4.
 > `app_src/` is grandfathered as-is. Future source folders should use `kebab-case` (e.g., `app-api/`).
 
@@ -205,7 +200,7 @@ The filesystem directory and the canonical name are separate concerns. A contrib
 | Format | `DR-NNN` (zero-padded to 3 digits) |
 | Uniqueness | IDs MUST NOT be reused, even when superseded |
 | Sequence | Sequential, starting at `DR-001` |
-| Current next ID | `DR-019` |
+| Current next ID | `DR-020` |
 
 ---
 

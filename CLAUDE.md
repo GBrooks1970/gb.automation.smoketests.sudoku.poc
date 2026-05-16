@@ -12,7 +12,7 @@ When documents conflict, use this order:
 4. Stack-level docs under `demo-apps/demoapp001-typescript-cypress/docs/`
 5. This guide
 
-`DECISION_REGISTER.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-018.
+`DECISION_REGISTER.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-019.
 
 ## Current Architecture Baseline
 
@@ -22,9 +22,10 @@ When documents conflict, use this order:
 - Canonical feature store: `features-shared/`
 - Stack-local feature copy: `demo-apps/demoapp001-typescript-cypress/tests/features/`
 - Screenplay implementation: present and passing with Serenity/JS + Cucumber.js (MIG-04 and MIG-05 resolved by DR-015)
-- Implementation logs: authoritative at `DOCS/implementation-logs/` (MIG-09, DR-017)
+- Implementation logs: authoritative at `DOCS/.implementation-logs/` (DR-019)
 - Feature parity script: `.batch/generate-feature-parity-report.ps1` (MIG-10)
 - All RA v1.3 migration gaps resolved: MIG-01 through MIG-13 all Resolved
+- DOCS subdirectories: all dot + kebab-case (DR-019); no plain-name subdirectories
 
 ## Repository Map
 
@@ -59,16 +60,14 @@ gb.automation.smoketests.sudoku.poc/
 |-- DOCS/
 |   |-- REFERENCE_ARCHITECTURE.md
 |   |-- ref-arch-alignment_2026-05-15.md
-|   |-- architecture/
-|   |-- templates/
-|   |-- planning/BACKLOG.md                 # compatibility bridge, DR-013
-|   |-- design/NAMING_CONVENTIONS.md        # compatibility bridge, DR-013
-|   |-- implementation-logs/README.md       # compatibility bridge, DR-013
-|   |-- .planning/BACKLOG.md                # authoritative backlog content
+|   |-- .architecture/                      # cross-cutting architecture specs
+|   |-- .templates/                         # all document templates
+|   |-- .planning/BACKLOG.md                # authoritative backlog
 |   |-- .design/NAMING_CONVENTIONS.md       # authoritative naming conventions
-|   |-- .implementation/                    # current implementation log archive
+|   |-- .implementation-logs/               # implementation logs (active + archive template)
 |   |-- .review/                            # historical review archive
-|   `-- .algorithm/
+|   |-- .algorithm/                         # algorithm specifications
+|   `-- .howto/                             # how-to guides
 |-- .review/README.md                      # future review output location, DR-014
 |-- .batch/run-demoapp001.ps1
 |-- DECISION_REGISTER.md
@@ -182,9 +181,9 @@ Governed by `DOCS/REFERENCE_ARCHITECTURE.md` v1.3 and decisions DR-012 through D
 | Memory keys | Constant name must equal string value exactly |
 | Step text | Stack-local Gherkin text must match canonical text except local tags |
 | Backlog statuses | Use exactly `Open`, `In Progress`, or `Resolved` for backlog item status |
-| Templates | Use lowercase `DOCS/templates/*.template.md` files |
+| Templates | Use `DOCS/.templates/*.template.md` files |
 | Review outputs | New reviews go under root `.review/` with `CODE_REVIEW_[AGENT]_v[N]_[UTC]/` |
-| DOCS paths | RA-literal paths are compatibility bridges per DR-013; dot-prefixed sources remain authoritative until superseded |
+| DOCS paths | All DOCS subdirectories use dot + kebab-case (DR-019); no plain-name subdirectories |
 
 ## Risk Register
 
@@ -195,8 +194,7 @@ Governed by `DOCS/REFERENCE_ARCHITECTURE.md` v1.3 and decisions DR-012 through D
 | Memory parity | `tests/screenplay/support/memory-keys.ts` | Names and string values must match exactly; runtime Actor Memory wiring is MIG-04 debt |
 | Grid mutation | `SudokuSolver` constructor | Preserve deep-copy behavior from `origGrid` to `grid` |
 | Hidden Singles | `SudokuSolver.hiddenSingles()` | Preserve row, column, and block checks |
-| Over-specified Gherkin | `BasicSudokuSolverLogic.feature` | Inline arrays and literals remain MIG-11 debt before Stack 2 |
-| Documentation paths | `DOCS/planning`, `DOCS/design`, `DOCS/implementation-logs` | These are bridge paths; update dot-prefixed authoritative sources first |
+| Documentation paths | All DOCS subdirectories | All use dot + kebab-case (DR-019); no plain-name subdirectories remain |
 | Review outputs | `.review/` and `DOCS/.review/` | New reviews go to root `.review/`; historical `DOCS/.review/` bundles stay read-only |
 
 ## Documentation Pointers
@@ -204,10 +202,10 @@ Governed by `DOCS/REFERENCE_ARCHITECTURE.md` v1.3 and decisions DR-012 through D
 | Document | Purpose |
 |----------|---------|
 | `DOCS/ref-arch-alignment_2026-05-15.md` | Current v1.3 compliance and migration status |
-| `DOCS/architecture/screenplay-parity-contract.md` | Memory keys, Tasks, Questions, and parity signatures |
-| `DOCS/architecture/subject-app-contract.md` | Active `@util` and future `@cli` surface contracts |
-| `DOCS/architecture/orchestration-design.md` | Build, test, metrics, and retention design |
-| `DOCS/architecture/logging-design.md` | Logging and reporting strategy |
+| `DOCS/.architecture/screenplay-parity-contract.md` | Memory keys, Tasks, Questions, and parity signatures |
+| `DOCS/.architecture/subject-app-contract.md` | Active `@util` and future `@cli` surface contracts |
+| `DOCS/.architecture/orchestration-design.md` | Build, test, metrics, and retention design |
+| `DOCS/.architecture/logging-design.md` | Logging and reporting strategy |
 | `DOCS/.planning/BACKLOG.md` | Authoritative backlog content |
 | `DOCS/.design/NAMING_CONVENTIONS.md` | Authoritative naming conventions |
 | `.review/README.md` | Future code review output policy |
@@ -217,7 +215,6 @@ Governed by `DOCS/REFERENCE_ARCHITECTURE.md` v1.3 and decisions DR-012 through D
 1. No advanced Sudoku techniques such as Naked Pairs, X-Wing, or Swordfish.
 2. No backtracking or trial-and-error solver mode.
 3. No GitHub Actions workflow is currently configured.
-4. Screenplay Actor Memory and thin-step conformance still require MIG-04 and MIG-05.
 
 ## Common Tasks
 

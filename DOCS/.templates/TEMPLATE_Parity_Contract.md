@@ -3,7 +3,7 @@
 **Intended audience:** Architects and engineers onboarding a new Stack; parity auditors.
 **Template version:** 1.0 (2026-05-14)
 **Governed by:** `REFERENCE_ARCHITECTURE.md` §10.3, §8
-**Produces:** `DOCS/architecture/screenplay-parity-contract.md`
+**Produces:** `DOCS/.architecture/screenplay-parity-contract.md`
 
 ---
 

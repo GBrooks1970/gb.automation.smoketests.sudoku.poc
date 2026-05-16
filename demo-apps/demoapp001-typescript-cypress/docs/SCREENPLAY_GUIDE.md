@@ -170,4 +170,4 @@ Rule: constant name equals string value exactly (RA §8.1).
 
 ---
 
-Template source: `../../DOCS/templates/screenplay-guide.template.md`
+Template source: `../../DOCS/.templates/screenplay-guide.template.md`

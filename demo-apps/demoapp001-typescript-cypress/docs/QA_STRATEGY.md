@@ -79,4 +79,4 @@ This Stack tests behavioral correctness of Sudoku solving logic through the util
 - `docs/ARCHITECTURE.md` — five-layer model and dependencies
 - `docs/SCREENPLAY_GUIDE.md` — Screenplay implementation details
 - `../../DOCS/.planning/BACKLOG.md` — migration backlog and deferred work
-- `../../DOCS/templates/qa-strategy.template.md` — source template used
+- `../../DOCS/.templates/qa-strategy.template.md` — source template used

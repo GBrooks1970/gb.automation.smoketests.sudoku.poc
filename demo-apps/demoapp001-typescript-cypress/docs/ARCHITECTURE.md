@@ -99,4 +99,4 @@ demoapp001-typescript-cypress/
 - `docs/QA_STRATEGY.md` — scope, test design, and coverage posture
 - `docs/README.md` — setup and execution quick-start
 - `../../DECISION_REGISTER.md` — authoritative structural decisions
-- `../../DOCS/templates/stack-architecture.template.md` — source template used
+- `../../DOCS/.templates/stack-architecture.template.md` — source template used

@@ -38,13 +38,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - `CHANGELOG.md` at repository root (this file)
 - `BACKLOG.md` at repository root (summary; detailed backlog at `DOCS/.planning/BACKLOG.md`)
 - `DOCS/.design/NAMING_CONVENTIONS.md` — authoritative naming conventions (RA v1.1: `DOCS/design/`; DR-001 dot-prefix applied; initially created at root then corrected)
-- `DOCS/templates/` directory with project-specific templates:
+- `DOCS/.templates/` directory with project-specific templates:
   - `decision-record.template.md` (adapted from Reference Architecture §10.6)
   - `changelog.template.md`
   - `backlog.template.md`
   - `naming-conventions.template.md`
 - `DOCS/.algorithm/` directory with algorithm pseudocode documents (moved from DOCS root)
-- `DOCS/templates/algorithm.template.md` — canonical template for algorithm documentation
+- `DOCS/.templates/algorithm.template.md` — canonical template for algorithm documentation
 - `DOCS/.algorithm/README.md` — algorithm directory guide
 - `DOCS/REFERENCE_ARCHITECTURE.md` — Screenplay-BDD Reference Architecture (v1.1)
 - `DOCS/ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md` — alignment report (updated for v1.1)

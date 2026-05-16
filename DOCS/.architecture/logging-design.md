@@ -87,4 +87,4 @@ Optional fields:
 
 - Alignment gap: RA §9 and §10.3 logging design requirement
 - Backlog item: NEW-015
-- Related design: `DOCS/architecture/orchestration-design.md`
+- Related design: `DOCS/.architecture/orchestration-design.md`

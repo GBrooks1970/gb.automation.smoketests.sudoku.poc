@@ -68,7 +68,7 @@ DOCS/
 
 ## Templates
 
-Canonical template store — all document templates live here. Use a template before creating any new document of the corresponding type. Source of truth: `DOCS/templates/`.
+Canonical template store — all document templates live here. Use a template before creating any new document of the corresponding type. Source of truth: `DOCS/.templates/`.
 
 | Template | Governs | Phase |
 |----------|---------|-------|
@@ -81,13 +81,13 @@ Canonical template store — all document templates live here. Use a template be
 | [screenplay-guide.template.md](templates/screenplay-guide.template.md) | `[STACK]/docs/SCREENPLAY_GUIDE.md` | 5 |
 | [qa-strategy.template.md](templates/qa-strategy.template.md) | `[STACK]/docs/QA_STRATEGY.md` | 5 |
 | [stack-readme.template.md](templates/stack-readme.template.md) | `[STACK]/docs/README.md` | 5 |
-| [parity-contract.template.md](templates/parity-contract.template.md) | `DOCS/architecture/screenplay-parity-contract.md` | 6 |
-| [subject-app-contract.template.md](templates/subject-app-contract.template.md) | `DOCS/architecture/subject-app-contract.md` | 6 |
+| [parity-contract.template.md](templates/parity-contract.template.md) | `DOCS/.architecture/screenplay-parity-contract.md` | 6 |
+| [subject-app-contract.template.md](templates/subject-app-contract.template.md) | `DOCS/.architecture/subject-app-contract.md` | 6 |
 | [algorithm.template.md](templates/algorithm.template.md) | `DOCS/.algorithm/ALGORITHM_*.md` | — |
 | [implementation-log.template.md](templates/implementation-log.template.md) | `DOCS/.implementation/IMPL_LOG_*.md` | — |
 | [code-review.template.md](templates/code-review.template.md) | `.review/CODE_REVIEW_*/` | — |
 
-> Legacy convenience copies may exist in dot-prefixed subdirectories, but the canonical templates are the lowercase files in `DOCS/templates/`.
+> Legacy convenience copies may exist in dot-prefixed subdirectories, but the canonical templates are the lowercase files in `DOCS/.templates/`.
 
 ---
 
@@ -101,7 +101,7 @@ The following documents MUST exist at the repository root per the Reference Arch
 | [CHANGELOG.md](../CHANGELOG.md) | Version history, notable changes |
 | [BACKLOG.md](../BACKLOG.md) | Backlog summary — detailed at [DOCS/.planning/BACKLOG.md](.planning/BACKLOG.md) |
 | [DECISION_REGISTER.md](../DECISION_REGISTER.md) | Structural and process decisions (DR-001 onwards) |
-| [NAMING_CONVENTIONS.md](.design/NAMING_CONVENTIONS.md) | Authoritative naming conventions for all code and docs (RA v1.3: `DOCS/design/`; DR-001/DR-013: authoritative copy stored in `.design/`) |
+| [NAMING_CONVENTIONS.md](.design/NAMING_CONVENTIONS.md) | Authoritative naming conventions for all code and docs (DR-001 + DR-019: stored in `.design/`) |
 
 ---
 
@@ -187,7 +187,7 @@ One-time assessments that are not code reviews.
 ## Maintenance Notes
 
 - When adding a document, update this index **in the same commit**
-- Before creating any new document type, check `DOCS/templates/` for a template first
+- Before creating any new document type, check `DOCS/.templates/` for a template first
 - All algorithm docs must also be listed in [.algorithm/README.md](.algorithm/README.md)
 - All design docs must also be listed in [.design/README.md](.design/README.md)
 - All code reviews must also be listed in [.review/README.md](.review/README.md)

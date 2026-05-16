@@ -7,7 +7,7 @@
 
 > This template is the canonical version. The copy at `DOCS/.review/code-review-template.md` is a historical project-specific version.
 > Review outputs are **read-only** once written — do not edit findings after the fact.
-> Action items raised MUST be tracked in `DOCS/planning/BACKLOG.md` or `DECISION_REGISTER.md`.
+> Action items raised MUST be tracked in `DOCS/.planning/BACKLOG.md` or `DECISION_REGISTER.md`.
 
 ---
 
@@ -16,7 +16,7 @@
 1. Create the output directory: `.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/`
 2. Author each file below from scratch — no copy-paste from previous reviews.
 3. Timestamp format: `YYYYMMDDTHHMMZ` (UTC, no seconds).
-4. After writing, add action items to `DOCS/planning/BACKLOG.md` before closing the session.
+4. After writing, add action items to `DOCS/.planning/BACKLOG.md` before closing the session.
 
 ---
 

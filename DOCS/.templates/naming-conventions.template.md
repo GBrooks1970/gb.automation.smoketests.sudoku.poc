@@ -23,7 +23,7 @@
 **Last Updated:** YYYY-MM-DD [REQUIRED]
 **Status:** Adopted [REQUIRED]
 **Governed by:** [Reference document and section] [REQUIRED]
-**Template:** `DOCS/templates/naming-conventions.template.md` [REQUIRED]
+**Template:** `DOCS/.templates/naming-conventions.template.md` [REQUIRED]
 **Authoritative for:** All Stacks, all document types [REQUIRED]
 
 ---

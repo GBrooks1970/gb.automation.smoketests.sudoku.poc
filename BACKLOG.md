@@ -3,10 +3,10 @@
 **Project:** gb.automation.smoketests.sudoku.poc
 **Last Updated:** 2026-05-14
 **Governed by:** `REFERENCE_ARCHITECTURE.md` §10.1
-**Template:** `DOCS/templates/TEMPLATE_Backlog.md`
+**Template:** `DOCS/.templates/TEMPLATE_Backlog.md`
 
 > **Authoritative backlog:** [`DOCS/.planning/BACKLOG.md`](DOCS/.planning/BACKLOG.md) — full sprint plans, acceptance criteria, and item history.
-> **Note (DR-006):** Under Reference Architecture v1.1, the required backlog location is `DOCS/planning/BACKLOG.md` (project: `DOCS/.planning/BACKLOG.md` via DR-001). This root file is a **convenience summary only** — not the required document. Always update the detailed backlog; this file reflects it.
+> **Note (DR-006):** Under Reference Architecture v1.1, the required backlog location is `DOCS/.planning/BACKLOG.md` (project: `DOCS/.planning/BACKLOG.md` via DR-001). This root file is a **convenience summary only** — not the required document. Always update the detailed backlog; this file reflects it.
 
 ---
 
@@ -34,7 +34,7 @@
 | NEW-002 | Create CHANGELOG.md at repository root | ALL | RA compliance — §10.1 |
 | NEW-003 | Promote BACKLOG.md to repository root | ALL | RA compliance — §10.1 |
 | NEW-004 | Create NAMING_CONVENTIONS.md | ALL | RA compliance — §10.9 |
-| NEW-005 | Create DOCS/templates/ and consolidate templates | ALL | RA compliance — §10.5 |
+| NEW-005 | Create DOCS/.templates/ and consolidate templates | ALL | RA compliance — §10.5 |
 
 ### Open (Sprint 2 remaining)
 
@@ -63,7 +63,7 @@
 
 | ID | Title | Stack(s) | Nature of Gap | Phase |
 |----|-------|----------|--------------|-------|
-| NEW-014 | Create DOCS/architecture/ with 4 required documents | ALL | RA §10.3 — no architecture docs | 6 |
+| NEW-014 | Create DOCS/.architecture/ with 4 required documents | ALL | RA §10.3 — no architecture docs | 6 |
 | NEW-015 | Create .batch/ orchestration script + .results/.metrics/ output | ALL | RA §9 — no orchestration/metrics | 7 |
 | BACKLOG-017 | Console output coupling (IOutput interface) | DEMOAPP001 | Tech debt | Sprint 3 |
 

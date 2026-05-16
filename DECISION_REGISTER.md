@@ -3,7 +3,7 @@
 **Project:** gb.automation.smoketests.sudoku.poc
 **Last Updated:** 2026-05-16
 **Governed by:** `REFERENCE_ARCHITECTURE.md` v1.3 §10.6
-**Template:** `DOCS/templates/decision-record.template.md`
+**Template:** `DOCS/.templates/decision-record.template.md`
 
 > This register is the authoritative source for every structural and process decision in this project.
 > Any rule restated in `CLAUDE.md`, stack documentation, or design documents defers to this file.
@@ -243,7 +243,7 @@ All 43 Gherkin scenarios in `BasicSudokuSolverLogic.feature` remain unchanged du
 
 ### Context
 
-The Reference Architecture was updated from v1.0 to v1.1 on 2026-05-14. Two path requirements changed: `BACKLOG.md` moved from a root-level requirement to `DOCS/planning/BACKLOG.md`, and `NAMING_CONVENTIONS.md` was pinned from "root or DOCS/" to specifically `DOCS/design/NAMING_CONVENTIONS.md`. Phase 0 had already been executed against v1.0, placing both documents at the wrong paths.
+The Reference Architecture was updated from v1.0 to v1.1 on 2026-05-14. Two path requirements changed: `BACKLOG.md` moved from a root-level requirement to `DOCS/.planning/BACKLOG.md`, and `NAMING_CONVENTIONS.md` was pinned from "root or DOCS/" to specifically `DOCS/.design/NAMING_CONVENTIONS.md`. Phase 0 had already been executed against v1.0, placing both documents at the wrong paths.
 
 ### Decision
 
@@ -263,7 +263,7 @@ Adopt RA v1.1 as the governing version. Correct the two path errors introduced b
 - Any external links or CLAUDE.md references that pointed to root `NAMING_CONVENTIONS.md` must be updated.
 
 **Compliance note:**
-- `DOCS/.design/NAMING_CONVENTIONS.md` maps to the RA v1.1 requirement `DOCS/design/NAMING_CONVENTIONS.md` via DR-001 (dot-prefix convention).
+- `DOCS/.design/NAMING_CONVENTIONS.md` maps to the RA v1.1 requirement `DOCS/.design/NAMING_CONVENTIONS.md` via DR-001 (dot-prefix convention).
 
 ### Alternatives Considered
 
@@ -272,7 +272,7 @@ Adopt RA v1.1 as the governing version. Correct the two path errors introduced b
 - Rejected because: v1.1 is the accepted version of the governing architecture. Using a superseded version would invalidate the compliance roadmap.
 
 **Alternative: Move documents to RA-literal paths (no dot-prefix)**
-- Description: Place files at `DOCS/design/NAMING_CONVENTIONS.md` literally, without dot-prefix.
+- Description: Place files at `DOCS/.design/NAMING_CONVENTIONS.md` literally, without dot-prefix.
 - Rejected because: DR-001 is an accepted decision. Introducing a single non-dot-prefixed DOCS subdirectory would create inconsistency within the DOCS tree.
 
 ### Related Decisions
@@ -383,7 +383,7 @@ Phase 0–8 of the migration plan (as documented in prior alignment reports) was
 
 Adopt REFERENCE_ARCHITECTURE.md v1.2 (2026-05-15) as the governing architecture. Execute normalization work across four domains:
 
-1. **Template filename contract:** Create all required Appendix A lower-case template filenames under DOCS/templates.
+1. **Template filename contract:** Create all required Appendix A lower-case template filenames under DOCS/templates (now DOCS/.templates per DR-019).
 2. **Backlog status taxonomy:** Normalize all backlog items to use exactly `Open`, `In Progress`, or `Resolved` statuses.
 3. **Review decision lineage:** Add decision entry for review output shape and multi-file bundle naming strategy (provisional DR-012 placeholder until v1.2 semantics are fully implemented).
 4. **Results archival behavior:** Update orchestration script to preserve markdown summary files when purging old logs, per Section 9.3 mandate.
@@ -596,14 +596,15 @@ Adopt `REFERENCE_ARCHITECTURE.md` v1.3 as the governing architecture for this re
 ---
 
 ## DR-013 — Add RA-literal DOCS compatibility paths
+**Superseded by:** DR-019 (2026-05-16) — bridge directories removed; dot-prefix convention extended to all DOCS subdirectories
 
 ### Context [REQUIRED]
 
-`REFERENCE_ARCHITECTURE.md` v1.3 requires literal documentation paths such as `DOCS/planning/BACKLOG.md`, `DOCS/design/NAMING_CONVENTIONS.md`, and `DOCS/implementation-logs/`. This repository already has accepted historical dot-prefixed documentation directories under DR-001: `DOCS/.planning/`, `DOCS/.design/`, and `DOCS/.implementation/`. Moving the authoritative documents immediately would create a broad path migration and risk breaking existing references while MIG-09 still needs to normalize implementation log policy.
+`REFERENCE_ARCHITECTURE.md` v1.3 requires literal documentation paths such as `DOCS/.planning/BACKLOG.md`, `DOCS/.design/NAMING_CONVENTIONS.md`, and `DOCS/.implementation-logs/`. This repository already has accepted historical dot-prefixed documentation directories under DR-001: `DOCS/.planning/`, `DOCS/.design/`, and `DOCS/.implementation/`. Moving the authoritative documents immediately would create a broad path migration and risk breaking existing references while MIG-09 still needs to normalize implementation log policy.
 
 ### Decision [REQUIRED]
 
-Keep the dot-prefixed DOCS directories as the authoritative content locations for existing planning, design, and implementation-log documents until a later decision supersedes this one. Add v1.3 literal compatibility paths that point agents and validators to the authoritative locations: `DOCS/planning/BACKLOG.md`, `DOCS/design/NAMING_CONVENTIONS.md`, and `DOCS/implementation-logs/README.md`.
+Keep the dot-prefixed DOCS directories as the authoritative content locations for existing planning, design, and implementation-log documents until a later decision supersedes this one. Add v1.3 literal compatibility paths that point agents and validators to the authoritative locations: `DOCS/.planning/BACKLOG.md`, `DOCS/.design/NAMING_CONVENTIONS.md`, and `DOCS/.implementation-logs/README.md`.
 
 ### Status [REQUIRED]
 
@@ -818,25 +819,26 @@ The actual filesystem rename of existing directories is tracked as **MIG-13** in
 
 ---
 
-## DR-017 — Make DOCS/implementation-logs/ the authoritative implementation-log directory (MIG-09)
+## DR-017 — Make DOCS/.implementation-logs/ the authoritative implementation-log directory (MIG-09)
+**Superseded by:** DR-019 (2026-05-16) — authoritative path is now `DOCS/.implementation-logs/`
 
 **Date:** 2026-05-16
 **Status:** Accepted — 2026-05-16
 
 ### Context
 
-DR-013 created `DOCS/implementation-logs/README.md` as a v1.3 compatibility bridge, leaving `DOCS/.implementation/` as the authoritative content location and explicitly deferring the path decision to MIG-09. `REFERENCE_ARCHITECTURE.md` v1.3 §10.8 names `implementation-logs/` as the required directory and requires log files to use UTC date-prefix plus short-slug naming (`YYYY-MM-DD_short-session-topic.md`). The two existing logs in `DOCS/.implementation/` use the legacy `IMPL_LOG_YYYY-MM-DD_Long_Title.md` pattern and are not in the v1.3-required location.
+DR-013 created `DOCS/.implementation-logs/README.md` as a v1.3 compatibility bridge, leaving `DOCS/.implementation/` as the authoritative content location and explicitly deferring the path decision to MIG-09. `REFERENCE_ARCHITECTURE.md` v1.3 §10.8 names `implementation-logs/` as the required directory and requires log files to use UTC date-prefix plus short-slug naming (`YYYY-MM-DD_short-session-topic.md`). The two existing logs in `DOCS/.implementation/` use the legacy `IMPL_LOG_YYYY-MM-DD_Long_Title.md` pattern and are not in the v1.3-required location.
 
 ### Decision
 
-Make `DOCS/implementation-logs/` the authoritative implementation-log directory. Move existing logs from `DOCS/.implementation/` to `DOCS/implementation-logs/` and rename them to the v1.3 pattern:
+Make `DOCS/.implementation-logs/` the authoritative implementation-log directory. Move existing logs from `DOCS/.implementation/` to `DOCS/.implementation-logs/` and rename them to the v1.3 pattern:
 
 | Old path | New path |
 |----------|----------|
-| `DOCS/.implementation/IMPL_LOG_2026-01-30_Initial_Project_Creation.md` | `DOCS/implementation-logs/2026-01-30_initial-project-creation.md` |
-| `DOCS/.implementation/IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md` | `DOCS/implementation-logs/2026-05-14_naming-conventions-and-testing.md` |
+| `DOCS/.implementation/IMPL_LOG_2026-01-30_Initial_Project_Creation.md` | `DOCS/.implementation-logs/2026-01-30_initial-project-creation.md` |
+| `DOCS/.implementation/IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md` | `DOCS/.implementation-logs/2026-05-14_naming-conventions-and-testing.md` |
 
-`DOCS/.implementation/` becomes a read-only archive. Its README is updated to reflect this. `DOCS/implementation-logs/README.md` is updated to be the authoritative directory index. Future implementation logs MUST be written to `DOCS/implementation-logs/` and MUST use `YYYY-MM-DD_short-session-topic.md` naming. The `TEMPLATE_Implementation_Log.md` file in `DOCS/.implementation/` is retained in the archive; the canonical template remains `DOCS/templates/implementation-log.template.md`.
+`DOCS/.implementation/` becomes a read-only archive. Its README is updated to reflect this. `DOCS/.implementation-logs/README.md` is updated to be the authoritative directory index. Future implementation logs MUST be written to `DOCS/.implementation-logs/` and MUST use `YYYY-MM-DD_short-session-topic.md` naming. The `TEMPLATE_Implementation_Log.md` file in `DOCS/.implementation/` is retained in the archive; the canonical template remains `DOCS/.templates/implementation-log.template.md`.
 
 ### Status
 
@@ -845,7 +847,7 @@ Make `DOCS/implementation-logs/` the authoritative implementation-log directory.
 ### Consequences
 
 **Outcomes:**
-- `DOCS/implementation-logs/` is now the single authoritative location for implementation logs.
+- `DOCS/.implementation-logs/` is now the single authoritative location for implementation logs.
 - v1.3 §10.8 path and naming requirements are fully satisfied.
 - The DR-013 compatibility bridge for implementation logs is superseded by this decision.
 
@@ -861,7 +863,7 @@ Make `DOCS/implementation-logs/` the authoritative implementation-log directory.
 
 **Alternative: Keep DOCS/.implementation/ as authoritative and update the naming convention only**
 - Description: Rename files in place within `DOCS/.implementation/` and document that directory as the project's implementation of §10.8.
-- Rejected because: DR-013 explicitly created the compatibility bridge path to be resolved by MIG-09. Using the non-literal path would leave a permanent divergence when the literal path (`DOCS/implementation-logs/`) now has a proper README and is ready to become authoritative.
+- Rejected because: DR-013 explicitly created the compatibility bridge path to be resolved by MIG-09. Using the non-literal path would leave a permanent divergence when the literal path (`DOCS/.implementation-logs/`) now has a proper README and is ready to become authoritative.
 
 **Alternative: Delete DOCS/.implementation/ entirely**
 - Description: Move all content and remove the old directory.
@@ -933,6 +935,83 @@ Step definitions are updated to use `{string}` (and `{int}`) Cucumber expression
 
 ---
 
+## DR-019 — Extend dot-prefix convention to all DOCS subdirectories; eliminate bridge directories (MIG-DOCS-01)
+
+**Date:** 2026-05-16
+**Status:** Accepted — 2026-05-16
+**Supersedes:** DR-013 (bridge strategy for RA-literal DOCS paths), DR-017 (implementation-logs/ as authoritative path)
+
+### Context
+
+DR-001 (2026-01-30) established dot-prefix as the project convention for all DOCS type-specific subdirectories. However, subsequent decisions created non-dot plain-name directories under `DOCS/` without applying DR-001:
+
+- DR-013 (2026-05-15) created `DOCS/design/`, `DOCS/planning/`, and `DOCS/implementation-logs/` as RA v1.3 compatibility bridges, resulting in dual directories for three roles: `.design/` + `design/`, `.planning/` + `planning/`, `.implementation/` + `implementation-logs/`.
+- DR-017 (2026-05-16) made `DOCS/implementation-logs/` the authoritative implementation-log directory, but left `DOCS/.implementation/` in place as an archive — creating a split between two directories for the same role.
+- `DOCS/architecture/` and `DOCS/templates/` were created without applying DR-001, resulting in two more plain-name directories and a shadow `.templates/` with only one file while 22 files remained in `DOCS/templates/`.
+
+The result is 13 DOCS subdirectories using three different naming conventions, with dual-directory confusion for four roles. The DR-001 single-convention rule is violated.
+
+### Decision
+
+Extend DR-001's dot-prefix convention to cover ALL DOCS type-specific subdirectories without exception. No plain-name (non-dot) subdirectories exist under `DOCS/` in the final state.
+
+**Directory renames:**
+
+| From | To | Action |
+|------|----|--------|
+| `DOCS/.architecture/` | `DOCS/.architecture/` | `git mv` |
+| `DOCS/.templates/` | `DOCS/.templates/` | Merge all 22 files via `git mv` into existing `.templates/` |
+| `DOCS/.implementation/` + `DOCS/.implementation-logs/` | `DOCS/.implementation-logs/` | Rename `.implementation/` → `.implementation-logs/`; move 3 files from `implementation-logs/`; create unified README |
+| `DOCS/design/` | REMOVED | Bridge no longer needed; `.design/` is the sole authority |
+| `DOCS/planning/` | REMOVED | Bridge no longer needed; `.planning/` is the sole authority |
+
+The `DOCS/.templates/decision-record.template.md` stale single-file is removed; the full governed template from `DOCS/.templates/decision-record.template.md` replaces it. All other `.templates/` pre-existing content is superseded by the `templates/` versions.
+
+**RA path divergence:** `REFERENCE_ARCHITECTURE.md` v1.3 names `DOCS/.architecture/`, `DOCS/.templates/`, `DOCS/planning/`, `DOCS/design/`, and `DOCS/.implementation-logs/` as literal paths. All five diverge from this convention under the same MAY-level latitude clause that authorised DR-001. This is a documented project-local decision. The RA text is not changed.
+
+### Status
+
+`Accepted` — 2026-05-16
+
+### Consequences
+
+**Outcomes:**
+- A single uniform convention covers all DOCS subdirectories: dot + kebab-case.
+- The four dual-directory role conflicts are resolved.
+- Bridge files (`DOCS/design/`, `DOCS/planning/`) are removed — contributors read one location, not two.
+- `DOCS/.implementation-logs/` and `DOCS/.implementation/` are consolidated into `DOCS/.implementation-logs/`.
+- `DOCS/.templates/` and the stub `DOCS/.templates/` are consolidated into `DOCS/.templates/`.
+
+**Trade-offs:**
+- All references to `DOCS/.templates/`, `DOCS/.architecture/`, `DOCS/.implementation-logs/`, `DOCS/design/`, and `DOCS/planning/` in ~16 files must be updated.
+- The v1.3 RA-literal paths no longer exist on disk; a new agent reading the RA and not this DR would look in the wrong place. The DR-001 divergence pattern is precedent for this.
+
+**Compliance note:**
+- Documented divergence from `REFERENCE_ARCHITECTURE.md` v1.3 §4, §10.3, §10.5, §10.8, §10.9 path literals, at the MAY-level latitude clause for directory naming.
+- DR-001 established the precedent; this decision extends it consistently to the remaining directories.
+
+### Alternatives Considered
+
+**Alternative: Keep RA-literal directories as authoritative; remove dot-prefix dirs**
+- Description: Adopt the RA's plain-name directories as the project standard instead of DR-001 dot-prefix.
+- Rejected because: DR-001 is a well-established, actively maintained decision and a deliberate project-local divergence. Reversing it would require updating every existing reference to dot-prefix directories (a larger change) and would lose the visual-grouping benefit that motivated DR-001.
+
+**Alternative: Retain bridges; document that both paths are valid**
+- Description: Keep both dot-prefix and plain-name directories indefinitely, treating both as valid aliases.
+- Rejected because: Dual directories for the same role is the root cause of the confusion this decision addresses. Formalising the duality resolves nothing.
+
+### Related Decisions
+
+- DR-001 — Established dot-prefix convention; this decision extends it to all DOCS subdirectories.
+- DR-013 — Bridge strategy superseded; bridges are removed.
+- DR-017 — `DOCS/.implementation-logs/` authoritative designation superseded; new authoritative path is `DOCS/.implementation-logs/`.
+
+### Evidence
+
+- `DOCS/ANALYSIS_DOCS_Subdirectory_Cleanup_20260516.md` — full discrepancy map, file inventory, and migration plan.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -951,5 +1030,5 @@ Step definitions are updated to use `{string}` (and `{int}`) Cucumber expression
 
 ---
 
-*Last entry: DR-018. Next ID: DR-019.*
+*Last entry: DR-019. Next ID: DR-020.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

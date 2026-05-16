@@ -20,7 +20,7 @@ $timestamp = (Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssZ')
 # Stack short identifier used in metric key prefixes (DR-016 / MIG-12).
 # Full canonical Stack name:  DEMOAPP001_TYPESCRIPT_CYPRESS
 # Filesystem directory:       demo-apps/demoapp001-typescript-cypress/
-# See DOCS/architecture/orchestration-design.md Section 6 for the full mapping.
+# See DOCS/.architecture/orchestration-design.md Section 6 for the full mapping.
 $stackName = 'DEMOAPP001'
 
 $buildLog = Join-Path $logsDir ("${stackName}_build_${timestamp}.log")

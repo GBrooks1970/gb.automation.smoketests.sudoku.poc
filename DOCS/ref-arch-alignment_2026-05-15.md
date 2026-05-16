@@ -34,9 +34,9 @@ The v1.3 architecture tightens or makes explicit these obligations:
 | Area | v1.3 requirement | Current effect |
 |------|------------------|----------------|
 | Code review directory | Root `code-review/` or `.review/` MUST exist; bundle convention recorded as DR-012 | Root `.review/` exists for future reviews via DR-014; historical reviews remain under `DOCS/.review/` |
-| Implementation logs | `implementation-logs/` MUST exist under `DOCS/` or root | `DOCS/implementation-logs/README.md` now bridges to `DOCS/.implementation/` via DR-013 |
-| Naming conventions | `DOCS/design/NAMING_CONVENTIONS.md` MUST exist | `DOCS/design/NAMING_CONVENTIONS.md` now bridges to `DOCS/.design/NAMING_CONVENTIONS.md` via DR-013 |
-| Backlog | `DOCS/planning/BACKLOG.md` MUST exist and use `Open` / `In Progress` / `Resolved` | `DOCS/planning/BACKLOG.md` bridges to the reconciled authoritative backlog at `DOCS/.planning/BACKLOG.md`; current counts are Open 20, In Progress 1, Resolved 12 |
+| Implementation logs | `implementation-logs/` MUST exist under `DOCS/` or root | `DOCS/.implementation-logs/README.md` now bridges to `DOCS/.implementation/` via DR-013 |
+| Naming conventions | `DOCS/.design/NAMING_CONVENTIONS.md` MUST exist | `DOCS/.design/NAMING_CONVENTIONS.md` now bridges to `DOCS/.design/NAMING_CONVENTIONS.md` via DR-013 |
+| Backlog | `DOCS/.planning/BACKLOG.md` MUST exist and use `Open` / `In Progress` / `Resolved` | `DOCS/.planning/BACKLOG.md` bridges to the reconciled authoritative backlog at `DOCS/.planning/BACKLOG.md`; current counts are Open 20, In Progress 1, Resolved 12 |
 | Templates | Every document type in Sections 10.1-10.9 needs a template with `[REQUIRED]` mandatory fields | Lowercase filenames exist; MIG-08 added mandatory-field annotations to the backlog, changelog, and naming-conventions templates and updated current governed docs to lowercase references |
 | Feature parity reports | Generated parity reports go to `.results/feature-parity/FEATURE_PARITY_[YYYYMMDDTHHMMZ].md` | No parity report generator yet; not blocking one-Stack execution |
 
@@ -69,17 +69,17 @@ The v1.3 architecture tightens or makes explicit these obligations:
 
 **Observed before migration:** The register ended at DR-011 and contained v1.2 adoption language. Header metadata also referenced the legacy uppercase template name.
 
-**Resolution:** DR-012 now adopts `REFERENCE_ARCHITECTURE.md` v1.3 as the active governance baseline and records the future multi-file review bundle naming convention required by Section 10.7. The register header now references v1.3 and `DOCS/templates/decision-record.template.md`; the footer now reports last entry DR-012 and next ID DR-013.
+**Resolution:** DR-012 now adopts `REFERENCE_ARCHITECTURE.md` v1.3 as the active governance baseline and records the future multi-file review bundle naming convention required by Section 10.7. The register header now references v1.3 and `DOCS/.templates/decision-record.template.md`; the footer now reports last entry DR-012 and next ID DR-013.
 
 **Migration:** MIG-01 resolved on 2026-05-15.
 
 ### H2. v1.3 DOCS literal documentation paths are missing - Resolved by MIG-02
 
-**Requirement:** v1.3 names literal paths for `DOCS/planning/BACKLOG.md`, `DOCS/design/NAMING_CONVENTIONS.md`, and `DOCS/implementation-logs/`.
+**Requirement:** v1.3 names literal paths for `DOCS/.planning/BACKLOG.md`, `DOCS/.design/NAMING_CONVENTIONS.md`, and `DOCS/.implementation-logs/`.
 
 **Observed before migration:** The project used `DOCS/.planning`, `DOCS/.design`, and `DOCS/.implementation` under DR-001, and the v1.3 literal DOCS paths were absent.
 
-**Resolution:** DR-013 now records the compatibility path strategy. `DOCS/planning/BACKLOG.md`, `DOCS/design/NAMING_CONVENTIONS.md`, and `DOCS/implementation-logs/README.md` now exist as bridge files pointing to the authoritative dot-prefixed locations.
+**Resolution:** DR-013 now records the compatibility path strategy. `DOCS/.planning/BACKLOG.md`, `DOCS/.design/NAMING_CONVENTIONS.md`, and `DOCS/.implementation-logs/README.md` now exist as bridge files pointing to the authoritative dot-prefixed locations.
 
 **Migration:** MIG-02 resolved on 2026-05-15. Root code review path alignment remains tracked by MIG-03.
 
@@ -125,13 +125,13 @@ The v1.3 architecture tightens or makes explicit these obligations:
 
 **Observed before migration:** Existing review bundles used names such as `CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z`, and no repository-root `.review/` or `code-review/` directory existed.
 
-**Resolution:** DR-014 now makes repository-root `.review/` the authoritative location for future reviews. Root `.review/README.md` defines the future `CODE_REVIEW_[AGENT]_v[N]_[UTC]` bundle naming and historical handling; `DOCS/.review/README.md`, `DOCS/templates/code-review.template.md`, and `DOCS/.design/NAMING_CONVENTIONS.md` now point future reviews to the v1.3 shape without renaming historical review bundles.
+**Resolution:** DR-014 now makes repository-root `.review/` the authoritative location for future reviews. Root `.review/README.md` defines the future `CODE_REVIEW_[AGENT]_v[N]_[UTC]` bundle naming and historical handling; `DOCS/.review/README.md`, `DOCS/.templates/code-review.template.md`, and `DOCS/.design/NAMING_CONVENTIONS.md` now point future reviews to the v1.3 shape without renaming historical review bundles.
 
 **Migration:** MIG-03 resolved on 2026-05-15.
 
 ### M4. Template mandate is not fully satisfied - Resolved by MIG-08
 
-**Observed before migration:** All 14 lowercase Appendix A template files existed under `DOCS/templates/`, but `backlog.template.md`, `changelog.template.md`, and `naming-conventions.template.md` did not contain `[REQUIRED]` annotations for mandatory fields. Several current governed documents still referenced legacy uppercase template filenames.
+**Observed before migration:** All 14 lowercase Appendix A template files existed under `DOCS/.templates/`, but `backlog.template.md`, `changelog.template.md`, and `naming-conventions.template.md` did not contain `[REQUIRED]` annotations for mandatory fields. Several current governed documents still referenced legacy uppercase template filenames.
 
 **Resolution:** The three affected lowercase templates now mark mandatory fields with `[REQUIRED]`. Current governed docs now reference lowercase template filenames, including `DOCS/README.md`, `CHANGELOG.md`, `DOCS/.design/NAMING_CONVENTIONS.md`, `DOCS/.planning/BACKLOG.md`, architecture contracts, and `demoapp001-typescript-cypress/docs/*`.
 
@@ -141,9 +141,9 @@ The v1.3 architecture tightens or makes explicit these obligations:
 
 **Requirement:** v1.3 §10.8 names `implementation-logs/` as the required directory and requires `YYYY-MM-DD_short-session-topic.md` naming.
 
-**Observed before migration:** Implementation logs existed in `DOCS/.implementation/` with names like `IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md`. The compatibility bridge at `DOCS/implementation-logs/README.md` (DR-013) pointed to the dot-prefix directory but did not make it authoritative.
+**Observed before migration:** Implementation logs existed in `DOCS/.implementation/` with names like `IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md`. The compatibility bridge at `DOCS/.implementation-logs/README.md` (DR-013) pointed to the dot-prefix directory but did not make it authoritative.
 
-**Resolution:** DR-017 makes `DOCS/implementation-logs/` the authoritative directory. Existing logs moved via `git mv` and renamed to v1.3 format: `2026-01-30_initial-project-creation.md` and `2026-05-14_naming-conventions-and-testing.md`. `DOCS/.implementation/` is now a read-only archive. `DOCS/implementation-logs/README.md` updated to be the authoritative directory index with a log table and creation instructions.
+**Resolution:** DR-017 makes `DOCS/.implementation-logs/` the authoritative directory. Existing logs moved via `git mv` and renamed to v1.3 format: `2026-01-30_initial-project-creation.md` and `2026-05-14_naming-conventions-and-testing.md`. `DOCS/.implementation/` is now a read-only archive. `DOCS/.implementation-logs/README.md` updated to be the authoritative directory index with a log table and creation instructions.
 
 **Migration:** MIG-09 resolved on 2026-05-16.
 
@@ -167,7 +167,7 @@ The v1.3 architecture tightens or makes explicit these obligations:
 
 **Observed before migration:** Metrics used `DEMOAPP001` without a formal record of the mapping to `DEMOAPP001_TYPESCRIPT_CYPRESS`. DR-016 established the short identifier informally but the orchestration script and design document did not cross-reference it.
 
-**Resolution:** `run-demoapp001.ps1` now carries an inline comment naming the short identifier, the full canonical Stack name, the filesystem directory, and a reference to DR-016 and the orchestration-design Section 6. The stale RA v1.2 comment in the retention section was corrected to v1.3. `DOCS/architecture/orchestration-design.md` Section 6 provides the formal mapping table.
+**Resolution:** `run-demoapp001.ps1` now carries an inline comment naming the short identifier, the full canonical Stack name, the filesystem directory, and a reference to DR-016 and the orchestration-design Section 6. The stale RA v1.2 comment in the retention section was corrected to v1.3. `DOCS/.architecture/orchestration-design.md` Section 6 provides the formal mapping table.
 
 **Migration:** MIG-12 resolved on 2026-05-16.
 
@@ -213,11 +213,11 @@ Test log confirms:
 - DR-014 records root `.review/` as the future review-output location.
 - `CLAUDE.md` now reflects v1.3, current Screenplay implementation status, current paths, and current decision range.
 - `DOCS/.planning/BACKLOG.md` now reflects v1.3, tracks MIG-01 through MIG-12, and reports Open 20 / In Progress 1 / Resolved 12.
-- `DOCS/templates/` contains all 14 lowercase Appendix A filenames.
+- `DOCS/.templates/` contains all 14 lowercase Appendix A filenames.
 - `backlog.template.md`, `changelog.template.md`, and `naming-conventions.template.md` now mark mandatory fields with `[REQUIRED]`.
 - Current governed docs now reference lowercase template filenames.
 - Root `.review/README.md` exists and defines future v1.3 review output naming.
-- `DOCS/planning/BACKLOG.md`, `DOCS/design/NAMING_CONVENTIONS.md`, and `DOCS/implementation-logs/README.md` exist as compatibility bridges.
+- `DOCS/.planning/BACKLOG.md`, `DOCS/.design/NAMING_CONVENTIONS.md`, and `DOCS/.implementation-logs/README.md` exist as compatibility bridges.
 - Dot-prefix authoritative sources remain under `DOCS/.planning`, `DOCS/.design`, and `DOCS/.implementation`.
 - Historical review outputs remain under `DOCS/.review/` unchanged.
 
@@ -237,7 +237,7 @@ All future migration tasks are labelled `MIG-**` as requested.
 | MIG-06 | Resolved 2026-05-15 | Medium | AI agent guide | Refresh `CLAUDE.md` for v1.3 and current Screenplay implementation | No v1.2 stale baseline; no "No Screenplay Layer" limitation; current feature paths, DR range, backlog taxonomy, and risks are accurate |
 | MIG-07 | Resolved 2026-05-15 | Medium | Backlog | Reconcile backlog against current v1.3 state | Governance references v1.3; summary counts match item statuses; `BACKLOG-019` is resolved with residual work tracked by MIG-04 and MIG-05; MIG items are tracked |
 | MIG-08 | Resolved 2026-05-15 | Medium | Templates | Complete template mandate details | `backlog.template.md`, `changelog.template.md`, and `naming-conventions.template.md` mark mandatory fields with `[REQUIRED]`; current governed docs reference lowercase templates |
-| MIG-09 | Resolved 2026-05-16 | Medium | Implementation logs | Normalize implementation-log location and naming policy | `DOCS/implementation-logs/` is authoritative; logs renamed to v1.3 format; `DOCS/.implementation/` is a read-only archive; DR-017 |
+| MIG-09 | Resolved 2026-05-16 | Medium | Implementation logs | Normalize implementation-log location and naming policy | `DOCS/.implementation-logs/` is authoritative; logs renamed to v1.3 format; `DOCS/.implementation/` is a read-only archive; DR-017 |
 | MIG-10 | Resolved 2026-05-16 | Medium | Parity artifacts | Add feature parity validation report process | `.batch/generate-feature-parity-report.ps1` created; reports write to `.results/feature-parity/FEATURE_PARITY_[YYYYMMDDTHHMMZ].md`; process documented in orchestration-design |
 | MIG-11 | Resolved 2026-05-16 | Low | Gherkin | Parameterize over-specified canonical steps before Stack 2 | Two Scenario Outlines with Examples: row-values and candidates; step defs use `{string}`/`{int}`; 43/43 pass; parity PASS; DR-018 |
 | MIG-12 | Resolved 2026-05-16 | Low | Metrics | Decide metric Stack identifier policy | Short identifier `DEMOAPP001` documented in run script (DR-016 ref) and orchestration-design Section 6; RA v1.2 comment corrected to v1.3 |
@@ -259,7 +259,7 @@ The TypeScript Stack is green and fully aligned against `REFERENCE_ARCHITECTURE.
 - **MIG-01–MIG-08** (resolved 2026-05-15): v1.3 adoption, DOCS path bridges, review directory, Screenplay Actor Memory, thin step definitions, agent guide, backlog reconciliation, and template mandate.
 - **MIG-04 and MIG-05** (resolved 2026-05-16): Actor Memory wired via TakeNotes; all six Memory key constants are runtime-active; no step file accesses Abilities directly.
 - **MIG-13** (resolved 2026-05-16): Stack filesystem directories renamed to kebab-case per DR-016.
-- **MIG-09** (resolved 2026-05-16): Implementation logs moved to `DOCS/implementation-logs/` with v1.3 `YYYY-MM-DD_slug` naming; DR-017.
+- **MIG-09** (resolved 2026-05-16): Implementation logs moved to `DOCS/.implementation-logs/` with v1.3 `YYYY-MM-DD_slug` naming; DR-017.
 - **MIG-10** (resolved 2026-05-16): Feature parity report script created (`.batch/generate-feature-parity-report.ps1`); reports write to `.results/feature-parity/`; orchestration design updated.
 - **MIG-11** (resolved 2026-05-16): Two over-specified Gherkin scenarios converted to Scenario Outlines with Examples tables; step definitions parameterized; 43/43 pass; parity PASS; DR-018.
 - **MIG-12** (resolved 2026-05-16): Short identifier `DEMOAPP001` documented in orchestration script and design; mapping table in orchestration-design.md Section 6; DR-016.

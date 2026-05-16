@@ -2,7 +2,7 @@
 
 **Status:** Authoritative (DR-017, 2026-05-16)
 **Governed by:** `REFERENCE_ARCHITECTURE.md` v1.3 §10.8
-**Template:** `DOCS/templates/implementation-log.template.md`
+**Template:** `DOCS/.templates/implementation-log.template.md`
 
 This directory is the authoritative location for implementation logs. Logs document development sessions, design decisions, bugs fixed, and lessons learned.
 
@@ -24,7 +24,7 @@ YYYY-MM-DD_short-session-topic.md
 
 ## Creating a New Implementation Log
 
-1. Copy the canonical template: `DOCS/templates/implementation-log.template.md`
+1. Copy the canonical template: `DOCS/.templates/implementation-log.template.md`
 2. Name the file `YYYY-MM-DD_short-session-topic.md` using today's UTC date
 3. Fill in all `[REQUIRED]` fields
 4. Add an entry to the log index below

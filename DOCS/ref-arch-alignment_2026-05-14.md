@@ -27,9 +27,9 @@ The full Screenplay layer is now implemented. Layer 2 (Step Definitions), Layer 
 | CLI surface contract | Partial | High |
 | Repository-level required documents | ✅ All present and at correct paths | — |
 | Stack-level documentation | ✅ Complete — Phase 5 (`docs/` + 4 required files) | — |
-| `DOCS/templates/` mandate | ✅ Complete — all 14 templates present | — |
+| `DOCS/.templates/` mandate | ✅ Complete — all 14 templates present | — |
 | `DECISION_REGISTER.md` | ✅ DR-001–DR-008 | — |
-| Cross-cutting architecture docs (`DOCS/architecture/`) | ✅ Complete — Phase 6 (4 required documents) | — |
+| Cross-cutting architecture docs (`DOCS/.architecture/`) | ✅ Complete — Phase 6 (4 required documents) | — |
 | Orchestration scripts + metrics | ✅ Complete — Phase 7 (`.batch/run-demoapp001.ps1` + `.results/.metrics`) | — |
 | AI agent instruction file | ✅ Complete — Phase 0 | — |
 | Algorithm documentation | ✅ Aligned | — |
@@ -203,7 +203,7 @@ CLAUDE.md (agent file)     ✅ (Phase 0 — stack inventory, risk register, proc
 
 ### 4.2 DOCS Subdirectory Naming Drift
 
-The project uses dot-prefixed directory names (`DOCS/.algorithm/`, `DOCS/.design/`, `DOCS/.implementation/`, `DOCS/.planning/`, `DOCS/.review/`, `DOCS/.howto/`). The Reference Architecture uses non-dotted names (`DOCS/algorithm/`, `DOCS/architecture/`, `DOCS/planning/`, `DOCS/implementation-logs/`).
+The project uses dot-prefixed directory names (`DOCS/.algorithm/`, `DOCS/.design/`, `DOCS/.implementation/`, `DOCS/.planning/`, `DOCS/.review/`, `DOCS/.howto/`). The Reference Architecture uses non-dotted names (`DOCS/algorithm/`, `DOCS/.architecture/`, `DOCS/planning/`, `DOCS/.implementation-logs/`).
 
 The dot-prefix convention is intentional — keeping documentation directories visually distinct and sort-first in file explorers. It is a documented divergence from the Reference Architecture, recorded as DR-001.
 
@@ -266,7 +266,7 @@ Then the system should place {int} in the only valid cell in row {int}
 
 ## 6. Required Documents (§10.1, §10.9) — v1.1 Paths
 
-> **v1.1 change note:** `BACKLOG.md` is no longer a root-level requirement — it is required at `DOCS/planning/BACKLOG.md`. `NAMING_CONVENTIONS.md` is no longer root/DOCS-flexible — it is required at `DOCS/design/NAMING_CONVENTIONS.md`. The root document set is now: `README.md`, `CHANGELOG.md`, `DECISION_REGISTER.md`, and the AI agent instruction file.
+> **v1.1 change note:** `BACKLOG.md` is no longer a root-level requirement — it is required at `DOCS/.planning/BACKLOG.md`. `NAMING_CONVENTIONS.md` is no longer root/DOCS-flexible — it is required at `DOCS/.design/NAMING_CONVENTIONS.md`. The root document set is now: `README.md`, `CHANGELOG.md`, `DECISION_REGISTER.md`, and the AI agent instruction file.
 
 ### 6.1 Root-Level Documents (§10.1)
 
@@ -281,8 +281,8 @@ Then the system should place {int} in the only valid cell in row {int}
 
 | Document | Required path (v1.1) | Project path (DR-001 dot-prefix) | Status |
 |----------|---------------------|----------------------------------|--------|
-| `BACKLOG.md` | `DOCS/planning/BACKLOG.md` | `DOCS/.planning/BACKLOG.md` | ✅ Exists — detailed sprint backlog |
-| `NAMING_CONVENTIONS.md` | `DOCS/design/NAMING_CONVENTIONS.md` | `DOCS/.design/NAMING_CONVENTIONS.md` | ✅ Moved Phase 0 (corrected from root) |
+| `BACKLOG.md` | `DOCS/.planning/BACKLOG.md` | `DOCS/.planning/BACKLOG.md` | ✅ Exists — detailed sprint backlog |
+| `NAMING_CONVENTIONS.md` | `DOCS/.design/NAMING_CONVENTIONS.md` | `DOCS/.design/NAMING_CONVENTIONS.md` | ✅ Moved Phase 0 (corrected from root) |
 
 > **Root `BACKLOG.md`:** Created in Phase 0 as a convenience summary linking to `DOCS/.planning/BACKLOG.md`. Not required by v1.1 but harmless to retain. Should note explicitly that it is a summary redirect.
 
@@ -327,17 +327,17 @@ Phase 5 validation confirms all four documents exist, include template reference
 
 ## 8. Cross-Cutting Architecture Documents (§10.3)
 
-Phase 6 is complete. `DOCS/architecture/` now exists with all required documents.
+Phase 6 is complete. `DOCS/.architecture/` now exists with all required documents.
 
 | Document | Status |
 |----------|--------|
-| Screenplay parity contract | ✅ Present — `DOCS/architecture/screenplay-parity-contract.md` |
-| Subject application contract | ✅ Present — `DOCS/architecture/subject-app-contract.md` |
-| Orchestration design | ✅ Present — `DOCS/architecture/orchestration-design.md` |
-| Logging design | ✅ Present — `DOCS/architecture/logging-design.md` |
+| Screenplay parity contract | ✅ Present — `DOCS/.architecture/screenplay-parity-contract.md` |
+| Subject application contract | ✅ Present — `DOCS/.architecture/subject-app-contract.md` |
+| Orchestration design | ✅ Present — `DOCS/.architecture/orchestration-design.md` |
+| Logging design | ✅ Present — `DOCS/.architecture/logging-design.md` |
 
 **Verification:**
-- All four files exist in `DOCS/architecture/` ✅
+- All four files exist in `DOCS/.architecture/` ✅
 - Template references are included for the two template-governed files ✅
 - Regression check remains green: 43 scenarios / 241 steps passing ✅
 
@@ -345,9 +345,9 @@ Phase 6 is complete. `DOCS/architecture/` now exists with all required documents
 
 ## 9. Template Mandate (§10.5)
 
-`DOCS/templates/` was created in Phase 0 and all 14 required templates are now present.
+`DOCS/.templates/` was created in Phase 0 and all 14 required templates are now present.
 
-### 9.1 All 14 Templates Present in `DOCS/templates/`
+### 9.1 All 14 Templates Present in `DOCS/.templates/`
 
 | Template | Governs | Migration Phase |
 |----------|---------|----------------|
@@ -360,13 +360,13 @@ Phase 6 is complete. `DOCS/architecture/` now exists with all required documents
 | `TEMPLATE_Screenplay_Guide.md` | `[STACK]/docs/SCREENPLAY_GUIDE.md` | 5 |
 | `TEMPLATE_QA_Strategy.md` | `[STACK]/docs/QA_STRATEGY.md` | 5 |
 | `TEMPLATE_Stack_Readme.md` | `[STACK]/docs/README.md` | 5 |
-| `TEMPLATE_Parity_Contract.md` | `DOCS/architecture/` parity contract | 6 |
-| `TEMPLATE_Subject_App_Contract.md` | `DOCS/architecture/` subject app contract | 6 |
+| `TEMPLATE_Parity_Contract.md` | `DOCS/.architecture/` parity contract | 6 |
+| `TEMPLATE_Subject_App_Contract.md` | `DOCS/.architecture/` subject app contract | 6 |
 | `TEMPLATE_Algorithm.md` | `DOCS/.algorithm/ALGORITHM_*.md` | — |
 | `TEMPLATE_Implementation_Log.md` | `DOCS/.implementation/IMPL_LOG_*.md` | — |
 | `TEMPLATE_Code_Review.md` | `DOCS/.review/CODE_REVIEW_*/` | — |
 
-> Convenience copies of Algorithm, Implementation Log, and Code Review templates remain in their subdirectories for local reference. The canonical versions are in `DOCS/templates/`.
+> Convenience copies of Algorithm, Implementation Log, and Code Review templates remain in their subdirectories for local reference. The canonical versions are in `DOCS/.templates/`.
 
 ---
 
@@ -421,7 +421,7 @@ It is worth stating clearly what the project gets right, as these are the founda
 | **Code review discipline** | Multiple reviews archived, timestamped, immutable |
 | **BACKLOG.md** | Detailed sprint tracking; root summary + `DOCS/.planning/` detail |
 | **Decision Register** | DR-001–008 — all structural decisions recorded with full context |
-| **Template mandate** | 14/14 templates in `DOCS/templates/` — Phase 0 complete |
+| **Template mandate** | 14/14 templates in `DOCS/.templates/` — Phase 0 complete |
 | **Canonical Feature Store** | `features-shared/util-tests/sudoku-solver/` — Phase 1 complete |
 | **Feature tagging** | `@util` on canonical; `@util @stack-demoapp001` on Stack-local copy |
 | **cucumber.js routing** | Reads from `tests/features/` only — no duplicate scenario risk |
@@ -451,7 +451,7 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 | 3 | Create `CHANGELOG.md` at root | ✅ Done | Full project history v0.1.0–Unreleased |
 | 4 | ~~Root `BACKLOG.md`~~ → **not required by v1.1** | ⚠ Created as convenience | `DOCS/.planning/BACKLOG.md` is the required location per v1.1 §10.1; root file retained as summary redirect |
 | 5 | `NAMING_CONVENTIONS.md` — **v1.1 requires `DOCS/design/`** | ✅ Corrected | Initially created at root (v1.0 assumption); moved to `DOCS/.design/NAMING_CONVENTIONS.md` on v1.1 adoption |
-| 6 | Create `DOCS/templates/` | ✅ Done | All 14 templates created (7 new + 3 adapted + 4 from original Phase 0) |
+| 6 | Create `DOCS/.templates/` | ✅ Done | All 14 templates created (7 new + 3 adapted + 4 from original Phase 0) |
 | 7 | Create all required templates | ✅ Done | 14/14: Decision Record, Changelog, Backlog, Naming Conventions, Readme, Stack Architecture, Screenplay Guide, QA Strategy, Stack Readme, Parity Contract, Subject App Contract, Algorithm, Implementation Log, Code Review |
 | 8 | Update `CLAUDE.md` | ✅ Done | Stack inventory, risk register, canonical feature procedure, `DECISION_REGISTER.md` reference; updated in Phase 1 for feature sync note |
 | 9 | Record v1.1 adoption | ✅ Done | DR-006 — adoption of RA v1.1, NAMING_CONVENTIONS.md path correction, root BACKLOG.md status |
@@ -461,7 +461,7 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 - `DECISION_REGISTER.md` at root (DR-001–007) ✅
 - `DOCS/.planning/BACKLOG.md` ✅
 - `DOCS/.design/NAMING_CONVENTIONS.md` ✅
-- `DOCS/templates/` — 14/14 templates ✅
+- `DOCS/.templates/` — 14/14 templates ✅
 
 ---
 
@@ -576,32 +576,32 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 
 **Actions:**
 1. Create `demo-apps/demoapp001-typescript-cypress/docs/` directory
-2. Author `docs/ARCHITECTURE.md` from `DOCS/templates/TEMPLATE_Stack_Architecture.md`
-3. Author `docs/SCREENPLAY_GUIDE.md` from `DOCS/templates/TEMPLATE_Screenplay_Guide.md`
-4. Author `docs/QA_STRATEGY.md` from `DOCS/templates/TEMPLATE_QA_Strategy.md`
-5. Author `docs/README.md` from `DOCS/templates/TEMPLATE_Stack_Readme.md`
+2. Author `docs/ARCHITECTURE.md` from `DOCS/.templates/TEMPLATE_Stack_Architecture.md`
+3. Author `docs/SCREENPLAY_GUIDE.md` from `DOCS/.templates/TEMPLATE_Screenplay_Guide.md`
+4. Author `docs/QA_STRATEGY.md` from `DOCS/.templates/TEMPLATE_QA_Strategy.md`
+5. Author `docs/README.md` from `DOCS/.templates/TEMPLATE_Stack_Readme.md`
 6. Create `tooling/` directory with `cucumber.js` configuration
 
 **Verification:**
 - `docs/ARCHITECTURE.md`, `docs/SCREENPLAY_GUIDE.md`, `docs/QA_STRATEGY.md`, and `docs/README.md` exist ✅
-- All four documents reference their source templates in `DOCS/templates/` ✅
+- All four documents reference their source templates in `DOCS/.templates/` ✅
 - `tooling/cucumber.js` created and `npm test` routes via `--config tooling/cucumber.js` ✅
 - `npm test` remains green: 43 scenarios / 241 steps passing ✅
 
 ---
 
 ### Phase 6 — Architecture Documents ✅ COMPLETE
-*Creates `DOCS/architecture/` (§10.3).*
+*Creates `DOCS/.architecture/` (§10.3).*
 
 **Actions:**
-1. Create `DOCS/architecture/` directory
-2. Author `DOCS/architecture/screenplay-parity-contract.md` — defines component signatures and Memory key literals for all Stacks (currently one Stack; extend when Python and C# are added)
-3. Author `DOCS/architecture/subject-app-contract.md` — formalises the `@util` surface contract (in-process class interface) and the potential future `@cli` surface contract (exit codes, stdout format, timeout)
-4. Author `DOCS/architecture/orchestration-design.md` — documents the `@util` lifecycle: build → test → metrics
-5. Author `DOCS/architecture/logging-design.md` — documents Serenity/JS report output and any future structured logging
+1. Create `DOCS/.architecture/` directory
+2. Author `DOCS/.architecture/screenplay-parity-contract.md` — defines component signatures and Memory key literals for all Stacks (currently one Stack; extend when Python and C# are added)
+3. Author `DOCS/.architecture/subject-app-contract.md` — formalises the `@util` surface contract (in-process class interface) and the potential future `@cli` surface contract (exit codes, stdout format, timeout)
+4. Author `DOCS/.architecture/orchestration-design.md` — documents the `@util` lifecycle: build → test → metrics
+5. Author `DOCS/.architecture/logging-design.md` — documents Serenity/JS report output and any future structured logging
 
 **Verification:**
-- `DOCS/architecture/` created with all four required documents ✅
+- `DOCS/.architecture/` created with all four required documents ✅
 - `screenplay-parity-contract.md` and `subject-app-contract.md` reference their governing templates ✅
 - `npm test` remains green: 43 scenarios / 241 steps passing ✅
 
@@ -660,7 +660,7 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 | 3 — Tasks and Questions | §3.3, §3.4 | 4–6 h | Sprint 3 | ✅ Complete — 6 Tasks, 6 Questions; `Interaction.where()` pattern |
 | 4 — Step Definition Migration | §2.2, §3, layer model | 4–6 h | Sprint 3 | ✅ Complete — 10 step files; 43 scenarios / 241 steps passing; procedural World deleted |
 | 5 — Stack Documentation | §10.2 | 1 day | Sprint 3 | ✅ Complete — stack docs + tooling config |
-| 6 — Architecture Documents | §10.3 | 0.5 day | Sprint 4 | ✅ Complete — `DOCS/architecture/` with 4 required docs |
+| 6 — Architecture Documents | §10.3 | 0.5 day | Sprint 4 | ✅ Complete — `DOCS/.architecture/` with 4 required docs |
 | 7 — Orchestration and Metrics | §9 | 0.5 day | Sprint 4 | ✅ Complete — `.batch/run-demoapp001.ps1`, `.results/.metrics`, `.gitignore` update |
 | 8 — CLI Hardening | §6.3 | 1–2 days | Sprint 5 | ✅ Complete — exit codes, stderr routing, help and timeout options |
 
@@ -678,7 +678,7 @@ The following items should be added to `DOCS/.planning/BACKLOG.md` and cross-ref
 | NEW-002 | Create CHANGELOG.md at repository root | 0 | High | ✅ Done |
 | NEW-003 | ~~Promote BACKLOG.md to root~~ → **not required by v1.1** | 0 | — | ⚠ Superseded — `DOCS/.planning/BACKLOG.md` is the required location |
 | NEW-004 | Create NAMING_CONVENTIONS.md at `DOCS/.design/` (v1.1: `DOCS/design/`) | 0 | High | ✅ Done (corrected from root) |
-| NEW-005 | Create DOCS/templates/ with all 14 required templates | 0 | High | ✅ Done — 14/14 templates |
+| NEW-005 | Create DOCS/.templates/ with all 14 required templates | 0 | High | ✅ Done — 14/14 templates |
 | NEW-005a | Record v1.1 adoption as DR-006 | 0 | High | ✅ Done — DR-006 |
 | NEW-006 | Create features-shared/ canonical feature store | 1 | High | ✅ Done — DR-007 |
 | NEW-007 | Install Serenity/JS and create Screenplay directory structure | 2 | High | ✅ Done — v3.43.2; 6 dirs |
@@ -688,7 +688,7 @@ The following items should be added to `DOCS/.planning/BACKLOG.md` and cross-ref
 | NEW-011 | Migrate step definitions to Screenplay (replace solver_steps.js) | 4 | High | ✅ Done — 10 step files, 43/241 passing, procedural World deleted |
 | NEW-012 | Refactor over-specified step text to parameterised form | 4 | Medium | ⏸ Deferred — Gherkin unchanged per DR-005; over-specified steps remain in place |
 | NEW-013 | Create stack-level docs/ directory with 4 required documents | 5 | Medium | ✅ Done |
-| NEW-014 | Create DOCS/architecture/ with 4 required documents | 6 | Medium | ✅ Done |
+| NEW-014 | Create DOCS/.architecture/ with 4 required documents | 6 | Medium | ✅ Done |
 | NEW-015 | Create .batch/run-demoapp001 orchestration script + metrics output | 7 | Medium | ✅ Done |
 | NEW-016 | Add exit codes and stderr to SudokuCLI for @cli surface compliance | 8 | Low | ✅ Done |
 
@@ -699,7 +699,7 @@ The following items should be added to `DOCS/.planning/BACKLOG.md` and cross-ref
 | RA Version | Date | Key changes affecting this project |
 |------------|------|-------------------------------------|
 | v1.0 | 2026-05-14 | Initial version. `BACKLOG.md` at root; `NAMING_CONVENTIONS.md` at root or DOCS/. |
-| v1.1 | 2026-05-14 | `BACKLOG.md` moved to `DOCS/planning/BACKLOG.md`. `NAMING_CONVENTIONS.md` pinned to `DOCS/design/NAMING_CONVENTIONS.md`. `DOCS/design/` added as a named subdirectory. All internal `BACKLOG.md` references updated to path-qualified form. |
+| v1.1 | 2026-05-14 | `BACKLOG.md` moved to `DOCS/.planning/BACKLOG.md`. `NAMING_CONVENTIONS.md` pinned to `DOCS/.design/NAMING_CONVENTIONS.md`. `DOCS/design/` added as a named subdirectory. All internal `BACKLOG.md` references updated to path-qualified form. |
 
 **Impact of v1.0 → v1.1 on this project (resolved):**
 - Root `BACKLOG.md` created in Phase 0 is no longer a required document — retained as convenience redirect only
