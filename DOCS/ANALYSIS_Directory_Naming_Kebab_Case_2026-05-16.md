@@ -3,7 +3,7 @@
 **Date:** 2026-05-16
 **Author:** Claude Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` — impact of converting UPPER_CASE directory names (e.g. `DEMOAPPS`, `DEMOAPP001_TYPESCRIPT_CYPRESS`) to kebab-case equivalents (e.g. `demo-apps`, `demoapp001-typescript-cypress`)
-**Status:** Phase 4 complete — all validations passed; Phase 5 (merge) next
+**Status:** ✅ MIG-13 Complete — all 5 phases done; PR #13 open for merge
 
 ---
 
@@ -478,11 +478,17 @@ All four validation gates pass. The migration is complete and production-ready. 
 
 ---
 
-### Phase 5 — Merge and communicate
+### Phase 5 — Merge and communicate ✅ Complete 2026-05-16
 
-1. Open a PR titled `refactor: rename Stack directories to kebab-case (MIG-13)`
-2. PR description links to this analysis document and DR-016
-3. Ensure all branches that have open work rebase onto the rename commit before merging new feature work
+**PR #13:** [refactor: rename Stack directories to kebab-case (MIG-13)](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/13)
+- Base: `main` ← Head: `refactor/kebab-case-directories`
+- Commits: 5 (Phase 1 preparation, Phase 2 filesystem rename, .gitignore update, Phase 3 reference updates, Phase 4 validation record)
+- PR description links to `DOCS/ANALYSIS_Directory_Naming_Kebab_Case_2026-05-16.md` and DR-016
+- Test plan in PR body summarises all four Phase 4 validation gates
+
+**Rebase note** (included in PR description): Any branches based on paths inside the old `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/` directory should be rebased onto this PR's merge commit before continuing work.
+
+**Note on parallel branches:** At time of PR creation, `claude/sudoku-solver-design-f3NRI` is at `main` HEAD — no rebase needed for that branch.
 
 ---
 
