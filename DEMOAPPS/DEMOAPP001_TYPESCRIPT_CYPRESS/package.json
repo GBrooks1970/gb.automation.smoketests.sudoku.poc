@@ -6,13 +6,31 @@
   "scripts": {
     "start": "ts-node app_src/index.ts",
     "build": "tsc",
-    "run": "node dist/index.js"
+    "run": "node dist/index.js",
+    "lint": "eslint app_src/**/*.ts",
+    "format": "prettier --write app_src/**/*.ts",
+    "format:check": "prettier --check app_src/**/*.ts",
+    "test": "cucumber-js --config tooling/cucumber.js"
   },
-  "keywords": ["sudoku", "solver", "typescript"],
+  "keywords": [
+    "sudoku",
+    "solver",
+    "typescript"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@cucumber/cucumber": "^12.8.3",
+    "@cucumber/pretty-formatter": "^3.3.0",
+    "@serenity-js/assertions": "^3.43.2",
+    "@serenity-js/core": "^3.43.2",
+    "@serenity-js/cucumber": "^3.43.2",
     "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.59.3",
+    "@typescript-eslint/parser": "^8.59.3",
+    "eslint": "^10.3.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.3",
     "ts-node": "^10.9.0",
     "typescript": "^5.0.0"
   }

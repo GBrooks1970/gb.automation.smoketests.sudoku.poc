@@ -662,4 +662,4 @@ interface Cell {
 - [Hodoku Solving Techniques](http://hodoku.sourceforge.net/en/techniques.php)
 - [Andrew Stuart's Solver](https://www.sudokuwiki.org/sudoku.htm)
 - [Basic Solver Documentation](./ALGORITHM_Sudoku_Basic_Solver.md)
-- [Current TypeScript Implementation](../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts)
+- [Current TypeScript Implementation](../../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts)

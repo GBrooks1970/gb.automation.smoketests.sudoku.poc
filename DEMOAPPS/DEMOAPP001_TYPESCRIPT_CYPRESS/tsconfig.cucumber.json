@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "./dist-cucumber",
+    "noEmit": true
+  },
+  "include": ["app_src/**/*", "tests/**/*.ts"]
+}

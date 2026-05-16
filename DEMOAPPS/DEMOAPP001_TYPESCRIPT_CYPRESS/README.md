@@ -43,6 +43,21 @@ npm install
 npm start
 ```
 
+### CLI Options
+
+```bash
+# Show help
+npm start -- --help
+
+# Enforce max runtime in milliseconds
+npm start -- --timeout 10000
+npm start -- --timeout=10000
+```
+
+Exit code contract:
+- `0` when all puzzles finish with `SOLVED`
+- `1` when any puzzle returns `STUCK_ON_ADVANCED_LOGIC`, timeout is exceeded, or an input/runtime error occurs
+
 **Expected Output:**
 ```
 ===========================================
@@ -375,7 +390,7 @@ As per the design specification:
 
 1. **Hidden Singles**: Current implementation only checks 3×3 blocks, not rows or columns
    - **Impact:** May miss some hidden singles in rows/columns
-   - **Status:** Documented in [ALGORITHM_Sudoku_Basic_Solver.md](../../DOCS/ALGORITHM_Sudoku_Basic_Solver.md)
+   - **Status:** Documented in [ALGORITHM_Sudoku_Basic_Solver.md](../../DOCS/.algorithm/ALGORITHM_Sudoku_Basic_Solver.md)
 
 2. **No Advanced Techniques**: Cannot solve puzzles requiring Naked Pairs, X-Wing, etc.
    - **By Design:** This is intentional to keep the solver simple and educational
@@ -494,7 +509,7 @@ npm install
 
 - [Parent README](../../README.md) - Repository overview
 - [Design Specification](../../DOCS/.design/DESIGN_Sudoku_Solver_Specification.md) - Tech-agnostic spec
-- [Algorithm Details](../../DOCS/ALGORITHM_Sudoku_Basic_Solver.md) - Algorithm explanations
+- [Algorithm Details](../../DOCS/.algorithm/ALGORITHM_Sudoku_Basic_Solver.md) - Algorithm explanations
 - [Test Scenarios](tests/BasicSudokuSolverLogic.feature) - BDD test specifications
 
 ---
@@ -502,5 +517,5 @@ npm install
 ## Questions or Issues?
 
 - Check the [tech-agnostic specification](../../DOCS/.design/DESIGN_Sudoku_Solver_Specification.md) first
-- Review [algorithm documentation](../../DOCS/ALGORITHM_Sudoku_Basic_Solver.md) for technique details
+- Review [algorithm documentation](../../DOCS/.algorithm/ALGORITHM_Sudoku_Basic_Solver.md) for technique details
 - Examine the [test scenarios](tests/BasicSudokuSolverLogic.feature) for expected behaviors

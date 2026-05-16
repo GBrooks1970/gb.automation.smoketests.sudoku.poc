@@ -1,4 +1,6 @@
-# Code Review Directory
+# Historical Code Review Archive
+
+> **v1.3 status:** This directory is a historical archive. Future code review outputs MUST be written under repository-root `.review/` using `CODE_REVIEW_[AGENT]_v[N]_[UTC]/` per DR-014. Existing review bundles in this directory are read-only snapshots and must not be renamed or edited after the fact.
 
 This directory contains code review templates and outputs for comprehensive assessment of the Sudoku Solver project and related test automation codebases.
 
@@ -14,10 +16,10 @@ Code reviews in this directory serve as:
 ## Directory Structure
 
 ```
-.review/
+DOCS/.review/
 ├── README.md                           # This file
-├── code-review-template.md             # Comprehensive review template
-└── CODE_REVIEW_{Reviewer}__{Timestamp}/ # Review outputs (one per review)
+├── code-review-template.md             # Historical project-specific review template
+└── CODE_REVIEW_{Reviewer}__{Timestamp}/ # Historical review outputs
     ├── 00_CODE_REVIEW_*.md             # Main index
     ├── 01_EXECUTIVE_SUMMARY.md
     ├── 02_RISKS_AND_ISSUES.md
@@ -35,8 +37,8 @@ Code reviews in this directory serve as:
 
 1. **Copy the template:**
    ```bash
-   # Template is at: DOCS/.review/code-review-template.md
-   # Review outputs go in: DOCS/.review/CODE_REVIEW_{Reviewer}__{Timestamp}/
+   # Canonical template is at: DOCS/templates/code-review.template.md
+   # Review outputs go in: .review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/
    ```
 
 2. **Follow the template structure:**
@@ -46,9 +48,9 @@ Code reviews in this directory serve as:
    - Provide actionable recommendations
 
 3. **Generate outputs:**
-   - Create timestamped folder: `CODE_REVIEW_{Reviewer}__{UTC_TIMESTAMP}/`
+   - Create timestamped folder: `.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/`
    - Use UTC timestamp format: `YYYYMMDDTHHMMZ` (no seconds)
-   - Example: `CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T1430Z/`
+   - Example: `.review/CODE_REVIEW_CLAUDE_SONNET_v1_20260130T1430Z/`
 
 4. **Include reviewer attribution:**
    - Format: `Reviewer: AI assistant (CLAUDE [model])`
@@ -107,16 +109,16 @@ Every code review must include:
 
 ### Folder Names
 ```
-CODE_REVIEW_{Reviewer}__{UTC_Timestamp}/
+CODE_REVIEW_[AGENT]_v[N]_[UTC]/
 ```
 
 **Examples:**
-- `CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T1430Z/`
-- `CODE_REVIEW_John_Doe__20260215T0900Z/`
-- `CODE_REVIEW_QA_Team__20260301T1600Z/`
+- `CODE_REVIEW_CLAUDE_SONNET_v1_20260130T1430Z/`
+- `CODE_REVIEW_GPT_5_CODEX_v1_20260215T0900Z/`
+- `CODE_REVIEW_QA_TEAM_v2_20260301T1600Z/`
 
 ### File Names
-- Main index: `00_CODE_REVIEW_{Reviewer}__{Timestamp}.md`
+- Main index: `00_CODE_REVIEW_[AGENT]_v[N]_[UTC].md`
 - Section files: `01_` through `07_` with descriptive UPPER_CASE names
 - Project reviews: `PROJECT_001_[ProjectName].md`
 - Annexes: Descriptive UPPER_CASE names in `ANNEX/` folder
@@ -185,14 +187,14 @@ Reviews should assess alignment with:
 
 ```bash
 # 1. Start a new review
-cd DOCS/.review
+cd .review
 
 # 2. Create review folder with UTC timestamp
-mkdir CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T1430Z
-cd CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T1430Z
+mkdir CODE_REVIEW_CLAUDE_SONNET_v1_20260130T1430Z
+cd CODE_REVIEW_CLAUDE_SONNET_v1_20260130T1430Z
 
 # 3. Create main index
-# Generate 00_CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T1430Z.md
+# Generate 00_CODE_REVIEW_CLAUDE_SONNET_v1_20260130T1430Z.md
 
 # 4. Create section files
 # Generate 01_ through 07_ files
@@ -209,9 +211,13 @@ mkdir ANNEX
 
 ## Available Reviews
 
-- [CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z](CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/00_CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z.md) - Initial full comprehensive review baseline.
-- [CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z](CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z/00_CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z.md) - Follow-up comprehensive review aligned to the same template and format.
+| Review | Reviewer | Date | Grade | Notes |
+|--------|---------|------|-------|-------|
+| [CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z](CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/00_CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z.md) | CLAUDE Sonnet 4.5 | 2026-01-30 | A- | Baseline review |
+| [CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z](CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z/00_CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z.md) | GPT-5.3 Codex | 2026-03-30 | — | Parallel review (same template) |
+| [CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z](CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z/00_CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z.md) | CLAUDE Opus 4.6 | 2026-03-30 | B+ | Second iteration; identified design-implementation gap |
+| [CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z](CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z/00_CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z.md) | CLAUDE Sonnet 4.6 | 2026-05-13 | A- | Third iteration; constants + Prettier gaps identified |
 
 ---
 
-**Note:** This directory uses a `.review` prefix to keep it grouped separately from other documentation while remaining visible in the DOCS folder. Code reviews are snapshots in time and should be timestamped for historical tracking.
+**Note:** This directory uses a `.review` prefix to keep historical reviews grouped separately from other documentation while remaining visible in the DOCS folder. New v1.3 reviews belong in repository-root `.review/`.

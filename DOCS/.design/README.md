@@ -368,25 +368,28 @@ Provide feedback in structured format with specific references to sections.
 
 ## Available Design Documents
 
-### Completed Designs (Approved)
+### Implemented
 
-- **[DESIGN_Sudoku_Solver_Specification.md](DESIGN_Sudoku_Solver_Specification.md)** - Core solver design (tech-agnostic)
-  - Status: Approved, Implemented (DEMOAPP001)
-  - Version: v1.0
+| Document | Purpose | Version |
+|----------|---------|---------|
+| [DESIGN_Sudoku_Solver_Specification.md](DESIGN_Sudoku_Solver_Specification.md) | Core solver design (tech-agnostic) | v1.0 |
+| [DESIGN_Naming_Conventions.md](DESIGN_Naming_Conventions.md) | TypeScript naming standards — adopted and enforced via ESLint | v1.0 |
+| [NAMING_CONVENTIONS.md](NAMING_CONVENTIONS.md) | **Authoritative naming conventions** (RA §10.9 required document — supersedes DESIGN_Naming_Conventions.md as the reference standard) | v1.0 |
 
-- **[DESIGN_Audit_Trail_Feature.md](DESIGN_Audit_Trail_Feature.md)** - Audit logging system
-  - Status: Approved, Not Implemented
-  - Version: v1.0
+### Approved — Not Yet Implemented
 
-- **[DESIGN_REST_API_Wrapper.md](DESIGN_REST_API_Wrapper.md)** - REST API specification
-  - Status: Approved, Not Implemented
-  - Version: v1.0
+| Document | Purpose | Version |
+|----------|---------|---------|
+| [DESIGN_Audit_Trail_Feature.md](DESIGN_Audit_Trail_Feature.md) | Audit logging system | v1.1 |
+| [DESIGN_REST_API_Wrapper.md](DESIGN_REST_API_Wrapper.md) | Express REST API wrapper | v1.0 |
+| [DESIGN_Web_UI_Solver_Visualisation.md](DESIGN_Web_UI_Solver_Visualisation.md) | Browser step-by-step visualisation | v1.2 |
+| [DESIGN_Screenplay_Migration.md](DESIGN_Screenplay_Migration.md) | Screenplay pattern migration for BDD tests | v1.0 |
 
-### In Progress Designs
+### In Progress
 
 *None currently*
 
-### Deprecated Designs
+### Deprecated
 
 *None currently*
 

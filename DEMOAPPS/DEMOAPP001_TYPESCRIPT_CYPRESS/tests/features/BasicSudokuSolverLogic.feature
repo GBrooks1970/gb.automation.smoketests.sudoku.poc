@@ -1,3 +1,4 @@
+@util @stack-demoapp001
 Feature: Basic Sudoku Solver Logic
   As an automated Sudoku solver
   I want to apply three fundamental solving techniques systematically
@@ -102,21 +103,21 @@ Feature: Basic Sudoku Solver Logic
 
   Scenario Outline: Validate moves against Sudoku constraints
     Given a cell at <row>, <col> is empty
-    And the grid state is <grid_state>
+    And the grid state is <gridState>
     When attempting to place <value> at that position
     Then the move should be validated against row, column, and block constraints
     And the validation result should be <result>
 
     Examples:
-      | row | col | value | grid_state          | result  |
-      | 0   | 0   | 5     | empty_grid          | VALID   |
-      | 0   | 1   | 5     | has_5_in_same_row   | INVALID |
-      | 2   | 0   | 3     | has_3_in_same_col   | INVALID |
-      | 1   | 1   | 7     | has_7_in_same_block | INVALID |
-      | 4   | 4   | 9     | no_conflicts        | VALID   |
-      | 8   | 8   | 1     | has_1_in_row_col    | INVALID |
-      | 3   | 6   | 8     | fully_constrained   | INVALID |
-      | 5   | 3   | 4     | no_constraints      | VALID   |
+      | row | col | value | gridState          | result  |
+      | 0   | 0   | 5     | emptyGrid          | VALID   |
+      | 0   | 1   | 5     | has5InSameRow      | INVALID |
+      | 2   | 0   | 3     | has3InSameCol      | INVALID |
+      | 1   | 1   | 7     | has7InSameBlock    | INVALID |
+      | 4   | 4   | 9     | noConflicts        | VALID   |
+      | 8   | 8   | 1     | has1InRowAndCol    | INVALID |
+      | 3   | 6   | 8     | fullyConstrained   | INVALID |
+      | 5   | 3   | 4     | noConstraints      | VALID   |
 
   # =============================================================================
   # Orchestration and Main Execution Loop Tests
@@ -163,9 +164,9 @@ Feature: Basic Sudoku Solver Logic
   # =============================================================================
 
   Scenario: Load puzzles from JSON file
-    Given a puzzles.json file exists with 4 puzzles
+    Given a puzzles.json file exists with 5 puzzles
     When the PuzzleLoader is initialized with "../puzzles.json"
-    Then 4 puzzles should be successfully loaded
+    Then 5 puzzles should be successfully loaded
     And each puzzle should have a name, difficulty, description, and grid
 
   Scenario: Validate puzzle grid dimensions on load
@@ -237,12 +238,19 @@ Feature: Basic Sudoku Solver Logic
     And the puzzle should require all three techniques
     And the solution should be valid
 
-  Scenario: Fail to solve "Minimal Clues" puzzle with basic techniques
+  Scenario: Solve "Minimal Clues" puzzle using complete Hidden Singles
     Given the puzzle "Minimal Clues" is loaded from JSON
-    When the solver attempts to solve it with basic techniques only
-    Then the status should be "STUCK_ON_ADVANCED_LOGIC"
-    And some cells should still be empty
-    And no constraint violations should exist in partially filled cells
+    When the solver attempts to solve it
+    Then the status should be "SOLVED"
+    And all cells should be filled
+    And the solution should be valid (no constraint violations)
+
+  Scenario: Solve "Crosshatch Challenge" puzzle using row and column Hidden Singles
+    Given the puzzle "Crosshatch Challenge" is loaded from JSON
+    When the solver attempts to solve it
+    Then the status should be "SOLVED"
+    And all cells should be filled
+    And the solution should be valid (no constraint violations)
 
   Scenario: Handle empty grid appropriately
     Given an empty 9x9 grid with all zeros
