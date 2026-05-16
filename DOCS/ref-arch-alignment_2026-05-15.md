@@ -3,7 +3,7 @@
 **Date:** 2026-05-15 (updated 2026-05-16)
 **Analyst:** Codex (GPT-5); updated by Claude Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` vs `REFERENCE_ARCHITECTURE.md` v1.3
-**Status:** v1.3 re-baseline; MIG-04 and MIG-05 resolved 2026-05-16; MIG-09 resolved 2026-05-16
+**Status:** v1.3 re-baseline; MIG-04 and MIG-05 resolved 2026-05-16; MIG-09 and MIG-10 resolved 2026-05-16
 
 ---
 
@@ -228,7 +228,7 @@ All future migration tasks are labelled `MIG-**` as requested.
 | MIG-07 | Resolved 2026-05-15 | Medium | Backlog | Reconcile backlog against current v1.3 state | Governance references v1.3; summary counts match item statuses; `BACKLOG-019` is resolved with residual work tracked by MIG-04 and MIG-05; MIG items are tracked |
 | MIG-08 | Resolved 2026-05-15 | Medium | Templates | Complete template mandate details | `backlog.template.md`, `changelog.template.md`, and `naming-conventions.template.md` mark mandatory fields with `[REQUIRED]`; current governed docs reference lowercase templates |
 | MIG-09 | Resolved 2026-05-16 | Medium | Implementation logs | Normalize implementation-log location and naming policy | `DOCS/implementation-logs/` is authoritative; logs renamed to v1.3 format; `DOCS/.implementation/` is a read-only archive; DR-017 |
-| MIG-10 | Open | Medium | Parity artifacts | Add feature parity validation report process | Generated reports go to `.results/feature-parity/FEATURE_PARITY_[YYYYMMDDTHHMMZ].md`; process documented in orchestration design |
+| MIG-10 | Resolved 2026-05-16 | Medium | Parity artifacts | Add feature parity validation report process | `.batch/generate-feature-parity-report.ps1` created; reports write to `.results/feature-parity/FEATURE_PARITY_[YYYYMMDDTHHMMZ].md`; process documented in orchestration-design |
 | MIG-11 | Open | Low | Gherkin | Parameterize over-specified canonical steps before Stack 2 | Literal setup arrays are moved to parameters or Examples tables; canonical and Stack-local features remain synchronized |
 | MIG-12 | Open | Low | Metrics | Decide metric Stack identifier policy | Metrics use either full Stack names or a documented short-name mapping; orchestration docs and metrics output agree |
 
