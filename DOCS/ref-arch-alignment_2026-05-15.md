@@ -3,7 +3,7 @@
 **Date:** 2026-05-15 (updated 2026-05-16)
 **Analyst:** Codex (GPT-5); updated by Claude Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` vs `REFERENCE_ARCHITECTURE.md` v1.3
-**Status:** v1.3 re-baseline; MIG-04 and MIG-05 resolved 2026-05-16; MIG-09 and MIG-10 resolved 2026-05-16
+**Status:** v1.3 re-baseline; MIG-04 and MIG-05 resolved 2026-05-16; MIG-09, MIG-10, and MIG-11 resolved 2026-05-16
 
 ---
 
@@ -149,11 +149,17 @@ The v1.3 architecture tightens or makes explicit these obligations:
 
 ## Low Severity
 
-### L1. Over-specified Gherkin remains
+### L1. Over-specified Gherkin remains — Resolved by MIG-11
 
-Some canonical steps still embed literal values, for example array literals in setup steps. v1.3 Section 5.4 says these SHOULD be refactored to parameterized forms.
+**Requirement:** v1.3 §5.4 — steps that embed specific values inline SHOULD be refactored to accept those values as parameters.
 
-**Migration:** MIG-11.
+**Observed before migration:** `Given a row contains the values [1, 2, 0, 4, 5, 6, 7, 8, 9]` and `Given an empty cell has 3 possible candidates: [2, 5, 8]` embedded array literals in the step text, preventing reuse across Stacks.
+
+**Resolution:** Both scenarios converted to Scenario Outlines. Step text changed to `Given a row contains the values "<rowValues>"` and `Given an empty cell has <count> possible candidates: "<candidates>"`. Step definitions updated to `{string}` / `{int}` Cucumber expressions. Examples tables carry the data values. Canonical and Stack-local copies updated simultaneously. DR-018 records the decision.
+
+**Validation:** 43/43 scenarios pass; feature parity report shows PASS.
+
+**Migration:** MIG-11 resolved on 2026-05-16.
 
 ### L2. Metrics use short Stack identifier
 
@@ -229,7 +235,7 @@ All future migration tasks are labelled `MIG-**` as requested.
 | MIG-08 | Resolved 2026-05-15 | Medium | Templates | Complete template mandate details | `backlog.template.md`, `changelog.template.md`, and `naming-conventions.template.md` mark mandatory fields with `[REQUIRED]`; current governed docs reference lowercase templates |
 | MIG-09 | Resolved 2026-05-16 | Medium | Implementation logs | Normalize implementation-log location and naming policy | `DOCS/implementation-logs/` is authoritative; logs renamed to v1.3 format; `DOCS/.implementation/` is a read-only archive; DR-017 |
 | MIG-10 | Resolved 2026-05-16 | Medium | Parity artifacts | Add feature parity validation report process | `.batch/generate-feature-parity-report.ps1` created; reports write to `.results/feature-parity/FEATURE_PARITY_[YYYYMMDDTHHMMZ].md`; process documented in orchestration-design |
-| MIG-11 | Open | Low | Gherkin | Parameterize over-specified canonical steps before Stack 2 | Literal setup arrays are moved to parameters or Examples tables; canonical and Stack-local features remain synchronized |
+| MIG-11 | Resolved 2026-05-16 | Low | Gherkin | Parameterize over-specified canonical steps before Stack 2 | Two Scenario Outlines with Examples: row-values and candidates; step defs use `{string}`/`{int}`; 43/43 pass; parity PASS; DR-018 |
 | MIG-12 | Open | Low | Metrics | Decide metric Stack identifier policy | Metrics use either full Stack names or a documented short-name mapping; orchestration docs and metrics output agree |
 
 ---

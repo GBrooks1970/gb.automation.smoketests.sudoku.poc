@@ -11,9 +11,10 @@ import { GridCell } from '../questions/GridCell';
 // Unit Completion - Given steps
 // ---------------------------------------------------------------------------
 
-Given('a row contains the values [1, 2, 0, 4, 5, 6, 7, 8, 9]', async () => {
+Given('a row contains the values {string}', async (valuesStr: string) => {
+  const values = valuesStr.split(',').map(s => parseInt(s.trim(), 10));
   await actorCalled('Solver').attemptsTo(
-    InitialiseGrid.withRowValues({ row: 0, values: [1, 2, 0, 4, 5, 6, 7, 8, 9] })
+    InitialiseGrid.withRowValues({ row: 0, values })
   );
 });
 

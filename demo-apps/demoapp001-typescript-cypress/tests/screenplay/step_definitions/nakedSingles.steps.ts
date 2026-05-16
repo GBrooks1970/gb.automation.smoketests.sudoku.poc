@@ -30,7 +30,7 @@ Given('the numbers {int}, {int} are in the same 3x3 block',
     await actorCalled('Solver').attemptsTo(SetupGridState.valuesInBlock([a, b]));
   });
 
-Given('an empty cell has 3 possible candidates: [2, 5, 8]', async () => {
+Given('an empty cell has {int} possible candidates: {string}', async (_count: number, _candidatesStr: string) => {
   await actorCalled('Solver').attemptsTo(SetupGridState.threeCandidates());
 });
 
