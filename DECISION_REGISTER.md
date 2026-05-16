@@ -818,6 +818,121 @@ The actual filesystem rename of existing directories is tracked as **MIG-13** in
 
 ---
 
+## DR-017 — Make DOCS/implementation-logs/ the authoritative implementation-log directory (MIG-09)
+
+**Date:** 2026-05-16
+**Status:** Accepted — 2026-05-16
+
+### Context
+
+DR-013 created `DOCS/implementation-logs/README.md` as a v1.3 compatibility bridge, leaving `DOCS/.implementation/` as the authoritative content location and explicitly deferring the path decision to MIG-09. `REFERENCE_ARCHITECTURE.md` v1.3 §10.8 names `implementation-logs/` as the required directory and requires log files to use UTC date-prefix plus short-slug naming (`YYYY-MM-DD_short-session-topic.md`). The two existing logs in `DOCS/.implementation/` use the legacy `IMPL_LOG_YYYY-MM-DD_Long_Title.md` pattern and are not in the v1.3-required location.
+
+### Decision
+
+Make `DOCS/implementation-logs/` the authoritative implementation-log directory. Move existing logs from `DOCS/.implementation/` to `DOCS/implementation-logs/` and rename them to the v1.3 pattern:
+
+| Old path | New path |
+|----------|----------|
+| `DOCS/.implementation/IMPL_LOG_2026-01-30_Initial_Project_Creation.md` | `DOCS/implementation-logs/2026-01-30_initial-project-creation.md` |
+| `DOCS/.implementation/IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md` | `DOCS/implementation-logs/2026-05-14_naming-conventions-and-testing.md` |
+
+`DOCS/.implementation/` becomes a read-only archive. Its README is updated to reflect this. `DOCS/implementation-logs/README.md` is updated to be the authoritative directory index. Future implementation logs MUST be written to `DOCS/implementation-logs/` and MUST use `YYYY-MM-DD_short-session-topic.md` naming. The `TEMPLATE_Implementation_Log.md` file in `DOCS/.implementation/` is retained in the archive; the canonical template remains `DOCS/templates/implementation-log.template.md`.
+
+### Status
+
+`Accepted` — 2026-05-16
+
+### Consequences
+
+**Outcomes:**
+- `DOCS/implementation-logs/` is now the single authoritative location for implementation logs.
+- v1.3 §10.8 path and naming requirements are fully satisfied.
+- The DR-013 compatibility bridge for implementation logs is superseded by this decision.
+
+**Trade-offs:**
+- `DOCS/.implementation/` remains in the repository as an archive, which means two directories exist during the transition. The archive README clearly marks it as read-only.
+- Any existing external references to the old paths are stale but still resolve to the archive.
+
+**Compliance note:**
+- Implements `REFERENCE_ARCHITECTURE.md` v1.3 §10.8 path and naming requirements.
+- Supersedes the implementation-log deferral recorded in DR-013.
+
+### Alternatives Considered
+
+**Alternative: Keep DOCS/.implementation/ as authoritative and update the naming convention only**
+- Description: Rename files in place within `DOCS/.implementation/` and document that directory as the project's implementation of §10.8.
+- Rejected because: DR-013 explicitly created the compatibility bridge path to be resolved by MIG-09. Using the non-literal path would leave a permanent divergence when the literal path (`DOCS/implementation-logs/`) now has a proper README and is ready to become authoritative.
+
+**Alternative: Delete DOCS/.implementation/ entirely**
+- Description: Move all content and remove the old directory.
+- Rejected because: The TEMPLATE_Implementation_Log.md in `.implementation/` and the README history are useful references. Keeping it as a labelled archive is lower risk than deletion.
+
+### Related Decisions
+
+- DR-001 — Dot-prefix convention for DOCS subdirectories (established the original `.implementation/` location).
+- DR-013 — Added the compatibility bridge; this decision supersedes its implementation-log deferral.
+
+---
+
+## DR-018 — Parameterize over-specified Gherkin step text (MIG-11)
+
+**Date:** 2026-05-16
+**Status:** Accepted — 2026-05-16
+
+### Context
+
+`REFERENCE_ARCHITECTURE.md` v1.3 §5.4 states that steps that embed specific values inline SHOULD be refactored to accept those values as parameters, and §8.2 states that any change to step Gherkin text MUST be applied to all Stacks simultaneously and recorded in the Decision Register. Two canonical scenarios embedded inline array literals that block portability across future Stacks:
+
+1. `Given a row contains the values [1, 2, 0, 4, 5, 6, 7, 8, 9]` — the row array is a literal in the step text.
+2. `Given an empty cell has 3 possible candidates: [2, 5, 8]` — both the count and the candidate list are literals in the step text.
+
+### Decision
+
+Convert both scenarios to Scenario Outlines with array data in Examples tables. Change the step text as follows:
+
+| Old step text | New step text |
+|---------------|---------------|
+| `Given a row contains the values [1, 2, 0, 4, 5, 6, 7, 8, 9]` | `Given a row contains the values "<rowValues>"` (Examples: `rowValues = 1, 2, 0, 4, 5, 6, 7, 8, 9`) |
+| `Given an empty cell has 3 possible candidates: [2, 5, 8]` | `Given an empty cell has <count> possible candidates: "<candidates>"` (Examples: `count = 3`, `candidates = 2, 5, 8`) |
+
+Step definitions are updated to use `{string}` (and `{int}`) Cucumber expressions rather than hardcoded literal text. The parsed values drive the same underlying Task calls. The canonical feature file and the Stack-local copy are updated simultaneously. Scenario count remains 43.
+
+### Status
+
+`Accepted` — 2026-05-16
+
+### Consequences
+
+**Outcomes:**
+- Both step texts are now reusable across future Stacks without duplication of the literal data.
+- Step definitions use standard Cucumber expression parameters, making them easier to extend with additional Examples rows.
+- v1.3 §5.4 SHOULD requirement is satisfied for the identified over-specified steps.
+
+**Trade-offs:**
+- Scenario Outline syntax is slightly more verbose than plain Scenario syntax for single-row cases.
+- Step definition parsing adds a small amount of string-split logic, which is a mild increase in complexity.
+
+**Compliance note:**
+- Implements `REFERENCE_ARCHITECTURE.md` v1.3 §5.4 (parameterised steps) and §8.2 (step text parity across Stacks).
+- Applied simultaneously to canonical (`features-shared/`) and Stack-local (`demo-apps/demoapp001-typescript-cypress/tests/features/`) feature files.
+
+### Alternatives Considered
+
+**Alternative: Leave both steps as-is and document the inline literals as acceptable**
+- Description: Record a dispensation in the Decision Register rather than refactoring the step text.
+- Rejected because: §5.4 requires refactoring before Stack 2 onboarding to ensure portable step definitions. Leaving literals in place defers the problem to Stack 2 implementors.
+
+**Alternative: Parameterize all inline numeric literals in step text (e.g., "3 empty cells", "3 different puzzles")**
+- Description: Extend the refactoring to every step that contains an inline number.
+- Rejected because: Steps like `Given {int} empty cells each have exactly one possible value` already use the `{int}` Cucumber expression — the number in the Gherkin is a matched parameter, not a fixed literal in the step definition. Only steps where the literal is in the step *definition string itself* are over-specified.
+
+### Related Decisions
+
+- DR-012 — Active v1.3 governance baseline.
+- DR-015 — Step definition shape (thin step definitions).
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -836,5 +951,5 @@ The actual filesystem rename of existing directories is tracked as **MIG-13** in
 
 ---
 
-*Last entry: DR-016. Next ID: DR-017.*
+*Last entry: DR-018. Next ID: DR-019.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

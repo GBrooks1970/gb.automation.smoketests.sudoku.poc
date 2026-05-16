@@ -3,7 +3,7 @@
 **Date:** 2026-05-15 (updated 2026-05-16)
 **Analyst:** Codex (GPT-5); updated by Claude Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` vs `REFERENCE_ARCHITECTURE.md` v1.3
-**Status:** v1.3 re-baseline; MIG-04 and MIG-05 resolved 2026-05-16
+**Status:** v1.3 re-baseline; MIG-04 and MIG-05 resolved 2026-05-16; MIG-09 resolved 2026-05-16
 
 ---
 
@@ -137,11 +137,15 @@ The v1.3 architecture tightens or makes explicit these obligations:
 
 **Migration:** MIG-08 resolved on 2026-05-15.
 
-### M5. Implementation log location and naming diverge from v1.3
+### M5. Implementation log location and naming diverge from v1.3 — Resolved by MIG-09
 
-Implementation logs exist, but under `DOCS/.implementation/` with names like `IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md`. v1.3 expects an `implementation-logs/` directory and UTC date-prefix plus short slug naming.
+**Requirement:** v1.3 §10.8 names `implementation-logs/` as the required directory and requires `YYYY-MM-DD_short-session-topic.md` naming.
 
-**Migration:** MIG-09.
+**Observed before migration:** Implementation logs existed in `DOCS/.implementation/` with names like `IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md`. The compatibility bridge at `DOCS/implementation-logs/README.md` (DR-013) pointed to the dot-prefix directory but did not make it authoritative.
+
+**Resolution:** DR-017 makes `DOCS/implementation-logs/` the authoritative directory. Existing logs moved via `git mv` and renamed to v1.3 format: `2026-01-30_initial-project-creation.md` and `2026-05-14_naming-conventions-and-testing.md`. `DOCS/.implementation/` is now a read-only archive. `DOCS/implementation-logs/README.md` updated to be the authoritative directory index with a log table and creation instructions.
+
+**Migration:** MIG-09 resolved on 2026-05-16.
 
 ## Low Severity
 
@@ -223,7 +227,7 @@ All future migration tasks are labelled `MIG-**` as requested.
 | MIG-06 | Resolved 2026-05-15 | Medium | AI agent guide | Refresh `CLAUDE.md` for v1.3 and current Screenplay implementation | No v1.2 stale baseline; no "No Screenplay Layer" limitation; current feature paths, DR range, backlog taxonomy, and risks are accurate |
 | MIG-07 | Resolved 2026-05-15 | Medium | Backlog | Reconcile backlog against current v1.3 state | Governance references v1.3; summary counts match item statuses; `BACKLOG-019` is resolved with residual work tracked by MIG-04 and MIG-05; MIG items are tracked |
 | MIG-08 | Resolved 2026-05-15 | Medium | Templates | Complete template mandate details | `backlog.template.md`, `changelog.template.md`, and `naming-conventions.template.md` mark mandatory fields with `[REQUIRED]`; current governed docs reference lowercase templates |
-| MIG-09 | Open | Medium | Implementation logs | Normalize implementation-log location and naming policy | `implementation-logs` path strategy implemented; future log naming follows `YYYY-MM-DD_short-session-topic.md`; legacy files are preserved or mapped |
+| MIG-09 | Resolved 2026-05-16 | Medium | Implementation logs | Normalize implementation-log location and naming policy | `DOCS/implementation-logs/` is authoritative; logs renamed to v1.3 format; `DOCS/.implementation/` is a read-only archive; DR-017 |
 | MIG-10 | Open | Medium | Parity artifacts | Add feature parity validation report process | Generated reports go to `.results/feature-parity/FEATURE_PARITY_[YYYYMMDDTHHMMZ].md`; process documented in orchestration design |
 | MIG-11 | Open | Low | Gherkin | Parameterize over-specified canonical steps before Stack 2 | Literal setup arrays are moved to parameters or Examples tables; canonical and Stack-local features remain synchronized |
 | MIG-12 | Open | Low | Metrics | Decide metric Stack identifier policy | Metrics use either full Stack names or a documented short-name mapping; orchestration docs and metrics output agree |

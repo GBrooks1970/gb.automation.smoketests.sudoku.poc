@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-16 (MIG-13 resolved)
+**Last Updated:** 2026-05-16 (MIG-09 resolved)
 **Governed by:** `REFERENCE_ARCHITECTURE.md` v1.3 Section 10.1
 **Template:** `DOCS/templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/BACKLOG.md`
@@ -26,9 +26,9 @@ Per v1.3 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 18 |
-| In Progress | 0 |
-| Resolved | 15 |
+| Open | 16 |
+| In Progress | 1 |
+| Resolved | 16 |
 | **Total** | **33** |
 
 | Area | Current state |
@@ -53,7 +53,7 @@ Per v1.3 Section 10.1:
 | MIG-06 | Refresh AI agent guide for v1.3 | All | Agent guidance currency | Medium | Resolved | DR-012, DR-013, DR-014 |
 | MIG-07 | Reconcile backlog against v1.3 state | All | Planning currency | Medium | Resolved | None required |
 | MIG-08 | Complete template mandate details | All | Template compliance | Medium | Resolved | None required |
-| MIG-09 | Normalize implementation-log location and naming policy | All | Documentation path and naming | Medium | Open | Pending |
+| MIG-09 | Normalize implementation-log location and naming policy | All | Documentation path and naming | Medium | Resolved | DR-017 |
 | MIG-10 | Add feature parity validation report process | All | Generated parity artifacts | Medium | Open | Pending |
 | MIG-11 | Parameterize over-specified canonical Gherkin steps | All | Gherkin portability | Low | Open | Pending if step contract changes |
 | MIG-12 | Decide metrics Stack identifier policy | All | Multi-Stack reporting | Low | Open | Pending |
@@ -265,6 +265,7 @@ Acceptance criteria:
 | MIG-04 | Wire Screenplay runtime state through Actor Memory | DEMOAPP001 | 2026-05-16 | TakeNotes wired; all 6 Memory keys runtime-active; DR-015 |
 | MIG-05 | Remove direct Ability calls from step definitions | DEMOAPP001 | 2026-05-16 | All step files thin; 8 new Tasks, 5 new Questions; DR-015 |
 | MIG-13 | Rename Stack filesystem directories to kebab-case | DEMOAPP001 and future Stacks | 2026-05-16 | R100 renames via git mv; ~50 files updated; 43/43 pass; PR #13; DR-016 |
+| MIG-09 | Normalize implementation-log location and naming policy | All | 2026-05-16 | Log files moved to `DOCS/implementation-logs/` with v1.3 naming; archive in `.implementation/`; DR-017 |
 
 ---
 
