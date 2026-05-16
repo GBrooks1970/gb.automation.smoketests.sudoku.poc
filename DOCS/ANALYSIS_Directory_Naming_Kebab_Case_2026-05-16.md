@@ -3,7 +3,7 @@
 **Date:** 2026-05-16
 **Author:** Claude Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` — impact of converting UPPER_CASE directory names (e.g. `DEMOAPPS`, `DEMOAPP001_TYPESCRIPT_CYPRESS`) to kebab-case equivalents (e.g. `demo-apps`, `demoapp001-typescript-cypress`)
-**Status:** Phase 1 complete — branch created, file inventory finalised, baseline confirmed; Phase 2 pending
+**Status:** Phase 2 complete — filesystem renames done, all R100, tests green from new path; Phase 3 pending
 
 ---
 
@@ -339,30 +339,32 @@ Per `REFERENCE_ARCHITECTURE.md` v1.3 §10.7, review outputs are read-only once w
 
 ---
 
-### Phase 2 — Filesystem rename (1 session)
+### Phase 2 — Filesystem rename ✅ Complete 2026-05-16
 
-Rename directories using `git mv` (not OS rename) to preserve history:
+Three `git mv` renames executed on `refactor/kebab-case-directories`:
 
 ```bash
-# Step 1 — rename Stack directory (inner first)
-git mv DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS DEMOAPPS/demoapp001-typescript-cypress
-
-# Step 2 — rename group container
-git mv DEMOAPPS demo-apps
-
-# Step 3 (optional) — rename feature store
-git mv features_shared features-shared
+git mv "DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS" "DEMOAPPS/demoapp001-typescript-cypress"
+git mv "DEMOAPPS" "demo-apps"
+git mv "features_shared" "features-shared"
 ```
 
-> **Windows note:** If git refuses a same-directory case-only rename, use a two-step approach:
-> ```bash
-> git mv DEMOAPPS DEMOAPPS_tmp && git mv DEMOAPPS_tmp demo-apps
-> ```
+**Rename verification:** `git diff --cached --name-status` confirmed every file shows `R100` (100% rename similarity — pure rename, no delete+add, full history preserved).
 
-Commit Phase 2 immediately (filesystem rename only, no content changes):
+**Result structure:**
 ```
-git commit -m "refactor: rename DEMOAPPS → demo-apps, DEMOAPP001_TYPESCRIPT_CYPRESS → demoapp001-typescript-cypress (filesystem only)"
+demo-apps/
+  demoapp001-typescript-cypress/   ← was DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS
+features-shared/                   ← was features_shared
 ```
+
+**npm test from new path (pre-content-change validation):**
+```
+43 scenarios (43 passed)
+241 steps (241 passed)
+0m02.618s
+```
+`npm test` passed from `demo-apps/demoapp001-typescript-cypress/` **before any content edits** — confirming the Phase 1 finding: all TypeScript source uses `__dirname`-relative paths and is completely rename-safe. No content changes are needed to the TypeScript source to make tests pass.
 
 ---
 
