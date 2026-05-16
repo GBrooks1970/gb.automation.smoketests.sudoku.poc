@@ -3,7 +3,7 @@
 **Date:** 2026-05-15 (updated 2026-05-16)
 **Analyst:** Codex (GPT-5); updated by Claude Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` vs `REFERENCE_ARCHITECTURE.md` v1.3
-**Status:** v1.3 re-baseline; MIG-04 and MIG-05 resolved 2026-05-16; MIG-09, MIG-10, and MIG-11 resolved 2026-05-16
+**Status:** v1.3 re-baseline; MIG-04 and MIG-05 resolved 2026-05-16; MIG-09 through MIG-12 resolved 2026-05-16
 
 ---
 
@@ -161,11 +161,15 @@ The v1.3 architecture tightens or makes explicit these obligations:
 
 **Migration:** MIG-11 resolved on 2026-05-16.
 
-### L2. Metrics use short Stack identifier
+### L2. Metrics use short Stack identifier — Resolved by MIG-12
 
-Metrics currently use `DEMOAPP001` rather than the full canonical Stack directory name `DEMOAPP001_TYPESCRIPT_CYPRESS`. This is workable, but should be explicitly documented or normalized before multi-Stack reporting.
+**Requirement:** Multi-Stack metrics must have an explicit, documented short-name-to-full-name mapping to remain unambiguous as Stacks are added.
 
-**Migration:** MIG-12.
+**Observed before migration:** Metrics used `DEMOAPP001` without a formal record of the mapping to `DEMOAPP001_TYPESCRIPT_CYPRESS`. DR-016 established the short identifier informally but the orchestration script and design document did not cross-reference it.
+
+**Resolution:** `run-demoapp001.ps1` now carries an inline comment naming the short identifier, the full canonical Stack name, the filesystem directory, and a reference to DR-016 and the orchestration-design Section 6. The stale RA v1.2 comment in the retention section was corrected to v1.3. `DOCS/architecture/orchestration-design.md` Section 6 provides the formal mapping table.
+
+**Migration:** MIG-12 resolved on 2026-05-16.
 
 ---
 
@@ -236,7 +240,7 @@ All future migration tasks are labelled `MIG-**` as requested.
 | MIG-09 | Resolved 2026-05-16 | Medium | Implementation logs | Normalize implementation-log location and naming policy | `DOCS/implementation-logs/` is authoritative; logs renamed to v1.3 format; `DOCS/.implementation/` is a read-only archive; DR-017 |
 | MIG-10 | Resolved 2026-05-16 | Medium | Parity artifacts | Add feature parity validation report process | `.batch/generate-feature-parity-report.ps1` created; reports write to `.results/feature-parity/FEATURE_PARITY_[YYYYMMDDTHHMMZ].md`; process documented in orchestration-design |
 | MIG-11 | Resolved 2026-05-16 | Low | Gherkin | Parameterize over-specified canonical steps before Stack 2 | Two Scenario Outlines with Examples: row-values and candidates; step defs use `{string}`/`{int}`; 43/43 pass; parity PASS; DR-018 |
-| MIG-12 | Open | Low | Metrics | Decide metric Stack identifier policy | Metrics use either full Stack names or a documented short-name mapping; orchestration docs and metrics output agree |
+| MIG-12 | Resolved 2026-05-16 | Low | Metrics | Decide metric Stack identifier policy | Short identifier `DEMOAPP001` documented in run script (DR-016 ref) and orchestration-design Section 6; RA v1.2 comment corrected to v1.3 |
 
 ---
 

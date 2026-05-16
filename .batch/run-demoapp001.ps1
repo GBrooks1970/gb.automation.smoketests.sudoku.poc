@@ -16,6 +16,11 @@ New-Item -ItemType Directory -Path $metricsDir -Force | Out-Null
 New-Item -ItemType Directory -Path $logsDir -Force | Out-Null
 
 $timestamp = (Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssZ')
+
+# Stack short identifier used in metric key prefixes (DR-016 / MIG-12).
+# Full canonical Stack name:  DEMOAPP001_TYPESCRIPT_CYPRESS
+# Filesystem directory:       demo-apps/demoapp001-typescript-cypress/
+# See DOCS/architecture/orchestration-design.md Section 6 for the full mapping.
 $stackName = 'DEMOAPP001'
 
 $buildLog = Join-Path $logsDir ("${stackName}_build_${timestamp}.log")
@@ -113,7 +118,7 @@ $mdLines = @(
 $mdLines | Out-File -FilePath $metricsMd -Encoding utf8
 
 # Retention cleanup for logs/metrics older than retention threshold
-# Per RA v1.2 §9.3: Preserve markdown metric summary files, purge old log files
+# Per RA v1.3 §9.3: Preserve markdown metric summary files, purge old log files
 $cutoff = (Get-Date).ToUniversalTime().AddDays(-$RetentionDays)
 
 # Remove old log files (no preservation required)

@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-16 (MIG-09, MIG-10, and MIG-11 resolved)
+**Last Updated:** 2026-05-16 (MIG-09 through MIG-12 resolved)
 **Governed by:** `REFERENCE_ARCHITECTURE.md` v1.3 Section 10.1
 **Template:** `DOCS/templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/BACKLOG.md`
@@ -26,9 +26,9 @@ Per v1.3 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 14 |
+| Open | 13 |
 | In Progress | 1 |
-| Resolved | 18 |
+| Resolved | 19 |
 | **Total** | **33** |
 
 | Area | Current state |
@@ -56,7 +56,7 @@ Per v1.3 Section 10.1:
 | MIG-09 | Normalize implementation-log location and naming policy | All | Documentation path and naming | Medium | Resolved | DR-017 |
 | MIG-10 | Add feature parity validation report process | All | Generated parity artifacts | Medium | Resolved | None required |
 | MIG-11 | Parameterize over-specified canonical Gherkin steps | All | Gherkin portability | Low | Resolved | DR-018 |
-| MIG-12 | Decide metrics Stack identifier policy | All | Multi-Stack reporting | Low | Open | Pending |
+| MIG-12 | Decide metrics Stack identifier policy | All | Multi-Stack reporting | Low | Resolved | DR-016 |
 | MIG-13 | Rename Stack filesystem directories to kebab-case | DEMOAPP001 and future Stacks | Directory naming alignment | Medium | Resolved | DR-016 |
 
 ---
@@ -268,6 +268,7 @@ Acceptance criteria:
 | MIG-09 | Normalize implementation-log location and naming policy | All | 2026-05-16 | Log files moved to `DOCS/implementation-logs/` with v1.3 naming; archive in `.implementation/`; DR-017 |
 | MIG-10 | Add feature parity validation report process | All | 2026-05-16 | `.batch/generate-feature-parity-report.ps1` created; reports write to `.results/feature-parity/`; orchestration-design updated |
 | MIG-11 | Parameterize over-specified canonical Gherkin steps | All | 2026-05-16 | Two scenarios converted to Scenario Outlines with Examples; step defs parameterized; 43/43 pass; parity PASS; DR-018 |
+| MIG-12 | Decide metrics Stack identifier policy | All | 2026-05-16 | Short identifier `DEMOAPP001` documented in run script (DR-016 ref) and orchestration-design Section 6; stale RA v1.2 comment corrected |
 
 ---
 
