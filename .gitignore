@@ -1,4 +1,11 @@
-/DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/node_modules
-/DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/dist
+# Stack dependencies — matches any Stack directory at any depth
+node_modules/
+
+# Compiled TypeScript output — matches any Stack directory at any depth
+dist/
+
+# Batch script text output
 /.batch/output/*.txt
+
+# Test execution results
 /.results/
