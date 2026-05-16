@@ -7,7 +7,7 @@ param(
 $ErrorActionPreference = 'Stop'
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
-$stackDir = Join-Path $repoRoot 'DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS'
+$stackDir = Join-Path $repoRoot 'demo-apps/demoapp001-typescript-cypress'
 $resultsRoot = Join-Path $repoRoot '.results'
 $metricsDir = Join-Path $resultsRoot '.metrics'
 $logsDir = Join-Path $resultsRoot 'logs'

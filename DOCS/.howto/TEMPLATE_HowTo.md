@@ -35,7 +35,7 @@
 **You need:**
 - [ ] <!-- e.g. Node.js 16+ installed (`node --version` to check) -->
 - [ ] <!-- e.g. VS Code with the TypeScript extension -->
-- [ ] <!-- e.g. `npm install` run inside `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/` -->
+- [ ] <!-- e.g. `npm install` run inside `demo-apps/demoapp001-typescript-cypress/` -->
 
 **You should know:**
 - <!-- e.g. How to open a terminal -->
@@ -72,7 +72,7 @@ npm install
   File paths are relative to the repo root unless stated otherwise.
 -->
 
-Open [`DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts`](../../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts).
+Open [`demo-apps/demoapp001-typescript-cypress/app_src/SudokuSolver.ts`](../../demo-apps/demoapp001-typescript-cypress/app_src/SudokuSolver.ts).
 
 ---
 

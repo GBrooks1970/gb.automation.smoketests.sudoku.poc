@@ -540,7 +540,7 @@ Feature: Audit Trail Logging
 ## File Structure
 
 ```
-DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/
+demo-apps/demoapp001-typescript-cypress/
 ├── app_src/
 │   ├── audit/
 │   │   ├── AuditLogger.ts          # Core audit logger

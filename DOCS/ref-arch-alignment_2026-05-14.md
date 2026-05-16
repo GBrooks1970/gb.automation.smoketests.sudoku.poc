@@ -21,7 +21,7 @@ The full Screenplay layer is now implemented. Layer 2 (Step Definitions), Layer 
 | Screenplay Layer 4 — Abilities + Cast | ✅ Complete — Phase 2 (DR-008) | — |
 | Screenplay Layer 3 — Tasks + Questions | ✅ Complete — Phase 3 | — |
 | Screenplay Layer 2 — Step Definitions | ✅ Complete — Phase 4 (43 scenarios, 241 steps passing) | — |
-| Canonical Feature Store (`features_shared/`) | ✅ Complete — Phase 1 (DR-007) | — |
+| Canonical Feature Store (`features-shared/`) | ✅ Complete — Phase 1 (DR-007) | — |
 | Memory key constants | ✅ Complete — Phase 2 (6 constants, RA §8.1) | — |
 | Directory blueprint — Screenplay dirs | ✅ Complete — all 6 dirs populated (abilities, actors, tasks, questions, support, step_definitions) | — |
 | CLI surface contract | Partial | High |
@@ -79,7 +79,7 @@ Phase 8 closes the previously identified CLI hardening gaps while preserving the
 ```
 Layer 1 — Feature Files (Gherkin)
   File: tests/features/BasicSudokuSolverLogic.feature (Stack-local)
-        features_shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature (canonical)
+        features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature (canonical)
   Status: ✅ COMPLETE — 43 scenarios; @util + @stack-demoapp001 tags; canonical store live
 
 Layer 2 — Step Definitions
@@ -160,12 +160,12 @@ export const GRID_SNAPSHOT        = 'GRID_SNAPSHOT';
 ```
 REQUIRED (§4)                          ACTUAL
 ─────────────────────────────────────  ───────────────────────────────────────────────
-features_shared/                       PRESENT ✅ (Phase 1 — DR-007)
+features-shared/                       PRESENT ✅ (Phase 1 — DR-007)
   util-tests/
     sudoku-solver/
       BasicSudokuSolverLogic.feature   PRESENT ✅ (@util tag; canonical source)
 
-DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/  DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/
+demo-apps/demoapp001-typescript-cypress/  demo-apps/demoapp001-typescript-cypress/
   app_src/                (subject)      app_src/               ✅
   tests/                               tests/
     features/             PRESENT ✅     features/BasicSudokuSolverLogic.feature ✅ (@util @stack-demoapp001)
@@ -216,11 +216,11 @@ The dot-prefix convention is intentional — keeping documentation directories v
 **Phase 1 complete (DR-007).** The Canonical Feature Store now exists:
 
 ```
-features_shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature   ← canonical (@util)
-DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/features/BasicSudokuSolverLogic.feature  ← Stack-local (@util @stack-demoapp001)
+features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature   ← canonical (@util)
+demo-apps/demoapp001-typescript-cypress/tests/features/BasicSudokuSolverLogic.feature  ← Stack-local (@util @stack-demoapp001)
 ```
 
-When a second Stack (Python, C#) is onboarded, it copies from `features_shared/` — the authoritative source is now in place.
+When a second Stack (Python, C#) is onboarded, it copies from `features-shared/` — the authoritative source is now in place.
 
 ### 5.2 Feature File Quality Assessment
 
@@ -296,7 +296,7 @@ Then the system should place {int} in the only valid cell in row {int}
 | DR-004 | Sequential Stack migration strategy (TS → Python → C#) | 0 |
 | DR-005 | Feature file unchanged during Screenplay migration | 0 |
 | DR-006 | Adopt RA v1.1; correct NAMING_CONVENTIONS.md and BACKLOG.md paths | 0 |
-| DR-007 | Establish features_shared/ as Canonical Feature Store | 1 |
+| DR-007 | Establish features-shared/ as Canonical Feature Store | 1 |
 
 ### 6.4 ~~Decision Needed~~ — v1.1 Adoption: DR-006 ✅
 
@@ -312,7 +312,7 @@ The project now operates under v1.1. A `DECISION_REGISTER.md` entry should recor
 
 ## 7. Stack-Level Documentation (§10.2)
 
-Stack-level documentation is now present inside `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/docs/` and aligned to the required templates.
+Stack-level documentation is now present inside `demo-apps/demoapp001-typescript-cypress/docs/` and aligned to the required templates.
 
 | Document | Template | Status |
 |----------|----------|--------|
@@ -377,7 +377,7 @@ Phase 6 is complete. `DOCS/architecture/` now exists with all required documents
 | Requirement | Status | Notes |
 |-------------|--------|-------|
 | Stack inventory (name, language, framework, surface type, port/entry) | ✅ Added Phase 0 | Table with DEMOAPP001 and future Python/C# stacks |
-| Canonical feature update procedure | ✅ Added Phase 0 | 7-step procedure; includes note that `features_shared/` doesn't yet exist |
+| Canonical feature update procedure | ✅ Added Phase 0 | 7-step procedure; includes note that `features-shared/` doesn't yet exist |
 | Parity rules summary (Memory keys, step shape, signatures) | ⚠ Deferred | Not yet relevant (one Stack); added to Risk Register for pre-Stack-2 action |
 | Risk register | ✅ Added Phase 0 | 6 entries covering fragile areas |
 | Reference to `DECISION_REGISTER.md` | ✅ Added Phase 0 | Authoritative References table added |
@@ -422,7 +422,7 @@ It is worth stating clearly what the project gets right, as these are the founda
 | **BACKLOG.md** | Detailed sprint tracking; root summary + `DOCS/.planning/` detail |
 | **Decision Register** | DR-001–008 — all structural decisions recorded with full context |
 | **Template mandate** | 14/14 templates in `DOCS/templates/` — Phase 0 complete |
-| **Canonical Feature Store** | `features_shared/util-tests/sudoku-solver/` — Phase 1 complete |
+| **Canonical Feature Store** | `features-shared/util-tests/sudoku-solver/` — Phase 1 complete |
 | **Feature tagging** | `@util` on canonical; `@util @stack-demoapp001` on Stack-local copy |
 | **cucumber.js routing** | Reads from `tests/features/` only — no duplicate scenario risk |
 | **Serenity/JS infrastructure** | v3.43.2 installed; `@serenity-js/core`, `cucumber`, `assertions` — Phase 2 |
@@ -471,7 +471,7 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 
 | # | Action | Status | Notes |
 |---|--------|--------|-------|
-| 1 | Create `features_shared/util-tests/sudoku-solver/` | ✅ Done | — |
+| 1 | Create `features-shared/util-tests/sudoku-solver/` | ✅ Done | — |
 | 2 | Write canonical feature file with `@util` at Feature level | ✅ Done | Surface tag only — no Stack tags |
 | 3 | Create `tests/features/` Stack-local directory | ✅ Done | — |
 | 4 | Write Stack-local copy with `@util @stack-demoapp001` | ✅ Done | Inherits `@util`; adds Stack tag |
@@ -482,7 +482,7 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 **Verification:**
 - `npm test` — 43 scenarios / 241 steps, all passing ✅
 - `@util @stack-demoapp001` tags visible on all scenarios in runner output ✅
-- `features_shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature` — canonical source ✅
+- `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature` — canonical source ✅
 - `tests/features/BasicSudokuSolverLogic.feature` — Stack-local copy ✅
 - `DECISION_REGISTER.md` DR-007 — recorded ✅
 
@@ -575,7 +575,7 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 *Creates required stack-level documents (§10.2).*
 
 **Actions:**
-1. Create `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/docs/` directory
+1. Create `demo-apps/demoapp001-typescript-cypress/docs/` directory
 2. Author `docs/ARCHITECTURE.md` from `DOCS/templates/TEMPLATE_Stack_Architecture.md`
 3. Author `docs/SCREENPLAY_GUIDE.md` from `DOCS/templates/TEMPLATE_Screenplay_Guide.md`
 4. Author `docs/QA_STRATEGY.md` from `DOCS/templates/TEMPLATE_QA_Strategy.md`
@@ -655,7 +655,7 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 | Phase | Closes gap in RA section | Effort | Sprint | Status |
 |-------|--------------------------|--------|--------|--------|
 | 0 — Documentation scaffold | §10.1, §10.5, §10.6, §10.4 | 1–2 days | Sprint 3 | ✅ Fully complete (DR-001–007; 14/14 templates; all governance docs) |
-| 1 — Canonical Feature Store | §5.1–5.3 | 0.5 day | Sprint 3 | ✅ Complete — `features_shared/` live; DR-007; 43 scenarios green |
+| 1 — Canonical Feature Store | §5.1–5.3 | 0.5 day | Sprint 3 | ✅ Complete — `features-shared/` live; DR-007; 43 scenarios green |
 | 2 — Screenplay Foundation | §3, §4 (abilities, actors) | 2–3 h | Sprint 3 | ✅ Complete — Serenity/JS 3.43.2; Abilities, Cast, Memory keys; DR-008 |
 | 3 — Tasks and Questions | §3.3, §3.4 | 4–6 h | Sprint 3 | ✅ Complete — 6 Tasks, 6 Questions; `Interaction.where()` pattern |
 | 4 — Step Definition Migration | §2.2, §3, layer model | 4–6 h | Sprint 3 | ✅ Complete — 10 step files; 43 scenarios / 241 steps passing; procedural World deleted |
@@ -680,7 +680,7 @@ The following items should be added to `DOCS/.planning/BACKLOG.md` and cross-ref
 | NEW-004 | Create NAMING_CONVENTIONS.md at `DOCS/.design/` (v1.1: `DOCS/design/`) | 0 | High | ✅ Done (corrected from root) |
 | NEW-005 | Create DOCS/templates/ with all 14 required templates | 0 | High | ✅ Done — 14/14 templates |
 | NEW-005a | Record v1.1 adoption as DR-006 | 0 | High | ✅ Done — DR-006 |
-| NEW-006 | Create features_shared/ canonical feature store | 1 | High | ✅ Done — DR-007 |
+| NEW-006 | Create features-shared/ canonical feature store | 1 | High | ✅ Done — DR-007 |
 | NEW-007 | Install Serenity/JS and create Screenplay directory structure | 2 | High | ✅ Done — v3.43.2; 6 dirs |
 | NEW-008 | Define Memory key constants in screenplay/support/memory-keys.ts | 2 | High | ✅ Done — 6 constants |
 | NEW-009 | Implement UseSudokuSolver and LoadPuzzles Abilities | 2 | High | ✅ Done — DR-008 (extends Ability) |

@@ -90,7 +90,7 @@ FUNCTION TechniqueName(inputs):
 
 ### Implementation Reference
 
-- [Language]: [`ClassName.methodName()`](../../DEMOAPPS/.../FileName.ts#L00)
+- [Language]: [`ClassName.methodName()`](../../demo-apps/.../FileName.ts#L00)
 - Called [N times / per iteration / etc.]
 
 ---

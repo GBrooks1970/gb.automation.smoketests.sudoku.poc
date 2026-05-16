@@ -34,7 +34,7 @@ This is the MVP implementation of the web-based solver visualisation feature.
 
 > **Architecture note (updated 2026-04-02):** Per BACKLOG-017/018, there is no separate web server. The REST API Express server (BACKLOG-009, `api/server.ts`) serves the Web UI static files via `express.static('web/public')`. Tasks 1.2, 1.4, and 1.5 are replaced by a single static-file mount in the existing server. Task 1.6 verification is done against the REST API's port.
 
-- [ ] **1.1** Create web app static asset directory at `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/web/public/`
+- [ ] **1.1** Create web app static asset directory at `demo-apps/demoapp001-typescript-cypress/web/public/`
 - [ ] **1.2** ~~Create `web/server.ts`~~ — **Not required.** Add `app.use(express.static('web/public'))` to the REST API server (`api/server.ts`) instead.
 - [ ] **1.3** Create `web/public/` directory for static assets (HTML, CSS, JS)
 - [ ] **1.4** ~~Update `package.json` — Add `npm run web` script~~ — **Not required.** Web UI is served by `npm run api`.

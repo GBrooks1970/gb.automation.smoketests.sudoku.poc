@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-16
+**Last Updated:** 2026-05-16 (MIG-13 resolved)
 **Governed by:** `REFERENCE_ARCHITECTURE.md` v1.3 Section 10.1
 **Template:** `DOCS/templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/BACKLOG.md`
@@ -26,18 +26,18 @@ Per v1.3 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 19 |
-| In Progress | 1 |
-| Resolved | 14 |
-| **Total** | **34** |
+| Open | 18 |
+| In Progress | 0 |
+| Resolved | 15 |
+| **Total** | **33** |
 
 | Area | Current state |
 |------|---------------|
 | Current execution baseline | 43 scenarios / 241 steps passing |
 | Active Reference Architecture | v1.3 |
-| Active Stack | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demoapp001-typescript-cypress/` — MIG-13 pending) |
-| Current sprint focus | Directory rename governance, CI wiring, output decoupling |
-| Highest parity risks | MIG-13 directory rename (pre-Stack 2); MIG-09 impl-log naming |
+| Active Stack | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`) |
+| Current sprint focus | CI wiring, output decoupling, implementation-log normalization |
+| Highest parity risks | MIG-09 impl-log naming; MIG-10 parity report process (pre-Stack 2) |
 
 ---
 
@@ -57,7 +57,7 @@ Per v1.3 Section 10.1:
 | MIG-10 | Add feature parity validation report process | All | Generated parity artifacts | Medium | Open | Pending |
 | MIG-11 | Parameterize over-specified canonical Gherkin steps | All | Gherkin portability | Low | Open | Pending if step contract changes |
 | MIG-12 | Decide metrics Stack identifier policy | All | Multi-Stack reporting | Low | Open | Pending |
-| MIG-13 | Rename Stack filesystem directories to kebab-case | DEMOAPP001 and future Stacks | Directory naming alignment | Medium | Open | DR-016 |
+| MIG-13 | Rename Stack filesystem directories to kebab-case | DEMOAPP001 and future Stacks | Directory naming alignment | Medium | Resolved | DR-016 |
 
 ---
 
@@ -198,7 +198,7 @@ Acceptance criteria:
 
 Acceptance criteria:
 
-- [ ] `DEMOAPPS/DEMOAPP002_PYTHON_PYTEST/` directory created
+- [ ] `demo-apps/demoapp002-python-pytest/` directory created
 - [ ] Python solver implementation follows the solver specification
 - [ ] `UseSudokuSolver` and `LoadPuzzles` abilities implemented
 - [ ] Tasks and Questions implemented in Python-appropriate style
@@ -214,7 +214,7 @@ Acceptance criteria:
 
 Acceptance criteria:
 
-- [ ] `DEMOAPPS/DEMOAPP003_CSHARP_SPECFLOW/` directory created
+- [ ] `demo-apps/demoapp003-csharp-specflow/` directory created
 - [ ] C# solver implementation follows the solver specification
 - [ ] Screenplay-style `IAbility`, `ITask`, and `IQuestion<T>` interfaces defined
 - [ ] `UseSudokuSolver` and `LoadPuzzles` abilities implemented
@@ -234,15 +234,15 @@ Analysis reference: `DOCS/ANALYSIS_Directory_Naming_Kebab_Case_2026-05-16.md`
 
 Acceptance criteria:
 
-- [ ] `DEMOAPPS/` renamed to `demo-apps/` using `git mv`
-- [ ] `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/` renamed to `demo-apps/demoapp001-typescript-cypress/` using `git mv`
-- [ ] (Optional) `features_shared/` renamed to `features-shared/`
-- [ ] All TypeScript `path.resolve()` / `__dirname` traversals updated and verified with `npm run build`
-- [ ] `tooling/cucumber.js`, `tsconfig.json`, `package.json` updated; `npm test` passes (43 scenarios, 241 steps)
-- [ ] All orchestration scripts in `.batch/` updated and smoke-tested
-- [ ] All markdown documentation updated (no broken relative links)
-- [ ] `NAMING_CONVENTIONS.md`, `CLAUDE.md`, `CHANGELOG.md` updated to reflect new paths
-- [ ] DR-016 referenced in commit message
+- [x] `DEMOAPPS/` renamed to `demo-apps/` using `git mv`
+- [x] `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/` renamed to `demo-apps/demoapp001-typescript-cypress/` using `git mv`
+- [x] `features_shared/` renamed to `features-shared/`
+- [x] TypeScript `__dirname`-relative paths confirmed rename-safe; `npm run build` exit 0 (Phase 4)
+- [x] `tooling/cucumber.js`, `tsconfig.json`, `package.json` use relative paths — no edits needed; `npm test` 43/43 (Phase 4)
+- [x] `.batch/run-demoapp001.ps1` updated and smoke-tested; BuildExitCode=0 TestExitCode=0 (Phase 4)
+- [x] All markdown documentation updated; 0 stale-path links in focus files (Phase 4)
+- [x] `NAMING_CONVENTIONS.md`, `CLAUDE.md`, `CHANGELOG.md`, `DECISION_REGISTER.md` updated (Phase 3)
+- [x] DR-016 referenced in commit message (Phase 2 commit)
 
 ---
 
@@ -264,6 +264,7 @@ Acceptance criteria:
 | MIG-08 | Complete template mandate details | All | 2026-05-15 | Required annotations added; current docs use lowercase template references |
 | MIG-04 | Wire Screenplay runtime state through Actor Memory | DEMOAPP001 | 2026-05-16 | TakeNotes wired; all 6 Memory keys runtime-active; DR-015 |
 | MIG-05 | Remove direct Ability calls from step definitions | DEMOAPP001 | 2026-05-16 | All step files thin; 8 new Tasks, 5 new Questions; DR-015 |
+| MIG-13 | Rename Stack filesystem directories to kebab-case | DEMOAPP001 and future Stacks | 2026-05-16 | R100 renames via git mv; ~50 files updated; 43/43 pass; PR #13; DR-016 |
 
 ---
 
@@ -272,7 +273,7 @@ Acceptance criteria:
 | Sprint | Dates | Focus | Key Items | Status |
 |--------|-------|-------|-----------|--------|
 | 2 | 2026-05-14 to 2026-05-27 | Close persistent risks and governance drift | BACKLOG-004, MIG-08, MIG-04, MIG-05 | In Progress |
-| 3 | 2026-05-28 to 2026-06-10 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Open |
+| 3 | 2026-05-28 to 2026-06-10 | Directory rename and output decoupling | MIG-13 ✅, BACKLOG-007, BACKLOG-017 | In Progress |
 | 4 | 2026-06-11 to 2026-06-24 | Audit/API foundations and Python Stack start | BACKLOG-008, BACKLOG-009, BACKLOG-020 | Open |
 | 5 | 2026-06-25 to 2026-07-08 | API/Web UI and C# Stack start | BACKLOG-018, BACKLOG-021 | Open |
 | 6+ | 2026-07-09 onward | Multi-Stack polish and infrastructure | BACKLOG-010, BACKLOG-011, MIG-09 through MIG-12 | Open |

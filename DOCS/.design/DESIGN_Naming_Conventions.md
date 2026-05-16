@@ -14,7 +14,7 @@ full audit of the codebase conducted in May 2026. The chosen conventions align w
 the TypeScript community standard, minimise friction for any TypeScript developer
 joining the project, and are enforced automatically by the ESLint rule
 `@typescript-eslint/naming-convention` configured in
-`DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/eslint.config.js`.
+`demo-apps/demoapp001-typescript-cypress/eslint.config.js`.
 
 ---
 
@@ -144,11 +144,11 @@ private getBlockEmptyCells(...): {r: number, c: number}[]
 ## 8. Enforcement
 
 The `@typescript-eslint/naming-convention` ESLint rule in
-[eslint.config.js](../../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/eslint.config.js)
+[eslint.config.js](../../demo-apps/demoapp001-typescript-cypress/eslint.config.js)
 enforces rules 2.1–2.4 automatically. Run the linter with:
 
 ```bash
-cd DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS
+cd demo-apps/demoapp001-typescript-cypress
 npm run lint
 ```
 

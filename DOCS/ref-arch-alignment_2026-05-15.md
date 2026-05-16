@@ -49,7 +49,7 @@ The v1.3 architecture tightens or makes explicit these obligations:
 | Section 2 layer model | Partial | Layers exist, but some step definitions call Abilities directly |
 | Section 3 Screenplay contracts | Partial | Actor/Ability/Task/Question structures exist; Actor Memory contract is not fully implemented |
 | Section 4 directory blueprint | Partial | Core roles and v1.3 compatibility paths exist; remaining drift is mostly historical dot-prefix organization |
-| Section 5 canonical feature store | Compliant | `features_shared/` exists; stack-local copy matches canonical body after tag line |
+| Section 5 canonical feature store | Compliant | `features-shared/` exists; stack-local copy matches canonical body after tag line |
 | Section 6 subject application contract | Compliant for current scope | `@util` surface is active; CLI baseline is documented and hardened |
 | Section 7 ability taxonomy | Mostly compliant | Current `@util` ability model is project-specific; future `@cli` work needs `InvokeExecutable` |
 | Section 8 multi-Stack parity | Pre-parity / partial | One Stack exists; parity contract exists; Memory keys are not wired into Actor Memory |
@@ -133,7 +133,7 @@ The v1.3 architecture tightens or makes explicit these obligations:
 
 **Observed before migration:** All 14 lowercase Appendix A template files existed under `DOCS/templates/`, but `backlog.template.md`, `changelog.template.md`, and `naming-conventions.template.md` did not contain `[REQUIRED]` annotations for mandatory fields. Several current governed documents still referenced legacy uppercase template filenames.
 
-**Resolution:** The three affected lowercase templates now mark mandatory fields with `[REQUIRED]`. Current governed docs now reference lowercase template filenames, including `DOCS/README.md`, `CHANGELOG.md`, `DOCS/.design/NAMING_CONVENTIONS.md`, `DOCS/.planning/BACKLOG.md`, architecture contracts, and `DEMOAPP001_TYPESCRIPT_CYPRESS/docs/*`.
+**Resolution:** The three affected lowercase templates now mark mandatory fields with `[REQUIRED]`. Current governed docs now reference lowercase template filenames, including `DOCS/README.md`, `CHANGELOG.md`, `DOCS/.design/NAMING_CONVENTIONS.md`, `DOCS/.planning/BACKLOG.md`, architecture contracts, and `demoapp001-typescript-cypress/docs/*`.
 
 **Migration:** MIG-08 resolved on 2026-05-15.
 
@@ -184,8 +184,8 @@ Test log confirms:
 
 ### Feature Store
 
-- Canonical feature: `features_shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature`
-- Stack-local feature: `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/features/BasicSudokuSolverLogic.feature`
+- Canonical feature: `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature`
+- Stack-local feature: `demo-apps/demoapp001-typescript-cypress/tests/features/BasicSudokuSolverLogic.feature`
 - Feature bodies match after the tag line.
 - Canonical tag: `@util`
 - Stack-local tags: `@util @stack-demoapp001`

@@ -34,7 +34,7 @@ This demo application implements the [Sudoku Solver Design Specification](../../
 
 ```bash
 # 1. Navigate to this demo app
-cd DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS
+cd demo-apps/demoapp001-typescript-cypress
 
 # 2. Install dependencies
 npm install
@@ -82,7 +82,7 @@ Result: SOLVED
 ## Project Structure
 
 ```
-DEMOAPP001_TYPESCRIPT_CYPRESS/
+demoapp001-typescript-cypress/
 ├── app_src/                          # TypeScript source code
 │   ├── index.ts                      # Entry point - orchestrates solving workflow
 │   ├── SudokuSolver.ts               # Core solving algorithms (3 techniques)

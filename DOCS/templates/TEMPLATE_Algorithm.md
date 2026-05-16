@@ -77,7 +77,7 @@ FUNCTION TechniqueName(inputs):
 - **Detection**: [Easy / Moderate / Difficult]
 
 ### Implementation Reference
-- [Language]: [`ClassName.method()`](../../DEMOAPPS/.../FileName.ts#L00)
+- [Language]: [`ClassName.method()`](../../demo-apps/.../FileName.ts#L00)
 
 ---
 

@@ -152,7 +152,7 @@ Rule: constant name equals string value exactly (RA §8.1).
 
 ## 6. Adding a New Scenario
 
-1. Update canonical feature file in `features_shared/`.
+1. Update canonical feature file in `features-shared/`.
 2. Propagate the scenario to `tests/features/` and keep `@stack-demoapp001` tag locally.
 3. Map each new step to existing Task/Question first.
 4. If missing, add Ability API first, then Task, then Question.

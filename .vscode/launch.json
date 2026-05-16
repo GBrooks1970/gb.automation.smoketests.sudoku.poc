@@ -10,11 +10,11 @@
                 "--require", "ts-node/register"
             ],
             "args": [
-                "${workspaceFolder}/DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/index.ts"
+                "${workspaceFolder}/demo-apps/demoapp001-typescript-cypress/app_src/index.ts"
             ],
-            "cwd": "${workspaceFolder}/DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS",
+            "cwd": "${workspaceFolder}/demo-apps/demoapp001-typescript-cypress",
             "env": {
-                "TS_NODE_PROJECT": "${workspaceFolder}/DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tsconfig.json"
+                "TS_NODE_PROJECT": "${workspaceFolder}/demo-apps/demoapp001-typescript-cypress/tsconfig.json"
             },
             "sourceMaps": true,
             "console": "integratedTerminal",

@@ -1,7 +1,7 @@
 # Subject Application Contract
 
 **Last updated:** 2026-05-15
-**Subject application:** Sudoku solver and orchestration classes in `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/`
+**Subject application:** Sudoku solver and orchestration classes in `demo-apps/demoapp001-typescript-cypress/app_src/`
 
 ---
 

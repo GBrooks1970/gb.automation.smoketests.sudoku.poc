@@ -3,7 +3,7 @@
 **Date:** 2026-05-16
 **Author:** Claude Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` — impact of converting UPPER_CASE directory names (e.g. `DEMOAPPS`, `DEMOAPP001_TYPESCRIPT_CYPRESS`) to kebab-case equivalents (e.g. `demo-apps`, `demoapp001-typescript-cypress`)
-**Status:** Phase 0 complete — DR-016 accepted 2026-05-16; MIG-13 open; Phases 1–5 pending
+**Status:** ✅ MIG-13 Complete — all 5 phases done; PR #13 open for merge
 
 ---
 
@@ -206,93 +206,289 @@ The strongest argument **against** renaming now is that the convention is docume
 
 ---
 
-### Phase 1 — Prepare (1 session)
+### Phase 1 — Prepare ✅ Complete 2026-05-16
 
-1. Create a dedicated branch: `refactor/kebab-case-directories`
+**Branch:** `refactor/kebab-case-directories` — created from `claude/sudoku-solver-design-f3NRI` HEAD (commit `1619187`).
 
-2. Identify all files that will change using:
-   ```
-   grep -rl "DEMOAPPS\|DEMOAPP001_TYPESCRIPT_CYPRESS\|features_shared" . \
-     --include="*.ts" --include="*.json" --include="*.md" --include="*.js" \
-     --include="*.feature" --include="*.ps1"
-   ```
+**Baseline confirmed:** `npm test` run from `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/` on branch prior to any rename.
+```
+43 scenarios (43 passed)
+241 steps (241 passed)
+0m02.934s
+```
 
-3. Snapshot the `npm test` baseline on the current branch — confirm 43/43 before starting.
+**File scan results:** `grep -rl "DEMOAPPS\|DEMOAPP001_TYPESCRIPT_CYPRESS\|features_shared"` across `*.ts`, `*.json`, `*.md`, `*.js`, `*.feature`, `*.ps1` (excluding `node_modules`, `.git`):
+- **62 unique files** containing at least one reference
+- **256 total reference lines** across those files
+
+**Key finding from scan:** TypeScript source files inside the Stack use `__dirname`-relative path traversal (e.g. `path.resolve(__dirname, '../../../puzzles.json')`), so they are **NOT sensitive to the directory rename**. The `tooling/cucumber.js`, `tsconfig.json`, and `package.json` also use relative paths — they will work correctly after rename without any content change. The actual content-change scope is smaller than the original estimate.
+
+#### Categorised file inventory
+
+**Category A — Runtime critical** (content changes required; will break `npm test` if missed):
+
+| File | References | What to change |
+|------|-----------|----------------|
+| `.batch/run-demoapp001.ps1` | 1 | `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS` → `demo-apps/demoapp001-typescript-cypress` |
+
+**Category B — Development tooling** (will not break `npm test`; breaks local workflow):
+
+| File | References | What to change |
+|------|-----------|----------------|
+| `.vscode/launch.json` | 3 | Path strings in debug config |
+| `.claude/settings.local.json` | 5 | Absolute path strings in permission allowlist |
+
+**Category C — Inside-Stack docs** (these files MOVE with the directory; self-references inside need updating):
+
+| File | References |
+|------|-----------|
+| `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/README.md` | Multiple |
+| `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/docs/ARCHITECTURE.md` | Multiple |
+| `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/docs/QA_STRATEGY.md` | Multiple |
+| `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/docs/README.md` | Multiple |
+| `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/docs/SCREENPLAY_GUIDE.md` | Multiple |
+| `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tooling/README.md` | Multiple |
+
+**Category D — Active governance and live documentation** (prose references; stale after rename; update for accuracy):
+
+| File | Change type |
+|------|------------|
+| `CLAUDE.md` | Stack inventory, directory blueprint, risk register |
+| `README.md` | Quick-start paths |
+| `CHANGELOG.md` | Entry references |
+| `DECISION_REGISTER.md` | DR prose references |
+| `BACKLOG.md` (root) | Item references |
+| `DOCS/.planning/BACKLOG.md` | Item detail paths |
+| `DOCS/.design/NAMING_CONVENTIONS.md` | Examples in §3 |
+| `DOCS/.design/DESIGN_Audit_Trail_Feature.md` | File path examples |
+| `DOCS/.design/DESIGN_Naming_Conventions.md` | Path examples |
+| `DOCS/.design/DESIGN_REST_API_Wrapper.md` | Path examples |
+| `DOCS/.design/DESIGN_Screenplay_Migration.md` | Path references |
+| `DOCS/.design/DESIGN_Web_UI_Solver_Visualisation.md` | Path references |
+| `DOCS/.algorithm/ALGORITHM_Sudoku_Advanced_Solver.md` | Path references |
+| `DOCS/.algorithm/ALGORITHM_Sudoku_Basic_Solver.md` | Path references |
+| `DOCS/.algorithm/TEMPLATE_Algorithm.md` | Path references |
+| `DOCS/.howto/HOWTO_Debug_SudokuSolver.md` | Path references |
+| `DOCS/.howto/TEMPLATE_HowTo.md` | Path references |
+| `DOCS/.implementation/IMPL_LOG_2026-01-30_Initial_Project_Creation.md` | Path references |
+| `DOCS/.implementation/IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md` | Path references |
+| `DOCS/.planning/TODO_Audit_Trail_Feature.md` | Path references |
+| `DOCS/.planning/TODO_Hidden_Singles_Complete_Implementation.md` | Path references |
+| `DOCS/.planning/TODO_REST_API_Wrapper.md` | Path references |
+| `DOCS/.planning/TODO_Web_UI_Solver_Visualisation.md` | Path references |
+| `DOCS/architecture/orchestration-design.md` | Path references |
+| `DOCS/architecture/screenplay-parity-contract.md` | Path references |
+| `DOCS/architecture/subject-app-contract.md` | Path references |
+| `DOCS/ref-arch-alignment_2026-05-14.md` | Path references |
+| `DOCS/ref-arch-alignment_2026-05-15.md` | Path references |
+| `DOCS/ANALYSIS_Directory_Naming_Kebab_Case_2026-05-16.md` | Self-references to old paths |
+
+**Category E — Templates** (update examples for future consistency):
+
+| File |
+|------|
+| `DOCS/templates/TEMPLATE_Algorithm.md` |
+| `DOCS/templates/TEMPLATE_Naming_Conventions.md` |
+| `DOCS/templates/TEMPLATE_Readme.md` |
+| `DOCS/templates/TEMPLATE_Screenplay_Guide.md` |
+| `DOCS/templates/TEMPLATE_Stack_Architecture.md` |
+| `DOCS/templates/TEMPLATE_Stack_Readme.md` |
+| `DOCS/templates/algorithm.template.md` |
+| `DOCS/templates/naming-conventions.template.md` |
+| `DOCS/templates/readme.template.md` |
+| `DOCS/templates/screenplay-guide.template.md` |
+| `DOCS/templates/stack-architecture.template.md` |
+| `DOCS/templates/stack-readme.template.md` |
+
+**Category F — Historical review outputs (DO NOT CHANGE):**
+Per `REFERENCE_ARCHITECTURE.md` v1.3 §10.7, review outputs are read-only once written. These files must not be edited.
+
+| File |
+|------|
+| `DOCS/.review/CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z/03_PROJECT_REVIEWS/PROJECT_001_DEMOAPP001_TypeScript.md` |
+| `DOCS/.review/CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z/07_MIGRATION_PLANS.md` |
+| `DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/01_EXECUTIVE_SUMMARY.md` |
+| `DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/02_RISKS_AND_ISSUES.md` |
+| `DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/03_PROJECT_REVIEWS/PROJECT_001_DEMOAPP001_TypeScript.md` |
+| `DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/07_MIGRATION_PLANS.md` |
+| `DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z/02_RISKS_AND_ISSUES.md` |
+| `DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z/03_PROJECT_REVIEWS/PROJECT_001_DEMOAPP001_TypeScript.md` |
+| `DOCS/.review/CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z/01_EXECUTIVE_SUMMARY.md` |
+| `DOCS/.review/CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z/02_RISKS_AND_ISSUES.md` |
+| `DOCS/.review/CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z/03_PROJECT_REVIEWS/PROJECT_001_DEMOAPP001_TypeScript.md` |
+
+**Category G — No content change required** (canonical Stack name references remain correct):
+
+| File | Reason |
+|------|--------|
+| `DOCS/REFERENCE_ARCHITECTURE.md` | References `DEMOAPP001_TYPESCRIPT_CYPRESS` as the canonical Stack name, which is unchanged by DR-016 |
+| `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/screenplay/**.ts` | Comment-only references to `DEMOAPP001` as an identifier, not a path |
+
+#### Revised scope summary
+
+| Category | Files | Action |
+|----------|-------|--------|
+| A — Runtime critical | 1 | Must update (Phase 3, first) |
+| B — Dev tooling | 2 | Should update (Phase 3) |
+| C — Inside-Stack docs | 6 | Update (moves with directory) |
+| D — Active documentation | 29 | Update (Phase 3) |
+| E — Templates | 12 | Update (Phase 3) |
+| F — Historical reviews | 11 | **DO NOT CHANGE** |
+| G — No change needed | ~4 | Skip |
+| **Total requiring edits** | **~50** | |
 
 ---
 
-### Phase 2 — Filesystem rename (1 session)
+### Phase 2 — Filesystem rename ✅ Complete 2026-05-16
 
-Rename directories using `git mv` (not OS rename) to preserve history:
+Three `git mv` renames executed on `refactor/kebab-case-directories`:
 
 ```bash
-# Step 1 — rename Stack directory (inner first)
-git mv DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS DEMOAPPS/demoapp001-typescript-cypress
-
-# Step 2 — rename group container
-git mv DEMOAPPS demo-apps
-
-# Step 3 (optional) — rename feature store
-git mv features_shared features-shared
+git mv "DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS" "DEMOAPPS/demoapp001-typescript-cypress"
+git mv "DEMOAPPS" "demo-apps"
+git mv "features_shared" "features-shared"
 ```
 
-> **Windows note:** If git refuses a same-directory case-only rename, use a two-step approach:
-> ```bash
-> git mv DEMOAPPS DEMOAPPS_tmp && git mv DEMOAPPS_tmp demo-apps
-> ```
+**Rename verification:** `git diff --cached --name-status` confirmed every file shows `R100` (100% rename similarity — pure rename, no delete+add, full history preserved).
 
-Commit Phase 2 immediately (filesystem rename only, no content changes):
+**Result structure:**
 ```
-git commit -m "refactor: rename DEMOAPPS → demo-apps, DEMOAPP001_TYPESCRIPT_CYPRESS → demoapp001-typescript-cypress (filesystem only)"
+demo-apps/
+  demoapp001-typescript-cypress/   ← was DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS
+features-shared/                   ← was features_shared
 ```
+
+**npm test from new path (pre-content-change validation):**
+```
+43 scenarios (43 passed)
+241 steps (241 passed)
+0m02.618s
+```
+`npm test` passed from `demo-apps/demoapp001-typescript-cypress/` **before any content edits** — confirming the Phase 1 finding: all TypeScript source uses `__dirname`-relative paths and is completely rename-safe. No content changes are needed to the TypeScript source to make tests pass.
 
 ---
 
-### Phase 3 — Reference updates (1–2 sessions)
+### Phase 3 — Reference updates ✅ Complete 2026-05-16
 
-Update all file references. Recommended order to minimise cognitive load:
+**Approach used:** Category-by-category working from runtime-critical outward. TypeScript source files were confirmed rename-safe in Phase 2 (they use `__dirname`-relative paths), so no TS edits were needed.
 
-| Order | File type | Strategy |
-|-------|-----------|----------|
-| 1 | TypeScript import paths (`.ts` files) | IDE find-and-replace; verify `npm run build` after |
-| 2 | Cucumber/tooling config (`tooling/cucumber.js`, `tsconfig.json`, `package.json`) | Manual edit; verify `npm test` after each file |
-| 3 | Shell / PowerShell scripts (`.batch/`, any `.ps1`) | Manual edit; smoke-test each script |
-| 4 | Markdown documentation | Global find-and-replace for `DEMOAPPS`, `DEMOAPP001_TYPESCRIPT_CYPRESS`, `features_shared` |
-| 5 | NAMING_CONVENTIONS.md | Update naming rules for Stack directories |
-| 6 | DECISION_REGISTER.md | Add DR-016 entry |
-| 7 | BACKLOG.md | Mark MIG-13 Resolved |
-| 8 | CLAUDE.md | Update Stack inventory, directory blueprint, Risk Register paths |
-| 9 | CHANGELOG.md | Record the rename |
+**Files updated by category:**
 
-Commit Phase 3 as a separate commit:
+| Category | Files updated | Key changes |
+|----------|--------------|-------------|
+| A — Runtime critical | 1 | `.batch/run-demoapp001.ps1`: stack path |
+| B — Dev tooling | 2 | `.vscode/launch.json` (3 refs), `.claude/settings.local.json` (5 refs) |
+| C — Inside-Stack docs | 6 | `cd` commands, directory trees, `features_shared` → `features-shared` |
+| D — Governance | CLAUDE.md, README.md, CHANGELOG.md, DECISION_REGISTER.md, BACKLOG files + 22 DOCS/ files | All path refs, DR range updated DR-016, MIG status current |
+| E — Templates | 12 | `features_shared` → `features-shared` in all template examples |
+
+**Files deliberately NOT changed:**
+- `DOCS/.review/**` — historical review outputs, read-only per RA §10.7
+- `DOCS/REFERENCE_ARCHITECTURE.md` — uses `features_shared` as an illustrative (non-normative) example name; canonical Stack name refs unchanged throughout
+- `DOCS/ANALYSIS_Directory_Naming_Kebab_Case_2026-05-16.md` — historical references in body text describing the OLD state and the migration commands are preserved as-is
+
+**Validation results:**
+
 ```
-git commit -m "refactor: update all references for demo-apps/demoapp001-typescript-cypress rename"
+npm test (demo-apps/demoapp001-typescript-cypress/):
+  43 scenarios (43 passed)
+  241 steps (241 passed)
+
+npm run build: success (exit 0)
+
+.batch/run-demoapp001.ps1 smoke-test:
+  BuildExitCode: 0 | TestExitCode: 0 | OverallExitCode: 0
+  Metrics written to .results/.metrics/DEMOAPP001_20260516T133812Z.*
 ```
+
+**Final stale-reference scan:** 0 unintentional stale references. Remaining grep hits are all intentional historical text (DR-016 rename table, MIG-13 checked-off criteria, analysis doc body text).
 
 ---
 
-### Phase 4 — Validation
+### Phase 4 — Validation ✅ Complete 2026-05-16
 
-1. Run `npm test` from `demo-apps/demoapp001-typescript-cypress/`:
-   - **Target:** 43 scenarios, 241 steps, all pass
-   - **Failure criteria:** any compilation error or `ENOENT` path error fails this phase
+#### P4-1 — npm test
 
-2. Run `npm run build` to confirm TypeScript compilation with new paths.
+```
+43 scenarios (43 passed)
+241 steps (241 passed)
+0m02.565s (executing steps: 0m02.380s)
+```
+All 43 scenarios pass from `demo-apps/demoapp001-typescript-cypress/`. Zero compilation errors, zero `ENOENT` path errors.
 
-3. Audit markdown links — check that all relative paths in `.md` files resolve correctly.
-   - Focus: `CLAUDE.md`, `DECISION_REGISTER.md`, `DOCS/.design/NAMING_CONVENTIONS.md`, `README.md`
+#### P4-2 — npm run build
 
-4. Run the orchestration batch script from `.batch/`:
-   - Verify it locates the Stack at the new path
-   - Verify metrics are written to `.results/.metrics/`
+```
+> tsc
+BUILD_EXIT: 0
+```
+TypeScript compilation succeeds. All `__dirname`-relative imports resolve correctly after the rename.
+
+#### P4-3 — Markdown link audit
+
+**Method:** Extracted all relative markdown link targets from the four focus files; tested each against the filesystem.
+
+**Link targets verified as existing:**
+
+| Link target | Status |
+|-------------|--------|
+| `demo-apps/demoapp001-typescript-cypress/README.md` | ✅ OK |
+| `demo-apps/demoapp001-typescript-cypress/tests/features/BasicSudokuSolverLogic.feature` | ✅ OK |
+| `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature` | ✅ OK |
+| `DOCS/.design/NAMING_CONVENTIONS.md` | ✅ OK |
+| `DOCS/.planning/BACKLOG.md` | ✅ OK |
+| `DOCS/ref-arch-alignment_2026-05-15.md` | ✅ OK |
+| `DOCS/architecture/screenplay-parity-contract.md` | ✅ OK |
+| `DOCS/architecture/subject-app-contract.md` | ✅ OK |
+| `DOCS/architecture/orchestration-design.md` | ✅ OK |
+| `.review/README.md` | ✅ OK |
+
+**Stale-link check:** grep for `](DEMOAPPS`, `](features_shared`, `](DEMOAPP001_TYPESCRIPT_CYPRESS` in all four focus files → **0 matches**. No broken links.
+
+#### P4-4 — Orchestration batch script
+
+```powershell
+.\.batch\run-demoapp001.ps1
+```
+
+Output:
+```
+BuildExitCode:  0
+TestExitCode:   0
+OverallExitCode: 0
+MetricsTxt: .results\.metrics\DEMOAPP001_20260516T150640Z.txt
+MetricsMd:  .results\.metrics\DEMOAPP001_20260516T150640Z.md
+```
+
+Metrics content confirms:
+```
+DEMOAPP001_BDD_ExitCode=0
+DEMOAPP001_BDD_Tests=43
+DEMOAPP001_BDD_Passed=43
+DEMOAPP001_BDD_Failed=0
+DEMOAPP001_Build_ExitCode=0
+OverallExitCode=0
+```
+
+The script correctly locates the Stack at `demo-apps/demoapp001-typescript-cypress/`, builds, runs tests, and writes timestamped metric files to `.results/.metrics/`.
+
+#### Phase 4 verdict: PASS
+
+All four validation gates pass. The migration is complete and production-ready. Phase 5 (PR and merge) is the remaining step.
 
 ---
 
-### Phase 5 — Merge and communicate
+### Phase 5 — Merge and communicate ✅ Complete 2026-05-16
 
-1. Open a PR titled `refactor: rename Stack directories to kebab-case (MIG-13)`
-2. PR description links to this analysis document and DR-016
-3. Ensure all branches that have open work rebase onto the rename commit before merging new feature work
+**PR #13:** [refactor: rename Stack directories to kebab-case (MIG-13)](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/13)
+- Base: `main` ← Head: `refactor/kebab-case-directories`
+- Commits: 5 (Phase 1 preparation, Phase 2 filesystem rename, .gitignore update, Phase 3 reference updates, Phase 4 validation record)
+- PR description links to `DOCS/ANALYSIS_Directory_Naming_Kebab_Case_2026-05-16.md` and DR-016
+- Test plan in PR body summarises all four Phase 4 validation gates
+
+**Rebase note** (included in PR description): Any branches based on paths inside the old `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/` directory should be rebased onto this PR's merge commit before continuing work.
+
+**Note on parallel branches:** At time of PR creation, `claude/sudoku-solver-design-f3NRI` is at `main` HEAD — no rebase needed for that branch.
 
 ---
 

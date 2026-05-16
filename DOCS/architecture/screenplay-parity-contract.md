@@ -85,7 +85,7 @@ Adding a new key requires updating this document, Stack memory-key files, and a 
 
 ## 6. Step Definition Shape Contract
 
-All Stacks MUST keep canonical Gherkin step text identical to `features_shared/`.
+All Stacks MUST keep canonical Gherkin step text identical to `features-shared/`.
 
 Canonical examples:
 

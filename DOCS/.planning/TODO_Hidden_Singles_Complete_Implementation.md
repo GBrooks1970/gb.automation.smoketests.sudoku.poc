@@ -10,7 +10,7 @@
 
 ## Overview
 
-`hiddenSingles(target)` in [SudokuSolver.ts:80](../../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts#L80) only scans 3×3 blocks. The algorithm specification ([ALGORITHM_Sudoku_Basic_Solver.md §2](../ALGORITHM_Sudoku_Basic_Solver.md)) requires it to scan all three unit types: **rows**, **columns**, and blocks.
+`hiddenSingles(target)` in [SudokuSolver.ts:80](../../demo-apps/demoapp001-typescript-cypress/app_src/SudokuSolver.ts#L80) only scans 3×3 blocks. The algorithm specification ([ALGORITHM_Sudoku_Basic_Solver.md §2](../ALGORITHM_Sudoku_Basic_Solver.md)) requires it to scan all three unit types: **rows**, **columns**, and blocks.
 
 This document walks through the gap step by step — understanding it first, designing the fix second — so the algorithm is fully understood before any code is changed.
 
@@ -19,8 +19,8 @@ This document walks through the gap step by step — understanding it first, des
 ## Prerequisites
 
 - [ ] Read [ALGORITHM_Sudoku_Basic_Solver.md §2](../ALGORITHM_Sudoku_Basic_Solver.md#2-hidden-singles-algorithm) to understand the full specification.
-- [ ] Read [SudokuSolver.ts](../../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts) in full — particularly `hiddenSingles()` (line 80) and all private helpers (lines 127-206).
-- [ ] Run `npm start` from `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/` and confirm the existing output is correct before touching anything.
+- [ ] Read [SudokuSolver.ts](../../demo-apps/demoapp001-typescript-cypress/app_src/SudokuSolver.ts) in full — particularly `hiddenSingles()` (line 80) and all private helpers (lines 127-206).
+- [ ] Run `npm start` from `demo-apps/demoapp001-typescript-cypress/` and confirm the existing output is correct before touching anything.
 
 ---
 
@@ -51,7 +51,7 @@ For each BLOCK (br, bc) (already implemented):
 
 ### 1.2 What the current code actually does
 
-Read lines 80-98 of [SudokuSolver.ts](../../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts#L80):
+Read lines 80-98 of [SudokuSolver.ts](../../demo-apps/demoapp001-typescript-cypress/app_src/SudokuSolver.ts#L80):
 
 ```typescript
 public hiddenSingles(target: number): boolean {
@@ -91,7 +91,7 @@ Note what is **not** present: there is no `getRowEmptyCells(r)` or `getColEmptyC
 
 ### 1.4 Trace the row scan logic by hand
 
-Pick target = `5` and row = `3` from the [Easy Scan Grid](../../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/puzzles.json) as a worked example:
+Pick target = `5` and row = `3` from the [Easy Scan Grid](../../demo-apps/demoapp001-typescript-cypress/puzzles.json) as a worked example:
 
 ```
 Row 3 state: [8, 0, 0, 0, 6, 0, 0, 0, 3]
@@ -224,7 +224,7 @@ A puzzle that demonstrates row/column hidden singles:
   2. Manually identify the cell that requires a row or column hidden single
   3. Confirm the complete algorithm would place that cell
 
-- [ ] **3.2.2** Add the puzzle to [puzzles.json](../../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/puzzles.json) with:
+- [ ] **3.2.2** Add the puzzle to [puzzles.json](../../demo-apps/demoapp001-typescript-cypress/puzzles.json) with:
   - `name`: `"Row Column Hidden Singles"`
   - `difficulty`: `"medium"`
   - `description`: `"Requires row and column hidden singles to solve — validates complete hiddenSingles() implementation"`
@@ -239,7 +239,7 @@ With Phase 1-3 complete, the implementation is a direct transcription of the pse
 
 ### 4.1 Implement row scanning
 
-- [ ] **4.1.1** In `hiddenSingles(target)` ([SudokuSolver.ts:80](../../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts#L80)), add the row-scanning loop **before** the existing block loop, following the pseudocode in §2.1 exactly.
+- [ ] **4.1.1** In `hiddenSingles(target)` ([SudokuSolver.ts:80](../../demo-apps/demoapp001-typescript-cypress/app_src/SudokuSolver.ts#L80)), add the row-scanning loop **before** the existing block loop, following the pseudocode in §2.1 exactly.
 
 - [ ] **4.1.2** Use the `isInRow`, `isInCol`, and `isNumberInBlock` private helpers — do not inline the constraint checks manually. This keeps the pattern consistent with the existing block scan.
 
@@ -269,7 +269,7 @@ The Gherkin feature file already contains two scenarios that target the new beha
 
 ### 5.1 Review the existing scenarios
 
-Read [BasicSudokuSolverLogic.feature lines 41-53](../../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/BasicSudokuSolverLogic.feature#L41):
+Read [BasicSudokuSolverLogic.feature lines 41-53](../../demo-apps/demoapp001-typescript-cypress/tests/BasicSudokuSolverLogic.feature#L41):
 
 ```gherkin
 Scenario: Identify a Hidden Single in a row
@@ -291,7 +291,7 @@ These scenarios already correctly specify the expected behaviour. No changes to 
 
 ### 5.2 Add an integration scenario for the new puzzle
 
-- [ ] **5.2.1** Add the following scenario to the Integration Tests section of [BasicSudokuSolverLogic.feature](../../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/BasicSudokuSolverLogic.feature):
+- [ ] **5.2.1** Add the following scenario to the Integration Tests section of [BasicSudokuSolverLogic.feature](../../demo-apps/demoapp001-typescript-cypress/tests/BasicSudokuSolverLogic.feature):
 
 ```gherkin
 Scenario: Solve "Row Column Hidden Singles" puzzle

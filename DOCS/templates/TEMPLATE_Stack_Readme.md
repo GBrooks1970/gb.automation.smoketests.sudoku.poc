@@ -68,7 +68,7 @@ cd [STACK_NAME]
 [STACK_NAME]/
 ├── [subject-app-src]/        # Subject application source
 ├── tests/
-│   ├── features/             # Stack-local Gherkin (from features_shared/)
+│   ├── features/             # Stack-local Gherkin (from features-shared/)
 │   ├── step_definitions/     # Thin step definitions
 │   └── screenplay/           # Actor, Abilities, Tasks, Questions
 ├── tooling/                  # Test runner configuration
@@ -90,7 +90,7 @@ cd [STACK_NAME]
 
 ## Updating Feature Files
 
-Feature files are owned by `features_shared/` (Canonical Feature Store). Do **not** edit `tests/features/` directly for content changes.
+Feature files are owned by `features-shared/` (Canonical Feature Store). Do **not** edit `tests/features/` directly for content changes.
 
 See the canonical feature update procedure in [`CLAUDE.md`](../../CLAUDE.md).
 

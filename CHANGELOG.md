@@ -8,6 +8,16 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 
 ## [Unreleased]
 
+### Changed
+- MIG-13 (DR-016): Filesystem directories renamed to kebab-case:
+  - `DEMOAPPS/` → `demo-apps/`
+  - `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/` → `demo-apps/demoapp001-typescript-cypress/`
+  - `features_shared/` → `features-shared/`
+  - All ~50 active documentation files, scripts, and configs updated accordingly
+  - Historical review files under `DOCS/.review/` left unchanged (read-only per RA §10.7)
+  - Canonical Stack name `DEMOAPP001_TYPESCRIPT_CYPRESS` unchanged (metrics, Memory keys, parity docs)
+  - `.gitignore` updated to use generic `node_modules/` and `dist/` patterns (covers all future Stacks)
+
 ### Breaking Changes
 - Phase 8 — CLI surface hardening for `DEMOAPP001_TYPESCRIPT_CYPRESS`:
   - `npm start` now returns exit code `0` only when all puzzles resolve to `SOLVED`
@@ -39,9 +49,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - `DOCS/REFERENCE_ARCHITECTURE.md` — Screenplay-BDD Reference Architecture (v1.1)
 - `DOCS/ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md` — alignment report (updated for v1.1)
 - `DR-006` in `DECISION_REGISTER.md` — records adoption of RA v1.1 and path corrections
-- `DR-007` in `DECISION_REGISTER.md` — records establishment of features_shared/ canonical store
-- `features_shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature` — canonical feature store (Phase 1 migration)
-- `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/features/BasicSudokuSolverLogic.feature` — Stack-local copy with `@util @stack-demoapp001` tags
+- `DR-007` in `DECISION_REGISTER.md` — records establishment of features-shared/ canonical store
+- `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature` — canonical feature store (Phase 1 migration)
+- `demo-apps/demoapp001-typescript-cypress/tests/features/BasicSudokuSolverLogic.feature` — Stack-local copy with `@util @stack-demoapp001` tags
 
 ### Changed
 - `cucumber.js` — requireModule now includes `@serenity-js/cucumber`; require path changed to `tests/screenplay/step_definitions/`; worldParameters removed (Cast configured via support/configure.ts)
@@ -52,7 +62,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - `DOCS/ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md` — revised against RA v1.1; Phase 0 completion status added; §6, §9, §13, §14, §15 updated
 
 ### Removed
-- `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/BasicSudokuSolverLogic.feature` — replaced by Stack-local copy at `tests/features/`
+- `demo-apps/demoapp001-typescript-cypress/tests/BasicSudokuSolverLogic.feature` — replaced by Stack-local copy at `tests/features/`
 
 ---
 

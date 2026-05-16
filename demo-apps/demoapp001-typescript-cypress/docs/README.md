@@ -17,7 +17,7 @@
 ## Setup
 
 ```bash
-cd DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS
+cd demo-apps/demoapp001-typescript-cypress
 npm install
 ```
 
@@ -48,7 +48,7 @@ npm test -- --tags @stack-demoapp001
 ## Project Structure
 
 ```text
-DEMOAPP001_TYPESCRIPT_CYPRESS/
+demoapp001-typescript-cypress/
 ├── app_src/
 ├── tests/
 │   ├── features/
@@ -79,7 +79,7 @@ DEMOAPP001_TYPESCRIPT_CYPRESS/
 
 ## Updating Feature Files
 
-Feature file content is owned by `features_shared/` (Canonical Feature Store). Do not author behavior changes directly in `tests/features/`.
+Feature file content is owned by `features-shared/` (Canonical Feature Store). Do not author behavior changes directly in `tests/features/`.
 
 See canonical update process in `../../CLAUDE.md`.
 

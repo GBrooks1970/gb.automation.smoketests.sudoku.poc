@@ -27,9 +27,9 @@ This document defines how the Stack should be orchestrated for deterministic, re
 
 ## 3. Orchestration Requirements
 
-- Commands MUST run from `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/`.
+- Commands MUST run from `demo-apps/demoapp001-typescript-cypress/`.
 - Test execution MUST use `tooling/cucumber.js` as explicit config.
-- Feature source of truth remains `features_shared/` with propagated stack-local copy.
+- Feature source of truth remains `features-shared/` with propagated stack-local copy.
 - A failed build MUST stop downstream test and metric publishing.
 - Metrics generation is mandatory once Phase 7 script is added.
 

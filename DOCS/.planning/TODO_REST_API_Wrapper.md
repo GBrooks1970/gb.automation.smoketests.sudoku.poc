@@ -31,7 +31,7 @@ Implementation task list for a RESTful API that wraps the Sudoku Solver, providi
 
 - [ ] **1.1.1** Create directory structure:
   ```
-  DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/api/
+  demo-apps/demoapp001-typescript-cypress/api/
   ├── routes/
   ├── controllers/
   ├── services/
@@ -373,7 +373,7 @@ Phases 5, 6, 7, 8 can be worked on in parallel once Phase 4 is complete.
 ## Notes for Implementing Agent
 
 - **Do not modify the existing solver classes** (`SudokuSolver`, `SudokuOrchestrator`, `PuzzleLoader`). The API wraps them via `SudokuApiService`.
-- The design document shows `api/` at the same level as `app_src/` inside `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/`. Follow this convention.
+- The design document shows `api/` at the same level as `app_src/` inside `demo-apps/demoapp001-typescript-cypress/`. Follow this convention.
 - The solve endpoint currently **cannot provide per-algorithm statistics** without either modifying the orchestrator or implementing a step tracker (like the Web UI's `SolveStepTracker` or the Audit Trail's `AuditLogger`). For MVP, return zeroed statistics with a TODO comment. These will be populated when the Audit Trail (BACKLOG-008) is integrated.
 - The design document mentions `Joi` or `Zod` for validation. For simplicity, a custom `GridValidator` is recommended instead — the validation rules are straightforward (9x9 grid, values 0-9) and don't warrant an additional dependency.
 - **Single server (resolved)**: Per BACKLOG-017/018, the Web UI (BACKLOG-018) is served as static files from **this** Express server — there is no separate web server. Serve static assets from `web/public/` via `express.static`. No port conflict exists.

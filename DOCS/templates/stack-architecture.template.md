@@ -38,7 +38,7 @@
 
 | Layer | Role | Implementation |
 |-------|------|---------------|
-| 1 — Feature Files | Gherkin specs | `tests/features/` (copied from `features_shared/`) |
+| 1 — Feature Files | Gherkin specs | `tests/features/` (copied from `features-shared/`) |
 | 2 — Step Definitions | Maps steps to Screenplay | `tests/screenplay/step_definitions/` |
 | 3 — Screenplay | Actor, Tasks, Questions | `tests/screenplay/` |
 | 4 — Abilities | Wraps subject application | `tests/screenplay/abilities/` |
@@ -85,7 +85,7 @@ Step Definitions
 [STACK_NAME]/
 ├── [subject-app-src]/
 ├── tests/
-│   ├── features/             # Stack-local feature files (from features_shared/)
+│   ├── features/             # Stack-local feature files (from features-shared/)
 │   ├── step_definitions/     # Thin step definitions
 │   └── screenplay/
 │       ├── abilities/

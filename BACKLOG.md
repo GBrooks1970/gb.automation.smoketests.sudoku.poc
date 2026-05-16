@@ -48,7 +48,7 @@
 
 | ID | Title | Stack(s) | Nature of Gap | Phase |
 |----|-------|----------|--------------|-------|
-| ~~NEW-006~~ | ~~Create features_shared/ canonical feature store~~ | ALL | ✅ Done — DR-007 | 1 |
+| ~~NEW-006~~ | ~~Create features-shared/ canonical feature store~~ | ALL | ✅ Done — DR-007 | 1 |
 | ~~NEW-007~~ | ~~Install Serenity/JS — create Screenplay directory structure~~ | DEMOAPP001 | ✅ Done — v3.43.2; DR-008 | 2 |
 | ~~NEW-008~~ | ~~Define Memory key constants in screenplay/support/memory-keys.ts~~ | DEMOAPP001 | ✅ Done — 6 constants | 2 |
 | ~~NEW-009~~ | ~~Implement UseSudokuSolver and LoadPuzzles Abilities~~ | DEMOAPP001 | ✅ Done — extends Ability (DR-008) | 2 |
