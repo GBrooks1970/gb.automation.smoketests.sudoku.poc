@@ -3,7 +3,7 @@
 **Date:** 2026-05-16
 **Author:** Claude Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` — impact of converting UPPER_CASE directory names (e.g. `DEMOAPPS`, `DEMOAPP001_TYPESCRIPT_CYPRESS`) to kebab-case equivalents (e.g. `demo-apps`, `demoapp001-typescript-cypress`)
-**Status:** Phase 3 complete — all reference updates done, validated; Phase 4 next
+**Status:** Phase 4 complete — all validations passed; Phase 5 (merge) next
 
 ---
 
@@ -405,20 +405,76 @@ npm run build: success (exit 0)
 
 ---
 
-### Phase 4 — Validation
+### Phase 4 — Validation ✅ Complete 2026-05-16
 
-1. Run `npm test` from `demo-apps/demoapp001-typescript-cypress/`:
-   - **Target:** 43 scenarios, 241 steps, all pass
-   - **Failure criteria:** any compilation error or `ENOENT` path error fails this phase
+#### P4-1 — npm test
 
-2. Run `npm run build` to confirm TypeScript compilation with new paths.
+```
+43 scenarios (43 passed)
+241 steps (241 passed)
+0m02.565s (executing steps: 0m02.380s)
+```
+All 43 scenarios pass from `demo-apps/demoapp001-typescript-cypress/`. Zero compilation errors, zero `ENOENT` path errors.
 
-3. Audit markdown links — check that all relative paths in `.md` files resolve correctly.
-   - Focus: `CLAUDE.md`, `DECISION_REGISTER.md`, `DOCS/.design/NAMING_CONVENTIONS.md`, `README.md`
+#### P4-2 — npm run build
 
-4. Run the orchestration batch script from `.batch/`:
-   - Verify it locates the Stack at the new path
-   - Verify metrics are written to `.results/.metrics/`
+```
+> tsc
+BUILD_EXIT: 0
+```
+TypeScript compilation succeeds. All `__dirname`-relative imports resolve correctly after the rename.
+
+#### P4-3 — Markdown link audit
+
+**Method:** Extracted all relative markdown link targets from the four focus files; tested each against the filesystem.
+
+**Link targets verified as existing:**
+
+| Link target | Status |
+|-------------|--------|
+| `demo-apps/demoapp001-typescript-cypress/README.md` | ✅ OK |
+| `demo-apps/demoapp001-typescript-cypress/tests/features/BasicSudokuSolverLogic.feature` | ✅ OK |
+| `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature` | ✅ OK |
+| `DOCS/.design/NAMING_CONVENTIONS.md` | ✅ OK |
+| `DOCS/.planning/BACKLOG.md` | ✅ OK |
+| `DOCS/ref-arch-alignment_2026-05-15.md` | ✅ OK |
+| `DOCS/architecture/screenplay-parity-contract.md` | ✅ OK |
+| `DOCS/architecture/subject-app-contract.md` | ✅ OK |
+| `DOCS/architecture/orchestration-design.md` | ✅ OK |
+| `.review/README.md` | ✅ OK |
+
+**Stale-link check:** grep for `](DEMOAPPS`, `](features_shared`, `](DEMOAPP001_TYPESCRIPT_CYPRESS` in all four focus files → **0 matches**. No broken links.
+
+#### P4-4 — Orchestration batch script
+
+```powershell
+.\.batch\run-demoapp001.ps1
+```
+
+Output:
+```
+BuildExitCode:  0
+TestExitCode:   0
+OverallExitCode: 0
+MetricsTxt: .results\.metrics\DEMOAPP001_20260516T150640Z.txt
+MetricsMd:  .results\.metrics\DEMOAPP001_20260516T150640Z.md
+```
+
+Metrics content confirms:
+```
+DEMOAPP001_BDD_ExitCode=0
+DEMOAPP001_BDD_Tests=43
+DEMOAPP001_BDD_Passed=43
+DEMOAPP001_BDD_Failed=0
+DEMOAPP001_Build_ExitCode=0
+OverallExitCode=0
+```
+
+The script correctly locates the Stack at `demo-apps/demoapp001-typescript-cypress/`, builds, runs tests, and writes timestamped metric files to `.results/.metrics/`.
+
+#### Phase 4 verdict: PASS
+
+All four validation gates pass. The migration is complete and production-ready. Phase 5 (PR and merge) is the remaining step.
 
 ---
 
