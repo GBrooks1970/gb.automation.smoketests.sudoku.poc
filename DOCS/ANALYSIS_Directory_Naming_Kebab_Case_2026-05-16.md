@@ -3,7 +3,7 @@
 **Date:** 2026-05-16
 **Author:** Claude Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` — impact of converting UPPER_CASE directory names (e.g. `DEMOAPPS`, `DEMOAPP001_TYPESCRIPT_CYPRESS`) to kebab-case equivalents (e.g. `demo-apps`, `demoapp001-typescript-cypress`)
-**Status:** Phase 0 complete — DR-016 accepted 2026-05-16; MIG-13 open; Phases 1–5 pending
+**Status:** Phase 1 complete — branch created, file inventory finalised, baseline confirmed; Phase 2 pending
 
 ---
 
@@ -206,18 +206,136 @@ The strongest argument **against** renaming now is that the convention is docume
 
 ---
 
-### Phase 1 — Prepare (1 session)
+### Phase 1 — Prepare ✅ Complete 2026-05-16
 
-1. Create a dedicated branch: `refactor/kebab-case-directories`
+**Branch:** `refactor/kebab-case-directories` — created from `claude/sudoku-solver-design-f3NRI` HEAD (commit `1619187`).
 
-2. Identify all files that will change using:
-   ```
-   grep -rl "DEMOAPPS\|DEMOAPP001_TYPESCRIPT_CYPRESS\|features_shared" . \
-     --include="*.ts" --include="*.json" --include="*.md" --include="*.js" \
-     --include="*.feature" --include="*.ps1"
-   ```
+**Baseline confirmed:** `npm test` run from `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/` on branch prior to any rename.
+```
+43 scenarios (43 passed)
+241 steps (241 passed)
+0m02.934s
+```
 
-3. Snapshot the `npm test` baseline on the current branch — confirm 43/43 before starting.
+**File scan results:** `grep -rl "DEMOAPPS\|DEMOAPP001_TYPESCRIPT_CYPRESS\|features_shared"` across `*.ts`, `*.json`, `*.md`, `*.js`, `*.feature`, `*.ps1` (excluding `node_modules`, `.git`):
+- **62 unique files** containing at least one reference
+- **256 total reference lines** across those files
+
+**Key finding from scan:** TypeScript source files inside the Stack use `__dirname`-relative path traversal (e.g. `path.resolve(__dirname, '../../../puzzles.json')`), so they are **NOT sensitive to the directory rename**. The `tooling/cucumber.js`, `tsconfig.json`, and `package.json` also use relative paths — they will work correctly after rename without any content change. The actual content-change scope is smaller than the original estimate.
+
+#### Categorised file inventory
+
+**Category A — Runtime critical** (content changes required; will break `npm test` if missed):
+
+| File | References | What to change |
+|------|-----------|----------------|
+| `.batch/run-demoapp001.ps1` | 1 | `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS` → `demo-apps/demoapp001-typescript-cypress` |
+
+**Category B — Development tooling** (will not break `npm test`; breaks local workflow):
+
+| File | References | What to change |
+|------|-----------|----------------|
+| `.vscode/launch.json` | 3 | Path strings in debug config |
+| `.claude/settings.local.json` | 5 | Absolute path strings in permission allowlist |
+
+**Category C — Inside-Stack docs** (these files MOVE with the directory; self-references inside need updating):
+
+| File | References |
+|------|-----------|
+| `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/README.md` | Multiple |
+| `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/docs/ARCHITECTURE.md` | Multiple |
+| `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/docs/QA_STRATEGY.md` | Multiple |
+| `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/docs/README.md` | Multiple |
+| `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/docs/SCREENPLAY_GUIDE.md` | Multiple |
+| `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tooling/README.md` | Multiple |
+
+**Category D — Active governance and live documentation** (prose references; stale after rename; update for accuracy):
+
+| File | Change type |
+|------|------------|
+| `CLAUDE.md` | Stack inventory, directory blueprint, risk register |
+| `README.md` | Quick-start paths |
+| `CHANGELOG.md` | Entry references |
+| `DECISION_REGISTER.md` | DR prose references |
+| `BACKLOG.md` (root) | Item references |
+| `DOCS/.planning/BACKLOG.md` | Item detail paths |
+| `DOCS/.design/NAMING_CONVENTIONS.md` | Examples in §3 |
+| `DOCS/.design/DESIGN_Audit_Trail_Feature.md` | File path examples |
+| `DOCS/.design/DESIGN_Naming_Conventions.md` | Path examples |
+| `DOCS/.design/DESIGN_REST_API_Wrapper.md` | Path examples |
+| `DOCS/.design/DESIGN_Screenplay_Migration.md` | Path references |
+| `DOCS/.design/DESIGN_Web_UI_Solver_Visualisation.md` | Path references |
+| `DOCS/.algorithm/ALGORITHM_Sudoku_Advanced_Solver.md` | Path references |
+| `DOCS/.algorithm/ALGORITHM_Sudoku_Basic_Solver.md` | Path references |
+| `DOCS/.algorithm/TEMPLATE_Algorithm.md` | Path references |
+| `DOCS/.howto/HOWTO_Debug_SudokuSolver.md` | Path references |
+| `DOCS/.howto/TEMPLATE_HowTo.md` | Path references |
+| `DOCS/.implementation/IMPL_LOG_2026-01-30_Initial_Project_Creation.md` | Path references |
+| `DOCS/.implementation/IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md` | Path references |
+| `DOCS/.planning/TODO_Audit_Trail_Feature.md` | Path references |
+| `DOCS/.planning/TODO_Hidden_Singles_Complete_Implementation.md` | Path references |
+| `DOCS/.planning/TODO_REST_API_Wrapper.md` | Path references |
+| `DOCS/.planning/TODO_Web_UI_Solver_Visualisation.md` | Path references |
+| `DOCS/architecture/orchestration-design.md` | Path references |
+| `DOCS/architecture/screenplay-parity-contract.md` | Path references |
+| `DOCS/architecture/subject-app-contract.md` | Path references |
+| `DOCS/ref-arch-alignment_2026-05-14.md` | Path references |
+| `DOCS/ref-arch-alignment_2026-05-15.md` | Path references |
+| `DOCS/ANALYSIS_Directory_Naming_Kebab_Case_2026-05-16.md` | Self-references to old paths |
+
+**Category E — Templates** (update examples for future consistency):
+
+| File |
+|------|
+| `DOCS/templates/TEMPLATE_Algorithm.md` |
+| `DOCS/templates/TEMPLATE_Naming_Conventions.md` |
+| `DOCS/templates/TEMPLATE_Readme.md` |
+| `DOCS/templates/TEMPLATE_Screenplay_Guide.md` |
+| `DOCS/templates/TEMPLATE_Stack_Architecture.md` |
+| `DOCS/templates/TEMPLATE_Stack_Readme.md` |
+| `DOCS/templates/algorithm.template.md` |
+| `DOCS/templates/naming-conventions.template.md` |
+| `DOCS/templates/readme.template.md` |
+| `DOCS/templates/screenplay-guide.template.md` |
+| `DOCS/templates/stack-architecture.template.md` |
+| `DOCS/templates/stack-readme.template.md` |
+
+**Category F — Historical review outputs (DO NOT CHANGE):**
+Per `REFERENCE_ARCHITECTURE.md` v1.3 §10.7, review outputs are read-only once written. These files must not be edited.
+
+| File |
+|------|
+| `DOCS/.review/CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z/03_PROJECT_REVIEWS/PROJECT_001_DEMOAPP001_TypeScript.md` |
+| `DOCS/.review/CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z/07_MIGRATION_PLANS.md` |
+| `DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/01_EXECUTIVE_SUMMARY.md` |
+| `DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/02_RISKS_AND_ISSUES.md` |
+| `DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/03_PROJECT_REVIEWS/PROJECT_001_DEMOAPP001_TypeScript.md` |
+| `DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/07_MIGRATION_PLANS.md` |
+| `DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z/02_RISKS_AND_ISSUES.md` |
+| `DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z/03_PROJECT_REVIEWS/PROJECT_001_DEMOAPP001_TypeScript.md` |
+| `DOCS/.review/CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z/01_EXECUTIVE_SUMMARY.md` |
+| `DOCS/.review/CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z/02_RISKS_AND_ISSUES.md` |
+| `DOCS/.review/CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z/03_PROJECT_REVIEWS/PROJECT_001_DEMOAPP001_TypeScript.md` |
+
+**Category G — No content change required** (canonical Stack name references remain correct):
+
+| File | Reason |
+|------|--------|
+| `DOCS/REFERENCE_ARCHITECTURE.md` | References `DEMOAPP001_TYPESCRIPT_CYPRESS` as the canonical Stack name, which is unchanged by DR-016 |
+| `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/screenplay/**.ts` | Comment-only references to `DEMOAPP001` as an identifier, not a path |
+
+#### Revised scope summary
+
+| Category | Files | Action |
+|----------|-------|--------|
+| A — Runtime critical | 1 | Must update (Phase 3, first) |
+| B — Dev tooling | 2 | Should update (Phase 3) |
+| C — Inside-Stack docs | 6 | Update (moves with directory) |
+| D — Active documentation | 29 | Update (Phase 3) |
+| E — Templates | 12 | Update (Phase 3) |
+| F — Historical reviews | 11 | **DO NOT CHANGE** |
+| G — No change needed | ~4 | Skip |
+| **Total requiring edits** | **~50** | |
 
 ---
 
