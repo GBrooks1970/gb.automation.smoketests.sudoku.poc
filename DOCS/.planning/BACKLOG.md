@@ -198,7 +198,7 @@ Acceptance criteria:
 
 Acceptance criteria:
 
-- [ ] `DEMOAPPS/DEMOAPP002_PYTHON_PYTEST/` directory created
+- [ ] `demo-apps/demoapp002-python-pytest/` directory created
 - [ ] Python solver implementation follows the solver specification
 - [ ] `UseSudokuSolver` and `LoadPuzzles` abilities implemented
 - [ ] Tasks and Questions implemented in Python-appropriate style
@@ -214,7 +214,7 @@ Acceptance criteria:
 
 Acceptance criteria:
 
-- [ ] `DEMOAPPS/DEMOAPP003_CSHARP_SPECFLOW/` directory created
+- [ ] `demo-apps/demoapp003-csharp-specflow/` directory created
 - [ ] C# solver implementation follows the solver specification
 - [ ] Screenplay-style `IAbility`, `ITask`, and `IQuestion<T>` interfaces defined
 - [ ] `UseSudokuSolver` and `LoadPuzzles` abilities implemented
@@ -234,9 +234,9 @@ Analysis reference: `DOCS/ANALYSIS_Directory_Naming_Kebab_Case_2026-05-16.md`
 
 Acceptance criteria:
 
-- [ ] `DEMOAPPS/` renamed to `demo-apps/` using `git mv`
-- [ ] `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/` renamed to `demo-apps/demoapp001-typescript-cypress/` using `git mv`
-- [ ] (Optional) `features_shared/` renamed to `features-shared/`
+- [x] `DEMOAPPS/` renamed to `demo-apps/` using `git mv`
+- [x] `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/` renamed to `demo-apps/demoapp001-typescript-cypress/` using `git mv`
+- [x] `features_shared/` renamed to `features-shared/`
 - [ ] All TypeScript `path.resolve()` / `__dirname` traversals updated and verified with `npm run build`
 - [ ] `tooling/cucumber.js`, `tsconfig.json`, `package.json` updated; `npm test` passes (43 scenarios, 241 steps)
 - [ ] All orchestration scripts in `.batch/` updated and smoke-tested

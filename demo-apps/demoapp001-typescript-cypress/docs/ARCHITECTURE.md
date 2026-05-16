@@ -18,7 +18,7 @@ This Stack verifies Sudoku solver behavior through an in-process util surface, u
 
 | Layer | Role | Implementation |
 |-------|------|---------------|
-| 1 — Feature Files | Gherkin specs | `tests/features/` (copied from `features_shared/`) |
+| 1 — Feature Files | Gherkin specs | `tests/features/` (copied from `features-shared/`) |
 | 2 — Step Definitions | Maps steps to Screenplay | `tests/screenplay/step_definitions/` |
 | 3 — Screenplay | Actor, Tasks, Questions | `tests/screenplay/` |
 | 4 — Abilities | Wraps subject application | `tests/screenplay/abilities/` |
@@ -47,7 +47,7 @@ This Stack enforces downward-only dependency flow: step definitions do not insta
 |----------|-----------|-------------|
 | Dot-prefixed DOCS convention at repository level | Keeps project-wide documentation grouped and visually distinct | DR-001 |
 | Use @util surface for DEMOAPP001 | Current objective is deterministic, in-process logic testing without CLI process lifecycle overhead | DR-003 |
-| Canonical feature ownership in features_shared | Enforces one behavioral source across all Stacks | DR-007 |
+| Canonical feature ownership in features-shared | Enforces one behavioral source across all Stacks | DR-007 |
 | Serenity/JS Abilities extend base Ability class | Required by Serenity/JS v3 API contracts for Actor ability resolution | DR-008 |
 
 ---
@@ -63,7 +63,7 @@ This Stack enforces downward-only dependency flow: step definitions do not insta
 ## 6. Directory Structure
 
 ```text
-DEMOAPP001_TYPESCRIPT_CYPRESS/
+demoapp001-typescript-cypress/
 ├── app_src/
 ├── tests/
 │   ├── features/

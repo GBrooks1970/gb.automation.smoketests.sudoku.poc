@@ -227,7 +227,7 @@ and `Grid.containsValue` are reusable across all algorithm scenarios.
 ### 5.1 Directory Structure
 
 ```
-DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/
+demo-apps/demoapp001-typescript-cypress/
 ├── app_src/                           (unchanged production code)
 ├── tests/
 │   ├── BasicSudokuSolverLogic.feature (unchanged — Gherkin does not change)
@@ -918,7 +918,7 @@ library, is what matters).
 ## Appendix B — Serenity/JS Installation
 
 ```bash
-cd DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS
+cd demo-apps/demoapp001-typescript-cypress
 
 # Core Serenity/JS packages
 npm install --save-dev \

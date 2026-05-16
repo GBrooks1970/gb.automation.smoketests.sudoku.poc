@@ -3,7 +3,7 @@
 **Date:** 2026-05-16
 **Author:** Claude Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` — impact of converting UPPER_CASE directory names (e.g. `DEMOAPPS`, `DEMOAPP001_TYPESCRIPT_CYPRESS`) to kebab-case equivalents (e.g. `demo-apps`, `demoapp001-typescript-cypress`)
-**Status:** Phase 2 complete — filesystem renames done, all R100, tests green from new path; Phase 3 pending
+**Status:** Phase 3 complete — all reference updates done, validated; Phase 4 next
 
 ---
 
@@ -368,26 +368,40 @@ features-shared/                   ← was features_shared
 
 ---
 
-### Phase 3 — Reference updates (1–2 sessions)
+### Phase 3 — Reference updates ✅ Complete 2026-05-16
 
-Update all file references. Recommended order to minimise cognitive load:
+**Approach used:** Category-by-category working from runtime-critical outward. TypeScript source files were confirmed rename-safe in Phase 2 (they use `__dirname`-relative paths), so no TS edits were needed.
 
-| Order | File type | Strategy |
-|-------|-----------|----------|
-| 1 | TypeScript import paths (`.ts` files) | IDE find-and-replace; verify `npm run build` after |
-| 2 | Cucumber/tooling config (`tooling/cucumber.js`, `tsconfig.json`, `package.json`) | Manual edit; verify `npm test` after each file |
-| 3 | Shell / PowerShell scripts (`.batch/`, any `.ps1`) | Manual edit; smoke-test each script |
-| 4 | Markdown documentation | Global find-and-replace for `DEMOAPPS`, `DEMOAPP001_TYPESCRIPT_CYPRESS`, `features_shared` |
-| 5 | NAMING_CONVENTIONS.md | Update naming rules for Stack directories |
-| 6 | DECISION_REGISTER.md | Add DR-016 entry |
-| 7 | BACKLOG.md | Mark MIG-13 Resolved |
-| 8 | CLAUDE.md | Update Stack inventory, directory blueprint, Risk Register paths |
-| 9 | CHANGELOG.md | Record the rename |
+**Files updated by category:**
 
-Commit Phase 3 as a separate commit:
+| Category | Files updated | Key changes |
+|----------|--------------|-------------|
+| A — Runtime critical | 1 | `.batch/run-demoapp001.ps1`: stack path |
+| B — Dev tooling | 2 | `.vscode/launch.json` (3 refs), `.claude/settings.local.json` (5 refs) |
+| C — Inside-Stack docs | 6 | `cd` commands, directory trees, `features_shared` → `features-shared` |
+| D — Governance | CLAUDE.md, README.md, CHANGELOG.md, DECISION_REGISTER.md, BACKLOG files + 22 DOCS/ files | All path refs, DR range updated DR-016, MIG status current |
+| E — Templates | 12 | `features_shared` → `features-shared` in all template examples |
+
+**Files deliberately NOT changed:**
+- `DOCS/.review/**` — historical review outputs, read-only per RA §10.7
+- `DOCS/REFERENCE_ARCHITECTURE.md` — uses `features_shared` as an illustrative (non-normative) example name; canonical Stack name refs unchanged throughout
+- `DOCS/ANALYSIS_Directory_Naming_Kebab_Case_2026-05-16.md` — historical references in body text describing the OLD state and the migration commands are preserved as-is
+
+**Validation results:**
+
 ```
-git commit -m "refactor: update all references for demo-apps/demoapp001-typescript-cypress rename"
+npm test (demo-apps/demoapp001-typescript-cypress/):
+  43 scenarios (43 passed)
+  241 steps (241 passed)
+
+npm run build: success (exit 0)
+
+.batch/run-demoapp001.ps1 smoke-test:
+  BuildExitCode: 0 | TestExitCode: 0 | OverallExitCode: 0
+  Metrics written to .results/.metrics/DEMOAPP001_20260516T133812Z.*
 ```
+
+**Final stale-reference scan:** 0 unintentional stale references. Remaining grep hits are all intentional historical text (DR-016 rename table, MIG-13 checked-off criteria, analysis doc body text).
 
 ---
 

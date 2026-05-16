@@ -35,7 +35,7 @@
 
 ```
 repository-root/
-├── features_shared/          # Canonical Feature Store — Gherkin only
+├── features-shared/          # Canonical Feature Store — Gherkin only
 ├── [STACK_NAME]/             # One directory per Stack
 ├── DOCS/                     # Project-wide documentation
 ├── README.md                 # This file

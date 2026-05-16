@@ -210,7 +210,7 @@ All 43 Gherkin scenarios in `BasicSudokuSolverLogic.feature` remain unchanged du
 **Outcomes:**
 - Zero regression in the behavioural specification during migration.
 - Step definition migration can be verified by diffing Cucumber output before and after migration.
-- The feature file is immediately usable as the canonical source for `features_shared/` (Phase 1 of migration).
+- The feature file is immediately usable as the canonical source for `features-shared/` (Phase 1 of migration).
 
 **Trade-offs:**
 - Some over-specified steps (e.g., `Given a row contains the values [1, 2, 0, 4, 5, 6, 7, 8, 9]`) are carried into the Screenplay layer unchanged. They must be refactored in a follow-up item.
@@ -282,42 +282,42 @@ Adopt RA v1.1 as the governing version. Correct the two path errors introduced b
 
 ---
 
-## DR-007 — Establish features_shared/ as the Canonical Feature Store
+## DR-007 — Establish features-shared/ as the Canonical Feature Store
 
 **Date:** 2026-05-14
 **Status:** Accepted — 2026-05-14
 
 ### Context
 
-Phase 1 of the Reference Architecture migration required creating a Canonical Feature Store at `features_shared/` (RA §5.1). The sole feature file previously lived at `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/BasicSudokuSolverLogic.feature`, owned by the Stack rather than by a shared store. With a second Stack (Python, C#) planned, an authoritative single source of truth was needed before adding any further Stack.
+Phase 1 of the Reference Architecture migration required creating a Canonical Feature Store at `features-shared/` (RA §5.1). The sole feature file previously lived at `demo-apps/demoapp001-typescript-cypress/tests/BasicSudokuSolverLogic.feature`, owned by the Stack rather than by a shared store. With a second Stack (Python, C#) planned, an authoritative single source of truth was needed before adding any further Stack.
 
 ### Decision
 
-Create `features_shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature` as the canonical source. Tag it with `@util` at Feature level (surface tag only, per RA §5.3). Create a Stack-local copy at `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/features/BasicSudokuSolverLogic.feature` with additional `@stack-demoapp001` tag. Update `cucumber.js` to read from `tests/features/` only. Remove the old `tests/BasicSudokuSolverLogic.feature`.
+Create `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature` as the canonical source. Tag it with `@util` at Feature level (surface tag only, per RA §5.3). Create a Stack-local copy at `demo-apps/demoapp001-typescript-cypress/tests/features/BasicSudokuSolverLogic.feature` with additional `@stack-demoapp001` tag. Update `cucumber.js` to read from `tests/features/` only. Remove the old `tests/BasicSudokuSolverLogic.feature`.
 
 ### Consequences
 
 **Outcomes:**
-- A canonical Canonical Feature Store exists at `features_shared/`. Future Stacks copy from here.
+- A canonical Canonical Feature Store exists at `features-shared/`. Future Stacks copy from here.
 - The Stack-local file is the only file Cucumber reads; it carries both the surface tag and the Stack tag.
 - The `@util` surface tag is applied to all 43 scenarios via Feature-level tagging, enabling future tag-filtered runs.
 - `@stack-demoapp001` identifies scenarios that have been implemented in this Stack, supporting future parity gap tracking.
 
 **Trade-offs:**
 - Two files must be kept in sync when scenarios change. The canonical feature update procedure in `CLAUDE.md` governs this.
-- The `features_shared/` path structure (`util-tests/sudoku-solver/`) must be maintained consistently when future feature groups are added.
+- The `features-shared/` path structure (`util-tests/sudoku-solver/`) must be maintained consistently when future feature groups are added.
 
 **Compliance note:**
 - Fully aligned with RA v1.1 §5.1 (single source of truth), §5.2 (feature distribution), §5.3 (tag taxonomy).
 
 ### Alternatives Considered
 
-**Alternative: Symlink tests/features/ to features_shared/**
+**Alternative: Symlink tests/features/ to features-shared/**
 - Description: Use a filesystem symlink so there is only one physical file.
 - Rejected because: Symlinks have cross-platform issues (Windows requires elevated permissions) and obscure the intent of the Stack-local copy bearing Stack-specific tags.
 
-**Alternative: Keep feature file inside the Stack, defer features_shared/ to multi-stack phase**
-- Description: Do not create features_shared/ until a second Stack is ready.
+**Alternative: Keep feature file inside the Stack, defer features-shared/ to multi-stack phase**
+- Description: Do not create features-shared/ until a second Stack is ready.
 - Rejected because: Creating the canonical store now establishes the correct structure before habits form. Retrofitting after two Stacks exist is harder and risks parity drift.
 
 ### Related Decisions
@@ -755,7 +755,7 @@ All 43 scenarios pass after the migration.
 The UPPER_SNAKE_CASE convention for the Stack group container (`DEMOAPPS/`) and Stack directory (`DEMOAPP001_TYPESCRIPT_CYPRESS/`) was adopted implicitly and was never recorded in the Decision Register. Analysis document `DOCS/ANALYSIS_Directory_Naming_Kebab_Case_2026-05-16.md` surfaced two problems with the current convention:
 
 1. **Case-sensitivity trap** — The repository is developed on a Windows (case-insensitive) filesystem and pushed to a Linux-hosted remote (case-sensitive). UPPER_CASE directory names create a latent risk where path mismatches silently succeed locally but fail on CI. This risk will become active when a CI pipeline is wired (BACKLOG-004).
-2. **Ecosystem friction** — Node.js, TypeScript, npm tooling, and modern CI/CD YAML all default to lowercase-hyphenated paths. UPPER_CASE directories require Shift-key input and are the outlier against `.batch/`, `.results/`, `features_shared/`, and all Screenplay subdirectories which are already lowercase.
+2. **Ecosystem friction** — Node.js, TypeScript, npm tooling, and modern CI/CD YAML all default to lowercase-hyphenated paths. UPPER_CASE directories require Shift-key input and are the outlier against `.batch/`, `.results/`, `features-shared/`, and all Screenplay subdirectories which are already lowercase.
 
 `REFERENCE_ARCHITECTURE.md` v1.3 §4.3 explicitly states that the Stack group directory does not define the canonical Stack name, opening the path to decouple the two conventions.
 

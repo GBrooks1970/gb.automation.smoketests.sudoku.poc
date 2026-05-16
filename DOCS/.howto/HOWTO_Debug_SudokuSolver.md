@@ -17,7 +17,7 @@ By the end of this guide you will have the VS Code debugger attached to the runn
 **You need:**
 - [ ] [VS Code](https://code.visualstudio.com/) installed
 - [ ] Node.js 16 or later — run `node --version` to confirm
-- [ ] Dependencies installed — run `npm install` once from `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/`
+- [ ] Dependencies installed — run `npm install` once from `demo-apps/demoapp001-typescript-cypress/`
 
 **You should know:**
 - How to open a terminal in VS Code (`Ctrl+`` ` ``)
@@ -70,11 +70,11 @@ Create `.vscode/launch.json` with this content:
                 "--require", "ts-node/register"
             ],
             "args": [
-                "${workspaceFolder}/DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/index.ts"
+                "${workspaceFolder}/demo-apps/demoapp001-typescript-cypress/app_src/index.ts"
             ],
-            "cwd": "${workspaceFolder}/DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS",
+            "cwd": "${workspaceFolder}/demo-apps/demoapp001-typescript-cypress",
             "env": {
-                "TS_NODE_PROJECT": "${workspaceFolder}/DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tsconfig.json"
+                "TS_NODE_PROJECT": "${workspaceFolder}/demo-apps/demoapp001-typescript-cypress/tsconfig.json"
             },
             "sourceMaps": true,
             "console": "integratedTerminal",
@@ -102,7 +102,7 @@ Create `.vscode/launch.json` with this content:
 
 ### Step 2: Open SudokuSolver.ts and set a breakpoint
 
-Open [`DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts`](../../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts).
+Open [`demo-apps/demoapp001-typescript-cypress/app_src/SudokuSolver.ts`](../../demo-apps/demoapp001-typescript-cypress/app_src/SudokuSolver.ts).
 
 Set a breakpoint on **line 91** — this is inside `hiddenSingles()`, at the point where a hidden single has been found and is about to be placed:
 
@@ -205,7 +205,7 @@ This shows row 0's current state every time execution pauses. Try these watches:
 
 To trace one puzzle rather than all four, temporarily edit `index.ts` to solve only the Easy Scan Grid.
 
-Locate [index.ts lines 22–29](../../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/index.ts#L22):
+Locate [index.ts lines 22–29](../../demo-apps/demoapp001-typescript-cypress/app_src/index.ts#L22):
 
 ```typescript
 // Comment out the "solve all" loop:
@@ -273,7 +273,7 @@ You have debugged the solver successfully if:
 
 **Fix:** Confirm `launch.json` has:
 ```json
-"cwd": "${workspaceFolder}/DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS"
+"cwd": "${workspaceFolder}/demo-apps/demoapp001-typescript-cypress"
 ```
 The `cwd` must be the `DEMOAPP001_TYPESCRIPT_CYPRESS` directory — the same directory you `cd` into when running `npm start` manually.
 
@@ -285,7 +285,7 @@ The `cwd` must be the `DEMOAPP001_TYPESCRIPT_CYPRESS` directory — the same dir
 
 **Fix:**
 ```bash
-cd DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS
+cd demo-apps/demoapp001-typescript-cypress
 npm install
 ```
 
@@ -317,5 +317,5 @@ Press **Shift+F11** (Step Out) to escape from an internal file and return to you
 ## What to do next
 
 - Read the [Hidden Singles algorithm explanation](../ALGORITHM_Sudoku_Basic_Solver.md#2-hidden-singles-algorithm) and use the debugger to verify each step of the pseudocode against the live code.
-- Set a breakpoint at [SudokuOrchestrator.ts line 29](../../DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuOrchestrator.ts#L29) to observe how the outer solve loop coordinates the three algorithms across iterations.
+- Set a breakpoint at [SudokuOrchestrator.ts line 29](../../demo-apps/demoapp001-typescript-cypress/app_src/SudokuOrchestrator.ts#L29) to observe how the outer solve loop coordinates the three algorithms across iterations.
 - Once you understand the flow, implement [BACKLOG-001](../DOCS/.planning/TODO_Hidden_Singles_Complete_Implementation.md) — use the debugger to verify the new row and column loops place digits correctly before committing.

@@ -51,7 +51,7 @@
 ## 3. Critical Bugs Fixed
 
 ### Bug 1: Hidden Singles Only Checked 3x3 Blocks (Specification Gap)
-**File:** `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts` (lines 84-101)
+**File:** `demo-apps/demoapp001-typescript-cypress/app_src/SudokuSolver.ts` (lines 84-101)
 **Issue:** `hiddenSingles(target)` only scanned 3x3 blocks for candidates. The specification, algorithm documentation, and CLAUDE.md Known Limitations all acknowledged this gap. Three consecutive code reviews flagged it as HIGH priority.
 **Original Code:**
 ```typescript
@@ -92,7 +92,7 @@ for (let row = 0; row < GRID_SIZE; row++) {
 **Impact:** The fix proved immediately significant. The "Minimal Clues" puzzle (17 clues, previously returning `STUCK_ON_ADVANCED_LOGIC` through the entire project history) now returns `SOLVED`. Row/column hidden singles were a genuine gap that Naked Singles did NOT compensate for in this case.
 
 ### Bug 2: tsconfig.json Modified to Incompatible moduleResolution by IDE
-**File:** `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tsconfig.json`
+**File:** `demo-apps/demoapp001-typescript-cypress/tsconfig.json`
 **Issue:** The TypeScript language server auto-changed `"moduleResolution": "node"` to `"moduleResolution": "bundler"` and added `"ignoreDeprecations": "6.0"`. The `bundler` resolution requires `module` to be `ES2015+` but the project uses `commonjs`, causing tsc to fail with `TS5095`.
 **Fix:** Reverted to `"moduleResolution": "node"` and used the correct `"ignoreDeprecations": "5.0"` (TypeScript 5.x deprecation suppressor) to silence the IDE deprecation warning.
 **Impact:** Build failure blocking all further work until reverted.
@@ -109,25 +109,25 @@ for (let row = 0; row < GRID_SIZE; row++) {
 
 ### New Files Created:
 
-1. **`DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/eslint.config.js`** - ESLint 10 flat config
+1. **`demo-apps/demoapp001-typescript-cypress/eslint.config.js`** - ESLint 10 flat config
    - Enforces `camelCase` for variables, parameters, and members
    - Enforces `PascalCase` for classes, interfaces, and type aliases
    - Allows `UPPER_CASE` for constants (module-level)
    - Uses `@typescript-eslint/naming-convention` rule targeting `app_src/**/*.ts`
 
-2. **`DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/cucumber.js`** - Cucumber configuration
+2. **`demo-apps/demoapp001-typescript-cypress/cucumber.js`** - Cucumber configuration
    - Points to step definitions in `tests/step_definitions/**/*.ts`
    - Registers `ts-node/register` for runtime TypeScript compilation
    - Sets `TS_NODE_PROJECT=tsconfig.cucumber.json` so ts-node uses the correct config
    - Uses `@cucumber/pretty-formatter` for readable output
 
-3. **`DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tsconfig.cucumber.json`** - Cucumber-specific tsconfig
+3. **`demo-apps/demoapp001-typescript-cypress/tsconfig.cucumber.json`** - Cucumber-specific tsconfig
    - Extends base `tsconfig.json`
    - Overrides `rootDir: "."` to allow step definitions alongside app_src
    - Sets `noEmit: true` (type-check only; ts-node handles runtime compilation)
    - Includes both `app_src/**/*` and `tests/**/*.ts`
 
-4. **`DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/step_definitions/solver_steps.ts`** - All step definitions
+4. **`demo-apps/demoapp001-typescript-cypress/tests/step_definitions/solver_steps.ts`** - All step definitions
    - 43 scenarios / 241 steps, all passing
    - Custom `SudokuWorld` class holding test state between steps
    - Covers: algorithm unit tests, constraint validation Scenario Outline (8 examples), orchestration, PuzzleLoader, grid initialization, integration tests, edge cases
@@ -151,7 +151,7 @@ for (let row = 0; row < GRID_SIZE; row++) {
 
 ### Significantly Modified Files:
 
-1. **`DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuSolver.ts`**
+1. **`demo-apps/demoapp001-typescript-cypress/app_src/SudokuSolver.ts`**
    - Added exported constants: `GRID_SIZE = 9`, `BLOCK_SIZE = 3`, `EMPTY_CELL = 0`
    - Renamed all outer algorithm loop variables: `r`→`row`, `c`→`col`, `br`→`blockRow`, `bc`→`blockCol`
    - Renamed all method parameters to descriptive names (`isInRow(v, row)`, `getCellCandidates(row, col)`, etc.)
@@ -159,22 +159,22 @@ for (let row = 0; row < GRID_SIZE; row++) {
    - Replaced all magic numbers `9`, `3`, `0` with constants across all methods
    - Extended `hiddenSingles()`: added row-based and column-based scanning
 
-2. **`DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuOrchestrator.ts`**
+2. **`demo-apps/demoapp001-typescript-cypress/app_src/SudokuOrchestrator.ts`**
    - Imports `GRID_SIZE`, `EMPTY_CELL` from `SudokuSolver`
    - Replaced `digit <= 9` with `digit <= GRID_SIZE`
    - Replaced `cell !== 0` with `cell !== EMPTY_CELL`
 
-3. **`DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/SudokuCLI.ts`**
+3. **`demo-apps/demoapp001-typescript-cypress/app_src/SudokuCLI.ts`**
    - Imports `GRID_SIZE`, `BLOCK_SIZE`, `EMPTY_CELL` from `SudokuSolver`
    - Replaced all display-loop magic numbers with constants
 
-4. **`DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/puzzles.json`**
+4. **`demo-apps/demoapp001-typescript-cypress/puzzles.json`**
    - Added "Crosshatch Challenge" puzzle (medium difficulty, 32 clues)
    - Puzzle specifically exercises hidden singles in rows and columns
    - Solution verified correct: 4,8,3,9,2,1,6,5,7 / 9,6,7,3,4,5,8,2,1 / etc.
    - Now contains 5 puzzles total (previously 4)
 
-5. **`DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/BasicSudokuSolverLogic.feature`**
+5. **`demo-apps/demoapp001-typescript-cypress/tests/BasicSudokuSolverLogic.feature`**
    - Example table headers: `grid_state` → `gridState`
    - Example table values: snake_case → camelCase (e.g., `empty_grid` → `emptyGrid`)
    - Step reference updated: `<grid_state>` → `<gridState>`
@@ -183,12 +183,12 @@ for (let row = 0; row < GRID_SIZE; row++) {
    - Puzzle count updated from 4 to 5 in PuzzleLoader scenario
    - `puzzleLoader` scenario count corrected (4→5)
 
-6. **`DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/package.json`**
+6. **`demo-apps/demoapp001-typescript-cypress/package.json`**
    - Added `lint` script: `eslint app_src/**/*.ts`
    - Added `test` script: `cucumber-js`
    - Added devDependencies: `eslint`, `@typescript-eslint/eslint-plugin`, `@typescript-eslint/parser`, `@cucumber/cucumber`, `@cucumber/pretty-formatter`
 
-7. **`DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tsconfig.json`**
+7. **`demo-apps/demoapp001-typescript-cypress/tsconfig.json`**
    - Removed `tests` from `include` array (step definitions now handled by tsconfig.cucumber.json)
    - Added `"ignoreDeprecations": "5.0"` to suppress TS 5.x deprecation warning for `moduleResolution: node`
 

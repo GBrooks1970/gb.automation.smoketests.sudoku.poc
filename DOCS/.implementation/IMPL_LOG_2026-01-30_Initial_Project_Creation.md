@@ -119,7 +119,7 @@ constructor(
    - OpenAPI/Swagger documentation structure
    - **Version:** v1.0, **Date:** 2026-01-30T20:00:00Z
 
-6. **DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/README.md** - Implementation-specific guide
+6. **demo-apps/demoapp001-typescript-cypress/README.md** - Implementation-specific guide
    - Technology stack, architecture details, component responsibilities
    - npm scripts, configuration files, troubleshooting
    - **Version:** v1.0, **Date:** 2026-01-30T20:00:00Z

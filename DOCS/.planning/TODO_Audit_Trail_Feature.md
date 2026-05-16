@@ -27,7 +27,7 @@ Implementation task list for a comprehensive audit trail system that logs every 
 
 ### 1.1 Create Type Definitions
 
-- [ ] **1.1.1** Create directory `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/app_src/audit/`
+- [ ] **1.1.1** Create directory `demo-apps/demoapp001-typescript-cypress/app_src/audit/`
 - [ ] **1.1.2** Create `app_src/audit/AuditTypes.ts` with the following interfaces:
   - `AuditConfig` — enabled, outputToFile, outputToConsole, includeGridSnapshots, filePath, verbosityLevel
   - `CellChange` — `cell: { row: number; col: number }`, oldValue, newValue, `reason?` — **this is the shared cross-feature base interface**; the Web UI's `SolveStep` (`web/SolveStepTracker.ts`) extends it, and the REST API's `ChangeTracker` returns it. Define it once here.

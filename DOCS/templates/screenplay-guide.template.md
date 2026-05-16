@@ -109,7 +109,7 @@ All Memory keys are defined in `tests/screenplay/support/memory-keys.[ext]`.
 
 ## 6. Adding a New Scenario [REQUIRED]
 
-1. Update the canonical feature file in `features_shared/`.
+1. Update the canonical feature file in `features-shared/`.
 2. Propagate to the Stack-local copy in `tests/features/` (add `@stack-[name]` if not present).
 3. Identify which Task and Question the new steps need.
 4. If new components are needed, implement Ability → Task → Question in that order.

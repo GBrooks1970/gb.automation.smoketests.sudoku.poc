@@ -113,7 +113,7 @@ The solver was designed as a CLI tool with a clear separation of concerns. The `
 - No external CSS or JavaScript frameworks (project convention of minimal dependencies)
 
 **Project Constraints:**
-- Should integrate cleanly within the existing `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/` directory structure
+- Should integrate cleanly within the existing `demo-apps/demoapp001-typescript-cypress/` directory structure
 - Must not break existing CLI functionality (`npm start` must continue to work)
 - Should be launchable with a single command (e.g., `npm run web`)
 
@@ -1201,7 +1201,7 @@ Feature: Web UI Solve API
 ### Appendix C: File Structure
 
 ```
-DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/
+demo-apps/demoapp001-typescript-cypress/
 ├── web/
 │   ├── server.ts                      # Express server entry point
 │   ├── SolveStepTracker.ts            # Step-tracking solver wrapper

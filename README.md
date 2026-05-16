@@ -52,15 +52,15 @@ gb.automation.smoketests.sudoku.poc/
 │   │   └── DESIGN_REST_API_Wrapper.md               # REST API wrapper design
 │   └── ALGORITHM_Sudoku_Basic_Solver.md         # Algorithm details with pseudocode
 │
-├── DEMOAPPS/                                # Technology-specific implementations
-│   ├── DEMOAPP001_TYPESCRIPT_CYPRESS/       # TypeScript + Node.js implementation
+├── demo-apps/                               # Technology-specific implementations
+│   ├── demoapp001-typescript-cypress/       # TypeScript + Node.js implementation
 │   │   ├── README.md                        # Implementation-specific guide
 │   │   ├── app_src/                         # TypeScript source code
 │   │   ├── tests/                           # Test specifications
 │   │   └── puzzles.json                     # Test puzzle data
 │   │
-│   ├── DEMOAPP002_PYTHON_PYTEST/            # (Planned) Python implementation
-│   └── DEMOAPP003_CSHARP_NUNIT/             # (Planned) C# implementation
+│   ├── demoapp002-python-pytest/            # (Planned) Python implementation
+│   └── demoapp003-csharp-specflow/          # (Planned) C# implementation
 │
 └── README.md                                # This file
 ```
@@ -73,7 +73,7 @@ gb.automation.smoketests.sudoku.poc/
 |----------|---------|----------|
 | [DESIGN_Sudoku_Solver_Specification.md](DOCS/.design/DESIGN_Sudoku_Solver_Specification.md) | Complete implementation specification | Developers implementing in any language |
 | [ALGORITHM_Sudoku_Basic_Solver.md](DOCS/.algorithm/ALGORITHM_Sudoku_Basic_Solver.md) | Detailed algorithm descriptions with examples | Developers & educators |
-| [BasicSudokuSolverLogic.feature](DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/BasicSudokuSolverLogic.feature) | BDD test scenarios (Gherkin) | QA & developers |
+| [BasicSudokuSolverLogic.feature](demo-apps/demoapp001-typescript-cypress/tests/features/BasicSudokuSolverLogic.feature) | BDD test scenarios (Gherkin) | QA & developers |
 
 ### Extended Feature Designs
 
@@ -92,7 +92,7 @@ gb.automation.smoketests.sudoku.poc/
 
 **Quick Start:**
 ```bash
-cd DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS
+cd demo-apps/demoapp001-typescript-cypress
 npm install
 npm start
 ```
@@ -105,7 +105,7 @@ npm start
 - 🚧 Audit trail feature (design complete)
 - 🚧 REST API wrapper (design complete)
 
-See [DEMOAPP001 README](DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/README.md) for implementation details.
+See [DEMOAPP001 README](demo-apps/demoapp001-typescript-cypress/README.md) for implementation details.
 
 ### DEMOAPP002: Python + Flask (Planned)
 
@@ -214,4 +214,4 @@ This is an educational project. See LICENSE file for details.
 
 - 📖 Start with the [Design Specification](DOCS/.design/DESIGN_Sudoku_Solver_Specification.md)
 - 🧩 See [Algorithm Details](DOCS/.algorithm/ALGORITHM_Sudoku_Basic_Solver.md) for technique explanations
-- 💻 Check [DEMOAPP001 README](DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/README.md) for implementation example
+- 💻 Check [DEMOAPP001 README](demo-apps/demoapp001-typescript-cypress/README.md) for implementation example

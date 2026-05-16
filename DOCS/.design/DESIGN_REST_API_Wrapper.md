@@ -1162,7 +1162,7 @@ services:
 ## File Structure
 
 ```
-DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/
+demo-apps/demoapp001-typescript-cypress/
 ├── api/
 │   ├── server.ts                           # Express server setup
 │   ├── routes/
