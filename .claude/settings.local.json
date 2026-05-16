@@ -15,7 +15,17 @@
       "PowerShell(Head -10)",
       "PowerShell(node -e \"const core = require\\('@serenity-js/core'\\); console.log\\(Object.keys\\(core\\).filter\\(k => k.toLowerCase\\(\\).includes\\('ability'\\)\\)\\)\" 2>&1)",
       "Bash(Move-Item \"d:\\\\__GB_DEV\\\\_GitHub\\\\gb.automation.smoketests.sudoku.poc\\\\DOCS\\\\ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md\" \"d:\\\\__GB_DEV\\\\_GitHub\\\\gb.automation.smoketests.sudoku.poc\\\\DOCS\\\\ref-arch-alignment_2026-05-14.md\")",
-      "Bash(node -e \"const {Ability} = require\\('@serenity-js/core'\\); console.log\\(Object.getOwnPropertyNames\\(Ability\\)\\);\")"
+      "Bash(node -e \"const {Ability} = require\\('@serenity-js/core'\\); console.log\\(Object.getOwnPropertyNames\\(Ability\\)\\);\")",
+      "Bash(Get-ChildItem -Path \"d:\\\\__GB_DEV\\\\_GitHub\\\\gb.automation.smoketests.sudoku.poc\\\\DEMOAPPS\\\\DEMOAPP001_TYPESCRIPT_CYPRESS\\\\tests\\\\screenplay\" -Recurse -File)",
+      "Bash(Select-Object FullName)",
+      "Bash(Select-String -Path \"DECISION_REGISTER.md\" -Pattern \"^## DR-0\")",
+      "Bash(Select-Object -Last 5)",
+      "Bash(git checkout *)",
+      "PowerShell(Get-ChildItem -Path \"d:\\\\__GB_DEV\\\\_GitHub\\\\gb.automation.smoketests.sudoku.poc\" -Force | Select-Object Name, @{Name=\"Type\"; Expression={if\\($_.PSIsContainer\\){\"DIR\"}else{\"FILE\"}}} | Format-Table -AutoSize)",
+      "PowerShell(Get-ChildItem -Path \"d:\\\\__GB_DEV\\\\_GitHub\\\\gb.automation.smoketests.sudoku.poc\\\\DEMOAPPS\" -Force | Select-Object Name, @{Name=\"Type\"; Expression={if\\($_.PSIsContainer\\){\"DIR\"}else{\"FILE\"}}} | Format-Table -AutoSize)",
+      "PowerShell(Get-ChildItem -Path \"d:\\\\__GB_DEV\\\\_GitHub\\\\gb.automation.smoketests.sudoku.poc\\\\DOCS\" -Force | Select-Object Name, @{Name=\"Type\"; Expression={if\\($_.PSIsContainer\\){\"DIR\"}else{\"FILE\"}}} | Format-Table -AutoSize)",
+      "PowerShell(Get-ChildItem -Path \"d:\\\\__GB_DEV\\\\_GitHub\\\\gb.automation.smoketests.sudoku.poc\\\\features_shared\" -Force | Select-Object Name, @{Name=\"Type\"; Expression={if\\($_.PSIsContainer\\){\"DIR\"}else{\"FILE\"}}} | Format-Table -AutoSize)",
+      "PowerShell(Get-ChildItem -Path \"d:\\\\__GB_DEV\\\\_GitHub\\\\gb.automation.smoketests.sudoku.poc\\\\.results\" -Force | Select-Object Name, @{Name=\"Type\"; Expression={if\\($_.PSIsContainer\\){\"DIR\"}else{\"FILE\"}}} | Format-Table -AutoSize)"
     ]
   }
 }
