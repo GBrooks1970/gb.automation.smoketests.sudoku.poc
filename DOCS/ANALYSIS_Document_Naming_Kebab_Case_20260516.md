@@ -198,7 +198,258 @@ Claude Code (the CLI tool in which this assistant runs) has a well-documented lo
 
 ### 5.4 Duplicate `TEMPLATE_*` / `*.template.md` pairs — consolidate first
 
-14 document types have both an old-style `TEMPLATE_Algorithm.md` and a new-style `algorithm.template.md` under `DOCS/.templates/`. The old-style files predate the RA template mandate (Section 10.5) and are heavier, more prescriptive documents. The new-style files are the RA v1.3 governed canonical templates. **Recommended: consolidate as a prerequisite step.** Remove the `TEMPLATE_` files; keep and improve the `*.template.md` files. This is a separate, bounded change that does not require the kebab-case decision to proceed.
+14 document types in `DOCS/.templates/` have both an old-style `TEMPLATE_Algorithm.md` and a new-style `algorithm.template.md`. Additionally, three directories hold local template files (`TEMPLATE_Design_Document.md` in `.design/`, `TEMPLATE_HowTo.md` in `.howto/`, and `TEMPLATE_Implementation_Log.md` in `.implementation-logs/`) that have no `.template.md` counterpart in `.templates/` or that duplicate the `.templates/` version. Section 5.5 contains the pair-by-pair analysis and per-file action. **Recommended: consolidate as a prerequisite step.** This is independent of the kebab-case naming decision and should proceed regardless.
+
+### 5.5 Template pair-by-pair analysis
+
+Each pair was read and compared in full on 2026-05-17. The recommended action for each file is stated explicitly. Approval is requested before any file is deleted or moved.
+
+---
+
+#### Pair 1 — Algorithm
+
+| Attribute | `TEMPLATE_Algorithm.md` | `algorithm.template.md` |
+|-----------|------------------------|------------------------|
+| Location | `DOCS/.templates/` | `DOCS/.templates/` |
+| Line 8 note | "This template is the canonical version. The copy at `DOCS/.algorithm/TEMPLATE_Algorithm.md` is a convenience reference for the algorithm directory." | "This lowercase file is the canonical template. Legacy convenience copies may exist under dot-prefixed documentation folders, but new algorithm documents should start from this file." |
+| All other content | Identical | Identical |
+
+**Difference:** Single line of self-description only. Both files have identical structure, headings, placeholders, and [REQUIRED] markers.
+
+**Recommended action:** Remove `TEMPLATE_Algorithm.md`. `algorithm.template.md` is the canonical file.
+
+---
+
+#### Pair 2 — Backlog
+
+| Attribute | `TEMPLATE_Backlog.md` | `backlog.template.md` |
+|-----------|----------------------|----------------------|
+| Location | `DOCS/.templates/` | `DOCS/.templates/` |
+| Structure | Sprint-based: Current Sprint / High-Med-Low buckets / Resolved. No [REQUIRED] markers. No Purpose, Migration Items, Sprint Roadmap, Maintenance Rules, or Next Review Date sections. | Project-style: Purpose / Summary / Migration Items / Active Product Work / Active Item Details / Resolved Items / Sprint Roadmap / Maintenance Rules / Next Review Date. Full [REQUIRED] markers throughout. |
+| Matches current BACKLOG.md format | No — diverges significantly | Yes — matches our actual `DOCS/.planning/BACKLOG.md` exactly |
+
+**Difference:** Substantially different structure and completeness. `backlog.template.md` is the evolved, authoritative version.
+
+**Recommended action:** Remove `TEMPLATE_Backlog.md`. `backlog.template.md` is the governed current version.
+
+---
+
+#### Pair 3 — Changelog
+
+| Attribute | `TEMPLATE_Changelog.md` | `changelog.template.md` |
+|-----------|------------------------|------------------------|
+| Location | `DOCS/.templates/` | `DOCS/.templates/` |
+| [REQUIRED] markers | None | Present throughout |
+| "Known Issues" section | Absent | Present (per-release) |
+| `**Project:**` header field | Absent | Present with [REQUIRED] |
+| Usage instruction | "Add new entries at the top…" only | Adds "Replace every [REQUIRED] placeholder before publishing." |
+
+**Difference:** `changelog.template.md` is a more complete governed version with [REQUIRED] markers and a "Known Issues" section.
+
+**Recommended action:** Remove `TEMPLATE_Changelog.md`. `changelog.template.md` is the governed current version.
+
+---
+
+#### Pair 4 — Code Review
+
+| Attribute | `TEMPLATE_Code_Review.md` | `code-review.template.md` |
+|-----------|--------------------------|--------------------------|
+| Location | `DOCS/.templates/` | `DOCS/.templates/` |
+| `**Produces:**` line | `DOCS/.review/CODE_REVIEW_{Reviewer}__{UTC_TIMESTAMP}/` | `.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/` |
+| Output directory in How to Use | `DOCS/.review/CODE_REVIEW_{Reviewer}__{UTC_TIMESTAMP}/` | `.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/` |
+| v1.3 alignment | No — uses old v1.2 `DOCS/.review/` path and `{Reviewer}__{UTC_TIMESTAMP}` naming | Yes — aligned with DR-012 and DR-014 (root `.review/`, `[AGENT]_v[N]_[UTC]` naming) |
+
+**Difference:** Different output path and naming format. `TEMPLATE_Code_Review.md` reflects the superseded v1.2 convention. `code-review.template.md` reflects the current v1.3 standard.
+
+**Recommended action:** Remove `TEMPLATE_Code_Review.md`. `code-review.template.md` is the v1.3-aligned version.
+
+---
+
+#### Pair 5 — Decision Record
+
+| Attribute | `TEMPLATE_Decision_Record.md` | `decision-record.template.md` |
+|-----------|------------------------------|------------------------------|
+| Location | `DOCS/.templates/` | `DOCS/.templates/` |
+| Content | Identical | Identical |
+
+**Difference:** None — files are byte-for-byte identical.
+
+**Recommended action:** Remove `TEMPLATE_Decision_Record.md`. `decision-record.template.md` is the canonical file.
+
+---
+
+#### Pair 6 — Implementation Log
+
+| Attribute | `TEMPLATE_Implementation_Log.md` | `implementation-log.template.md` |
+|-----------|----------------------------------|----------------------------------|
+| Location | `DOCS/.templates/` | `DOCS/.templates/` |
+| Line 8 note | "This template is the canonical version. The copy at `DOCS/.implementation/TEMPLATE_Implementation_Log.md` is a convenience reference." | "This lowercase file is the canonical template. Legacy convenience copies may exist…" |
+| `**Produces:**` line | `DOCS/.implementation/IMPL_LOG_YYYY-MM-DD_Topic_Slug.md` — **stale path and naming** | `DOCS/.implementation/IMPL_LOG_YYYY-MM-DD_Topic_Slug.md` — **same stale path and naming** |
+| Naming instruction | "Name the file: `IMPL_LOG_YYYY-MM-DD_Brief_Topic_Slug.md`" — **stale** | "Name the file: `IMPL_LOG_YYYY-MM-DD_Brief_Topic_Slug.md`" — **same stale** |
+| All other content | Identical | Identical |
+
+**Difference:** Line 8 self-description only. Both files carry the same stale path (`DOCS/.implementation/`) and filename convention (`IMPL_LOG_*`). Both need correcting to `DOCS/.implementation-logs/YYYY-MM-DD_short-session-topic.md` (per DR-017/DR-019).
+
+**Recommended action:** Remove `TEMPLATE_Implementation_Log.md`. Update `implementation-log.template.md` to correct: (a) `**Produces:**` → `DOCS/.implementation-logs/YYYY-MM-DD_short-session-topic.md`; (b) naming instruction → `YYYY-MM-DD_short-session-topic.md`.
+
+---
+
+#### Pair 7 — Naming Conventions
+
+| Attribute | `TEMPLATE_Naming_Conventions.md` | `naming-conventions.template.md` |
+|-----------|----------------------------------|----------------------------------|
+| Location | `DOCS/.templates/` | `DOCS/.templates/` |
+| Section count | 10 sections | 12 sections |
+| [REQUIRED] markers | None | Present throughout |
+| `**Governed by:**` header | Absent | Present with [REQUIRED] |
+| `**Template:**` self-reference | Absent | Present with [REQUIRED] |
+| Section 8 | "Document Names" | "Tag Names" (Document Names renumbered to 9) |
+| Sections 10–12 | Ends at "Enforcement" (section 10) | Adds "Generated Artifact Names" (10), renumbers Decision Record IDs to 11 and Enforcement to 12 |
+
+**Difference:** Substantially different. `naming-conventions.template.md` adds two complete sections ("Tag Names" and "Generated Artifact Names") required by RA v1.3 §10.9, and carries [REQUIRED] markers throughout.
+
+**Recommended action:** Remove `TEMPLATE_Naming_Conventions.md`. `naming-conventions.template.md` is the governed v1.3-compliant version.
+
+---
+
+#### Pair 8 — Parity Contract
+
+| Attribute | `TEMPLATE_Parity_Contract.md` | `parity-contract.template.md` |
+|-----------|------------------------------|------------------------------|
+| Location | `DOCS/.templates/` | `DOCS/.templates/` |
+| Content | Identical | Identical |
+
+**Difference:** None — files are identical.
+
+**Recommended action:** Remove `TEMPLATE_Parity_Contract.md`. `parity-contract.template.md` is the canonical file.
+
+---
+
+#### Pair 9 — QA Strategy
+
+| Attribute | `TEMPLATE_QA_Strategy.md` | `qa-strategy.template.md` |
+|-----------|--------------------------|--------------------------|
+| Location | `DOCS/.templates/` | `DOCS/.templates/` |
+| Content | Identical | Identical |
+
+**Difference:** None — files are identical.
+
+**Recommended action:** Remove `TEMPLATE_QA_Strategy.md`. `qa-strategy.template.md` is the canonical file.
+
+---
+
+#### Pair 10 — Root README
+
+| Attribute | `TEMPLATE_Readme.md` | `readme.template.md` |
+|-----------|---------------------|---------------------|
+| Location | `DOCS/.templates/` | `DOCS/.templates/` |
+| Content | Identical | Identical |
+
+**Difference:** None — files are identical.
+
+**Recommended action:** Remove `TEMPLATE_Readme.md`. `readme.template.md` is the canonical file.
+
+---
+
+#### Pair 11 — Screenplay Guide
+
+| Attribute | `TEMPLATE_Screenplay_Guide.md` | `screenplay-guide.template.md` |
+|-----------|-------------------------------|-------------------------------|
+| Location | `DOCS/.templates/` | `DOCS/.templates/` |
+| Content | Identical | Identical |
+
+**Difference:** None — files are identical.
+
+**Recommended action:** Remove `TEMPLATE_Screenplay_Guide.md`. `screenplay-guide.template.md` is the canonical file.
+
+---
+
+#### Pair 12 — Stack Architecture
+
+| Attribute | `TEMPLATE_Stack_Architecture.md` | `stack-architecture.template.md` |
+|-----------|----------------------------------|----------------------------------|
+| Location | `DOCS/.templates/` | `DOCS/.templates/` |
+| Content | Identical | Identical |
+
+**Difference:** None — files are identical.
+
+**Recommended action:** Remove `TEMPLATE_Stack_Architecture.md`. `stack-architecture.template.md` is the canonical file.
+
+---
+
+#### Pair 13 — Stack README
+
+| Attribute | `TEMPLATE_Stack_Readme.md` | `stack-readme.template.md` |
+|-----------|---------------------------|---------------------------|
+| Location | `DOCS/.templates/` | `DOCS/.templates/` |
+| Content | Identical | Identical |
+
+**Difference:** None — files are identical.
+
+**Recommended action:** Remove `TEMPLATE_Stack_Readme.md`. `stack-readme.template.md` is the canonical file.
+
+---
+
+#### Pair 14 — Subject Application Contract
+
+| Attribute | `TEMPLATE_Subject_App_Contract.md` | `subject-app-contract.template.md` |
+|-----------|-----------------------------------|-----------------------------------|
+| Location | `DOCS/.templates/` | `DOCS/.templates/` |
+| Content | Identical | Identical |
+
+**Difference:** None — files are identical.
+
+**Recommended action:** Remove `TEMPLATE_Subject_App_Contract.md`. `subject-app-contract.template.md` is the canonical file.
+
+---
+
+#### Directory-local templates (no `.template.md` counterpart)
+
+Three template files live inside their subject directories rather than in `.templates/`. None has a counterpart in `.templates/`:
+
+**`DOCS/.design/TEMPLATE_Design_Document.md`**
+A comprehensive 700-line heavyweight design document template covering 12 sections: executive summary, problem analysis, requirements, high-level design, detailed design, implementation plan, refactoring strategy, testing strategy, migration path, alternatives, open questions, and appendices. No `design-document.template.md` exists in `.templates/`. This template has significant content value not found elsewhere.
+
+**Recommended action:** Move to `DOCS/.templates/design-document.template.md` so all templates live in one directory. The existing DESIGN_ documents in `.design/` were authored from an older version of this template; the moved version covers the same ground with more rigour.
+
+---
+
+**`DOCS/.howto/TEMPLATE_HowTo.md`**
+A concise, well-structured how-to template with comment-block authoring instructions. Covers: what you will achieve, before-you-start checklist, step-by-step procedure with expected output, verify-it-worked section, common problems, and next steps. No `howto.template.md` exists in `.templates/`.
+
+**Recommended action:** Move to `DOCS/.templates/howto.template.md`. Rename matches the `.template.md` convention; `.howto/` directory retains only authored content.
+
+---
+
+**`DOCS/.implementation-logs/TEMPLATE_Implementation_Log.md`**
+This is the legacy template copy that was moved from `.implementation/` to `.implementation-logs/` by DR-019. It is an additional copy of the same stale `TEMPLATE_Implementation_Log.md` already covered in Pair 6 above. The canonical template is `implementation-log.template.md` in `.templates/`.
+
+**Recommended action:** Remove. No unique content; superseded by `DOCS/.templates/implementation-log.template.md` (after it is updated per Pair 6 recommendation).
+
+---
+
+### 5.6 Summary of recommended actions for Phase 0
+
+| # | File | Action | Reason |
+|---|------|--------|--------|
+| 1 | `DOCS/.templates/TEMPLATE_Algorithm.md` | **Remove** | Identical to `algorithm.template.md` (line 8 note only differs) |
+| 2 | `DOCS/.templates/TEMPLATE_Backlog.md` | **Remove** | Superseded by the structurally richer `backlog.template.md` |
+| 3 | `DOCS/.templates/TEMPLATE_Changelog.md` | **Remove** | Superseded; `changelog.template.md` has [REQUIRED] markers and Known Issues section |
+| 4 | `DOCS/.templates/TEMPLATE_Code_Review.md` | **Remove** | Stale v1.2 output path; `code-review.template.md` reflects v1.3 (DR-012/DR-014) |
+| 5 | `DOCS/.templates/TEMPLATE_Decision_Record.md` | **Remove** | Identical to `decision-record.template.md` |
+| 6 | `DOCS/.templates/TEMPLATE_Implementation_Log.md` | **Remove** | Identical (minus line 8) to `implementation-log.template.md`; both need path fix (see #15) |
+| 7 | `DOCS/.templates/TEMPLATE_Naming_Conventions.md` | **Remove** | Superseded; `naming-conventions.template.md` adds Tag Names and Generated Artifacts sections |
+| 8 | `DOCS/.templates/TEMPLATE_Parity_Contract.md` | **Remove** | Identical to `parity-contract.template.md` |
+| 9 | `DOCS/.templates/TEMPLATE_QA_Strategy.md` | **Remove** | Identical to `qa-strategy.template.md` |
+| 10 | `DOCS/.templates/TEMPLATE_Readme.md` | **Remove** | Identical to `readme.template.md` |
+| 11 | `DOCS/.templates/TEMPLATE_Screenplay_Guide.md` | **Remove** | Identical to `screenplay-guide.template.md` |
+| 12 | `DOCS/.templates/TEMPLATE_Stack_Architecture.md` | **Remove** | Identical to `stack-architecture.template.md` |
+| 13 | `DOCS/.templates/TEMPLATE_Stack_Readme.md` | **Remove** | Identical to `stack-readme.template.md` |
+| 14 | `DOCS/.templates/TEMPLATE_Subject_App_Contract.md` | **Remove** | Identical to `subject-app-contract.template.md` |
+| 15 | `DOCS/.templates/implementation-log.template.md` | **Update** | Fix stale `Produces:` path and filename convention to reflect DR-017/DR-019 |
+| 16 | `DOCS/.design/TEMPLATE_Design_Document.md` | **Move** → `DOCS/.templates/design-document.template.md` | No counterpart exists in `.templates/`; belongs there |
+| 17 | `DOCS/.howto/TEMPLATE_HowTo.md` | **Move** → `DOCS/.templates/howto.template.md` | No counterpart exists in `.templates/`; belongs there |
+| 18 | `DOCS/.implementation-logs/TEMPLATE_Implementation_Log.md` | **Remove** | Duplicate copy of stale legacy template; `implementation-log.template.md` is canonical |
 
 ---
 
@@ -206,7 +457,13 @@ Claude Code (the CLI tool in which this assistant runs) has a well-documented lo
 
 ### Phase 0 — Prerequisites (before any renames)
 
-- [ ] **Resolve TEMPLATE_ duplication** (Section 5.4): Remove 14 `TEMPLATE_*.md` files from `DOCS/.templates/`; confirm the `*.template.md` versions cover all required sections. This is independent of the naming decision and should proceed regardless.
+Execute Section 5.6 actions (approved individually). Summary:
+
+- [ ] **Remove 14 `TEMPLATE_*.md` files** from `DOCS/.templates/` (items 1–14 in Section 5.6)
+- [ ] **Update `implementation-log.template.md`** — fix stale `Produces:` path and filename convention (item 15)
+- [ ] **Move `TEMPLATE_Design_Document.md`** → `DOCS/.templates/design-document.template.md` (item 16)
+- [ ] **Move `TEMPLATE_HowTo.md`** → `DOCS/.templates/howto.template.md` (item 17)
+- [ ] **Remove `DOCS/.implementation-logs/TEMPLATE_Implementation_Log.md`** (item 18)
 - [ ] **Draft DR-020** covering: kebab-case adoption scope, permanent exceptions (`README.md`, `CHANGELOG.md`, `CLAUDE.md`), treatment of historical analysis docs.
 - [ ] **Inventory every markdown link** (not prose) pointing to files that will be renamed. These must be updated atomically with the rename.
 
