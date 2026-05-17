@@ -9,12 +9,12 @@ Algorithm documents are the canonical reference for *what* an algorithm does and
 ## Naming Convention
 
 ```
-ALGORITHM_<Domain>_<Name>.md
+[domain-name].md (DR-020: kebab-case)
 ```
 
 Examples:
-- `ALGORITHM_Sudoku_Basic_Solver.md`
-- `ALGORITHM_Sudoku_Advanced_Solver.md`
+- `sudoku-basic-solver.md`
+- `sudoku-advanced-solver.md`
 
 ---
 
@@ -50,8 +50,8 @@ Use the [TEMPLATE_Algorithm.md](TEMPLATE_Algorithm.md) to start a new document.
 
 | Document | Algorithms Covered | Status |
 |----------|--------------------|--------|
-| [ALGORITHM_Sudoku_Basic_Solver.md](ALGORITHM_Sudoku_Basic_Solver.md) | Unit Completion, Hidden Singles, Naked Singles, Main Loop | v1.0 |
-| [ALGORITHM_Sudoku_Advanced_Solver.md](ALGORITHM_Sudoku_Advanced_Solver.md) | Naked/Hidden Pairs & Triples, X-Wing, Swordfish, Jellyfish, XY-Wing, Simple Coloring, Forcing Chains | Draft |
+| [sudoku-basic-solver.md](sudoku-basic-solver.md) | Unit Completion, Hidden Singles, Naked Singles, Main Loop | v1.0 |
+| [sudoku-advanced-solver.md](sudoku-advanced-solver.md) | Naked/Hidden Pairs & Triples, X-Wing, Swordfish, Jellyfish, XY-Wing, Simple Coloring, Forcing Chains | Draft |
 
 ---
 

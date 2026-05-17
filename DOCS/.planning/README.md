@@ -176,7 +176,7 @@ Brief description of the work item.
 3. Reference design document for requirements
 4. Use design's implementation plan for acceptance criteria
 
-**Example:** DESIGN_Audit_Trail_Feature.md (v1.0, Approved) → Created BACKLOG-008
+**Example:** audit-trail-feature.md (v1.0, Approved) → Created BACKLOG-008
 
 ### From Backlog → Implementation Logs
 

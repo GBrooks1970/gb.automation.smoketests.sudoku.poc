@@ -2,7 +2,7 @@
 
 **Created:** 2026-02-06T00:00:00Z
 **Last Updated:** 2026-04-02T00:00:00Z
-**Design Document:** [DESIGN_Web_UI_Solver_Visualisation.md](../DOCS/.design/DESIGN_Web_UI_Solver_Visualisation.md)
+**Design Document:** [web-ui-solver-visualisation.md](../DOCS/.design/web-ui-solver-visualisation.md)
 **Backlog Reference:** BACKLOG-018 (Implement Web UI Solver Visualisation)
 **Branch:** `claude/sudoku-solver-design-f3NRI`
 
@@ -26,7 +26,7 @@ This is the MVP implementation of the web-based solver visualisation feature.
 - [ ] **BACKLOG-009: Implement REST API Wrapper** — **Required.** The Express server that serves the Web UI's static files and provides `GET /api/puzzles` and `POST /api/solve`. Do not create a separate Express server for the Web UI.
 - [ ] **BACKLOG-008: Audit Trail Feature** — **Required.** Provides the `AuditLogger` and `CellChange` interface. `SolveStepTracker` is an adapter over `AuditLogger` output, not an independent wrapper of `SudokuSolver`. See Phase 2 notes.
 - [ ] **BACKLOG-017: Unify Feature Design Overlap** — Complete first. Establishes the shared `CellChange` interface and single-server architecture that this TODO depends on.
-- [ ] **Review design document** — Read `DOCS/.design/DESIGN_Web_UI_Solver_Visualisation.md` thoroughly before starting.
+- [ ] **Review design document** — Read `DOCS/.design/web-ui-solver-visualisation.md` thoroughly before starting.
 
 ---
 

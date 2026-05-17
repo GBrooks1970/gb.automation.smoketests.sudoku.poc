@@ -5,8 +5,8 @@
 **Governed by:** `REFERENCE_ARCHITECTURE.md` §10.1
 **Template:** `DOCS/.templates/TEMPLATE_Backlog.md`
 
-> **Authoritative backlog:** [`DOCS/.planning/BACKLOG.md`](DOCS/.planning/BACKLOG.md) — full sprint plans, acceptance criteria, and item history.
-> **Note (DR-006):** Under Reference Architecture v1.1, the required backlog location is `DOCS/.planning/BACKLOG.md` (project: `DOCS/.planning/BACKLOG.md` via DR-001). This root file is a **convenience summary only** — not the required document. Always update the detailed backlog; this file reflects it.
+> **Authoritative backlog:** [`DOCS/.planning/backlog.md`](DOCS/.planning/backlog.md) — full sprint plans, acceptance criteria, and item history.
+> **Note (DR-006):** Under Reference Architecture v1.1, the required backlog location is `DOCS/.planning/backlog.md` (project: `DOCS/.planning/backlog.md` via DR-001). This root file is a **convenience summary only** — not the required document. Always update the detailed backlog; this file reflects it.
 
 ---
 
@@ -33,7 +33,7 @@
 | NEW-001 | Create DECISION_REGISTER.md and backfill DR-001–005 | ALL | RA compliance — §10.6 |
 | NEW-002 | Create CHANGELOG.md at repository root | ALL | RA compliance — §10.1 |
 | NEW-003 | Promote BACKLOG.md to repository root | ALL | RA compliance — §10.1 |
-| NEW-004 | Create NAMING_CONVENTIONS.md | ALL | RA compliance — §10.9 |
+| NEW-004 | Create naming-conventions.md | ALL | RA compliance — §10.9 |
 | NEW-005 | Create DOCS/.templates/ and consolidate templates | ALL | RA compliance — §10.5 |
 
 ### Open (Sprint 2 remaining)
@@ -89,4 +89,4 @@
 | BACKLOG-005 | Centralise constants in constants.ts | 2026-05-14 | — |
 | BACKLOG-006-COMPLETE | Prettier code formatting | 2026-05-14 | — |
 
-> Full history in [`DOCS/.planning/BACKLOG.md`](DOCS/.planning/BACKLOG.md)
+> Full history in [`DOCS/.planning/backlog.md`](DOCS/.planning/backlog.md)

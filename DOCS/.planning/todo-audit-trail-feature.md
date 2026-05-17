@@ -2,7 +2,7 @@
 
 **Created:** 2026-02-12T00:00:00Z
 **Last Updated:** 2026-04-02T00:00:00Z
-**Design Document:** [DESIGN_Audit_Trail_Feature.md](../DOCS/.design/DESIGN_Audit_Trail_Feature.md)
+**Design Document:** [audit-trail-feature.md](../DOCS/.design/audit-trail-feature.md)
 **Backlog Reference:** BACKLOG-008 (Implement Audit Trail Feature)
 **Estimated Effort:** 20-30 hours
 
@@ -16,7 +16,7 @@ Implementation task list for a comprehensive audit trail system that logs every 
 
 ## Prerequisites
 
-- [ ] **Review design document** — Read `DOCS/.design/DESIGN_Audit_Trail_Feature.md` thoroughly before starting.
+- [ ] **Review design document** — Read `DOCS/.design/audit-trail-feature.md` thoroughly before starting.
 - [ ] **BACKLOG-017: Unify Feature Design Overlap** — Complete first. The `AuditTypes.ts` `CellChange` interface defined here becomes the **shared data model** consumed by the REST API (`ChangeTracker`) and Web UI (`SolveStepTracker`). The interface must be agreed before implementation to avoid post-hoc refactoring in BACKLOG-009 and BACKLOG-018.
 - [ ] **BACKLOG-007: Decouple Console Output with DI** — Recommended (not blocking). If implemented, audit output can use the `IOutput` interface. If not, audit can write directly to console and files.
 - [ ] **Existing solver code is unmodified** — Verify `SudokuSolver.ts`, `SudokuOrchestrator.ts` compile and `npm start` runs before starting.
@@ -200,8 +200,8 @@ Implementation task list for a comprehensive audit trail system that logs every 
 
 - [ ] **5.1** Create implementation log: `DOCS/.implementation/IMPL_LOG_[date]_Audit_Trail_Feature.md`
 - [ ] **5.2** Update `CLAUDE.md` — Add audit trail section with configuration options and usage examples
-- [ ] **5.3** Update `DOCS/.design/DESIGN_Audit_Trail_Feature.md` status from "Approved" to "Implemented"
-- [ ] **5.4** Update `DOCS/.planning/BACKLOG.md` — Mark BACKLOG-008 as completed
+- [ ] **5.3** Update `DOCS/.design/audit-trail-feature.md` status from "Approved" to "Implemented"
+- [ ] **5.4** Update `DOCS/.planning/backlog.md` — Mark BACKLOG-008 as completed
 - [ ] **5.5** Update `DOCS/.design/README.md` — Update status of audit trail design document
 - [ ] **5.6** Document any deviations from the design document in the implementation log
 

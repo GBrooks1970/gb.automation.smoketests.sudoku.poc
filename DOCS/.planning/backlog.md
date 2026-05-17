@@ -4,7 +4,7 @@
 **Last Updated:** 2026-05-16 (MIG-09 through MIG-12 resolved)
 **Governed by:** `REFERENCE_ARCHITECTURE.md` v1.3 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
-**Authoritative path:** `DOCS/.planning/BACKLOG.md`
+**Authoritative path:** `DOCS/.planning/backlog.md`
 **Status:** Active Development
 
 ---
@@ -139,7 +139,7 @@ Acceptance criteria:
 **Stack(s):** DEMOAPP001
 **Nature of Gap:** Feature implementation
 
-Design reference: `DOCS/.design/DESIGN_Audit_Trail_Feature.md`
+Design reference: `DOCS/.design/audit-trail-feature.md`
 
 Acceptance criteria:
 
@@ -158,7 +158,7 @@ Acceptance criteria:
 **Stack(s):** DEMOAPP001 future API surface
 **Nature of Gap:** Feature implementation
 
-Design reference: `DOCS/.design/DESIGN_REST_API_Wrapper.md`
+Design reference: `DOCS/.design/rest-api-wrapper.md`
 
 Acceptance criteria:
 
@@ -177,7 +177,7 @@ Acceptance criteria:
 **Stack(s):** DEMOAPP001 future UI surface
 **Nature of Gap:** Feature implementation
 
-Design reference: `DOCS/.design/DESIGN_Web_UI_Solver_Visualisation.md`
+Design reference: `DOCS/.design/web-ui-solver-visualisation.md`
 
 Acceptance criteria:
 
@@ -240,7 +240,7 @@ Acceptance criteria:
 - [x] `tooling/cucumber.js`, `tsconfig.json`, `package.json` use relative paths — no edits needed; `npm test` 43/43 (Phase 4)
 - [x] `.batch/run-demoapp001.ps1` updated and smoke-tested; BuildExitCode=0 TestExitCode=0 (Phase 4)
 - [x] All markdown documentation updated; 0 stale-path links in focus files (Phase 4)
-- [x] `NAMING_CONVENTIONS.md`, `CLAUDE.md`, `CHANGELOG.md`, `DECISION_REGISTER.md` updated (Phase 3)
+- [x] `naming-conventions.md`, `CLAUDE.md`, `CHANGELOG.md`, `DECISION_REGISTER.md` updated (Phase 3)
 - [x] DR-016 referenced in commit message (Phase 2 commit)
 
 ---
@@ -290,7 +290,7 @@ Acceptance criteria:
 3. Do not delete resolved items.
 4. Add a Decision Register entry before closing any item that resolves into a structural choice.
 5. Update `DOCS/ref-arch-alignment_2026-05-15.md` when Reference Architecture migration status changes.
-6. Keep `DOCS/.planning/BACKLOG.md` as a bridge only unless DR-013 is superseded.
+6. Keep `DOCS/.planning/backlog.md` as a bridge only unless DR-013 is superseded.
 
 ---
 

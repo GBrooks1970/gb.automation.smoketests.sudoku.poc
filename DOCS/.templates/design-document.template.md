@@ -10,7 +10,7 @@
 ## How to Use This Template
 
 - Copy this file. Do **not** edit it in place.
-- Name the output file using kebab-case: `feature-name.md` (future convention) or current `DESIGN_Feature_Name.md` until DR-020 is accepted.
+- Name the output file using kebab-case: `feature-name.md` (DR-020).
 - Complete all sections. Sections with no applicable content should say "N/A — [reason]".
 - Record structural decisions in `DECISION_REGISTER.md` and reference the DR number in Section 4.
 

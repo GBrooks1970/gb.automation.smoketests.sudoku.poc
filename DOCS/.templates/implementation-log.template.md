@@ -94,7 +94,7 @@
 - ⏸️ [Item — why deferred]
 
 **New backlog items generated:**
-- [Item — add to DOCS/.planning/BACKLOG.md]
+- [Item — add to DOCS/.planning/backlog.md]
 
 ---
 

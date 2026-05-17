@@ -316,6 +316,6 @@ Press **Shift+F11** (Step Out) to escape from an internal file and return to you
 
 ## What to do next
 
-- Read the [Hidden Singles algorithm explanation](../ALGORITHM_Sudoku_Basic_Solver.md#2-hidden-singles-algorithm) and use the debugger to verify each step of the pseudocode against the live code.
+- Read the [Hidden Singles algorithm explanation](../sudoku-basic-solver.md#2-hidden-singles-algorithm) and use the debugger to verify each step of the pseudocode against the live code.
 - Set a breakpoint at [SudokuOrchestrator.ts line 29](../../demo-apps/demoapp001-typescript-cypress/app_src/SudokuOrchestrator.ts#L29) to observe how the outer solve loop coordinates the three algorithms across iterations.
-- Once you understand the flow, implement [BACKLOG-001](../DOCS/.planning/TODO_Hidden_Singles_Complete_Implementation.md) — use the debugger to verify the new row and column loops place digits correctly before committing.
+- Once you understand the flow, implement [BACKLOG-001](../DOCS/.planning/todo-hidden-singles-implementation.md) — use the debugger to verify the new row and column loops place digits correctly before committing.

@@ -1,6 +1,6 @@
 # Sudoku Advanced Solver Algorithm
 
-This document describes advanced Sudoku solving techniques that extend beyond the [Basic Solver](./ALGORITHM_Sudoku_Basic_Solver.md). These techniques are required when the basic methods (Unit Completion, Hidden Singles, Naked Singles) cannot make further progress.
+This document describes advanced Sudoku solving techniques that extend beyond the [Basic Solver](./sudoku-basic-solver.md). These techniques are required when the basic methods (Unit Completion, Hidden Singles, Naked Singles) cannot make further progress.
 
 ## Overview
 
@@ -661,5 +661,5 @@ interface Cell {
 - [SudokuWiki Techniques](https://www.sudokuwiki.org/sudoku.htm)
 - [Hodoku Solving Techniques](http://hodoku.sourceforge.net/en/techniques.php)
 - [Andrew Stuart's Solver](https://www.sudokuwiki.org/sudoku.htm)
-- [Basic Solver Documentation](./ALGORITHM_Sudoku_Basic_Solver.md)
+- [Basic Solver Documentation](./sudoku-basic-solver.md)
 - [Current TypeScript Implementation](../../demo-apps/demoapp001-typescript-cypress/app_src/SudokuSolver.ts)

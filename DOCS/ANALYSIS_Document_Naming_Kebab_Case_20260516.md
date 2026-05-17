@@ -3,7 +3,7 @@
 **Date:** 2026-05-16 (updated 2026-05-17)
 **Author:** Claude Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` — impact assessment for converting document filenames from the current `PREFIX_Title_Case.md` format to `lowercase-kebab-case.md`
-**Status:** Phase 0 complete 2026-05-17 — template duplication resolved; awaiting DR-020 for Phases 1–4
+**Status:** Phase 0 and Phase 1 complete 2026-05-17 — template duplication resolved, DR-020 accepted, 17 authored docs renamed; awaiting Phase 2–4
 
 ---
 
@@ -518,9 +518,9 @@ Links to files renamed in Phase 1 must be updated atomically during the rename. 
 | `DOCS/.design/DESIGN_Web_UI_Solver_Visualisation.md` | `BACKLOG.md` | 1 |
 | `BACKLOG.md` (root) | `DOCS/.planning/BACKLOG.md` (authoritative — not renamed) | 2 |
 
-### Phase 1 — Authored documents in typed directories (low external risk)
+### Phase 1 — Authored documents in typed directories ✅ Complete 2026-05-17
 
-Rename files within `DOCS/.design/`, `DOCS/.algorithm/`, `DOCS/.howto/`, `DOCS/.planning/`, `DOCS/.implementation-logs/`. Items marked ✅ were completed in Phase 0.
+All 17 renames executed. ~60 references updated across 29 files. Validation: 0 broken links, 43/43 scenarios pass. See Phase 1c validation in commit history.
 
 ```
 DOCS/.design/DESIGN_Audit_Trail_Feature.md        → audit-trail-feature.md

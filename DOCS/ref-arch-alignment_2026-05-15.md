@@ -35,8 +35,8 @@ The v1.3 architecture tightens or makes explicit these obligations:
 |------|------------------|----------------|
 | Code review directory | Root `code-review/` or `.review/` MUST exist; bundle convention recorded as DR-012 | Root `.review/` exists for future reviews via DR-014; historical reviews remain under `DOCS/.review/` |
 | Implementation logs | `implementation-logs/` MUST exist under `DOCS/` or root | `DOCS/.implementation-logs/README.md` now bridges to `DOCS/.implementation/` via DR-013 |
-| Naming conventions | `DOCS/.design/NAMING_CONVENTIONS.md` MUST exist | `DOCS/.design/NAMING_CONVENTIONS.md` now bridges to `DOCS/.design/NAMING_CONVENTIONS.md` via DR-013 |
-| Backlog | `DOCS/.planning/BACKLOG.md` MUST exist and use `Open` / `In Progress` / `Resolved` | `DOCS/.planning/BACKLOG.md` bridges to the reconciled authoritative backlog at `DOCS/.planning/BACKLOG.md`; current counts are Open 20, In Progress 1, Resolved 12 |
+| Naming conventions | `DOCS/.design/naming-conventions.md` MUST exist | `DOCS/.design/naming-conventions.md` now bridges to `DOCS/.design/naming-conventions.md` via DR-013 |
+| Backlog | `DOCS/.planning/backlog.md` MUST exist and use `Open` / `In Progress` / `Resolved` | `DOCS/.planning/backlog.md` bridges to the reconciled authoritative backlog at `DOCS/.planning/backlog.md`; current counts are Open 20, In Progress 1, Resolved 12 |
 | Templates | Every document type in Sections 10.1-10.9 needs a template with `[REQUIRED]` mandatory fields | Lowercase filenames exist; MIG-08 added mandatory-field annotations to the backlog, changelog, and naming-conventions templates and updated current governed docs to lowercase references |
 | Feature parity reports | Generated parity reports go to `.results/feature-parity/FEATURE_PARITY_[YYYYMMDDTHHMMZ].md` | No parity report generator yet; not blocking one-Stack execution |
 
@@ -75,11 +75,11 @@ The v1.3 architecture tightens or makes explicit these obligations:
 
 ### H2. v1.3 DOCS literal documentation paths are missing - Resolved by MIG-02
 
-**Requirement:** v1.3 names literal paths for `DOCS/.planning/BACKLOG.md`, `DOCS/.design/NAMING_CONVENTIONS.md`, and `DOCS/.implementation-logs/`.
+**Requirement:** v1.3 names literal paths for `DOCS/.planning/backlog.md`, `DOCS/.design/naming-conventions.md`, and `DOCS/.implementation-logs/`.
 
 **Observed before migration:** The project used `DOCS/.planning`, `DOCS/.design`, and `DOCS/.implementation` under DR-001, and the v1.3 literal DOCS paths were absent.
 
-**Resolution:** DR-013 now records the compatibility path strategy. `DOCS/.planning/BACKLOG.md`, `DOCS/.design/NAMING_CONVENTIONS.md`, and `DOCS/.implementation-logs/README.md` now exist as bridge files pointing to the authoritative dot-prefixed locations.
+**Resolution:** DR-013 now records the compatibility path strategy. `DOCS/.planning/backlog.md`, `DOCS/.design/naming-conventions.md`, and `DOCS/.implementation-logs/README.md` now exist as bridge files pointing to the authoritative dot-prefixed locations.
 
 **Migration:** MIG-02 resolved on 2026-05-15. Root code review path alignment remains tracked by MIG-03.
 
@@ -115,9 +115,9 @@ The v1.3 architecture tightens or makes explicit these obligations:
 
 ### M2. Backlog content no longer reflects current compliance state - Resolved by MIG-07
 
-**Observed before migration:** `DOCS/.planning/BACKLOG.md` was governed by v1.2, had stale summary counts, and still listed `BACKLOG-019: Migrate TypeScript Tests to Screenplay Pattern` as `Open` even though the Screenplay implementation was present and passing.
+**Observed before migration:** `DOCS/.planning/backlog.md` was governed by v1.2, had stale summary counts, and still listed `BACKLOG-019: Migrate TypeScript Tests to Screenplay Pattern` as `Open` even though the Screenplay implementation was present and passing.
 
-**Resolution:** `DOCS/.planning/BACKLOG.md` now references `REFERENCE_ARCHITECTURE.md` v1.3, uses only the v1.3 status taxonomy, and reconciles summary counts to Open 20, In Progress 1, Resolved 12. `BACKLOG-019` is resolved with residual Screenplay conformance tracked by MIG-04 and MIG-05, and the MIG-01 through MIG-12 migration set is tracked directly in the backlog.
+**Resolution:** `DOCS/.planning/backlog.md` now references `REFERENCE_ARCHITECTURE.md` v1.3, uses only the v1.3 status taxonomy, and reconciles summary counts to Open 20, In Progress 1, Resolved 12. `BACKLOG-019` is resolved with residual Screenplay conformance tracked by MIG-04 and MIG-05, and the MIG-01 through MIG-12 migration set is tracked directly in the backlog.
 
 **Migration:** MIG-07 resolved on 2026-05-15.
 
@@ -125,7 +125,7 @@ The v1.3 architecture tightens or makes explicit these obligations:
 
 **Observed before migration:** Existing review bundles used names such as `CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z`, and no repository-root `.review/` or `code-review/` directory existed.
 
-**Resolution:** DR-014 now makes repository-root `.review/` the authoritative location for future reviews. Root `.review/README.md` defines the future `CODE_REVIEW_[AGENT]_v[N]_[UTC]` bundle naming and historical handling; `DOCS/.review/README.md`, `DOCS/.templates/code-review.template.md`, and `DOCS/.design/NAMING_CONVENTIONS.md` now point future reviews to the v1.3 shape without renaming historical review bundles.
+**Resolution:** DR-014 now makes repository-root `.review/` the authoritative location for future reviews. Root `.review/README.md` defines the future `CODE_REVIEW_[AGENT]_v[N]_[UTC]` bundle naming and historical handling; `DOCS/.review/README.md`, `DOCS/.templates/code-review.template.md`, and `DOCS/.design/naming-conventions.md` now point future reviews to the v1.3 shape without renaming historical review bundles.
 
 **Migration:** MIG-03 resolved on 2026-05-15.
 
@@ -133,7 +133,7 @@ The v1.3 architecture tightens or makes explicit these obligations:
 
 **Observed before migration:** All 14 lowercase Appendix A template files existed under `DOCS/.templates/`, but `backlog.template.md`, `changelog.template.md`, and `naming-conventions.template.md` did not contain `[REQUIRED]` annotations for mandatory fields. Several current governed documents still referenced legacy uppercase template filenames.
 
-**Resolution:** The three affected lowercase templates now mark mandatory fields with `[REQUIRED]`. Current governed docs now reference lowercase template filenames, including `DOCS/README.md`, `CHANGELOG.md`, `DOCS/.design/NAMING_CONVENTIONS.md`, `DOCS/.planning/BACKLOG.md`, architecture contracts, and `demoapp001-typescript-cypress/docs/*`.
+**Resolution:** The three affected lowercase templates now mark mandatory fields with `[REQUIRED]`. Current governed docs now reference lowercase template filenames, including `DOCS/README.md`, `CHANGELOG.md`, `DOCS/.design/naming-conventions.md`, `DOCS/.planning/backlog.md`, architecture contracts, and `demoapp001-typescript-cypress/docs/*`.
 
 **Migration:** MIG-08 resolved on 2026-05-15.
 
@@ -212,12 +212,12 @@ Test log confirms:
 - DR-013 records the DOCS compatibility path strategy.
 - DR-014 records root `.review/` as the future review-output location.
 - `CLAUDE.md` now reflects v1.3, current Screenplay implementation status, current paths, and current decision range.
-- `DOCS/.planning/BACKLOG.md` now reflects v1.3, tracks MIG-01 through MIG-12, and reports Open 20 / In Progress 1 / Resolved 12.
+- `DOCS/.planning/backlog.md` now reflects v1.3, tracks MIG-01 through MIG-12, and reports Open 20 / In Progress 1 / Resolved 12.
 - `DOCS/.templates/` contains all 14 lowercase Appendix A filenames.
 - `backlog.template.md`, `changelog.template.md`, and `naming-conventions.template.md` now mark mandatory fields with `[REQUIRED]`.
 - Current governed docs now reference lowercase template filenames.
 - Root `.review/README.md` exists and defines future v1.3 review output naming.
-- `DOCS/.planning/BACKLOG.md`, `DOCS/.design/NAMING_CONVENTIONS.md`, and `DOCS/.implementation-logs/README.md` exist as compatibility bridges.
+- `DOCS/.planning/backlog.md`, `DOCS/.design/naming-conventions.md`, and `DOCS/.implementation-logs/README.md` exist as compatibility bridges.
 - Dot-prefix authoritative sources remain under `DOCS/.planning`, `DOCS/.design`, and `DOCS/.implementation`.
 - Historical review outputs remain under `DOCS/.review/` unchanged.
 

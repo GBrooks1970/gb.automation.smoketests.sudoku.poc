@@ -15,15 +15,15 @@ Design documents serve as:
 
 Design documents follow this naming pattern:
 ```
-DESIGN_[Feature/Component]_[Brief_Description].md
+[feature-component-name].md (DR-020: kebab-case)
 ```
 
 **Examples:**
-- `DESIGN_Audit_Trail_Feature.md` (existing)
-- `DESIGN_REST_API_Wrapper.md` (existing)
-- `DESIGN_Puzzle_Generator.md` (future)
-- `DESIGN_Performance_Optimization.md` (future)
-- `DESIGN_Authentication_System.md` (future)
+- `audit-trail-feature.md` (existing)
+- `rest-api-wrapper.md` (existing)
+- `puzzle-generator.md` (future)
+- `performance-optimization.md` (future)
+- `authentication-system.md` (future)
 
 **For Analysis/Planning Only:**
 ```
@@ -34,7 +34,7 @@ REFACTOR_[Component]_YYYY-MM-DD.md
 
 ## Document Types
 
-### 1. Design Documents (DESIGN_*.md)
+### 1. Design Documents (kebab-case.md)
 
 **Purpose:** Complete architectural and implementation design for a feature or component
 
@@ -112,7 +112,7 @@ REFACTOR_[Component]_YYYY-MM-DD.md
 
 ```bash
 cd DOCS/.design
-cp TEMPLATE_Design_Document.md DESIGN_Your_Feature_Name.md
+cp ../../.templates/design-document.template.md your-feature-name.md
 ```
 
 ### Step 2: Fill in the Header
@@ -260,7 +260,7 @@ When using AI assistant (CLAUDE) for review:
 
 **Prompt Example:**
 ```
-Review this design document (DESIGN_Feature_Name.md) for:
+Review this design document (feature-name.md) for:
 1. Completeness - Are all sections filled appropriately?
 2. Clarity - Is the design understandable?
 3. Feasibility - Can this be implemented as designed?
@@ -372,18 +372,18 @@ Provide feedback in structured format with specific references to sections.
 
 | Document | Purpose | Version |
 |----------|---------|---------|
-| [DESIGN_Sudoku_Solver_Specification.md](DESIGN_Sudoku_Solver_Specification.md) | Core solver design (tech-agnostic) | v1.0 |
-| [DESIGN_Naming_Conventions.md](DESIGN_Naming_Conventions.md) | TypeScript naming standards — adopted and enforced via ESLint | v1.0 |
-| [NAMING_CONVENTIONS.md](NAMING_CONVENTIONS.md) | **Authoritative naming conventions** (RA §10.9 required document — supersedes DESIGN_Naming_Conventions.md as the reference standard) | v1.0 |
+| [sudoku-solver-specification.md](sudoku-solver-specification.md) | Core solver design (tech-agnostic) | v1.0 |
+| [naming-conventions-design.md](naming-conventions-design.md) | TypeScript naming standards — adopted and enforced via ESLint | v1.0 |
+| [naming-conventions.md](naming-conventions.md) | **Authoritative naming conventions** (RA §10.9 required document — supersedes naming-conventions-design.md as the reference standard) | v1.0 |
 
 ### Approved — Not Yet Implemented
 
 | Document | Purpose | Version |
 |----------|---------|---------|
-| [DESIGN_Audit_Trail_Feature.md](DESIGN_Audit_Trail_Feature.md) | Audit logging system | v1.1 |
-| [DESIGN_REST_API_Wrapper.md](DESIGN_REST_API_Wrapper.md) | Express REST API wrapper | v1.0 |
-| [DESIGN_Web_UI_Solver_Visualisation.md](DESIGN_Web_UI_Solver_Visualisation.md) | Browser step-by-step visualisation | v1.2 |
-| [DESIGN_Screenplay_Migration.md](DESIGN_Screenplay_Migration.md) | Screenplay pattern migration for BDD tests | v1.0 |
+| [audit-trail-feature.md](audit-trail-feature.md) | Audit logging system | v1.1 |
+| [rest-api-wrapper.md](rest-api-wrapper.md) | Express REST API wrapper | v1.0 |
+| [web-ui-solver-visualisation.md](web-ui-solver-visualisation.md) | Browser step-by-step visualisation | v1.2 |
+| [screenplay-migration.md](screenplay-migration.md) | Screenplay pattern migration for BDD tests | v1.0 |
 
 ### In Progress
 

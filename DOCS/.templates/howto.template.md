@@ -125,4 +125,4 @@ If everything worked, you should be able to:
 -->
 
 - <!-- e.g. [How to add a new puzzle](HOWTO_Add_A_New_Puzzle.md) -->
-- <!-- e.g. [Algorithm documentation](../ALGORITHM_Sudoku_Basic_Solver.md) -->
+- <!-- e.g. [Algorithm documentation](../sudoku-basic-solver.md) -->

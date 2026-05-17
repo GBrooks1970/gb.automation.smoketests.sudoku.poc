@@ -95,5 +95,5 @@
 
 - [`docs/ARCHITECTURE.md`](ARCHITECTURE.md) — layer model and component dependencies
 - [`docs/SCREENPLAY_GUIDE.md`](SCREENPLAY_GUIDE.md) — how components are implemented
-- [`DOCS/.planning/BACKLOG.md`](../../DOCS/.planning/BACKLOG.md) — known gaps and pending work
+- [`DOCS/.planning/backlog.md`](../../DOCS/.planning/backlog.md) — known gaps and pending work
 ```

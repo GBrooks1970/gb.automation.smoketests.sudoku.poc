@@ -102,7 +102,7 @@ When the {string} algorithm is executed for value {int}
 Then the system should place {int} in the only valid cell in row {int}
 ```
 
-Deviations: none permitted. If a step cannot be implemented in a Stack, tag it `@pending` and record in `DOCS/.planning/BACKLOG.md`.
+Deviations: none permitted. If a step cannot be implemented in a Stack, tag it `@pending` and record in `DOCS/.planning/backlog.md`.
 
 ---
 
@@ -115,7 +115,7 @@ Run this checklist before marking a new Stack as in parity:
 [ ] All Task factory and execution method names match this contract
 [ ] All Question factory and execution method names match this contract
 [ ] All Gherkin step text matches canonical feature files exactly
-[ ] No @pending scenarios without a BACKLOG.md entry
+[ ] No @pending scenarios without a backlog.md entry
 [ ] Memory cleared between scenarios (verified by test isolation)
 ```
 ```

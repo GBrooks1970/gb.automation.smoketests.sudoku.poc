@@ -3,7 +3,7 @@
 **Intended audience:** Any engineer or AI agent implementing or reviewing an algorithm in this project.
 **Template version:** 1.0 (2026-05-14)
 **Governed by:** `REFERENCE_ARCHITECTURE.md` Appendix A
-**Produces:** `DOCS/.algorithm/ALGORITHM_[Domain]_[Name].md`
+**Produces:** `DOCS/.algorithm/[domain-name].md (DR-020: kebab-case)`
 
 > This lowercase file is the canonical template. Legacy convenience copies may exist under dot-prefixed documentation folders, but new algorithm documents should start from this file.
 

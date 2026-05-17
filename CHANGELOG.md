@@ -36,8 +36,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
   - `DR-008` — documents Serenity/JS 3.43.2 API adaptations (`extends Ability`, path corrections)
 - `DECISION_REGISTER.md` at repository root with DR-001–DR-005 backfilled (Phase 0 migration)
 - `CHANGELOG.md` at repository root (this file)
-- `BACKLOG.md` at repository root (summary; detailed backlog at `DOCS/.planning/BACKLOG.md`)
-- `DOCS/.design/NAMING_CONVENTIONS.md` — authoritative naming conventions (RA v1.1: `DOCS/design/`; DR-001 dot-prefix applied; initially created at root then corrected)
+- `BACKLOG.md` at repository root (summary; detailed backlog at `DOCS/.planning/backlog.md`)
+- `DOCS/.design/naming-conventions.md` — authoritative naming conventions (RA v1.1: `DOCS/design/`; DR-001 dot-prefix applied; initially created at root then corrected)
 - `DOCS/.templates/` directory with project-specific templates:
   - `decision-record.template.md` (adapted from Reference Architecture §10.6)
   - `changelog.template.md`
@@ -56,9 +56,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ### Changed
 - `cucumber.js` — requireModule now includes `@serenity-js/cucumber`; require path changed to `tests/screenplay/step_definitions/`; worldParameters removed (Cast configured via support/configure.ts)
 - `DOCS/REFERENCE_ARCHITECTURE.md` updated from v1.0 to v1.1 (DR-006)
-- `CLAUDE.md` updated: Stack inventory, risk register, canonical feature update procedure, `DECISION_REGISTER.md` reference, `NAMING_CONVENTIONS.md` path corrected to `DOCS/.design/`
-- `DOCS/README.md` updated: reflects `.algorithm/`, `templates/` directories, root-level governance documents, `NAMING_CONVENTIONS.md` at corrected path
-- `DOCS/.algorithm/ALGORITHM_Sudoku_Basic_Solver.md` and `ALGORITHM_Sudoku_Advanced_Solver.md` — relative paths updated after move to `.algorithm/`
+- `CLAUDE.md` updated: Stack inventory, risk register, canonical feature update procedure, `DECISION_REGISTER.md` reference, `naming-conventions.md` path corrected to `DOCS/.design/`
+- `DOCS/README.md` updated: reflects `.algorithm/`, `templates/` directories, root-level governance documents, `naming-conventions.md` at corrected path
+- `DOCS/.algorithm/sudoku-basic-solver.md` and `sudoku-advanced-solver.md` — relative paths updated after move to `.algorithm/`
 - `DOCS/ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md` — revised against RA v1.1; Phase 0 completion status added; §6, §9, §13, §14, §15 updated
 
 ### Removed
@@ -69,13 +69,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [0.4.0] — 2026-05-14
 
 ### Added
-- Screenplay migration design (`DOCS/.design/DESIGN_Screenplay_Migration.md`) — complete design for migrating from procedural `SudokuWorld` to Screenplay pattern (Actor, Ability, Task, Question)
-- `DOCS/.design/DESIGN_Web_UI_Solver_Visualisation.md` — Web UI solver visualisation design
-- `DOCS/.design/DESIGN_Naming_Conventions.md` — naming conventions design (now also promoted to `NAMING_CONVENTIONS.md`)
-- `DOCS/.planning/TODO_Hidden_Singles_Complete_Implementation.md`
-- `DOCS/.planning/TODO_Web_UI_Solver_Visualisation.md`
-- `DOCS/.howto/` directory with `HOWTO_Debug_SudokuSolver.md` and template
-- `DOCS/.planning/PROMPT_PLAYBOOK_20260330T1645Z.md` — AI session reproducibility guide
+- Screenplay migration design (`DOCS/.design/screenplay-migration.md`) — complete design for migrating from procedural `SudokuWorld` to Screenplay pattern (Actor, Ability, Task, Question)
+- `DOCS/.design/web-ui-solver-visualisation.md` — Web UI solver visualisation design
+- `DOCS/.design/naming-conventions-design.md` — naming conventions design (now also promoted to `naming-conventions.md`)
+- `DOCS/.planning/todo-hidden-singles-implementation.md`
+- `DOCS/.planning/todo-web-ui-solver-visualisation.md`
+- `DOCS/.howto/` directory with `debug-sudoku-solver.md` and template
+- `DOCS/.planning/prompt-playbook-20260330T1645Z.md` — AI session reproducibility guide
 - Code review: `CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z` (grade: A-)
 - Implementation log: `IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md`
 
@@ -91,8 +91,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 
 ### Added
 - Code reviews: `CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z` (grade: B+), `CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z`
-- `DOCS/.design/DESIGN_Screenplay_Migration.md` first draft
-- `DOCS/.planning/TODO_REST_API_Wrapper.md`, `TODO_Audit_Trail_Feature.md`
+- `DOCS/.design/screenplay-migration.md` first draft
+- `DOCS/.planning/todo-rest-api-wrapper.md`, `todo-audit-trail-feature.md`
 
 ### Changed
 - Backlog updated with items from Opus 4.6 and GPT-5.3 Codex reviews
@@ -103,10 +103,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 
 ### Added
 - Working Cucumber.js test suite: 43 scenarios, 241 steps, all passing
-- `DOCS/.design/DESIGN_Audit_Trail_Feature.md`
-- `DOCS/.design/DESIGN_REST_API_Wrapper.md`
-- `DOCS/.algorithm/ALGORITHM_Sudoku_Basic_Solver.md` (originally at `DOCS/ALGORITHM_Sudoku_Basic_Solver.md`)
-- `DOCS/.algorithm/ALGORITHM_Sudoku_Advanced_Solver.md`
+- `DOCS/.design/audit-trail-feature.md`
+- `DOCS/.design/rest-api-wrapper.md`
+- `DOCS/.algorithm/sudoku-basic-solver.md` (originally at `DOCS/sudoku-basic-solver.md`)
+- `DOCS/.algorithm/sudoku-advanced-solver.md`
 - `DOCS/.implementation/IMPL_LOG_2026-01-30_Initial_Project_Creation.md`
 - Code review: `CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z` (grade: A-)
 
@@ -125,7 +125,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
   - `PuzzleLoader.ts` — JSON puzzle loading and validation
   - `index.ts` — entry point
 - `puzzles.json` with 5 test puzzles (Easy Scan Grid, Logic Squeeze Grid, Minimal Clues, Crosshatch Challenge, Empty Grid)
-- `DOCS/.design/DESIGN_Sudoku_Solver_Specification.md` — tech-agnostic specification
+- `DOCS/.design/sudoku-solver-specification.md` — tech-agnostic specification
 - `CLAUDE.md` — AI agent instruction file
 - `README.md` — project documentation
 - `package.json`, `tsconfig.json`, `eslint.config.js`, `.prettierrc`

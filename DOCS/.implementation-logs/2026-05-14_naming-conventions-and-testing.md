@@ -133,7 +133,7 @@ for (let row = 0; row < GRID_SIZE; row++) {
    - Covers: algorithm unit tests, constraint validation Scenario Outline (8 examples), orchestration, PuzzleLoader, grid initialization, integration tests, edge cases
    - Helper functions: `copyGrid`, `isValidPlacement`, `isValidSolution`
 
-5. **`DOCS/.design/DESIGN_Naming_Conventions.md`** - Project-wide naming conventions reference
+5. **`DOCS/.design/naming-conventions-design.md`** - Project-wide naming conventions reference
    - Covers TypeScript identifiers, source files, folders, DOCS files, JSON keys, Gherkin tables
    - Includes enforcement section linking to `eslint.config.js`
    - Quick-reference table for all convention rules
@@ -198,10 +198,10 @@ for (let row = 0; row < GRID_SIZE; row++) {
    - Known Limitations: Hidden Singles entry removed (fixed)
    - Development Commands table: `lint` and `test` scripts documented
 
-9. **`DOCS/ALGORITHM_Sudoku_Basic_Solver.md`**
+9. **`DOCS/sudoku-basic-solver.md`**
    - Removed "Current Implementation Limitation" warning section
 
-10. **`DOCS/.planning/BACKLOG.md`**
+10. **`DOCS/.planning/backlog.md`**
     - Updated to v2.0 (Sprint 2: 2026-05-14 to 2026-05-27)
     - Added new BACKLOG-005-NEW (centralize constants in constants.ts)
     - Updated BACKLOG-006-COMPLETE (ESLint done, Prettier outstanding)
@@ -224,7 +224,7 @@ for (let row = 0; row < GRID_SIZE; row++) {
 - Renamed single-letter algorithm variables in outer loops and method parameters throughout SudokuSolver
 - Renamed `{r, c}` cell coordinate properties to `{row, col}` and updated all call sites
 - Configured ESLint 10 flat config with `@typescript-eslint/naming-convention` rule
-- Created DESIGN_Naming_Conventions.md
+- Created naming-conventions-design.md
 - Fixed Gherkin example table headers and values to camelCase
 
 **Phase 3: Validation and Commit (Naming Conventions)**
@@ -316,7 +316,7 @@ for (let row = 0; row < GRID_SIZE; row++) {
 - ✅ Option A naming conventions implemented — constants, variable renames, ESLint, DESIGN doc
 - ✅ ESLint 10 configured — `eslint.config.js` with `@typescript-eslint/naming-convention` rule
 - ✅ Gherkin example tables standardised — camelCase headers and values
-- ✅ DESIGN_Naming_Conventions.md created — comprehensive reference document
+- ✅ naming-conventions-design.md created — comprehensive reference document
 - ✅ Third code review completed — `CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z/` (9 files)
 - ✅ BACKLOG.md updated — Sprint 2 plan with six ordered steps and explicit dependencies
 - ✅ BACKLOG-001 closed — `hiddenSingles()` now checks rows, columns, and blocks

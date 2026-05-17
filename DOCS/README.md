@@ -20,31 +20,31 @@ DOCS/
 ├── templates/                              <- Canonical template store (RA §10.5)
 │   ├── decision-record.template.md        <- For DECISION_REGISTER.md entries
 │   ├── changelog.template.md              <- For root CHANGELOG.md
-│   ├── backlog.template.md                <- For DOCS/.planning/BACKLOG.md
-│   └── naming-conventions.template.md     <- For NAMING_CONVENTIONS.md
+│   ├── backlog.template.md                <- For DOCS/.planning/backlog.md
+│   └── naming-conventions.template.md     <- For naming-conventions.md
 │
 ├── .algorithm/                             <- Language-agnostic algorithm pseudocode
 │   ├── README.md                           <- Algorithm directory guide
-│   ├── ALGORITHM_Sudoku_Basic_Solver.md    <- Core algorithm pseudocode + complexity
-│   └── ALGORITHM_Sudoku_Advanced_Solver.md <- Advanced techniques reference
+│   ├── sudoku-basic-solver.md    <- Core algorithm pseudocode + complexity
+│   └── sudoku-advanced-solver.md <- Advanced techniques reference
 │
 ├── .design/                                <- Design & specification documents
 │   ├── README.md                           <- Design directory guide
-│   ├── DESIGN_Sudoku_Solver_Specification.md
-│   ├── DESIGN_Audit_Trail_Feature.md
-│   ├── DESIGN_REST_API_Wrapper.md
-│   ├── DESIGN_Web_UI_Solver_Visualisation.md
-│   ├── DESIGN_Naming_Conventions.md
-│   └── DESIGN_Screenplay_Migration.md      <- NEW (2026-05-14)
+│   ├── sudoku-solver-specification.md
+│   ├── audit-trail-feature.md
+│   ├── rest-api-wrapper.md
+│   ├── web-ui-solver-visualisation.md
+│   ├── naming-conventions-design.md
+│   └── screenplay-migration.md      <- NEW (2026-05-14)
 │
 ├── .planning/                              <- Backlog, TODOs, prompt playbooks
 │   ├── README.md
 │   ├── BACKLOG.md
-│   ├── TODO_Audit_Trail_Feature.md
-│   ├── TODO_REST_API_Wrapper.md
-│   ├── TODO_Web_UI_Solver_Visualisation.md
-│   ├── TODO_Hidden_Singles_Complete_Implementation.md
-│   └── PROMPT_PLAYBOOK_20260330T1645Z.md
+│   ├── todo-audit-trail-feature.md
+│   ├── todo-rest-api-wrapper.md
+│   ├── todo-web-ui-solver-visualisation.md
+│   ├── todo-hidden-singles-implementation.md
+│   └── prompt-playbook-20260330T1645Z.md
 │
 ├── .implementation/                        <- Session implementation logs
 │   ├── README.md
@@ -53,7 +53,7 @@ DOCS/
 │
 ├── .howto/                                 <- Practical how-to guides
 │   ├── README.md
-│   └── HOWTO_Debug_SudokuSolver.md
+│   └── debug-sudoku-solver.md
 │
 └── .review/                                <- Code review outputs and template
     ├── README.md
@@ -74,8 +74,8 @@ Canonical template store — all document templates live here. Use a template be
 |----------|---------|-------|
 | [decision-record.template.md](.templates/decision-record.template.md) | `DECISION_REGISTER.md` entries | 0 |
 | [changelog.template.md](.templates/changelog.template.md) | Root `CHANGELOG.md` | 0 |
-| [backlog.template.md](.templates/backlog.template.md) | `DOCS/.planning/BACKLOG.md` | 0 |
-| [naming-conventions.template.md](.templates/naming-conventions.template.md) | `DOCS/.design/NAMING_CONVENTIONS.md` | 0 |
+| [backlog.template.md](.templates/backlog.template.md) | `DOCS/.planning/backlog.md` | 0 |
+| [naming-conventions.template.md](.templates/naming-conventions.template.md) | `DOCS/.design/naming-conventions.md` | 0 |
 | [readme.template.md](.templates/readme.template.md) | Root `README.md` | 0 |
 | [stack-architecture.template.md](.templates/stack-architecture.template.md) | `[STACK]/docs/ARCHITECTURE.md` | 5 |
 | [screenplay-guide.template.md](.templates/screenplay-guide.template.md) | `[STACK]/docs/SCREENPLAY_GUIDE.md` | 5 |
@@ -101,9 +101,9 @@ The following documents MUST exist at the repository root per the Reference Arch
 |----------|---------|
 | [README.md](../README.md) | Project overview, quick-start |
 | [CHANGELOG.md](../CHANGELOG.md) | Version history, notable changes |
-| [BACKLOG.md](../BACKLOG.md) | Backlog summary — detailed at [DOCS/.planning/BACKLOG.md](.planning/BACKLOG.md) |
+| [BACKLOG.md](../BACKLOG.md) | Backlog summary — detailed at [DOCS/.planning/backlog.md](.planning/backlog.md) |
 | [DECISION_REGISTER.md](../DECISION_REGISTER.md) | Structural and process decisions (DR-001 onwards) |
-| [NAMING_CONVENTIONS.md](.design/NAMING_CONVENTIONS.md) | Authoritative naming conventions for all code and docs (DR-001 + DR-019: stored in `.design/`) |
+| [naming-conventions.md](.design/naming-conventions.md) | Authoritative naming conventions for all code and docs (DR-001 + DR-019: stored in `.design/`) |
 
 ---
 
@@ -113,8 +113,8 @@ Stored in [.algorithm/](.algorithm/) — language-agnostic pseudocode for every 
 
 | File | Purpose | Version |
 |------|---------|---------|
-| [ALGORITHM_Sudoku_Basic_Solver.md](.algorithm/ALGORITHM_Sudoku_Basic_Solver.md) | Unit Completion, Hidden Singles, Naked Singles pseudocode | v1.0 |
-| [ALGORITHM_Sudoku_Advanced_Solver.md](.algorithm/ALGORITHM_Sudoku_Advanced_Solver.md) | Naked/Hidden Pairs, X-Wing, chain techniques | Draft |
+| [sudoku-basic-solver.md](.algorithm/sudoku-basic-solver.md) | Unit Completion, Hidden Singles, Naked Singles pseudocode | v1.0 |
+| [sudoku-advanced-solver.md](.algorithm/sudoku-advanced-solver.md) | Naked/Hidden Pairs, X-Wing, chain techniques | Draft |
 
 ---
 
@@ -122,12 +122,12 @@ Stored in [.algorithm/](.algorithm/) — language-agnostic pseudocode for every 
 
 | Document | Purpose | Status | Version |
 |----------|---------|--------|---------|
-| [DESIGN_Sudoku_Solver_Specification.md](.design/DESIGN_Sudoku_Solver_Specification.md) | Tech-agnostic solver spec | Implemented | v1.0 |
-| [DESIGN_Audit_Trail_Feature.md](.design/DESIGN_Audit_Trail_Feature.md) | Audit logging system | Approved, not implemented | v1.1 |
-| [DESIGN_REST_API_Wrapper.md](.design/DESIGN_REST_API_Wrapper.md) | Express REST API | Approved, not implemented | v1.0 |
-| [DESIGN_Web_UI_Solver_Visualisation.md](.design/DESIGN_Web_UI_Solver_Visualisation.md) | Browser step-by-step visualisation | Approved, not implemented | v1.2 |
-| [DESIGN_Naming_Conventions.md](.design/DESIGN_Naming_Conventions.md) | TypeScript naming standards | Adopted | v1.0 |
-| [DESIGN_Screenplay_Migration.md](.design/DESIGN_Screenplay_Migration.md) | Screenplay pattern migration for tests | Approved | v1.0 |
+| [sudoku-solver-specification.md](.design/sudoku-solver-specification.md) | Tech-agnostic solver spec | Implemented | v1.0 |
+| [audit-trail-feature.md](.design/audit-trail-feature.md) | Audit logging system | Approved, not implemented | v1.1 |
+| [rest-api-wrapper.md](.design/rest-api-wrapper.md) | Express REST API | Approved, not implemented | v1.0 |
+| [web-ui-solver-visualisation.md](.design/web-ui-solver-visualisation.md) | Browser step-by-step visualisation | Approved, not implemented | v1.2 |
+| [naming-conventions-design.md](.design/naming-conventions-design.md) | TypeScript naming standards | Adopted | v1.0 |
+| [screenplay-migration.md](.design/screenplay-migration.md) | Screenplay pattern migration for tests | Approved | v1.0 |
 
 ---
 
@@ -135,12 +135,12 @@ Stored in [.algorithm/](.algorithm/) — language-agnostic pseudocode for every 
 
 | Document | Purpose |
 |----------|---------|
-| [BACKLOG.md](.planning/BACKLOG.md) | Product backlog, sprint tracking |
-| [TODO_Audit_Trail_Feature.md](.planning/TODO_Audit_Trail_Feature.md) | Audit Trail implementation task list |
-| [TODO_REST_API_Wrapper.md](.planning/TODO_REST_API_Wrapper.md) | REST API implementation task list |
-| [TODO_Web_UI_Solver_Visualisation.md](.planning/TODO_Web_UI_Solver_Visualisation.md) | Web UI implementation task list |
-| [TODO_Hidden_Singles_Complete_Implementation.md](.planning/TODO_Hidden_Singles_Complete_Implementation.md) | Hidden Singles implementation (COMPLETED) |
-| [PROMPT_PLAYBOOK_20260330T1645Z.md](.planning/PROMPT_PLAYBOOK_20260330T1645Z.md) | AI session reproducibility guide |
+| [BACKLOG.md](.planning/backlog.md) | Product backlog, sprint tracking |
+| [todo-audit-trail-feature.md](.planning/todo-audit-trail-feature.md) | Audit Trail implementation task list |
+| [todo-rest-api-wrapper.md](.planning/todo-rest-api-wrapper.md) | REST API implementation task list |
+| [todo-web-ui-solver-visualisation.md](.planning/todo-web-ui-solver-visualisation.md) | Web UI implementation task list |
+| [todo-hidden-singles-implementation.md](.planning/todo-hidden-singles-implementation.md) | Hidden Singles implementation (COMPLETED) |
+| [prompt-playbook-20260330T1645Z.md](.planning/prompt-playbook-20260330T1645Z.md) | AI session reproducibility guide |
 
 ---
 
@@ -159,7 +159,7 @@ Chronological record of every development session.
 
 | Guide | Topic | Difficulty | Time |
 |-------|-------|-----------|------|
-| [HOWTO_Debug_SudokuSolver.md](.howto/HOWTO_Debug_SudokuSolver.md) | VS Code debugging setup | Beginner | 15 min |
+| [debug-sudoku-solver.md](.howto/debug-sudoku-solver.md) | VS Code debugging setup | Beginner | 15 min |
 
 ---
 

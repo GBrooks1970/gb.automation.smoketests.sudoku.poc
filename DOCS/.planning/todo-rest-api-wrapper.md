@@ -2,7 +2,7 @@
 
 **Created:** 2026-02-12T00:00:00Z
 **Last Updated:** 2026-04-02T00:00:00Z
-**Design Document:** [DESIGN_REST_API_Wrapper.md](../DOCS/.design/DESIGN_REST_API_Wrapper.md)
+**Design Document:** [rest-api-wrapper.md](../DOCS/.design/rest-api-wrapper.md)
 **Backlog Reference:** BACKLOG-009 (Implement REST API Wrapper)
 **Estimated Effort:** 24-32 hours
 
@@ -16,7 +16,7 @@ Implementation task list for a RESTful API that wraps the Sudoku Solver, providi
 
 ## Prerequisites
 
-- [ ] **Review design document** — Read `DOCS/.design/DESIGN_REST_API_Wrapper.md` thoroughly before starting.
+- [ ] **Review design document** — Read `DOCS/.design/rest-api-wrapper.md` thoroughly before starting.
 - [ ] **BACKLOG-008: Implement Audit Trail Feature** — Required. The REST API's solve endpoint uses `AuditLogger` for per-algorithm change tracking. The `CellChange` interface from `AuditTypes.ts` replaces the standalone `ChangeTracker` helper (Phase 3.2). Do not build the `ChangeTracker` if `AuditLogger` is available — use it directly.
 - [ ] **BACKLOG-007: Decouple Console Output with DI** — Required per backlog. The API should not produce console output during request handling.
 - [ ] **BACKLOG-017: Unify Feature Design Overlap** — Required. Confirms the single-server architecture: this Express server also hosts the Web UI static files (BACKLOG-018). No separate web server will be created.
@@ -295,8 +295,8 @@ Implementation task list for a RESTful API that wraps the Sudoku Solver, providi
 
 - [ ] **8.1** Create implementation log: `DOCS/.implementation/IMPL_LOG_[date]_REST_API_Wrapper.md`
 - [ ] **8.2** Update `CLAUDE.md` — Add REST API section with endpoints, example curl commands, environment variables
-- [ ] **8.3** Update `DOCS/.design/DESIGN_REST_API_Wrapper.md` status from "Approved" to "Implemented"
-- [ ] **8.4** Update `DOCS/.planning/BACKLOG.md` — Mark BACKLOG-009 as completed
+- [ ] **8.3** Update `DOCS/.design/rest-api-wrapper.md` status from "Approved" to "Implemented"
+- [ ] **8.4** Update `DOCS/.planning/backlog.md` — Mark BACKLOG-009 as completed
 - [ ] **8.5** Update `DOCS/.design/README.md` — Update status of REST API design document
 - [ ] **8.6** Update `package.json` description and scripts documentation
 - [ ] **8.7** Document any deviations from the design document in the implementation log

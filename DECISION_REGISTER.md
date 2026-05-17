@@ -243,27 +243,27 @@ All 43 Gherkin scenarios in `BasicSudokuSolverLogic.feature` remain unchanged du
 
 ### Context
 
-The Reference Architecture was updated from v1.0 to v1.1 on 2026-05-14. Two path requirements changed: `BACKLOG.md` moved from a root-level requirement to `DOCS/.planning/BACKLOG.md`, and `NAMING_CONVENTIONS.md` was pinned from "root or DOCS/" to specifically `DOCS/.design/NAMING_CONVENTIONS.md`. Phase 0 had already been executed against v1.0, placing both documents at the wrong paths.
+The Reference Architecture was updated from v1.0 to v1.1 on 2026-05-14. Two path requirements changed: `BACKLOG.md` moved from a root-level requirement to `DOCS/.planning/backlog.md`, and `naming-conventions.md` was pinned from "root or DOCS/" to specifically `DOCS/.design/naming-conventions.md`. Phase 0 had already been executed against v1.0, placing both documents at the wrong paths.
 
 ### Decision
 
 Adopt RA v1.1 as the governing version. Correct the two path errors introduced by Phase 0:
-1. Move `NAMING_CONVENTIONS.md` from repository root to `DOCS/.design/NAMING_CONVENTIONS.md` (applying the DR-001 dot-prefix convention to the RA's `DOCS/design/` requirement).
-2. Demote the root `BACKLOG.md` from a required document to a convenience summary redirect; the required document is `DOCS/.planning/BACKLOG.md`, which already existed before Phase 0.
+1. Move `naming-conventions.md` from repository root to `DOCS/.design/naming-conventions.md` (applying the DR-001 dot-prefix convention to the RA's `DOCS/design/` requirement).
+2. Demote the root `BACKLOG.md` from a required document to a convenience summary redirect; the required document is `DOCS/.planning/backlog.md`, which already existed before Phase 0.
 
 ### Consequences
 
 **Outcomes:**
 - The project is now governed by RA v1.1, which is more specific about document paths.
-- `NAMING_CONVENTIONS.md` is co-located with design documents in `DOCS/.design/`, consistent with DR-001.
-- `DOCS/.planning/BACKLOG.md` remains the single authoritative backlog.
+- `naming-conventions.md` is co-located with design documents in `DOCS/.design/`, consistent with DR-001.
+- `DOCS/.planning/backlog.md` remains the single authoritative backlog.
 
 **Trade-offs:**
-- The root `BACKLOG.md` created in Phase 0 is now a non-required convenience file. It must include a clear redirect to `DOCS/.planning/BACKLOG.md` to avoid confusion.
-- Any external links or CLAUDE.md references that pointed to root `NAMING_CONVENTIONS.md` must be updated.
+- The root `BACKLOG.md` created in Phase 0 is now a non-required convenience file. It must include a clear redirect to `DOCS/.planning/backlog.md` to avoid confusion.
+- Any external links or CLAUDE.md references that pointed to root `naming-conventions.md` must be updated.
 
 **Compliance note:**
-- `DOCS/.design/NAMING_CONVENTIONS.md` maps to the RA v1.1 requirement `DOCS/.design/NAMING_CONVENTIONS.md` via DR-001 (dot-prefix convention).
+- `DOCS/.design/naming-conventions.md` maps to the RA v1.1 requirement `DOCS/.design/naming-conventions.md` via DR-001 (dot-prefix convention).
 
 ### Alternatives Considered
 
@@ -272,13 +272,13 @@ Adopt RA v1.1 as the governing version. Correct the two path errors introduced b
 - Rejected because: v1.1 is the accepted version of the governing architecture. Using a superseded version would invalidate the compliance roadmap.
 
 **Alternative: Move documents to RA-literal paths (no dot-prefix)**
-- Description: Place files at `DOCS/.design/NAMING_CONVENTIONS.md` literally, without dot-prefix.
+- Description: Place files at `DOCS/.design/naming-conventions.md` literally, without dot-prefix.
 - Rejected because: DR-001 is an accepted decision. Introducing a single non-dot-prefixed DOCS subdirectory would create inconsistency within the DOCS tree.
 
 ### Related Decisions
 
 - DR-001 — Dot-prefix convention applied to map `DOCS/design/` → `DOCS/.design/`
-- DR-005 — NAMING_CONVENTIONS.md content derived from work done under Phase 0
+- DR-005 — naming-conventions.md content derived from work done under Phase 0
 
 ---
 
@@ -334,7 +334,7 @@ Create `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature`
 
 ### Context
 
-The Screenplay migration design (`DESIGN_Screenplay_Migration.md`) was authored against an earlier version of Serenity/JS. When implementing Phase 2 against the installed version (3.43.2), two deviations from the design were required due to API changes in the library.
+The Screenplay migration design (`screenplay-migration.md`) was authored against an earlier version of Serenity/JS. When implementing Phase 2 against the installed version (3.43.2), two deviations from the design were required due to API changes in the library.
 
 ### Decision
 
@@ -353,7 +353,7 @@ The Screenplay migration design (`DESIGN_Screenplay_Migration.md`) was authored 
 - Any future update of `@serenity-js/core` beyond 3.x may require revisiting the base class API.
 
 **Compliance note:**
-- `DESIGN_Screenplay_Migration.md` should be updated to reflect the `extends Ability` pattern and path corrections (post-Phase-4 clean-up task).
+- `screenplay-migration.md` should be updated to reflect the `extends Ability` pattern and path corrections (post-Phase-4 clean-up task).
 
 ### Alternatives Considered
 
@@ -600,11 +600,11 @@ Adopt `REFERENCE_ARCHITECTURE.md` v1.3 as the governing architecture for this re
 
 ### Context [REQUIRED]
 
-`REFERENCE_ARCHITECTURE.md` v1.3 requires literal documentation paths such as `DOCS/.planning/BACKLOG.md`, `DOCS/.design/NAMING_CONVENTIONS.md`, and `DOCS/.implementation-logs/`. This repository already has accepted historical dot-prefixed documentation directories under DR-001: `DOCS/.planning/`, `DOCS/.design/`, and `DOCS/.implementation/`. Moving the authoritative documents immediately would create a broad path migration and risk breaking existing references while MIG-09 still needs to normalize implementation log policy.
+`REFERENCE_ARCHITECTURE.md` v1.3 requires literal documentation paths such as `DOCS/.planning/backlog.md`, `DOCS/.design/naming-conventions.md`, and `DOCS/.implementation-logs/`. This repository already has accepted historical dot-prefixed documentation directories under DR-001: `DOCS/.planning/`, `DOCS/.design/`, and `DOCS/.implementation/`. Moving the authoritative documents immediately would create a broad path migration and risk breaking existing references while MIG-09 still needs to normalize implementation log policy.
 
 ### Decision [REQUIRED]
 
-Keep the dot-prefixed DOCS directories as the authoritative content locations for existing planning, design, and implementation-log documents until a later decision supersedes this one. Add v1.3 literal compatibility paths that point agents and validators to the authoritative locations: `DOCS/.planning/BACKLOG.md`, `DOCS/.design/NAMING_CONVENTIONS.md`, and `DOCS/.implementation-logs/README.md`.
+Keep the dot-prefixed DOCS directories as the authoritative content locations for existing planning, design, and implementation-log documents until a later decision supersedes this one. Add v1.3 literal compatibility paths that point agents and validators to the authoritative locations: `DOCS/.planning/backlog.md`, `DOCS/.design/naming-conventions.md`, and `DOCS/.implementation-logs/README.md`.
 
 ### Status [REQUIRED]
 
@@ -629,7 +629,7 @@ Keep the dot-prefixed DOCS directories as the authoritative content locations fo
 ### Alternatives Considered [REQUIRED]
 
 **Alternative: Move authoritative documents to literal v1.3 paths immediately**
-- Description: Move `DOCS/.planning/BACKLOG.md`, `DOCS/.design/NAMING_CONVENTIONS.md`, and all `DOCS/.implementation/` logs into the v1.3 literal directories.
+- Description: Move `DOCS/.planning/backlog.md`, `DOCS/.design/naming-conventions.md`, and all `DOCS/.implementation/` logs into the v1.3 literal directories.
 - Rejected because: This would mix a broad historical path migration into MIG-02 and would require updating many existing references before the implementation-log policy has been normalized.
 
 **Alternative: Use filesystem symlinks**
@@ -776,7 +776,7 @@ Future Stack group containers and Stack directories MUST use `kebab-case`.
 - Canonical Stack name: `DEMOAPP001_TYPESCRIPT_CYPRESS`
 - Stack short identifier (metrics): `DEMOAPP001`
 
-The actual filesystem rename of existing directories is tracked as **MIG-13** in `DOCS/.planning/BACKLOG.md` and is scheduled as a dedicated sprint immediately before Stack 2 onboarding.
+The actual filesystem rename of existing directories is tracked as **MIG-13** in `DOCS/.planning/backlog.md` and is scheduled as a dedicated sprint immediately before Stack 2 onboarding.
 
 ### Status
 
@@ -787,7 +787,7 @@ The actual filesystem rename of existing directories is tracked as **MIG-13** in
 **Outcomes:**
 - Removes the case-sensitivity trap for all future Stacks and for DEMOAPP001 once MIG-13 completes.
 - Makes Stack directory naming consistent with the ecosystem norm and with all other lowercase directories in the repository.
-- `NAMING_CONVENTIONS.md` §3 and §4 updated to reflect the decoupling of directory name from canonical Stack name.
+- `naming-conventions.md` §3 and §4 updated to reflect the decoupling of directory name from canonical Stack name.
 - Future Stack directories (`demo-apps/demoapp002-python-pytest/`, etc.) created with the correct convention from day one.
 
 **Trade-offs:**
@@ -1037,9 +1037,9 @@ The migration is executed in four phases per `DOCS/ANALYSIS_Document_Naming_Keba
 - **Phase 1** — Authored documents in typed directories (`.design/`, `.algorithm/`, `.howto/`, `.planning/`, `.implementation-logs/`)
 - **Phase 2** — DOCS root files and Stack-level docs
 - **Phase 3** — Root governance files (`DECISION_REGISTER.md`, `BACKLOG.md`)
-- **Phase 4** — Update `NAMING_CONVENTIONS.md` and `CLAUDE.md` to reflect the new single rule
+- **Phase 4** — Update `naming-conventions.md` and `CLAUDE.md` to reflect the new single rule
 
-`NAMING_CONVENTIONS.md` is updated in Phase 4 to replace the five per-type prefix rules (`DESIGN_`, `ALGORITHM_`, `HOWTO_`, `TODO_`, `TEMPLATE_`) with a single rule: authored documents use `word-word.md` in kebab-case. The three permanent exceptions are documented in NAMING_CONVENTIONS.md.
+`naming-conventions.md` is updated in Phase 4 to replace the five per-type prefix rules (`DESIGN_`, `ALGORITHM_`, `HOWTO_`, `TODO_`, `TEMPLATE_`) with a single rule: authored documents use `word-word.md` in kebab-case. The three permanent exceptions are documented in naming-conventions.md.
 
 ### Status
 
@@ -1049,8 +1049,8 @@ The migration is executed in four phases per `DOCS/ANALYSIS_Document_Naming_Keba
 
 **Outcomes:**
 - A single document naming convention (`kebab-case.md`) extends the direction already established for directories (DR-016, DR-019), implementation logs (DR-017), architecture docs, and `.template.md` files.
-- The five per-type prefix rules in `NAMING_CONVENTIONS.md` (Sections 5) are replaced by one rule, simplifying the conventions document.
-- Prefix redundancy is eliminated — `DESIGN_Audit_Trail_Feature.md` becomes `audit-trail-feature.md`; the `.design/` directory already signals the document type.
+- The five per-type prefix rules in `naming-conventions.md` (Sections 5) are replaced by one rule, simplifying the conventions document.
+- Prefix redundancy is eliminated — `audit-trail-feature.md` becomes `audit-trail-feature.md`; the `.design/` directory already signals the document type.
 
 **Trade-offs:**
 - ~29 files renamed across Phases 1–3; ~155 reference updates required.

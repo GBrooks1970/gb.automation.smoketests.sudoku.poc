@@ -96,7 +96,7 @@ When the {string} algorithm is executed for value {int}
 Then the system should place {int} in the only valid cell in row {int}
 ```
 
-If a Stack cannot implement a scenario, it MUST tag the local copy `@pending` and record the gap in `DOCS/.planning/BACKLOG.md`.
+If a Stack cannot implement a scenario, it MUST tag the local copy `@pending` and record the gap in `DOCS/.planning/backlog.md`.
 
 ---
 

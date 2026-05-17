@@ -12,7 +12,7 @@ When documents conflict, use this order:
 4. Stack-level docs under `demo-apps/demoapp001-typescript-cypress/docs/`
 5. This guide
 
-`DECISION_REGISTER.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-019.
+`DECISION_REGISTER.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-020.
 
 ## Current Architecture Baseline
 
@@ -62,8 +62,8 @@ gb.automation.smoketests.sudoku.poc/
 |   |-- ref-arch-alignment_2026-05-15.md
 |   |-- .architecture/                      # cross-cutting architecture specs
 |   |-- .templates/                         # all document templates
-|   |-- .planning/BACKLOG.md                # authoritative backlog
-|   |-- .design/NAMING_CONVENTIONS.md       # authoritative naming conventions
+|   |-- .planning/backlog.md                # authoritative backlog
+|   |-- .design/naming-conventions.md       # authoritative naming conventions
 |   |-- .implementation-logs/               # implementation logs (active + archive template)
 |   |-- .review/                            # historical review archive
 |   |-- .algorithm/                         # algorithm specifications
@@ -144,7 +144,7 @@ When adding or changing Gherkin behavior:
 4. Add stack-local tags only in the Stack copy, currently `@stack-demoapp001`.
 5. Update step definitions under `tests/screenplay/step_definitions/`.
 6. Run `npm test` from the Stack directory or `.\.batch\run-demoapp001.ps1` from the repository root.
-7. If a scenario cannot yet be implemented, tag it `@pending` locally and add a backlog item to `DOCS/.planning/BACKLOG.md`.
+7. If a scenario cannot yet be implemented, tag it `@pending` locally and add a backlog item to `DOCS/.planning/backlog.md`.
 8. If the change creates or changes a structural rule, record it in `DECISION_REGISTER.md`.
 
 ## Screenplay Structure
@@ -206,8 +206,8 @@ Governed by `DOCS/REFERENCE_ARCHITECTURE.md` v1.3 and decisions DR-012 through D
 | `DOCS/.architecture/subject-app-contract.md` | Active `@util` and future `@cli` surface contracts |
 | `DOCS/.architecture/orchestration-design.md` | Build, test, metrics, and retention design |
 | `DOCS/.architecture/logging-design.md` | Logging and reporting strategy |
-| `DOCS/.planning/BACKLOG.md` | Authoritative backlog content |
-| `DOCS/.design/NAMING_CONVENTIONS.md` | Authoritative naming conventions |
+| `DOCS/.planning/backlog.md` | Authoritative backlog content |
+| `DOCS/.design/naming-conventions.md` | Authoritative naming conventions |
 | `.review/README.md` | Future code review output policy |
 
 ## Current Limitations

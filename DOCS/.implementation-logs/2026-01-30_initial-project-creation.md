@@ -107,13 +107,13 @@ constructor(
    - Dependencies: typescript@^5.0.0, ts-node@^10.9.0, @types/node@^20.0.0
    - Target: ES2020, CommonJS modules
 
-4. **DESIGN_Audit_Trail_Feature.md** - Audit trail design specification
+4. **audit-trail-feature.md** - Audit trail design specification
    - AuditEvent structure (changed from AuditEntry per user request)
    - JSON export format with algorithm attribution
    - Performance statistics tracking
    - **Version:** v1.0, **Date:** 2026-01-30T20:00:00Z
 
-5. **DESIGN_REST_API_Wrapper.md** - REST API design specification
+5. **rest-api-wrapper.md** - REST API design specification
    - 6 endpoints: individual techniques + full solve
    - Delta (before/after) response format
    - OpenAPI/Swagger documentation structure
@@ -156,7 +156,7 @@ constructor(
    - Enhanced Pedagogical Value section with primary audience, AAA pattern, cross-references
    - **Version:** v1.0, **Date:** 2026-01-30T20:00:00Z
 
-6. **DESIGN_Sudoku_Solver_Specification.md**
+6. **sudoku-solver-specification.md**
    - Created tech-agnostic specification with pseudocode
    - **Version:** v1.0, **Date:** 2026-01-30T20:00:00Z
 
@@ -212,7 +212,7 @@ constructor(
 **Symptom:** User feedback requested changing "AuditEntry" to "AuditEvent"
 **Root Cause:** Initial design used "Entry" terminology
 **Solution:** Changed all occurrences of Entry/entry/entries to Event/event/events
-**Files Modified:** DESIGN_Audit_Trail_Feature.md
+**Files Modified:** audit-trail-feature.md
 
 ## 7. All User Requests (Chronological)
 
@@ -291,7 +291,7 @@ When implementing the REST API wrapper:
 5. Create Postman collection for testing
 
 For additional tech-stack implementations:
-1. Use DESIGN_Sudoku_Solver_Specification.md as the source of truth
+1. Use sudoku-solver-specification.md as the source of truth
 2. Create new DEMOAPP00X directory for each implementation
 3. Each implementation should have its own README following DEMOAPP001 template
 4. Maintain consistent algorithm naming across all implementations

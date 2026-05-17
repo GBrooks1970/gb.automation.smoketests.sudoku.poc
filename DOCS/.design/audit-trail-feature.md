@@ -106,7 +106,7 @@ interface CellChange {
     reason?: string; // e.g., "only valid candidate", "last empty in row"
 }
 // NOTE: CellChange is the shared cross-feature base interface.
-// The Web UI's SolveStep (DESIGN_Web_UI_Solver_Visualisation.md §5.1) extends
+// The Web UI's SolveStep (web-ui-solver-visualisation.md §5.1) extends
 // CellChange directly. Import from app_src/audit/AuditTypes.ts — do not redefine.
 
 interface AuditEvent {

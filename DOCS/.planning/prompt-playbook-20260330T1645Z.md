@@ -24,16 +24,16 @@ Execute the following prompts in order. Each prompt builds on the output of the 
 1. **Analyse the current design documents and then create a design document in similar format that outlines the design and implementation plan to create a simple webpage that will show the puzzle, steps and events towards solution and the end result of the attempt to solve the puzzle via the sudoku solver. Before starting write the Todo list to a markdown file so that it can be picked up by other AI agents**
 
    *Expected output:*
-   - `DOCS/.design/DESIGN_Web_UI_Solver_Visualisation.md` (~1,300 lines) - Full design document with architecture, SolveStepTracker wrapper, API spec, frontend components, implementation phases
-   - `DOCS/.planning/TODO_Web_UI_Solver_Visualisation.md` (~135 lines) - 8-phase checklist with dependency diagram and technical decisions
+   - `DOCS/.design/web-ui-solver-visualisation.md` (~1,300 lines) - Full design document with architecture, SolveStepTracker wrapper, API spec, frontend components, implementation phases
+   - `DOCS/.planning/todo-web-ui-solver-visualisation.md` (~135 lines) - 8-phase checklist with dependency diagram and technical decisions
 
 ### Phase 2: TODO Task Lists for Existing Design Documents
 
 2. **Repeat the same process with existing 'Audit Trail Feature Design Document' and 'REST API Wrapper for Sudoku Solver - Design Document'. Create a TODO list for each in a similar format to the Web UI you have just produced. Write the Todo list to a markdown file so that it can be picked up by other AI agents**
 
    *Expected output:*
-   - `DOCS/.planning/TODO_Audit_Trail_Feature.md` (~286 lines) - 5-phase checklist derived from Audit Trail design
-   - `DOCS/.planning/TODO_REST_API_Wrapper.md` (~381 lines) - 8-phase checklist derived from REST API design
+   - `DOCS/.planning/todo-audit-trail-feature.md` (~286 lines) - 5-phase checklist derived from Audit Trail design
+   - `DOCS/.planning/todo-rest-api-wrapper.md` (~381 lines) - 8-phase checklist derived from REST API design
 
 ### Phase 3: Commit and Push
 
@@ -49,7 +49,7 @@ Execute the following prompts in order. Each prompt builds on the output of the 
 4. **Add a visual representation of the expected webpage in a UI wireframe**
 
    *Expected output:*
-   - `DOCS/.design/DESIGN_Web_UI_Solver_Visualisation.md` updated to v1.1 with new Section 11 containing 9 ASCII wireframes (~529 lines added):
+   - `DOCS/.design/web-ui-solver-visualisation.md` updated to v1.1 with new Section 11 containing 9 ASCII wireframes (~529 lines added):
      - Initial page load state
      - Mid-solve state (step 12 of 45)
      - Solved state
@@ -76,7 +76,7 @@ Execute the following prompts in order. Each prompt builds on the output of the 
      - `06_ARCHITECTURE_ASSESSMENT.md` - SOLID, KISS, YAGNI, Test Pyramid, REST, ISTQB, pedagogical assessment
      - `07_MIGRATION_PLANS.md` - 3 plans: unified feature implementation, CI/CD pipeline, multi-language strategy
      - `README.md` - Quick reference for the review directory
-   - `DOCS/.planning/BACKLOG.md` updated with:
+   - `DOCS/.planning/backlog.md` updated with:
      - Sprint dates reset to 2026-03-30
      - Unified feature implementation strategy diagram
      - New items: BACKLOG-017 (unify designs), BACKLOG-018 (Web UI implementation)
@@ -89,12 +89,12 @@ Execute the following prompts in order. Each prompt builds on the output of the 
 
 After executing all prompts, verify:
 
-- [ ] `DOCS/.design/DESIGN_Web_UI_Solver_Visualisation.md` exists (v1.1 with wireframes)
-- [ ] `DOCS/.planning/TODO_Web_UI_Solver_Visualisation.md` exists (8 phases)
-- [ ] `DOCS/.planning/TODO_Audit_Trail_Feature.md` exists (5 phases)
-- [ ] `DOCS/.planning/TODO_REST_API_Wrapper.md` exists (8 phases)
+- [ ] `DOCS/.design/web-ui-solver-visualisation.md` exists (v1.1 with wireframes)
+- [ ] `DOCS/.planning/todo-web-ui-solver-visualisation.md` exists (8 phases)
+- [ ] `DOCS/.planning/todo-audit-trail-feature.md` exists (5 phases)
+- [ ] `DOCS/.planning/todo-rest-api-wrapper.md` exists (8 phases)
 - [ ] `DOCS/.review/CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z/` exists (10 files)
-- [ ] `DOCS/.planning/BACKLOG.md` updated with 18 backlog items and sprint roadmap
+- [ ] `DOCS/.planning/backlog.md` updated with 18 backlog items and sprint roadmap
 - [ ] All navigation links between review files resolve correctly
 - [ ] All cross-references to design documents use correct filenames
 - [ ] Branch pushed to remote with 4 commits

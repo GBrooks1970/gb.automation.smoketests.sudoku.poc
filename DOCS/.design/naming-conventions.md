@@ -1,7 +1,7 @@
 # Naming Conventions
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-05-16 (DR-019 — all DOCS subdirectories unified; DR-020 next)
+**Last Updated:** 2026-05-17 (DR-020 — kebab-case adopted for all authored document filenames)
 **Status:** Adopted
 **Governed by:** `REFERENCE_ARCHITECTURE.md` §10.9
 **Template:** `DOCS/.templates/naming-conventions.template.md`
@@ -24,7 +24,7 @@
 | TypeScript class files | `PascalCase` | `SudokuSolver.ts` |
 | Config / ecosystem files | `kebab-case` | `tsconfig.json`, `eslint.config.js` |
 | DOCS subdirectories | dot + `kebab-case` | `.design/`, `.planning/`, `.architecture/`, `.templates/`, `.implementation-logs/` |
-| DOCS document files | `PREFIX_Title_Case.md` | `DESIGN_Audit_Trail_Feature.md` |
+| DOCS document files | `PREFIX_Title_Case.md` | `audit-trail-feature.md` |
 | Feature files | `PascalCase` | `BasicSudokuSolverLogic.feature` |
 | Screenplay Memory keys | `UPPER_SNAKE_CASE` (constant name = string value) | `SOLVE_RESULT = 'SOLVE_RESULT'` |
 | Screenplay component classes | `PascalCase` verb/noun phrase | `UseSudokuSolver`, `SolvePuzzle` |
@@ -140,17 +140,26 @@ The filesystem directory and the canonical name are separate concerns. A contrib
 
 ## 5. Documentation Files (DOCS/)
 
-| Document type | Pattern | Example |
-|---------------|---------|---------|
-| Design documents | `DESIGN_Title_Case.md` | `DESIGN_Audit_Trail_Feature.md` |
-| Analysis documents | `ANALYSIS_Title_Case_YYYYMMDD.md` | `ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md` |
-| Algorithm documents | `ALGORITHM_Domain_Name.md` | `ALGORITHM_Sudoku_Basic_Solver.md` |
-| How-to guides | `HOWTO_Title_Case.md` | `HOWTO_Debug_SudokuSolver.md` |
+All authored document filenames use `kebab-case.md` (DR-020). Three permanent exceptions where tooling locks the filename: `README.md`, `CHANGELOG.md`, `CLAUDE.md`. Generated artefacts in `.results/` are exempt.
+
+| Document type | Pattern (DR-020) | Example |
+|---------------|-----------------|---------|
+| Design documents | `feature-name.md` | `audit-trail-feature.md` |
+| Analysis documents | `analysis-topic-YYYYMMDD.md` | `analysis-docs-subdirectory-cleanup-20260516.md` |
+| Algorithm documents | `domain-name.md` | `sudoku-basic-solver.md` |
+| How-to guides | `verb-subject.md` | `debug-sudoku-solver.md` |
 | Implementation logs | `YYYY-MM-DD_short-session-topic.md` (DR-017) | `2026-01-30_initial-project-creation.md` |
+| Planning / TODO docs | `todo-feature-name.md` | `todo-audit-trail-feature.md` |
 | Templates | `kebab-purpose.template.md` | `decision-record.template.md` |
 | Code review output dirs | `CODE_REVIEW_[AGENT]_v[N]_[UTC]/` | `CODE_REVIEW_CLAUDE_SONNET_v1_20260513T2217Z/` |
 
-> **Separator:** Single underscore (`_`) between words. Historical review bundles under `DOCS/.review/` use a double underscore (`__`) between reviewer name and timestamp; new review bundles under root `.review/` use the v1.3 pattern from DR-012 and DR-014.
+**Permanent exceptions (fixed filename, tooling dependency):**
+
+| File | Reason |
+|------|--------|
+| `README.md` | GitHub/npm ecosystem — rendered automatically by exact name |
+| `CHANGELOG.md` | CI tooling (standard-version, semantic-release) generates this exact filename |
+| `CLAUDE.md` | Anthropic Claude Code tooling looks up by exact name |
 
 ---
 
@@ -200,7 +209,7 @@ The filesystem directory and the canonical name are separate concerns. A contrib
 | Format | `DR-NNN` (zero-padded to 3 digits) |
 | Uniqueness | IDs MUST NOT be reused, even when superseded |
 | Sequence | Sequential, starting at `DR-001` |
-| Current next ID | `DR-020` |
+| Current next ID | `DR-021` |
 
 ---
 

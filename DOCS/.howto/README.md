@@ -21,7 +21,7 @@ How-to guides assume the reader wants to accomplish a specific task. They are st
 
 | Guide | Topic | Audience |
 |-------|-------|----------|
-| [HOWTO_Debug_SudokuSolver.md](HOWTO_Debug_SudokuSolver.md) | Set up a debugger and step through the solver | Developers new to the project |
+| [debug-sudoku-solver.md](debug-sudoku-solver.md) | Set up a debugger and step through the solver | Developers new to the project |
 
 ---
 

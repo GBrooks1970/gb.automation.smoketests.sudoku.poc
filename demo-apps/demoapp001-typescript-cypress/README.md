@@ -5,7 +5,7 @@
 **Version:** v1.0
 **Date:** 2026-01-30T20:00:00Z
 
-This demo application implements the [Sudoku Solver Design Specification](../../DOCS/.design/DESIGN_Sudoku_Solver_Specification.md) using TypeScript and Node.js, demonstrating clean architecture principles and modern JavaScript development practices.
+This demo application implements the [Sudoku Solver Design Specification](../../DOCS/.design/sudoku-solver-specification.md) using TypeScript and Node.js, demonstrating clean architecture principles and modern JavaScript development practices.
 
 ---
 
@@ -390,7 +390,7 @@ As per the design specification:
 
 1. **Hidden Singles**: Current implementation only checks 3×3 blocks, not rows or columns
    - **Impact:** May miss some hidden singles in rows/columns
-   - **Status:** Documented in [ALGORITHM_Sudoku_Basic_Solver.md](../../DOCS/.algorithm/ALGORITHM_Sudoku_Basic_Solver.md)
+   - **Status:** Documented in [sudoku-basic-solver.md](../../DOCS/.algorithm/sudoku-basic-solver.md)
 
 2. **No Advanced Techniques**: Cannot solve puzzles requiring Naked Pairs, X-Wing, etc.
    - **By Design:** This is intentional to keep the solver simple and educational
@@ -404,7 +404,7 @@ As per the design specification:
 
 Based on the design documents in `/DOCS`:
 
-### 1. Audit Trail Feature ([DESIGN_Audit_Trail_Feature.md](../../DOCS/.design/DESIGN_Audit_Trail_Feature.md))
+### 1. Audit Trail Feature ([audit-trail-feature.md](../../DOCS/.design/audit-trail-feature.md))
 
 **Status:** Design complete, implementation pending
 
@@ -430,7 +430,7 @@ Based on the design documents in `/DOCS`:
 }
 ```
 
-### 2. REST API Wrapper ([DESIGN_REST_API_Wrapper.md](../../DOCS/.design/DESIGN_REST_API_Wrapper.md))
+### 2. REST API Wrapper ([rest-api-wrapper.md](../../DOCS/.design/rest-api-wrapper.md))
 
 **Status:** Design complete, implementation pending
 
@@ -508,14 +508,14 @@ npm install
 ## References
 
 - [Parent README](../../README.md) - Repository overview
-- [Design Specification](../../DOCS/.design/DESIGN_Sudoku_Solver_Specification.md) - Tech-agnostic spec
-- [Algorithm Details](../../DOCS/.algorithm/ALGORITHM_Sudoku_Basic_Solver.md) - Algorithm explanations
+- [Design Specification](../../DOCS/.design/sudoku-solver-specification.md) - Tech-agnostic spec
+- [Algorithm Details](../../DOCS/.algorithm/sudoku-basic-solver.md) - Algorithm explanations
 - [Test Scenarios](tests/BasicSudokuSolverLogic.feature) - BDD test specifications
 
 ---
 
 ## Questions or Issues?
 
-- Check the [tech-agnostic specification](../../DOCS/.design/DESIGN_Sudoku_Solver_Specification.md) first
-- Review [algorithm documentation](../../DOCS/.algorithm/ALGORITHM_Sudoku_Basic_Solver.md) for technique details
+- Check the [tech-agnostic specification](../../DOCS/.design/sudoku-solver-specification.md) first
+- Review [algorithm documentation](../../DOCS/.algorithm/sudoku-basic-solver.md) for technique details
 - Examine the [test scenarios](tests/BasicSudokuSolverLogic.feature) for expected behaviors

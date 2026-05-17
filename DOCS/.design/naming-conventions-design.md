@@ -102,11 +102,11 @@ private getBlockEmptyCells(...): {r: number, c: number}[]
 
 | Document type | Pattern | Example |
 |---------------|---------|---------|
-| Design documents | `DESIGN_Title_Case.md` | `DESIGN_Audit_Trail_Feature.md` |
+| Design documents | `DESIGN_Title_Case.md` | `audit-trail-feature.md` |
 | Analysis documents | `ANALYSIS_Title_Case.md` | `ANALYSIS_Performance_Benchmarks.md` |
 | Planning documents | `PLAN_Title_Case.md` | `PLAN_Q3_Roadmap.md` |
 | Refactoring strategies | `REFACTOR_Title_Case.md` | `REFACTOR_Solver_Architecture.md` |
-| How-to guides | `HOWTO_Title_Case.md` | `HOWTO_Debug_SudokuSolver.md` |
+| How-to guides | `HOWTO_Title_Case.md` | `debug-sudoku-solver.md` |
 | Implementation logs | `IMPL_LOG_YYYY-MM-DD_Title_Case.md` | `IMPL_LOG_2026-01-30_Initial_Project_Creation.md` |
 | Backlog | `BACKLOG.md` (single file) | — |
 | Code review output | `CODE_REVIEW_Reviewer__Timestamp/` | `CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z/` |

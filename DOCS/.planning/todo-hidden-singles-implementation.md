@@ -10,7 +10,7 @@
 
 ## Overview
 
-`hiddenSingles(target)` in [SudokuSolver.ts:80](../../demo-apps/demoapp001-typescript-cypress/app_src/SudokuSolver.ts#L80) only scans 3×3 blocks. The algorithm specification ([ALGORITHM_Sudoku_Basic_Solver.md §2](../ALGORITHM_Sudoku_Basic_Solver.md)) requires it to scan all three unit types: **rows**, **columns**, and blocks.
+`hiddenSingles(target)` in [SudokuSolver.ts:80](../../demo-apps/demoapp001-typescript-cypress/app_src/SudokuSolver.ts#L80) only scans 3×3 blocks. The algorithm specification ([sudoku-basic-solver.md §2](../sudoku-basic-solver.md)) requires it to scan all three unit types: **rows**, **columns**, and blocks.
 
 This document walks through the gap step by step — understanding it first, designing the fix second — so the algorithm is fully understood before any code is changed.
 
@@ -18,7 +18,7 @@ This document walks through the gap step by step — understanding it first, des
 
 ## Prerequisites
 
-- [ ] Read [ALGORITHM_Sudoku_Basic_Solver.md §2](../ALGORITHM_Sudoku_Basic_Solver.md#2-hidden-singles-algorithm) to understand the full specification.
+- [ ] Read [sudoku-basic-solver.md §2](../sudoku-basic-solver.md#2-hidden-singles-algorithm) to understand the full specification.
 - [ ] Read [SudokuSolver.ts](../../demo-apps/demoapp001-typescript-cypress/app_src/SudokuSolver.ts) in full — particularly `hiddenSingles()` (line 80) and all private helpers (lines 127-206).
 - [ ] Run `npm start` from `demo-apps/demoapp001-typescript-cypress/` and confirm the existing output is correct before touching anything.
 
@@ -320,7 +320,7 @@ All three documentation files that reference the limitation must be updated. No 
 
 ### 6.1 Update the algorithm documentation
 
-- [ ] **6.1.1** In [ALGORITHM_Sudoku_Basic_Solver.md](../ALGORITHM_Sudoku_Basic_Solver.md), remove the `⚠️ Current Implementation Limitation` warning box under Hidden Singles (§2), replacing it with a confirmation that all three unit types are implemented.
+- [ ] **6.1.1** In [sudoku-basic-solver.md](../sudoku-basic-solver.md), remove the `⚠️ Current Implementation Limitation` warning box under Hidden Singles (§2), replacing it with a confirmation that all three unit types are implemented.
 
 - [ ] **6.1.2** Update the `**Version:**` and `**Date:**` fields to reflect the change.
 
@@ -355,9 +355,9 @@ All three documentation files that reference the limitation must be updated. No 
 | `app_src/SudokuSolver.ts` | Add row scan and column scan loops to `hiddenSingles()` |
 | `puzzles.json` | Add `"Row Column Hidden Singles"` puzzle |
 | `tests/BasicSudokuSolverLogic.feature` | Add integration scenario for new puzzle; annotate existing row/column scenarios with hand-traced grids |
-| `DOCS/.algorithm/ALGORITHM_Sudoku_Basic_Solver.md` | Remove limitation warning; update version |
+| `DOCS/.algorithm/sudoku-basic-solver.md` | Remove limitation warning; update version |
 | `CLAUDE.md` | Remove Known Limitation; update algorithm description |
-| `DOCS/.planning/BACKLOG.md` | Mark BACKLOG-001 complete |
+| `DOCS/.planning/backlog.md` | Mark BACKLOG-001 complete |
 | `DOCS/.implementation/IMPL_LOG_[date]_...md` | Create implementation log |
 
 ---
