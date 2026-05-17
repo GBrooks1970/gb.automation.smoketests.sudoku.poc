@@ -2,7 +2,7 @@
 
 **Intended audience:** Any developer, QA engineer, or AI agent opening the repository for the first time.
 **Template version:** 1.0 (2026-05-14)
-**Governed by:** `REFERENCE_ARCHITECTURE.md` §10.1
+**Governed by:** `reference-architecture.md` §10.1
 **Produces:** `README.md` at the repository root
 
 ---

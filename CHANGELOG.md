@@ -46,7 +46,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - `DOCS/.algorithm/` directory with algorithm pseudocode documents (moved from DOCS root)
 - `DOCS/.templates/algorithm.template.md` — canonical template for algorithm documentation
 - `DOCS/.algorithm/README.md` — algorithm directory guide
-- `DOCS/REFERENCE_ARCHITECTURE.md` — Screenplay-BDD Reference Architecture (v1.1)
+- `DOCS/reference-architecture.md` — Screenplay-BDD Reference Architecture (v1.1)
 - `DOCS/ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md` — alignment report (updated for v1.1)
 - `DR-006` in `DECISION_REGISTER.md` — records adoption of RA v1.1 and path corrections
 - `DR-007` in `DECISION_REGISTER.md` — records establishment of features-shared/ canonical store
@@ -55,7 +55,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 
 ### Changed
 - `cucumber.js` — requireModule now includes `@serenity-js/cucumber`; require path changed to `tests/screenplay/step_definitions/`; worldParameters removed (Cast configured via support/configure.ts)
-- `DOCS/REFERENCE_ARCHITECTURE.md` updated from v1.0 to v1.1 (DR-006)
+- `DOCS/reference-architecture.md` updated from v1.0 to v1.1 (DR-006)
 - `CLAUDE.md` updated: Stack inventory, risk register, canonical feature update procedure, `DECISION_REGISTER.md` reference, `naming-conventions.md` path corrected to `DOCS/.design/`
 - `DOCS/README.md` updated: reflects `.algorithm/`, `templates/` directories, root-level governance documents, `naming-conventions.md` at corrected path
 - `DOCS/.algorithm/sudoku-basic-solver.md` and `sudoku-advanced-solver.md` — relative paths updated after move to `.algorithm/`

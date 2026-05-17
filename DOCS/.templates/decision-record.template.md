@@ -2,7 +2,7 @@
 
 **Intended audience:** Any engineer or AI agent recording a structural or process decision.
 **Template version:** 1.0 (2026-05-14)
-**Governed by:** `DECISION_REGISTER.md` rules — see §10.6 of `REFERENCE_ARCHITECTURE.md`
+**Governed by:** `DECISION_REGISTER.md` rules — see §10.6 of `reference-architecture.md`
 
 ---
 

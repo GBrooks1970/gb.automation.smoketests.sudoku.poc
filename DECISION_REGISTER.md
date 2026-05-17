@@ -2,7 +2,7 @@
 
 **Project:** gb.automation.smoketests.sudoku.poc
 **Last Updated:** 2026-05-16
-**Governed by:** `REFERENCE_ARCHITECTURE.md` v1.3 §10.6
+**Governed by:** `reference-architecture.md` v1.3 §10.6
 **Template:** `DOCS/.templates/decision-record.template.md`
 
 > This register is the authoritative source for every structural and process decision in this project.
@@ -39,7 +39,7 @@ All type-specific subdirectories inside `DOCS/` use a leading dot: `.design/`, `
 - New contributors must learn the convention explicitly — it is not standard in the wider community.
 
 **Compliance note:**
-- Documented divergence from `REFERENCE_ARCHITECTURE.md` §4 directory blueprint. Acceptable because the Reference Architecture explicitly permits MAY-level variation in folder naming beyond the structural roles it describes.
+- Documented divergence from `reference-architecture.md` §4 directory blueprint. Acceptable because the Reference Architecture explicitly permits MAY-level variation in folder naming beyond the structural roles it describes.
 
 ### Alternatives Considered
 
@@ -381,7 +381,7 @@ Phase 0–8 of the migration plan (as documented in prior alignment reports) was
 
 ### Decision
 
-Adopt REFERENCE_ARCHITECTURE.md v1.2 (2026-05-15) as the governing architecture. Execute normalization work across four domains:
+Adopt reference-architecture.md v1.2 (2026-05-15) as the governing architecture. Execute normalization work across four domains:
 
 1. **Template filename contract:** Create all required Appendix A lower-case template filenames under DOCS/templates (now DOCS/.templates per DR-019).
 2. **Backlog status taxonomy:** Normalize all backlog items to use exactly `Open`, `In Progress`, or `Resolved` statuses.
@@ -550,11 +550,11 @@ This extension is provisional and subject to refinement as Stacks 2 and 3 are on
 
 ### Context [REQUIRED]
 
-`REFERENCE_ARCHITECTURE.md` was updated to v1.3 on 2026-05-15. The v1.3 update makes the repository-root code review directory requirement explicit and states that the multi-file review bundle convention is recorded in the Decision Register as DR-012. Without this decision, the project would continue to claim alignment through v1.2-era entries while the current accepted architecture requires v1.3 governance and DR-012 provenance.
+`reference-architecture.md` was updated to v1.3 on 2026-05-15. The v1.3 update makes the repository-root code review directory requirement explicit and states that the multi-file review bundle convention is recorded in the Decision Register as DR-012. Without this decision, the project would continue to claim alignment through v1.2-era entries while the current accepted architecture requires v1.3 governance and DR-012 provenance.
 
 ### Decision [REQUIRED]
 
-Adopt `REFERENCE_ARCHITECTURE.md` v1.3 as the governing architecture for this repository. Use DR-012 as the authoritative decision for future multi-file code review bundle naming: future comprehensive review bundles MUST use `.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/` with a main index file named `00_CODE_REVIEW_[AGENT]_v[N]_[UTC].md`, where `[UTC]` uses `YYYYMMDDTHHMMZ`.
+Adopt `reference-architecture.md` v1.3 as the governing architecture for this repository. Use DR-012 as the authoritative decision for future multi-file code review bundle naming: future comprehensive review bundles MUST use `.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/` with a main index file named `00_CODE_REVIEW_[AGENT]_v[N]_[UTC].md`, where `[UTC]` uses `YYYYMMDDTHHMMZ`.
 
 ### Status [REQUIRED]
 
@@ -589,7 +589,7 @@ Adopt `REFERENCE_ARCHITECTURE.md` v1.3 as the governing architecture for this re
 
 ### Related Decisions
 
-- DR-009 — Historical adoption of `REFERENCE_ARCHITECTURE.md` v1.2.
+- DR-009 — Historical adoption of `reference-architecture.md` v1.2.
 - DR-010 — Historical review directory placement under `DOCS/.review/`.
 - DR-011 — Historical v1.2 review bundle shape.
 
@@ -600,7 +600,7 @@ Adopt `REFERENCE_ARCHITECTURE.md` v1.3 as the governing architecture for this re
 
 ### Context [REQUIRED]
 
-`REFERENCE_ARCHITECTURE.md` v1.3 requires literal documentation paths such as `DOCS/.planning/backlog.md`, `DOCS/.design/naming-conventions.md`, and `DOCS/.implementation-logs/`. This repository already has accepted historical dot-prefixed documentation directories under DR-001: `DOCS/.planning/`, `DOCS/.design/`, and `DOCS/.implementation/`. Moving the authoritative documents immediately would create a broad path migration and risk breaking existing references while MIG-09 still needs to normalize implementation log policy.
+`reference-architecture.md` v1.3 requires literal documentation paths such as `DOCS/.planning/backlog.md`, `DOCS/.design/naming-conventions.md`, and `DOCS/.implementation-logs/`. This repository already has accepted historical dot-prefixed documentation directories under DR-001: `DOCS/.planning/`, `DOCS/.design/`, and `DOCS/.implementation/`. Moving the authoritative documents immediately would create a broad path migration and risk breaking existing references while MIG-09 still needs to normalize implementation log policy.
 
 ### Decision [REQUIRED]
 
@@ -647,7 +647,7 @@ Keep the dot-prefixed DOCS directories as the authoritative content locations fo
 
 ### Context [REQUIRED]
 
-`REFERENCE_ARCHITECTURE.md` v1.3 requires a repository-root `code-review/` or `.review/` directory for code review outputs. Historical project reviews currently live under `DOCS/.review/` and use the earlier `CODE_REVIEW_{Reviewer}__{UTC_TIMESTAMP}` naming shape. Those historical review outputs are read-only snapshots, so renaming or moving them would rewrite provenance rather than improve future compliance.
+`reference-architecture.md` v1.3 requires a repository-root `code-review/` or `.review/` directory for code review outputs. Historical project reviews currently live under `DOCS/.review/` and use the earlier `CODE_REVIEW_{Reviewer}__{UTC_TIMESTAMP}` naming shape. Those historical review outputs are read-only snapshots, so renaming or moving them would rewrite provenance rather than improve future compliance.
 
 ### Decision [REQUIRED]
 
@@ -697,7 +697,7 @@ Create repository-root `.review/` as the v1.3 location for future code review ou
 
 ### Context
 
-`REFERENCE_ARCHITECTURE.md` v1.3 §3.5 requires that Memory keys be defined as named constants, and that Tasks write to Actor Memory while Questions read from it. Prior to MIG-04, the six constants in `tests/screenplay/support/memory-keys.ts` were defined but unused at runtime — all cross-step state flowed through private fields on `UseSudokuSolver` instead of through named Actor Memory keys. This left a parity risk: the documented Memory contract was not the runtime contract.
+`reference-architecture.md` v1.3 §3.5 requires that Memory keys be defined as named constants, and that Tasks write to Actor Memory while Questions read from it. Prior to MIG-04, the six constants in `tests/screenplay/support/memory-keys.ts` were defined but unused at runtime — all cross-step state flowed through private fields on `UseSudokuSolver` instead of through named Actor Memory keys. This left a parity risk: the documented Memory contract was not the runtime contract.
 
 §2.1 additionally requires step definitions to be thin — delegating to `actor.attemptsTo(Task)` and `actor.answer(Question)`. Multiple step definition files imported `UseSudokuSolver` and `LoadPuzzles` and called their methods inline (MIG-05 finding).
 
@@ -727,7 +727,7 @@ All 43 scenarios pass after the migration.
 - Structural-state Questions (`GridCell`, `LoadedPuzzleCount`) continue to read from Ability fields; this is accepted because structural state is part of the Subject Application interface, not a published Memory key.
 
 **Compliance note:**
-- Implements `REFERENCE_ARCHITECTURE.md` v1.3 §3.3 (Tasks write Memory), §3.4 (Questions read Memory), §3.5 (Memory key constants), §2.1 (Layer 2 thin), §8.1 (Memory key parity).
+- Implements `reference-architecture.md` v1.3 §3.3 (Tasks write Memory), §3.4 (Questions read Memory), §3.5 (Memory key constants), §2.1 (Layer 2 thin), §8.1 (Memory key parity).
 
 ### Alternatives Considered
 
@@ -753,12 +753,12 @@ All 43 scenarios pass after the migration.
 
 ### Context
 
-The UPPER_SNAKE_CASE convention for the Stack group container (`DEMOAPPS/`) and Stack directory (`DEMOAPP001_TYPESCRIPT_CYPRESS/`) was adopted implicitly and was never recorded in the Decision Register. Analysis document `DOCS/ANALYSIS_Directory_Naming_Kebab_Case_2026-05-16.md` surfaced two problems with the current convention:
+The UPPER_SNAKE_CASE convention for the Stack group container (`DEMOAPPS/`) and Stack directory (`DEMOAPP001_TYPESCRIPT_CYPRESS/`) was adopted implicitly and was never recorded in the Decision Register. Analysis document `DOCS/analysis-directory-naming-kebab-case-2026-05-16.md` surfaced two problems with the current convention:
 
 1. **Case-sensitivity trap** — The repository is developed on a Windows (case-insensitive) filesystem and pushed to a Linux-hosted remote (case-sensitive). UPPER_CASE directory names create a latent risk where path mismatches silently succeed locally but fail on CI. This risk will become active when a CI pipeline is wired (BACKLOG-004).
 2. **Ecosystem friction** — Node.js, TypeScript, npm tooling, and modern CI/CD YAML all default to lowercase-hyphenated paths. UPPER_CASE directories require Shift-key input and are the outlier against `.batch/`, `.results/`, `features-shared/`, and all Screenplay subdirectories which are already lowercase.
 
-`REFERENCE_ARCHITECTURE.md` v1.3 §4.3 explicitly states that the Stack group directory does not define the canonical Stack name, opening the path to decouple the two conventions.
+`reference-architecture.md` v1.3 §4.3 explicitly states that the Stack group directory does not define the canonical Stack name, opening the path to decouple the two conventions.
 
 ### Decision
 
@@ -795,7 +795,7 @@ The actual filesystem rename of existing directories is tracked as **MIG-13** in
 - Canonical Stack name retains UPPER_SNAKE_CASE, creating a visible divergence between directory name and Stack name that must be understood by all contributors and agents.
 
 **Compliance note:**
-- The directory name convention is a project-local decision not explicitly prescribed by `REFERENCE_ARCHITECTURE.md` v1.3. The RA §4.3 explicitly permits the group directory to use any name without affecting the canonical Stack name.
+- The directory name convention is a project-local decision not explicitly prescribed by `reference-architecture.md` v1.3. The RA §4.3 explicitly permits the group directory to use any name without affecting the canonical Stack name.
 
 ### Alternatives Considered
 
@@ -815,7 +815,7 @@ The actual filesystem rename of existing directories is tracked as **MIG-13** in
 
 ### Evidence
 
-- `DOCS/ANALYSIS_Directory_Naming_Kebab_Case_2026-05-16.md` — full impact analysis with blast radius assessment and implementation plan.
+- `DOCS/analysis-directory-naming-kebab-case-2026-05-16.md` — full impact analysis with blast radius assessment and implementation plan.
 
 ---
 
@@ -827,7 +827,7 @@ The actual filesystem rename of existing directories is tracked as **MIG-13** in
 
 ### Context
 
-DR-013 created `DOCS/.implementation-logs/README.md` as a v1.3 compatibility bridge, leaving `DOCS/.implementation/` as the authoritative content location and explicitly deferring the path decision to MIG-09. `REFERENCE_ARCHITECTURE.md` v1.3 §10.8 names `implementation-logs/` as the required directory and requires log files to use UTC date-prefix plus short-slug naming (`YYYY-MM-DD_short-session-topic.md`). The two existing logs in `DOCS/.implementation/` use the legacy `IMPL_LOG_YYYY-MM-DD_Long_Title.md` pattern and are not in the v1.3-required location.
+DR-013 created `DOCS/.implementation-logs/README.md` as a v1.3 compatibility bridge, leaving `DOCS/.implementation/` as the authoritative content location and explicitly deferring the path decision to MIG-09. `reference-architecture.md` v1.3 §10.8 names `implementation-logs/` as the required directory and requires log files to use UTC date-prefix plus short-slug naming (`YYYY-MM-DD_short-session-topic.md`). The two existing logs in `DOCS/.implementation/` use the legacy `IMPL_LOG_YYYY-MM-DD_Long_Title.md` pattern and are not in the v1.3-required location.
 
 ### Decision
 
@@ -856,7 +856,7 @@ Make `DOCS/.implementation-logs/` the authoritative implementation-log directory
 - Any existing external references to the old paths are stale but still resolve to the archive.
 
 **Compliance note:**
-- Implements `REFERENCE_ARCHITECTURE.md` v1.3 §10.8 path and naming requirements.
+- Implements `reference-architecture.md` v1.3 §10.8 path and naming requirements.
 - Supersedes the implementation-log deferral recorded in DR-013.
 
 ### Alternatives Considered
@@ -883,7 +883,7 @@ Make `DOCS/.implementation-logs/` the authoritative implementation-log directory
 
 ### Context
 
-`REFERENCE_ARCHITECTURE.md` v1.3 §5.4 states that steps that embed specific values inline SHOULD be refactored to accept those values as parameters, and §8.2 states that any change to step Gherkin text MUST be applied to all Stacks simultaneously and recorded in the Decision Register. Two canonical scenarios embedded inline array literals that block portability across future Stacks:
+`reference-architecture.md` v1.3 §5.4 states that steps that embed specific values inline SHOULD be refactored to accept those values as parameters, and §8.2 states that any change to step Gherkin text MUST be applied to all Stacks simultaneously and recorded in the Decision Register. Two canonical scenarios embedded inline array literals that block portability across future Stacks:
 
 1. `Given a row contains the values [1, 2, 0, 4, 5, 6, 7, 8, 9]` — the row array is a literal in the step text.
 2. `Given an empty cell has 3 possible candidates: [2, 5, 8]` — both the count and the candidate list are literals in the step text.
@@ -915,7 +915,7 @@ Step definitions are updated to use `{string}` (and `{int}`) Cucumber expression
 - Step definition parsing adds a small amount of string-split logic, which is a mild increase in complexity.
 
 **Compliance note:**
-- Implements `REFERENCE_ARCHITECTURE.md` v1.3 §5.4 (parameterised steps) and §8.2 (step text parity across Stacks).
+- Implements `reference-architecture.md` v1.3 §5.4 (parameterised steps) and §8.2 (step text parity across Stacks).
 - Applied simultaneously to canonical (`features-shared/`) and Stack-local (`demo-apps/demoapp001-typescript-cypress/tests/features/`) feature files.
 
 ### Alternatives Considered
@@ -967,7 +967,7 @@ Extend DR-001's dot-prefix convention to cover ALL DOCS type-specific subdirecto
 
 The `DOCS/.templates/decision-record.template.md` stale single-file is removed; the full governed template from `DOCS/.templates/decision-record.template.md` replaces it. All other `.templates/` pre-existing content is superseded by the `templates/` versions.
 
-**RA path divergence:** `REFERENCE_ARCHITECTURE.md` v1.3 names `DOCS/.architecture/`, `DOCS/.templates/`, `DOCS/planning/`, `DOCS/design/`, and `DOCS/.implementation-logs/` as literal paths. All five diverge from this convention under the same MAY-level latitude clause that authorised DR-001. This is a documented project-local decision. The RA text is not changed.
+**RA path divergence:** `reference-architecture.md` v1.3 names `DOCS/.architecture/`, `DOCS/.templates/`, `DOCS/planning/`, `DOCS/design/`, and `DOCS/.implementation-logs/` as literal paths. All five diverge from this convention under the same MAY-level latitude clause that authorised DR-001. This is a documented project-local decision. The RA text is not changed.
 
 ### Status
 
@@ -987,7 +987,7 @@ The `DOCS/.templates/decision-record.template.md` stale single-file is removed; 
 - The v1.3 RA-literal paths no longer exist on disk; a new agent reading the RA and not this DR would look in the wrong place. The DR-001 divergence pattern is precedent for this.
 
 **Compliance note:**
-- Documented divergence from `REFERENCE_ARCHITECTURE.md` v1.3 §4, §10.3, §10.5, §10.8, §10.9 path literals, at the MAY-level latitude clause for directory naming.
+- Documented divergence from `reference-architecture.md` v1.3 §4, §10.3, §10.5, §10.8, §10.9 path literals, at the MAY-level latitude clause for directory naming.
 - DR-001 established the precedent; this decision extends it consistently to the remaining directories.
 
 ### Alternatives Considered
@@ -1008,7 +1008,7 @@ The `DOCS/.templates/decision-record.template.md` stale single-file is removed; 
 
 ### Evidence
 
-- `DOCS/ANALYSIS_DOCS_Subdirectory_Cleanup_20260516.md` — full discrepancy map, file inventory, and migration plan.
+- `DOCS/analysis-docs-subdirectory-cleanup-20260516.md` — full discrepancy map, file inventory, and migration plan.
 
 ---
 
@@ -1059,7 +1059,7 @@ The migration is executed in four phases per `DOCS/ANALYSIS_Document_Naming_Keba
 - Historical review outputs under `DOCS/.review/` reference the pre-migration filenames and cannot be edited (read-only per RA §10.7). Those references permanently point to the pre-migration names.
 
 **Compliance note:**
-- Documented project-local convention. `REFERENCE_ARCHITECTURE.md` v1.3 §10 does not prescribe document filename casing; this is a project-level decision.
+- Documented project-local convention. `reference-architecture.md` v1.3 §10 does not prescribe document filename casing; this is a project-level decision.
 
 ### Alternatives Considered
 

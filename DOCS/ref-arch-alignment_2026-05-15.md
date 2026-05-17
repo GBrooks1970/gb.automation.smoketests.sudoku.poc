@@ -2,7 +2,7 @@
 
 **Date:** 2026-05-15 (updated 2026-05-16)
 **Analyst:** Codex (GPT-5); updated by Claude Sonnet 4.6
-**Subject:** `gb.automation.smoketests.sudoku.poc` vs `REFERENCE_ARCHITECTURE.md` v1.3
+**Subject:** `gb.automation.smoketests.sudoku.poc` vs `reference-architecture.md` v1.3
 **Status:** v1.3 re-baseline; MIG-04 and MIG-05 resolved 2026-05-16; MIG-09 through MIG-12 resolved 2026-05-16
 
 ---
@@ -69,7 +69,7 @@ The v1.3 architecture tightens or makes explicit these obligations:
 
 **Observed before migration:** The register ended at DR-011 and contained v1.2 adoption language. Header metadata also referenced the legacy uppercase template name.
 
-**Resolution:** DR-012 now adopts `REFERENCE_ARCHITECTURE.md` v1.3 as the active governance baseline and records the future multi-file review bundle naming convention required by Section 10.7. The register header now references v1.3 and `DOCS/.templates/decision-record.template.md`; the footer now reports last entry DR-012 and next ID DR-013.
+**Resolution:** DR-012 now adopts `reference-architecture.md` v1.3 as the active governance baseline and records the future multi-file review bundle naming convention required by Section 10.7. The register header now references v1.3 and `DOCS/.templates/decision-record.template.md`; the footer now reports last entry DR-012 and next ID DR-013.
 
 **Migration:** MIG-01 resolved on 2026-05-15.
 
@@ -117,7 +117,7 @@ The v1.3 architecture tightens or makes explicit these obligations:
 
 **Observed before migration:** `DOCS/.planning/backlog.md` was governed by v1.2, had stale summary counts, and still listed `BACKLOG-019: Migrate TypeScript Tests to Screenplay Pattern` as `Open` even though the Screenplay implementation was present and passing.
 
-**Resolution:** `DOCS/.planning/backlog.md` now references `REFERENCE_ARCHITECTURE.md` v1.3, uses only the v1.3 status taxonomy, and reconciles summary counts to Open 20, In Progress 1, Resolved 12. `BACKLOG-019` is resolved with residual Screenplay conformance tracked by MIG-04 and MIG-05, and the MIG-01 through MIG-12 migration set is tracked directly in the backlog.
+**Resolution:** `DOCS/.planning/backlog.md` now references `reference-architecture.md` v1.3, uses only the v1.3 status taxonomy, and reconciles summary counts to Open 20, In Progress 1, Resolved 12. `BACKLOG-019` is resolved with residual Screenplay conformance tracked by MIG-04 and MIG-05, and the MIG-01 through MIG-12 migration set is tracked directly in the backlog.
 
 **Migration:** MIG-07 resolved on 2026-05-15.
 
@@ -206,7 +206,7 @@ Test log confirms:
 
 ### Governance
 
-- `REFERENCE_ARCHITECTURE.md` is v1.3 dated 2026-05-15.
+- `reference-architecture.md` is v1.3 dated 2026-05-15.
 - `DECISION_REGISTER.md` last entry is DR-014; next ID is DR-015.
 - DR-012 records v1.3 adoption and the multi-file review bundle convention.
 - DR-013 records the DOCS compatibility path strategy.
@@ -254,7 +254,7 @@ All future migration tasks are labelled `MIG-**` as requested.
 
 ## 7. Conclusion
 
-The TypeScript Stack is green and fully aligned against `REFERENCE_ARCHITECTURE.md` v1.3. All 13 migration items (MIG-01 through MIG-13) are now Resolved:
+The TypeScript Stack is green and fully aligned against `reference-architecture.md` v1.3. All 13 migration items (MIG-01 through MIG-13) are now Resolved:
 
 - **MIG-01–MIG-08** (resolved 2026-05-15): v1.3 adoption, DOCS path bridges, review directory, Screenplay Actor Memory, thin step definitions, agent guide, backlog reconciliation, and template mandate.
 - **MIG-04 and MIG-05** (resolved 2026-05-16): Actor Memory wired via TakeNotes; all six Memory key constants are runtime-active; no step file accesses Abilities directly.

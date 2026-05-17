@@ -2,7 +2,7 @@
 
 **Intended audience:** The engineer writing the log during or immediately after a development session.
 **Template version:** 1.0 (2026-05-14)
-**Governed by:** `REFERENCE_ARCHITECTURE.md` §10.8
+**Governed by:** `reference-architecture.md` §10.8
 **Produces:** `DOCS/.implementation-logs/YYYY-MM-DD_short-session-topic.md`
 
 > Logs are **append-only**. Once written, do not edit past entries.

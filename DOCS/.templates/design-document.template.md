@@ -2,7 +2,7 @@
 
 **Intended audience:** Engineers and architects designing a feature or component.
 **Template version:** 1.0 (2026-05-17)
-**Governed by:** `REFERENCE_ARCHITECTURE.md` §10.2
+**Governed by:** `reference-architecture.md` §10.2
 **Produces:** `DOCS/.design/[feature-name].md`
 
 ---

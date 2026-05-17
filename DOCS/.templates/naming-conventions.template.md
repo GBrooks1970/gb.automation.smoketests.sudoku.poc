@@ -2,7 +2,7 @@
 
 **Intended audience:** Any engineer or AI agent generating new names for files, directories, identifiers, or constants.
 **Template version:** 1.0 (2026-05-14)
-**Governed by:** `REFERENCE_ARCHITECTURE.md` §10.9
+**Governed by:** `reference-architecture.md` §10.9
 
 ---
 

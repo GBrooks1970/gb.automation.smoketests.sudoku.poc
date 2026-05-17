@@ -815,9 +815,9 @@ The following checklist MUST be completed in order when adding a new Stack to a 
 
 ### Phase 7 — Write Documentation
 
-- [ ] Author `docs/ARCHITECTURE.md` from `templates/stack-architecture.template.md`
-- [ ] Author `docs/SCREENPLAY_GUIDE.md` from `templates/screenplay-guide.template.md`
-- [ ] Author `docs/QA_STRATEGY.md` from `templates/qa-strategy.template.md`
+- [ ] Author `docs/architecture.md` from `templates/stack-architecture.template.md`
+- [ ] Author `docs/screenplay-guide.md` from `templates/screenplay-guide.template.md`
+- [ ] Author `docs/qa-strategy.md` from `templates/qa-strategy.template.md`
 - [ ] Author `docs/README.md` from `templates/stack-readme.template.md`
 - [ ] Update the root `README.md` to include the new Stack
 - [ ] Update `CHANGELOG.md` to record the addition
@@ -842,9 +842,9 @@ The following templates MUST exist under `DOCS/templates/` before the first docu
 | `changelog.template.md` | Root `CHANGELOG.md` |
 | `backlog.template.md` | `DOCS/planning/backlog.md` |
 | `decision-record.template.md` | Root `DECISION_REGISTER.md` entries |
-| `stack-architecture.template.md` | `docs/ARCHITECTURE.md` per Stack |
-| `screenplay-guide.template.md` | `docs/SCREENPLAY_GUIDE.md` per Stack |
-| `qa-strategy.template.md` | `docs/QA_STRATEGY.md` per Stack |
+| `stack-architecture.template.md` | `docs/architecture.md` per Stack |
+| `screenplay-guide.template.md` | `docs/screenplay-guide.md` per Stack |
+| `qa-strategy.template.md` | `docs/qa-strategy.md` per Stack |
 | `stack-readme.template.md` | `docs/README.md` per Stack |
 | `parity-contract.template.md` | `DOCS/architecture/` parity contract |
 | `subject-app-contract.template.md` | `DOCS/architecture/` subject application contract |

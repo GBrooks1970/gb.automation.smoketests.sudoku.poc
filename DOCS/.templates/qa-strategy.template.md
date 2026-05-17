@@ -2,8 +2,8 @@
 
 **Intended audience:** QA leads, architects, and stakeholders reviewing test scope for a specific Stack.
 **Template version:** 1.0 (2026-05-14)
-**Governed by:** `REFERENCE_ARCHITECTURE.md` §10.2
-**Produces:** `[STACK_NAME]/docs/QA_STRATEGY.md`
+**Governed by:** `reference-architecture.md` §10.2
+**Produces:** `[STACK_NAME]/docs/qa-strategy.md`
 
 ---
 
@@ -93,7 +93,7 @@
 
 ## 7. Related Documents
 
-- [`docs/ARCHITECTURE.md`](ARCHITECTURE.md) — layer model and component dependencies
-- [`docs/SCREENPLAY_GUIDE.md`](SCREENPLAY_GUIDE.md) — how components are implemented
+- [`docs/architecture.md`](ARCHITECTURE.md) — layer model and component dependencies
+- [`docs/screenplay-guide.md`](SCREENPLAY_GUIDE.md) — how components are implemented
 - [`DOCS/.planning/backlog.md`](../../DOCS/.planning/backlog.md) — known gaps and pending work
 ```

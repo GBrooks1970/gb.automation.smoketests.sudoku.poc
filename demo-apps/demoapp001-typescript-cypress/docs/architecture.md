@@ -95,8 +95,8 @@ demoapp001-typescript-cypress/
 
 ## 8. Related Documents
 
-- `docs/SCREENPLAY_GUIDE.md` — Screenplay implementation details
-- `docs/QA_STRATEGY.md` — scope, test design, and coverage posture
+- `docs/screenplay-guide.md` — Screenplay implementation details
+- `docs/qa-strategy.md` — scope, test design, and coverage posture
 - `docs/README.md` — setup and execution quick-start
 - `../../DECISION_REGISTER.md` — authoritative structural decisions
 - `../../DOCS/.templates/stack-architecture.template.md` — source template used

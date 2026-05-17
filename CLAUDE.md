@@ -7,7 +7,7 @@ This file gives AI assistants the minimum current context needed to work in this
 When documents conflict, use this order:
 
 1. `DECISION_REGISTER.md`
-2. `DOCS/REFERENCE_ARCHITECTURE.md`
+2. `DOCS/reference-architecture.md`
 3. `DOCS/ref-arch-alignment_2026-05-15.md`
 4. Stack-level docs under `demo-apps/demoapp001-typescript-cypress/docs/`
 5. This guide
@@ -58,7 +58,7 @@ gb.automation.smoketests.sudoku.poc/
 |-- features-shared/
 |   `-- util-tests/sudoku-solver/BasicSudokuSolverLogic.feature
 |-- DOCS/
-|   |-- REFERENCE_ARCHITECTURE.md
+|   |-- reference-architecture.md
 |   |-- ref-arch-alignment_2026-05-15.md
 |   |-- .architecture/                      # cross-cutting architecture specs
 |   |-- .templates/                         # all document templates
@@ -172,7 +172,7 @@ Screenplay contract is fully implemented: all six Memory key constants are runti
 
 ## Parity Rules Summary
 
-Governed by `DOCS/REFERENCE_ARCHITECTURE.md` v1.3 and decisions DR-012 through DR-016.
+Governed by `DOCS/reference-architecture.md` v1.3 and decisions DR-012 through DR-016.
 
 | Rule | Current instruction |
 |------|---------------------|

@@ -2,7 +2,7 @@
 
 **Intended audience:** Engineers implementing or testing the subject application; architects verifying surface compliance.
 **Template version:** 1.0 (2026-05-14)
-**Governed by:** `REFERENCE_ARCHITECTURE.md` §6, §10.3
+**Governed by:** `reference-architecture.md` §6, §10.3
 **Produces:** `DOCS/.architecture/subject-app-contract.md`
 
 ---

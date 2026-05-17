@@ -2,7 +2,7 @@
 
 **Intended audience:** Any developer setting up and running a specific Stack for the first time.
 **Template version:** 1.0 (2026-05-14)
-**Governed by:** `REFERENCE_ARCHITECTURE.md` §10.2
+**Governed by:** `reference-architecture.md` §10.2
 **Produces:** `[STACK_NAME]/docs/README.md`
 
 ---
@@ -98,7 +98,7 @@ See the canonical feature update procedure in [`CLAUDE.md`](../../CLAUDE.md).
 
 ## Deeper Reading
 
-- [`docs/ARCHITECTURE.md`](ARCHITECTURE.md) — layer model, dependency graph
-- [`docs/SCREENPLAY_GUIDE.md`](SCREENPLAY_GUIDE.md) — Screenplay components guide
-- [`docs/QA_STRATEGY.md`](QA_STRATEGY.md) — what is and is not tested
+- [`docs/architecture.md`](ARCHITECTURE.md) — layer model, dependency graph
+- [`docs/screenplay-guide.md`](SCREENPLAY_GUIDE.md) — Screenplay components guide
+- [`docs/qa-strategy.md`](QA_STRATEGY.md) — what is and is not tested
 ```

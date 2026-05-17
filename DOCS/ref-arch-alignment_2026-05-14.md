@@ -3,14 +3,14 @@
 **Date:** 2026-05-14
 **Updated:** 2026-05-15 (Phase 8 complete — CLI contract hardened and migration phases closed)
 **Analyst:** CLAUDE Sonnet 4.6
-**Subject:** `gb.automation.smoketests.sudoku.poc` vs. `REFERENCE_ARCHITECTURE.md` v1.1
+**Subject:** `gb.automation.smoketests.sudoku.poc` vs. `reference-architecture.md` v1.1
 **Status:** Living — updated when RA version changes
 
 ---
 
 ## Executive Summary
 
-This report scores the project against every normative obligation in the Screenplay-BDD Reference Architecture (`REFERENCE_ARCHITECTURE.md`, Status: Accepted, 2026-05-14). The analysis covers structure, pattern compliance, surface-type contract, documentation, and orchestration.
+This report scores the project against every normative obligation in the Screenplay-BDD Reference Architecture (`reference-architecture.md`, Status: Accepted, 2026-05-14). The analysis covers structure, pattern compliance, surface-type contract, documentation, and orchestration.
 
 **Overall compliance: High** *(upgraded — Phases 0–8 complete)*
 
@@ -316,9 +316,9 @@ Stack-level documentation is now present inside `demo-apps/demoapp001-typescript
 
 | Document | Template | Status |
 |----------|----------|--------|
-| `docs/ARCHITECTURE.md` | `TEMPLATE_Stack_Architecture.md` | ✅ Present |
-| `docs/SCREENPLAY_GUIDE.md` | `TEMPLATE_Screenplay_Guide.md` | ✅ Present |
-| `docs/QA_STRATEGY.md` | `TEMPLATE_QA_Strategy.md` | ✅ Present |
+| `docs/architecture.md` | `TEMPLATE_Stack_Architecture.md` | ✅ Present |
+| `docs/screenplay-guide.md` | `TEMPLATE_Screenplay_Guide.md` | ✅ Present |
+| `docs/qa-strategy.md` | `TEMPLATE_QA_Strategy.md` | ✅ Present |
 | `docs/README.md` | `TEMPLATE_Stack_Readme.md` | ✅ Present |
 
 Phase 5 validation confirms all four documents exist, include template references, and preserve green tests (`43 scenarios / 241 steps passing`).
@@ -356,9 +356,9 @@ Phase 6 is complete. `DOCS/.architecture/` now exists with all required document
 | `TEMPLATE_Backlog.md` | `DOCS/.planning/BACKLOG.md` | 0 |
 | `TEMPLATE_Naming_Conventions.md` | `DOCS/.design/NAMING_CONVENTIONS.md` | 0 |
 | `TEMPLATE_Readme.md` | Root `README.md` | 0 |
-| `TEMPLATE_Stack_Architecture.md` | `[STACK]/docs/ARCHITECTURE.md` | 5 |
-| `TEMPLATE_Screenplay_Guide.md` | `[STACK]/docs/SCREENPLAY_GUIDE.md` | 5 |
-| `TEMPLATE_QA_Strategy.md` | `[STACK]/docs/QA_STRATEGY.md` | 5 |
+| `TEMPLATE_Stack_Architecture.md` | `[STACK]/docs/architecture.md` | 5 |
+| `TEMPLATE_Screenplay_Guide.md` | `[STACK]/docs/screenplay-guide.md` | 5 |
+| `TEMPLATE_QA_Strategy.md` | `[STACK]/docs/qa-strategy.md` | 5 |
 | `TEMPLATE_Stack_Readme.md` | `[STACK]/docs/README.md` | 5 |
 | `TEMPLATE_Parity_Contract.md` | `DOCS/.architecture/` parity contract | 6 |
 | `TEMPLATE_Subject_App_Contract.md` | `DOCS/.architecture/` subject app contract | 6 |
@@ -576,14 +576,14 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 
 **Actions:**
 1. Create `demo-apps/demoapp001-typescript-cypress/docs/` directory
-2. Author `docs/ARCHITECTURE.md` from `DOCS/.templates/TEMPLATE_Stack_Architecture.md`
-3. Author `docs/SCREENPLAY_GUIDE.md` from `DOCS/.templates/TEMPLATE_Screenplay_Guide.md`
-4. Author `docs/QA_STRATEGY.md` from `DOCS/.templates/TEMPLATE_QA_Strategy.md`
+2. Author `docs/architecture.md` from `DOCS/.templates/TEMPLATE_Stack_Architecture.md`
+3. Author `docs/screenplay-guide.md` from `DOCS/.templates/TEMPLATE_Screenplay_Guide.md`
+4. Author `docs/qa-strategy.md` from `DOCS/.templates/TEMPLATE_QA_Strategy.md`
 5. Author `docs/README.md` from `DOCS/.templates/TEMPLATE_Stack_Readme.md`
 6. Create `tooling/` directory with `cucumber.js` configuration
 
 **Verification:**
-- `docs/ARCHITECTURE.md`, `docs/SCREENPLAY_GUIDE.md`, `docs/QA_STRATEGY.md`, and `docs/README.md` exist ✅
+- `docs/architecture.md`, `docs/screenplay-guide.md`, `docs/qa-strategy.md`, and `docs/README.md` exist ✅
 - All four documents reference their source templates in `DOCS/.templates/` ✅
 - `tooling/cucumber.js` created and `npm test` routes via `--config tooling/cucumber.js` ✅
 - `npm test` remains green: 43 scenarios / 241 steps passing ✅
@@ -708,4 +708,4 @@ The following items should be added to `DOCS/.planning/BACKLOG.md` and cross-ref
 
 ---
 
-*This analysis is maintained against the current version of `REFERENCE_ARCHITECTURE.md`. Re-run when the RA version changes or when a second Stack is added — parity compliance (§8) cannot be assessed until there are two Stacks to compare.*
+*This analysis is maintained against the current version of `reference-architecture.md`. Re-run when the RA version changes or when a second Stack is added — parity compliance (§8) cannot be assessed until there are two Stacks to compare.*

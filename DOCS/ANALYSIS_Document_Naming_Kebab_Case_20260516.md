@@ -3,7 +3,7 @@
 **Date:** 2026-05-16 (updated 2026-05-17)
 **Author:** Claude Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` — impact assessment for converting document filenames from the current `PREFIX_Title_Case.md` format to `lowercase-kebab-case.md`
-**Status:** Phase 0 and Phase 1 complete 2026-05-17 — template duplication resolved, DR-020 accepted, 17 authored docs renamed; awaiting Phase 2–4
+**Status:** Phases 0–2 complete 2026-05-17 — templates consolidated, DR-020 accepted, 24 authored docs renamed; awaiting Phase 3–4
 
 ---
 
@@ -65,14 +65,14 @@ These 22 files are already compliant. **The problem is the remaining ~55 files.*
 | `DOCS/.planning/TODO_Web_UI_Solver_Visualisation.md` | `todo-web-ui-solver-visualisation.md` |
 | `DOCS/.planning/PROMPT_PLAYBOOK_20260330T1645Z.md` | `prompt-playbook-20260330T1645Z.md` |
 | `DOCS/.planning/BACKLOG.md` | `backlog.md` |
-| `DOCS/ANALYSIS_DOCS_Subdirectory_Cleanup_20260516.md` | `analysis-docs-subdirectory-cleanup-20260516.md` |
-| `DOCS/ANALYSIS_Directory_Naming_Kebab_Case_2026-05-16.md` | `analysis-directory-naming-kebab-case-2026-05-16.md` |
-| `DOCS/Documentation_Review_20260514T1100Z.md` | `documentation-review-20260514T1100Z.md` |
-| `DOCS/REFERENCE_ARCHITECTURE.md` | `reference-architecture.md` |
+| `DOCS/analysis-docs-subdirectory-cleanup-20260516.md` | `analysis-docs-subdirectory-cleanup-20260516.md` |
+| `DOCS/analysis-directory-naming-kebab-case-2026-05-16.md` | `analysis-directory-naming-kebab-case-2026-05-16.md` |
+| `DOCS/documentation-review-20260514T1100Z.md` | `documentation-review-20260514T1100Z.md` |
+| `DOCS/reference-architecture.md` | `reference-architecture.md` |
 | `DOCS/.implementation-logs/ARCHIVE_NOTICE.md` | `archive-notice.md` |
-| `demo-apps/demoapp001-typescript-cypress/docs/ARCHITECTURE.md` | `architecture.md` |
-| `demo-apps/demoapp001-typescript-cypress/docs/QA_STRATEGY.md` | `qa-strategy.md` |
-| `demo-apps/demoapp001-typescript-cypress/docs/SCREENPLAY_GUIDE.md` | `screenplay-guide.md` |
+| `demo-apps/demoapp001-typescript-cypress/docs/architecture.md` | `architecture.md` |
+| `demo-apps/demoapp001-typescript-cypress/docs/qa-strategy.md` | `qa-strategy.md` |
+| `demo-apps/demoapp001-typescript-cypress/docs/screenplay-guide.md` | `screenplay-guide.md` |
 
 **Category B — Fixed-role root governance docs (~5 files)**
 
@@ -548,16 +548,16 @@ DOCS/.implementation-logs/ARCHIVE_NOTICE.md       → archive-notice.md
 
 **Blast radius for Phase 1:** ~35 references to update across governance docs.
 
-### Phase 2 — DOCS root and Stack docs
+### Phase 2 — DOCS root and Stack docs ✅ Complete 2026-05-17
 
 ```
-DOCS/REFERENCE_ARCHITECTURE.md                    → reference-architecture.md
-DOCS/ANALYSIS_DOCS_Subdirectory_Cleanup_20260516.md → analysis-docs-subdirectory-cleanup-20260516.md
-DOCS/ANALYSIS_Directory_Naming_Kebab_Case_2026-05-16.md → analysis-directory-naming-kebab-case-2026-05-16.md
-DOCS/Documentation_Review_20260514T1100Z.md       → documentation-review-20260514T1100Z.md
-demo-apps/demoapp001-typescript-cypress/docs/ARCHITECTURE.md   → architecture.md
-demo-apps/demoapp001-typescript-cypress/docs/QA_STRATEGY.md    → qa-strategy.md
-demo-apps/demoapp001-typescript-cypress/docs/SCREENPLAY_GUIDE.md → screenplay-guide.md
+DOCS/reference-architecture.md                    → reference-architecture.md
+DOCS/analysis-docs-subdirectory-cleanup-20260516.md → analysis-docs-subdirectory-cleanup-20260516.md
+DOCS/analysis-directory-naming-kebab-case-2026-05-16.md → analysis-directory-naming-kebab-case-2026-05-16.md
+DOCS/documentation-review-20260514T1100Z.md       → documentation-review-20260514T1100Z.md
+demo-apps/demoapp001-typescript-cypress/docs/architecture.md   → architecture.md
+demo-apps/demoapp001-typescript-cypress/docs/qa-strategy.md    → qa-strategy.md
+demo-apps/demoapp001-typescript-cypress/docs/screenplay-guide.md → screenplay-guide.md
 ```
 
 **Note on historical analysis docs:** The `ANALYSIS_*.md` files describe migrations that are already complete. Their historical content references the old state by design. Renaming is low-risk but their bodies will still reference old conventions — that is acceptable (historical documents describe the past).

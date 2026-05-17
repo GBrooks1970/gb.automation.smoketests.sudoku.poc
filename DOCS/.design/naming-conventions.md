@@ -3,7 +3,7 @@
 **Project:** gb.automation.smoketests.sudoku.poc
 **Last Updated:** 2026-05-17 (DR-020 — kebab-case adopted for all authored document filenames)
 **Status:** Adopted
-**Governed by:** `REFERENCE_ARCHITECTURE.md` §10.9
+**Governed by:** `reference-architecture.md` §10.9
 **Template:** `DOCS/.templates/naming-conventions.template.md`
 **Authoritative for:** All Stacks, all document types, all code in this repository
 
@@ -24,7 +24,7 @@
 | TypeScript class files | `PascalCase` | `SudokuSolver.ts` |
 | Config / ecosystem files | `kebab-case` | `tsconfig.json`, `eslint.config.js` |
 | DOCS subdirectories | dot + `kebab-case` | `.design/`, `.planning/`, `.architecture/`, `.templates/`, `.implementation-logs/` |
-| DOCS document files | `PREFIX_Title_Case.md` | `audit-trail-feature.md` |
+| DOCS document files | `kebab-case.md` (DR-020) | `audit-trail-feature.md`, `reference-architecture.md` |
 | Feature files | `PascalCase` | `BasicSudokuSolverLogic.feature` |
 | Screenplay Memory keys | `UPPER_SNAKE_CASE` (constant name = string value) | `SOLVE_RESULT = 'SOLVE_RESULT'` |
 | Screenplay component classes | `PascalCase` verb/noun phrase | `UseSudokuSolver`, `SolvePuzzle` |

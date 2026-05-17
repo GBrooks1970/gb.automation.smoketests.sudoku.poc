@@ -2,7 +2,7 @@
 
 **Project:** gb.automation.smoketests.sudoku.poc
 **Last Updated:** 2026-05-14
-**Governed by:** `REFERENCE_ARCHITECTURE.md` §10.1
+**Governed by:** `reference-architecture.md` §10.1
 **Template:** `DOCS/.templates/TEMPLATE_Backlog.md`
 
 > **Authoritative backlog:** [`DOCS/.planning/backlog.md`](DOCS/.planning/backlog.md) — full sprint plans, acceptance criteria, and item history.

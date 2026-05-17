@@ -112,10 +112,10 @@ Additionally, `DOCS/templates/` and `DOCS/architecture/` were created directly w
 | `DOCS/ref-arch-alignment_2026-05-14.md` | Historical alignment doc |
 | `DOCS/ref-arch-alignment_2026-05-15.md` | Active alignment doc |
 | `DOCS/templates/naming-conventions.template.md` | Self-reference (will move) |
-| `demo-apps/demoapp001-typescript-cypress/docs/ARCHITECTURE.md` | Stack doc |
-| `demo-apps/demoapp001-typescript-cypress/docs/QA_STRATEGY.md` | Stack doc |
+| `demo-apps/demoapp001-typescript-cypress/docs/architecture.md` | Stack doc |
+| `demo-apps/demoapp001-typescript-cypress/docs/qa-strategy.md` | Stack doc |
 | `demo-apps/demoapp001-typescript-cypress/docs/README.md` | Stack doc |
-| `demo-apps/demoapp001-typescript-cypress/docs/SCREENPLAY_GUIDE.md` | Stack doc |
+| `demo-apps/demoapp001-typescript-cypress/docs/screenplay-guide.md` | Stack doc |
 
 ### 3.2 `DOCS/architecture/` → `DOCS/.architecture/`
 
@@ -126,7 +126,7 @@ Additionally, `DOCS/templates/` and `DOCS/architecture/` were created directly w
 | `.batch/run-demoapp001.ps1` | Script comment |
 | `BACKLOG.md` | Root redirect |
 | `CLAUDE.md` | Agent guide |
-| `DOCS/ANALYSIS_Directory_Naming_Kebab_Case_2026-05-16.md` | Historical analysis |
+| `DOCS/analysis-directory-naming-kebab-case-2026-05-16.md` | Historical analysis |
 | `DOCS/README.md` | DOCS root index |
 | `DOCS/architecture/logging-design.md` | Self-reference (will move) |
 | `DOCS/ref-arch-alignment_2026-05-14.md` | Historical alignment |
@@ -136,7 +136,7 @@ Additionally, `DOCS/templates/` and `DOCS/architecture/` were created directly w
 | `DOCS/templates/parity-contract.template.md` | Template (will move) |
 | `DOCS/templates/subject-app-contract.template.md` | Template (will move) |
 
-**Note:** `DOCS/REFERENCE_ARCHITECTURE.md` also uses the string `DOCS/architecture/` as an illustrative RA blueprint example. This file is the governing reference architecture and its content should NOT be changed — the project's local decision diverges from the RA path with a DR entry.
+**Note:** `DOCS/reference-architecture.md` also uses the string `DOCS/architecture/` as an illustrative RA blueprint example. This file is the governing reference architecture and its content should NOT be changed — the project's local decision diverges from the RA path with a DR entry.
 
 ### 3.3 `DOCS/implementation-logs/` → `DOCS/.implementation-logs/`
 
@@ -180,7 +180,7 @@ This migration requires a new Decision Register entry that:
 
 ### 4.2 RA path divergence
 
-`REFERENCE_ARCHITECTURE.md` v1.3 names literal paths: `DOCS/planning/`, `DOCS/design/`, `DOCS/implementation-logs/`, `DOCS/architecture/`. After this migration ALL of those paths will be replaced by dot-prefix equivalents. This is a documented project-local divergence, analogous to the DR-001 divergence for `.planning/`, `.design/`, etc. The new DR-019 entry makes the full divergence explicit and records the rationale (DR-001 precedent, single-convention rule, elimination of dual-directory confusion).
+`reference-architecture.md` v1.3 names literal paths: `DOCS/planning/`, `DOCS/design/`, `DOCS/implementation-logs/`, `DOCS/architecture/`. After this migration ALL of those paths will be replaced by dot-prefix equivalents. This is a documented project-local divergence, analogous to the DR-001 divergence for `.planning/`, `.design/`, etc. The new DR-019 entry makes the full divergence explicit and records the rationale (DR-001 precedent, single-convention rule, elimination of dual-directory confusion).
 
 ---
 
@@ -259,7 +259,7 @@ Update all files listed in Section 3, replacing:
 | `DOCS/planning/BACKLOG.md` | `DOCS/.planning/BACKLOG.md` |
 
 **Files that must NOT be changed:**
-- `DOCS/REFERENCE_ARCHITECTURE.md` — RA-literal paths are the governing document's own content; local divergence is recorded in DR-019
+- `DOCS/reference-architecture.md` — RA-literal paths are the governing document's own content; local divergence is recorded in DR-019
 - `DOCS/.review/**` — historical review outputs, read-only per RA §10.7
 
 ### Phase 3 — NAMING_CONVENTIONS.md update
@@ -294,7 +294,7 @@ Get-ChildItem -Path DOCS -Directory | Sort-Object Name
 # Confirm no stale references remain
 grep -r "DOCS/templates\|DOCS/architecture\|DOCS/implementation-logs\|DOCS/design\|DOCS/planning" \
   --include="*.md" --include="*.ts" --include="*.ps1" --include="*.json" \
-  . | grep -v ".review" | grep -v "REFERENCE_ARCHITECTURE.md" | grep -v "ANALYSIS_Directory_Naming"
+  . | grep -v ".review" | grep -v "reference-architecture.md" | grep -v "ANALYSIS_Directory_Naming"
 # Expected: no output (only the RA and this analysis doc are allowed to retain the old paths)
 ```
 
@@ -318,10 +318,10 @@ grep -r "DOCS/templates\|DOCS/architecture\|DOCS/implementation-logs\|DOCS/desig
 
 | File | Reason |
 |------|--------|
-| `DOCS/REFERENCE_ARCHITECTURE.md` | Governing document — RA-literal paths are the RA's own content |
+| `DOCS/reference-architecture.md` | Governing document — RA-literal paths are the RA's own content |
 | `DOCS/.review/**` | Read-only per RA §10.7 |
-| `DOCS/ANALYSIS_Directory_Naming_Kebab_Case_2026-05-16.md` | Historical analysis — old paths in body text describe the past state |
-| `DOCS/ANALYSIS_DOCS_Subdirectory_Cleanup_20260516.md` | This document — migration plan, old paths are the subject matter |
+| `DOCS/analysis-directory-naming-kebab-case-2026-05-16.md` | Historical analysis — old paths in body text describe the past state |
+| `DOCS/analysis-docs-subdirectory-cleanup-20260516.md` | This document — migration plan, old paths are the subject matter |
 
 ---
 

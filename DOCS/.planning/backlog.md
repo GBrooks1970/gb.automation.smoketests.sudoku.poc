@@ -2,7 +2,7 @@
 
 **Project:** Sudoku Solver POC
 **Last Updated:** 2026-05-16 (MIG-09 through MIG-12 resolved)
-**Governed by:** `REFERENCE_ARCHITECTURE.md` v1.3 Section 10.1
+**Governed by:** `reference-architecture.md` v1.3 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
 **Status:** Active Development
@@ -229,7 +229,7 @@ Acceptance criteria:
 **Decision Record:** DR-016
 **Scheduled:** Sprint 3 (before Stack 2 onboarding)
 
-Analysis reference: `DOCS/ANALYSIS_Directory_Naming_Kebab_Case_2026-05-16.md`
+Analysis reference: `DOCS/analysis-directory-naming-kebab-case-2026-05-16.md`
 
 Acceptance criteria:
 

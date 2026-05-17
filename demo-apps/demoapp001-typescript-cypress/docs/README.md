@@ -87,7 +87,7 @@ See canonical update process in `../../CLAUDE.md`.
 
 ## Deeper Reading
 
-- `docs/ARCHITECTURE.md` — layer model and dependency boundaries
-- `docs/SCREENPLAY_GUIDE.md` — Actor/Ability/Task/Question implementation details
-- `docs/QA_STRATEGY.md` — scope and coverage posture
+- `docs/architecture.md` — layer model and dependency boundaries
+- `docs/screenplay-guide.md` — Actor/Ability/Task/Question implementation details
+- `docs/qa-strategy.md` — scope and coverage posture
 - `../../DOCS/.templates/stack-readme.template.md` — source template used

@@ -13,9 +13,8 @@
 ```
 DOCS/
 ├── README.md                               <- This file (master index)
-├── REFERENCE_ARCHITECTURE.md              <- Screenplay-BDD Reference Architecture v1.3
-├── ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md
-├── Documentation_Review_20260514T1100Z.md
+├── reference-architecture.md              <- Screenplay-BDD Reference Architecture v1.3
+├── documentation-review-20260514T1100Z.md
 │
 ├── templates/                              <- Canonical template store (RA §10.5)
 │   ├── decision-record.template.md        <- For DECISION_REGISTER.md entries
@@ -77,9 +76,9 @@ Canonical template store — all document templates live here. Use a template be
 | [backlog.template.md](.templates/backlog.template.md) | `DOCS/.planning/backlog.md` | 0 |
 | [naming-conventions.template.md](.templates/naming-conventions.template.md) | `DOCS/.design/naming-conventions.md` | 0 |
 | [readme.template.md](.templates/readme.template.md) | Root `README.md` | 0 |
-| [stack-architecture.template.md](.templates/stack-architecture.template.md) | `[STACK]/docs/ARCHITECTURE.md` | 5 |
-| [screenplay-guide.template.md](.templates/screenplay-guide.template.md) | `[STACK]/docs/SCREENPLAY_GUIDE.md` | 5 |
-| [qa-strategy.template.md](.templates/qa-strategy.template.md) | `[STACK]/docs/QA_STRATEGY.md` | 5 |
+| [stack-architecture.template.md](.templates/stack-architecture.template.md) | `[STACK]/docs/architecture.md` | 5 |
+| [screenplay-guide.template.md](.templates/screenplay-guide.template.md) | `[STACK]/docs/screenplay-guide.md` | 5 |
+| [qa-strategy.template.md](.templates/qa-strategy.template.md) | `[STACK]/docs/qa-strategy.md` | 5 |
 | [stack-readme.template.md](.templates/stack-readme.template.md) | `[STACK]/docs/README.md` | 5 |
 | [parity-contract.template.md](.templates/parity-contract.template.md) | `DOCS/.architecture/screenplay-parity-contract.md` | 6 |
 | [subject-app-contract.template.md](.templates/subject-app-contract.template.md) | `DOCS/.architecture/subject-app-contract.md` | 6 |
@@ -182,7 +181,7 @@ One-time assessments that are not code reviews.
 
 | Report | Date | Topic |
 |--------|------|-------|
-| [ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md](ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md) | 2026-05-14 | Project alignment vs. Reference Architecture |
+| [documentation-review-20260514T1100Z.md](documentation-review-20260514T1100Z.md) | 2026-05-14 | Project alignment vs. Reference Architecture |
 
 ---
 

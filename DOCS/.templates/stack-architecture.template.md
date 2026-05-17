@@ -2,8 +2,8 @@
 
 **Intended audience:** Engineers onboarding this Stack; architects auditing compliance.
 **Template version:** 1.0 (2026-05-14)
-**Governed by:** `REFERENCE_ARCHITECTURE.md` §10.2
-**Produces:** `[STACK_NAME]/docs/ARCHITECTURE.md`
+**Governed by:** `reference-architecture.md` §10.2
+**Produces:** `[STACK_NAME]/docs/architecture.md`
 
 ---
 
@@ -109,7 +109,7 @@ Step Definitions
 
 ## 8. Related Documents
 
-- [`docs/SCREENPLAY_GUIDE.md`](SCREENPLAY_GUIDE.md) — how Screenplay is implemented in this Stack
-- [`docs/QA_STRATEGY.md`](QA_STRATEGY.md) — what is and is not tested
+- [`docs/screenplay-guide.md`](SCREENPLAY_GUIDE.md) — how Screenplay is implemented in this Stack
+- [`docs/qa-strategy.md`](QA_STRATEGY.md) — what is and is not tested
 - [`DECISION_REGISTER.md`](../../DECISION_REGISTER.md) — authoritative decisions
 ```

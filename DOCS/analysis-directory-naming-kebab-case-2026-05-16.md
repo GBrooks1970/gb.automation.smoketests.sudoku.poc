@@ -60,7 +60,7 @@ Three Decision Register entries bear directly on directory naming:
 | **DR-013** (Accepted 2026-05-15) | Add RA-literal compatibility bridges (`DOCS/planning/`, `DOCS/design/`, etc.) | Bridge paths follow Reference Architecture literal names — lowercase |
 | **DR-014** (Accepted 2026-05-15) | Root `.review/` for future code review outputs | Lowercase dot-prefix for root tooling dirs |
 
-`DOCS/.design/NAMING_CONVENTIONS.md` documents the UPPER_SNAKE_CASE rule for Stack names. The `REFERENCE_ARCHITECTURE.md` v1.3 Section 4 directory blueprint shows Stack directories in `[STACK_NAME]` notation — which is illustrated in the project as `DEMOAPP001_TYPESCRIPT_CYPRESS`. The convention is deliberate and documented.
+`DOCS/.design/NAMING_CONVENTIONS.md` documents the UPPER_SNAKE_CASE rule for Stack names. The `reference-architecture.md` v1.3 Section 4 directory blueprint shows Stack directories in `[STACK_NAME]` notation — which is illustrated in the project as `DEMOAPP001_TYPESCRIPT_CYPRESS`. The convention is deliberate and documented.
 
 ### 2.2 What is NOT yet decided
 
@@ -101,7 +101,7 @@ The metric key uses a short identifier, not the full directory name, so this is 
 
 **Gherkin feature file paths** — `cucumber.js` tooling config references the Stack path. Any mismatch breaks `npm test`.
 
-**All documentation** — CLAUDE.md, DECISION_REGISTER.md, REFERENCE_ARCHITECTURE.md, BACKLOG.md, CHANGELOG.md, NAMING_CONVENTIONS.md, and all design/review documents contain inline references. These are prose risk (broken links, stale text) rather than runtime risk, but they degrade governance quality.
+**All documentation** — CLAUDE.md, DECISION_REGISTER.md, reference-architecture.md, BACKLOG.md, CHANGELOG.md, NAMING_CONVENTIONS.md, and all design/review documents contain inline references. These are prose risk (broken links, stale text) rather than runtime risk, but they degrade governance quality.
 
 ### 3.3 Case-sensitivity trap
 
@@ -243,10 +243,10 @@ The strongest argument **against** renaming now is that the convention is docume
 | File | References |
 |------|-----------|
 | `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/README.md` | Multiple |
-| `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/docs/ARCHITECTURE.md` | Multiple |
-| `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/docs/QA_STRATEGY.md` | Multiple |
+| `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/docs/architecture.md` | Multiple |
+| `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/docs/qa-strategy.md` | Multiple |
 | `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/docs/README.md` | Multiple |
-| `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/docs/SCREENPLAY_GUIDE.md` | Multiple |
+| `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/docs/screenplay-guide.md` | Multiple |
 | `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tooling/README.md` | Multiple |
 
 **Category D — Active governance and live documentation** (prose references; stale after rename; update for accuracy):
@@ -281,7 +281,7 @@ The strongest argument **against** renaming now is that the convention is docume
 | `DOCS/architecture/subject-app-contract.md` | Path references |
 | `DOCS/ref-arch-alignment_2026-05-14.md` | Path references |
 | `DOCS/ref-arch-alignment_2026-05-15.md` | Path references |
-| `DOCS/ANALYSIS_Directory_Naming_Kebab_Case_2026-05-16.md` | Self-references to old paths |
+| `DOCS/analysis-directory-naming-kebab-case-2026-05-16.md` | Self-references to old paths |
 
 **Category E — Templates** (update examples for future consistency):
 
@@ -301,7 +301,7 @@ The strongest argument **against** renaming now is that the convention is docume
 | `DOCS/templates/stack-readme.template.md` |
 
 **Category F — Historical review outputs (DO NOT CHANGE):**
-Per `REFERENCE_ARCHITECTURE.md` v1.3 §10.7, review outputs are read-only once written. These files must not be edited.
+Per `reference-architecture.md` v1.3 §10.7, review outputs are read-only once written. These files must not be edited.
 
 | File |
 |------|
@@ -321,7 +321,7 @@ Per `REFERENCE_ARCHITECTURE.md` v1.3 §10.7, review outputs are read-only once w
 
 | File | Reason |
 |------|--------|
-| `DOCS/REFERENCE_ARCHITECTURE.md` | References `DEMOAPP001_TYPESCRIPT_CYPRESS` as the canonical Stack name, which is unchanged by DR-016 |
+| `DOCS/reference-architecture.md` | References `DEMOAPP001_TYPESCRIPT_CYPRESS` as the canonical Stack name, which is unchanged by DR-016 |
 | `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/tests/screenplay/**.ts` | Comment-only references to `DEMOAPP001` as an identifier, not a path |
 
 #### Revised scope summary
@@ -384,8 +384,8 @@ features-shared/                   ← was features_shared
 
 **Files deliberately NOT changed:**
 - `DOCS/.review/**` — historical review outputs, read-only per RA §10.7
-- `DOCS/REFERENCE_ARCHITECTURE.md` — uses `features_shared` as an illustrative (non-normative) example name; canonical Stack name refs unchanged throughout
-- `DOCS/ANALYSIS_Directory_Naming_Kebab_Case_2026-05-16.md` — historical references in body text describing the OLD state and the migration commands are preserved as-is
+- `DOCS/reference-architecture.md` — uses `features_shared` as an illustrative (non-normative) example name; canonical Stack name refs unchanged throughout
+- `DOCS/analysis-directory-naming-kebab-case-2026-05-16.md` — historical references in body text describing the OLD state and the migration commands are preserved as-is
 
 **Validation results:**
 
@@ -483,7 +483,7 @@ All four validation gates pass. The migration is complete and production-ready. 
 **PR #13:** [refactor: rename Stack directories to kebab-case (MIG-13)](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/13)
 - Base: `main` ← Head: `refactor/kebab-case-directories`
 - Commits: 5 (Phase 1 preparation, Phase 2 filesystem rename, .gitignore update, Phase 3 reference updates, Phase 4 validation record)
-- PR description links to `DOCS/ANALYSIS_Directory_Naming_Kebab_Case_2026-05-16.md` and DR-016
+- PR description links to `DOCS/analysis-directory-naming-kebab-case-2026-05-16.md` and DR-016
 - Test plan in PR body summarises all four Phase 4 validation gates
 
 **Rebase note** (included in PR description): Any branches based on paths inside the old `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/` directory should be rebased onto this PR's merge commit before continuing work.

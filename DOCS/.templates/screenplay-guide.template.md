@@ -2,8 +2,8 @@
 
 **Intended audience:** Developers implementing or extending Screenplay components in a specific Stack.
 **Template version:** 1.0 (2026-05-14)
-**Governed by:** `REFERENCE_ARCHITECTURE.md` §10.2
-**Produces:** `[STACK_NAME]/docs/SCREENPLAY_GUIDE.md`
+**Governed by:** `reference-architecture.md` §10.2
+**Produces:** `[STACK_NAME]/docs/screenplay-guide.md`
 
 ---
 

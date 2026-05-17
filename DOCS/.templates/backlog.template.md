@@ -2,7 +2,7 @@
 
 **Intended audience:** Project leads, developers, AI agents managing work items.
 **Template version:** 1.0 (2026-05-14)
-**Governed by:** `REFERENCE_ARCHITECTURE.md` §10.1
+**Governed by:** `reference-architecture.md` §10.1
 
 ---
 

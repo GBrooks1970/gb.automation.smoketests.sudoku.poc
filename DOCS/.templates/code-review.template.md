@@ -2,7 +2,7 @@
 
 **Intended audience:** The reviewer (AI or human) conducting a comprehensive code review.
 **Template version:** 1.0 (2026-05-14)
-**Governed by:** `REFERENCE_ARCHITECTURE.md` v1.3 §10.7
+**Governed by:** `reference-architecture.md` v1.3 §10.7
 **Produces:** `.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/`
 
 > This template is the canonical version. The copy at `DOCS/.review/code-review-template.md` is a historical project-specific version.
