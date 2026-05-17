@@ -3,9 +3,8 @@
 **Intended audience:** The engineer writing the log during or immediately after a development session.
 **Template version:** 1.0 (2026-05-14)
 **Governed by:** `REFERENCE_ARCHITECTURE.md` §10.8
-**Produces:** `DOCS/.implementation/IMPL_LOG_YYYY-MM-DD_Topic_Slug.md`
+**Produces:** `DOCS/.implementation-logs/YYYY-MM-DD_short-session-topic.md`
 
-> This lowercase file is the canonical template. Legacy convenience copies may exist under dot-prefixed documentation folders, but new implementation logs should start from this file.
 > Logs are **append-only**. Once written, do not edit past entries.
 > Any structural decision recorded in a log MUST also produce a `DECISION_REGISTER.md` entry.
 
@@ -13,7 +12,7 @@
 
 ## How to Use This Template
 
-- Name the file: `IMPL_LOG_YYYY-MM-DD_Brief_Topic_Slug.md`
+- Name the file: `YYYY-MM-DD_short-session-topic.md` (DR-017, DR-019)
 - Write during or immediately after the session — not retrospectively days later.
 - Use plain, honest prose. Record what happened, including failures and blind alleys.
 - At the end, check: does anything here constitute a structural decision? If yes, create the DR entry.

@@ -9,7 +9,8 @@
   
   Keep it task-focused. The reader has a goal. Get them there.
   
-  Naming: save as HOWTO_{Topic}.md in DOCS/.howto/
+  Naming: save as `how-to-task-name.md` in DOCS/.howto/ (future kebab-case convention)
+         or `HOWTO_{Topic}.md` until DR-020 is accepted.
 -->
 
 **Difficulty:** <!-- Beginner | Intermediate | Advanced -->

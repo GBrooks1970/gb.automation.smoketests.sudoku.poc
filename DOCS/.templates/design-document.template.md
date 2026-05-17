@@ -1,3 +1,21 @@
+# TEMPLATE — Design Document
+
+**Intended audience:** Engineers and architects designing a feature or component.
+**Template version:** 1.0 (2026-05-17)
+**Governed by:** `REFERENCE_ARCHITECTURE.md` §10.2
+**Produces:** `DOCS/.design/[feature-name].md`
+
+---
+
+## How to Use This Template
+
+- Copy this file. Do **not** edit it in place.
+- Name the output file using kebab-case: `feature-name.md` (future convention) or current `DESIGN_Feature_Name.md` until DR-020 is accepted.
+- Complete all sections. Sections with no applicable content should say "N/A — [reason]".
+- Record structural decisions in `DECISION_REGISTER.md` and reference the DR number in Section 4.
+
+---
+
 # [Feature/Component Name] - Design Document
 
 **Version:** v[X.Y]

@@ -1,9 +1,9 @@
 # Analysis: Document Naming — Adopting Lowercase Kebab-Case
 
-**Date:** 2026-05-16
+**Date:** 2026-05-16 (updated 2026-05-17)
 **Author:** Claude Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` — impact assessment for converting document filenames from the current `PREFIX_Title_Case.md` format to `lowercase-kebab-case.md`
-**Status:** Pre-decision — awaiting DR
+**Status:** Phase 0 complete 2026-05-17 — template duplication resolved; awaiting DR-020 for Phases 1–4
 
 ---
 
@@ -457,15 +457,17 @@ This is the legacy template copy that was moved from `.implementation/` to `.imp
 
 ### Phase 0 — Prerequisites (before any renames)
 
-Execute Section 5.6 actions (approved individually). Summary:
+Execute Section 5.6 actions (all approved and completed 2026-05-17). Summary:
 
-- [ ] **Remove 14 `TEMPLATE_*.md` files** from `DOCS/.templates/` (items 1–14 in Section 5.6)
-- [ ] **Update `implementation-log.template.md`** — fix stale `Produces:` path and filename convention (item 15)
-- [ ] **Move `TEMPLATE_Design_Document.md`** → `DOCS/.templates/design-document.template.md` (item 16)
-- [ ] **Move `TEMPLATE_HowTo.md`** → `DOCS/.templates/howto.template.md` (item 17)
-- [ ] **Remove `DOCS/.implementation-logs/TEMPLATE_Implementation_Log.md`** (item 18)
+- [x] **Remove 14 `TEMPLATE_*.md` files** from `DOCS/.templates/` (items 1–14 in Section 5.6)
+- [x] **Update `implementation-log.template.md`** — `Produces:` corrected to `DOCS/.implementation-logs/YYYY-MM-DD_short-session-topic.md`; naming instruction corrected (item 15)
+- [x] **Move `TEMPLATE_Design_Document.md`** → `DOCS/.templates/design-document.template.md`; RA preamble added (item 16)
+- [x] **Move `TEMPLATE_HowTo.md`** → `DOCS/.templates/howto.template.md`; naming note updated (item 17)
+- [x] **Remove `DOCS/.implementation-logs/TEMPLATE_Implementation_Log.md`** (item 18)
 - [ ] **Draft DR-020** covering: kebab-case adoption scope, permanent exceptions (`README.md`, `CHANGELOG.md`, `CLAUDE.md`), treatment of historical analysis docs.
 - [ ] **Inventory every markdown link** (not prose) pointing to files that will be renamed. These must be updated atomically with the rename.
+
+**Result:** `DOCS/.templates/` contains 16 `*.template.md` files (no `TEMPLATE_*` files remain anywhere in the repository). 43/43 scenarios pass. OverallExitCode=0.
 
 ### Phase 1 — Authored documents in typed directories (low external risk)
 
