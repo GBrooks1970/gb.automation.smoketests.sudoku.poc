@@ -26,6 +26,7 @@ When documents conflict, use this order:
 - Feature parity script: `.batch/generate-feature-parity-report.ps1` (MIG-10)
 - All RA v1.3 migration gaps resolved: MIG-01 through MIG-13 all Resolved
 - DOCS subdirectories: all dot + kebab-case (DR-019); no plain-name subdirectories
+- Document filenames: all authored docs use kebab-case (DR-020); permanent exceptions: `README.md`, `CHANGELOG.md`, `CLAUDE.md`
 
 ## Repository Map
 
@@ -172,7 +173,7 @@ Screenplay contract is fully implemented: all six Memory key constants are runti
 
 ## Parity Rules Summary
 
-Governed by `DOCS/reference-architecture.md` v1.3 and decisions DR-012 through DR-016.
+Governed by `DOCS/reference-architecture.md` v1.3 and decisions DR-012 through DR-020.
 
 | Rule | Current instruction |
 |------|---------------------|
@@ -183,7 +184,8 @@ Governed by `DOCS/reference-architecture.md` v1.3 and decisions DR-012 through D
 | Backlog statuses | Use exactly `Open`, `In Progress`, or `Resolved` for backlog item status |
 | Templates | Use `DOCS/.templates/*.template.md` files |
 | Review outputs | New reviews go under root `.review/` with `CODE_REVIEW_[AGENT]_v[N]_[UTC]/` |
-| DOCS paths | All DOCS subdirectories use dot + kebab-case (DR-019); no plain-name subdirectories |
+| DOCS subdirectories | All use dot + kebab-case (DR-019); no plain-name subdirectories |
+| Document filenames | All authored docs use kebab-case (DR-020); exceptions: `README.md`, `CHANGELOG.md`, `CLAUDE.md` |
 
 ## Risk Register
 
@@ -194,7 +196,7 @@ Governed by `DOCS/reference-architecture.md` v1.3 and decisions DR-012 through D
 | Memory parity | `tests/screenplay/support/memory-keys.ts` | Names and string values must match exactly; runtime Actor Memory wiring is MIG-04 debt |
 | Grid mutation | `SudokuSolver` constructor | Preserve deep-copy behavior from `origGrid` to `grid` |
 | Hidden Singles | `SudokuSolver.hiddenSingles()` | Preserve row, column, and block checks |
-| Documentation paths | All DOCS subdirectories | All use dot + kebab-case (DR-019); no plain-name subdirectories remain |
+| Document naming drift | New authored docs in DOCS/ | Must use kebab-case (DR-020); check before creating any new .md file |
 | Review outputs | `.review/` and `DOCS/.review/` | New reviews go to root `.review/`; historical `DOCS/.review/` bundles stay read-only |
 
 ## Documentation Pointers
@@ -207,7 +209,8 @@ Governed by `DOCS/reference-architecture.md` v1.3 and decisions DR-012 through D
 | `DOCS/.architecture/orchestration-design.md` | Build, test, metrics, and retention design |
 | `DOCS/.architecture/logging-design.md` | Logging and reporting strategy |
 | `DOCS/.planning/backlog.md` | Authoritative backlog content |
-| `DOCS/.design/naming-conventions.md` | Authoritative naming conventions |
+| `DOCS/.design/naming-conventions.md` | Authoritative naming conventions (DR-020: kebab-case for all authored docs) |
+| `DOCS/ANALYSIS_Document_Naming_Kebab_Case_20260516.md` | Document naming impact assessment and migration log (Phases 0–4) |
 | `.review/README.md` | Future code review output policy |
 
 ## Current Limitations

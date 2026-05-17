@@ -3,7 +3,7 @@
 **Date:** 2026-05-16 (updated 2026-05-17)
 **Author:** Claude Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` — impact assessment for converting document filenames from the current `PREFIX_Title_Case.md` format to `lowercase-kebab-case.md`
-**Status:** Phases 0–2 complete 2026-05-17 — templates consolidated, DR-020 accepted, 24 authored docs renamed; awaiting Phase 3–4
+**Status:** Phases 0–2 and 4 complete 2026-05-17; Phase 3 deferred — 24 authored docs renamed, DR-020 accepted, CLAUDE.md and naming-conventions.md finalized
 
 ---
 
@@ -564,7 +564,7 @@ demo-apps/demoapp001-typescript-cypress/docs/screenplay-guide.md → screenplay-
 
 **Blast radius for Phase 2:** ~40 references across CLAUDE.md, README.md, CHANGELOG.md, DECISION_REGISTER.md, ref-arch-alignment docs, and stack docs.
 
-### Phase 3 — Root governance rename
+### Phase 3 — Root governance rename (Deferred)
 
 ```
 DECISION_REGISTER.md  → decision-register.md
@@ -573,14 +573,13 @@ BACKLOG.md            → backlog.md  (root redirect — may be deleted rather t
 
 **Blast radius for Phase 3:** highest — `DECISION_REGISTER.md` is referenced in nearly every governance document. ~60 references.
 
-### Phase 4 — NAMING_CONVENTIONS.md and CLAUDE.md updates
+**Status:** Deferred. Phase 3 was intentionally skipped after Phase 2 to avoid the highest-blast rename while working on an active development branch. `DECISION_REGISTER.md` and root `BACKLOG.md` remain with their current names until a dedicated sprint executes this rename. When executed, Phase 4 updates below will also need a follow-up pass to update any DR-020 / DR-019 references that use `decision-register.md`.
 
-- Update `DOCS/.design/NAMING_CONVENTIONS.md` (now `naming-conventions.md`) to reflect:
-  - Single kebab-case rule replacing the five per-type prefix rules
-  - Permanent exceptions table: `README.md`, `CHANGELOG.md`, `CLAUDE.md`
-  - Generated artefact patterns remain as-is
-- Update `CLAUDE.md`: all documentation pointer paths updated.
-- Update DR-019 and DR-020 in `decision-register.md`.
+### Phase 4 — naming-conventions.md and CLAUDE.md updates ✅ Complete 2026-05-17
+
+- [x] `DOCS/.design/naming-conventions.md` updated: kebab-case rule (DR-020) in Section 5 with pattern table and permanent exceptions; Quick Reference row corrected; DR-021 next ID
+- [x] `CLAUDE.md` updated: DR-020 added to Architecture Baseline; parity rules updated to DR-012 through DR-020 range; document naming parity rule added; risk register updated; documentation pointers current
+- [ ] `DECISION_REGISTER.md` DR-019 / DR-020 in-body path references — deferred with Phase 3
 
 ### Validation gate (after each phase)
 
@@ -630,5 +629,6 @@ Execute phases in the order above. Phase 3 (root governance rename, especially `
 
 ---
 
-*Binding decision must be recorded as DR-020 before Phase 1 begins.*
-*This document itself follows the current `ANALYSIS_` prefix convention; once DR-020 is accepted, future analysis documents would be named `analysis-subject-YYYYMMDD.md`.*
+*DR-020 accepted 2026-05-17. This document was authored before DR-020 was accepted and still carries the legacy `ANALYSIS_` prefix name — it is a historical record and exempt from renaming per the analysis docs exception documented in Phase 2. Future analysis documents should be named `analysis-subject-YYYYMMDD.md`.*
+
+*Phase 3 (DECISION_REGISTER.md rename) remains deferred. All other phases are complete.*

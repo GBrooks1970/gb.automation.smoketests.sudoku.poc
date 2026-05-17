@@ -11,7 +11,7 @@
 
 - This is the entry point for developers new to this Stack.
 - Keep Prerequisites and Quick Start accurate — they are run against constantly.
-- Link to `ARCHITECTURE.md` and `SCREENPLAY_GUIDE.md` for deeper context.
+- Link to `architecture.md` and `screenplay-guide.md` for deeper context.
 
 ---
 
@@ -98,7 +98,7 @@ See the canonical feature update procedure in [`CLAUDE.md`](../../CLAUDE.md).
 
 ## Deeper Reading
 
-- [`docs/architecture.md`](ARCHITECTURE.md) — layer model, dependency graph
-- [`docs/screenplay-guide.md`](SCREENPLAY_GUIDE.md) — Screenplay components guide
-- [`docs/qa-strategy.md`](QA_STRATEGY.md) — what is and is not tested
+- [`docs/architecture.md`](architecture.md) — layer model, dependency graph
+- [`docs/screenplay-guide.md`](screenplay-guide.md) — Screenplay components guide
+- [`docs/qa-strategy.md`](qa-strategy.md) — what is and is not tested
 ```

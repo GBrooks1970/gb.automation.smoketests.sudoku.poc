@@ -109,7 +109,7 @@ Step Definitions
 
 ## 8. Related Documents
 
-- [`docs/screenplay-guide.md`](SCREENPLAY_GUIDE.md) — how Screenplay is implemented in this Stack
-- [`docs/qa-strategy.md`](QA_STRATEGY.md) — what is and is not tested
+- [`docs/screenplay-guide.md`](screenplay-guide.md) — how Screenplay is implemented in this Stack
+- [`docs/qa-strategy.md`](qa-strategy.md) — what is and is not tested
 - [`DECISION_REGISTER.md`](../../DECISION_REGISTER.md) — authoritative decisions
 ```

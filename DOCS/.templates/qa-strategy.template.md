@@ -93,7 +93,7 @@
 
 ## 7. Related Documents
 
-- [`docs/architecture.md`](ARCHITECTURE.md) — layer model and component dependencies
-- [`docs/screenplay-guide.md`](SCREENPLAY_GUIDE.md) — how components are implemented
+- [`docs/architecture.md`](architecture.md) — layer model and component dependencies
+- [`docs/screenplay-guide.md`](screenplay-guide.md) — how components are implemented
 - [`DOCS/.planning/backlog.md`](../../DOCS/.planning/backlog.md) — known gaps and pending work
 ```
