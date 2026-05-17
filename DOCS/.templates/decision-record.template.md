@@ -2,17 +2,17 @@
 
 **Intended audience:** Any engineer or AI agent recording a structural or process decision.
 **Template version:** 1.0 (2026-05-14)
-**Governed by:** `DECISION_REGISTER.md` rules — see §10.6 of `reference-architecture.md`
+**Governed by:** `decision-register.md` rules — see §10.6 of `reference-architecture.md`
 
 ---
 
 ## How to Use This Template
 
 1. Copy this file. Do **not** edit it in place.
-2. Assign the next sequential `DR-NNN` ID from `DECISION_REGISTER.md`.
+2. Assign the next sequential `DR-NNN` ID from `decision-register.md`.
 3. Fill in all five `[REQUIRED]` fields. Leave no field empty.
 4. Set **Status** to `Proposed`. Change to `Accepted` only after review.
-5. Append the completed entry to `DECISION_REGISTER.md` under the correct status section.
+5. Append the completed entry to `decision-register.md` under the correct status section.
 6. If this decision supersedes an earlier one, update the earlier entry's Status to `Superseded` and add a forward reference.
 
 > **Immutability rule:** Once `Accepted`, the Context, Decision, and Alternatives fields are frozen. Only Status and the forward/back reference fields may change after acceptance.

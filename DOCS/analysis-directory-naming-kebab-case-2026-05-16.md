@@ -101,7 +101,7 @@ The metric key uses a short identifier, not the full directory name, so this is 
 
 **Gherkin feature file paths** — `cucumber.js` tooling config references the Stack path. Any mismatch breaks `npm test`.
 
-**All documentation** — CLAUDE.md, DECISION_REGISTER.md, reference-architecture.md, BACKLOG.md, CHANGELOG.md, NAMING_CONVENTIONS.md, and all design/review documents contain inline references. These are prose risk (broken links, stale text) rather than runtime risk, but they degrade governance quality.
+**All documentation** — CLAUDE.md, decision-register.md, reference-architecture.md, BACKLOG.md, CHANGELOG.md, NAMING_CONVENTIONS.md, and all design/review documents contain inline references. These are prose risk (broken links, stale text) rather than runtime risk, but they degrade governance quality.
 
 ### 3.3 Case-sensitivity trap
 
@@ -128,7 +128,7 @@ The repository lives on a **Windows filesystem** (case-insensitive) and is pushe
 |---|------|--------------|
 | 1 | **220+ references to update** — Markdown prose, TypeScript paths, configs, and scripts across ~80 files. High mechanical cost with real risk of missed references. | High |
 | 2 | **Git history disruption** — `git log --follow` breaks across the rename for all affected files. Blame and bisect are harder post-migration. | Medium |
-| 3 | **Governance overhead** — The UPPER_SNAKE_CASE Stack name convention is in NAMING_CONVENTIONS.md and referenced in DECISION_REGISTER.md. Changing it requires a new DR entry and updates to both documents. | Medium |
+| 3 | **Governance overhead** — The UPPER_SNAKE_CASE Stack name convention is in NAMING_CONVENTIONS.md and referenced in decision-register.md. Changing it requires a new DR entry and updates to both documents. | Medium |
 | 4 | **Stack name parity risk** — The Reference Architecture §8.1 requires Memory key parity across Stacks. Stack names appear in Memory key prefixes and metric identifiers. Renaming during a single-Stack phase is lower risk than during multi-Stack operation, but must be done cleanly. | Medium |
 | 5 | **Windows rename subtlety** — `git mv DEMOAPPS demo-apps` on Windows may need a two-step approach (rename to temp, rename to target) due to filesystem case-insensitivity. | Low–Medium |
 | 6 | **Externally shared paths** — Any links in GitHub PRs, issues, or external documentation pointing to the old path structure become stale. | Low (current project scope) |
@@ -177,7 +177,7 @@ The strongest argument **against** renaming now is that the convention is docume
 
 ### Phase 0 — Decision gate ✅ Complete 2026-05-16
 
-1. **DR-016 created** in `DECISION_REGISTER.md`:
+1. **DR-016 created** in `decision-register.md`:
    - Records the decision to adopt kebab-case for Stack group and Stack directories
    - Distinguishes directory name (filesystem) from canonical Stack name (metrics, Memory keys, parity docs)
    - References this analysis document as evidence
@@ -256,7 +256,7 @@ The strongest argument **against** renaming now is that the convention is docume
 | `CLAUDE.md` | Stack inventory, directory blueprint, risk register |
 | `README.md` | Quick-start paths |
 | `CHANGELOG.md` | Entry references |
-| `DECISION_REGISTER.md` | DR prose references |
+| `decision-register.md` | DR prose references |
 | `BACKLOG.md` (root) | Item references |
 | `DOCS/.planning/BACKLOG.md` | Item detail paths |
 | `DOCS/.design/NAMING_CONVENTIONS.md` | Examples in §3 |
@@ -379,7 +379,7 @@ features-shared/                   ← was features_shared
 | A — Runtime critical | 1 | `.batch/run-demoapp001.ps1`: stack path |
 | B — Dev tooling | 2 | `.vscode/launch.json` (3 refs), `.claude/settings.local.json` (5 refs) |
 | C — Inside-Stack docs | 6 | `cd` commands, directory trees, `features_shared` → `features-shared` |
-| D — Governance | CLAUDE.md, README.md, CHANGELOG.md, DECISION_REGISTER.md, BACKLOG files + 22 DOCS/ files | All path refs, DR range updated DR-016, MIG status current |
+| D — Governance | CLAUDE.md, README.md, CHANGELOG.md, decision-register.md, BACKLOG files + 22 DOCS/ files | All path refs, DR range updated DR-016, MIG status current |
 | E — Templates | 12 | `features_shared` → `features-shared` in all template examples |
 
 **Files deliberately NOT changed:**
@@ -513,7 +513,7 @@ These files require the most careful attention during Phase 3:
 | File | Estimated references to update |
 |------|-------------------------------|
 | `CLAUDE.md` | 20–30 |
-| `DECISION_REGISTER.md` | 10–15 |
+| `decision-register.md` | 10–15 |
 | `DOCS/.design/NAMING_CONVENTIONS.md` | 5–10 |
 | `DOCS/.planning/BACKLOG.md` | 8–12 |
 | `CHANGELOG.md` | 10–15 |
@@ -537,4 +537,4 @@ These files require the most careful attention during Phase 3:
 
 ---
 
-*This document is an analysis artefact. The binding decision must be recorded in `DECISION_REGISTER.md` as DR-016 before any file changes are made.*
+*This document is an analysis artefact. The binding decision must be recorded in `decision-register.md` as DR-016 before any file changes are made.*

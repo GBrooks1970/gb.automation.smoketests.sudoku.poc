@@ -3,7 +3,7 @@
 **Date:** 2026-05-16 (updated 2026-05-17)
 **Author:** Claude Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` — impact assessment for converting document filenames from the current `PREFIX_Title_Case.md` format to `lowercase-kebab-case.md`
-**Status:** Phases 0–2 and 4 complete 2026-05-17; Phase 3 deferred — 24 authored docs renamed, DR-020 accepted, CLAUDE.md and naming-conventions.md finalized
+**Status:** All Phases 0–4 complete 2026-05-17 — 26 authored docs renamed/deleted (including decision-register.md and BACKLOG.md removal), DR-020 fully executed
 
 ---
 
@@ -564,22 +564,27 @@ demo-apps/demoapp001-typescript-cypress/docs/screenplay-guide.md → screenplay-
 
 **Blast radius for Phase 2:** ~40 references across CLAUDE.md, README.md, CHANGELOG.md, DECISION_REGISTER.md, ref-arch-alignment docs, and stack docs.
 
-### Phase 3 — Root governance rename (Deferred)
+### Phase 3 — Root governance rename ✅ Complete 2026-05-17
 
 ```
-DECISION_REGISTER.md  → decision-register.md
-BACKLOG.md            → backlog.md  (root redirect — may be deleted rather than renamed)
+DECISION_REGISTER.md  → decision-register.md  ✅ renamed 2026-05-17
+BACKLOG.md            → deleted               ✅ deleted 2026-05-17 (stale convenience redirect)
 ```
 
-**Blast radius for Phase 3:** highest — `DECISION_REGISTER.md` is referenced in nearly every governance document. ~60 references.
+**Blast radius for Phase 3:** highest — `DECISION_REGISTER.md` referenced in 26 files; 25 updated by automated replacement. Root `BACKLOG.md` had 2 internal links pointing to it (both already pointed to `.planning/BACKLOG.md` by relative path, now corrected to `.planning/backlog.md`).
 
-**Status:** Deferred. Phase 3 was intentionally skipped after Phase 2 to avoid the highest-blast rename while working on an active development branch. `DECISION_REGISTER.md` and root `BACKLOG.md` remain with their current names until a dedicated sprint executes this rename. When executed, Phase 4 updates below will also need a follow-up pass to update any DR-020 / DR-019 references that use `decision-register.md`.
+**Completed 2026-05-17.**
+- `DECISION_REGISTER.md` renamed to `decision-register.md` — 25 files updated
+- Root `BACKLOG.md` deleted — self-described as "convenience summary only"; content was 9+ months stale (Sprint 2 era); authoritative content lives in `.planning/backlog.md`
+- 2 broken links in `.planning/README.md` and `.planning/todo-hidden-singles-implementation.md` updated to `backlog.md`
+- 0 remaining `DECISION_REGISTER` references in any active file
+- 43/43 scenarios pass; OverallExitCode=0
 
 ### Phase 4 — naming-conventions.md and CLAUDE.md updates ✅ Complete 2026-05-17
 
 - [x] `DOCS/.design/naming-conventions.md` updated: kebab-case rule (DR-020) in Section 5 with pattern table and permanent exceptions; Quick Reference row corrected; DR-021 next ID
 - [x] `CLAUDE.md` updated: DR-020 added to Architecture Baseline; parity rules updated to DR-012 through DR-020 range; document naming parity rule added; risk register updated; documentation pointers current
-- [ ] `DECISION_REGISTER.md` DR-019 / DR-020 in-body path references — deferred with Phase 3
+- [x] `decision-register.md` DR-019 / DR-020 in-body path references — updated automatically during Phase 3 replacement (25 files, including decision-register.md itself)
 
 ### Validation gate (after each phase)
 
@@ -631,4 +636,4 @@ Execute phases in the order above. Phase 3 (root governance rename, especially `
 
 *DR-020 accepted 2026-05-17. This document was authored before DR-020 was accepted and still carries the legacy `ANALYSIS_` prefix name — it is a historical record and exempt from renaming per the analysis docs exception documented in Phase 2. Future analysis documents should be named `analysis-subject-YYYYMMDD.md`.*
 
-*Phase 3 (DECISION_REGISTER.md rename) remains deferred. All other phases are complete.*
+*All Phases 0–4 complete 2026-05-17. Migration fully executed. 26 files renamed or deleted.*

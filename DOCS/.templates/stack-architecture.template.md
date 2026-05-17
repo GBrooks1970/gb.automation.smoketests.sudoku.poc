@@ -11,7 +11,7 @@
 
 - Complete before writing any Screenplay components for this Stack.
 - Update the dependency graph whenever a new Ability or library is added.
-- Record every structural deviation in `DECISION_REGISTER.md` and reference the DR number here.
+- Record every structural deviation in `decision-register.md` and reference the DR number here.
 
 ---
 
@@ -111,5 +111,5 @@ Step Definitions
 
 - [`docs/screenplay-guide.md`](screenplay-guide.md) — how Screenplay is implemented in this Stack
 - [`docs/qa-strategy.md`](qa-strategy.md) — what is and is not tested
-- [`DECISION_REGISTER.md`](../../DECISION_REGISTER.md) — authoritative decisions
+- [`decision-register.md`](../../decision-register.md) — authoritative decisions
 ```

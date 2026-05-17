@@ -1036,7 +1036,7 @@ All generated artefacts in `.results/` (metrics files, parity reports) are also 
 The migration is executed in four phases per `DOCS/ANALYSIS_Document_Naming_Kebab_Case_20260516.md §6`:
 - **Phase 1** — Authored documents in typed directories (`.design/`, `.algorithm/`, `.howto/`, `.planning/`, `.implementation-logs/`)
 - **Phase 2** — DOCS root files and Stack-level docs
-- **Phase 3** — Root governance files (`DECISION_REGISTER.md`, `BACKLOG.md`)
+- **Phase 3** — Root governance files (`decision-register.md`, `BACKLOG.md`)
 - **Phase 4** — Update `naming-conventions.md` and `CLAUDE.md` to reflect the new single rule
 
 `naming-conventions.md` is updated in Phase 4 to replace the five per-type prefix rules (`DESIGN_`, `ALGORITHM_`, `HOWTO_`, `TODO_`, `TEMPLATE_`) with a single rule: authored documents use `word-word.md` in kebab-case. The three permanent exceptions are documented in naming-conventions.md.

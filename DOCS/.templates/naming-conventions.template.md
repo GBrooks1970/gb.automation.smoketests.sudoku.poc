@@ -12,7 +12,7 @@
 - Populate every category row. If a category does not apply to this project, write "N/A — [reason]".
 - This document is authoritative. When a conflict arises between this document and any other source (code comments, AI memory, convention assumptions), this document wins.
 - When a new naming pattern is introduced that is not covered here, update this document **before** using the new pattern.
-- Deviations from the stated conventions MUST be recorded in `DECISION_REGISTER.md`.
+- Deviations from the stated conventions MUST be recorded in `decision-register.md`.
 
 ---
 

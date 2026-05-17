@@ -11,7 +11,7 @@
 
 - Author this document when the first Stack's Screenplay layer is complete (after Phase 4).
 - Update when any component signature, Memory key, or step shape changes.
-- Any change MUST be recorded in `DECISION_REGISTER.md` and applied to all Stacks simultaneously.
+- Any change MUST be recorded in `decision-register.md` and applied to all Stacks simultaneously.
 
 ---
 
@@ -20,7 +20,7 @@
 
 **Last updated:** YYYY-MM-DD [REQUIRED]
 **Stacks covered:** [List all Stack names] [REQUIRED]
-**Governed by:** `DECISION_REGISTER.md` (all signature changes require a DR entry)
+**Governed by:** `decision-register.md` (all signature changes require a DR entry)
 
 ---
 

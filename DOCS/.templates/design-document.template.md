@@ -12,7 +12,7 @@
 - Copy this file. Do **not** edit it in place.
 - Name the output file using kebab-case: `feature-name.md` (DR-020).
 - Complete all sections. Sections with no applicable content should say "N/A — [reason]".
-- Record structural decisions in `DECISION_REGISTER.md` and reference the DR number in Section 4.
+- Record structural decisions in `decision-register.md` and reference the DR number in Section 4.
 
 ---
 

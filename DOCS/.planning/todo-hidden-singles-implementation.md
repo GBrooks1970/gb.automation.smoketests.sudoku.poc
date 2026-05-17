@@ -336,7 +336,7 @@ All three documentation files that reference the limitation must be updated. No 
 
 ### 6.3 Update the backlog
 
-- [ ] **6.3.1** In [BACKLOG.md](BACKLOG.md), mark BACKLOG-001 as `🟢 Completed` and tick all acceptance criteria checkboxes.
+- [ ] **6.3.1** In [backlog.md](backlog.md), mark BACKLOG-001 as `🟢 Completed` and tick all acceptance criteria checkboxes.
 
 ### 6.4 Create an implementation log
 

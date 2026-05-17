@@ -28,7 +28,7 @@ The full Screenplay layer is now implemented. Layer 2 (Step Definitions), Layer 
 | Repository-level required documents | ✅ All present and at correct paths | — |
 | Stack-level documentation | ✅ Complete — Phase 5 (`docs/` + 4 required files) | — |
 | `DOCS/.templates/` mandate | ✅ Complete — all 14 templates present | — |
-| `DECISION_REGISTER.md` | ✅ DR-001–DR-008 | — |
+| `decision-register.md` | ✅ DR-001–DR-008 | — |
 | Cross-cutting architecture docs (`DOCS/.architecture/`) | ✅ Complete — Phase 6 (4 required documents) | — |
 | Orchestration scripts + metrics | ✅ Complete — Phase 7 (`.batch/run-demoapp001.ps1` + `.results/.metrics`) | — |
 | AI agent instruction file | ✅ Complete — Phase 0 | — |
@@ -197,7 +197,7 @@ code-review/ OR .review/   PRESENT as DOCS/.review/ (inside DOCS, not at root)
 README.md                  ✅
 CHANGELOG.md               ✅ (Phase 0)
 BACKLOG.md (at root)       NOT REQUIRED by v1.1 — present as convenience redirect only
-DECISION_REGISTER.md       ✅ (Phases 0–2 — DR-001–DR-008)
+decision-register.md       ✅ (Phases 0–2 — DR-001–DR-008)
 CLAUDE.md (agent file)     ✅ (Phase 0 — stack inventory, risk register, procedure; Phase 1 — feature sync note updated)
 ```
 
@@ -266,7 +266,7 @@ Then the system should place {int} in the only valid cell in row {int}
 
 ## 6. Required Documents (§10.1, §10.9) — v1.1 Paths
 
-> **v1.1 change note:** `BACKLOG.md` is no longer a root-level requirement — it is required at `DOCS/.planning/BACKLOG.md`. `NAMING_CONVENTIONS.md` is no longer root/DOCS-flexible — it is required at `DOCS/.design/NAMING_CONVENTIONS.md`. The root document set is now: `README.md`, `CHANGELOG.md`, `DECISION_REGISTER.md`, and the AI agent instruction file.
+> **v1.1 change note:** `BACKLOG.md` is no longer a root-level requirement — it is required at `DOCS/.planning/BACKLOG.md`. `NAMING_CONVENTIONS.md` is no longer root/DOCS-flexible — it is required at `DOCS/.design/NAMING_CONVENTIONS.md`. The root document set is now: `README.md`, `CHANGELOG.md`, `decision-register.md`, and the AI agent instruction file.
 
 ### 6.1 Root-Level Documents (§10.1)
 
@@ -274,7 +274,7 @@ Then the system should place {int} in the only valid cell in row {int}
 |----------|---------------------|--------|-------|
 | `README.md` | Repository root | ✅ Exists, comprehensive | — |
 | `CHANGELOG.md` | Repository root | ✅ Created (Phase 0) | — |
-| `DECISION_REGISTER.md` | Repository root | ✅ DR-001–DR-007 | — |
+| `decision-register.md` | Repository root | ✅ DR-001–DR-007 | — |
 | AI agent instruction file | Repository root | ✅ `CLAUDE.md` — updated Phase 0 | — |
 
 ### 6.2 DOCS-Level Documents (§10.1, §10.9)
@@ -286,7 +286,7 @@ Then the system should place {int} in the only valid cell in row {int}
 
 > **Root `BACKLOG.md`:** Created in Phase 0 as a convenience summary linking to `DOCS/.planning/BACKLOG.md`. Not required by v1.1 but harmless to retain. Should note explicitly that it is a summary redirect.
 
-### 6.3 Decisions Recorded in DECISION_REGISTER.md
+### 6.3 Decisions Recorded in decision-register.md
 
 | DR ID | Decision | Phase |
 |-------|---------|-------|
@@ -300,7 +300,7 @@ Then the system should place {int} in the only valid cell in row {int}
 
 ### 6.4 ~~Decision Needed~~ — v1.1 Adoption: DR-006 ✅
 
-The project now operates under v1.1. A `DECISION_REGISTER.md` entry should record this:
+The project now operates under v1.1. A `decision-register.md` entry should record this:
 
 | Field | Value |
 |-------|-------|
@@ -351,7 +351,7 @@ Phase 6 is complete. `DOCS/.architecture/` now exists with all required document
 
 | Template | Governs | Migration Phase |
 |----------|---------|----------------|
-| `TEMPLATE_Decision_Record.md` | `DECISION_REGISTER.md` entries | 0 |
+| `TEMPLATE_Decision_Record.md` | `decision-register.md` entries | 0 |
 | `TEMPLATE_Changelog.md` | Root `CHANGELOG.md` | 0 |
 | `TEMPLATE_Backlog.md` | `DOCS/.planning/BACKLOG.md` | 0 |
 | `TEMPLATE_Naming_Conventions.md` | `DOCS/.design/NAMING_CONVENTIONS.md` | 0 |
@@ -380,7 +380,7 @@ Phase 6 is complete. `DOCS/.architecture/` now exists with all required document
 | Canonical feature update procedure | ✅ Added Phase 0 | 7-step procedure; includes note that `features-shared/` doesn't yet exist |
 | Parity rules summary (Memory keys, step shape, signatures) | ⚠ Deferred | Not yet relevant (one Stack); added to Risk Register for pre-Stack-2 action |
 | Risk register | ✅ Added Phase 0 | 6 entries covering fragile areas |
-| Reference to `DECISION_REGISTER.md` | ✅ Added Phase 0 | Authoritative References table added |
+| Reference to `decision-register.md` | ✅ Added Phase 0 | Authoritative References table added |
 
 ---
 
@@ -446,19 +446,19 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 
 | # | Action | Status | Notes |
 |---|--------|--------|-------|
-| 1 | Create `DECISION_REGISTER.md` at root | ✅ Done | DR-001–DR-005 backfilled |
-| 2 | Backfill DR-001–005 | ✅ Done | See `DECISION_REGISTER.md` |
+| 1 | Create `decision-register.md` at root | ✅ Done | DR-001–DR-005 backfilled |
+| 2 | Backfill DR-001–005 | ✅ Done | See `decision-register.md` |
 | 3 | Create `CHANGELOG.md` at root | ✅ Done | Full project history v0.1.0–Unreleased |
 | 4 | ~~Root `BACKLOG.md`~~ → **not required by v1.1** | ⚠ Created as convenience | `DOCS/.planning/BACKLOG.md` is the required location per v1.1 §10.1; root file retained as summary redirect |
 | 5 | `NAMING_CONVENTIONS.md` — **v1.1 requires `DOCS/design/`** | ✅ Corrected | Initially created at root (v1.0 assumption); moved to `DOCS/.design/NAMING_CONVENTIONS.md` on v1.1 adoption |
 | 6 | Create `DOCS/.templates/` | ✅ Done | All 14 templates created (7 new + 3 adapted + 4 from original Phase 0) |
 | 7 | Create all required templates | ✅ Done | 14/14: Decision Record, Changelog, Backlog, Naming Conventions, Readme, Stack Architecture, Screenplay Guide, QA Strategy, Stack Readme, Parity Contract, Subject App Contract, Algorithm, Implementation Log, Code Review |
-| 8 | Update `CLAUDE.md` | ✅ Done | Stack inventory, risk register, canonical feature procedure, `DECISION_REGISTER.md` reference; updated in Phase 1 for feature sync note |
+| 8 | Update `CLAUDE.md` | ✅ Done | Stack inventory, risk register, canonical feature procedure, `decision-register.md` reference; updated in Phase 1 for feature sync note |
 | 9 | Record v1.1 adoption | ✅ Done | DR-006 — adoption of RA v1.1, NAMING_CONVENTIONS.md path correction, root BACKLOG.md status |
 
 **Verification (v1.1) — all passing:**
 - `CHANGELOG.md` at root ✅
-- `DECISION_REGISTER.md` at root (DR-001–007) ✅
+- `decision-register.md` at root (DR-001–007) ✅
 - `DOCS/.planning/BACKLOG.md` ✅
 - `DOCS/.design/NAMING_CONVENTIONS.md` ✅
 - `DOCS/.templates/` — 14/14 templates ✅
@@ -477,14 +477,14 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 | 4 | Write Stack-local copy with `@util @stack-demoapp001` | ✅ Done | Inherits `@util`; adds Stack tag |
 | 5 | Remove old `tests/BasicSudokuSolverLogic.feature` | ✅ Done | Replaced by `tests/features/` copy |
 | 6 | Update `cucumber.js` paths to `tests/features/**/*.feature` | ✅ Done | Prevents duplicate scenario pickup |
-| 7 | Record DR-007 in `DECISION_REGISTER.md` | ✅ Done | Rationale: canonical store, tag taxonomy, symlink rejection |
+| 7 | Record DR-007 in `decision-register.md` | ✅ Done | Rationale: canonical store, tag taxonomy, symlink rejection |
 
 **Verification:**
 - `npm test` — 43 scenarios / 241 steps, all passing ✅
 - `@util @stack-demoapp001` tags visible on all scenarios in runner output ✅
 - `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature` — canonical source ✅
 - `tests/features/BasicSudokuSolverLogic.feature` — Stack-local copy ✅
-- `DECISION_REGISTER.md` DR-007 — recorded ✅
+- `decision-register.md` DR-007 — recorded ✅
 
 ---
 
@@ -670,11 +670,11 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 
 ## 15. Backlog Items Generated
 
-The following items should be added to `DOCS/.planning/BACKLOG.md` and cross-referenced to `DECISION_REGISTER.md` as appropriate:
+The following items should be added to `DOCS/.planning/BACKLOG.md` and cross-referenced to `decision-register.md` as appropriate:
 
 | ID | Title | Phase | Priority | Status |
 |----|-------|-------|----------|--------|
-| NEW-001 | Create DECISION_REGISTER.md and backfill DR-001–005 | 0 | High | ✅ Done |
+| NEW-001 | Create decision-register.md and backfill DR-001–005 | 0 | High | ✅ Done |
 | NEW-002 | Create CHANGELOG.md at repository root | 0 | High | ✅ Done |
 | NEW-003 | ~~Promote BACKLOG.md to root~~ → **not required by v1.1** | 0 | — | ⚠ Superseded — `DOCS/.planning/BACKLOG.md` is the required location |
 | NEW-004 | Create NAMING_CONVENTIONS.md at `DOCS/.design/` (v1.1: `DOCS/design/`) | 0 | High | ✅ Done (corrected from root) |

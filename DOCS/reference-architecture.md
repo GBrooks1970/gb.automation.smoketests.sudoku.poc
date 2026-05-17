@@ -275,7 +275,7 @@ repository-root/
 │
 ├── README.md                         # REQUIRED (Section 10.1)
 ├── CHANGELOG.md                      # REQUIRED (Section 10.1)
-├── DECISION_REGISTER.md              # REQUIRED (Section 10.6)
+├── decision-register.md              # REQUIRED (Section 10.6)
 └── [ai-agent-instruction-file]       # REQUIRED (Section 10.4)
 ```
 
@@ -317,7 +317,7 @@ When a feature file in `features_shared/` is created or updated, the change MUST
 2. Copy the updated file to the corresponding path in each Stack's `features/` directory
 3. Add Stack-specific or lifecycle tags to the local copy only
 4. Update `DOCS/planning/backlog.md` if any Stack cannot yet implement the new scenario (see Section 10.1)
-5. Record the decision in `DECISION_REGISTER.md` if the change represents a structural choice (see Section 10.6)
+5. Record the decision in `decision-register.md` if the change represents a structural choice (see Section 10.6)
 
 ### 5.3 Tag Taxonomy
 
@@ -509,7 +509,7 @@ For each component, the parity contract document (see Section 10.3) MUST specify
 - The Memory keys written or read by the component
 - The Ability type required (for Tasks)
 
-Any change to a component's signature MUST be applied to all Stacks simultaneously and recorded in `DECISION_REGISTER.md`.
+Any change to a component's signature MUST be applied to all Stacks simultaneously and recorded in `decision-register.md`.
 
 ### 8.4 Parity Verification
 
@@ -615,12 +615,12 @@ The following documents MUST exist at the paths shown. Each is governed by its n
 | `README.md` | repository root | `templates/readme.template.md` | Project purpose, prerequisites, quick-start per Stack, links to all other docs |
 | `CHANGELOG.md` | repository root | `templates/changelog.template.md` | Version history, notable changes, known issues |
 | `DOCS/planning/backlog.md` | `DOCS/planning/` | `templates/backlog.template.md` | Outstanding and future work required to keep all Stacks in parity. Each item MUST identify: affected Stack(s), nature of the gap, and priority |
-| `DECISION_REGISTER.md` | repository root | `templates/decision-record.template.md` | Structural and process decisions (see Section 10.6) |
+| `decision-register.md` | repository root | `templates/decision-record.template.md` | Structural and process decisions (see Section 10.6) |
 
 **`DOCS/planning/backlog.md` — additional rules:**
 
 - If a gap between Stacks exists and is not listed in `DOCS/planning/backlog.md`, it is a defect, not a decision
-- Backlog items that resolve into a structural choice MUST produce a `DECISION_REGISTER.md` entry before the work is closed
+- Backlog items that resolve into a structural choice MUST produce a `decision-register.md` entry before the work is closed
 - Items MUST carry one of three statuses: `Open`, `In Progress`, `Resolved`
 - `Resolved` items MUST NOT be deleted — they MUST be retained as a record that the gap existed
 
@@ -656,7 +656,7 @@ The file MUST include:
 - Canonical feature update procedure (step by step)
 - Parity rules summary (Memory keys, step shape, component signatures)
 - Risk register: known fragile areas and what to check before changing them
-- Reference to `DECISION_REGISTER.md` as authoritative for any rule restated in this file
+- Reference to `decision-register.md` as authoritative for any rule restated in this file
 
 ### 10.5 Template Mandate
 
@@ -672,7 +672,7 @@ An Agent or developer creating any document without a corresponding template fir
 
 ### 10.6 Decision Register
 
-`DECISION_REGISTER.md` tracks every structural and process decision that shapes the project. Decisions are **durable**: once recorded, an entry is valid provenance for any downstream claim, implementation choice, or parity rule. If a decision is not in the register, it has no authoritative standing.
+`decision-register.md` tracks every structural and process decision that shapes the project. Decisions are **durable**: once recorded, an entry is valid provenance for any downstream claim, implementation choice, or parity rule. If a decision is not in the register, it has no authoritative standing.
 
 **Each entry MUST be authored from `templates/decision-record.template.md` and MUST contain exactly these five fields:**
 
@@ -690,7 +690,7 @@ An Agent or developer creating any document without a corresponding template fir
 - A `Superseded` entry MUST contain a forward reference to its replacement
 - The replacement entry MUST contain a back reference to the entry it supersedes
 - `DOCS/planning/backlog.md` items that resolve into a structural choice MUST produce a Decision Register entry before the work item is marked `Resolved`
-- The AI Agent Instruction File (Section 10.4) MUST reference `DECISION_REGISTER.md` as the authoritative source for any rule it restates
+- The AI Agent Instruction File (Section 10.4) MUST reference `decision-register.md` as the authoritative source for any rule it restates
 
 **Entry identification:**
 
@@ -713,7 +713,7 @@ A `code-review/` or `.review/` directory MUST exist at the repository root. It h
 | Single-file review | `.review/YYYY-MM-DD_short-slug.md` | Focused assessments and lightweight follow-up reviews |
 | Multi-file review bundle | `.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/` | Comprehensive reviews with separate executive summary, risk, recommendation, migration, and annex files |
 
-`[UTC]` MUST use the compact UTC timestamp format `YYYYMMDDTHHMMZ`. The multi-file review bundle convention is an accepted extension recorded in `DECISION_REGISTER.md` as DR-012.
+`[UTC]` MUST use the compact UTC timestamp format `YYYYMMDDTHHMMZ`. The multi-file review bundle convention is an accepted extension recorded in `decision-register.md` as DR-012.
 
 **Rules:**
 
@@ -721,7 +721,7 @@ A `code-review/` or `.review/` directory MUST exist at the repository root. It h
 - Review outputs MUST use one of the accepted output shapes above
 - Multi-file review bundles MUST include a main index file named `00_CODE_REVIEW_[AGENT]_v[N]_[UTC].md`
 - Review outputs are read-only once written — findings MUST NOT be edited after the fact; a new review supersedes an old one
-- Action items raised in a review MUST be tracked in `DOCS/planning/backlog.md` or `DECISION_REGISTER.md` as appropriate; they MUST NOT remain only inside the review file
+- Action items raised in a review MUST be tracked in `DOCS/planning/backlog.md` or `decision-register.md` as appropriate; they MUST NOT remain only inside the review file
 
 ### 10.8 Implementation Logs Directory
 
@@ -738,7 +738,7 @@ An `implementation-logs/` directory MUST exist under `DOCS/` or at the repositor
 - Every implementation log MUST be authored from `templates/implementation-log.template.md`
 - Log files MUST be named with a UTC date prefix and a short session-topic slug (e.g. `2026-05-14_cors-middleware-debug.md`)
 - Logs are append-only; they document what happened, not what should have happened
-- A log entry that records a structural or process decision MUST result in a corresponding `DECISION_REGISTER.md` entry — the log is evidence; the Decision Register is the record
+- A log entry that records a structural or process decision MUST result in a corresponding `decision-register.md` entry — the log is evidence; the Decision Register is the record
 - Implementation logs are the authoritative source for the *why* behind code that exists but has no obvious rationale in the code itself; an Agent consulting the codebase SHOULD check this directory before concluding that a behaviour is unexplained
 
 ### 10.9 Naming Conventions — Project Standard
@@ -764,7 +764,7 @@ A `DOCS/design/naming-conventions.md` document MUST exist at `DOCS/design/naming
 
 - The document MUST be authored from `templates/naming-conventions.template.md`
 - When a new naming pattern is introduced that is not covered by the existing document, the document MUST be updated before the pattern is used in the codebase
-- Deviations from the stated conventions MUST be recorded in `DECISION_REGISTER.md` with a `Context` entry explaining why the deviation was necessary
+- Deviations from the stated conventions MUST be recorded in `decision-register.md` with a `Context` entry explaining why the deviation was necessary
 - An Agent generating new files, components, or identifiers MUST consult this document before producing names
 
 ---
@@ -778,7 +778,7 @@ The following checklist MUST be completed in order when adding a new Stack to a 
 - [ ] Assign a unique `STACK_NAME` following the project's naming convention
 - [ ] Identify the surface type(s): `API`, `UI`, `CLI`, or a combination (Section 6)
 - [ ] Identify the language and test framework to be used
-- [ ] Record the decision to add this Stack in `DECISION_REGISTER.md` (Section 10.6)
+- [ ] Record the decision to add this Stack in `decision-register.md` (Section 10.6)
 - [ ] Add the Stack to the Stack inventory in the AI Agent Instruction File (Section 10.4)
 
 ### Phase 2 — Create the Directory Structure
@@ -841,7 +841,7 @@ The following templates MUST exist under `DOCS/templates/` before the first docu
 | `readme.template.md` | Root `README.md` |
 | `changelog.template.md` | Root `CHANGELOG.md` |
 | `backlog.template.md` | `DOCS/planning/backlog.md` |
-| `decision-record.template.md` | Root `DECISION_REGISTER.md` entries |
+| `decision-record.template.md` | Root `decision-register.md` entries |
 | `stack-architecture.template.md` | `docs/architecture.md` per Stack |
 | `screenplay-guide.template.md` | `docs/screenplay-guide.md` per Stack |
 | `qa-strategy.template.md` | `docs/qa-strategy.md` per Stack |
@@ -887,4 +887,4 @@ BACKLOG
 
 ---
 
-*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `DECISION_REGISTER.md` before the change is merged.*
+*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `decision-register.md` before the change is merged.*

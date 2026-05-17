@@ -6,7 +6,7 @@
 **Produces:** `DOCS/.implementation-logs/YYYY-MM-DD_short-session-topic.md`
 
 > Logs are **append-only**. Once written, do not edit past entries.
-> Any structural decision recorded in a log MUST also produce a `DECISION_REGISTER.md` entry.
+> Any structural decision recorded in a log MUST also produce a `decision-register.md` entry.
 
 ---
 

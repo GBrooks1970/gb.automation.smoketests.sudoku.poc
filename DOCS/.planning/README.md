@@ -15,7 +15,7 @@ Planning documents serve as:
 
 ### Active Documents
 
-- **[BACKLOG.md](BACKLOG.md)** - Product backlog with prioritized work items
+- **[backlog.md](backlog.md)** - Product backlog with prioritized work items
   - Current sprint backlog
   - High/Medium/Low priority items
   - Future enhancements and ideas

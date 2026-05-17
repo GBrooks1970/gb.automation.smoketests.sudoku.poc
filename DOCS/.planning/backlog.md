@@ -17,7 +17,7 @@ Per v1.3 Section 10.1:
 
 - Every tracked item uses exactly one status: `Open`, `In Progress`, or `Resolved`.
 - Resolved items are retained as a record that the gap existed.
-- Structural choices must be recorded in `DECISION_REGISTER.md` before the related work is closed.
+- Structural choices must be recorded in `decision-register.md` before the related work is closed.
 
 ---
 
@@ -240,7 +240,7 @@ Acceptance criteria:
 - [x] `tooling/cucumber.js`, `tsconfig.json`, `package.json` use relative paths — no edits needed; `npm test` 43/43 (Phase 4)
 - [x] `.batch/run-demoapp001.ps1` updated and smoke-tested; BuildExitCode=0 TestExitCode=0 (Phase 4)
 - [x] All markdown documentation updated; 0 stale-path links in focus files (Phase 4)
-- [x] `naming-conventions.md`, `CLAUDE.md`, `CHANGELOG.md`, `DECISION_REGISTER.md` updated (Phase 3)
+- [x] `naming-conventions.md`, `CLAUDE.md`, `CHANGELOG.md`, `decision-register.md` updated (Phase 3)
 - [x] DR-016 referenced in commit message (Phase 2 commit)
 
 ---

@@ -103,7 +103,7 @@ Additionally, `DOCS/templates/` and `DOCS/architecture/` were created directly w
 | `BACKLOG.md` | Root redirect |
 | `CHANGELOG.md` | Governance doc |
 | `CLAUDE.md` | Agent guide |
-| `DECISION_REGISTER.md` | All DRs that name templates |
+| `decision-register.md` | All DRs that name templates |
 | `DOCS/.design/NAMING_CONVENTIONS.md` | Naming conventions doc |
 | `DOCS/.implementation/README.md` | Archive README |
 | `DOCS/.planning/BACKLOG.md` | Authoritative backlog |
@@ -147,7 +147,7 @@ Additionally, `DOCS/templates/` and `DOCS/architecture/` were created directly w
 | `BACKLOG.md` | Root redirect |
 | `CHANGELOG.md` | Governance doc |
 | `CLAUDE.md` | Agent guide |
-| `DECISION_REGISTER.md` | DR-013, DR-017 |
+| `decision-register.md` | DR-013, DR-017 |
 | `DOCS/.design/NAMING_CONVENTIONS.md` | Naming conventions |
 | `DOCS/.implementation/README.md` | Archive README (moving content) |
 | `DOCS/.planning/BACKLOG.md` | Authoritative backlog |
@@ -159,7 +159,7 @@ Additionally, `DOCS/templates/` and `DOCS/architecture/` were created directly w
 
 Removing the bridge files requires updating any remaining documentation that points readers to `DOCS/design/` or `DOCS/planning/`. These currently appear in:
 
-- `DECISION_REGISTER.md` (DR-013 context and decision text)
+- `decision-register.md` (DR-013 context and decision text)
 - `DOCS/ref-arch-alignment_2026-05-15.md` (MIG-02 resolution text)
 - `DOCS/.design/NAMING_CONVENTIONS.md` (Section 3 DOCS RA-literal bridge row)
 - `CLAUDE.md` (repository map)
@@ -188,7 +188,7 @@ This migration requires a new Decision Register entry that:
 
 ### Phase 0 — Decision gate
 
-- [ ] DR-019 drafted and accepted in `DECISION_REGISTER.md`
+- [ ] DR-019 drafted and accepted in `decision-register.md`
 - [ ] Supersession links from DR-013 and DR-017 added
 
 ### Phase 1 — Filesystem moves (git mv)
@@ -273,7 +273,7 @@ Update `DOCS/.design/NAMING_CONVENTIONS.md`:
 ### Phase 4 — CLAUDE.md and governance docs update
 
 - `CLAUDE.md`: update repository map and documentation pointers
-- `DECISION_REGISTER.md`: add DR-019; add supersession links from DR-013 and DR-017
+- `decision-register.md`: add DR-019; add supersession links from DR-013 and DR-017
 - `DOCS/ref-arch-alignment_2026-05-15.md`: update all DOCS path references
 
 ### Phase 5 — Validation

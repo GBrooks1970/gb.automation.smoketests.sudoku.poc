@@ -17,7 +17,7 @@ The project remains execution-stable and substantially aligned at the Stack impl
 - 241 steps passed
 - Metrics written to `.results/.metrics/DEMOAPP001_20260515T165829Z.txt` and `.md`
 
-The v1.3 reference architecture bump re-opened compliance work. MIG-01, MIG-02, MIG-03, MIG-06, MIG-07, and MIG-08 are now complete: `DECISION_REGISTER.md` adopts v1.3 through DR-012, DR-012 records the multi-file review bundle convention required by v1.3 Section 10.7, DR-013 records the compatibility strategy for v1.3 DOCS paths, DR-014 creates root `.review/` as the future review-output location, `CLAUDE.md` now reflects the current v1.3/Screenplay baseline, the authoritative backlog is reconciled against the current migration state, and current governed docs now reference lowercase templates with mandatory fields annotated where MIG-08 required it. MIG-04 and MIG-05 are now complete: Actor Memory is wired via TakeNotes (`notes<SudokuNotes>()` pattern) — all six Memory key constants are now runtime-active. All step definition files are thin; no step file imports or calls Abilities directly. All 43 scenarios pass after the migration.
+The v1.3 reference architecture bump re-opened compliance work. MIG-01, MIG-02, MIG-03, MIG-06, MIG-07, and MIG-08 are now complete: `decision-register.md` adopts v1.3 through DR-012, DR-012 records the multi-file review bundle convention required by v1.3 Section 10.7, DR-013 records the compatibility strategy for v1.3 DOCS paths, DR-014 creates root `.review/` as the future review-output location, `CLAUDE.md` now reflects the current v1.3/Screenplay baseline, the authoritative backlog is reconciled against the current migration state, and current governed docs now reference lowercase templates with mandatory fields annotated where MIG-08 required it. MIG-04 and MIG-05 are now complete: Actor Memory is wired via TakeNotes (`notes<SudokuNotes>()` pattern) — all six Memory key constants are now runtime-active. All step definition files are thin; no step file imports or calls Abilities directly. All 43 scenarios pass after the migration.
 
 MIG-09 through MIG-12 are now resolved (2026-05-16). All RA v1.3 migration items (MIG-01 through MIG-13) are now Resolved. The repository is fully ready for Stack 2 onboarding.
 
@@ -65,7 +65,7 @@ The v1.3 architecture tightens or makes explicit these obligations:
 
 ### H1. v1.3 adoption and DR-012 are not recorded - Resolved by MIG-01
 
-**Requirement:** `DECISION_REGISTER.md` is authoritative for structural and process decisions. v1.3 Section 10.7 states that the multi-file review bundle convention is recorded as DR-012.
+**Requirement:** `decision-register.md` is authoritative for structural and process decisions. v1.3 Section 10.7 states that the multi-file review bundle convention is recorded as DR-012.
 
 **Observed before migration:** The register ended at DR-011 and contained v1.2 adoption language. Header metadata also referenced the legacy uppercase template name.
 
@@ -207,7 +207,7 @@ Test log confirms:
 ### Governance
 
 - `reference-architecture.md` is v1.3 dated 2026-05-15.
-- `DECISION_REGISTER.md` last entry is DR-014; next ID is DR-015.
+- `decision-register.md` last entry is DR-014; next ID is DR-015.
 - DR-012 records v1.3 adoption and the multi-file review bundle convention.
 - DR-013 records the DOCS compatibility path strategy.
 - DR-014 records root `.review/` as the future review-output location.

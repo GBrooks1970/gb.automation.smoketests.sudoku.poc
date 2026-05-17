@@ -70,7 +70,7 @@ Optional fields:
 
 - `.results/` should be gitignored for local runs unless explicitly archived.
 - CI retention policy (future): keep latest N artifacts per branch.
-- Any change to metric keys should be recorded in `DECISION_REGISTER.md`.
+- Any change to metric keys should be recorded in `decision-register.md`.
 
 ---
 

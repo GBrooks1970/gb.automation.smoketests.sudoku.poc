@@ -17,7 +17,7 @@ DOCS/
 ├── documentation-review-20260514T1100Z.md
 │
 ├── templates/                              <- Canonical template store (RA §10.5)
-│   ├── decision-record.template.md        <- For DECISION_REGISTER.md entries
+│   ├── decision-record.template.md        <- For decision-register.md entries
 │   ├── changelog.template.md              <- For root CHANGELOG.md
 │   ├── backlog.template.md                <- For DOCS/.planning/backlog.md
 │   └── naming-conventions.template.md     <- For naming-conventions.md
@@ -71,7 +71,7 @@ Canonical template store — all document templates live here. Use a template be
 
 | Template | Governs | Phase |
 |----------|---------|-------|
-| [decision-record.template.md](.templates/decision-record.template.md) | `DECISION_REGISTER.md` entries | 0 |
+| [decision-record.template.md](.templates/decision-record.template.md) | `decision-register.md` entries | 0 |
 | [changelog.template.md](.templates/changelog.template.md) | Root `CHANGELOG.md` | 0 |
 | [backlog.template.md](.templates/backlog.template.md) | `DOCS/.planning/backlog.md` | 0 |
 | [naming-conventions.template.md](.templates/naming-conventions.template.md) | `DOCS/.design/naming-conventions.md` | 0 |
@@ -101,7 +101,7 @@ The following documents MUST exist at the repository root per the Reference Arch
 | [README.md](../README.md) | Project overview, quick-start |
 | [CHANGELOG.md](../CHANGELOG.md) | Version history, notable changes |
 | [BACKLOG.md](../BACKLOG.md) | Backlog summary — detailed at [DOCS/.planning/backlog.md](.planning/backlog.md) |
-| [DECISION_REGISTER.md](../DECISION_REGISTER.md) | Structural and process decisions (DR-001 onwards) |
+| [decision-register.md](../decision-register.md) | Structural and process decisions (DR-001 onwards) |
 | [naming-conventions.md](.design/naming-conventions.md) | Authoritative naming conventions for all code and docs (DR-001 + DR-019: stored in `.design/`) |
 
 ---
@@ -193,4 +193,4 @@ One-time assessments that are not code reviews.
 - All design docs must also be listed in [.design/README.md](.design/README.md)
 - All code reviews must also be listed in [.review/README.md](.review/README.md)
 - Implementation logs are append-only — never modify a completed log
-- Any structural decision (new folder, new doc type, naming deviation) MUST produce a `DECISION_REGISTER.md` entry
+- Any structural decision (new folder, new doc type, naming deviation) MUST produce a `decision-register.md` entry

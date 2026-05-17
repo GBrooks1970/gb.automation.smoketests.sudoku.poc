@@ -9,7 +9,7 @@
 
 > This document is the single source of truth for naming decisions.
 > When a conflict arises between this document and any other source (code comments, AI memory, prior convention assumptions), this document wins.
-> Deviations from stated conventions MUST be recorded in `DECISION_REGISTER.md`.
+> Deviations from stated conventions MUST be recorded in `decision-register.md`.
 
 ---
 
@@ -233,4 +233,4 @@ All authored document filenames use `kebab-case.md` (DR-020). Three permanent ex
 | TypeScript single-letter variables | ESLint rule (configured) |
 | DOCS file names, Gherkin, JSON keys | Convention-only — enforced via code review |
 | Memory key string-equals-constant rule | Code review + parity contract check |
-| Decision Record IDs | Maintained manually in `DECISION_REGISTER.md` |
+| Decision Record IDs | Maintained manually in `decision-register.md` |

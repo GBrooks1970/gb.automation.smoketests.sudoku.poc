@@ -6,13 +6,13 @@ This file gives AI assistants the minimum current context needed to work in this
 
 When documents conflict, use this order:
 
-1. `DECISION_REGISTER.md`
+1. `decision-register.md`
 2. `DOCS/reference-architecture.md`
 3. `DOCS/ref-arch-alignment_2026-05-15.md`
 4. Stack-level docs under `demo-apps/demoapp001-typescript-cypress/docs/`
 5. This guide
 
-`DECISION_REGISTER.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-020.
+`decision-register.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-020.
 
 ## Current Architecture Baseline
 
@@ -71,9 +71,8 @@ gb.automation.smoketests.sudoku.poc/
 |   `-- .howto/                             # how-to guides
 |-- .review/README.md                      # future review output location, DR-014
 |-- .batch/run-demoapp001.ps1
-|-- DECISION_REGISTER.md
+|-- decision-register.md
 |-- CHANGELOG.md
-|-- BACKLOG.md                             # legacy redirect
 |-- README.md
 `-- CLAUDE.md
 ```
@@ -146,7 +145,7 @@ When adding or changing Gherkin behavior:
 5. Update step definitions under `tests/screenplay/step_definitions/`.
 6. Run `npm test` from the Stack directory or `.\.batch\run-demoapp001.ps1` from the repository root.
 7. If a scenario cannot yet be implemented, tag it `@pending` locally and add a backlog item to `DOCS/.planning/backlog.md`.
-8. If the change creates or changes a structural rule, record it in `DECISION_REGISTER.md`.
+8. If the change creates or changes a structural rule, record it in `decision-register.md`.
 
 ## Screenplay Structure
 
@@ -177,7 +176,7 @@ Governed by `DOCS/reference-architecture.md` v1.3 and decisions DR-012 through D
 
 | Rule | Current instruction |
 |------|---------------------|
-| Decision authority | `DECISION_REGISTER.md` wins over restatements elsewhere |
+| Decision authority | `decision-register.md` wins over restatements elsewhere |
 | Feature source | `features-shared/` is canonical; Stack features are copies with stack tags |
 | Memory keys | Constant name must equal string value exactly |
 | Step text | Stack-local Gherkin text must match canonical text except local tags |

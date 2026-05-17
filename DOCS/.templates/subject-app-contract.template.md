@@ -11,7 +11,7 @@
 
 - Author this document when a Stack's surface type is decided (RA §11, Phase 3).
 - The subject application MUST satisfy every MUST requirement for its surface type before tests are written.
-- If a requirement cannot be met, record it in `DECISION_REGISTER.md` with a justified deviation.
+- If a requirement cannot be met, record it in `decision-register.md` with a justified deviation.
 
 ---
 
@@ -95,5 +95,5 @@ A `@util` surface tests logic in-process without spawning a live subject applica
 | Item | Verified by | Date |
 |------|-------------|------|
 | Surface contract satisfied | [Name / AI / Review] | YYYY-MM-DD |
-| Gaps recorded in DECISION_REGISTER.md | [Name / AI] | YYYY-MM-DD |
+| Gaps recorded in decision-register.md | [Name / AI] | YYYY-MM-DD |
 ```

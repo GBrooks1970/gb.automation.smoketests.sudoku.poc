@@ -41,7 +41,7 @@ repository-root/
 ├── README.md                 # This file
 ├── CHANGELOG.md              # Version history
 ├── BACKLOG.md                # Backlog summary (detail: DOCS/.planning/backlog.md)
-└── DECISION_REGISTER.md      # Structural and process decisions
+└── decision-register.md      # Structural and process decisions
 ```
 
 ---
@@ -82,7 +82,7 @@ cd [STACK_NAME]
 | Document | Purpose |
 |----------|---------|
 | [CHANGELOG.md](CHANGELOG.md) | Version history |
-| [DECISION_REGISTER.md](DECISION_REGISTER.md) | Structural decisions |
+| [decision-register.md](decision-register.md) | Structural decisions |
 | [DOCS/README.md](DOCS/README.md) | Full documentation index |
 | [DOCS/.design/naming-conventions.md](DOCS/.design/naming-conventions.md) | Naming standards |
 

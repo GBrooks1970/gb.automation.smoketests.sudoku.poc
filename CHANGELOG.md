@@ -34,7 +34,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
   - `tests/screenplay/actors/SudokuActors.ts` — Cast equipping UseSudokuSolver + LoadPuzzles
   - `tests/screenplay/support/configure.ts` — registers Cast with Serenity/JS
   - `DR-008` — documents Serenity/JS 3.43.2 API adaptations (`extends Ability`, path corrections)
-- `DECISION_REGISTER.md` at repository root with DR-001–DR-005 backfilled (Phase 0 migration)
+- `decision-register.md` at repository root with DR-001–DR-005 backfilled (Phase 0 migration)
 - `CHANGELOG.md` at repository root (this file)
 - `BACKLOG.md` at repository root (summary; detailed backlog at `DOCS/.planning/backlog.md`)
 - `DOCS/.design/naming-conventions.md` — authoritative naming conventions (RA v1.1: `DOCS/design/`; DR-001 dot-prefix applied; initially created at root then corrected)
@@ -48,15 +48,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - `DOCS/.algorithm/README.md` — algorithm directory guide
 - `DOCS/reference-architecture.md` — Screenplay-BDD Reference Architecture (v1.1)
 - `DOCS/ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md` — alignment report (updated for v1.1)
-- `DR-006` in `DECISION_REGISTER.md` — records adoption of RA v1.1 and path corrections
-- `DR-007` in `DECISION_REGISTER.md` — records establishment of features-shared/ canonical store
+- `DR-006` in `decision-register.md` — records adoption of RA v1.1 and path corrections
+- `DR-007` in `decision-register.md` — records establishment of features-shared/ canonical store
 - `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature` — canonical feature store (Phase 1 migration)
 - `demo-apps/demoapp001-typescript-cypress/tests/features/BasicSudokuSolverLogic.feature` — Stack-local copy with `@util @stack-demoapp001` tags
 
 ### Changed
 - `cucumber.js` — requireModule now includes `@serenity-js/cucumber`; require path changed to `tests/screenplay/step_definitions/`; worldParameters removed (Cast configured via support/configure.ts)
 - `DOCS/reference-architecture.md` updated from v1.0 to v1.1 (DR-006)
-- `CLAUDE.md` updated: Stack inventory, risk register, canonical feature update procedure, `DECISION_REGISTER.md` reference, `naming-conventions.md` path corrected to `DOCS/.design/`
+- `CLAUDE.md` updated: Stack inventory, risk register, canonical feature update procedure, `decision-register.md` reference, `naming-conventions.md` path corrected to `DOCS/.design/`
 - `DOCS/README.md` updated: reflects `.algorithm/`, `templates/` directories, root-level governance documents, `naming-conventions.md` at corrected path
 - `DOCS/.algorithm/sudoku-basic-solver.md` and `sudoku-advanced-solver.md` — relative paths updated after move to `.algorithm/`
 - `DOCS/ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md` — revised against RA v1.1; Phase 0 completion status added; §6, §9, §13, §14, §15 updated

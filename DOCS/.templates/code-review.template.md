@@ -7,7 +7,7 @@
 
 > This template is the canonical version. The copy at `DOCS/.review/code-review-template.md` is a historical project-specific version.
 > Review outputs are **read-only** once written — do not edit findings after the fact.
-> Action items raised MUST be tracked in `DOCS/.planning/BACKLOG.md` or `DECISION_REGISTER.md`.
+> Action items raised MUST be tracked in `DOCS/.planning/BACKLOG.md` or `decision-register.md`.
 
 ---
 

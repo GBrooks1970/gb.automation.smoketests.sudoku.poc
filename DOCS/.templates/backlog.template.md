@@ -12,7 +12,7 @@
 - Every work item MUST identify: affected Stack(s), nature of the gap, and priority.
 - Use the status values exactly: `Open`, `In Progress`, `Resolved`.
 - `Resolved` items MUST NOT be deleted — retain them as a record.
-- Any item that resolves into a structural choice MUST produce a `DECISION_REGISTER.md` entry before it is marked `Resolved`.
+- Any item that resolves into a structural choice MUST produce a `decision-register.md` entry before it is marked `Resolved`.
 - If a gap between Stacks exists and is not listed here, it is a defect, not a decision.
 
 ---

@@ -2,7 +2,7 @@
 
 **Last updated:** 2026-05-15
 **Stacks covered:** DEMOAPP001_TYPESCRIPT_CYPRESS (current), DEMOAPP002_PYTHON_PYTEST (planned), DEMOAPP003_CSHARP_SPECFLOW (planned)
-**Governed by:** `DECISION_REGISTER.md` (signature or key changes require a DR entry)
+**Governed by:** `decision-register.md` (signature or key changes require a DR entry)
 
 ---
 
