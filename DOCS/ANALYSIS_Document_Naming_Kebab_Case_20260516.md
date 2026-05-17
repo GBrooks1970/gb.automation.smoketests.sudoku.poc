@@ -464,14 +464,63 @@ Execute Section 5.6 actions (all approved and completed 2026-05-17). Summary:
 - [x] **Move `TEMPLATE_Design_Document.md`** → `DOCS/.templates/design-document.template.md`; RA preamble added (item 16)
 - [x] **Move `TEMPLATE_HowTo.md`** → `DOCS/.templates/howto.template.md`; naming note updated (item 17)
 - [x] **Remove `DOCS/.implementation-logs/TEMPLATE_Implementation_Log.md`** (item 18)
-- [ ] **Draft DR-020** covering: kebab-case adoption scope, permanent exceptions (`README.md`, `CHANGELOG.md`, `CLAUDE.md`), treatment of historical analysis docs.
-- [ ] **Inventory every markdown link** (not prose) pointing to files that will be renamed. These must be updated atomically with the rename.
+- [x] **Draft DR-020** — kebab-case adoption for all authored docs; three permanent exceptions (`README.md`, `CHANGELOG.md`, `CLAUDE.md`); four-phase migration plan. Accepted 2026-05-17.
+- [x] **Inventory every markdown link** (not prose) pointing to files that will be renamed — see Section 6.1 below.
+- [x] **Fix 13 stale `templates/` links** in `DOCS/README.md` (broken from DR-019 rename); also added `design-document.template.md` and `howto.template.md` rows.
 
-**Result:** `DOCS/.templates/` contains 16 `*.template.md` files (no `TEMPLATE_*` files remain anywhere in the repository). 43/43 scenarios pass. OverallExitCode=0.
+**Result:** `DOCS/.templates/` contains 16 `*.template.md` files. No `TEMPLATE_*` files remain. 43/43 scenarios pass. OverallExitCode=0. Phase 0 fully complete.
+
+### 6.1 — Markdown link inventory (Phase 0 output)
+
+Links to files renamed in Phase 1 must be updated atomically during the rename. Links to files renamed in Phase 2 and 3 likewise.
+
+**Phase 1 — files with links to authored directory docs:**
+
+| Linking file | Links to (pre-rename) | Count |
+|-------------|----------------------|-------|
+| `DOCS/.algorithm/ALGORITHM_Sudoku_Advanced_Solver.md` | `ALGORITHM_Sudoku_Basic_Solver.md` | 2 |
+| `DOCS/.algorithm/README.md` | `ALGORITHM_Sudoku_Basic_Solver.md`, `ALGORITHM_Sudoku_Advanced_Solver.md` | 2 |
+| `DOCS/.design/DESIGN_Web_UI_Solver_Visualisation.md` | `DESIGN_Audit_Trail_Feature.md`, `DESIGN_REST_API_Wrapper.md`, `DESIGN_Sudoku_Solver_Specification.md`, `TODO_Web_UI_Solver_Visualisation.md`, `BACKLOG.md` | 5 |
+| `DOCS/.design/README.md` | `DESIGN_Sudoku_Solver_Specification.md`, `DESIGN_Naming_Conventions.md`, `NAMING_CONVENTIONS.md`, `DESIGN_Audit_Trail_Feature.md`, `DESIGN_REST_API_Wrapper.md`, `DESIGN_Web_UI_Solver_Visualisation.md`, `DESIGN_Screenplay_Migration.md` | 7 |
+| `DOCS/.howto/HOWTO_Debug_SudokuSolver.md` | `ALGORITHM_Sudoku_Basic_Solver.md`, `TODO_Hidden_Singles_Complete_Implementation.md` | 2 |
+| `DOCS/.howto/README.md` | `HOWTO_Debug_SudokuSolver.md` | 1 |
+| `DOCS/.planning/TODO_Audit_Trail_Feature.md` | `DESIGN_Audit_Trail_Feature.md` | 1 |
+| `DOCS/.planning/TODO_Hidden_Singles_Complete_Implementation.md` | `ALGORITHM_Sudoku_Basic_Solver.md` (×3), `BACKLOG.md` | 4 |
+| `DOCS/.planning/TODO_REST_API_Wrapper.md` | `DESIGN_REST_API_Wrapper.md` | 1 |
+| `DOCS/.planning/TODO_Web_UI_Solver_Visualisation.md` | `DESIGN_Web_UI_Solver_Visualisation.md` | 1 |
+| `DOCS/.templates/howto.template.md` | Example comments only — not active links | — |
+| `DOCS/README.md` | `ALGORITHM_Sudoku_Basic_Solver.md`, `ALGORITHM_Sudoku_Advanced_Solver.md`, `DESIGN_*` (×6), `TODO_*` (×4), `HOWTO_Debug_SudokuSolver.md`, `PROMPT_PLAYBOOK_*`, `NAMING_CONVENTIONS.md` | ~15 |
+| `README.md` (root) | `DESIGN_Sudoku_Solver_Specification.md` (×5), `ALGORITHM_Sudoku_Basic_Solver.md` (×3), `DESIGN_Audit_Trail_Feature.md`, `DESIGN_REST_API_Wrapper.md` | ~10 |
+| `demo-apps/demoapp001-typescript-cypress/README.md` | `ALGORITHM_Sudoku_Basic_Solver.md` (×3), `DESIGN_*` (×5) | ~8 |
+
+**Phase 2 — files with links to DOCS root and Stack docs:**
+
+| Linking file | Links to (pre-rename) | Count |
+|-------------|----------------------|-------|
+| `DOCS/README.md` | `ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md` (dead link — file renamed already) | 1 |
+| `DOCS/.templates/qa-strategy.template.md` | `ARCHITECTURE.md`, `SCREENPLAY_GUIDE.md` | 2 |
+| `DOCS/.templates/stack-architecture.template.md` | `SCREENPLAY_GUIDE.md`, `QA_STRATEGY.md` | 2 |
+| `DOCS/.templates/stack-readme.template.md` | `ARCHITECTURE.md`, `SCREENPLAY_GUIDE.md`, `QA_STRATEGY.md` | 3 |
+| `DOCS/README.md` | Template-index `ARCHITECTURE.md`, `SCREENPLAY_GUIDE.md`, `QA_STRATEGY.md` references | 3 |
+
+*Note: Template links to `ARCHITECTURE.md`, `QA_STRATEGY.md`, `SCREENPLAY_GUIDE.md` are examples inside template bodies — update alongside the actual stack docs rename.*
+
+**Phase 3 — files with links to root governance docs:**
+
+| Linking file | Links to (pre-rename) | Count |
+|-------------|----------------------|-------|
+| `DOCS/.templates/readme.template.md` | `DECISION_REGISTER.md` | 1 |
+| `DOCS/.templates/stack-architecture.template.md` | `DECISION_REGISTER.md` | 1 |
+| `DOCS/README.md` | `BACKLOG.md` (root redirect), `DECISION_REGISTER.md` | 2 |
+| `DOCS/.templates/qa-strategy.template.md` | `DOCS/.planning/BACKLOG.md` | 1 |
+| `DOCS/.planning/README.md` | `BACKLOG.md` (within `.planning/`) | 1 |
+| `DOCS/.planning/TODO_Hidden_Singles_Complete_Implementation.md` | `BACKLOG.md` | 1 |
+| `DOCS/.design/DESIGN_Web_UI_Solver_Visualisation.md` | `BACKLOG.md` | 1 |
+| `BACKLOG.md` (root) | `DOCS/.planning/BACKLOG.md` (authoritative — not renamed) | 2 |
 
 ### Phase 1 — Authored documents in typed directories (low external risk)
 
-Rename files within `DOCS/.design/`, `DOCS/.algorithm/`, `DOCS/.howto/`, `DOCS/.planning/`, `DOCS/.implementation-logs/`:
+Rename files within `DOCS/.design/`, `DOCS/.algorithm/`, `DOCS/.howto/`, `DOCS/.planning/`, `DOCS/.implementation-logs/`. Items marked ✅ were completed in Phase 0.
 
 ```
 DOCS/.design/DESIGN_Audit_Trail_Feature.md        → audit-trail-feature.md
@@ -481,12 +530,12 @@ DOCS/.design/DESIGN_Screenplay_Migration.md       → screenplay-migration.md
 DOCS/.design/DESIGN_Sudoku_Solver_Specification.md → sudoku-solver-specification.md
 DOCS/.design/DESIGN_Web_UI_Solver_Visualisation.md → web-ui-solver-visualisation.md
 DOCS/.design/NAMING_CONVENTIONS.md               → naming-conventions.md
-DOCS/.design/TEMPLATE_Design_Document.md          → (remove if *.template.md duplicate exists)
+✅ DOCS/.design/TEMPLATE_Design_Document.md       → moved to DOCS/.templates/design-document.template.md (Phase 0)
 DOCS/.algorithm/ALGORITHM_Sudoku_Advanced_Solver.md → sudoku-advanced-solver.md
 DOCS/.algorithm/ALGORITHM_Sudoku_Basic_Solver.md    → sudoku-basic-solver.md
-DOCS/.algorithm/TEMPLATE_Algorithm.md              → (remove — governed by algorithm.template.md)
+✅ DOCS/.algorithm/TEMPLATE_Algorithm.md          → removed (Phase 0)
 DOCS/.howto/HOWTO_Debug_SudokuSolver.md           → debug-sudoku-solver.md
-DOCS/.howto/TEMPLATE_HowTo.md                    → (remove — add to .templates/ if missing)
+✅ DOCS/.howto/TEMPLATE_HowTo.md                 → moved to DOCS/.templates/howto.template.md (Phase 0)
 DOCS/.planning/TODO_Audit_Trail_Feature.md        → todo-audit-trail-feature.md
 DOCS/.planning/TODO_Hidden_Singles_Complete_Implementation.md → todo-hidden-singles-implementation.md
 DOCS/.planning/TODO_REST_API_Wrapper.md           → todo-rest-api-wrapper.md
@@ -494,7 +543,7 @@ DOCS/.planning/TODO_Web_UI_Solver_Visualisation.md → todo-web-ui-solver-visual
 DOCS/.planning/PROMPT_PLAYBOOK_20260330T1645Z.md  → prompt-playbook-20260330T1645Z.md
 DOCS/.planning/BACKLOG.md                         → backlog.md
 DOCS/.implementation-logs/ARCHIVE_NOTICE.md       → archive-notice.md
-DOCS/.implementation-logs/TEMPLATE_Implementation_Log.md → (remove — governed by .templates/)
+✅ DOCS/.implementation-logs/TEMPLATE_Implementation_Log.md → removed (Phase 0)
 ```
 
 **Blast radius for Phase 1:** ~35 references to update across governance docs.

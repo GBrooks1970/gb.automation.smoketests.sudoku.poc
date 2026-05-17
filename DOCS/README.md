@@ -72,20 +72,22 @@ Canonical template store — all document templates live here. Use a template be
 
 | Template | Governs | Phase |
 |----------|---------|-------|
-| [decision-record.template.md](templates/decision-record.template.md) | `DECISION_REGISTER.md` entries | 0 |
-| [changelog.template.md](templates/changelog.template.md) | Root `CHANGELOG.md` | 0 |
-| [backlog.template.md](templates/backlog.template.md) | `DOCS/.planning/BACKLOG.md` | 0 |
-| [naming-conventions.template.md](templates/naming-conventions.template.md) | `DOCS/.design/NAMING_CONVENTIONS.md` | 0 |
-| [readme.template.md](templates/readme.template.md) | Root `README.md` | 0 |
-| [stack-architecture.template.md](templates/stack-architecture.template.md) | `[STACK]/docs/ARCHITECTURE.md` | 5 |
-| [screenplay-guide.template.md](templates/screenplay-guide.template.md) | `[STACK]/docs/SCREENPLAY_GUIDE.md` | 5 |
-| [qa-strategy.template.md](templates/qa-strategy.template.md) | `[STACK]/docs/QA_STRATEGY.md` | 5 |
-| [stack-readme.template.md](templates/stack-readme.template.md) | `[STACK]/docs/README.md` | 5 |
-| [parity-contract.template.md](templates/parity-contract.template.md) | `DOCS/.architecture/screenplay-parity-contract.md` | 6 |
-| [subject-app-contract.template.md](templates/subject-app-contract.template.md) | `DOCS/.architecture/subject-app-contract.md` | 6 |
-| [algorithm.template.md](templates/algorithm.template.md) | `DOCS/.algorithm/ALGORITHM_*.md` | — |
-| [implementation-log.template.md](templates/implementation-log.template.md) | `DOCS/.implementation/IMPL_LOG_*.md` | — |
-| [code-review.template.md](templates/code-review.template.md) | `.review/CODE_REVIEW_*/` | — |
+| [decision-record.template.md](.templates/decision-record.template.md) | `DECISION_REGISTER.md` entries | 0 |
+| [changelog.template.md](.templates/changelog.template.md) | Root `CHANGELOG.md` | 0 |
+| [backlog.template.md](.templates/backlog.template.md) | `DOCS/.planning/BACKLOG.md` | 0 |
+| [naming-conventions.template.md](.templates/naming-conventions.template.md) | `DOCS/.design/NAMING_CONVENTIONS.md` | 0 |
+| [readme.template.md](.templates/readme.template.md) | Root `README.md` | 0 |
+| [stack-architecture.template.md](.templates/stack-architecture.template.md) | `[STACK]/docs/ARCHITECTURE.md` | 5 |
+| [screenplay-guide.template.md](.templates/screenplay-guide.template.md) | `[STACK]/docs/SCREENPLAY_GUIDE.md` | 5 |
+| [qa-strategy.template.md](.templates/qa-strategy.template.md) | `[STACK]/docs/QA_STRATEGY.md` | 5 |
+| [stack-readme.template.md](.templates/stack-readme.template.md) | `[STACK]/docs/README.md` | 5 |
+| [parity-contract.template.md](.templates/parity-contract.template.md) | `DOCS/.architecture/screenplay-parity-contract.md` | 6 |
+| [subject-app-contract.template.md](.templates/subject-app-contract.template.md) | `DOCS/.architecture/subject-app-contract.md` | 6 |
+| [algorithm.template.md](.templates/algorithm.template.md) | `DOCS/.algorithm/` algorithm docs | — |
+| [implementation-log.template.md](.templates/implementation-log.template.md) | `DOCS/.implementation-logs/YYYY-MM-DD_*.md` | — |
+| [code-review.template.md](.templates/code-review.template.md) | `.review/CODE_REVIEW_*/` | — |
+| [design-document.template.md](.templates/design-document.template.md) | `DOCS/.design/` design documents | — |
+| [howto.template.md](.templates/howto.template.md) | `DOCS/.howto/` how-to guides | — |
 
 > Legacy convenience copies may exist in dot-prefixed subdirectories, but the canonical templates are the lowercase files in `DOCS/.templates/`.
 
