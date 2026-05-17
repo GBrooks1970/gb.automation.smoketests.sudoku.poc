@@ -209,7 +209,7 @@ Governed by `DOCS/reference-architecture.md` v1.3 and decisions DR-012 through D
 | `DOCS/.architecture/logging-design.md` | Logging and reporting strategy |
 | `DOCS/.planning/backlog.md` | Authoritative backlog content |
 | `DOCS/.design/naming-conventions.md` | Authoritative naming conventions (DR-020: kebab-case for all authored docs) |
-| `DOCS/ANALYSIS_Document_Naming_Kebab_Case_20260516.md` | Document naming impact assessment and migration log (Phases 0–4) |
+| `DOCS/analysis-document-naming-kebab-case-20260516.md` | Document naming impact assessment and migration log (Phases 0–4) |
 | `.review/README.md` | Future code review output policy |
 
 ## Current Limitations

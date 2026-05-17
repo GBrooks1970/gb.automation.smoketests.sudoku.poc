@@ -1019,7 +1019,7 @@ The `DOCS/.templates/decision-record.template.md` stale single-file is removed; 
 
 ### Context
 
-The project's document filenames currently use four simultaneous naming conventions: `PREFIX_Title_Case.md` (for authored design, algorithm, planning, and how-to documents), `UPPERCASE.md` (for root governance files), `YYYY-MM-DD_slug.md` (for implementation logs, established by DR-017), and `kebab-case.md` (for architecture documents and all `.template.md` files). This multi-convention state is inconsistent with the single-convention direction established for directories (DR-016, DR-019) and generates ongoing contributor confusion. `DOCS/ANALYSIS_Document_Naming_Kebab_Case_20260516.md` documents the full discrepancy landscape and blast-radius assessment.
+The project's document filenames currently use four simultaneous naming conventions: `PREFIX_Title_Case.md` (for authored design, algorithm, planning, and how-to documents), `UPPERCASE.md` (for root governance files), `YYYY-MM-DD_slug.md` (for implementation logs, established by DR-017), and `kebab-case.md` (for architecture documents and all `.template.md` files). This multi-convention state is inconsistent with the single-convention direction established for directories (DR-016, DR-019) and generates ongoing contributor confusion. `DOCS/analysis-document-naming-kebab-case-20260516.md` documents the full discrepancy landscape and blast-radius assessment.
 
 ### Decision
 
@@ -1033,7 +1033,7 @@ Adopt `lowercase-kebab-case.md` as the project standard for all authored documen
 
 All generated artefacts in `.results/` (metrics files, parity reports) are also exempt — their naming is governed by RA §9.2 and the orchestration scripts, not by this convention.
 
-The migration is executed in four phases per `DOCS/ANALYSIS_Document_Naming_Kebab_Case_20260516.md §6`:
+The migration is executed in four phases per `DOCS/analysis-document-naming-kebab-case-20260516.md §6`:
 - **Phase 1** — Authored documents in typed directories (`.design/`, `.algorithm/`, `.howto/`, `.planning/`, `.implementation-logs/`)
 - **Phase 2** — DOCS root files and Stack-level docs
 - **Phase 3** — Root governance files (`decision-register.md`, `BACKLOG.md`)
@@ -1079,7 +1079,7 @@ The migration is executed in four phases per `DOCS/ANALYSIS_Document_Naming_Keba
 
 ### Evidence
 
-- `DOCS/ANALYSIS_Document_Naming_Kebab_Case_20260516.md` — full impact assessment, pros/cons, decision points, and four-phase implementation plan.
+- `DOCS/analysis-document-naming-kebab-case-20260516.md` — full impact assessment, pros/cons, decision points, and four-phase implementation plan.
 
 ---
 
