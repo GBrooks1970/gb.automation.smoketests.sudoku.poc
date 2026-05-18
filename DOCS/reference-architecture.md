@@ -1,6 +1,6 @@
 # Screenplay-BDD Test Automation — Agnostic Reference Architecture
 
-**Version:** 1.6
+**Version:** 1.7
 **Status:** Accepted
 **Date:** 2026-05-18
 **Applies to:** Any project adopting the Screenplay-BDD structure described herein
@@ -355,6 +355,43 @@ When the user submits a POST request to the token parser date endpoint with head
 ```
 
 Over-specified steps cannot be reused. Any step that names a specific endpoint, field, or value inline SHOULD be refactored to accept those values as parameters.
+
+### 5.5 Feature Change Governance
+
+Changes to canonical feature files carry different risks depending on whether they are breaking or non-breaking. This section defines how each class of change MUST be treated.
+
+**Change classification:**
+
+| Change type | Breaking? | Definition |
+|-------------|-----------|------------|
+| Add a new scenario to an existing feature file | Breaking | All Stacks must implement the new step(s) or mark the scenario `@pending` |
+| Add a new feature file | Breaking | All Stacks must copy the file and implement step definitions |
+| Modify step text in an existing scenario | Breaking | Step definition in every Stack will no longer match; the Stack breaks immediately |
+| Remove a scenario | Breaking | Stack-local feature copy and step definitions must be updated in all Stacks simultaneously |
+| Change only the canonical scope tag | Non-breaking | Tag line is Stack-local; canonical scope tag changes propagate via the copy process |
+| Change scenario description (not step text) | Non-breaking | Descriptive text does not affect step matching |
+| Fix whitespace or blank lines | Non-breaking | No effect on step matching or scenario count |
+
+**Breaking change gate (MUST):**
+
+When a breaking change to a canonical feature file is proposed, the following MUST occur before the change is merged:
+
+1. All Stacks with an active implementation MUST have their step definitions updated or the affected scenarios tagged `@pending` locally.
+2. A `decision-register.md` entry MUST be created if the change represents a structural decision (e.g. removing a scenario permanently, renaming a step category).
+3. A `DOCS/planning/backlog.md` item MUST be created for every Stack that cannot implement the change immediately, with status `Open`.
+4. The parity report (`.batch/generate-feature-parity-report.ps1`) MUST pass before the change is merged.
+
+**`@pending` resolution deadline:**
+
+A scenario tagged `@pending` in a Stack-local feature copy represents a known parity gap. This gap MUST be resolved within the next scheduled sprint. If the gap is not resolved within one sprint boundary, the backlog item status MUST be escalated to a blocker and the gap MUST be explicitly acknowledged in the relevant Decision Register entry.
+
+A `@pending` scenario that persists beyond two consecutive sprint boundaries without a Decision Register entry is a defect in the governance process, not an accepted state.
+
+**Canonical feature files MUST NOT be changed:**
+
+- To add Stack-specific implementation details
+- To remove a scenario because one Stack cannot implement it
+- By a developer working on a Stack-local implementation — all canonical changes flow from the canonical feature file outward
 
 ---
 
@@ -1000,4 +1037,4 @@ BACKLOG
 
 ---
 
-*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `decision-register.md` before the change is merged. Current version: v1.6 (2026-05-18).*
+*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `decision-register.md` before the change is merged. Current version: v1.7 (2026-05-18).*

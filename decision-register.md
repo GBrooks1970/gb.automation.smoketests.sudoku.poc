@@ -1258,6 +1258,60 @@ Extend `reference-architecture.md` v1.5 to v1.6 by adding an "Automated enforcem
 
 ---
 
+## DR-024 — Add Canonical Feature Store change governance as Section 5.5 to RA v1.7 (RA-004)
+
+**Date:** 2026-05-18
+**Status:** Accepted — 2026-05-18
+
+### Context
+
+`reference-architecture.md` Sections 5.1–5.4 defined the Canonical Feature Store concept and the propagation process for distributing feature changes to Stacks. However, Section 5 had no change governance: no classification of breaking versus non-breaking changes, no review gate requirement for breaking changes, no coordination specification for Stacks that cannot implement a change immediately, and no deadline policy for `@pending` scenarios. Without governance, a developer could modify canonical step text and only discover broken Stacks at CI time rather than at change-proposal time. The gap was identified and documented as Risk 4 (High) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+
+### Decision
+
+Add Section 5.5 "Feature Change Governance" to `reference-architecture.md` v1.7:
+
+- **Change classification table:** Defines which change types are Breaking (add/remove/modify scenario or step text) and which are Non-breaking (tag changes, whitespace, descriptions).
+- **Breaking change gate (MUST):** Before merging any breaking change: all affected Stack step definitions must be updated or marked `@pending`; a DR entry created if structural; a backlog item created for every Stack that cannot implement immediately; parity report must pass.
+- **`@pending` resolution deadline:** A `@pending` scenario must be resolved within the next sprint. Persistence beyond two consecutive sprint boundaries without a DR entry is classified as a governance defect, not an accepted state.
+- **Canonical file protection rules:** Canonical files MUST NOT be modified to add Stack-specific details, remove a scenario because one Stack cannot implement it, or be changed by a developer working on a Stack-local implementation.
+- RA version bumped from v1.6 to v1.7, date remains 2026-05-18.
+
+### Status
+
+`Accepted` — 2026-05-18
+
+### Consequences
+
+**Outcomes:**
+- Breaking changes to the canonical feature store now have a defined gate sequence that prevents silent parity gaps.
+- The `@pending` deadline policy converts open-ended parity gaps into time-bound commitments with escalation criteria.
+- The canonical file protection rules prevent the most common anti-pattern: a Stack developer modifying the canonical source to reflect their Stack's limitations.
+
+**Trade-offs:**
+- The breaking change gate adds overhead to scenario authoring. This is intentional — canonical changes have cross-Stack impact and warrant coordination.
+- The one-sprint resolution deadline for `@pending` scenarios may be aggressive for projects with long sprint cycles. Projects with sprints longer than two weeks SHOULD document an alternative deadline in their `naming-conventions.md` or a dedicated governance document.
+
+**Compliance note:**
+- DEMOAPP001 currently has no `@pending` scenarios. The governance applies immediately when new Stacks are onboarded or new scenarios are added to the canonical feature store.
+
+### Alternatives Considered
+
+**Alternative: Leave feature governance to the backlog process only**
+- Description: Rely on backlog items to track parity gaps without a formal gate sequence.
+- Rejected because: The backlog process is reactive — it records gaps after they exist. The breaking change gate is proactive — it prevents gaps from being introduced without a mitigation plan. Both mechanisms are needed.
+
+**Alternative: Require all Stacks to implement canonical changes simultaneously**
+- Description: No `@pending` permitted; all Stacks must update atomically.
+- Rejected because: For a project with multiple language Stacks at different maturity levels, simultaneous implementation is often impractical. The `@pending` mechanism with a deadline policy provides a structured grace period without allowing indefinite drift.
+
+### Related Decisions
+
+- DR-018 — Gherkin parameterization; parameterised steps reduce the frequency of breaking changes when scenario behaviour evolves.
+- DR-021 — `@util` surface type; the feature store contains `@util` scenarios that this governance applies to.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -1276,5 +1330,5 @@ Extend `reference-architecture.md` v1.5 to v1.6 by adding an "Automated enforcem
 
 ---
 
-*Last entry: DR-023. Next ID: DR-024.*
+*Last entry: DR-024. Next ID: DR-025.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

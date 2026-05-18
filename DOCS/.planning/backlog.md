@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-18 (RA-003 Resolved — automated Memory key parity enforcement added to RA v1.6, DR-023)
+**Last Updated:** 2026-05-18 (RA-004 Resolved — Canonical Feature Store change governance added to RA v1.7, DR-024)
 **Governed by:** `reference-architecture.md` v1.3 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,15 +25,15 @@ Per v1.3 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 16 |
+| Open | 15 |
 | In Progress | 1 |
-| Resolved | 22 |
+| Resolved | 23 |
 | **Total** | **39** |
 
 | Area | Current state |
 |------|---------------|
 | Current execution baseline | 43 scenarios / 241 steps passing |
-| Active Reference Architecture | v1.6 |
+| Active Reference Architecture | v1.7 |
 | Active Stack | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`) |
 | Current sprint focus | CI wiring, output decoupling, implementation-log normalization |
 | Highest parity risks | RA-001 (@util surface undefined) and RA-003 (Memory key parity unverified) — RA structural gaps |
@@ -70,7 +70,7 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | RA-001 | Define `@util` surface type formally in RA Sections 6 and 7 | Risk 1 | Critical | High | Resolved | DR-021 |
 | RA-002 | Add CI/CD pipeline requirements section to RA (Section 9.4) | Risk 2 | High | High | Resolved | DR-022 |
 | RA-003 | Define automated Memory key parity enforcement mechanism | Risk 3 | High | High | Resolved | DR-023 |
-| RA-004 | Define Canonical Feature Store change governance (Section 5.5) | Risk 4 | High | High | Open | Pending |
+| RA-004 | Define Canonical Feature Store change governance (Section 5.5) | Risk 4 | High | High | Resolved | DR-024 |
 | RA-005 | Correct `features_shared/` underscore naming throughout RA | Risk 5 | Medium | Medium | Open | None required |
 | RA-006 | Resolve uppercase doc name conflict in RA Sections 10.1 and 10.2 | Risk 7 | Medium | Medium | Open | Pending |
 
@@ -161,18 +161,19 @@ Acceptance criteria:
 ### RA-004: Define Canonical Feature Store change governance
 
 **Priority:** High
-**Status:** Open
+**Status:** Resolved
 **Severity:** High (review Risk 4)
 **Nature of Gap:** Section 5 defines feature propagation process but no change approval process — no specification for who can modify canonical features, what review is required, or how breaking changes are coordinated across Stacks
 **Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 4
+**Resolution:** DR-024 — RA v1.7 adds Section 5.5 (Feature Change Governance): breaking vs non-breaking classification table, breaking change gate sequence (MUST), `@pending` one-sprint resolution deadline with two-sprint escalation to defect, canonical file protection rules. RA version bumped to v1.7 (2026-05-18).
 
 Acceptance criteria:
 
-- [ ] Section 5.5 added: Feature Change Governance covering non-breaking vs breaking change classification
-- [ ] Breaking change definition provided: addition, removal, or modification to step text or scenario structure
-- [ ] Review gate requirement for breaking changes stated normatively (MUST)
-- [ ] `@pending` resolution deadline policy added (maximum sprint horizon before gap becomes a defect)
-- [ ] RA version bumped and a DR entry created
+- [x] Section 5.5 added: Feature Change Governance covering non-breaking vs breaking change classification
+- [x] Breaking change definition provided: addition, removal, or modification to step text or scenario structure
+- [x] Review gate requirement for breaking changes stated normatively (MUST)
+- [x] `@pending` resolution deadline policy added (maximum sprint horizon before gap becomes a defect)
+- [x] RA version bumped and a DR entry created
 
 ---
 
