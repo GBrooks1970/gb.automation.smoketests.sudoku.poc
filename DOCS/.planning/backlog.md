@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-18 (RA-001 Resolved — @util surface type added to RA v1.4, DR-021)
+**Last Updated:** 2026-05-18 (RA-002 Resolved — CI/CD pipeline requirements added to RA v1.5, DR-022)
 **Governed by:** `reference-architecture.md` v1.3 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,15 +25,15 @@ Per v1.3 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 18 |
+| Open | 17 |
 | In Progress | 1 |
-| Resolved | 20 |
+| Resolved | 21 |
 | **Total** | **39** |
 
 | Area | Current state |
 |------|---------------|
 | Current execution baseline | 43 scenarios / 241 steps passing |
-| Active Reference Architecture | v1.4 |
+| Active Reference Architecture | v1.5 |
 | Active Stack | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`) |
 | Current sprint focus | CI wiring, output decoupling, implementation-log normalization |
 | Highest parity risks | RA-001 (@util surface undefined) and RA-003 (Memory key parity unverified) — RA structural gaps |
@@ -68,7 +68,7 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | ID | Title | Risk (review) | Severity | Priority | Status | Decision Record |
 |----|-------|---------------|----------|----------|--------|-----------------|
 | RA-001 | Define `@util` surface type formally in RA Sections 6 and 7 | Risk 1 | Critical | High | Resolved | DR-021 |
-| RA-002 | Add CI/CD pipeline requirements section to RA (Section 9.4) | Risk 2 | High | High | Open | Pending |
+| RA-002 | Add CI/CD pipeline requirements section to RA (Section 9.4) | Risk 2 | High | High | Resolved | DR-022 |
 | RA-003 | Define automated Memory key parity enforcement mechanism | Risk 3 | High | High | Open | Pending |
 | RA-004 | Define Canonical Feature Store change governance (Section 5.5) | Risk 4 | High | High | Open | Pending |
 | RA-005 | Correct `features_shared/` underscore naming throughout RA | Risk 5 | Medium | Medium | Open | None required |
@@ -123,18 +123,19 @@ Acceptance criteria:
 ### RA-002: Add CI/CD pipeline requirements section to RA
 
 **Priority:** High
-**Status:** Open
+**Status:** Resolved
 **Severity:** High (review Risk 2)
 **Nature of Gap:** RA mandates orchestration and metrics but provides no CI/CD pipeline specification — pipeline gate requirements, required exit code handling, and artifact retention in CI context are undefined
 **Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 2
+**Resolution:** DR-022 — RA v1.5 adds Section 9.4 (CI/CD Pipeline Requirements): required gate sequence, `OverallExitCode` contract, feature parity as mandatory gate, CI artifact retention, multi-Stack pipeline isolation. RA version bumped to v1.5 (2026-05-18).
 
 Acceptance criteria:
 
-- [ ] Section 9.4 added: CI/CD pipeline requirements covering required gates (build, test, parity report)
-- [ ] Exit code contract specified: `OverallExitCode` must block merge on non-zero
-- [ ] Feature parity report designated as required CI gate (not optional)
-- [ ] Artifact retention in CI context addressed (same policy as Section 9.3 or explicitly different)
-- [ ] RA version bumped and a DR entry created
+- [x] Section 9.4 added: CI/CD pipeline requirements covering required gates (build, test, parity report)
+- [x] Exit code contract specified: `OverallExitCode` must block merge on non-zero
+- [x] Feature parity report designated as required CI gate (not optional)
+- [x] Artifact retention in CI context addressed (same policy as Section 9.3 or explicitly different)
+- [x] RA version bumped and a DR entry created
 
 ---
 

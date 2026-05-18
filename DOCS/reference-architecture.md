@@ -1,6 +1,6 @@
 # Screenplay-BDD Test Automation — Agnostic Reference Architecture
 
-**Version:** 1.4
+**Version:** 1.5
 **Status:** Accepted
 **Date:** 2026-05-18
 **Applies to:** Any project adopting the Screenplay-BDD structure described herein
@@ -656,6 +656,40 @@ The archival process MUST:
 - Preserve the metrics summary file even after log files are purged
 - Record the archival event in `CHANGELOG.md` if the retention policy changes
 
+### 9.4 CI/CD Pipeline Requirements
+
+Every CI/CD pipeline that exercises a Stack MUST enforce the following gates in order. A gate failure MUST halt the pipeline and MUST NOT permit a merge to the default branch.
+
+**Required gates (in order):**
+
+| Gate | Command | Pass condition |
+|------|---------|----------------|
+| 1. Build | Stack-specific build command (e.g. `npm run build`) | Exit code `0` |
+| 2. Lint / Format | Stack-specific lint command (if present) | Exit code `0` |
+| 3. Test suite | Stack orchestration script (e.g. `run-demoapp001.ps1`) | `OverallExitCode=0` |
+| 4. Feature parity report | `.batch/generate-feature-parity-report.ps1` | `Overall result: PASS` |
+
+**`OverallExitCode` contract:**
+
+- Any Stack orchestration script MUST surface a single `OverallExitCode` variable.
+- `OverallExitCode=0` means all gates within the script passed.
+- `OverallExitCode` non-zero MUST cause the pipeline step to exit non-zero.
+- CI systems MUST treat a non-zero exit from the orchestration script as a blocking failure.
+
+**Feature parity gate:**
+
+The feature parity report (Section 5.4) is a REQUIRED CI gate, not an optional report. The CI pipeline MUST fail if `Overall result: DRIFT` or `Overall result: MISSING` appears in the report output.
+
+**Artifact retention in CI:**
+
+- Test logs and metrics produced by a CI run MUST be retained for the same minimum period defined in Section 9.3 (seven calendar days by default).
+- CI artifact storage (e.g. GitHub Actions artifact upload) satisfies the retention requirement; local file storage is not required in CI context.
+- Metrics files MUST be published as pipeline artifacts so they are accessible after the pipeline completes.
+
+**Multi-Stack pipelines:**
+
+When multiple Stacks are present, each Stack MUST have an independent pipeline job or step. A failure in one Stack's job MUST NOT suppress reporting of failures in another Stack's job. All Stack jobs MUST complete before a merge is permitted.
+
 ---
 
 ## 10. Documentation Obligations
@@ -950,4 +984,4 @@ BACKLOG
 
 ---
 
-*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `decision-register.md` before the change is merged. Current version: v1.4 (2026-05-18).*
+*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `decision-register.md` before the change is merged. Current version: v1.5 (2026-05-18).*

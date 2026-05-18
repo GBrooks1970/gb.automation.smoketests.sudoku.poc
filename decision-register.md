@@ -1139,6 +1139,61 @@ Promote `@util` to a formally specified Surface Type in `reference-architecture.
 
 ---
 
+## DR-022 — Add CI/CD pipeline requirements section to reference-architecture.md v1.5 (RA-002)
+
+**Date:** 2026-05-18
+**Status:** Accepted — 2026-05-18
+
+### Context
+
+`reference-architecture.md` v1.4 mandated orchestration scripts (Section 9.1), metrics collection (Section 9.2), and results archival (Section 9.3) but specified nothing about how these integrate into a CI/CD pipeline. The RA had no definition of required pipeline gates, exit code handling, artifact retention in CI context, or multi-Stack pipeline behaviour. A project following the RA could satisfy all Section 9 requirements locally while having a CI pipeline that ignores the feature parity report or permits merges on non-zero exit. The gap was identified and documented as Risk 2 (High) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+
+### Decision
+
+Add Section 9.4 "CI/CD Pipeline Requirements" to `reference-architecture.md` v1.5:
+
+- **Required gates (in order):** Build → Lint/Format → Test suite → Feature parity report. Each gate must exit 0 or the pipeline halts.
+- **`OverallExitCode` contract:** Orchestration scripts must surface `OverallExitCode`; non-zero must cause pipeline step failure; CI must treat non-zero as a blocking failure.
+- **Feature parity gate:** Parity report is a required CI gate (not optional). Pipeline MUST fail on `DRIFT` or `MISSING`.
+- **Artifact retention in CI:** Test logs and metrics must be retained for the same minimum period as Section 9.3 (seven calendar days). CI artifact storage satisfies the requirement. Metrics files must be published as pipeline artifacts.
+- **Multi-Stack pipelines:** Each Stack has an independent job; one failure must not suppress another Stack's failure report; all jobs must complete before merge.
+- RA version bumped from v1.4 to v1.5, date remains 2026-05-18.
+
+### Status
+
+`Accepted` — 2026-05-18
+
+### Consequences
+
+**Outcomes:**
+- CI/CD pipelines built against this RA now have a normative gate sequence and exit-code contract to conform to.
+- The feature parity report moves from "run when convenient" to a mandatory merge gate.
+- Multi-Stack projects have a defined isolation policy preventing one Stack's failure from obscuring another's.
+
+**Trade-offs:**
+- The section does not prescribe a specific CI platform (GitHub Actions, GitLab CI, etc.) to remain agnostic. Project-level DOCS must supply platform-specific implementation details.
+- Requiring all Stack jobs to complete before merge may increase pipeline duration for large multi-Stack projects. This is an acceptable trade-off to ensure full visibility.
+
+**Compliance note:**
+- DEMOAPP001 currently has no GitHub Actions workflow (BACKLOG-004). This decision records the normative requirement; BACKLOG-004 remains the implementation backlog item.
+
+### Alternatives Considered
+
+**Alternative: Leave CI/CD to project-level documentation only**
+- Description: Keep the RA silent on CI/CD and let each project define its own pipeline policy.
+- Rejected because: The RA mandates orchestration scripts and metrics specifically so they can be used as pipeline gates. Leaving the pipeline contract undefined allows projects to comply with the letter of the RA while ignoring its intent.
+
+**Alternative: Prescribe a specific CI platform**
+- Description: Write Section 9.4 as a GitHub Actions specification.
+- Rejected because: The RA is platform-agnostic by design. Platform-specific configuration belongs in Stack-level or project-level documentation.
+
+### Related Decisions
+
+- DR-017 — Implementation log path; logs produced by CI runs are subject to Section 9.3/9.4 retention.
+- DR-021 — `@util` surface type; Section 9.4 gates apply to all surface types including `@util`.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -1157,5 +1212,5 @@ Promote `@util` to a formally specified Surface Type in `reference-architecture.
 
 ---
 
-*Last entry: DR-021. Next ID: DR-022.*
+*Last entry: DR-022. Next ID: DR-023.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*
