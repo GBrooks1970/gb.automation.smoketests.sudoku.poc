@@ -1,6 +1,6 @@
 # Screenplay-BDD Test Automation — Agnostic Reference Architecture
 
-**Version:** 1.5
+**Version:** 1.6
 **Status:** Accepted
 **Date:** 2026-05-18
 **Applies to:** Any project adopting the Screenplay-BDD structure described herein
@@ -539,6 +539,21 @@ A Memory key that uses a different string in one Stack than in another is a pari
 
 Additional keys for all surface types and project-specific state MUST follow the same naming convention and MUST be listed in the Stack's `screenplay/support/memory-keys` file.
 
+**Automated enforcement:**
+
+In a project with two or more Stacks, manual inspection is insufficient to guarantee Memory key parity at scale. The following rules apply:
+
+- A single-Stack project MAY enforce Memory key parity through manual checklist (Appendix B) at each PR review.
+- A multi-Stack project (two or more active Stacks) MUST provide an automated Memory key parity checker. The checker MUST:
+  - Parse each Stack's `screenplay/support/memory-keys` file
+  - Verify that every constant name equals its string value exactly
+  - Verify that the set of constant names is identical across all Stacks
+  - Exit non-zero if any mismatch is found
+- The checker MUST be run as a CI gate, as specified in Section 9.4.
+- A template for the checker is provided in Appendix A (`memory-key-check.template.md`).
+
+This project currently has one active Stack (DEMOAPP001). The automated checker exists as `.batch/check-memory-key-parity.ps1` and runs against DEMOAPP001 as the canonical baseline. When a second Stack is added, the script MUST be extended to compare that Stack's memory-keys file against the DEMOAPP001 baseline.
+
 ### 8.2 Step Definition Shape
 
 Step definitions MUST be parameterised (see Section 5.4). The Gherkin text of each step MUST be identical across all Stacks. Only the implementation body differs.
@@ -942,6 +957,7 @@ The following templates MUST exist under `DOCS/templates/` before the first docu
 | `implementation-log.template.md` | `DOCS/implementation-logs/` session logs |
 | `naming-conventions.template.md` | `DOCS/design/naming-conventions.md` |
 | `algorithm.template.md` | `DOCS/algorithm/` algorithm specification files |
+| `memory-key-check.template.md` | `.batch/check-memory-key-parity` checker script (see Section 8.1) |
 
 ---
 
@@ -984,4 +1000,4 @@ BACKLOG
 
 ---
 
-*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `decision-register.md` before the change is merged. Current version: v1.5 (2026-05-18).*
+*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `decision-register.md` before the change is merged. Current version: v1.6 (2026-05-18).*

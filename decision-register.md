@@ -1194,6 +1194,70 @@ Add Section 9.4 "CI/CD Pipeline Requirements" to `reference-architecture.md` v1.
 
 ---
 
+## DR-023 — Mandate automated Memory key parity enforcement in multi-Stack projects (RA-003)
+
+**Date:** 2026-05-18
+**Status:** Accepted — 2026-05-18
+
+### Context
+
+Section 8.1 of `reference-architecture.md` v1.5 mandated identical Memory key constants across all Stacks and specified that the constant name must equal its string value exactly. The enforcement mechanism was manual: a developer reading the Appendix B checklist at PR review. For a single-Stack project this is adequate; for a multi-Stack project (two or more active Stacks) it is insufficient — nothing prevents a developer from introducing a parity gap that is invisible until cross-Stack debugging is required. The gap was identified and documented as Risk 3 (High) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+
+### Decision
+
+Extend `reference-architecture.md` v1.5 to v1.6 by adding an "Automated enforcement" subsection to Section 8.1:
+
+- **Single-Stack projects** MAY continue to use manual checklist (Appendix B) verification.
+- **Multi-Stack projects (2+ active Stacks)** MUST provide an automated Memory key parity checker that:
+  - Parses each Stack's `screenplay/support/memory-keys` file
+  - Verifies constant name equals string value (NAME_VALUE_MISMATCH check)
+  - Verifies the set of constant names is identical across all Stacks (SET_MISMATCH check)
+  - Exits non-zero on any failure
+- The checker MUST be a required CI gate per Section 9.4.
+- Appendix A updated: `memory-key-check.template.md` added to the template index.
+
+**Project-level implementation (DEMOAPP001 baseline):**
+- Template created: `DOCS/.templates/memory-key-check.template.md`
+- Script created: `.batch/check-memory-key-parity.ps1`
+- Script parses TypeScript `export const KEY = 'KEY'` pattern; includes commented stubs for DEMOAPP002 and beyond.
+- Currently single-Stack: exits 0, verifies all 6 DEMOAPP001 constants satisfy name=value.
+
+### Status
+
+`Accepted` — 2026-05-18
+
+### Consequences
+
+**Outcomes:**
+- Memory key parity has an automated enforcement path that scales to any number of Stacks.
+- `.batch/check-memory-key-parity.ps1` can be added to CI immediately (BACKLOG-004 tracks the GitHub Actions workflow).
+- When DEMOAPP002 is onboarded, the script stub is already present — the developer uncomments the entry and extends the Pattern if needed.
+
+**Trade-offs:**
+- The script currently supports only TypeScript pattern extraction. Each new Stack language requires a pattern extension. The template documents the patterns for TypeScript, Python, C#, and Java.
+- The CI gate for memory key checking depends on BACKLOG-004 (GitHub Actions). Until that is implemented, the script can be run locally as a pre-commit or pre-PR step.
+
+**Compliance note:**
+- DEMOAPP001 currently passes the check with all 6 constants verified. No parity gaps exist at this time.
+
+### Alternatives Considered
+
+**Alternative: Keep manual checklist only**
+- Description: Rely on Appendix B checklist review at every PR.
+- Rejected because: In multi-Stack projects the checklist must be run for every Stack simultaneously. Human error is the only failure mode and it is silent — a gap would not surface until cross-Stack debugging reveals inconsistent key names. The automated approach is deterministic and CI-enforceable.
+
+**Alternative: Embed the check inside the orchestration script**
+- Description: Add memory key validation to `run-demoapp001.ps1` rather than a standalone script.
+- Rejected because: The orchestration script is Stack-specific; the parity check is cross-Stack. Separating them keeps responsibilities clear and allows the parity check to run independently of any one Stack's test suite.
+
+### Related Decisions
+
+- DR-015 — Actor Memory wiring; the constants being checked are those introduced in DR-015.
+- DR-021 — `@util` surface type; the minimum Memory key set is defined there.
+- DR-022 — CI/CD pipeline requirements; the parity checker is one of the gates specified in Section 9.4.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -1212,5 +1276,5 @@ Add Section 9.4 "CI/CD Pipeline Requirements" to `reference-architecture.md` v1.
 
 ---
 
-*Last entry: DR-022. Next ID: DR-023.*
+*Last entry: DR-023. Next ID: DR-024.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

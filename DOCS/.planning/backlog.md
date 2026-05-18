@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-18 (RA-002 Resolved — CI/CD pipeline requirements added to RA v1.5, DR-022)
+**Last Updated:** 2026-05-18 (RA-003 Resolved — automated Memory key parity enforcement added to RA v1.6, DR-023)
 **Governed by:** `reference-architecture.md` v1.3 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,15 +25,15 @@ Per v1.3 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 17 |
+| Open | 16 |
 | In Progress | 1 |
-| Resolved | 21 |
+| Resolved | 22 |
 | **Total** | **39** |
 
 | Area | Current state |
 |------|---------------|
 | Current execution baseline | 43 scenarios / 241 steps passing |
-| Active Reference Architecture | v1.5 |
+| Active Reference Architecture | v1.6 |
 | Active Stack | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`) |
 | Current sprint focus | CI wiring, output decoupling, implementation-log normalization |
 | Highest parity risks | RA-001 (@util surface undefined) and RA-003 (Memory key parity unverified) — RA structural gaps |
@@ -69,7 +69,7 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 |----|-------|---------------|----------|----------|--------|-----------------|
 | RA-001 | Define `@util` surface type formally in RA Sections 6 and 7 | Risk 1 | Critical | High | Resolved | DR-021 |
 | RA-002 | Add CI/CD pipeline requirements section to RA (Section 9.4) | Risk 2 | High | High | Resolved | DR-022 |
-| RA-003 | Define automated Memory key parity enforcement mechanism | Risk 3 | High | High | Open | Pending |
+| RA-003 | Define automated Memory key parity enforcement mechanism | Risk 3 | High | High | Resolved | DR-023 |
 | RA-004 | Define Canonical Feature Store change governance (Section 5.5) | Risk 4 | High | High | Open | Pending |
 | RA-005 | Correct `features_shared/` underscore naming throughout RA | Risk 5 | Medium | Medium | Open | None required |
 | RA-006 | Resolve uppercase doc name conflict in RA Sections 10.1 and 10.2 | Risk 7 | Medium | Medium | Open | Pending |
@@ -142,18 +142,19 @@ Acceptance criteria:
 ### RA-003: Define automated Memory key parity enforcement mechanism
 
 **Priority:** High
-**Status:** Open
+**Status:** Resolved
 **Severity:** High (review Risk 3)
 **Nature of Gap:** Section 8.1 mandates identical Memory key constants across Stacks but provides no automated verification mechanism — manual checklist only, insufficient for multi-Stack projects
 **Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 3
+**Resolution:** DR-023 — RA v1.6 adds "Automated enforcement" subsection to Section 8.1 (multi-Stack MUST provide checker, single-Stack MAY use checklist). Appendix A updated with `memory-key-check.template.md`. Template created at `DOCS/.templates/memory-key-check.template.md`. Script created at `.batch/check-memory-key-parity.ps1`. DEMOAPP001 passes: all 6 constants verified OK. CI gate depends on BACKLOG-004 (GitHub Actions).
 
 Acceptance criteria:
 
-- [ ] Section 8.1 updated: normative requirement for an automated memory-key checker in multi-Stack projects
-- [ ] Appendix A updated: `memory-key-check.template.md` added (script or CI step template)
-- [ ] Project implementation: `.batch/check-memory-key-parity.ps1` (or equivalent) created for DEMOAPP001 baseline
-- [ ] CI gate: memory key checker integrated into CI pipeline (depends on RA-002 and BACKLOG-004)
-- [ ] RA version bumped and a DR entry created
+- [x] Section 8.1 updated: normative requirement for an automated memory-key checker in multi-Stack projects
+- [x] Appendix A updated: `memory-key-check.template.md` added (script or CI step template)
+- [x] Project implementation: `.batch/check-memory-key-parity.ps1` created for DEMOAPP001 baseline
+- [ ] CI gate: memory key checker integrated into CI pipeline (depends on RA-002 and BACKLOG-004 — not yet implemented)
+- [x] RA version bumped and a DR entry created
 
 ---
 
