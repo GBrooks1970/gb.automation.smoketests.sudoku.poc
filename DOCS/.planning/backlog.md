@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-18 (RA-004 Resolved — Canonical Feature Store change governance added to RA v1.7, DR-024)
+**Last Updated:** 2026-05-18 (RA-005 Resolved — features_shared underscore corrected to features-shared throughout RA v1.8)
 **Governed by:** `reference-architecture.md` v1.3 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,15 +25,15 @@ Per v1.3 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 15 |
+| Open | 14 |
 | In Progress | 1 |
-| Resolved | 23 |
+| Resolved | 24 |
 | **Total** | **39** |
 
 | Area | Current state |
 |------|---------------|
 | Current execution baseline | 43 scenarios / 241 steps passing |
-| Active Reference Architecture | v1.7 |
+| Active Reference Architecture | v1.8 |
 | Active Stack | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`) |
 | Current sprint focus | CI wiring, output decoupling, implementation-log normalization |
 | Highest parity risks | RA-001 (@util surface undefined) and RA-003 (Memory key parity unverified) — RA structural gaps |
@@ -71,7 +71,7 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | RA-002 | Add CI/CD pipeline requirements section to RA (Section 9.4) | Risk 2 | High | High | Resolved | DR-022 |
 | RA-003 | Define automated Memory key parity enforcement mechanism | Risk 3 | High | High | Resolved | DR-023 |
 | RA-004 | Define Canonical Feature Store change governance (Section 5.5) | Risk 4 | High | High | Resolved | DR-024 |
-| RA-005 | Correct `features_shared/` underscore naming throughout RA | Risk 5 | Medium | Medium | Open | None required |
+| RA-005 | Correct `features_shared/` underscore naming throughout RA | Risk 5 | Medium | Medium | Resolved | None required |
 | RA-006 | Resolve uppercase doc name conflict in RA Sections 10.1 and 10.2 | Risk 7 | Medium | Medium | Open | Pending |
 
 ---
@@ -180,17 +180,18 @@ Acceptance criteria:
 ### RA-005: Correct `features_shared/` underscore naming throughout RA
 
 **Priority:** Medium
-**Status:** Open
+**Status:** Resolved
 **Severity:** Medium (review Risk 5)
 **Nature of Gap:** RA uses `features_shared/` (underscore) throughout Sections 4, 5, 5.2, 5.3, and 11 — any project adopting kebab-case naming diverges from RA examples immediately without a reconciliation path; agents reading the RA produce non-compliant paths
 **Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 5
+**Resolution:** RA v1.8 — all 8 occurrences of `features_shared/` replaced with `features-shared/`. Section 4 intro note added clarifying blueprint names are illustrative defaults. Section 4.3 note added clarifying Stack directory name vs canonical Stack name distinction. No DR required (editorial correction, no normative rule change).
 
 Acceptance criteria:
 
-- [ ] All `features_shared/` occurrences in the RA replaced with `features-shared/` (hyphen) as the illustrative default
-- [ ] Section 4 note added: directory names in the blueprint are illustrative; projects document their chosen names in `naming-conventions.md`
-- [ ] Section 4.3 updated to reflect the same note for Stack directory names
-- [ ] RA version bumped (no DR required — editorial correction, not a normative rule change)
+- [x] All `features_shared/` occurrences in the RA replaced with `features-shared/` (hyphen) as the illustrative default
+- [x] Section 4 note added: directory names in the blueprint are illustrative; projects document their chosen names in `naming-conventions.md`
+- [x] Section 4.3 updated to reflect the same note for Stack directory names
+- [x] RA version bumped (no DR required — editorial correction, not a normative rule change)
 
 ---
 

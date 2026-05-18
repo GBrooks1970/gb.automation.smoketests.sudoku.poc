@@ -1,6 +1,6 @@
 # Screenplay-BDD Test Automation — Agnostic Reference Architecture
 
-**Version:** 1.7
+**Version:** 1.8
 **Status:** Accepted
 **Date:** 2026-05-18
 **Applies to:** Any project adopting the Screenplay-BDD structure described herein
@@ -224,10 +224,12 @@ Step Definition
 
 The following structure is the REQUIRED layout for any repository adopting this architecture. Names in `UPPER_CASE` are fixed roles; names in `lower_case_italic` are illustrative and MAY vary by project.
 
+> **Note on illustrative directory names:** Directory names shown in this blueprint (e.g. `features-shared/`, `demo-apps/`) are illustrative defaults using kebab-case. Projects MUST document their chosen directory names in `DOCS/design/naming-conventions.md`. The names used in the blueprint do not override project-level naming decisions; the structural roles they represent are what is REQUIRED.
+
 ```
 repository-root/
 │
-├── features_shared/                  # Canonical Feature Store (Section 5)
+├── features-shared/                  # Canonical Feature Store (Section 5)
 │   ├── [surface-category]/           # e.g. api/, ui/, cli/
 │   │   └── [feature-group]/          # Groups related features
 │   │       └── *.feature             # Gherkin feature files
@@ -279,7 +281,7 @@ repository-root/
 └── [ai-agent-instruction-file]       # REQUIRED (Section 10.4)
 ```
 
-### 4.1 What MUST NOT Live in features_shared/
+### 4.1 What MUST NOT Live in features-shared/
 
 - Step definitions
 - Screenplay components
@@ -299,21 +301,23 @@ The Canonical Feature Store contains only `.feature` files and MUST be readable 
 
 A project MAY place Stack directories under one project-specific Stack group directory when the grouping is documented in `DOCS/design/naming-conventions.md`. The group directory does not change the canonical Stack name. For example, `_API_TESTING_GHERKIN_/DEMOAPP001_TYPESCRIPT_CYPRESS/` still has the Stack name `DEMOAPP001_TYPESCRIPT_CYPRESS`.
 
+> **Note on Stack directory names:** The Stack directory name (e.g. `demoapp001-typescript-cypress/`) is a filesystem representation chosen by the project and documented in `DOCS/design/naming-conventions.md`. It is distinct from the canonical Stack name (`DEMOAPP001_TYPESCRIPT_CYPRESS`). Projects MUST document the mapping between directory names and canonical Stack names.
+
 ---
 
 ## 5. The Canonical Feature Store
 
 ### 5.1 Single Source of Truth Rule
 
-All Gherkin feature files originate in `features_shared/`. This directory is the **only** authoritative source of behavioral specifications.
+All Gherkin feature files originate in `features-shared/`. This directory is the **only** authoritative source of behavioral specifications.
 
 A Stack MUST NOT author its own feature files independently. A Stack's local `features/` directory is a copy of the canonical files, extended only with Stack-specific or lifecycle tags.
 
 ### 5.2 Feature Distribution
 
-When a feature file in `features_shared/` is created or updated, the change MUST be propagated to all Stacks before the work is considered complete. The propagation process is:
+When a feature file in `features-shared/` is created or updated, the change MUST be propagated to all Stacks before the work is considered complete. The propagation process is:
 
-1. Update or create the feature file in `features_shared/` with the required canonical scope tag
+1. Update or create the feature file in `features-shared/` with the required canonical scope tag
 2. Copy the updated file to the corresponding path in each Stack's `features/` directory
 3. Add Stack-specific or lifecycle tags to the local copy only
 4. Update `DOCS/planning/backlog.md` if any Stack cannot yet implement the new scenario (see Section 10.1)
@@ -333,8 +337,8 @@ Tags in feature files serve three purposes: scope filtering (run a subset of tes
 | Stack tag | Marks scenarios that apply only to a specific Stack | `@stack-demoapp001` |
 
 Canonical feature files MUST contain exactly one canonical scope tag:
-- Surface features under `features_shared/api/`, `features_shared/ui/`, or `features_shared/cli/` MUST use the matching surface tag (`@api`, `@ui`, or `@cli`)
-- Utility features under `features_shared/util-tests/` MUST use `@util`
+- Surface features under `features-shared/api/`, `features-shared/ui/`, or `features-shared/cli/` MUST use the matching surface tag (`@api`, `@ui`, or `@cli`)
+- Utility features under `features-shared/util-tests/` MUST use `@util`
 
 Lifecycle tags (`@requires-app`) and Stack tags are Stack-local additions unless a Decision Register entry explicitly authorises a canonical exception. Stack tags MUST use the lowercase short Stack identifier format `@stack-demoappNNN` (for example, `@stack-demoapp001`).
 
@@ -945,7 +949,7 @@ The following checklist MUST be completed in order when adding a new Stack to a 
 
 ### Phase 5 — Implement Step Definitions
 
-- [ ] Copy canonical feature files from `features_shared/` to the Stack's local `features/` directory (Section 5.2)
+- [ ] Copy canonical feature files from `features-shared/` to the Stack's local `features/` directory (Section 5.2)
 - [ ] Add Stack-specific or lifecycle tags to local feature files (do not modify the canonical files)
 - [ ] Implement step definitions using the parameterised pattern from Section 5.4
 - [ ] Verify that every step in every copied feature file has a corresponding step definition
@@ -1037,4 +1041,4 @@ BACKLOG
 
 ---
 
-*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `decision-register.md` before the change is merged. Current version: v1.7 (2026-05-18).*
+*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `decision-register.md` before the change is merged. Current version: v1.8 (2026-05-18).*
