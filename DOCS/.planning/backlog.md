@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-16 (MIG-09 through MIG-12 resolved)
+**Last Updated:** 2026-05-18 (RA-001 through RA-006 added from structural review)
 **Governed by:** `reference-architecture.md` v1.3 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,10 +25,10 @@ Per v1.3 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 13 |
+| Open | 19 |
 | In Progress | 1 |
 | Resolved | 19 |
-| **Total** | **33** |
+| **Total** | **39** |
 
 | Area | Current state |
 |------|---------------|
@@ -36,7 +36,7 @@ Per v1.3 Section 10.1:
 | Active Reference Architecture | v1.3 |
 | Active Stack | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`) |
 | Current sprint focus | CI wiring, output decoupling, implementation-log normalization |
-| Highest parity risks | MIG-09 through MIG-13 all Resolved; no active parity risks |
+| Highest parity risks | RA-001 (@util surface undefined) and RA-003 (Memory key parity unverified) — RA structural gaps |
 
 ---
 
@@ -57,6 +57,22 @@ Per v1.3 Section 10.1:
 | MIG-11 | Parameterize over-specified canonical Gherkin steps | All | Gherkin portability | Low | Resolved | DR-018 |
 | MIG-12 | Decide metrics Stack identifier policy | All | Multi-Stack reporting | Low | Resolved | DR-016 |
 | MIG-13 | Rename Stack filesystem directories to kebab-case | DEMOAPP001 and future Stacks | Directory naming alignment | Medium | Resolved | DR-016 |
+
+---
+
+## Reference Architecture Improvement Items
+
+Raised by structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+Items are improvements to `reference-architecture.md` v1.3 itself, not project implementation work.
+
+| ID | Title | Risk (review) | Severity | Priority | Status | Decision Record |
+|----|-------|---------------|----------|----------|--------|-----------------|
+| RA-001 | Define `@util` surface type formally in RA Sections 6 and 7 | Risk 1 | Critical | High | Open | Pending |
+| RA-002 | Add CI/CD pipeline requirements section to RA (Section 9.4) | Risk 2 | High | High | Open | Pending |
+| RA-003 | Define automated Memory key parity enforcement mechanism | Risk 3 | High | High | Open | Pending |
+| RA-004 | Define Canonical Feature Store change governance (Section 5.5) | Risk 4 | High | High | Open | Pending |
+| RA-005 | Correct `features_shared/` underscore naming throughout RA | Risk 5 | Medium | Medium | Open | None required |
+| RA-006 | Resolve uppercase doc name conflict in RA Sections 10.1 and 10.2 | Risk 7 | Medium | Medium | Open | Pending |
 
 ---
 
@@ -83,6 +99,113 @@ Per v1.3 Section 10.1:
 ---
 
 ## Active Item Details
+
+### RA-001: Define `@util` surface type formally in RA Sections 6 and 7
+
+**Priority:** High
+**Status:** Open
+**Severity:** Critical (review Risk 1)
+**Nature of Gap:** RA specification gap — `@util` tag appears in Sections 5.3 and Appendix B but has no corresponding surface contract (Section 6), Ability definition (Section 7), or orchestration lifecycle (Section 9.1)
+**Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 1
+
+Acceptance criteria:
+
+- [ ] Section 6.0 added: `@util` surface contract specifying in-process subject application requirements
+- [ ] Section 7.0 added: canonical `@util` Ability definition (`UseSubjectDirectly` or equivalent)
+- [ ] Section 9.1 updated: `@util` orchestration lifecycle added alongside API/UI/CLI lifecycles
+- [ ] Minimum Memory key set for `@util` surface documented in Section 8.1
+- [ ] Appendix B compliance checklist references the new `@util` surface contract section
+- [ ] RA version bumped and a DR entry created recording the addition
+
+---
+
+### RA-002: Add CI/CD pipeline requirements section to RA
+
+**Priority:** High
+**Status:** Open
+**Severity:** High (review Risk 2)
+**Nature of Gap:** RA mandates orchestration and metrics but provides no CI/CD pipeline specification — pipeline gate requirements, required exit code handling, and artifact retention in CI context are undefined
+**Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 2
+
+Acceptance criteria:
+
+- [ ] Section 9.4 added: CI/CD pipeline requirements covering required gates (build, test, parity report)
+- [ ] Exit code contract specified: `OverallExitCode` must block merge on non-zero
+- [ ] Feature parity report designated as required CI gate (not optional)
+- [ ] Artifact retention in CI context addressed (same policy as Section 9.3 or explicitly different)
+- [ ] RA version bumped and a DR entry created
+
+---
+
+### RA-003: Define automated Memory key parity enforcement mechanism
+
+**Priority:** High
+**Status:** Open
+**Severity:** High (review Risk 3)
+**Nature of Gap:** Section 8.1 mandates identical Memory key constants across Stacks but provides no automated verification mechanism — manual checklist only, insufficient for multi-Stack projects
+**Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 3
+
+Acceptance criteria:
+
+- [ ] Section 8.1 updated: normative requirement for an automated memory-key checker in multi-Stack projects
+- [ ] Appendix A updated: `memory-key-check.template.md` added (script or CI step template)
+- [ ] Project implementation: `.batch/check-memory-key-parity.ps1` (or equivalent) created for DEMOAPP001 baseline
+- [ ] CI gate: memory key checker integrated into CI pipeline (depends on RA-002 and BACKLOG-004)
+- [ ] RA version bumped and a DR entry created
+
+---
+
+### RA-004: Define Canonical Feature Store change governance
+
+**Priority:** High
+**Status:** Open
+**Severity:** High (review Risk 4)
+**Nature of Gap:** Section 5 defines feature propagation process but no change approval process — no specification for who can modify canonical features, what review is required, or how breaking changes are coordinated across Stacks
+**Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 4
+
+Acceptance criteria:
+
+- [ ] Section 5.5 added: Feature Change Governance covering non-breaking vs breaking change classification
+- [ ] Breaking change definition provided: addition, removal, or modification to step text or scenario structure
+- [ ] Review gate requirement for breaking changes stated normatively (MUST)
+- [ ] `@pending` resolution deadline policy added (maximum sprint horizon before gap becomes a defect)
+- [ ] RA version bumped and a DR entry created
+
+---
+
+### RA-005: Correct `features_shared/` underscore naming throughout RA
+
+**Priority:** Medium
+**Status:** Open
+**Severity:** Medium (review Risk 5)
+**Nature of Gap:** RA uses `features_shared/` (underscore) throughout Sections 4, 5, 5.2, 5.3, and 11 — any project adopting kebab-case naming diverges from RA examples immediately without a reconciliation path; agents reading the RA produce non-compliant paths
+**Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 5
+
+Acceptance criteria:
+
+- [ ] All `features_shared/` occurrences in the RA replaced with `features-shared/` (hyphen) as the illustrative default
+- [ ] Section 4 note added: directory names in the blueprint are illustrative; projects document their chosen names in `naming-conventions.md`
+- [ ] Section 4.3 updated to reflect the same note for Stack directory names
+- [ ] RA version bumped (no DR required — editorial correction, not a normative rule change)
+
+---
+
+### RA-006: Resolve uppercase document name conflict in RA Sections 10.1 and 10.2
+
+**Priority:** Medium
+**Status:** Open
+**Severity:** Medium (review Risk 7)
+**Nature of Gap:** Section 10.2 mandates `ARCHITECTURE.md`, `SCREENPLAY_GUIDE.md`, `QA_STRATEGY.md` as uppercase fixed names, but Section 10.9 mandates a naming conventions document that allows kebab-case — following both requirements simultaneously is impossible; this project has `architecture.md`, `qa-strategy.md`, `screenplay-guide.md` per DR-020
+**Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 7
+
+Acceptance criteria:
+
+- [ ] Section 10.1 table updated: `README.md` and `CHANGELOG.md` explicitly marked `FIXED` (ecosystem standard); other documents marked as convention-governed
+- [ ] Section 10.2 updated: Stack-level document names changed from fixed uppercase to "project convention per Section 10.9"
+- [ ] Appendix A `Governs` column updated to show convention-governed output paths with note
+- [ ] RA version bumped and a DR entry created (this is a normative rule change — ARCHITECTURE.md was previously REQUIRED)
+
+---
 
 ### BACKLOG-004: Setup GitHub Actions CI/CD
 
@@ -279,7 +402,7 @@ Acceptance criteria:
 | 3 | 2026-05-28 to 2026-06-10 | Directory rename and output decoupling | MIG-13 ✅, BACKLOG-007, BACKLOG-017 | In Progress |
 | 4 | 2026-06-11 to 2026-06-24 | Audit/API foundations and Python Stack start | BACKLOG-008, BACKLOG-009, BACKLOG-020 | Open |
 | 5 | 2026-06-25 to 2026-07-08 | API/Web UI and C# Stack start | BACKLOG-018, BACKLOG-021 | Open |
-| 6+ | 2026-07-09 onward | Multi-Stack polish and infrastructure | BACKLOG-010, BACKLOG-011, MIG-09 through MIG-12 | Open |
+| 6+ | 2026-07-09 onward | Multi-Stack polish, infrastructure, and RA improvements | BACKLOG-010, BACKLOG-011, RA-001 through RA-006 | Open |
 
 ---
 
