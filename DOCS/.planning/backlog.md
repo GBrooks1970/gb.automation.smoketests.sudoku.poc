@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-18 (RA-006 Resolved — uppercase doc name conflict resolved in RA v1.9, DR-025)
+**Last Updated:** 2026-05-18 (RA-007 added — test data management specification gap from structural review Risk 8)
 **Governed by:** `reference-architecture.md` v1.9 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,10 +25,10 @@ Per v1.3 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 13 |
+| Open | 14 |
 | In Progress | 1 |
 | Resolved | 25 |
-| **Total** | **39** |
+| **Total** | **40** |
 
 | Area | Current state |
 |------|---------------|
@@ -73,6 +73,7 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | RA-004 | Define Canonical Feature Store change governance (Section 5.5) | Risk 4 | High | High | Resolved | DR-024 |
 | RA-005 | Correct `features_shared/` underscore naming throughout RA | Risk 5 | Medium | Medium | Resolved | None required |
 | RA-006 | Resolve uppercase doc name conflict in RA Sections 10.1 and 10.2 | Risk 7 | Medium | Medium | Resolved | DR-025 |
+| RA-007 | Add test data management specification to RA (Section 5.6) | Risk 8 | Medium | Medium | Open | Pending |
 
 ---
 
@@ -210,6 +211,23 @@ Acceptance criteria:
 - [x] Section 10.2 updated: Stack-level document names changed from fixed uppercase to "project convention per Section 10.9"
 - [x] Appendix A `Governs` column updated to show convention-governed output paths with note
 - [x] RA version bumped and a DR entry created (this is a normative rule change — ARCHITECTURE.md was previously REQUIRED)
+
+---
+
+### RA-007: Add test data management specification to RA
+
+**Priority:** Medium
+**Status:** Open
+**Severity:** Medium (review Risk 8)
+**Nature of Gap:** The RA defines behavioral contracts (Gherkin feature files) and orchestration contracts (lifecycle, metrics) but provides no guidance on test data. For projects where test data is the primary input to the system under test (e.g. `puzzles.json`), there is no specification for: where test data lives (Stack, canonical store, or shared package), how test data is versioned alongside feature files, data isolation between scenarios, or data-driven testing patterns beyond parameterised step text.
+**Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 8
+
+Acceptance criteria:
+
+- [ ] Section 5.6 added: Test Data Management covering data location rules (Stack-local vs shared), versioning, scenario isolation (MUST NOT modify shared data — operate on a copy or in-memory representation), and data-driven Scenario Outline guidance
+- [ ] Shared test data path documented: MUST live under `packages/` or a dedicated `data/` directory and be referenced in `DOCS/architecture/subject-app-contract.md`
+- [ ] Inline literal prohibition restated normatively: test data MUST NOT be embedded in canonical feature files (links to Section 5.4 parameterised steps)
+- [ ] RA version bumped and a DR entry created
 
 ---
 
