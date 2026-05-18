@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-18 (RA-008 Resolved — Section 9.3 CHANGELOG.md rule corrected to decision-register.md, RA v1.11)
+**Last Updated:** 2026-05-18 (RA-009 Resolved — Section 8.4 parity verification table + automation requirement added, RA v1.12, DR-027)
 **Governed by:** `reference-architecture.md` v1.9 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -27,13 +27,13 @@ Per v1.3 Section 10.1:
 |--------|-------|
 | Open | 15 |
 | In Progress | 1 |
-| Resolved | 27 |
-| **Total** | **43** |
+| Resolved | 28 |
+| **Total** | **44** |
 
 | Area | Current state |
 |------|---------------|
 | Current execution baseline | 43 scenarios / 241 steps passing |
-| Active Reference Architecture | v1.11 |
+| Active Reference Architecture | v1.12 |
 | Active Stack | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`) |
 | Current sprint focus | CI wiring, output decoupling, implementation-log normalization |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
@@ -75,7 +75,7 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | RA-006 | Resolve uppercase doc name conflict in RA Sections 10.1 and 10.2 | Risk 7 | Medium | Medium | Resolved | DR-025 |
 | RA-007 | Add test data management specification to RA (Section 5.6) | Risk 8 | Medium | Medium | Resolved | DR-026 |
 | RA-008 | Replace CHANGELOG.md retention policy rule with decision-register.md (Section 9.3) | Risk 9 | Low | Low | Resolved | None required |
-| RA-009 | Add verification method column to parity criteria (Section 8.4) | Risk 10 | Low | Low | Open | Pending |
+| RA-009 | Add verification method column to parity criteria (Section 8.4) | Risk 10 | Low | Low | Resolved | DR-027 |
 | RA-010 | Specify shared `packages/` directory rules in RA (Section 4.4) | Risk 11 | Low | Low | Open | Pending |
 
 ---
@@ -92,6 +92,7 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | BACKLOG-018 | Implement Web UI Solver Visualisation | DEMOAPP001 future UI surface | Feature implementation | Medium | Open |
 | BACKLOG-020 | Python Screenplay-style Step Definitions | DEMOAPP002 | Future Stack parity | Medium | Open |
 | BACKLOG-021 | C# Screenplay-style Step Definitions | DEMOAPP003 | Future Stack parity | Medium | Open |
+| BACKLOG-022 | Implement step-text parity checker (Section 8.4 criterion 3) | All | Parity automation | Low | Open |
 | BACKLOG-010 | Docker Compose for Local Development | All | Local development infrastructure | Low | Open |
 | BACKLOG-011 | Performance Benchmarking Suite | All | Performance regression detection | Low | Open |
 | BACKLOG-012 | Implement Python Version | DEMOAPP002 | Future Stack implementation | Future | Open |
@@ -254,16 +255,17 @@ Acceptance criteria:
 ### RA-009: Add verification method column to parity criteria (Section 8.4)
 
 **Priority:** Low
-**Status:** Open
+**Status:** Resolved
 **Severity:** Low (review Risk 10)
 **Nature of Gap:** Section 8.4 defines five criteria for declaring a Stack in parity but specifies no verification method for any of them. Appendix B provides a manual checklist. Neither specifies whether verification is manual, scripted, or a CI gate. The current project has automated coverage for criterion 1 (feature parity report) and criterion 2 (memory key parity check), but criteria 3–5 remain manual-only. A checklist filled in manually is subject to human error and is insufficient as a parity gate at scale.
 **Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 10
+**Resolution:** DR-027 — RA v1.12 replaces Section 8.4 numbered list with a verification method table (criterion, description, method, automated/manual). Normative statement added: criteria 1, 2, and 3 MUST be verified by automated tools. Criterion 3 (step-text diff) has no dedicated script yet — tracked as BACKLOG-022. DR-027 required (new MUST language).
 
 Acceptance criteria:
 
-- [ ] Section 8.4 updated: verification method column added to the parity criteria table (automated parity report, automated memory-key checker, automated step-text diff, manual against parity-contract.md, automated backlog scan)
-- [ ] Normative statement added: criteria 1, 2, and 3 MUST be verified by an automated tool before a Stack is declared in parity; manual checklist alone is insufficient
-- [ ] RA version bumped (no DR required for column addition; if the normative statement is new MUST language, a DR entry is required)
+- [x] Section 8.4 updated: verification method column added to the parity criteria table (automated parity report, automated memory-key checker, automated step-text diff, manual against parity-contract.md, manual backlog scan)
+- [x] Normative statement added: criteria 1, 2, and 3 MUST be verified by an automated tool before a Stack is declared in parity; manual checklist alone is insufficient
+- [x] RA version bumped and DR-027 created (new MUST language requires a DR entry)
 
 ---
 
@@ -417,6 +419,22 @@ Acceptance criteria:
 - [ ] `UseSudokuSolver` and `LoadPuzzles` abilities implemented
 - [ ] All canonical Gherkin scenarios pass
 - [ ] `dotnet test` runs with SpecFlow
+
+### BACKLOG-022: Implement step-text parity checker (Section 8.4 criterion 3)
+
+**Priority:** Low
+**Status:** Open
+**Stack(s):** All
+**Nature of Gap:** Parity automation — Section 8.4 criterion 3 (step Gherkin text matches canonical exactly) is designated MUST be automated per DR-027, but no script exists. The feature parity report checks scenario presence; it does not diff individual step text within a scenario.
+
+Acceptance criteria:
+
+- [ ] Script created (e.g. `.batch/check-step-text-parity.ps1`) that diffs step text in Stack-local feature files against canonical feature files
+- [ ] Any step text divergence exits non-zero and reports the differing lines
+- [ ] Script integrated as a CI gate per Section 9.4
+- [ ] No DR required unless the implementation reveals a structural gap
+
+---
 
 ### MIG-13: Rename Stack filesystem directories to kebab-case
 

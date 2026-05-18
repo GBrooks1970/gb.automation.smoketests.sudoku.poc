@@ -12,11 +12,11 @@ When documents conflict, use this order:
 4. Stack-level docs under `demo-apps/demoapp001-typescript-cypress/docs/`
 5. This guide
 
-`decision-register.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-026.
+`decision-register.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-027.
 
 ## Current Architecture Baseline
 
-- Reference Architecture: v1.11, accepted 2026-05-18
+- Reference Architecture: v1.12, accepted 2026-05-18
 - Active Stack: `DEMOAPP001_TYPESCRIPT_CYPRESS`
 - Active surface: `@util` in-process class testing
 - Canonical feature store: `features-shared/`

@@ -1,6 +1,6 @@
 # Screenplay-BDD Test Automation — Agnostic Reference Architecture
 
-**Version:** 1.11
+**Version:** 1.12
 **Status:** Accepted
 **Date:** 2026-05-18
 **Applies to:** Any project adopting the Screenplay-BDD structure described herein
@@ -646,13 +646,21 @@ Any change to a component's signature MUST be applied to all Stacks simultaneous
 
 ### 8.4 Parity Verification
 
-A Stack is considered in parity when:
+A Stack is considered in parity when all five criteria in the table below are satisfied. Each criterion has a required verification method; manual checklist completion alone is not sufficient for criteria 1, 2, and 3.
 
-1. All scenarios in the canonical feature files are present in the Stack's local `features/` directory
-2. All Memory key constants match the canonical values exactly
-3. All step definition Gherkin text matches the canonical text exactly
-4. All Screenplay component signatures match the parity contract document
-5. No item in `DOCS/planning/backlog.md` is marked as an unacknowledged parity gap for this Stack
+| # | Criterion | Verification method | Automated? |
+|---|-----------|---------------------|------------|
+| 1 | All scenarios in the canonical feature files are present in the Stack's local `features/` directory | Feature parity report script (`.batch/generate-feature-parity-report.ps1`) | MUST be automated |
+| 2 | All Memory key constants match the canonical values exactly | Memory key parity checker (`.batch/check-memory-key-parity.ps1`) | MUST be automated |
+| 3 | All step definition Gherkin text matches the canonical text exactly | Automated diff of step text against canonical feature file (parity report extension or dedicated script) | MUST be automated |
+| 4 | All Screenplay component signatures match the parity contract document | Manual review against `DOCS/architecture/screenplay-parity-contract.md`; automated tooling is future work | Manual (automated in future) |
+| 5 | No item in `DOCS/planning/backlog.md` is marked as an unacknowledged parity gap for this Stack | Automated backlog scan or manual review of open items | Manual |
+
+**Normative automation requirement:**
+
+A Stack MUST NOT be declared in parity based solely on manual checklist completion. Criteria 1, 2, and 3 MUST be verified by an automated tool before a parity declaration is made. These criteria are the highest-frequency sources of silent divergence and MUST have automated detection.
+
+The Appendix B checklist remains a useful pre-review aid but does not satisfy the automation requirement for criteria 1–3.
 
 ---
 
@@ -1082,4 +1090,4 @@ BACKLOG
 
 ---
 
-*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `decision-register.md` before the change is merged. Current version: v1.11 (2026-05-18).*
+*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `decision-register.md` before the change is merged. Current version: v1.12 (2026-05-18).*

@@ -1431,6 +1431,64 @@ Add Section 5.6 "Test Data Management" to `reference-architecture.md` v1.10:
 
 ---
 
+## DR-027 — Add verification method column and automation requirement to Section 8.4 in RA v1.12 (RA-009)
+
+**Date:** 2026-05-18
+**Status:** Accepted — 2026-05-18
+
+### Context
+
+`reference-architecture.md` Section 8.4 defined five criteria for declaring a Stack in parity but specified no verification method for any of them. Appendix B provided a manual quick-reference checklist. Neither the section nor the appendix stated whether verification was expected to be manual, scripted, or enforced as a CI gate. This project already had automated coverage for two of the five criteria (feature parity report script for criterion 1, memory key parity checker for criterion 2) but the RA did not acknowledge this distinction or mandate automation for any criterion. A checklist completed manually is subject to human error and is insufficient as a parity gate in a multi-Stack project. The gap was identified and documented as Risk 10 (Low) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+
+### Decision
+
+Update Section 8.4 of `reference-architecture.md` v1.12:
+
+- **Replace numbered list with a table** containing columns: criterion number, criterion description, verification method, and automated/manual designation.
+- **Criteria 1 (scenario presence):** Verification method is the feature parity report script; designated MUST be automated.
+- **Criteria 2 (Memory key values):** Verification method is the memory key parity checker; designated MUST be automated.
+- **Criteria 3 (step text match):** Verification method is automated diff against canonical feature file; designated MUST be automated (tooling in place or planned).
+- **Criteria 4 (component signatures):** Manual review against parity contract document; noted as future automation candidate.
+- **Criteria 5 (no unacknowledged gaps):** Manual review of open backlog items.
+- **Normative automation statement (MUST):** A Stack MUST NOT be declared in parity based solely on manual checklist completion. Criteria 1, 2, and 3 MUST be verified by an automated tool before a parity declaration is made.
+- Appendix B checklist retained as a useful pre-review aid, explicitly noted as not satisfying the automation requirement for criteria 1–3.
+- RA version bumped from v1.11 to v1.12, date remains 2026-05-18.
+
+### Status
+
+`Accepted` — 2026-05-18
+
+### Consequences
+
+**Outcomes:**
+- The automation requirement for the highest-frequency parity failure modes (scenario presence, Memory key values, step text) is now normative — projects can be audited for compliance.
+- Criteria 4 and 5 remain manual by design, not by omission; the table makes this explicit and frames criterion 4 as a future automation target.
+- The separation between the checklist (quick aid) and the automated gate (normative requirement) removes the ambiguity that allowed teams to satisfy the RA by ticking boxes without running tools.
+
+**Trade-offs:**
+- Criterion 3 (step text match) currently has no dedicated automation script in this project; the parity report checks scenario presence but not individual step text within a scenario. Marking it MUST be automated creates a compliance gap until a step-text diff tool is implemented. This gap is acknowledged — it should be tracked as a backlog item.
+- The normative statement elevates the automation requirement from best practice to MUST, which increases the compliance burden for single-Stack projects. The trade-off is acceptable because single-Stack projects have only one Stack to verify and the tooling cost is low.
+
+**Compliance note:**
+- DEMOAPP001: criterion 1 is automated (parity report), criterion 2 is automated (memory key checker). Criterion 3 (step text automation) is a gap — a new backlog item should be created if actioning this in full. Criteria 4 and 5 are manual, as specified.
+
+### Alternatives Considered
+
+**Alternative: Keep the manual checklist as the sole parity verification mechanism**
+- Description: Leave Section 8.4 as a numbered list with no verification method specification; rely on Appendix B.
+- Rejected because: Manual checklists do not scale to multi-Stack projects with independent language implementations. Criterion 2 (Memory key values) is the exact case where a value like `SOLVE_RESULT = 'solve_result'` passes every quality gate while being a silent parity defect. Only automated detection catches this class of error reliably.
+
+**Alternative: Mandate full automation for all five criteria**
+- Description: Require automated verification for all five criteria, including component signatures.
+- Rejected because: Component signature verification (criterion 4) requires language-aware parsing of Screenplay component interfaces across multiple languages. This is technically complex and not yet solved. Mandating it without tooling would make the requirement permanently unmet.
+
+### Related Decisions
+
+- DR-023 — Automated memory key parity checker; that checker satisfies criterion 2 of Section 8.4 as specified here.
+- DR-010 (feature parity report); that script satisfies criterion 1 of Section 8.4 as specified here.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -1449,5 +1507,5 @@ Add Section 5.6 "Test Data Management" to `reference-architecture.md` v1.10:
 
 ---
 
-*Last entry: DR-026. Next ID: DR-027.*
+*Last entry: DR-027. Next ID: DR-028.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*
