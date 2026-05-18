@@ -1376,6 +1376,61 @@ Update `reference-architecture.md` v1.9 to resolve the conflict:
 
 ---
 
+## DR-026 — Add test data management specification as Section 5.6 to RA v1.10 (RA-007)
+
+**Date:** 2026-05-18
+**Status:** Accepted — 2026-05-18
+
+### Context
+
+`reference-architecture.md` v1.9 specified behavioral contracts (Gherkin feature files), orchestration contracts (lifecycle, metrics), and parity rules, but contained no guidance on test data — the fixtures, seeds, and configuration files that drive scenario execution. For projects where test data is the primary input to the system under test (e.g. this project's `puzzles.json`), the absence creates three concrete risks: test data scattered across inconsistent locations, scenarios modifying shared data and causing order-dependent failures, and inline data literals embedded in canonical feature files defeating parameterisation. The gap was identified and documented as Risk 8 (Medium) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+
+### Decision
+
+Add Section 5.6 "Test Data Management" to `reference-architecture.md` v1.10:
+
+- **Location rules table:** Stack-local data stays in the Stack directory; shared data (two or more Stacks) MUST live in `packages/` or a dedicated `data/` directory at the repository root; shared data path MUST be documented in `DOCS/architecture/subject-app-contract.md`.
+- **Inline literal prohibition (MUST NOT):** Test data MUST NOT be embedded as inline literals in canonical feature files. Use parameterised steps (Section 5.4) and provide values in Stack-local `Examples` tables.
+- **Scenario isolation (MUST NOT):** A scenario MUST NOT modify shared test data. It MUST operate on a copy or in-memory representation. Read-only shared files MUST be treated as read-only during execution; mutable state requires a deep copy per scenario.
+- **Versioning:** Stack-local data versioned with the Stack. Shared data versioned independently; changes affecting scenario outcomes treated as breaking changes (Section 5.5) and require a DR entry.
+- **Data-driven pattern:** Scenario Outlines with Examples SHOULD be used for data-driven scenarios; Examples data belongs in Stack-local feature copies; canonical files MAY include one illustrative row but MUST NOT enumerate all test cases.
+- RA version bumped from v1.9 to v1.10, date remains 2026-05-18.
+
+### Status
+
+`Accepted` — 2026-05-18
+
+### Consequences
+
+**Outcomes:**
+- Test data now has a defined home for both Stack-local and shared scenarios, eliminating the ad-hoc placement that emerges in ungoverned multi-Stack projects.
+- The scenario isolation rule converts a common source of order-dependent test failures (shared mutable data) into a normative violation, making it detectable by code review.
+- The inline literal prohibition reinforces Section 5.4 parameterisation at the data layer, preventing canonical feature files from becoming encoded test suites.
+
+**Trade-offs:**
+- Requiring shared data to be documented in `subject-app-contract.md` adds a maintenance step when shared data is introduced or modified. This is intentional — shared data is a cross-Stack dependency and warrants explicit documentation.
+- The "one illustrative Examples row" allowance in canonical feature files is a compromise. Some teams prefer no Examples in canonical files at all; others want the parameter format visible. The MUST NOT on enumeration prevents canonical files from becoming data tables while still allowing format documentation.
+
+**Compliance note:**
+- DEMOAPP001's `puzzles.json` is Stack-local (single Stack). It is in compliance with Section 5.6: Stack-local location, never modified by scenarios (scenarios read it, create in-memory solver instances). No remediation required.
+
+### Alternatives Considered
+
+**Alternative: Leave test data entirely to Stack-level documentation**
+- Description: Keep the RA silent on test data; each Stack documents its own approach.
+- Rejected because: In a multi-Stack project, shared test data must be governed at the architecture level. Stack-level documentation cannot specify the canonical location for data shared between Stacks.
+
+**Alternative: Require all test data to live in features-shared/**
+- Description: Treat test data the same as feature files — one canonical store.
+- Rejected because: Test data is language-specific in format (JSON, CSV, XML, database seeds). A single canonical store would require format negotiation across all Stacks, eliminating the language-agnosticism that is a core design principle of this architecture.
+
+### Related Decisions
+
+- DR-018 — Gherkin parameterisation; Section 5.6 inline literal prohibition directly reinforces DR-018.
+- DR-024 — Feature Change Governance; Section 5.6 treats shared test data changes as breaking changes, governed by the same gate sequence.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -1394,5 +1449,5 @@ Update `reference-architecture.md` v1.9 to resolve the conflict:
 
 ---
 
-*Last entry: DR-025. Next ID: DR-026.*
+*Last entry: DR-026. Next ID: DR-027.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

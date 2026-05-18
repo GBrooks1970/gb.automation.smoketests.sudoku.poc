@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-18 (RA-008 through RA-010 added — structural review Risks 9, 10, 11)
+**Last Updated:** 2026-05-18 (RA-007 Resolved — test data management added to RA v1.10, DR-026)
 **Governed by:** `reference-architecture.md` v1.9 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,15 +25,15 @@ Per v1.3 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 17 |
+| Open | 16 |
 | In Progress | 1 |
-| Resolved | 25 |
+| Resolved | 26 |
 | **Total** | **43** |
 
 | Area | Current state |
 |------|---------------|
 | Current execution baseline | 43 scenarios / 241 steps passing |
-| Active Reference Architecture | v1.9 |
+| Active Reference Architecture | v1.10 |
 | Active Stack | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`) |
 | Current sprint focus | CI wiring, output decoupling, implementation-log normalization |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
@@ -73,7 +73,7 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | RA-004 | Define Canonical Feature Store change governance (Section 5.5) | Risk 4 | High | High | Resolved | DR-024 |
 | RA-005 | Correct `features_shared/` underscore naming throughout RA | Risk 5 | Medium | Medium | Resolved | None required |
 | RA-006 | Resolve uppercase doc name conflict in RA Sections 10.1 and 10.2 | Risk 7 | Medium | Medium | Resolved | DR-025 |
-| RA-007 | Add test data management specification to RA (Section 5.6) | Risk 8 | Medium | Medium | Open | Pending |
+| RA-007 | Add test data management specification to RA (Section 5.6) | Risk 8 | Medium | Medium | Resolved | DR-026 |
 | RA-008 | Replace CHANGELOG.md retention policy rule with decision-register.md (Section 9.3) | Risk 9 | Low | Low | Open | Pending |
 | RA-009 | Add verification method column to parity criteria (Section 8.4) | Risk 10 | Low | Low | Open | Pending |
 | RA-010 | Specify shared `packages/` directory rules in RA (Section 4.4) | Risk 11 | Low | Low | Open | Pending |
@@ -220,17 +220,18 @@ Acceptance criteria:
 ### RA-007: Add test data management specification to RA
 
 **Priority:** Medium
-**Status:** Open
+**Status:** Resolved
 **Severity:** Medium (review Risk 8)
 **Nature of Gap:** The RA defines behavioral contracts (Gherkin feature files) and orchestration contracts (lifecycle, metrics) but provides no guidance on test data. For projects where test data is the primary input to the system under test (e.g. `puzzles.json`), there is no specification for: where test data lives (Stack, canonical store, or shared package), how test data is versioned alongside feature files, data isolation between scenarios, or data-driven testing patterns beyond parameterised step text.
 **Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 8
+**Resolution:** DR-026 — RA v1.10 adds Section 5.6 (Test Data Management): location rules table (Stack-local vs shared), inline literal prohibition (MUST NOT), scenario isolation MUST (deep copy or in-memory), shared data versioning treated as breaking change, Scenario Outline guidance for data-driven scenarios. DEMOAPP001 `puzzles.json` confirmed compliant — Stack-local, read-only during test execution.
 
 Acceptance criteria:
 
-- [ ] Section 5.6 added: Test Data Management covering data location rules (Stack-local vs shared), versioning, scenario isolation (MUST NOT modify shared data — operate on a copy or in-memory representation), and data-driven Scenario Outline guidance
-- [ ] Shared test data path documented: MUST live under `packages/` or a dedicated `data/` directory and be referenced in `DOCS/architecture/subject-app-contract.md`
-- [ ] Inline literal prohibition restated normatively: test data MUST NOT be embedded in canonical feature files (links to Section 5.4 parameterised steps)
-- [ ] RA version bumped and a DR entry created
+- [x] Section 5.6 added: Test Data Management covering data location rules (Stack-local vs shared), versioning, scenario isolation (MUST NOT modify shared data — operate on a copy or in-memory representation), and data-driven Scenario Outline guidance
+- [x] Shared test data path documented: MUST live under `packages/` or a dedicated `data/` directory and be referenced in `DOCS/architecture/subject-app-contract.md`
+- [x] Inline literal prohibition restated normatively: test data MUST NOT be embedded in canonical feature files (links to Section 5.4 parameterised steps)
+- [x] RA version bumped and a DR entry created
 
 ---
 

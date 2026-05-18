@@ -1,6 +1,6 @@
 # Screenplay-BDD Test Automation — Agnostic Reference Architecture
 
-**Version:** 1.9
+**Version:** 1.10
 **Status:** Accepted
 **Date:** 2026-05-18
 **Applies to:** Any project adopting the Screenplay-BDD structure described herein
@@ -396,6 +396,37 @@ A `@pending` scenario that persists beyond two consecutive sprint boundaries wit
 - To add Stack-specific implementation details
 - To remove a scenario because one Stack cannot implement it
 - By a developer working on a Stack-local implementation — all canonical changes flow from the canonical feature file outward
+
+### 5.6 Test Data Management
+
+Test data is any fixture, seed, configuration file, or in-memory value required to execute a Gherkin scenario. This section governs where test data lives, how it is isolated between scenarios, and how it relates to the canonical feature store.
+
+**Location rules:**
+
+| Test data scope | Required location |
+|----------------|-------------------|
+| Used by a single Stack only | Stack's own directory (e.g. `demo-apps/demoapp001-typescript-cypress/`) |
+| Used by two or more Stacks | `packages/` or a dedicated `data/` directory at the repository root |
+| Shared test data path | MUST be documented in `DOCS/architecture/subject-app-contract.md` |
+
+**Inline literal prohibition:**
+
+Test data MUST NOT be embedded as inline literals in canonical feature files. Inline literals tie a scenario to a specific input value, preventing reuse and making the canonical file a de-facto test data store. Use parameterised steps (Section 5.4) and provide values in Stack-local Scenario Outline `Examples` tables.
+
+**Scenario isolation:**
+
+- A scenario MUST NOT modify shared test data. It MUST operate on a copy or an in-memory representation.
+- Any test data file that is read by multiple scenarios MUST be treated as read-only during test execution.
+- If a scenario requires mutable state (e.g. a writable puzzle grid), the Stack MUST create a deep copy before the scenario begins and discard it after the scenario completes.
+
+**Versioning:**
+
+- Stack-local test data is versioned with the Stack.
+- Shared test data MUST be versioned independently. Any change to shared test data that affects scenario outcomes MUST be treated as a breaking change (per Section 5.5) and requires a `decision-register.md` entry before the change is merged.
+
+**Data-driven scenarios:**
+
+Data-driven scenarios SHOULD use Gherkin `Scenario Outline` with `Examples` tables. The `Examples` data belongs in the Stack's local feature copy, not in `features-shared/`. Canonical feature files MAY include a single illustrative `Examples` row to document the expected parameter format, but MUST NOT enumerate all test data cases.
 
 ---
 
@@ -1051,4 +1082,4 @@ BACKLOG
 
 ---
 
-*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `decision-register.md` before the change is merged. Current version: v1.9 (2026-05-18).*
+*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `decision-register.md` before the change is merged. Current version: v1.10 (2026-05-18).*
