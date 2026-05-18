@@ -1,6 +1,6 @@
 # Screenplay-BDD Test Automation — Agnostic Reference Architecture
 
-**Version:** 1.10
+**Version:** 1.11
 **Status:** Accepted
 **Date:** 2026-05-18
 **Applies to:** Any project adopting the Screenplay-BDD structure described herein
@@ -741,7 +741,7 @@ Test result logs and metrics MUST be retained for a documented minimum period. T
 
 The archival process MUST:
 - Preserve the metrics summary file even after log files are purged
-- Record the archival event in `CHANGELOG.md` if the retention policy changes
+- Record any change to the retention policy as a `decision-register.md` entry, documenting the new retention window, the reason for the change, and the effective date
 
 ### 9.4 CI/CD Pipeline Requirements
 
@@ -1082,4 +1082,4 @@ BACKLOG
 
 ---
 
-*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `decision-register.md` before the change is merged. Current version: v1.10 (2026-05-18).*
+*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `decision-register.md` before the change is merged. Current version: v1.11 (2026-05-18).*

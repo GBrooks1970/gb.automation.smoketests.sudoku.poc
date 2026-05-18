@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-18 (RA-007 Resolved — test data management added to RA v1.10, DR-026)
+**Last Updated:** 2026-05-18 (RA-008 Resolved — Section 9.3 CHANGELOG.md rule corrected to decision-register.md, RA v1.11)
 **Governed by:** `reference-architecture.md` v1.9 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,15 +25,15 @@ Per v1.3 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 16 |
+| Open | 15 |
 | In Progress | 1 |
-| Resolved | 26 |
+| Resolved | 27 |
 | **Total** | **43** |
 
 | Area | Current state |
 |------|---------------|
 | Current execution baseline | 43 scenarios / 241 steps passing |
-| Active Reference Architecture | v1.10 |
+| Active Reference Architecture | v1.11 |
 | Active Stack | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`) |
 | Current sprint focus | CI wiring, output decoupling, implementation-log normalization |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
@@ -74,7 +74,7 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | RA-005 | Correct `features_shared/` underscore naming throughout RA | Risk 5 | Medium | Medium | Resolved | None required |
 | RA-006 | Resolve uppercase doc name conflict in RA Sections 10.1 and 10.2 | Risk 7 | Medium | Medium | Resolved | DR-025 |
 | RA-007 | Add test data management specification to RA (Section 5.6) | Risk 8 | Medium | Medium | Resolved | DR-026 |
-| RA-008 | Replace CHANGELOG.md retention policy rule with decision-register.md (Section 9.3) | Risk 9 | Low | Low | Open | Pending |
+| RA-008 | Replace CHANGELOG.md retention policy rule with decision-register.md (Section 9.3) | Risk 9 | Low | Low | Resolved | None required |
 | RA-009 | Add verification method column to parity criteria (Section 8.4) | Risk 10 | Low | Low | Open | Pending |
 | RA-010 | Specify shared `packages/` directory rules in RA (Section 4.4) | Risk 11 | Low | Low | Open | Pending |
 
@@ -238,15 +238,16 @@ Acceptance criteria:
 ### RA-008: Replace CHANGELOG.md retention policy rule with decision-register.md
 
 **Priority:** Low
-**Status:** Open
+**Status:** Resolved
 **Severity:** Low (review Risk 9)
 **Nature of Gap:** Section 9.3 requires that a change to the test result retention policy be recorded in `CHANGELOG.md`. CHANGELOG.md is intended for release notes and notable changes visible to project consumers. A retention window change is an operational configuration concern for the build system operator, not a release note. In practice this rule will either be silently ignored (policy changes without a changelog entry) or the changelog accumulates operational noise that obscures actual feature changes.
 **Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 9
+**Resolution:** RA v1.11 — Section 9.3 bullet updated: `CHANGELOG.md` replaced with `decision-register.md`. Retention policy changes now MUST be recorded as a DR entry with the new window, reason, and effective date. No DR required (editorial correction to a low-stakes rule).
 
 Acceptance criteria:
 
-- [ ] Section 9.3 updated: `CHANGELOG.md` reference replaced with `decision-register.md` — any change to the retention policy MUST be recorded as a DR entry documenting the new window, the reason, and the effective date
-- [ ] RA version bumped (no DR required — editorial correction to a low-stakes rule)
+- [x] Section 9.3 updated: `CHANGELOG.md` reference replaced with `decision-register.md` — any change to the retention policy MUST be recorded as a DR entry documenting the new window, the reason, and the effective date
+- [x] RA version bumped (no DR required — editorial correction to a low-stakes rule)
 
 ---
 

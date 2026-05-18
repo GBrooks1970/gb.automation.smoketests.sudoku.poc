@@ -16,7 +16,7 @@ When documents conflict, use this order:
 
 ## Current Architecture Baseline
 
-- Reference Architecture: v1.10, accepted 2026-05-18
+- Reference Architecture: v1.11, accepted 2026-05-18
 - Active Stack: `DEMOAPP001_TYPESCRIPT_CYPRESS`
 - Active surface: `@util` in-process class testing
 - Canonical feature store: `features-shared/`
