@@ -1489,6 +1489,62 @@ Update Section 8.4 of `reference-architecture.md` v1.12:
 
 ---
 
+## DR-028 — Add shared packages/ directory specification as Section 4.4 to RA v1.13 (RA-010)
+
+**Date:** 2026-05-18
+**Status:** Accepted — 2026-05-18
+
+### Context
+
+`reference-architecture.md` Section 4 showed `packages/` in the directory blueprint as "Shared code packages (OPTIONAL)" with no further specification. In a multi-Stack project, shared utilities (e.g. a common data loader, shared type definitions, or a language-agnostic utility library) will naturally emerge as the project grows. Without rules, `packages/` becomes an ungoverned vector for parity defects: Stack-specific code migrates there, test runner dependencies leak in, and interface changes break dependent Stacks without a defined coordination path. The gap was identified and documented as Risk 11 (Low) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+
+### Decision
+
+Add Section 4.4 "Shared Packages Directory" to `reference-architecture.md` v1.13:
+
+- **Contents rules (MUST NOT):** No Stack-specific code, no test runner imports, no Stack-local configuration. Subject Application source MUST NOT live in `packages/` unless it is a pure utility library with no Stack-specific dependencies.
+- **Contents rules (MAY):** Shared data loaders/fixture helpers, language-agnostic utility functions, shared type definitions used across Stacks in the same language family.
+- **Independent versioning (MUST):** Each package MUST be independently versioned.
+- **Change governance (MUST):** Any change to a package's public interface MUST be treated as a breaking change (Section 5.5), MUST produce a DR entry, and MUST be followed by a parity verification run against all dependent Stacks.
+- **Parity relationship:** Shared package failures are project-level breaking changes, not Stack parity defects. Must be resolved before any Stack is declared in parity.
+- RA version bumped from v1.12 to v1.13, date remains 2026-05-18.
+
+### Status
+
+`Accepted` — 2026-05-18
+
+### Consequences
+
+**Outcomes:**
+- `packages/` transitions from an unspecified optional directory to a governed zone with explicit content rules and change coordination requirements.
+- The prohibition on Stack-specific code and test runner imports prevents the most common anti-pattern: using `packages/` as a dumping ground for code that should live in the Stack itself.
+- Treating public interface changes as breaking changes (Section 5.5) ensures that Stacks are not silently broken by an upstream package change.
+
+**Trade-offs:**
+- Requiring independent versioning for each package adds overhead for small projects. A single-Stack project with one optional utility package will experience this overhead without a clear benefit. The trade-off is acceptable because the rule scales to multi-Stack projects where independent versioning is essential.
+- The change governance requirement (DR entry for every public interface change) is intentionally strict. Projects that iterate rapidly on shared utilities will find this friction. The alternative — ungoverned shared packages — produces the exact fragmentation and coupling problems the architecture is designed to prevent.
+
+**Compliance note:**
+- DEMOAPP001 currently uses no `packages/` directory. `puzzles.json` is Stack-local. No remediation required. When DEMOAPP002 is onboarded, any shared data loader should be placed in `packages/` and governed per this section.
+
+### Alternatives Considered
+
+**Alternative: Leave packages/ entirely unspecified and document in Stack-level docs**
+- Description: Keep the RA silent; each Stack documents how it consumes shared packages.
+- Rejected because: Shared packages are a project-level construct, not a Stack-level construct. Stack-level documentation cannot specify the canonical rules for a directory shared between Stacks.
+
+**Alternative: Prohibit packages/ entirely and require Stack-level duplication**
+- Description: Remove `packages/` from the blueprint; all code that would go there must be duplicated per Stack.
+- Rejected because: Duplication of a language-agnostic utility (e.g. a JSON puzzle loader that works identically in all Stacks) violates DRY without benefit. The parity problem the RA is solving is behavioral contract parity, not code duplication. Shared infrastructure utilities are appropriate candidates for a shared directory when governed correctly.
+
+### Related Decisions
+
+- DR-024 — Feature Change Governance (Section 5.5); shared package interface changes are treated as breaking changes under the same gate sequence.
+- DR-027 — Section 8.4 parity verification; shared package failures must be resolved before parity is declared.
+- DR-026 — Test Data Management (Section 5.6); shared test data referenced there should live in `packages/` or a dedicated `data/` directory, as now specified by Section 4.4.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -1507,5 +1563,5 @@ Update Section 8.4 of `reference-architecture.md` v1.12:
 
 ---
 
-*Last entry: DR-027. Next ID: DR-028.*
+*Last entry: DR-028. Next ID: DR-029.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

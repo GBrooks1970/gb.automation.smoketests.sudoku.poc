@@ -1,6 +1,6 @@
 # Screenplay-BDD Test Automation — Agnostic Reference Architecture
 
-**Version:** 1.12
+**Version:** 1.13
 **Status:** Accepted
 **Date:** 2026-05-18
 **Applies to:** Any project adopting the Screenplay-BDD structure described herein
@@ -302,6 +302,33 @@ The Canonical Feature Store contains only `.feature` files and MUST be readable 
 A project MAY place Stack directories under one project-specific Stack group directory when the grouping is documented in `DOCS/design/naming-conventions.md`. The group directory does not change the canonical Stack name. For example, `_API_TESTING_GHERKIN_/DEMOAPP001_TYPESCRIPT_CYPRESS/` still has the Stack name `DEMOAPP001_TYPESCRIPT_CYPRESS`.
 
 > **Note on Stack directory names:** The Stack directory name (e.g. `demoapp001-typescript-cypress/`) is a filesystem representation chosen by the project and documented in `DOCS/design/naming-conventions.md`. It is distinct from the canonical Stack name (`DEMOAPP001_TYPESCRIPT_CYPRESS`). Projects MUST document the mapping between directory names and canonical Stack names.
+
+### 4.4 Shared Packages Directory
+
+A project MAY place code shared between two or more Stacks under a `packages/` directory at the repository root. When this directory is used, the following rules apply.
+
+**Contents rules:**
+
+- Each package MUST be independently versioned (e.g. with its own `package.json`, `pyproject.toml`, or equivalent).
+- A package MUST NOT contain Stack-specific code (code that imports a Stack's test runner, framework types, or Stack-local configuration).
+- A package MUST NOT contain test runner setup or teardown hooks.
+- Subject Application source code MUST NOT live in `packages/` unless it is a pure utility library with no Stack-specific dependencies and no framework imports.
+
+**Appropriate candidates for `packages/`:**
+- Shared data loaders or fixture helpers (e.g. a puzzle loader used by multiple Stacks)
+- Language-agnostic utility functions used by Screenplay components across Stacks
+- Shared type definitions or interfaces used by multiple Stacks in the same language family
+
+**Change governance:**
+
+Any change to a package's public interface MUST:
+1. Be treated as a breaking change (per Section 5.5) for all dependent Stacks
+2. Produce a `decision-register.md` entry before the change is merged
+3. Be followed by a parity verification run against all dependent Stacks (per Section 8.4)
+
+**Relationship to parity:**
+
+Shared packages are part of the project-level contract, not the Stack contract. A change to a shared package that causes a Stack test to fail is a project-level breaking change, not a Stack parity defect. It MUST be resolved before any Stack is declared in parity.
 
 ---
 
@@ -1090,4 +1117,4 @@ BACKLOG
 
 ---
 
-*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `decision-register.md` before the change is merged. Current version: v1.12 (2026-05-18).*
+*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `decision-register.md` before the change is merged. Current version: v1.13 (2026-05-18).*

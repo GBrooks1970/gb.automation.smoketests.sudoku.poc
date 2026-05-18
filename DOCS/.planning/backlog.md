@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-18 (RA-009 Resolved — Section 8.4 parity verification table + automation requirement added, RA v1.12, DR-027)
+**Last Updated:** 2026-05-18 (RA-010 Resolved — Section 4.4 shared packages rules added to RA v1.13, DR-028)
 **Governed by:** `reference-architecture.md` v1.9 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -27,13 +27,13 @@ Per v1.3 Section 10.1:
 |--------|-------|
 | Open | 15 |
 | In Progress | 1 |
-| Resolved | 28 |
-| **Total** | **44** |
+| Resolved | 29 |
+| **Total** | **45** |
 
 | Area | Current state |
 |------|---------------|
 | Current execution baseline | 43 scenarios / 241 steps passing |
-| Active Reference Architecture | v1.12 |
+| Active Reference Architecture | v1.13 |
 | Active Stack | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`) |
 | Current sprint focus | CI wiring, output decoupling, implementation-log normalization |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
@@ -76,7 +76,7 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | RA-007 | Add test data management specification to RA (Section 5.6) | Risk 8 | Medium | Medium | Resolved | DR-026 |
 | RA-008 | Replace CHANGELOG.md retention policy rule with decision-register.md (Section 9.3) | Risk 9 | Low | Low | Resolved | None required |
 | RA-009 | Add verification method column to parity criteria (Section 8.4) | Risk 10 | Low | Low | Resolved | DR-027 |
-| RA-010 | Specify shared `packages/` directory rules in RA (Section 4.4) | Risk 11 | Low | Low | Open | Pending |
+| RA-010 | Specify shared `packages/` directory rules in RA (Section 4.4) | Risk 11 | Low | Low | Resolved | DR-028 |
 
 ---
 
@@ -272,15 +272,16 @@ Acceptance criteria:
 ### RA-010: Specify shared `packages/` directory rules in RA (Section 4.4)
 
 **Priority:** Low
-**Status:** Open
+**Status:** Resolved
 **Severity:** Low (review Risk 11)
 **Nature of Gap:** Section 4 shows `packages/` as "Shared code packages (OPTIONAL)" with no further specification. In a multi-Stack project, shared utilities (e.g. a common PuzzleLoader or shared assertion helper) will naturally emerge. There is no guidance on what is appropriate to place there, how shared packages relate to the parity contract, whether they count as part of the Stack or the project, or how package interface changes are versioned and propagated across Stacks.
 **Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 11
+**Resolution:** DR-028 — RA v1.13 adds Section 4.4 (Shared Packages Directory): independent versioning MUST, MUST NOT include Stack-specific code or test runner imports, public interface changes treated as breaking changes (Section 5.5 gate), DR entry MUST, parity verification run MUST. Shared package failures are project-level breaking changes — must be resolved before Stack is declared in parity. DEMOAPP001 has no packages/ usage; compliant. DR-028 recorded.
 
 Acceptance criteria:
 
-- [ ] Section 4.4 added: Shared Packages — each package independently versioned; MUST NOT contain Stack-specific code or test runner imports; subject application source MUST NOT live in `packages/` unless a pure utility library with no Stack-specific dependencies; any change to a shared package's public interface MUST produce a DR entry and a parity verification run against all dependent Stacks
-- [ ] RA version bumped and a DR entry created (this is a normative rule change introducing MUST requirements for a previously unconstrained area)
+- [x] Section 4.4 added: Shared Packages — each package independently versioned; MUST NOT contain Stack-specific code or test runner imports; subject application source MUST NOT live in `packages/` unless a pure utility library with no Stack-specific dependencies; any change to a shared package's public interface MUST produce a DR entry and a parity verification run against all dependent Stacks
+- [x] RA version bumped and a DR entry created (this is a normative rule change introducing MUST requirements for a previously unconstrained area)
 
 ---
 
