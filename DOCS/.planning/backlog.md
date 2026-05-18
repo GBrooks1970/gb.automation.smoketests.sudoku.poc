@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-18 (RA-007 added — test data management specification gap from structural review Risk 8)
+**Last Updated:** 2026-05-18 (RA-008 through RA-010 added — structural review Risks 9, 10, 11)
 **Governed by:** `reference-architecture.md` v1.9 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,10 +25,10 @@ Per v1.3 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 14 |
+| Open | 17 |
 | In Progress | 1 |
 | Resolved | 25 |
-| **Total** | **40** |
+| **Total** | **43** |
 
 | Area | Current state |
 |------|---------------|
@@ -74,6 +74,9 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | RA-005 | Correct `features_shared/` underscore naming throughout RA | Risk 5 | Medium | Medium | Resolved | None required |
 | RA-006 | Resolve uppercase doc name conflict in RA Sections 10.1 and 10.2 | Risk 7 | Medium | Medium | Resolved | DR-025 |
 | RA-007 | Add test data management specification to RA (Section 5.6) | Risk 8 | Medium | Medium | Open | Pending |
+| RA-008 | Replace CHANGELOG.md retention policy rule with decision-register.md (Section 9.3) | Risk 9 | Low | Low | Open | Pending |
+| RA-009 | Add verification method column to parity criteria (Section 8.4) | Risk 10 | Low | Low | Open | Pending |
+| RA-010 | Specify shared `packages/` directory rules in RA (Section 4.4) | Risk 11 | Low | Low | Open | Pending |
 
 ---
 
@@ -228,6 +231,52 @@ Acceptance criteria:
 - [ ] Shared test data path documented: MUST live under `packages/` or a dedicated `data/` directory and be referenced in `DOCS/architecture/subject-app-contract.md`
 - [ ] Inline literal prohibition restated normatively: test data MUST NOT be embedded in canonical feature files (links to Section 5.4 parameterised steps)
 - [ ] RA version bumped and a DR entry created
+
+---
+
+### RA-008: Replace CHANGELOG.md retention policy rule with decision-register.md
+
+**Priority:** Low
+**Status:** Open
+**Severity:** Low (review Risk 9)
+**Nature of Gap:** Section 9.3 requires that a change to the test result retention policy be recorded in `CHANGELOG.md`. CHANGELOG.md is intended for release notes and notable changes visible to project consumers. A retention window change is an operational configuration concern for the build system operator, not a release note. In practice this rule will either be silently ignored (policy changes without a changelog entry) or the changelog accumulates operational noise that obscures actual feature changes.
+**Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 9
+
+Acceptance criteria:
+
+- [ ] Section 9.3 updated: `CHANGELOG.md` reference replaced with `decision-register.md` — any change to the retention policy MUST be recorded as a DR entry documenting the new window, the reason, and the effective date
+- [ ] RA version bumped (no DR required — editorial correction to a low-stakes rule)
+
+---
+
+### RA-009: Add verification method column to parity criteria (Section 8.4)
+
+**Priority:** Low
+**Status:** Open
+**Severity:** Low (review Risk 10)
+**Nature of Gap:** Section 8.4 defines five criteria for declaring a Stack in parity but specifies no verification method for any of them. Appendix B provides a manual checklist. Neither specifies whether verification is manual, scripted, or a CI gate. The current project has automated coverage for criterion 1 (feature parity report) and criterion 2 (memory key parity check), but criteria 3–5 remain manual-only. A checklist filled in manually is subject to human error and is insufficient as a parity gate at scale.
+**Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 10
+
+Acceptance criteria:
+
+- [ ] Section 8.4 updated: verification method column added to the parity criteria table (automated parity report, automated memory-key checker, automated step-text diff, manual against parity-contract.md, automated backlog scan)
+- [ ] Normative statement added: criteria 1, 2, and 3 MUST be verified by an automated tool before a Stack is declared in parity; manual checklist alone is insufficient
+- [ ] RA version bumped (no DR required for column addition; if the normative statement is new MUST language, a DR entry is required)
+
+---
+
+### RA-010: Specify shared `packages/` directory rules in RA (Section 4.4)
+
+**Priority:** Low
+**Status:** Open
+**Severity:** Low (review Risk 11)
+**Nature of Gap:** Section 4 shows `packages/` as "Shared code packages (OPTIONAL)" with no further specification. In a multi-Stack project, shared utilities (e.g. a common PuzzleLoader or shared assertion helper) will naturally emerge. There is no guidance on what is appropriate to place there, how shared packages relate to the parity contract, whether they count as part of the Stack or the project, or how package interface changes are versioned and propagated across Stacks.
+**Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 11
+
+Acceptance criteria:
+
+- [ ] Section 4.4 added: Shared Packages — each package independently versioned; MUST NOT contain Stack-specific code or test runner imports; subject application source MUST NOT live in `packages/` unless a pure utility library with no Stack-specific dependencies; any change to a shared package's public interface MUST produce a DR entry and a parity verification run against all dependent Stacks
+- [ ] RA version bumped and a DR entry created (this is a normative rule change introducing MUST requirements for a previously unconstrained area)
 
 ---
 
