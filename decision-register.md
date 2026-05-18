@@ -1312,6 +1312,70 @@ Add Section 5.5 "Feature Change Governance" to `reference-architecture.md` v1.7:
 
 ---
 
+## DR-025 — Resolve uppercase document name conflict in RA Sections 10.1 and 10.2 (RA-006)
+
+**Date:** 2026-05-18
+**Status:** Accepted — 2026-05-18
+
+### Context
+
+`reference-architecture.md` v1.8 contained a direct normative conflict: Section 10.2 specified `ARCHITECTURE.md`, `SCREENPLAY_GUIDE.md`, and `QA_STRATEGY.md` as required fixed uppercase names for Stack-level documents, while Section 10.9 required a `naming-conventions.md` document to govern all naming decisions — including file names. Following both simultaneously was impossible; adopting kebab-case (the RA's own recommended default in Section 10.9) for Stack-level docs meant violating Section 10.2. This project resolved the conflict by adopting kebab-case per DR-020, meaning this project was already in violation of the RA it was supposed to conform to. The gap was identified and documented as Risk 7 (Medium) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+
+### Decision
+
+Update `reference-architecture.md` v1.9 to resolve the conflict:
+
+**Section 10.1 changes:**
+- Add "Name type" distinction: `README.md` and `CHANGELOG.md` are **FIXED** (locked by ecosystem convention — recognized by GitHub, npm, and hosting platforms by name). The backlog document and decision register are **convention-governed** (project's `naming-conventions.md` determines the exact filename).
+- Add explanatory note distinguishing FIXED vs convention-governed names.
+
+**Section 10.2 changes:**
+- Remove fixed uppercase names (`ARCHITECTURE.md`, `SCREENPLAY_GUIDE.md`, `QA_STRATEGY.md`).
+- Replace with **convention-governed** document roles. Each role has an illustrative kebab-case name (the RA's recommended default). Projects adopting a different convention document the exact filenames in `naming-conventions.md`.
+- `README.md` retains FIXED status.
+- Migration note added: projects already using kebab-case equivalents are in compliance.
+
+**Appendix A changes:**
+- "Name type" column added to the template index, distinguishing FIXED from convention-governed for each template.
+
+- RA version bumped from v1.8 to v1.9, date remains 2026-05-18.
+
+### Status
+
+`Accepted` — 2026-05-18
+
+### Consequences
+
+**Outcomes:**
+- The normative conflict is resolved. A project can now follow both Section 10.2 and Section 10.9 simultaneously.
+- This project's Stack-level documents (`architecture.md`, `screenplay-guide.md`, `qa-strategy.md`, per DR-020) are now explicitly in compliance with the RA.
+- Future Stacks are free to use any consistent naming convention without being in violation of the RA's own rules.
+- The FIXED / convention-governed distinction provides a clear mental model for future document naming decisions.
+
+**Trade-offs:**
+- By making Stack-level document names convention-governed rather than fixed, the RA loses some of the discoverability benefit of uniform names across all projects adopting the architecture. This is an acceptable trade-off — a project's `naming-conventions.md` and `CLAUDE.md` provide the same discoverability within that project's context.
+- The migration note in Section 10.2 is a one-way forward reference; it will become stale if the RA is adopted by many projects. Projects that need historical context should consult the decision register.
+
+**Compliance note:**
+- This project is in compliance with RA v1.9 as of this entry. DEMOAPP001 Stack-level docs use kebab-case per DR-020, which aligns with the illustrative default shown in the updated Section 10.2.
+
+### Alternatives Considered
+
+**Alternative: Make all Stack-level document names FIXED (enforce uppercase)**
+- Description: Restore `ARCHITECTURE.md`, `SCREENPLAY_GUIDE.md`, `QA_STRATEGY.md` as mandatory names, effectively superseding DR-020 for these files.
+- Rejected because: This project has already migrated to kebab-case per DR-020 and the files are working correctly. Reverting would undo committed, validated work with no benefit. The conflict is better resolved by making the RA flexible.
+
+**Alternative: Keep the conflict and document it as a known exception**
+- Description: Note in Section 10.2 that the names are illustrative and projects may use kebab-case equivalents.
+- Rejected because: A normative MUST that can silently be overridden is not a normative MUST. The proper fix is to change the normative requirement, not add a footnote.
+
+### Related Decisions
+
+- DR-020 — Document kebab-case naming convention for this project. DR-025 makes the RA formally consistent with DR-020.
+- DR-019 — DOCS subdirectory naming; same project-level convention applies to subdirectory names.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -1330,5 +1394,5 @@ Add Section 5.5 "Feature Change Governance" to `reference-architecture.md` v1.7:
 
 ---
 
-*Last entry: DR-024. Next ID: DR-025.*
+*Last entry: DR-025. Next ID: DR-026.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

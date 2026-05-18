@@ -1,8 +1,8 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-18 (RA-005 Resolved — features_shared underscore corrected to features-shared throughout RA v1.8)
-**Governed by:** `reference-architecture.md` v1.3 Section 10.1
+**Last Updated:** 2026-05-18 (RA-006 Resolved — uppercase doc name conflict resolved in RA v1.9, DR-025)
+**Governed by:** `reference-architecture.md` v1.9 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
 **Status:** Active Development
@@ -25,18 +25,18 @@ Per v1.3 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 14 |
+| Open | 13 |
 | In Progress | 1 |
-| Resolved | 24 |
+| Resolved | 25 |
 | **Total** | **39** |
 
 | Area | Current state |
 |------|---------------|
 | Current execution baseline | 43 scenarios / 241 steps passing |
-| Active Reference Architecture | v1.8 |
+| Active Reference Architecture | v1.9 |
 | Active Stack | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`) |
 | Current sprint focus | CI wiring, output decoupling, implementation-log normalization |
-| Highest parity risks | RA-001 (@util surface undefined) and RA-003 (Memory key parity unverified) — RA structural gaps |
+| Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
 
@@ -72,7 +72,7 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | RA-003 | Define automated Memory key parity enforcement mechanism | Risk 3 | High | High | Resolved | DR-023 |
 | RA-004 | Define Canonical Feature Store change governance (Section 5.5) | Risk 4 | High | High | Resolved | DR-024 |
 | RA-005 | Correct `features_shared/` underscore naming throughout RA | Risk 5 | Medium | Medium | Resolved | None required |
-| RA-006 | Resolve uppercase doc name conflict in RA Sections 10.1 and 10.2 | Risk 7 | Medium | Medium | Open | Pending |
+| RA-006 | Resolve uppercase doc name conflict in RA Sections 10.1 and 10.2 | Risk 7 | Medium | Medium | Resolved | DR-025 |
 
 ---
 
@@ -198,17 +198,18 @@ Acceptance criteria:
 ### RA-006: Resolve uppercase document name conflict in RA Sections 10.1 and 10.2
 
 **Priority:** Medium
-**Status:** Open
+**Status:** Resolved
 **Severity:** Medium (review Risk 7)
 **Nature of Gap:** Section 10.2 mandates `ARCHITECTURE.md`, `SCREENPLAY_GUIDE.md`, `QA_STRATEGY.md` as uppercase fixed names, but Section 10.9 mandates a naming conventions document that allows kebab-case — following both requirements simultaneously is impossible; this project has `architecture.md`, `qa-strategy.md`, `screenplay-guide.md` per DR-020
 **Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 7
+**Resolution:** DR-025 — RA v1.9 introduces FIXED vs convention-governed name-type distinction. Section 10.1 updated (README.md, CHANGELOG.md FIXED; others convention-governed). Section 10.2 updated: uppercase fixed names removed, replaced with convention-governed roles with kebab-case illustrative defaults and migration note. Appendix A name-type column added. This project's DR-020 kebab-case docs now explicitly in compliance.
 
 Acceptance criteria:
 
-- [ ] Section 10.1 table updated: `README.md` and `CHANGELOG.md` explicitly marked `FIXED` (ecosystem standard); other documents marked as convention-governed
-- [ ] Section 10.2 updated: Stack-level document names changed from fixed uppercase to "project convention per Section 10.9"
-- [ ] Appendix A `Governs` column updated to show convention-governed output paths with note
-- [ ] RA version bumped and a DR entry created (this is a normative rule change — ARCHITECTURE.md was previously REQUIRED)
+- [x] Section 10.1 table updated: `README.md` and `CHANGELOG.md` explicitly marked `FIXED` (ecosystem standard); other documents marked as convention-governed
+- [x] Section 10.2 updated: Stack-level document names changed from fixed uppercase to "project convention per Section 10.9"
+- [x] Appendix A `Governs` column updated to show convention-governed output paths with note
+- [x] RA version bumped and a DR entry created (this is a normative rule change — ARCHITECTURE.md was previously REQUIRED)
 
 ---
 

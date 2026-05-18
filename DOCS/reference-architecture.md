@@ -1,6 +1,6 @@
 # Screenplay-BDD Test Automation — Agnostic Reference Architecture
 
-**Version:** 1.8
+**Version:** 1.9
 **Status:** Accepted
 **Date:** 2026-05-18
 **Applies to:** Any project adopting the Screenplay-BDD structure described herein
@@ -756,12 +756,18 @@ All documentation in this architecture is governed by two rules: **every documen
 
 The following documents MUST exist at the paths shown. Each is governed by its named template.
 
-| Document | Path | Template | Purpose |
-|---|---|---|---|
-| `README.md` | repository root | `templates/readme.template.md` | Project purpose, prerequisites, quick-start per Stack, links to all other docs |
-| `CHANGELOG.md` | repository root | `templates/changelog.template.md` | Version history, notable changes, known issues |
-| `DOCS/planning/backlog.md` | `DOCS/planning/` | `templates/backlog.template.md` | Outstanding and future work required to keep all Stacks in parity. Each item MUST identify: affected Stack(s), nature of the gap, and priority |
-| `decision-register.md` | repository root | `templates/decision-record.template.md` | Structural and process decisions (see Section 10.6) |
+Document names fall into two categories: **FIXED** names that are locked by ecosystem convention (tools, package managers, and hosting platforms recognize them by name), and **convention-governed** names where the project's `naming-conventions.md` (Section 10.9) determines the exact filename.
+
+| Document | Name type | Path | Template | Purpose |
+|---|---|---|---|---|
+| `README.md` | FIXED | repository root | `templates/readme.template.md` | Project purpose, prerequisites, quick-start per Stack, links to all other docs |
+| `CHANGELOG.md` | FIXED | repository root | `templates/changelog.template.md` | Version history, notable changes, known issues |
+| Backlog document | convention-governed | `DOCS/planning/` (or project equivalent) | `templates/backlog.template.md` | Outstanding and future work required to keep all Stacks in parity. Each item MUST identify: affected Stack(s), nature of the gap, and priority |
+| Decision register | convention-governed | repository root | `templates/decision-record.template.md` | Structural and process decisions (see Section 10.6) |
+
+**FIXED names** (`README.md`, `CHANGELOG.md`) MUST NOT be renamed. They are recognized by GitHub, npm, and other tooling.
+
+**Convention-governed names** MUST follow the project's `naming-conventions.md` document. The illustrative names used throughout this RA (e.g. `decision-register.md`, `backlog.md`) use kebab-case, which is the RA's recommended default. Projects that adopt a different convention MUST document the exact filenames in `naming-conventions.md`.
 
 **`DOCS/planning/backlog.md` — additional rules:**
 
@@ -772,14 +778,18 @@ The following documents MUST exist at the paths shown. Each is governed by its n
 
 ### 10.2 Stack-Level Documents
 
-Each Stack MUST carry the following documents in its `docs/` directory. Each is governed by its named template.
+Each Stack MUST carry the following four documents in its `docs/` directory. Each is governed by its named template. Document names are **convention-governed** (per Section 10.9 and the project's `naming-conventions.md`) except for `README.md` which is **FIXED**.
 
-| Document | Template | Purpose |
-|---|---|---|
-| `ARCHITECTURE.md` | `templates/stack-architecture.template.md` | Design decisions, dependency graph, known constraints specific to this Stack |
-| `SCREENPLAY_GUIDE.md` | `templates/screenplay-guide.template.md` | How the Screenplay pattern is implemented in this Stack's language and tooling |
-| `QA_STRATEGY.md` | `templates/qa-strategy.template.md` | What is tested, why, and what is explicitly out of scope |
-| `README.md` | `templates/stack-readme.template.md` | Stack-specific setup, build, and run instructions |
+| Document role | Illustrative name (kebab-case default) | Name type | Template | Purpose |
+|---|---|---|---|---|
+| Stack architecture | `architecture.md` | convention-governed | `templates/stack-architecture.template.md` | Design decisions, dependency graph, known constraints specific to this Stack |
+| Screenplay guide | `screenplay-guide.md` | convention-governed | `templates/screenplay-guide.template.md` | How the Screenplay pattern is implemented in this Stack's language and tooling |
+| QA strategy | `qa-strategy.md` | convention-governed | `templates/qa-strategy.template.md` | What is tested, why, and what is explicitly out of scope |
+| Stack readme | `README.md` | FIXED | `templates/stack-readme.template.md` | Stack-specific setup, build, and run instructions |
+
+The illustrative names shown above use kebab-case (the RA's recommended default per Section 10.9). Projects adopting a different convention MUST document the exact filenames used in their `naming-conventions.md` document and use those names consistently across all Stacks.
+
+> **Migration note:** Earlier versions of this document specified `ARCHITECTURE.md`, `SCREENPLAY_GUIDE.md`, and `QA_STRATEGY.md` as fixed uppercase names. Those names are no longer normative. Projects already using kebab-case equivalents (`architecture.md`, `screenplay-guide.md`, `qa-strategy.md`) are in compliance with this version.
 
 ### 10.3 Architecture Documents
 
@@ -982,23 +992,23 @@ The following checklist MUST be completed in order when adding a new Stack to a 
 
 The following templates MUST exist under `DOCS/templates/` before the first document of each type is authored.
 
-| Template File | Governs |
-|---|---|
-| `readme.template.md` | Root `README.md` |
-| `changelog.template.md` | Root `CHANGELOG.md` |
-| `backlog.template.md` | `DOCS/planning/backlog.md` |
-| `decision-record.template.md` | Root `decision-register.md` entries |
-| `stack-architecture.template.md` | `docs/architecture.md` per Stack |
-| `screenplay-guide.template.md` | `docs/screenplay-guide.md` per Stack |
-| `qa-strategy.template.md` | `docs/qa-strategy.md` per Stack |
-| `stack-readme.template.md` | `docs/README.md` per Stack |
-| `parity-contract.template.md` | `DOCS/architecture/` parity contract |
-| `subject-app-contract.template.md` | `DOCS/architecture/` subject application contract |
-| `code-review.template.md` | `code-review/` or `.review/` review outputs |
-| `implementation-log.template.md` | `DOCS/implementation-logs/` session logs |
-| `naming-conventions.template.md` | `DOCS/design/naming-conventions.md` |
-| `algorithm.template.md` | `DOCS/algorithm/` algorithm specification files |
-| `memory-key-check.template.md` | `.batch/check-memory-key-parity` checker script (see Section 8.1) |
+| Template File | Governs | Name type |
+|---|---|---|
+| `readme.template.md` | Root `README.md` | FIXED |
+| `changelog.template.md` | Root `CHANGELOG.md` | FIXED |
+| `backlog.template.md` | Backlog document (illustrative: `DOCS/planning/backlog.md`) | convention-governed |
+| `decision-record.template.md` | Decision register entries (illustrative: `decision-register.md`) | convention-governed |
+| `stack-architecture.template.md` | Stack architecture doc in `docs/` (illustrative: `architecture.md`) | convention-governed |
+| `screenplay-guide.template.md` | Screenplay guide in `docs/` (illustrative: `screenplay-guide.md`) | convention-governed |
+| `qa-strategy.template.md` | QA strategy in `docs/` (illustrative: `qa-strategy.md`) | convention-governed |
+| `stack-readme.template.md` | `docs/README.md` per Stack | FIXED |
+| `parity-contract.template.md` | `DOCS/architecture/` parity contract | convention-governed |
+| `subject-app-contract.template.md` | `DOCS/architecture/` subject application contract | convention-governed |
+| `code-review.template.md` | `code-review/` or `.review/` review outputs | convention-governed |
+| `implementation-log.template.md` | `DOCS/implementation-logs/` session logs | convention-governed |
+| `naming-conventions.template.md` | `DOCS/design/naming-conventions.md` | convention-governed |
+| `algorithm.template.md` | `DOCS/algorithm/` algorithm specification files | convention-governed |
+| `memory-key-check.template.md` | `.batch/check-memory-key-parity` checker script (see Section 8.1) | convention-governed |
 
 ---
 
@@ -1041,4 +1051,4 @@ BACKLOG
 
 ---
 
-*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `decision-register.md` before the change is merged. Current version: v1.8 (2026-05-18).*
+*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `decision-register.md` before the change is merged. Current version: v1.9 (2026-05-18).*
