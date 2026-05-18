@@ -97,6 +97,29 @@ This document outlines the design for a RESTful API that wraps the Sudoku Solver
 - **Rate Limiting**: express-rate-limit
 - **CORS**: cors middleware
 
+### Single Express Server Approach
+
+**Decision:** The REST API and the Web UI Solver Visualisation (see `web-ui-solver-visualisation.md`)
+share a **single Express server process**. The Web UI is served as static files from the same
+Express app that handles the API routes.
+
+**Rationale:**
+
+- Eliminates CORS complexity — the browser and API share the same origin.
+- Reduces infrastructure: one process to start, one port to configure, one health-check endpoint.
+- The REST API endpoints defined in this document (`/api/...`) are registered on the shared server.
+- The Web UI static files are served from a `/` route on the same server.
+- The `CellChange` interface defined in `app_src/audit/AuditTypes.ts` is the shared type used by
+  both the REST API response payloads and the Web UI's `SolveStep` type (which extends `CellChange`).
+  Neither surface redefines this type.
+
+**Server entry point:** `app_src/server/index.ts` (to be created as part of BACKLOG-009).
+
+**Port:** Configurable via `PORT` environment variable; defaults to `3000`.
+
+Cross-reference: `web-ui-solver-visualisation.md` §5 (SolveStepTracker) depends on this server
+being present. BACKLOG-009 implements the server; BACKLOG-018 implements the UI served by it.
+
 ---
 
 ## API Specification
