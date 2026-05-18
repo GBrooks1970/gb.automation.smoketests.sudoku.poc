@@ -296,3 +296,26 @@ Feature: Basic Sudoku Solver Logic
     When 3 separate SudokuSolver instances are created
     Then each solver should maintain its own independent grid state
     And solving one should not affect the others
+
+  # =============================================================================
+  # Audit Trail Tests
+  # =============================================================================
+
+  Scenario: Audit trail captures all cell changes for a solved puzzle
+    Given the puzzle "Easy Scan Grid" is loaded from JSON
+    And audit logging is enabled
+    When the solver attempts to solve it with audit
+    Then the audit trail should be generated
+    And the audit trail should contain at least one cell change
+    And every cell change should have an algorithm attribution
+
+  Scenario: Audit trail attributes changes to the correct algorithm
+    Given the puzzle "Easy Scan Grid" is loaded from JSON
+    And audit logging is enabled
+    When the solver attempts to solve it with audit
+    Then the audit trail statistics should account for all changes
+
+  Scenario: Solver without audit logging produces no trail
+    Given the puzzle "Easy Scan Grid" is loaded from JSON
+    When the solver attempts to solve it
+    Then no audit trail should be present

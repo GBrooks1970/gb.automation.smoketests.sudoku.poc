@@ -1,6 +1,7 @@
 import { Ability } from '@serenity-js/core';
 import { SudokuSolver } from '../../../app_src/SudokuSolver';
 import { SudokuOrchestrator } from '../../../app_src/SudokuOrchestrator';
+import { AuditTrail } from '../../../app_src/audit/AuditTypes';
 
 /**
  * Ability: UseSudokuSolver
@@ -23,6 +24,8 @@ export class UseSudokuSolver extends Ability {
   private _validationResult: string = '';
   private _multipleSolvers: SudokuSolver[] = [];
   private _solverError: Error | null = null;
+  private _auditEnabled: boolean = false;
+  private _lastAuditTrail: AuditTrail | undefined = undefined;
 
   constructor() { super(); }
 
@@ -61,6 +64,17 @@ export class UseSudokuSolver extends Ability {
   solvePuzzle(): void {
     const orchestrator = new SudokuOrchestrator(this.getSolver());
     this.solveResult = orchestrator.solve();
+    this._lastAuditTrail = undefined;
+  }
+
+  solvePuzzleWithAudit(): void {
+    const orchestrator = new SudokuOrchestrator(this.getSolver(), { enabled: true });
+    this.solveResult = orchestrator.solve();
+    this._lastAuditTrail = orchestrator.getAuditTrail();
+  }
+
+  enableAudit(): void {
+    this._auditEnabled = true;
   }
 
   isGridFull(): boolean {
@@ -120,4 +134,6 @@ export class UseSudokuSolver extends Ability {
   get validationResult(): string { return this._validationResult; }
   get multipleSolvers(): SudokuSolver[] { return this._multipleSolvers; }
   get solverError(): Error | null { return this._solverError; }
+  get auditEnabled(): boolean { return this._auditEnabled; }
+  get lastAuditTrail(): AuditTrail | undefined { return this._lastAuditTrail; }
 }

@@ -1,7 +1,10 @@
 import { GRID_SIZE, BLOCK_SIZE, EMPTY_CELL } from './constants';
+import { AuditLogger } from './audit/AuditLogger';
+import { CellChange } from './audit/AuditTypes';
 
 export class SudokuSolver {
   public grid: number[][];
+  private auditLogger?: AuditLogger;
 
   constructor(
     public readonly name: string,
@@ -11,6 +14,10 @@ export class SudokuSolver {
   ) {
     // Deep copy the original grid to the working grid
     this.grid = origGrid.map((row) => [...row]);
+  }
+
+  setAuditLogger(logger: AuditLogger): void {
+    this.auditLogger = logger;
   }
 
   /**
@@ -23,6 +30,7 @@ export class SudokuSolver {
    */
   public unitCompletion(): boolean {
     let changed = false;
+    const changes: CellChange[] = [];
 
     // Check all rows
     for (let row = 0; row < GRID_SIZE; row++) {
@@ -30,6 +38,8 @@ export class SudokuSolver {
       if (empties.length === 1) {
         const colIndex = this.grid[row].indexOf(EMPTY_CELL);
         const missing = this.findMissingDigit(this.grid[row]);
+        changes.push({ cell: { row, col: colIndex }, oldValue: 0, newValue: missing,
+          reason: `Last empty cell in row ${row}` });
         this.grid[row][colIndex] = missing;
         changed = true;
       }
@@ -42,6 +52,8 @@ export class SudokuSolver {
       if (empties.length === 1) {
         const rowIndex = column.indexOf(EMPTY_CELL);
         const missing = this.findMissingDigit(column);
+        changes.push({ cell: { row: rowIndex, col }, oldValue: 0, newValue: missing,
+          reason: `Last empty cell in column ${col}` });
         this.grid[rowIndex][col] = missing;
         changed = true;
       }
@@ -54,12 +66,17 @@ export class SudokuSolver {
         if (blockCells.length === 1) {
           const blockValues = this.getBlockValues(blockRow, blockCol);
           const missing = this.findMissingDigit(blockValues);
+          changes.push({ cell: blockCells[0], oldValue: 0, newValue: missing,
+            reason: `Last empty cell in block (${blockRow},${blockCol})` });
           this.grid[blockCells[0].row][blockCells[0].col] = missing;
           changed = true;
         }
       }
     }
 
+    if (this.auditLogger?.isEnabled() && changes.length > 0) {
+      this.auditLogger.logChange('UnitCompletion', changes);
+    }
     return changed;
   }
 
@@ -79,6 +96,7 @@ export class SudokuSolver {
    */
   public hiddenSingles(target: number): boolean {
     let changed = false;
+    const changes: CellChange[] = [];
 
     // Check each row: if target can only go in one empty cell in this row
     for (let row = 0; row < GRID_SIZE; row++) {
@@ -93,6 +111,8 @@ export class SudokuSolver {
         }
       }
       if (candidates.length === 1) {
+        changes.push({ cell: candidates[0], oldValue: 0, newValue: target,
+          reason: `Only valid location for ${target} in row ${row}` });
         this.grid[candidates[0].row][candidates[0].col] = target;
         changed = true;
       }
@@ -111,6 +131,8 @@ export class SudokuSolver {
         }
       }
       if (candidates.length === 1) {
+        changes.push({ cell: candidates[0], oldValue: 0, newValue: target,
+          reason: `Only valid location for ${target} in column ${col}` });
         this.grid[candidates[0].row][candidates[0].col] = target;
         changed = true;
       }
@@ -124,12 +146,17 @@ export class SudokuSolver {
           (cell) => !this.isInRow(target, cell.row) && !this.isInCol(target, cell.col)
         );
         if (candidates.length === 1) {
+          changes.push({ cell: candidates[0], oldValue: 0, newValue: target,
+            reason: `Only valid location for ${target} in block (${blockRow},${blockCol})` });
           this.grid[candidates[0].row][candidates[0].col] = target;
           changed = true;
         }
       }
     }
 
+    if (this.auditLogger?.isEnabled() && changes.length > 0) {
+      this.auditLogger.logChange('HiddenSingles', changes, target);
+    }
     return changed;
   }
 
@@ -147,17 +174,76 @@ export class SudokuSolver {
    */
   public nakedSingles(): boolean {
     let changed = false;
+    const changes: CellChange[] = [];
     for (let row = 0; row < GRID_SIZE; row++) {
       for (let col = 0; col < GRID_SIZE; col++) {
         if (this.grid[row][col] !== EMPTY_CELL) continue;
         const possible = this.getCellCandidates(row, col);
         if (possible.size === 1) {
-          this.grid[row][col] = Array.from(possible)[0];
+          const val = Array.from(possible)[0];
+          changes.push({ cell: { row, col }, oldValue: 0, newValue: val,
+            reason: `Only candidate remaining in cell [${row},${col}]` });
+          this.grid[row][col] = val;
           changed = true;
         }
       }
     }
+    if (this.auditLogger?.isEnabled() && changes.length > 0) {
+      this.auditLogger.logChange('NakedSingles', changes);
+    }
     return changed;
+  }
+
+  public isValidPlacement(row: number, col: number, value: number): boolean {
+    for (let c = 0; c < GRID_SIZE; c++) {
+      if (c !== col && this.grid[row][c] === value) return false;
+    }
+    for (let r = 0; r < GRID_SIZE; r++) {
+      if (r !== row && this.grid[r][col] === value) return false;
+    }
+    const blockRow = Math.floor(row / BLOCK_SIZE) * BLOCK_SIZE;
+    const blockCol = Math.floor(col / BLOCK_SIZE) * BLOCK_SIZE;
+    for (let r = blockRow; r < blockRow + BLOCK_SIZE; r++) {
+      for (let c = blockCol; c < blockCol + BLOCK_SIZE; c++) {
+        if ((r !== row || c !== col) && this.grid[r][c] === value) return false;
+      }
+    }
+    return true;
+  }
+
+  public noConstraintViolations(): boolean {
+    for (let r = 0; r < GRID_SIZE; r++) {
+      for (let c = 0; c < GRID_SIZE; c++) {
+        const val = this.grid[r][c];
+        if (val !== EMPTY_CELL && !this.isValidPlacement(r, c, val)) return false;
+      }
+    }
+    return true;
+  }
+
+  public isValidSolution(): boolean {
+    const digits = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    const setEquals = (a: Set<number>, b: Set<number>): boolean => {
+      if (a.size !== b.size) return false;
+      for (const v of a) if (!b.has(v)) return false;
+      return true;
+    };
+    for (let i = 0; i < GRID_SIZE; i++) {
+      if (!setEquals(new Set(this.grid[i]), digits)) return false;
+      if (!setEquals(new Set(this.grid.map(r => r[i])), digits)) return false;
+    }
+    for (let br = 0; br < BLOCK_SIZE; br++) {
+      for (let bc = 0; bc < BLOCK_SIZE; bc++) {
+        const vals = new Set<number>();
+        for (let r = br * BLOCK_SIZE; r < (br + 1) * BLOCK_SIZE; r++) {
+          for (let c = bc * BLOCK_SIZE; c < (bc + 1) * BLOCK_SIZE; c++) {
+            vals.add(this.grid[r][c]);
+          }
+        }
+        if (!setEquals(vals, digits)) return false;
+      }
+    }
+    return true;
   }
 
   private isInRow(v: number, row: number): boolean {
@@ -231,58 +317,6 @@ export class SudokuSolver {
 
     candidates.delete(EMPTY_CELL);
     return candidates;
-  }
-
-  public isValidPlacement(row: number, col: number, value: number): boolean {
-    for (let c = 0; c < GRID_SIZE; c++) {
-      if (c !== col && this.grid[row][c] === value) return false;
-    }
-    for (let r = 0; r < GRID_SIZE; r++) {
-      if (r !== row && this.grid[r][col] === value) return false;
-    }
-    const blockRow = Math.floor(row / BLOCK_SIZE) * BLOCK_SIZE;
-    const blockCol = Math.floor(col / BLOCK_SIZE) * BLOCK_SIZE;
-    for (let r = blockRow; r < blockRow + BLOCK_SIZE; r++) {
-      for (let c = blockCol; c < blockCol + BLOCK_SIZE; c++) {
-        if ((r !== row || c !== col) && this.grid[r][c] === value) return false;
-      }
-    }
-    return true;
-  }
-
-  public noConstraintViolations(): boolean {
-    for (let r = 0; r < GRID_SIZE; r++) {
-      for (let c = 0; c < GRID_SIZE; c++) {
-        const val = this.grid[r][c];
-        if (val !== EMPTY_CELL && !this.isValidPlacement(r, c, val)) return false;
-      }
-    }
-    return true;
-  }
-
-  public isValidSolution(): boolean {
-    const digits = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9]);
-    const setEquals = (a: Set<number>, b: Set<number>): boolean => {
-      if (a.size !== b.size) return false;
-      for (const v of a) if (!b.has(v)) return false;
-      return true;
-    };
-    for (let i = 0; i < GRID_SIZE; i++) {
-      if (!setEquals(new Set(this.grid[i]), digits)) return false;
-      if (!setEquals(new Set(this.grid.map(r => r[i])), digits)) return false;
-    }
-    for (let br = 0; br < BLOCK_SIZE; br++) {
-      for (let bc = 0; bc < BLOCK_SIZE; bc++) {
-        const vals = new Set<number>();
-        for (let r = br * BLOCK_SIZE; r < (br + 1) * BLOCK_SIZE; r++) {
-          for (let c = bc * BLOCK_SIZE; c < (bc + 1) * BLOCK_SIZE; c++) {
-            vals.add(this.grid[r][c]);
-          }
-        }
-        if (!setEquals(vals, digits)) return false;
-      }
-    }
-    return true;
   }
 
   private findMissingDigit(values: number[]): number {
