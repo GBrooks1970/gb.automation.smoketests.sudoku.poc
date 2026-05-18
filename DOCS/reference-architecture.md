@@ -1,8 +1,8 @@
 # Screenplay-BDD Test Automation — Agnostic Reference Architecture
 
-**Version:** 1.3
+**Version:** 1.4
 **Status:** Accepted
-**Date:** 2026-05-15
+**Date:** 2026-05-18
 **Applies to:** Any project adopting the Screenplay-BDD structure described herein
 
 ---
@@ -360,7 +360,27 @@ Over-specified steps cannot be reused. Any step that names a specific endpoint, 
 
 ## 6. Subject Application Contract
 
-The Subject Application is the software under test. This architecture supports three Surface Types. A project MAY implement one or more surface types across its Stacks.
+The Subject Application is the software under test. This architecture supports four Surface Types. A project MAY implement one or more surface types across its Stacks.
+
+### 6.0 @util Surface (In-Process Logic Testing)
+
+A `@util` surface tests application logic in-process, without spawning or connecting to a live subject application process. The test runner imports or instantiates the Subject Application classes directly within the same process as the test suite.
+
+This is the appropriate surface type for testing pure-logic components such as solvers, calculators, parsers, and transformers — where no HTTP server, browser, or subprocess is required to exercise the code under test.
+
+A Subject Application suitable for `@util` testing MUST:
+
+- Be importable or instantiable directly in the test process without a server, browser, or subprocess spawn
+- Expose deterministic, side-effect-free public methods for all behaviours under test
+- Not share mutable global state between test scenarios
+- Support fresh instance creation per scenario (or provide a documented reset mechanism)
+- Produce the same output for the same input, regardless of execution order or concurrency
+
+A `@util` surface MUST NOT:
+
+- Require a running network service, database, or file system to initialise
+- Produce non-deterministic output for a given set of inputs
+- Maintain shared state across scenario boundaries
 
 ### 6.1 API Surface
 
@@ -405,6 +425,25 @@ A Stack MAY test a Subject Application across more than one surface type (e.g. t
 ## 7. Ability Taxonomy by Surface Type
 
 This section defines the canonical Ability roles for each surface type. Naming conventions are illustrative; the structural contract is normative.
+
+### 7.0 @util Surface Ability
+
+**Canonical Ability: `UseSubjectDirectly`**
+
+Wraps the Subject Application class or module used in in-process testing. This Ability holds a reference to the live instance and exposes its public interface to Tasks.
+
+| Responsibility | Description |
+|---|---|
+| Configuration | Accepts the class constructor, factory function, or module reference at construction |
+| Instantiation | Creates a fresh Subject Application instance per scenario (or resets existing state) |
+| Invocation | Calls the Subject Application's public methods on behalf of Tasks |
+| Output capture | Stores return values, status strings, and thrown errors in Actor Memory |
+
+The Ability MUST NOT contain assertion logic. Assertions belong in Questions.
+
+The Ability MUST NOT persist state between scenarios. Each scenario MUST interact with a freshly instantiated or reset Subject Application.
+
+**Note on naming:** The canonical name `UseSubjectDirectly` is illustrative. Projects SHOULD name the Ability to reflect what is being used (e.g. `UseSudokuSolver`, `UseInvoiceCalculator`). The structural contract — holding an instance, delegating invocation to Tasks, storing results in Memory — is normative regardless of naming.
 
 ### 7.1 API Surface Abilities
 
@@ -484,6 +523,13 @@ CONSTANT_NAME  =  "CONSTANT_NAME"
 
 A Memory key that uses a different string in one Stack than in another is a parity defect, not a stylistic variation. This matters because Keys appear in logs, debug output, and cross-stack documentation — inconsistency breaks traceability.
 
+**Required Memory keys for @util surface (minimum set):**
+
+| Key | Holds |
+|---|---|
+| `SOLVE_RESULT` | The primary return value or status string from the most recent Subject Application call |
+| `ALGORITHM_PROGRESS` | Boolean — whether the most recent operation produced any observable state change |
+
 **Required Memory keys for API surface (minimum set):**
 
 | Key | Holds |
@@ -491,7 +537,7 @@ A Memory key that uses a different string in one Stack than in another is a pari
 | `LAST_RESPONSE` | The full response object from the most recent request |
 | `LAST_REQUEST_ENDPOINT` | The endpoint path used in the most recent request |
 
-Additional keys for other surface types and project-specific state MUST follow the same naming convention and MUST be listed in the Stack's `screenplay/support/memory-keys` file.
+Additional keys for all surface types and project-specific state MUST follow the same naming convention and MUST be listed in the Stack's `screenplay/support/memory-keys` file.
 
 ### 8.2 Step Definition Shape
 
@@ -528,6 +574,16 @@ A Stack is considered in parity when:
 ### 9.1 Subject Application Lifecycle
 
 For each run, the orchestration layer is responsible for managing the full lifecycle of the Subject Application. The lifecycle differs by surface type.
+
+**@util Surface:**
+
+```
+1. Build subject application (if source is co-located)
+2. Verify the target class or module is importable in the test process
+3. Execute test suite (each scenario instantiates the class independently)
+4. Capture exit code and log output
+5. Write metrics (Section 9.2)
+```
 
 **API Surface:**
 
@@ -860,6 +916,13 @@ The following templates MUST exist under `DOCS/templates/` before the first docu
 Use this checklist to assess whether an existing Stack is in parity without reading the full document.
 
 ```
+@util SURFACE (if applicable — Section 6.0)
+  [ ] Subject Application class is instantiable directly in test process
+  [ ] No shared mutable state exists between scenarios
+  [ ] Fresh instance (or reset) created per scenario
+  [ ] UseSubjectDirectly (or project-specific equivalent) Ability registered on Actor
+  [ ] SOLVE_RESULT and ALGORITHM_PROGRESS Memory keys defined (or project equivalents)
+
 MEMORY KEYS
   [ ] All constants defined in screenplay/support/memory-keys
   [ ] Constant name equals constant string value exactly
@@ -887,4 +950,4 @@ BACKLOG
 
 ---
 
-*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `decision-register.md` before the change is merged.*
+*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `decision-register.md` before the change is merged. Current version: v1.4 (2026-05-18).*

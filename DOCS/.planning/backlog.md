@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-18 (RA-001 through RA-006 added from structural review)
+**Last Updated:** 2026-05-18 (RA-001 Resolved — @util surface type added to RA v1.4, DR-021)
 **Governed by:** `reference-architecture.md` v1.3 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,15 +25,15 @@ Per v1.3 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 19 |
+| Open | 18 |
 | In Progress | 1 |
-| Resolved | 19 |
+| Resolved | 20 |
 | **Total** | **39** |
 
 | Area | Current state |
 |------|---------------|
 | Current execution baseline | 43 scenarios / 241 steps passing |
-| Active Reference Architecture | v1.3 |
+| Active Reference Architecture | v1.4 |
 | Active Stack | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`) |
 | Current sprint focus | CI wiring, output decoupling, implementation-log normalization |
 | Highest parity risks | RA-001 (@util surface undefined) and RA-003 (Memory key parity unverified) — RA structural gaps |
@@ -67,7 +67,7 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 
 | ID | Title | Risk (review) | Severity | Priority | Status | Decision Record |
 |----|-------|---------------|----------|----------|--------|-----------------|
-| RA-001 | Define `@util` surface type formally in RA Sections 6 and 7 | Risk 1 | Critical | High | Open | Pending |
+| RA-001 | Define `@util` surface type formally in RA Sections 6 and 7 | Risk 1 | Critical | High | Resolved | DR-021 |
 | RA-002 | Add CI/CD pipeline requirements section to RA (Section 9.4) | Risk 2 | High | High | Open | Pending |
 | RA-003 | Define automated Memory key parity enforcement mechanism | Risk 3 | High | High | Open | Pending |
 | RA-004 | Define Canonical Feature Store change governance (Section 5.5) | Risk 4 | High | High | Open | Pending |
@@ -103,19 +103,20 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 ### RA-001: Define `@util` surface type formally in RA Sections 6 and 7
 
 **Priority:** High
-**Status:** Open
+**Status:** Resolved
 **Severity:** Critical (review Risk 1)
 **Nature of Gap:** RA specification gap — `@util` tag appears in Sections 5.3 and Appendix B but has no corresponding surface contract (Section 6), Ability definition (Section 7), or orchestration lifecycle (Section 9.1)
 **Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 1
+**Resolution:** DR-021 — RA v1.4 adds Section 6.0 (`@util` surface contract), Section 7.0 (canonical Ability), Section 8.1 minimum Memory keys, Section 9.1 lifecycle, Appendix B checklist block. RA version bumped to v1.4 (2026-05-18).
 
 Acceptance criteria:
 
-- [ ] Section 6.0 added: `@util` surface contract specifying in-process subject application requirements
-- [ ] Section 7.0 added: canonical `@util` Ability definition (`UseSubjectDirectly` or equivalent)
-- [ ] Section 9.1 updated: `@util` orchestration lifecycle added alongside API/UI/CLI lifecycles
-- [ ] Minimum Memory key set for `@util` surface documented in Section 8.1
-- [ ] Appendix B compliance checklist references the new `@util` surface contract section
-- [ ] RA version bumped and a DR entry created recording the addition
+- [x] Section 6.0 added: `@util` surface contract specifying in-process subject application requirements
+- [x] Section 7.0 added: canonical `@util` Ability definition (`UseSubjectDirectly` or equivalent)
+- [x] Section 9.1 updated: `@util` orchestration lifecycle added alongside API/UI/CLI lifecycles
+- [x] Minimum Memory key set for `@util` surface documented in Section 8.1
+- [x] Appendix B compliance checklist references the new `@util` surface contract section
+- [x] RA version bumped and a DR entry created recording the addition
 
 ---
 

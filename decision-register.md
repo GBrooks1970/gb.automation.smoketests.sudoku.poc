@@ -1083,6 +1083,62 @@ The migration is executed in four phases per `DOCS/analysis-document-naming-keba
 
 ---
 
+## DR-021 — Formalise `@util` as a first-class surface type in reference-architecture.md v1.4 (RA-001)
+
+**Date:** 2026-05-18
+**Status:** Accepted — 2026-05-18
+
+### Context
+
+`reference-architecture.md` v1.3 defined three Surface Types: API, UI, and CLI. The `@util` tag was introduced in Section 5.3 and referenced in Appendix B's compliance checklist, but no corresponding surface contract existed in Section 6, no Ability definition in Section 7, and no orchestration lifecycle in Section 9.1. This left the most commonly used surface type for single-application projects (in-process class testing) as a specification orphan. Any project using `@util` — including this one — had no normative definition to conform to. The gap was identified and documented as Risk 1 (Critical) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+
+### Decision
+
+Promote `@util` to a formally specified Surface Type in `reference-architecture.md` v1.4:
+
+- **Section 6.0** added: `@util` surface contract. Defines in-process subject application requirements (importable directly, no shared mutable state between scenarios, deterministic, fresh-instance per scenario).
+- **Section 7.0** added: canonical `@util` Ability taxonomy. Canonical name `UseSubjectDirectly` (illustrative; project-specific names permitted). Structural contract: holds instance reference, delegates invocation to Tasks, stores results in Memory.
+- **Section 9.1** updated: `@util` orchestration lifecycle added (build, verify importable, execute, capture, write metrics).
+- **Section 8.1** updated: minimum Memory key set for `@util` surface documented (`SOLVE_RESULT`, `ALGORITHM_PROGRESS`).
+- **Appendix B** updated: `@util` surface compliance checklist block added.
+- RA version bumped from v1.3 to v1.4, date updated to 2026-05-18.
+
+### Status
+
+`Accepted` — 2026-05-18
+
+### Consequences
+
+**Outcomes:**
+- `@util` is now a fully specified surface type with a surface contract, Ability taxonomy, orchestration lifecycle, minimum Memory key set, and compliance checklist block.
+- Projects using `@util` can assess their conformance against a normative definition rather than inferring it from usage examples.
+- Future Stacks using `@util` (DEMOAPP002, DEMOAPP003) have a canonical Ability pattern to follow.
+
+**Trade-offs:**
+- The minimum Memory keys (`SOLVE_RESULT`, `ALGORITHM_PROGRESS`) are named based on this project's current implementation. Projects with different subject applications may find the names semantically misleading; the RA clarifies these are minimum examples, not required literal names.
+- The canonical Ability name `UseSubjectDirectly` is illustrative only — the structural contract is normative, the name is not. This distinction requires clear communication to avoid implementors treating the canonical name as mandatory.
+
+**Compliance note:**
+- Aligns the RA with its own tag taxonomy. All existing `@util` usage in this project (Sections 5.3, Appendix B) now has a normative definition.
+
+### Alternatives Considered
+
+**Alternative: Leave `@util` as an informal convention**
+- Description: Document that `@util` is a project-local extension of the architecture without formalising it.
+- Rejected because: The tag already appears in two locations of the RA (Sections 5.3 and Appendix B) without definition. Leaving it informal increases, not decreases, the specification gap and misleads future implementors.
+
+**Alternative: Define `@util` as a subset of the CLI surface**
+- Description: Treat in-process testing as a restricted form of CLI testing where the "command" is a function call.
+- Rejected because: The CLI surface requires process invocation, exit code handling, and stdout/stderr capture. In-process testing shares none of these concerns. The surfaces are structurally distinct.
+
+### Related Decisions
+
+- DR-002 — TypeScript + Cucumber.js for DEMOAPP001; DEMOAPP001 uses `@util` surface.
+- DR-003 — In-process (`@util`) surface choice for DEMOAPP001 testing.
+- DR-015 — Actor Memory wiring; the `@util` Memory key minimum set formalises the pattern already used in this project.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -1101,5 +1157,5 @@ The migration is executed in four phases per `DOCS/analysis-document-naming-keba
 
 ---
 
-*Last entry: DR-020. Next ID: DR-021.*
+*Last entry: DR-021. Next ID: DR-022.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*
