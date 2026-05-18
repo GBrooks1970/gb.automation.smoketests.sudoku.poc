@@ -1,24 +1,21 @@
 import { SudokuSolver } from './SudokuSolver';
 import { SudokuOrchestrator } from './SudokuOrchestrator';
+import { IOutput } from './output/IOutput';
+import { ConsoleOutput } from './output/ConsoleOutput';
 import { GRID_SIZE, BLOCK_SIZE, EMPTY_CELL } from './constants';
 
-/**
- * Handles Terminal Interaction and Formatting.
- * Follows the Single Responsibility Principle: Interface Only.
- */
 export class SudokuCLI {
   private orchestrator: SudokuOrchestrator;
+  private output: IOutput;
 
-  constructor(private solver: SudokuSolver) {
+  constructor(private solver: SudokuSolver, output: IOutput = new ConsoleOutput()) {
     this.orchestrator = new SudokuOrchestrator(this.solver);
+    this.output = output;
   }
 
-  /**
-   * Renders the 9x9 grid in a human-readable format.
-   */
   public displayGrid(): void {
-    console.log(`\n--${this.solver.name}----`);
-    console.log('\n-------------------------');
+    this.output.write(`\n--${this.solver.name}----`);
+    this.output.write('\n-------------------------');
     for (let i = 0; i < GRID_SIZE; i++) {
       let rowString = '| ';
       for (let j = 0; j < GRID_SIZE; j++) {
@@ -26,25 +23,22 @@ export class SudokuCLI {
         rowString += (cellValue === EMPTY_CELL ? '.' : cellValue) + ' ';
         if ((j + 1) % BLOCK_SIZE === 0) rowString += '| ';
       }
-      console.log(rowString);
-      if ((i + 1) % BLOCK_SIZE === 0) console.log('-------------------------');
+      this.output.write(rowString);
+      if ((i + 1) % BLOCK_SIZE === 0) this.output.write('-------------------------');
     }
   }
 
-  /**
-   * Executes the solve process and prints the results.
-   */
   public run(): string {
-    console.log('\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-    console.log('Initial Puzzle:');
+    this.output.write('\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+    this.output.write('Initial Puzzle:');
     this.displayGrid();
 
-    console.log('\nSolving...');
+    this.output.write('\nSolving...');
     const status = this.orchestrator.solve();
 
-    console.log(`\nResult: ${status}`);
+    this.output.write(`\nResult: ${status}`);
     this.displayGrid();
-    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n');
+    this.output.write('xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n');
 
     return status;
   }

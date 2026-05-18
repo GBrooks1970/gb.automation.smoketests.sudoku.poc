@@ -13,15 +13,6 @@ export class SudokuSolver {
     this.grid = origGrid.map((row) => [...row]);
   }
 
-  static named(
-    name: string = 'S000',
-    origGrid: number[][] = Array.from({ length: GRID_SIZE }, () =>
-      Array(GRID_SIZE).fill(EMPTY_CELL)
-    )
-  ): SudokuSolver {
-    return new SudokuSolver(name, origGrid);
-  }
-
   /**
    * Unit Completion Algorithm
    * Goal: Solve units (rows, columns, or blocks) that have only one empty cell.
