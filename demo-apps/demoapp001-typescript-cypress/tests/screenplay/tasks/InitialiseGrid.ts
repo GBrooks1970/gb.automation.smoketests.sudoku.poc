@@ -3,6 +3,7 @@ import { UseSudokuSolver } from '../abilities/UseSudokuSolver';
 import { LoadPuzzles } from '../abilities/LoadPuzzles';
 import { GRID_SNAPSHOT, SudokuNotes } from '../support/memory-keys';
 import { GRID_SIZE, EMPTY_CELL } from '../../../app_src/constants';
+import * as GridFixtures from '../fixtures/GridFixtures';
 
 /**
  * Task: InitialiseGrid
@@ -62,7 +63,9 @@ export const InitialiseGrid = {
     Interaction.where(
       `#actor initialises a grid with duplicate ${value} in row ${rowIndex}`,
       async actor => {
-        UseSudokuSolver.as(actor).setupWithDuplicateInRow(rowIndex, value);
+        const ability = UseSudokuSolver.as(actor);
+        ability.initialise('duplicate');
+        GridFixtures.setupWithDuplicateInRow(ability.getSolver(), rowIndex, value);
       }
     ),
 };

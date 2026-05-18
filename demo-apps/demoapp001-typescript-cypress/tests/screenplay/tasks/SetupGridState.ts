@@ -3,17 +3,15 @@ import { UseSudokuSolver } from '../abilities/UseSudokuSolver';
 import { LoadPuzzles } from '../abilities/LoadPuzzles';
 import { TARGET_CELL, GRID_SNAPSHOT, SudokuNotes } from '../support/memory-keys';
 import { GRID_SIZE } from '../../../app_src/constants';
+import * as GridFixtures from '../fixtures/GridFixtures';
 
 /**
  * Task: SetupGridState
  *
  * Factory functions returning Interactions that configure the solver's grid
- * into specific states required by test scenarios.
- * Each method maps to a distinct Gherkin Given step variant.
- *
- * targetCell() writes TARGET_CELL to Actor Memory (MIG-04).
- * valuesInRow/Column/Block() read TARGET_CELL from Actor Memory so step
- * definitions no longer access the Ability directly (MIG-05).
+ * into specific states required by test scenarios. Grid manipulation is
+ * delegated to GridFixtures (pure functions on SudokuSolver), keeping this
+ * Task responsible only for orchestration and Actor Memory writes.
  */
 export const SetupGridState = {
 
@@ -24,7 +22,7 @@ export const SetupGridState = {
   almostCompleteColumn: (col: number) =>
     Interaction.where(`#actor sets up column ${col} with 8 non-zero values`, async actor => {
       const ability = UseSudokuSolver.as(actor);
-      ability.setupAlmostCompleteColumn(col);
+      GridFixtures.setupAlmostCompleteColumn(ability.getSolver(), col);
       ability.takeSnapshot();
     }),
 
@@ -33,7 +31,7 @@ export const SetupGridState = {
       `#actor sets up block (${blockRow},${blockCol}) with 8 non-zero values`,
       async actor => {
         const ability = UseSudokuSolver.as(actor);
-        ability.setupAlmostCompleteBlock(blockRow, blockCol);
+        GridFixtures.setupAlmostCompleteBlock(ability.getSolver(), blockRow, blockCol);
         ability.takeSnapshot();
       }
     ),
@@ -41,7 +39,7 @@ export const SetupGridState = {
   withMultipleEmpties: () =>
     Interaction.where('#actor sets up a grid with multiple empties per unit', async actor => {
       const ability = UseSudokuSolver.as(actor);
-      ability.setupMultipleEmpties();
+      GridFixtures.setupMultipleEmpties(ability.getSolver());
       ability.takeSnapshot();
     }),
 
@@ -51,7 +49,7 @@ export const SetupGridState = {
 
   rowMissingDigit: (rowIndex: number, target: number) =>
     Interaction.where(`#actor sets up row ${rowIndex} missing digit ${target}`, async actor => {
-      UseSudokuSolver.as(actor).setupRowMissingDigit(rowIndex, target);
+      GridFixtures.setupRowMissingDigit(UseSudokuSolver.as(actor).getSolver(), rowIndex, target);
     }),
 
   rowColumnConstraints: (_count: number, _rowIndex: number, _target: number) =>
@@ -63,7 +61,7 @@ export const SetupGridState = {
     Interaction.where(
       `#actor sets up column ${colIndex} missing digit ${target}`,
       async actor => {
-        UseSudokuSolver.as(actor).setupColumnMissingDigit(colIndex, target);
+        GridFixtures.setupColumnMissingDigit(UseSudokuSolver.as(actor).getSolver(), colIndex, target);
       }
     ),
 
@@ -74,20 +72,20 @@ export const SetupGridState = {
 
   blockFourEmpties: () =>
     Interaction.where('#actor sets up a block with four empty cells', async actor => {
-      UseSudokuSolver.as(actor).setupBlockFourEmpties();
+      GridFixtures.setupBlockFourEmpties(UseSudokuSolver.as(actor).getSolver());
     }),
 
   hiddenSingleInBlock: (target: number) =>
     Interaction.where(`#actor sets up a hidden single for digit ${target}`, async actor => {
       const ability = UseSudokuSolver.as(actor);
-      ability.setupHiddenSingleInBlock(target);
+      GridFixtures.setupHiddenSingleInBlock(ability.getSolver(), target);
       ability.takeSnapshot();
     }),
 
   digitInRow: (rowIndex: number, digit: number) =>
     Interaction.where(`#actor places digit ${digit} in row ${rowIndex}`, async actor => {
       const ability = UseSudokuSolver.as(actor);
-      ability.setupDigitInRow(rowIndex, digit);
+      GridFixtures.setupDigitInRow(ability.getSolver(), rowIndex, digit);
       ability.takeSnapshot();
     }),
 
@@ -106,41 +104,41 @@ export const SetupGridState = {
 
   targetCell: (row: number, col: number) =>
     Interaction.where(`#actor targets cell [${row},${col}]`, async actor => {
-      UseSudokuSolver.as(actor).setupTargetCell(row, col);
+      const ability = UseSudokuSolver.as(actor);
+      GridFixtures.clearCell(ability.getSolver(), row, col);
+      ability.setTargetCell(row, col);
       await notes<SudokuNotes>().set(TARGET_CELL, { row, col }).performAs(actor);
     }),
 
-  /** Places values in the target cell's row (reads TARGET_CELL from Actor Memory). */
   valuesInRow: (values: number[]) =>
     Interaction.where(`#actor places ${values} in the target cell's row`, async actor => {
       const tc = await actor.answer(notes<SudokuNotes>().get(TARGET_CELL));
       const { row, col } = tc!;
-      UseSudokuSolver.as(actor).addValuesToRow(row, col, values);
+      GridFixtures.addValuesToRow(UseSudokuSolver.as(actor).getSolver(), row, col, values);
     }),
 
-  /** Places values in the target cell's column (reads TARGET_CELL from Actor Memory). */
   valuesInColumn: (values: number[]) =>
     Interaction.where(`#actor places ${values} in the target cell's column`, async actor => {
       const tc = await actor.answer(notes<SudokuNotes>().get(TARGET_CELL));
       const { row, col } = tc!;
-      UseSudokuSolver.as(actor).addValuesToColumn(col, row, values);
+      GridFixtures.addValuesToColumn(UseSudokuSolver.as(actor).getSolver(), col, row, values);
     }),
 
-  /** Places values in the target cell's 3x3 block (reads TARGET_CELL from Actor Memory). */
   valuesInBlock: (values: number[]) =>
     Interaction.where(`#actor places ${values} in the target cell's block`, async actor => {
       const tc = await actor.answer(notes<SudokuNotes>().get(TARGET_CELL));
       const { row, col } = tc!;
-      UseSudokuSolver.as(actor).addValuesToBlock(row, col, row, col, values);
+      GridFixtures.addValuesToBlock(UseSudokuSolver.as(actor).getSolver(), row, col, row, col, values);
     }),
 
   threeCandidates: () =>
     Interaction.where('#actor sets up cell [0,0] with exactly three candidates [2,5,8]',
       async actor => {
         const ability = UseSudokuSolver.as(actor);
-        ability.setupThreeCandidates();
+        ability.initialise('test');
+        GridFixtures.setupThreeCandidates(ability.getSolver());
         ability.takeSnapshot();
-        // setupThreeCandidates() always targets [0,0] — write to notes for MIG-05 parity
+        ability.setTargetCell(0, 0);
         await notes<SudokuNotes>().set(TARGET_CELL, { row: 0, col: 0 }).performAs(actor);
       }
     ),
@@ -149,7 +147,8 @@ export const SetupGridState = {
     Interaction.where('#actor sets up 3 cells each with exactly one candidate',
       async actor => {
         const ability = UseSudokuSolver.as(actor);
-        ability.setupThreeNakedSingles();
+        ability.initialise('test');
+        GridFixtures.setupThreeNakedSingles(ability.getSolver());
         ability.takeSnapshot();
       }
     ),
@@ -161,7 +160,8 @@ export const SetupGridState = {
   named: (gridState: string) =>
     Interaction.where(`#actor sets up named grid state "${gridState}"`, async actor => {
       const ability = UseSudokuSolver.as(actor);
-      ability.setupNamedGridState(gridState);
+      ability.initialise('test');
+      GridFixtures.setupNamedGridState(ability.getSolver(), gridState);
       ability.takeSnapshot();
     }),
 
@@ -181,8 +181,9 @@ export const SetupGridState = {
 
   multipleSolvers: (count: number) =>
     Interaction.where(`#actor loads ${count} independent solver instances`, async actor => {
+      const ability = UseSudokuSolver.as(actor);
       const puzzles = LoadPuzzles.as(actor).getAll();
-      UseSudokuSolver.as(actor).setupMultipleSolvers(count, puzzles);
+      ability.setMultipleSolvers(GridFixtures.createSolversFromPuzzles(count, puzzles));
     }),
 
   noProgress: () =>

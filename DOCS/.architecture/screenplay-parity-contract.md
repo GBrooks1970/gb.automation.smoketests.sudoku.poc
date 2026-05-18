@@ -47,6 +47,27 @@ Adding a new key requires updating this document, Stack memory-key files, and a 
 | Python (planned) | `UseSudokuSolver()` | framework actor context ability lookup |
 | C# (planned) | `new UseSudokuSolver()` | framework actor ability lookup |
 
+**Normative interface (BACKLOG-023 — slimmed, 2026-05-18):**
+
+| Method | Purpose |
+|--------|---------|
+| `initialise(name, grid?)` | Create fresh SudokuSolver |
+| `getSolver()` | Access the live SudokuSolver instance |
+| `applyUnitCompletion()` | Invoke solver.unitCompletion() |
+| `applyHiddenSingles(target)` | Invoke solver.hiddenSingles(target) |
+| `applyNakedSingles()` | Invoke solver.nakedSingles() |
+| `solvePuzzle()` | Invoke orchestrator.solve() |
+| `isGridFull()` | Delegate to orchestrator |
+| Cross-step state setters | `setTargetCell`, `setTargetValue`, `takeSnapshot`, `storeSnapshot`, `reinitialiseFromSnapshot`, `validateAndStore`, `setMultipleSolvers`, `setSolverError` |
+| Read-only accessors | `algorithmMadeProgress`, `result`, `targetCell`, `targetValue`, `gridSnapshot`, `validationResult`, `multipleSolvers`, `solverError` |
+
+Grid setup helpers (formerly on this Ability) now live in `tests/screenplay/fixtures/GridFixtures.ts`
+as pure functions taking a `SudokuSolver`. Tasks obtain the solver via `ability.getSolver()` and
+pass it to the relevant fixture function.
+
+Validation logic (`isValidPlacement`, `noConstraintViolations`, `isValidSolution`) is now on
+`SudokuSolver` (app_src) as public methods.
+
 ### LoadPuzzles
 
 | Stack | Factory | Retrieval |

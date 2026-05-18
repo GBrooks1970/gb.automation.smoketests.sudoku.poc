@@ -233,6 +233,58 @@ export class SudokuSolver {
     return candidates;
   }
 
+  public isValidPlacement(row: number, col: number, value: number): boolean {
+    for (let c = 0; c < GRID_SIZE; c++) {
+      if (c !== col && this.grid[row][c] === value) return false;
+    }
+    for (let r = 0; r < GRID_SIZE; r++) {
+      if (r !== row && this.grid[r][col] === value) return false;
+    }
+    const blockRow = Math.floor(row / BLOCK_SIZE) * BLOCK_SIZE;
+    const blockCol = Math.floor(col / BLOCK_SIZE) * BLOCK_SIZE;
+    for (let r = blockRow; r < blockRow + BLOCK_SIZE; r++) {
+      for (let c = blockCol; c < blockCol + BLOCK_SIZE; c++) {
+        if ((r !== row || c !== col) && this.grid[r][c] === value) return false;
+      }
+    }
+    return true;
+  }
+
+  public noConstraintViolations(): boolean {
+    for (let r = 0; r < GRID_SIZE; r++) {
+      for (let c = 0; c < GRID_SIZE; c++) {
+        const val = this.grid[r][c];
+        if (val !== EMPTY_CELL && !this.isValidPlacement(r, c, val)) return false;
+      }
+    }
+    return true;
+  }
+
+  public isValidSolution(): boolean {
+    const digits = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    const setEquals = (a: Set<number>, b: Set<number>): boolean => {
+      if (a.size !== b.size) return false;
+      for (const v of a) if (!b.has(v)) return false;
+      return true;
+    };
+    for (let i = 0; i < GRID_SIZE; i++) {
+      if (!setEquals(new Set(this.grid[i]), digits)) return false;
+      if (!setEquals(new Set(this.grid.map(r => r[i])), digits)) return false;
+    }
+    for (let br = 0; br < BLOCK_SIZE; br++) {
+      for (let bc = 0; bc < BLOCK_SIZE; bc++) {
+        const vals = new Set<number>();
+        for (let r = br * BLOCK_SIZE; r < (br + 1) * BLOCK_SIZE; r++) {
+          for (let c = bc * BLOCK_SIZE; c < (bc + 1) * BLOCK_SIZE; c++) {
+            vals.add(this.grid[r][c]);
+          }
+        }
+        if (!setEquals(vals, digits)) return false;
+      }
+    }
+    return true;
+  }
+
   private findMissingDigit(values: number[]): number {
     const present = new Set(values.filter((v) => v !== EMPTY_CELL));
     for (let i = 1; i <= GRID_SIZE; i++) {
