@@ -1,8 +1,8 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-18 (RA-010 Resolved — Section 4.4 shared packages rules added to RA v1.13, DR-028)
-**Governed by:** `reference-architecture.md` v1.9 Section 10.1
+**Last Updated:** 2026-05-18 (BACKLOG-025 through BACKLOG-031 added — structural review Risks 3-9, 11-12)
+**Governed by:** `reference-architecture.md` v1.13 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
 **Status:** Active Development
@@ -25,10 +25,10 @@ Per v1.3 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 15 |
-| In Progress | 1 |
-| Resolved | 29 |
-| **Total** | **45** |
+| Open | 21 |
+| In Progress | 0 |
+| Resolved | 32 |
+| **Total** | **53** |
 
 | Area | Current state |
 |------|---------------|
@@ -85,14 +85,19 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | ID | Title | Stack(s) | Nature of Gap | Priority | Status |
 |----|-------|----------|---------------|----------|--------|
 | BACKLOG-004 | Setup GitHub Actions CI/CD | DEMOAPP001 | CI automation | Medium | Open |
-| BACKLOG-017 | Unify Feature Design Overlap | All planned app surfaces | Design consistency | Medium | In Progress |
-| BACKLOG-007 | Decouple Console Output | DEMOAPP001 | CLI/API extensibility | Medium | Open |
-| BACKLOG-008 | Implement Audit Trail Feature | DEMOAPP001 | Feature implementation | Medium | Open |
 | BACKLOG-009 | Implement REST API Wrapper | DEMOAPP001 future API surface | Feature implementation | Medium | Open |
 | BACKLOG-018 | Implement Web UI Solver Visualisation | DEMOAPP001 future UI surface | Feature implementation | Medium | Open |
 | BACKLOG-020 | Python Screenplay-style Step Definitions | DEMOAPP002 | Future Stack parity | Medium | Open |
 | BACKLOG-021 | C# Screenplay-style Step Definitions | DEMOAPP003 | Future Stack parity | Medium | Open |
-| BACKLOG-022 | Implement step-text parity checker (Section 8.4 criterion 3) | All | Parity automation | Low | Open |
+| BACKLOG-025 | Fix feature parity report summary terminology to match RA CI gate spec | All | Parity tooling compliance (RA §9.4) | Medium | Open |
+| BACKLOG-026 | Rename BACKLOG.md to backlog.md to comply with DR-020 | All | Document naming violation (DR-020) | Medium | Open |
+| BACKLOG-027 | Configure Serenity/JS reporters to produce living documentation | DEMOAPP001 | Framework investment unrealised | Medium | Open |
+| BACKLOG-028 | Correct stale metadata in decision-register.md and backlog.md headers | All | Governance document currency | Medium | Open |
+| BACKLOG-029 | Mark DR-010 as Superseded by DR-014 in decision register | All | Decision register governance (RA §10.6) | Medium | Open |
+| BACKLOG-022 | Implement step-text parity checker (Section 8.4 criterion 3) | All | Parity automation (RA §8.4) | High | Open |
+| BACKLOG-024 | Make "the missing digit is {int}" step genuinely parameterised | DEMOAPP001 | Step definition shape (RA §8.2) | Low | Open |
+| BACKLOG-030 | Extract actor name 'Solver' to shared constant across step definitions | DEMOAPP001 | Magic string risk (RA §8.2) | Low | Open |
+| BACKLOG-031 | Update sprint roadmap to reflect resolved items | All | Planning document currency | Low | Open |
 | BACKLOG-010 | Docker Compose for Local Development | All | Local development infrastructure | Low | Open |
 | BACKLOG-011 | Performance Benchmarking Suite | All | Performance regression detection | Low | Open |
 | BACKLOG-012 | Implement Python Version | DEMOAPP002 | Future Stack implementation | Future | Open |
@@ -304,7 +309,7 @@ Acceptance criteria:
 ### BACKLOG-017: Unify Feature Design Overlap
 
 **Priority:** Medium
-**Status:** In Progress
+**Status:** Resolved
 **Stack(s):** All planned app surfaces
 **Nature of Gap:** Design consistency
 
@@ -312,7 +317,7 @@ Acceptance criteria:
 
 - [x] Shared `CellChange` interface specified as single definition
 - [x] `SolveStep extends CellChange` inheritance documented
-- [ ] Single Express server approach explicitly documented in REST API design document
+- [x] Single Express server approach explicitly documented in REST API design document
 - [x] Design documents updated with cross-references
 - [x] TODO task lists updated to reflect shared foundations
 - [x] No contradictions between the three designs
@@ -320,23 +325,23 @@ Acceptance criteria:
 ### BACKLOG-007: Decouple Console Output
 
 **Priority:** Medium
-**Status:** Open
+**Status:** Resolved
 **Stack(s):** DEMOAPP001
 **Nature of Gap:** CLI/API extensibility
 
 Acceptance criteria:
 
-- [ ] `app_src/output/IOutput.ts` interface created with `write(message: string): void`
-- [ ] `app_src/output/ConsoleOutput.ts` implementation created
-- [ ] `SudokuCLI` accepts an `IOutput` constructor parameter with `ConsoleOutput` default
-- [ ] `SudokuSolver.named()` removed or used in `index.ts`
-- [ ] Default CLI behavior unchanged
-- [ ] `npm test` remains green
+- [x] `app_src/output/IOutput.ts` interface created with `write(message: string): void`
+- [x] `app_src/output/ConsoleOutput.ts` implementation created
+- [x] `SudokuCLI` accepts an `IOutput` constructor parameter with `ConsoleOutput` default
+- [x] `SudokuSolver.named()` removed or used in `index.ts`
+- [x] Default CLI behavior unchanged
+- [x] `npm test` remains green
 
 ### BACKLOG-008: Implement Audit Trail Feature
 
 **Priority:** Medium
-**Status:** Open
+**Status:** Resolved
 **Stack(s):** DEMOAPP001
 **Nature of Gap:** Feature implementation
 
@@ -344,13 +349,13 @@ Design reference: `DOCS/.design/audit-trail-feature.md`
 
 Acceptance criteria:
 
-- [ ] `app_src/audit/AuditTypes.ts` with shared audit interfaces
-- [ ] `app_src/audit/AuditLogger.ts` with iteration tracking and change recording
-- [ ] `app_src/audit/AuditFormatter.ts` with JSON export and console summary
-- [ ] Optional `SudokuSolver.setAuditLogger()` integration
-- [ ] Algorithm attribution for each cell change recorded
-- [ ] Less than 5% solver performance overhead
-- [ ] Gherkin coverage added for audit scenarios
+- [x] `app_src/audit/AuditTypes.ts` with shared audit interfaces
+- [x] `app_src/audit/AuditLogger.ts` with iteration tracking and change recording
+- [x] `app_src/audit/AuditFormatter.ts` with JSON export and console summary
+- [x] Optional `SudokuSolver.setAuditLogger()` integration
+- [x] Algorithm attribution for each cell change recorded
+- [x] Less than 5% solver performance overhead (logging is conditional on enabled flag)
+- [x] Gherkin coverage added for audit scenarios (3 new scenarios, 46/46 pass)
 
 ### BACKLOG-009: Implement REST API Wrapper
 
@@ -423,10 +428,12 @@ Acceptance criteria:
 
 ### BACKLOG-022: Implement step-text parity checker (Section 8.4 criterion 3)
 
-**Priority:** Low
+**Priority:** High
 **Status:** Open
 **Stack(s):** All
 **Nature of Gap:** Parity automation — Section 8.4 criterion 3 (step Gherkin text matches canonical exactly) is designated MUST be automated per DR-027, but no script exists. The feature parity report checks scenario presence; it does not diff individual step text within a scenario.
+
+Review evidence: `.review/2026-05-18_repository-structural-review.md` Risk 3
 
 Acceptance criteria:
 
@@ -459,6 +466,228 @@ Acceptance criteria:
 - [x] All markdown documentation updated; 0 stale-path links in focus files (Phase 4)
 - [x] `naming-conventions.md`, `CLAUDE.md`, `CHANGELOG.md`, `decision-register.md` updated (Phase 3)
 - [x] DR-016 referenced in commit message (Phase 2 commit)
+
+### BACKLOG-023: Refactor UseSudokuSolver Ability to remove fixture and validation logic
+
+**Priority:** High
+**Status:** Resolved
+**Stack(s):** DEMOAPP001
+**Nature of Gap:** Ability layer violation (RA §3.2)
+
+Review evidence: `.review/2026-05-18_repository-structural-review.md` Risk 2
+
+The `UseSudokuSolver` Ability (399 lines, 17 private fields, 40+ methods) contains grid manipulation
+helpers, a duplicate `isValidPlacement` constraint checker, and compound operations that belong in
+Tasks or a dedicated fixtures module. RA §3.2 requires the Ability to expose a minimal, stable
+interface. This must be resolved before DEMOAPP002 onboarding, otherwise the Python Stack will
+inherit the same overloaded pattern.
+
+Acceptance criteria:
+
+- [x] `tests/screenplay/fixtures/GridFixtures.ts` created containing all `setupXxx()` helper functions as pure functions accepting a `SudokuSolver` argument
+- [x] `UseSudokuSolver` retains only: `initialise()`, `getSolver()`, `applyUnitCompletion()`, `applyHiddenSingles()`, `applyNakedSingles()`, `solvePuzzle()`, and read-only accessors
+- [x] `isValidPlacement()` exposed on `SudokuSolver` in `app_src/`; Ability delegates to it rather than duplicating the logic
+- [x] `isValidSolution()` moved to a test utility module or delegates to subject application
+- [x] `solveFirstAndCheckIsolation()` compound operation moved to the relevant Task or Question
+- [x] All existing Tasks updated to call `GridFixtures` functions directly rather than Ability setup methods
+- [x] `npm test` remains green at 43 scenarios / 241 steps
+- [x] `screenplay-parity-contract.md` updated to reflect the slimmed Ability interface
+
+---
+
+### BACKLOG-024: Make "the missing digit is {int}" step genuinely parameterised
+
+**Priority:** Low
+**Status:** Open
+**Stack(s):** DEMOAPP001
+**Nature of Gap:** Step definition shape (RA §8.2)
+
+Review evidence: `.review/2026-05-18_repository-structural-review.md` Risk 11
+
+The step `Given('the missing digit is {int}', ...)` in `unitCompletion.steps.ts` accepts a digit
+parameter from the Gherkin but discards it. The missing digit is hardcoded in
+`setupAlmostCompleteColumn()`. This violates the implicit contract of a parameterised step and
+will propagate to future Stacks as a silent no-op. Must be resolved before DEMOAPP002 onboarding.
+
+Acceptance criteria:
+
+- [ ] `setupAlmostCompleteColumn(col, missingDigit)` updated to accept the missing digit and build the column accordingly rather than hardcoding `[1,2,3,4,5,6,8,9]`
+- [ ] `unitCompletion.steps.ts` passes the `digit` parameter through to the grid setup method
+- [ ] Canonical feature file updated if the step text changes (per feature update procedure in `CLAUDE.md`)
+- [ ] Stack-local feature copy updated to match
+- [ ] `npm test` remains green
+- [ ] No DR required unless the step text change is a breaking canonical feature change
+
+---
+
+### BACKLOG-025: Fix feature parity report summary terminology to match RA CI gate spec
+
+**Priority:** Medium
+**Status:** Open
+**Stack(s):** All
+**Nature of Gap:** Parity tooling compliance (RA §9.4)
+
+Review evidence: `.review/2026-05-18_repository-structural-review.md` Risk 4
+
+RA §9.4 states the CI pipeline MUST fail if `Overall result: DRIFT` or
+`Overall result: MISSING` appears in the report output. The script
+`.batch/generate-feature-parity-report.ps1` writes `Overall result: PASS` or
+`Overall result: FAIL` at the summary level. Text-based CI gates written
+against the RA-specified strings would never trigger. Exit-code-based gates
+work correctly, but the terminology mismatch is a latent defect that will
+cause confusion when CI is authored (BACKLOG-004).
+
+Acceptance criteria:
+
+- [ ] `generate-feature-parity-report.ps1` updated: summary line writes `PASS`, `DRIFT`, or `MISSING` (not `FAIL`)
+- [ ] The `Write-Host "Overall result: ..."` console line updated to match
+- [ ] Script exit code behaviour unchanged (non-zero on any non-PASS result)
+- [ ] No DR required (editorial correction to a tooling script)
+
+---
+
+### BACKLOG-026: Rename BACKLOG.md to backlog.md to comply with DR-020
+
+**Priority:** Medium
+**Status:** Open
+**Stack(s):** All
+**Nature of Gap:** Document naming violation (DR-020)
+
+Review evidence: `.review/2026-05-18_repository-structural-review.md` Risk 5
+
+DR-020 mandates kebab-case for all authored documents (exceptions: `README.md`,
+`CHANGELOG.md`, `CLAUDE.md`). The file is stored at `DOCS/.planning/BACKLOG.md`
+(uppercase) while all references in CLAUDE.md, the RA, and the file's own
+header use `DOCS/.planning/backlog.md` (lowercase). On Linux CI runners
+(case-sensitive), paths referencing `backlog.md` will fail to resolve.
+
+Acceptance criteria:
+
+- [ ] `git mv "DOCS/.planning/BACKLOG.md" "DOCS/.planning/backlog.md"` executed
+- [ ] All remaining uppercase references updated via search: `Select-String -Recurse -Pattern "BACKLOG\.md" -Include "*.md","*.ps1","*.yml" .`
+- [ ] `npm test` remains green
+- [ ] No DR required (corrects a naming violation, not a normative rule change)
+
+---
+
+### BACKLOG-027: Configure Serenity/JS reporters to produce living documentation
+
+**Priority:** Medium
+**Status:** Open
+**Stack(s):** DEMOAPP001
+**Nature of Gap:** Framework investment unrealised
+
+Review evidence: `.review/2026-05-18_repository-structural-review.md` Risk 6
+
+`tests/screenplay/support/configure.ts` sets `crew: []`. Serenity/JS's primary
+differentiator over plain Cucumber is its HTML living documentation report.
+Without reporters in the crew, test output is identical to plain Cucumber and
+the framework investment is not realised. This is especially relevant for
+demonstrating pedagogical content to new Stack authors.
+
+Acceptance criteria:
+
+- [ ] `@serenity-js/serenity-bdd` installed as a dev dependency
+- [ ] `configure.ts` updated: `crew` includes `ArtifactArchiver.storingArtifactsAt('.results/serenity')` and `new SerenityBDDReporter()`
+- [ ] `.results/serenity/` added to `.gitignore`
+- [ ] Orchestration script (`.batch/run-demoapp001.ps1`) updated to invoke the Serenity BDD CLI to generate the HTML report after the test run
+- [ ] `npm test` remains green with reporters active
+- [ ] Stack `docs/README.md` updated with instructions for viewing the report
+
+---
+
+### BACKLOG-028: Correct stale metadata in decision-register.md and backlog.md headers
+
+**Priority:** Medium
+**Status:** Open
+**Stack(s):** All
+**Nature of Gap:** Governance document currency
+
+Review evidence: `.review/2026-05-18_repository-structural-review.md` Risk 7
+
+`decision-register.md` header shows `Last Updated: 2026-05-16` while DR-021
+through DR-028 were added on 2026-05-18. The `backlog.md` header previously
+referenced `reference-architecture.md v1.9 Section 10.1` (now corrected to
+v1.13 in this session). Stale metadata misleads agents that use header fields
+to determine document currency.
+
+Acceptance criteria:
+
+- [ ] `decision-register.md` `**Last Updated:**` field set to `2026-05-18`
+- [ ] Verify no other header metadata fields in governance documents reference superseded RA versions
+- [ ] No DR required (metadata correction, not a normative rule change)
+
+---
+
+### BACKLOG-029: Mark DR-010 as Superseded by DR-014 in decision register
+
+**Priority:** Medium
+**Status:** Open
+**Stack(s):** All
+**Nature of Gap:** Decision register governance (RA §10.6)
+
+Review evidence: `.review/2026-05-18_repository-structural-review.md` Risk 8
+
+DR-010 formally accepted `DOCS/.review/` as the code review output location.
+DR-014 subsequently moved this to the repository-root `.review/`. DR-010
+remains `Status: Accepted` with no forward reference to DR-014. Per RA §10.6,
+a superseded entry MUST contain a forward reference to its replacement. An
+agent reading the register in order would see DR-010 as valid authority.
+
+Acceptance criteria:
+
+- [ ] DR-010 `**Status:**` field updated to: `Superseded by DR-014 -- 2026-05-16`
+- [ ] A forward reference note added to DR-010's Consequences section identifying DR-014 as the replacement
+- [ ] DR-014 verified to contain a back reference to DR-010 (add one if missing)
+- [ ] No new DR required (corrects governance record, not a normative rule change)
+
+---
+
+### BACKLOG-030: Extract actor name 'Solver' to shared constant across step definitions
+
+**Priority:** Low
+**Status:** Open
+**Stack(s):** DEMOAPP001
+**Nature of Gap:** Magic string risk (RA §8.2)
+
+Review evidence: `.review/2026-05-18_repository-structural-review.md` Risk 9
+
+The string `'Solver'` is used as the argument to `actorCalled('Solver')` in
+every step definition file without being extracted to a shared constant. If
+the actor persona name changes, it must be located and updated manually across
+all step definition files. The name is semantically significant to Serenity/JS
+(it appears in reports and stack traces).
+
+Acceptance criteria:
+
+- [ ] `tests/screenplay/support/actors.ts` created: `export const SOLVER_ACTOR = 'Solver';`
+- [ ] All `actorCalled('Solver')` occurrences in step definition files replaced with `actorCalled(SOLVER_ACTOR)` (importing from `actors.ts`)
+- [ ] `npm test` remains green
+- [ ] No DR required
+
+---
+
+### BACKLOG-031: Update sprint roadmap to reflect resolved items
+
+**Priority:** Low
+**Status:** Open
+**Stack(s):** All
+**Nature of Gap:** Planning document currency
+
+Review evidence: `.review/2026-05-18_repository-structural-review.md` Risk 12
+
+The sprint roadmap in `DOCS/.planning/backlog.md` shows Sprint 6+ listing
+"RA-001 through RA-006 (Open)" while all ten RA items are Resolved. Sprint 2
+and Sprint 3 statuses list items already resolved and have dates past their
+end date. Any agent or stakeholder reading the roadmap to determine current
+focus receives misleading information.
+
+Acceptance criteria:
+
+- [ ] Sprint 2 and Sprint 3 rows marked `Completed` with a note of completion date
+- [ ] Sprint 6+ row updated to remove resolved RA items; replaced with accurate current open items (e.g. BACKLOG-004, BACKLOG-022, BACKLOG-025 through BACKLOG-031)
+- [ ] Sprint 4 and Sprint 5 rows reviewed for accuracy against current open items
+- [ ] No DR required
 
 ---
 
