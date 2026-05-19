@@ -7,7 +7,7 @@
 # Usage (from repository root):
 #   .\.batch\generate-feature-parity-report.ps1
 #
-# Exit code: 0 if all Stack-local copies are in parity; 1 if any drift is detected.
+# Exit code: 0 if all Stack-local copies are in parity; 1 if any non-PASS result is detected.
 
 param(
   [string]$CanonicalRoot = "features-shared",
@@ -67,6 +67,18 @@ foreach ($cf in $canonicalFeatures) {
   $results.Add($entry)
 }
 
+$inParity = @($results | Where-Object { $_.Status -eq 'IN_PARITY' }).Count
+$missing  = @($results | Where-Object { $_.Status -eq 'MISSING'   }).Count
+$drift    = @($results | Where-Object { $_.Status -eq 'DRIFT'     }).Count
+
+$overallResult = if ($missing -gt 0) {
+  'MISSING'
+} elseif ($drift -gt 0) {
+  'DRIFT'
+} else {
+  'PASS'
+}
+
 # Build markdown report
 $b = '**'
 $lines = [System.Collections.Generic.List[string]]::new()
@@ -75,7 +87,7 @@ $lines.Add("")
 $lines.Add("${b}Generated:${b} $((Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mmZ'))")
 $lines.Add("${b}Canonical root:${b} ``$CanonicalRoot``")
 $lines.Add("${b}Stack root:${b} ``$StackRoot``")
-$lines.Add("${b}Overall result:${b} $(if ($overallPass) { 'PASS' } else { 'FAIL' })")
+$lines.Add("${b}Overall result:${b} $overallResult")
 $lines.Add("")
 $lines.Add("---")
 $lines.Add("")
@@ -99,9 +111,6 @@ $lines.Add("---")
 $lines.Add("")
 $lines.Add("## Summary")
 $lines.Add("")
-$inParity = @($results | Where-Object { $_.Status -eq 'IN_PARITY' }).Count
-$missing  = @($results | Where-Object { $_.Status -eq 'MISSING'   }).Count
-$drift    = @($results | Where-Object { $_.Status -eq 'DRIFT'     }).Count
 $lines.Add("| Result    | Count |")
 $lines.Add("|-----------|-------|")
 $lines.Add("| IN_PARITY | $inParity |")
@@ -113,6 +122,6 @@ $lines.Add("_Report written by \`.batch\generate-feature-parity-report.ps1\`. Go
 $lines | Out-File -FilePath $reportFile -Encoding utf8
 
 Write-Host "Parity report: $reportFile"
-Write-Host "Overall result: $(if ($overallPass) { 'PASS' } else { 'FAIL' })"
+Write-Host "Overall result: $overallResult"
 
 exit $(if ($overallPass) { 0 } else { 1 })

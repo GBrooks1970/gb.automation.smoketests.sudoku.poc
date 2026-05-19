@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-19 (BACKLOG-029 resolved — DR-010 supersession recorded)
+**Last Updated:** 2026-05-19 (BACKLOG-025 resolved — parity summary terminology aligned)
 **Governed by:** `reference-architecture.md` v1.13 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,9 +25,9 @@ Per v1.13 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 18 |
+| Open | 17 |
 | In Progress | 0 |
-| Resolved | 35 |
+| Resolved | 36 |
 | **Total** | **53** |
 
 | Area | Current state |
@@ -89,7 +89,6 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | BACKLOG-018 | Implement Web UI Solver Visualisation | DEMOAPP001 future UI surface | Feature implementation | Medium | Open |
 | BACKLOG-020 | Python Screenplay-style Step Definitions | DEMOAPP002 | Future Stack parity | Medium | Open |
 | BACKLOG-021 | C# Screenplay-style Step Definitions | DEMOAPP003 | Future Stack parity | Medium | Open |
-| BACKLOG-025 | Fix feature parity report summary terminology to match RA CI gate spec | All | Parity tooling compliance (RA §9.4) | Medium | Open |
 | BACKLOG-027 | Configure Serenity/JS reporters to produce living documentation | DEMOAPP001 | Framework investment unrealised | Medium | Open |
 | BACKLOG-022 | Implement step-text parity checker (Section 8.4 criterion 3) | All | Parity automation (RA §8.4) | High | Open |
 | BACKLOG-024 | Make "the missing digit is {int}" step genuinely parameterised | DEMOAPP001 | Step definition shape (RA §8.2) | Low | Open |
@@ -520,7 +519,7 @@ Acceptance criteria:
 ### BACKLOG-025: Fix feature parity report summary terminology to match RA CI gate spec
 
 **Priority:** Medium
-**Status:** Open
+**Status:** Resolved
 **Stack(s):** All
 **Nature of Gap:** Parity tooling compliance (RA §9.4)
 
@@ -536,10 +535,14 @@ cause confusion when CI is authored (BACKLOG-004).
 
 Acceptance criteria:
 
-- [ ] `generate-feature-parity-report.ps1` updated: summary line writes `PASS`, `DRIFT`, or `MISSING` (not `FAIL`)
-- [ ] The `Write-Host "Overall result: ..."` console line updated to match
-- [ ] Script exit code behaviour unchanged (non-zero on any non-PASS result)
-- [ ] No DR required (editorial correction to a tooling script)
+- [x] `generate-feature-parity-report.ps1` updated: summary line writes `PASS`, `DRIFT`, or `MISSING` (not `FAIL`)
+- [x] The `Write-Host "Overall result: ..."` console line updated to match
+- [x] Script exit code behaviour unchanged (non-zero on any non-PASS result)
+- [x] No DR required (editorial correction to a tooling script)
+
+Resolution:
+
+- `.batch/generate-feature-parity-report.ps1` now reports aggregate `PASS`, `DRIFT`, or `MISSING` while preserving non-zero exit behavior for any non-PASS result.
 
 ---
 
@@ -728,6 +731,7 @@ Acceptance criteria:
 | BACKLOG-026 | Normalize planning backlog filename to lowercase | All | 2026-05-19 | `DOCS/.planning/backlog.md` filesystem casing normalized; editable non-review references updated; no DR required |
 | BACKLOG-028 | Correct stale governance document metadata | All | 2026-05-19 | `decision-register.md` header updated to `Last Updated: 2026-05-18` and RA v1.13 governance; no DR required |
 | BACKLOG-029 | Mark DR-010 as Superseded by DR-014 in decision register | All | 2026-05-19 | DR-010 status and forward reference updated; DR-014 back reference verified; no DR required |
+| BACKLOG-025 | Fix feature parity report summary terminology to match RA CI gate spec | All | 2026-05-19 | Feature parity report summary and console output now emit `PASS`, `DRIFT`, or `MISSING`; non-PASS exit remains non-zero; no DR required |
 
 ---
 
