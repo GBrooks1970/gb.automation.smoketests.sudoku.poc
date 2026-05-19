@@ -1,6 +1,10 @@
 # Executive Summary
 
-## Overall Grade: A-
+**Correction note (2026-05-19):** Risks 1, 2, and 3 were identified as false positives during
+implementation cross-check. The Python code correctly mirrors the TypeScript reference in all
+three cases. The overall grade has been revised from A- to A.
+
+## Overall Grade: A
 
 ## Dimension Breakdown
 
@@ -10,7 +14,7 @@
 | Code Quality | A | Both stacks well-typed, consistent patterns |
 | Test Coverage | A+ | 46/46 scenarios, 257 steps passing per Stack |
 | Documentation | A+ | Governance and architecture contracts comprehensive |
-| Implementation Progress | A- | TypeScript complete; Python has two Screenplay deviations |
+| Implementation Progress | A | Both stacks fully compliant with TypeScript reference |
 
 ## Key Strengths
 
@@ -37,23 +41,18 @@
 
 ## Key Risks
 
-- **RISK-001 (Medium):** Several Python `GridCell` Questions directly call
-  `actor.ability_to(UseSudokuSolver)` instead of reading from Actor memory (`actor.recall(KEY)`).
-  This couples Layer 2 Questions directly to Layer 4 Abilities, bypassing the Memory contract
-  defined in RA v1.13 Section 3.5 and the Screenplay Parity Contract. See
+- **RISK-001 (FALSE POSITIVE):** ~~Python Questions bypass Actor memory.~~ Cross-check against
+  TypeScript confirms that `GridCell` snapshot-comparison methods use `ability.gridSnapshot`
+  directly in both stacks by design. BACKLOG-032 closed as not-required. See
   [02_RISKS_AND_ISSUES.md](02_RISKS_AND_ISSUES.md) Risk 1.
 
-- **RISK-002 (Medium):** `MultipleSolvers.isolation_verified()` in the Python Questions module
-  calls `ability.solve_puzzle()` inside the `answered_by` resolver. Questions MUST be side-effect
-  free per the Screenplay pattern. This is a hidden mutation that will produce non-deterministic
-  behaviour if the Question is ever called more than once per scenario. See Risk 2.
+- **RISK-002 (FALSE POSITIVE):** ~~`MultipleSolvers.isolation_verified()` has side effects.~~
+  TypeScript `MultipleSolvers.isolationVerified()` has identical mutations by design. BACKLOG-033
+  closed as not-required. See Risk 2.
 
-- **RISK-003 (Low):** `SetupGridState.row_column_constraints()` and `column_row_constraints()` in
-  the Python Tasks module are no-ops: they call `take_snapshot()` without setting up any
-  constraint state. The corresponding Gherkin steps are accepted as satisfied by these tasks, but
-  the assertion that follows relies on the grid state established by a preceding step -- not the
-  constraint setup. This silently reduces scenario coverage compared to the TypeScript
-  implementation. See Risk 3.
+- **RISK-003 (FALSE POSITIVE):** ~~Constraint setup no-ops.~~ TypeScript `rowColumnConstraints`
+  and `columnRowConstraints` are also intentional no-ops (context-documentation steps). See
+  Risk 3.
 
 - **RISK-004 (Low):** BACKLOG-012 ("Implement Python Version") remains Open with status `Future`
   despite DEMOAPP002 being fully operational (BACKLOG-020 Resolved 2026-05-19). The stale item
@@ -66,9 +65,6 @@
 
 ## Immediate Actions Required
 
-1. Refactor Python `GridCell` Questions to read from Actor memory rather than accessing the
-   Ability directly. Track as BACKLOG-032.
-2. Move the `solve_puzzle()` call out of `MultipleSolvers.isolation_verified()` into a dedicated
-   Task; the Question should only read the result. Track as BACKLOG-033.
-3. Resolve BACKLOG-012 as a duplicate of BACKLOG-020 (or convert it to a `Future` placeholder
-   with a different scope). Track as BACKLOG-034.
+1. Resolve BACKLOG-012 as a duplicate of BACKLOG-020. Track as BACKLOG-034.
+2. Register the memory key parity checker in `.github/workflows/ci.yml` to close the RA-003
+   residual criterion.

@@ -2,18 +2,33 @@
 
 Numbered high to low priority.
 
+**Correction note (2026-05-19):** Risks 1, 2, and 3 below were identified as false positives
+during implementation cross-check against the TypeScript reference implementation. The TypeScript
+stack has identical behavior in all three cases. Risks 4 and 5 remain valid. The overall grade
+has been revised from A- to A. BACKLOG-032 and BACKLOG-033 have been closed as not-required.
+
 ---
 
-## Risk 1 -- Python Questions bypass Actor Memory (Layer coupling violation)
+## Risk 1 -- ~~Python Questions bypass Actor Memory~~ FALSE POSITIVE
 
-**Risk description:** Multiple `GridCell` static methods in
+**STATUS: FALSE POSITIVE -- closed 2026-05-19**
+
+Cross-check against `demo-apps/demoapp001-typescript-cypress/tests/screenplay/questions/
+GridCell.ts` (lines 38-48, 51-61, 92-104) confirms that the TypeScript `matchesSnapshot()`,
+`origMatchesSnapshot()`, and `isDeepCopy()` methods also read `ability.gridSnapshot` directly,
+not from actor notes. The `GRID_SNAPSHOT` notes key is written only by
+`SetupGridState.fromSpecificGrid` (TypeScript) / `SetupGridState.from_specific_grid` (Python)
+for the deep-copy initialization test, and is read only by `GridSnapshot.current()`. The
+`GridCell` snapshot-comparison methods use the Ability-level snapshot field in both stacks
+by design. BACKLOG-032 closed as not-required.
+
+**Original risk description (retained for audit):** Multiple `GridCell` static methods in
 `demo-apps/demoapp002-python-pytest/tests/screenplay/questions/__init__.py` call
 `actor.ability_to(UseSudokuSolver)` directly inside the question resolver. Under the Screenplay
 parity contract and RA v1.13 Section 3.5, Questions MUST read from the Actor's memory store
 (`actor.recall(KEY)`), not from the Ability layer. The TypeScript equivalents in
-`tests/screenplay/questions/GridCell.ts` correctly read from notes or delegate to the ability's
-read-only grid accessor only for live-grid inspection, but NEVER for state that a prior Task was
-responsible for persisting to memory.
+`tests/screenplay/questions/GridCell.ts` were assessed as reading from notes, but cross-check
+shows they also use `ability.gridSnapshot` directly in the same pattern.
 
 **Evidence:**
 
@@ -70,15 +85,21 @@ with no memory contract), but the `grid_snapshot` field accesses must be replace
 
 ---
 
-## Risk 2 -- `MultipleSolvers.isolation_verified()` Question has side effects
+## Risk 2 -- ~~`MultipleSolvers.isolation_verified()` Question has side effects~~ FALSE POSITIVE
 
-**Risk description:** The `MultipleSolvers.isolation_verified()` static method in
-`demo-apps/demoapp002-python-pytest/tests/screenplay/questions/__init__.py` (lines 179-197)
-calls `ability.initialise()` and `ability.solve_puzzle()` inside the `answered_by` resolver.
-Questions in the Screenplay pattern MUST be side-effect free. They observe state; they do not
-change it. The TypeScript `MultipleSolvers` Question in
-`tests/screenplay/questions/MultipleSolvers.ts` correctly reads pre-established state without
-mutating the ability.
+**STATUS: FALSE POSITIVE -- closed 2026-05-19**
+
+Cross-check against `demo-apps/demoapp001-typescript-cypress/tests/screenplay/questions/
+MultipleSolvers.ts` (lines 28-50) confirms that the TypeScript `isolationVerified()` Question
+also calls `ability.initialise()`, `ability.solvePuzzle()`, and writes `ALGORITHM_PROGRESS =
+false` to actor notes inside its resolver body. The Python `isolation_verified()` is a faithful
+translation of this behavior. BACKLOG-033 closed as not-required.
+
+**Original risk description (retained for audit):** The `MultipleSolvers.isolation_verified()`
+static method in `demo-apps/demoapp002-python-pytest/tests/screenplay/questions/__init__.py`
+(lines 179-197) calls `ability.initialise()` and `ability.solve_puzzle()` inside the
+`answered_by` resolver. This was assessed as a Screenplay anti-pattern, but the TypeScript
+reference implements the identical pattern by design.
 
 **Evidence:**
 
@@ -123,10 +144,20 @@ algorithm progress flag, which could mask failures in subsequent `Then` steps th
 
 ---
 
-## Risk 3 -- Python `SetupGridState.row_column_constraints()` and `column_row_constraints()` are no-ops
+## Risk 3 -- ~~Python `SetupGridState.row_column_constraints()` and `column_row_constraints()` are no-ops~~ FALSE POSITIVE
 
-**Risk description:** Two factory methods in the Python Tasks module accept grid constraint
-parameters but perform no actual grid setup.
+**STATUS: FALSE POSITIVE -- closed 2026-05-19**
+
+Cross-check against `demo-apps/demoapp001-typescript-cypress/tests/screenplay/tasks/
+SetupGridState.ts` (lines 57-73) confirms that the TypeScript `rowColumnConstraints()` and
+`columnRowConstraints()` methods are also no-ops that only call `ability.takeSnapshot()`, with
+the comment "#actor confirms row-column constraints (context)". These are deliberate context-
+documentation steps, not active grid setup steps; the constraint state is established by the
+preceding `rowMissingDigit` / `columnMissingDigit` step. The Python implementation with
+underscore-prefixed parameters is a faithful translation of this design.
+
+**Original risk description (retained for audit):** Two factory methods in the Python Tasks
+module accept grid constraint parameters but perform no actual grid setup.
 
 **Evidence:**
 

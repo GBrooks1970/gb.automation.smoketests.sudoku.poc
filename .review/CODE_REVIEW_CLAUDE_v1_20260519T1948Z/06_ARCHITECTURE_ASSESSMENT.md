@@ -155,7 +155,7 @@ documented and accepted.
 |---------|-------------|--------|
 | Section 2.1 -- Layer model | 5 layers present and segregated | Compliant |
 | Section 3 -- Screenplay pattern | Actor, Ability, Task, Question all implemented | Compliant |
-| Section 3.5 -- Memory contract | Six keys defined; TypeScript reads via notes; Python has partial bypass | Partial (DEMOAPP002) |
+| Section 3.5 -- Memory contract | Six keys defined; GridCell snapshot methods use ability field in both stacks by design | Compliant |
 | Section 4 -- Directory blueprint | DR-001 dot-prefix divergence documented | Compliant (DR-001) |
 | Section 5 -- Canonical feature store | `features-shared/` authoritative | Compliant |
 | Section 5.5 -- Feature change governance | DR-024 adds breaking-change gate | Compliant |

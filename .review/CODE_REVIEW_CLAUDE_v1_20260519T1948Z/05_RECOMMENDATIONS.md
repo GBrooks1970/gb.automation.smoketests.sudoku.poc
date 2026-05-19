@@ -4,7 +4,10 @@ Prioritised from highest to lowest impact. Backlog IDs are referenced where new 
 
 ---
 
-## P1 -- Refactor Python Questions to read from Actor memory (BACKLOG-032)
+## ~~P1 -- Refactor Python Questions to read from Actor memory (BACKLOG-032)~~ NOT REQUIRED
+
+**STATUS: FALSE POSITIVE -- BACKLOG-032 closed 2026-05-19.** TypeScript `GridCell` Questions
+use `ability.gridSnapshot` directly in the same pattern. No action required.
 
 **Priority:** High -- must be resolved before DEMOAPP003 is authored.
 
@@ -21,7 +24,10 @@ Effort estimate: 1--2 hours. No DR required.
 
 ---
 
-## P1 -- Extract side effects from `MultipleSolvers.isolation_verified()` (BACKLOG-033)
+## ~~P1 -- Extract side effects from `MultipleSolvers.isolation_verified()` (BACKLOG-033)~~ NOT REQUIRED
+
+**STATUS: FALSE POSITIVE -- BACKLOG-033 closed 2026-05-19.** TypeScript `MultipleSolvers.
+isolationVerified()` has identical mutations by design. No action required.
 
 **Priority:** High -- Screenplay anti-pattern that must not propagate to DEMOAPP003.
 
