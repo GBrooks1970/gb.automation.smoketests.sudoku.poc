@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-19 (BACKLOG-004 resolved — GitHub Actions CI configured)
+**Last Updated:** 2026-05-19 (BACKLOG-031 resolved — sprint roadmap refreshed)
 **Governed by:** `reference-architecture.md` v1.13 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,9 +25,9 @@ Per v1.13 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 15 |
+| Open | 14 |
 | In Progress | 0 |
-| Resolved | 38 |
+| Resolved | 39 |
 | **Total** | **53** |
 
 | Area | Current state |
@@ -35,7 +35,7 @@ Per v1.13 Section 10.1:
 | Current execution baseline | 46 scenarios / 257 steps passing |
 | Active Reference Architecture | v1.13 |
 | Active Stack | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`) |
-| Current sprint focus | CI wiring, output decoupling, implementation-log normalization |
+| Current sprint focus | Stack hygiene, living documentation, API/UI foundations |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -91,7 +91,6 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | BACKLOG-027 | Configure Serenity/JS reporters to produce living documentation | DEMOAPP001 | Framework investment unrealised | Medium | Open |
 | BACKLOG-024 | Make "the missing digit is {int}" step genuinely parameterised | DEMOAPP001 | Step definition shape (RA §8.2) | Low | Open |
 | BACKLOG-030 | Extract actor name 'Solver' to shared constant across step definitions | DEMOAPP001 | Magic string risk (RA §8.2) | Low | Open |
-| BACKLOG-031 | Update sprint roadmap to reflect resolved items | All | Planning document currency | Low | Open |
 | BACKLOG-010 | Docker Compose for Local Development | All | Local development infrastructure | Low | Open |
 | BACKLOG-011 | Performance Benchmarking Suite | All | Performance regression detection | Low | Open |
 | BACKLOG-012 | Implement Python Version | DEMOAPP002 | Future Stack implementation | Future | Open |
@@ -690,7 +689,7 @@ Acceptance criteria:
 ### BACKLOG-031: Update sprint roadmap to reflect resolved items
 
 **Priority:** Low
-**Status:** Open
+**Status:** Resolved
 **Stack(s):** All
 **Nature of Gap:** Planning document currency
 
@@ -704,10 +703,14 @@ focus receives misleading information.
 
 Acceptance criteria:
 
-- [ ] Sprint 2 and Sprint 3 rows marked `Completed` with a note of completion date
-- [ ] Sprint 6+ row updated to remove resolved RA items; replaced with accurate current open items (e.g. BACKLOG-004, BACKLOG-022, BACKLOG-025 through BACKLOG-031)
-- [ ] Sprint 4 and Sprint 5 rows reviewed for accuracy against current open items
-- [ ] No DR required
+- [x] Sprint 2 and Sprint 3 rows marked `Completed` with a note of completion date
+- [x] Sprint 6+ row updated to remove resolved RA items; replaced with accurate current open items
+- [x] Sprint 4 and Sprint 5 rows reviewed for accuracy against current open items
+- [x] No DR required
+
+Resolution:
+
+- Sprint roadmap rows now reflect current resolved work and the remaining open backlog. Sprint 2 and Sprint 3 are marked completed on 2026-05-19; Sprint 4 and Sprint 5 remove resolved items; Sprint 6+ no longer references resolved RA items.
 
 ---
 
@@ -740,6 +743,7 @@ Acceptance criteria:
 | BACKLOG-025 | Fix feature parity report summary terminology to match RA CI gate spec | All | 2026-05-19 | Feature parity report summary and console output now emit `PASS`, `DRIFT`, or `MISSING`; non-PASS exit remains non-zero; no DR required |
 | BACKLOG-022 | Implement step-text parity checker (Section 8.4 criterion 3) | All | 2026-05-19 | `.batch/check-step-text-parity.ps1` added with non-zero drift exit and line reporting; initial CI gate added; no DR required |
 | BACKLOG-004 | Setup GitHub Actions CI/CD | DEMOAPP001 | 2026-05-19 | `CI` workflow added for DEMOAPP001 build, lint, tests, parity gates, and artifact upload; README badge added |
+| BACKLOG-031 | Update sprint roadmap to reflect resolved items | All | 2026-05-19 | Sprint roadmap refreshed to remove resolved items, mark completed rows, and show current open work; no DR required |
 
 ---
 
@@ -747,11 +751,11 @@ Acceptance criteria:
 
 | Sprint | Dates | Focus | Key Items | Status |
 |--------|-------|-------|-----------|--------|
-| 2 | 2026-05-14 to 2026-05-27 | Close persistent risks and governance drift | BACKLOG-004, MIG-08, MIG-04, MIG-05 | In Progress |
-| 3 | 2026-05-28 to 2026-06-10 | Directory rename and output decoupling | MIG-13 ✅, BACKLOG-007, BACKLOG-017 | In Progress |
-| 4 | 2026-06-11 to 2026-06-24 | Audit/API foundations and Python Stack start | BACKLOG-008, BACKLOG-009, BACKLOG-020 | Open |
-| 5 | 2026-06-25 to 2026-07-08 | API/Web UI and C# Stack start | BACKLOG-018, BACKLOG-021 | Open |
-| 6+ | 2026-07-09 onward | Multi-Stack polish, infrastructure, and RA improvements | BACKLOG-010, BACKLOG-011, RA-001 through RA-006 | Open |
+| 2 | 2026-05-14 to 2026-05-27 | Close persistent risks and governance drift | MIG-04, MIG-05, MIG-08, BACKLOG-004 | Completed 2026-05-19 |
+| 3 | 2026-05-28 to 2026-06-10 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Completed 2026-05-19 |
+| 4 | 2026-06-11 to 2026-06-24 | Stack hygiene, living documentation, API foundation, and Python Stack start | BACKLOG-024, BACKLOG-027, BACKLOG-009, BACKLOG-020 | Open |
+| 5 | 2026-06-25 to 2026-07-08 | API/Web UI, C# Stack start, and step definition cleanup | BACKLOG-018, BACKLOG-021, BACKLOG-030 | Open |
+| 6+ | 2026-07-09 onward | Multi-Stack polish, infrastructure, and future product ideas | BACKLOG-010, BACKLOG-011, BACKLOG-012 through BACKLOG-016 | Open |
 
 ---
 
