@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-19 (BACKLOG-026 resolved — planning backlog filename normalized)
+**Last Updated:** 2026-05-19 (BACKLOG-028 resolved — governance metadata corrected)
 **Governed by:** `reference-architecture.md` v1.13 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -13,7 +13,7 @@
 
 This backlog tracks product, technical debt, and Reference Architecture migration work required to keep current and future Stacks in parity.
 
-Per v1.3 Section 10.1:
+Per v1.13 Section 10.1:
 
 - Every tracked item uses exactly one status: `Open`, `In Progress`, or `Resolved`.
 - Resolved items are retained as a record that the gap existed.
@@ -25,9 +25,9 @@ Per v1.3 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 20 |
+| Open | 19 |
 | In Progress | 0 |
-| Resolved | 33 |
+| Resolved | 34 |
 | **Total** | **53** |
 
 | Area | Current state |
@@ -91,7 +91,6 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | BACKLOG-021 | C# Screenplay-style Step Definitions | DEMOAPP003 | Future Stack parity | Medium | Open |
 | BACKLOG-025 | Fix feature parity report summary terminology to match RA CI gate spec | All | Parity tooling compliance (RA §9.4) | Medium | Open |
 | BACKLOG-027 | Configure Serenity/JS reporters to produce living documentation | DEMOAPP001 | Framework investment unrealised | Medium | Open |
-| BACKLOG-028 | Correct stale metadata in decision-register.md and backlog.md headers | All | Governance document currency | Medium | Open |
 | BACKLOG-029 | Mark DR-010 as Superseded by DR-014 in decision register | All | Decision register governance (RA §10.6) | Medium | Open |
 | BACKLOG-022 | Implement step-text parity checker (Section 8.4 criterion 3) | All | Parity automation (RA §8.4) | High | Open |
 | BACKLOG-024 | Make "the missing digit is {int}" step genuinely parameterised | DEMOAPP001 | Step definition shape (RA §8.2) | Low | Open |
@@ -603,7 +602,7 @@ Acceptance criteria:
 ### BACKLOG-028: Correct stale metadata in decision-register.md and backlog.md headers
 
 **Priority:** Medium
-**Status:** Open
+**Status:** Resolved
 **Stack(s):** All
 **Nature of Gap:** Governance document currency
 
@@ -615,11 +614,16 @@ referenced `reference-architecture.md v1.9 Section 10.1` (now corrected to
 v1.13 in this session). Stale metadata misleads agents that use header fields
 to determine document currency.
 
+**Resolution:** `decision-register.md` header metadata now reflects the current
+accepted governance state: `Last Updated` is 2026-05-18 and the governing
+Reference Architecture version is v1.13. Current governance document headers
+were checked for stale RA version metadata.
+
 Acceptance criteria:
 
-- [ ] `decision-register.md` `**Last Updated:**` field set to `2026-05-18`
-- [ ] Verify no other header metadata fields in governance documents reference superseded RA versions
-- [ ] No DR required (metadata correction, not a normative rule change)
+- [x] `decision-register.md` `**Last Updated:**` field set to `2026-05-18`
+- [x] Verify no other header metadata fields in governance documents reference superseded RA versions
+- [x] No DR required (metadata correction, not a normative rule change)
 
 ---
 
@@ -719,6 +723,7 @@ Acceptance criteria:
 | MIG-11 | Parameterize over-specified canonical Gherkin steps | All | 2026-05-16 | Two scenarios converted to Scenario Outlines with Examples; step defs parameterized; 43/43 pass; parity PASS; DR-018 |
 | MIG-12 | Decide metrics Stack identifier policy | All | 2026-05-16 | Short identifier `DEMOAPP001` documented in run script (DR-016 ref) and orchestration-design Section 6; stale RA v1.2 comment corrected |
 | BACKLOG-026 | Normalize planning backlog filename to lowercase | All | 2026-05-19 | `DOCS/.planning/backlog.md` filesystem casing normalized; editable non-review references updated; no DR required |
+| BACKLOG-028 | Correct stale governance document metadata | All | 2026-05-19 | `decision-register.md` header updated to `Last Updated: 2026-05-18` and RA v1.13 governance; no DR required |
 
 ---
 

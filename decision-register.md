@@ -1,8 +1,8 @@
 # Decision Register
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-05-16
-**Governed by:** `reference-architecture.md` v1.3 §10.6
+**Last Updated:** 2026-05-18
+**Governed by:** `reference-architecture.md` v1.13 §10.6
 **Template:** `DOCS/.templates/decision-record.template.md`
 
 > This register is the authoritative source for every structural and process decision in this project.
