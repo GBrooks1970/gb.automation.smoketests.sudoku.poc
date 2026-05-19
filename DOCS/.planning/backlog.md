@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-19 (BACKLOG-027 resolved — Serenity BDD living documentation enabled)
+**Last Updated:** 2026-05-19 (Sprint roadmap adjusted — BACKLOG-020 now leads Sprint 4)
 **Governed by:** `reference-architecture.md` v1.13 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -35,7 +35,7 @@ Per v1.13 Section 10.1:
 | Current execution baseline | 46 scenarios / 257 steps passing |
 | Active Reference Architecture | v1.13 |
 | Active Stack | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`) |
-| Current sprint focus | Stack hygiene, living documentation, API/UI foundations |
+| Current sprint focus | Python Stack onboarding and API foundations |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -765,7 +765,7 @@ Resolution:
 |--------|-------|-------|-----------|--------|
 | 2 | 2026-05-14 to 2026-05-27 | Close persistent risks and governance drift | MIG-04, MIG-05, MIG-08, BACKLOG-004 | Completed 2026-05-19 |
 | 3 | 2026-05-28 to 2026-06-10 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Completed 2026-05-19 |
-| 4 | 2026-06-11 to 2026-06-24 | API foundation and Python Stack start | BACKLOG-009, BACKLOG-020 | Open |
+| 4 | 2026-06-11 to 2026-06-24 | Python Stack start and API foundation | BACKLOG-020, BACKLOG-009 | Open |
 | 5 | 2026-06-25 to 2026-07-08 | API/Web UI and C# Stack start | BACKLOG-018, BACKLOG-021 | Open |
 | 6+ | 2026-07-09 onward | Multi-Stack polish, infrastructure, and future product ideas | BACKLOG-010, BACKLOG-011, BACKLOG-012 through BACKLOG-016 | Open |
 
