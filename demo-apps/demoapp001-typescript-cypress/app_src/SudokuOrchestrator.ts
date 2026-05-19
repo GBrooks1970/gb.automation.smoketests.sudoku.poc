@@ -1,4 +1,6 @@
 import { SudokuSolver } from './SudokuSolver';
+import { AuditLogger } from './audit/AuditLogger';
+import { AuditConfig, AuditTrail } from './audit/AuditTypes';
 import { GRID_SIZE, EMPTY_CELL } from './constants';
 
 /**
@@ -16,7 +18,17 @@ import { GRID_SIZE, EMPTY_CELL } from './constants';
  * further progress can be made (requiring advanced techniques like Naked Pairs, X-Wing, etc.)
  */
 export class SudokuOrchestrator {
-  constructor(private solver: SudokuSolver) {}
+  private auditLogger?: AuditLogger;
+
+  constructor(
+    private solver: SudokuSolver,
+    auditConfig?: Partial<AuditConfig>
+  ) {
+    if (auditConfig?.enabled) {
+      this.auditLogger = new AuditLogger(solver.name, solver.origGrid, auditConfig);
+      solver.setAuditLogger(this.auditLogger);
+    }
+  }
 
   /**
    * Solves the Sudoku puzzle using basic techniques.
@@ -28,6 +40,8 @@ export class SudokuOrchestrator {
 
     while (isProgressing) {
       let changedThisPass = false;
+
+      this.auditLogger?.startIteration();
 
       // Step 1: Unit Completion (simplest technique - O(n) per unit)
       // Fills cells in rows/columns/blocks that have only one empty cell
@@ -62,5 +76,14 @@ export class SudokuOrchestrator {
    */
   public isGridFull(): boolean {
     return this.solver.grid.every((row) => row.every((cell) => cell !== EMPTY_CELL));
+  }
+
+  /**
+   * Returns the audit trail for this solve run, or undefined if audit logging was not enabled.
+   */
+  public getAuditTrail(): AuditTrail | undefined {
+    if (!this.auditLogger) return undefined;
+    const status = this.isGridFull() ? 'SOLVED' : 'STUCK_ON_ADVANCED_LOGIC';
+    return this.auditLogger.getTrail(this.solver.grid, status);
   }
 }

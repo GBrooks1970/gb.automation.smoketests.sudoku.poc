@@ -10,8 +10,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "moduleResolution": "node",
-    "ignoreDeprecations": "5.0"
+    "sourceMap": true,
   },
   "include": ["app_src/**/*"],
   "exclude": ["node_modules", "dist"]

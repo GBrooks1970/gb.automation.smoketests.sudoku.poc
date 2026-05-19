@@ -11,11 +11,15 @@ Feature: Basic Sudoku Solver Logic
   # Unit Completion Algorithm Tests
   # =============================================================================
 
-  Scenario: Complete a row with only one missing value
-    Given a row contains the values [1, 2, 0, 4, 5, 6, 7, 8, 9]
+  Scenario Outline: Complete a row with only one missing value
+    Given a row contains the values "<rowValues>"
     When the "Unit Completion" algorithm scans the row
-    Then the system should identify the missing value as 3
-    And the value 3 should be placed in the empty cell
+    Then the system should identify the missing value as <missing>
+    And the value <missing> should be placed in the empty cell
+
+    Examples:
+      | rowValues                   | missing |
+      | 1, 2, 0, 4, 5, 6, 7, 8, 9 | 3       |
 
   Scenario: Complete a column with only one missing value
     Given column 0 contains 8 non-zero values
@@ -85,11 +89,15 @@ Feature: Basic Sudoku Solver Logic
     Then the system should determine the only possible value is 9
     And the cell at row 4, column 4 should be updated to 9
 
-  Scenario: Naked Singles with multiple candidates
-    Given an empty cell has 3 possible candidates: [2, 5, 8]
+  Scenario Outline: Naked Singles with multiple candidates
+    Given an empty cell has <count> possible candidates: "<candidates>"
     When the "Naked Singles" algorithm is executed
     Then the cell should not be filled
     And the algorithm should continue to other cells
+
+    Examples:
+      | count | candidates |
+      | 3     | 2, 5, 8    |
 
   Scenario: Naked Singles finds multiple cells in one pass
     Given 3 empty cells each have exactly one possible value
@@ -288,3 +296,26 @@ Feature: Basic Sudoku Solver Logic
     When 3 separate SudokuSolver instances are created
     Then each solver should maintain its own independent grid state
     And solving one should not affect the others
+
+  # =============================================================================
+  # Audit Trail Tests
+  # =============================================================================
+
+  Scenario: Audit trail captures all cell changes for a solved puzzle
+    Given the puzzle "Easy Scan Grid" is loaded from JSON
+    And audit logging is enabled
+    When the solver attempts to solve it with audit
+    Then the audit trail should be generated
+    And the audit trail should contain at least one cell change
+    And every cell change should have an algorithm attribution
+
+  Scenario: Audit trail attributes changes to the correct algorithm
+    Given the puzzle "Easy Scan Grid" is loaded from JSON
+    And audit logging is enabled
+    When the solver attempts to solve it with audit
+    Then the audit trail statistics should account for all changes
+
+  Scenario: Solver without audit logging produces no trail
+    Given the puzzle "Easy Scan Grid" is loaded from JSON
+    When the solver attempts to solve it
+    Then no audit trail should be present

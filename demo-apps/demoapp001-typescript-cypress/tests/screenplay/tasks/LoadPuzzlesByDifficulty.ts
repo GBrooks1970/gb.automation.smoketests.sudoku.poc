@@ -1,6 +1,7 @@
 import { Interaction } from '@serenity-js/core';
 import { UseSudokuSolver } from '../abilities/UseSudokuSolver';
 import { LoadPuzzles } from '../abilities/LoadPuzzles';
+import { createSolversFromPuzzles } from '../fixtures/GridFixtures';
 
 /**
  * Task: LoadPuzzlesByDifficulty
@@ -12,6 +13,6 @@ export const LoadPuzzlesByDifficulty = {
   andStore: (difficulty: string) =>
     Interaction.where(`#actor loads all "${difficulty}" puzzles as independent solvers`, async actor => {
       const puzzles = LoadPuzzles.as(actor).getByDifficulty(difficulty);
-      UseSudokuSolver.as(actor).storeSolversFromPuzzles(puzzles);
+      UseSudokuSolver.as(actor).setMultipleSolvers(createSolversFromPuzzles(puzzles.length, puzzles));
     }),
 };

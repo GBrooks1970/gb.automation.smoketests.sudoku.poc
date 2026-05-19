@@ -1,5 +1,6 @@
 import { Given, When, Then } from '@cucumber/cucumber';
 import { actorCalled } from '@serenity-js/core';
+import { SOLVER_ACTOR } from '../support/actors';
 import * as assert from 'assert';
 import { SetTargetCell } from '../tasks/SetTargetCell';
 import { SetupGridState } from '../tasks/SetupGridState';
@@ -11,15 +12,15 @@ import { PlacementValidity } from '../questions/PlacementValidity';
 // ---------------------------------------------------------------------------
 
 Given('a cell at {int}, {int} is empty', async (_row: number, _col: number) => {
-  await actorCalled('Solver').attemptsTo(SetTargetCell.at(_row, _col));
+  await actorCalled(SOLVER_ACTOR).attemptsTo(SetTargetCell.at(_row, _col));
 });
 
 Given('the grid state is {word}', async (gridState: string) => {
-  await actorCalled('Solver').attemptsTo(SetupGridState.named(gridState));
+  await actorCalled(SOLVER_ACTOR).attemptsTo(SetupGridState.named(gridState));
 });
 
 When('attempting to place {int} at that position', async (value: number) => {
-  await actorCalled('Solver').attemptsTo(AttemptPlacement.ofValue(value));
+  await actorCalled(SOLVER_ACTOR).attemptsTo(AttemptPlacement.ofValue(value));
 });
 
 Then('the move should be validated against row, column, and block constraints', () => {
@@ -27,6 +28,6 @@ Then('the move should be validated against row, column, and block constraints', 
 });
 
 Then('the validation result should be {word}', async (expected: string) => {
-  const result = await actorCalled('Solver').answer(PlacementValidity.ofLastAttempt());
+  const result = await actorCalled(SOLVER_ACTOR).answer(PlacementValidity.ofLastAttempt());
   assert.strictEqual(result, expected);
 });

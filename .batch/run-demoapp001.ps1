@@ -11,15 +11,24 @@ $stackDir = Join-Path $repoRoot 'demo-apps/demoapp001-typescript-cypress'
 $resultsRoot = Join-Path $repoRoot '.results'
 $metricsDir = Join-Path $resultsRoot '.metrics'
 $logsDir = Join-Path $resultsRoot 'logs'
+$serenityDir = Join-Path $stackDir '.results/serenity'
+$serenityListenerOutput = Join-Path $stackDir '.results/serenity-listener.ndjson'
+$serenityReportIndex = Join-Path $serenityDir 'index.html'
 
 New-Item -ItemType Directory -Path $metricsDir -Force | Out-Null
 New-Item -ItemType Directory -Path $logsDir -Force | Out-Null
 
 $timestamp = (Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssZ')
+
+# Stack short identifier used in metric key prefixes (DR-016 / MIG-12).
+# Full canonical Stack name:  DEMOAPP001_TYPESCRIPT_CYPRESS
+# Filesystem directory:       demo-apps/demoapp001-typescript-cypress/
+# See DOCS/.architecture/orchestration-design.md Section 6 for the full mapping.
 $stackName = 'DEMOAPP001'
 
 $buildLog = Join-Path $logsDir ("${stackName}_build_${timestamp}.log")
 $testLog = Join-Path $logsDir ("${stackName}_test_${timestamp}.log")
+$serenityLog = Join-Path $logsDir ("${stackName}_serenity_${timestamp}.log")
 $metricsTxt = Join-Path $metricsDir ("${stackName}_${timestamp}.txt")
 $metricsMd = Join-Path $metricsDir ("${stackName}_${timestamp}.md")
 
@@ -27,6 +36,7 @@ $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
 
 $buildExitCode = 1
 $testExitCode = 1
+$serenityExitCode = 1
 $overallExitCode = 1
 $testsTotal = 0
 $testsPassed = 0
@@ -42,6 +52,14 @@ try {
   $buildExitCode = $LASTEXITCODE
 
   if ($buildExitCode -eq 0) {
+    if (Test-Path -LiteralPath $serenityDir) {
+      Remove-Item -LiteralPath $serenityDir -Recurse -Force
+    }
+    if (Test-Path -LiteralPath $serenityListenerOutput) {
+      Remove-Item -LiteralPath $serenityListenerOutput -Force
+    }
+    New-Item -ItemType Directory -Path $serenityDir -Force | Out-Null
+
     # Test step
     $testCommand = 'npm test'
     if (-not [string]::IsNullOrWhiteSpace($Tags)) {
@@ -77,6 +95,16 @@ try {
         $testsSkipped += [int]$Matches[1]
       }
     }
+
+    $serenityJsonReports = @(Get-ChildItem -Path $serenityDir -Filter '*.json' -File -ErrorAction SilentlyContinue)
+    if ($serenityJsonReports.Count -gt 0) {
+      $serenityOutput = & npx serenity-bdd run --source .results/serenity --destination .results/serenity --features tests/features --project $stackName 2>&1
+      $serenityOutput | Out-File -FilePath $serenityLog -Encoding utf8
+      $serenityExitCode = $LASTEXITCODE
+    } else {
+      "No Serenity BDD JSON reports were produced in $serenityDir" | Out-File -FilePath $serenityLog -Encoding utf8
+      $serenityExitCode = 1
+    }
   }
 }
 finally {
@@ -86,7 +114,7 @@ finally {
 $stopwatch.Stop()
 $durationSeconds = [math]::Round($stopwatch.Elapsed.TotalSeconds, 3)
 
-$overallExitCode = if ($buildExitCode -eq 0 -and $testExitCode -eq 0) { 0 } else { 1 }
+$overallExitCode = if ($buildExitCode -eq 0 -and $testExitCode -eq 0 -and $serenityExitCode -eq 0) { 0 } else { 1 }
 
 $kvLines = @(
   "${stackName}_${Suite}_ExitCode=$testExitCode"
@@ -96,6 +124,9 @@ $kvLines = @(
   "${stackName}_${Suite}_Skipped=$testsSkipped"
   "${stackName}_${Suite}_Duration=$durationSeconds"
   "${stackName}_${Suite}_Log=$testLog"
+  "${stackName}_${Suite}_SerenityReportExitCode=$serenityExitCode"
+  "${stackName}_${Suite}_SerenityReport=$serenityReportIndex"
+  "${stackName}_${Suite}_SerenityLog=$serenityLog"
   "${stackName}_Build_ExitCode=$buildExitCode"
   "OverallExitCode=$overallExitCode"
 )
@@ -107,13 +138,16 @@ $mdLines = @(
   "| ${stackName} | ${Suite} | ${testExitCode} | ${testsTotal} | ${testsPassed} | ${testsFailed} | ${testsSkipped} | ${durationSeconds}s |"
   "",
   "BuildExitCode: ${buildExitCode}",
+  "SerenityReportExitCode: ${serenityExitCode}",
   "OverallExitCode: ${overallExitCode}",
+  "SerenityReport: ${serenityReportIndex}",
+  "SerenityLog: ${serenityLog}",
   "Log: ${testLog}"
 )
 $mdLines | Out-File -FilePath $metricsMd -Encoding utf8
 
 # Retention cleanup for logs/metrics older than retention threshold
-# Per RA v1.2 §9.3: Preserve markdown metric summary files, purge old log files
+# Per RA v1.3 §9.3: Preserve markdown metric summary files, purge old log files
 $cutoff = (Get-Date).ToUniversalTime().AddDays(-$RetentionDays)
 
 # Remove old log files (no preservation required)
@@ -124,9 +158,12 @@ Get-ChildItem -Path $metricsDir -Filter "*.txt" | Where-Object { $_.LastWriteTim
 
 Write-Host "BuildExitCode: $buildExitCode"
 Write-Host "TestExitCode: $testExitCode"
+Write-Host "SerenityReportExitCode: $serenityExitCode"
 Write-Host "OverallExitCode: $overallExitCode"
 Write-Host "MetricsTxt: $metricsTxt"
 Write-Host "MetricsMd: $metricsMd (preserved for historical archival)"
 Write-Host "TestLog: $testLog"
+Write-Host "SerenityReport: $serenityReportIndex"
+Write-Host "SerenityLog: $serenityLog"
 
 exit $overallExitCode

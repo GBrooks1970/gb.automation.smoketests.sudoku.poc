@@ -9,3 +9,8 @@ dist/
 
 # Test execution results
 /.results/
+**/.results/
+
+# Serenity BDD living documentation artifacts
+.results/serenity/
+**/.results/serenity/

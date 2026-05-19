@@ -15,7 +15,7 @@ Planning documents serve as:
 
 ### Active Documents
 
-- **[BACKLOG.md](BACKLOG.md)** - Product backlog with prioritized work items
+- **[backlog.md](backlog.md)** - Product backlog with prioritized work items
   - Current sprint backlog
   - High/Medium/Low priority items
   - Future enhancements and ideas
@@ -176,7 +176,7 @@ Brief description of the work item.
 3. Reference design document for requirements
 4. Use design's implementation plan for acceptance criteria
 
-**Example:** DESIGN_Audit_Trail_Feature.md (v1.0, Approved) → Created BACKLOG-008
+**Example:** audit-trail-feature.md (v1.0, Approved) → Created BACKLOG-008
 
 ### From Backlog → Implementation Logs
 

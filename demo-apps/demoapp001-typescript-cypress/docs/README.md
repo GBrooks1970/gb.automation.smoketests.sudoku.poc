@@ -3,14 +3,15 @@
 **Language:** TypeScript 5.x
 **Framework:** Cucumber.js 12 + Serenity/JS 3.43.2
 **Surface type:** @util
-**Last updated:** 2026-05-15
+**Last updated:** 2026-05-19
 
 ---
 
 ## Prerequisites
 
-- Node.js 16+
+- Node.js 20+
 - npm 8+
+- Java Runtime Environment on `PATH` for Serenity BDD HTML report generation
 
 ---
 
@@ -32,8 +33,8 @@ npm test
 Expected output (current baseline):
 
 ```text
-43 scenarios (43 passed)
-241 steps (241 passed)
+46 scenarios (46 passed)
+257 steps (257 passed)
 ```
 
 Run by tag:
@@ -41,6 +42,30 @@ Run by tag:
 ```bash
 npm test -- --tags @util
 npm test -- --tags @stack-demoapp001
+```
+
+---
+
+## Living Documentation
+
+`npm test` records Serenity BDD JSON reports under `.results/serenity/`.
+
+Generate the HTML living documentation report through the Stack runner:
+
+```powershell
+pwsh -File ..\..\.batch\run-demoapp001.ps1
+```
+
+After a successful run, open:
+
+```text
+demo-apps/demoapp001-typescript-cypress/.results/serenity/index.html
+```
+
+To regenerate only the HTML report from existing Serenity JSON output:
+
+```bash
+npx serenity-bdd run --source .results/serenity --destination .results/serenity --features tests/features --project DEMOAPP001
 ```
 
 ---
@@ -87,7 +112,7 @@ See canonical update process in `../../CLAUDE.md`.
 
 ## Deeper Reading
 
-- `docs/ARCHITECTURE.md` — layer model and dependency boundaries
-- `docs/SCREENPLAY_GUIDE.md` — Actor/Ability/Task/Question implementation details
-- `docs/QA_STRATEGY.md` — scope and coverage posture
-- `../../DOCS/templates/stack-readme.template.md` — source template used
+- `docs/architecture.md` — layer model and dependency boundaries
+- `docs/screenplay-guide.md` — Actor/Ability/Task/Question implementation details
+- `docs/qa-strategy.md` — scope and coverage posture
+- `../../DOCS/.templates/stack-readme.template.md` — source template used

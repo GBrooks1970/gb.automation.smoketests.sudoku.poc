@@ -70,7 +70,7 @@ export const GridCell = {
 
   isValidSolution: () =>
     Question.about('solution is valid (no constraint violations)', actor =>
-      UseSudokuSolver.as(actor).isValidSolution()
+      UseSudokuSolver.as(actor).getSolver().isValidSolution()
     ),
 
   hasEmptyCells: () =>
@@ -85,7 +85,7 @@ export const GridCell = {
 
   noConstraintViolations: () =>
     Question.about('no constraint violations in filled cells', actor =>
-      UseSudokuSolver.as(actor).noConstraintViolations()
+      UseSudokuSolver.as(actor).getSolver().noConstraintViolations()
     ),
 
   isDeepCopy: () =>

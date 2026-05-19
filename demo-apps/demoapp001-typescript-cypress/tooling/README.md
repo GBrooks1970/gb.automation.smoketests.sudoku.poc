@@ -52,7 +52,7 @@ When a new tool is needed for this Stack (e.g., a new reporter, a helper utility
 
 ## Related Decision
 
-Recorded in `DECISION_REGISTER.md` as **DR-015**: Architectural rule that framework-owned test runner and tooling configuration remains native to the framework, unmodified by Screenplay abstraction or cross-Stack normalization.
+Recorded in `decision-register.md` as **DR-015**: Architectural rule that framework-owned test runner and tooling configuration remains native to the framework, unmodified by Screenplay abstraction or cross-Stack normalization.
 
 ---
 
