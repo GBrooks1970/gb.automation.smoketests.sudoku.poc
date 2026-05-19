@@ -40,7 +40,6 @@ repository-root/
 ├── DOCS/                     # Project-wide documentation
 ├── README.md                 # This file
 ├── CHANGELOG.md              # Version history
-├── BACKLOG.md                # Backlog summary (detail: DOCS/.planning/backlog.md)
 └── decision-register.md      # Structural and process decisions
 ```
 

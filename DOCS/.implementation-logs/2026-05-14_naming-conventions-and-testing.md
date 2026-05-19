@@ -17,7 +17,7 @@
 - Validate all work with build, lint, and bat file execution after implementation
 - Create a naming conventions design document
 - Conduct a full third code review of the project using the established review template and prior review as context
-- Update BACKLOG.md with a step-by-step Sprint 2 plan based on code review findings
+- Update backlog.md with a step-by-step Sprint 2 plan based on code review findings
 - Action BACKLOG-001 (Complete Hidden Singles Implementation)
 - Action BACKLOG-002 (Implement Cucumber.js Automated Test Runner)
 - Write this implementation log
@@ -318,7 +318,7 @@ for (let row = 0; row < GRID_SIZE; row++) {
 - ✅ Gherkin example tables standardised — camelCase headers and values
 - ✅ naming-conventions-design.md created — comprehensive reference document
 - ✅ Third code review completed — `CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z/` (9 files)
-- ✅ BACKLOG.md updated — Sprint 2 plan with six ordered steps and explicit dependencies
+- ✅ backlog.md updated — Sprint 2 plan with six ordered steps and explicit dependencies
 - ✅ BACKLOG-001 closed — `hiddenSingles()` now checks rows, columns, and blocks
 - ✅ Crosshatch Challenge puzzle added — demonstrates complete hidden singles technique
 - ✅ Minimal Clues puzzle result corrected — now `SOLVED` (was `STUCK_ON_ADVANCED_LOGIC`)

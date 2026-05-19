@@ -188,7 +188,7 @@ DOCS/
   design/                  PRESENT as .design/ (DR-001 dot-prefix — name drift)
     NAMING_CONVENTIONS.md  PRESENT as DOCS/.design/NAMING_CONVENTIONS.md ✅ (v1.1 §10.9)
   planning/                PRESENT as .planning/ (DR-001 dot-prefix — name drift)
-    BACKLOG.md             PRESENT at DOCS/.planning/BACKLOG.md ✅ (v1.1 §10.1)
+    backlog.md             PRESENT at DOCS/.planning/backlog.md ✅ (v1.1 §10.1)
   implementation-logs/     PRESENT as .implementation/ (DR-001 dot-prefix — name drift)
   templates/               PRESENT ✅ (Phase 0 — all 14 templates created)
 
@@ -196,7 +196,7 @@ code-review/ OR .review/   PRESENT as DOCS/.review/ (inside DOCS, not at root)
 
 README.md                  ✅
 CHANGELOG.md               ✅ (Phase 0)
-BACKLOG.md (at root)       NOT REQUIRED by v1.1 — present as convenience redirect only
+backlog document (at root) NOT REQUIRED by v1.1 — present as convenience redirect only
 decision-register.md       ✅ (Phases 0–2 — DR-001–DR-008)
 CLAUDE.md (agent file)     ✅ (Phase 0 — stack inventory, risk register, procedure; Phase 1 — feature sync note updated)
 ```
@@ -266,7 +266,7 @@ Then the system should place {int} in the only valid cell in row {int}
 
 ## 6. Required Documents (§10.1, §10.9) — v1.1 Paths
 
-> **v1.1 change note:** `BACKLOG.md` is no longer a root-level requirement — it is required at `DOCS/.planning/BACKLOG.md`. `NAMING_CONVENTIONS.md` is no longer root/DOCS-flexible — it is required at `DOCS/.design/NAMING_CONVENTIONS.md`. The root document set is now: `README.md`, `CHANGELOG.md`, `decision-register.md`, and the AI agent instruction file.
+> **v1.1 change note:** the backlog document is no longer a root-level requirement — it is required at `DOCS/.planning/backlog.md`. `NAMING_CONVENTIONS.md` is no longer root/DOCS-flexible — it is required at `DOCS/.design/NAMING_CONVENTIONS.md`. The root document set is now: `README.md`, `CHANGELOG.md`, `decision-register.md`, and the AI agent instruction file.
 
 ### 6.1 Root-Level Documents (§10.1)
 
@@ -281,10 +281,10 @@ Then the system should place {int} in the only valid cell in row {int}
 
 | Document | Required path (v1.1) | Project path (DR-001 dot-prefix) | Status |
 |----------|---------------------|----------------------------------|--------|
-| `BACKLOG.md` | `DOCS/.planning/BACKLOG.md` | `DOCS/.planning/BACKLOG.md` | ✅ Exists — detailed sprint backlog |
+| `backlog.md` | `DOCS/.planning/backlog.md` | `DOCS/.planning/backlog.md` | ✅ Exists — detailed sprint backlog |
 | `NAMING_CONVENTIONS.md` | `DOCS/.design/NAMING_CONVENTIONS.md` | `DOCS/.design/NAMING_CONVENTIONS.md` | ✅ Moved Phase 0 (corrected from root) |
 
-> **Root `BACKLOG.md`:** Created in Phase 0 as a convenience summary linking to `DOCS/.planning/BACKLOG.md`. Not required by v1.1 but harmless to retain. Should note explicitly that it is a summary redirect.
+> **Root backlog redirect:** Created in Phase 0 as a convenience summary linking to `DOCS/.planning/backlog.md`. Not required by v1.1 but harmless to retain. Should note explicitly that it is a summary redirect.
 
 ### 6.3 Decisions Recorded in decision-register.md
 
@@ -295,7 +295,7 @@ Then the system should place {int} in the only valid cell in row {int}
 | DR-003 | @util surface — in-process class testing | 0 |
 | DR-004 | Sequential Stack migration strategy (TS → Python → C#) | 0 |
 | DR-005 | Feature file unchanged during Screenplay migration | 0 |
-| DR-006 | Adopt RA v1.1; correct NAMING_CONVENTIONS.md and BACKLOG.md paths | 0 |
+| DR-006 | Adopt RA v1.1; correct NAMING_CONVENTIONS.md and backlog.md paths | 0 |
 | DR-007 | Establish features-shared/ as Canonical Feature Store | 1 |
 
 ### 6.4 ~~Decision Needed~~ — v1.1 Adoption: DR-006 ✅
@@ -305,8 +305,8 @@ The project now operates under v1.1. A `decision-register.md` entry should recor
 | Field | Value |
 |-------|-------|
 | **Context** | RA updated from v1.0 to v1.1; two path requirements changed |
-| **Decision** | Adopt RA v1.1; relocate `NAMING_CONVENTIONS.md` to `DOCS/.design/`; treat root `BACKLOG.md` as convenience redirect only |
-| **Consequences** | Phase 0 `NAMING_CONVENTIONS.md` path corrected; root `BACKLOG.md` demoted from required to optional |
+| **Decision** | Adopt RA v1.1; relocate `NAMING_CONVENTIONS.md` to `DOCS/.design/`; treat the root backlog document as a convenience redirect only |
+| **Consequences** | Phase 0 `NAMING_CONVENTIONS.md` path corrected; root backlog document demoted from required to optional |
 
 ---
 
@@ -353,7 +353,7 @@ Phase 6 is complete. `DOCS/.architecture/` now exists with all required document
 |----------|---------|----------------|
 | `TEMPLATE_Decision_Record.md` | `decision-register.md` entries | 0 |
 | `TEMPLATE_Changelog.md` | Root `CHANGELOG.md` | 0 |
-| `TEMPLATE_Backlog.md` | `DOCS/.planning/BACKLOG.md` | 0 |
+| `TEMPLATE_Backlog.md` | `DOCS/.planning/backlog.md` | 0 |
 | `TEMPLATE_Naming_Conventions.md` | `DOCS/.design/NAMING_CONVENTIONS.md` | 0 |
 | `TEMPLATE_Readme.md` | Root `README.md` | 0 |
 | `TEMPLATE_Stack_Architecture.md` | `[STACK]/docs/architecture.md` | 5 |
@@ -419,7 +419,7 @@ It is worth stating clearly what the project gets right, as these are the founda
 | **Algorithm documentation** | Good — pseudocode, complexity, examples, in `DOCS/.algorithm/` |
 | **Implementation logs** | Well-maintained, timestamped, append-only |
 | **Code review discipline** | Multiple reviews archived, timestamped, immutable |
-| **BACKLOG.md** | Detailed sprint tracking; root summary + `DOCS/.planning/` detail |
+| **backlog.md** | Detailed sprint tracking under `DOCS/.planning/` |
 | **Decision Register** | DR-001–008 — all structural decisions recorded with full context |
 | **Template mandate** | 14/14 templates in `DOCS/.templates/` — Phase 0 complete |
 | **Canonical Feature Store** | `features-shared/util-tests/sudoku-solver/` — Phase 1 complete |
@@ -449,17 +449,17 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 | 1 | Create `decision-register.md` at root | ✅ Done | DR-001–DR-005 backfilled |
 | 2 | Backfill DR-001–005 | ✅ Done | See `decision-register.md` |
 | 3 | Create `CHANGELOG.md` at root | ✅ Done | Full project history v0.1.0–Unreleased |
-| 4 | ~~Root `BACKLOG.md`~~ → **not required by v1.1** | ⚠ Created as convenience | `DOCS/.planning/BACKLOG.md` is the required location per v1.1 §10.1; root file retained as summary redirect |
+| 4 | ~~Root backlog document~~ → **not required by v1.1** | ⚠ Created as convenience | `DOCS/.planning/backlog.md` is the required location per v1.1 §10.1; root file retained as summary redirect |
 | 5 | `NAMING_CONVENTIONS.md` — **v1.1 requires `DOCS/design/`** | ✅ Corrected | Initially created at root (v1.0 assumption); moved to `DOCS/.design/NAMING_CONVENTIONS.md` on v1.1 adoption |
 | 6 | Create `DOCS/.templates/` | ✅ Done | All 14 templates created (7 new + 3 adapted + 4 from original Phase 0) |
 | 7 | Create all required templates | ✅ Done | 14/14: Decision Record, Changelog, Backlog, Naming Conventions, Readme, Stack Architecture, Screenplay Guide, QA Strategy, Stack Readme, Parity Contract, Subject App Contract, Algorithm, Implementation Log, Code Review |
 | 8 | Update `CLAUDE.md` | ✅ Done | Stack inventory, risk register, canonical feature procedure, `decision-register.md` reference; updated in Phase 1 for feature sync note |
-| 9 | Record v1.1 adoption | ✅ Done | DR-006 — adoption of RA v1.1, NAMING_CONVENTIONS.md path correction, root BACKLOG.md status |
+| 9 | Record v1.1 adoption | ✅ Done | DR-006 — adoption of RA v1.1, NAMING_CONVENTIONS.md path correction, root backlog status |
 
 **Verification (v1.1) — all passing:**
 - `CHANGELOG.md` at root ✅
 - `decision-register.md` at root (DR-001–007) ✅
-- `DOCS/.planning/BACKLOG.md` ✅
+- `DOCS/.planning/backlog.md` ✅
 - `DOCS/.design/NAMING_CONVENTIONS.md` ✅
 - `DOCS/.templates/` — 14/14 templates ✅
 
@@ -670,13 +670,13 @@ Sequenced in dependency order. Each phase produces a shippable increment.
 
 ## 15. Backlog Items Generated
 
-The following items should be added to `DOCS/.planning/BACKLOG.md` and cross-referenced to `decision-register.md` as appropriate:
+The following items should be added to `DOCS/.planning/backlog.md` and cross-referenced to `decision-register.md` as appropriate:
 
 | ID | Title | Phase | Priority | Status |
 |----|-------|-------|----------|--------|
 | NEW-001 | Create decision-register.md and backfill DR-001–005 | 0 | High | ✅ Done |
 | NEW-002 | Create CHANGELOG.md at repository root | 0 | High | ✅ Done |
-| NEW-003 | ~~Promote BACKLOG.md to root~~ → **not required by v1.1** | 0 | — | ⚠ Superseded — `DOCS/.planning/BACKLOG.md` is the required location |
+| NEW-003 | ~~Promote backlog document to root~~ → **not required by v1.1** | 0 | — | ⚠ Superseded — `DOCS/.planning/backlog.md` is the required location |
 | NEW-004 | Create NAMING_CONVENTIONS.md at `DOCS/.design/` (v1.1: `DOCS/design/`) | 0 | High | ✅ Done (corrected from root) |
 | NEW-005 | Create DOCS/.templates/ with all 14 required templates | 0 | High | ✅ Done — 14/14 templates |
 | NEW-005a | Record v1.1 adoption as DR-006 | 0 | High | ✅ Done — DR-006 |
@@ -698,11 +698,11 @@ The following items should be added to `DOCS/.planning/BACKLOG.md` and cross-ref
 
 | RA Version | Date | Key changes affecting this project |
 |------------|------|-------------------------------------|
-| v1.0 | 2026-05-14 | Initial version. `BACKLOG.md` at root; `NAMING_CONVENTIONS.md` at root or DOCS/. |
-| v1.1 | 2026-05-14 | `BACKLOG.md` moved to `DOCS/.planning/BACKLOG.md`. `NAMING_CONVENTIONS.md` pinned to `DOCS/.design/NAMING_CONVENTIONS.md`. `DOCS/design/` added as a named subdirectory. All internal `BACKLOG.md` references updated to path-qualified form. |
+| v1.0 | 2026-05-14 | Initial version. Backlog document at root; `NAMING_CONVENTIONS.md` at root or DOCS/. |
+| v1.1 | 2026-05-14 | `backlog.md` moved to `DOCS/.planning/backlog.md`. `NAMING_CONVENTIONS.md` pinned to `DOCS/.design/NAMING_CONVENTIONS.md`. `DOCS/design/` added as a named subdirectory. All internal `backlog.md` references updated to path-qualified form. |
 
 **Impact of v1.0 → v1.1 on this project (resolved):**
-- Root `BACKLOG.md` created in Phase 0 is no longer a required document — retained as convenience redirect only
+- Root backlog document created in Phase 0 is no longer a required document — retained as convenience redirect only
 - `NAMING_CONVENTIONS.md` created at root in Phase 0 corrected to `DOCS/.design/NAMING_CONVENTIONS.md` (DR-001 dot-prefix convention applied)
 - DR-006 records the v1.1 adoption and both path corrections — ✅ complete
 

@@ -243,13 +243,13 @@ All 43 Gherkin scenarios in `BasicSudokuSolverLogic.feature` remain unchanged du
 
 ### Context
 
-The Reference Architecture was updated from v1.0 to v1.1 on 2026-05-14. Two path requirements changed: `BACKLOG.md` moved from a root-level requirement to `DOCS/.planning/backlog.md`, and `naming-conventions.md` was pinned from "root or DOCS/" to specifically `DOCS/.design/naming-conventions.md`. Phase 0 had already been executed against v1.0, placing both documents at the wrong paths.
+The Reference Architecture was updated from v1.0 to v1.1 on 2026-05-14. Two path requirements changed: the backlog document moved from a root-level requirement to `DOCS/.planning/backlog.md`, and `naming-conventions.md` was pinned from "root or DOCS/" to specifically `DOCS/.design/naming-conventions.md`. Phase 0 had already been executed against v1.0, placing both documents at the wrong paths.
 
 ### Decision
 
 Adopt RA v1.1 as the governing version. Correct the two path errors introduced by Phase 0:
 1. Move `naming-conventions.md` from repository root to `DOCS/.design/naming-conventions.md` (applying the DR-001 dot-prefix convention to the RA's `DOCS/design/` requirement).
-2. Demote the root `BACKLOG.md` from a required document to a convenience summary redirect; the required document is `DOCS/.planning/backlog.md`, which already existed before Phase 0.
+2. Demote the root backlog document from a required document to a convenience summary redirect; the required document is `DOCS/.planning/backlog.md`, which already existed before Phase 0.
 
 ### Consequences
 
@@ -259,7 +259,7 @@ Adopt RA v1.1 as the governing version. Correct the two path errors introduced b
 - `DOCS/.planning/backlog.md` remains the single authoritative backlog.
 
 **Trade-offs:**
-- The root `BACKLOG.md` created in Phase 0 is now a non-required convenience file. It must include a clear redirect to `DOCS/.planning/backlog.md` to avoid confusion.
+- The root backlog redirect created in Phase 0 is now non-required. It must include a clear redirect to `DOCS/.planning/backlog.md` to avoid confusion.
 - Any external links or CLAUDE.md references that pointed to root `naming-conventions.md` must be updated.
 
 **Compliance note:**
@@ -1036,7 +1036,7 @@ All generated artefacts in `.results/` (metrics files, parity reports) are also 
 The migration is executed in four phases per `DOCS/analysis-document-naming-kebab-case-20260516.md §6`:
 - **Phase 1** — Authored documents in typed directories (`.design/`, `.algorithm/`, `.howto/`, `.planning/`, `.implementation-logs/`)
 - **Phase 2** — DOCS root files and Stack-level docs
-- **Phase 3** — Root governance files (`decision-register.md`, `BACKLOG.md`)
+- **Phase 3** — Root governance files (`decision-register.md`, legacy backlog redirect)
 - **Phase 4** — Update `naming-conventions.md` and `CLAUDE.md` to reflect the new single rule
 
 `naming-conventions.md` is updated in Phase 4 to replace the five per-type prefix rules (`DESIGN_`, `ALGORITHM_`, `HOWTO_`, `TODO_`, `TEMPLATE_`) with a single rule: authored documents use `word-word.md` in kebab-case. The three permanent exceptions are documented in naming-conventions.md.

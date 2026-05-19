@@ -101,7 +101,7 @@ The metric key uses a short identifier, not the full directory name, so this is 
 
 **Gherkin feature file paths** — `cucumber.js` tooling config references the Stack path. Any mismatch breaks `npm test`.
 
-**All documentation** — CLAUDE.md, decision-register.md, reference-architecture.md, BACKLOG.md, CHANGELOG.md, NAMING_CONVENTIONS.md, and all design/review documents contain inline references. These are prose risk (broken links, stale text) rather than runtime risk, but they degrade governance quality.
+**All documentation** — CLAUDE.md, decision-register.md, reference-architecture.md, backlog.md, CHANGELOG.md, NAMING_CONVENTIONS.md, and all design/review documents contain inline references. These are prose risk (broken links, stale text) rather than runtime risk, but they degrade governance quality.
 
 ### 3.3 Case-sensitivity trap
 
@@ -189,7 +189,7 @@ The strongest argument **against** renaming now is that the convention is docume
    - Section 4 Stack Names: added directory-vs-canonical-name distinction table; clarifies that `DEMOAPP001_TYPESCRIPT_CYPRESS` is the canonical identifier, not the directory path
    - Section 9: `Current next ID` updated to `DR-017`
 
-3. **`DOCS/.planning/BACKLOG.md` updated**:
+3. **`DOCS/.planning/backlog.md` updated**:
    - MIG-04 and MIG-05 marked Resolved (2026-05-16, DR-015); Resolved Items table updated
    - MIG-13 added as Open with DR-016, Medium priority, scheduled Sprint 3
    - Summary counts updated: Open 19, In Progress 1, Resolved 14, Total 34
@@ -257,8 +257,8 @@ The strongest argument **against** renaming now is that the convention is docume
 | `README.md` | Quick-start paths |
 | `CHANGELOG.md` | Entry references |
 | `decision-register.md` | DR prose references |
-| `BACKLOG.md` (root) | Item references |
-| `DOCS/.planning/BACKLOG.md` | Item detail paths |
+| root backlog redirect | Item references |
+| `DOCS/.planning/backlog.md` | Item detail paths |
 | `DOCS/.design/NAMING_CONVENTIONS.md` | Examples in §3 |
 | `DOCS/.design/DESIGN_Audit_Trail_Feature.md` | File path examples |
 | `DOCS/.design/DESIGN_Naming_Conventions.md` | Path examples |
@@ -436,7 +436,7 @@ TypeScript compilation succeeds. All `__dirname`-relative imports resolve correc
 | `demo-apps/demoapp001-typescript-cypress/tests/features/BasicSudokuSolverLogic.feature` | ✅ OK |
 | `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature` | ✅ OK |
 | `DOCS/.design/NAMING_CONVENTIONS.md` | ✅ OK |
-| `DOCS/.planning/BACKLOG.md` | ✅ OK |
+| `DOCS/.planning/backlog.md` | ✅ OK |
 | `DOCS/ref-arch-alignment_2026-05-15.md` | ✅ OK |
 | `DOCS/architecture/screenplay-parity-contract.md` | ✅ OK |
 | `DOCS/architecture/subject-app-contract.md` | ✅ OK |
@@ -515,7 +515,7 @@ These files require the most careful attention during Phase 3:
 | `CLAUDE.md` | 20–30 |
 | `decision-register.md` | 10–15 |
 | `DOCS/.design/NAMING_CONVENTIONS.md` | 5–10 |
-| `DOCS/.planning/BACKLOG.md` | 8–12 |
+| `DOCS/.planning/backlog.md` | 8–12 |
 | `CHANGELOG.md` | 10–15 |
 | `README.md` | 5–8 |
 | All `DOCS/.design/DESIGN_*.md` | 3–5 each |

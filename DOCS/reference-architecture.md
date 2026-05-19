@@ -264,7 +264,7 @@ repository-root/
 │   ├── design/                       # Design standards and conventions
 │   │   └── naming-conventions.md     # REQUIRED (Section 10.9)
 │   ├── planning/                     # Backlog, roadmap, work tracking
-│   │   └── BACKLOG.md                # REQUIRED (Section 10.1)
+│   │   └── backlog.md                # REQUIRED (Section 10.1)
 │   ├── implementation-logs/          # Development session logs (Section 10.8)
 │   └── templates/                    # MANDATORY document templates (Section 10.5)
 │

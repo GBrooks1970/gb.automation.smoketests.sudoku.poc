@@ -36,7 +36,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
   - `DR-008` — documents Serenity/JS 3.43.2 API adaptations (`extends Ability`, path corrections)
 - `decision-register.md` at repository root with DR-001–DR-005 backfilled (Phase 0 migration)
 - `CHANGELOG.md` at repository root (this file)
-- `BACKLOG.md` at repository root (summary; detailed backlog at `DOCS/.planning/backlog.md`)
+- Planning backlog at `DOCS/.planning/backlog.md`
 - `DOCS/.design/naming-conventions.md` — authoritative naming conventions (RA v1.1: `DOCS/design/`; DR-001 dot-prefix applied; initially created at root then corrected)
 - `DOCS/.templates/` directory with project-specific templates:
   - `decision-record.template.md` (adapted from Reference Architecture §10.6)

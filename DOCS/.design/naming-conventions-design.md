@@ -108,7 +108,7 @@ private getBlockEmptyCells(...): {r: number, c: number}[]
 | Refactoring strategies | `REFACTOR_Title_Case.md` | `REFACTOR_Solver_Architecture.md` |
 | How-to guides | `HOWTO_Title_Case.md` | `debug-sudoku-solver.md` |
 | Implementation logs | `IMPL_LOG_YYYY-MM-DD_Title_Case.md` | `IMPL_LOG_2026-01-30_Initial_Project_Creation.md` |
-| Backlog | `BACKLOG.md` (single file) | — |
+| Backlog | `backlog.md` (single file) | — |
 | Code review output | `CODE_REVIEW_Reviewer__Timestamp/` | `CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z/` |
 | Templates | `TEMPLATE_Title_Case.md` | `TEMPLATE_Design_Document.md` |
 

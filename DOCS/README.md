@@ -38,7 +38,7 @@ DOCS/
 │
 ├── .planning/                              <- Backlog, TODOs, prompt playbooks
 │   ├── README.md
-│   ├── BACKLOG.md
+│   ├── backlog.md
 │   ├── todo-audit-trail-feature.md
 │   ├── todo-rest-api-wrapper.md
 │   ├── todo-web-ui-solver-visualisation.md
@@ -100,7 +100,6 @@ The following documents MUST exist at the repository root per the Reference Arch
 |----------|---------|
 | [README.md](../README.md) | Project overview, quick-start |
 | [CHANGELOG.md](../CHANGELOG.md) | Version history, notable changes |
-| [BACKLOG.md](../BACKLOG.md) | Backlog summary — detailed at [DOCS/.planning/backlog.md](.planning/backlog.md) |
 | [decision-register.md](../decision-register.md) | Structural and process decisions (DR-001 onwards) |
 | [naming-conventions.md](.design/naming-conventions.md) | Authoritative naming conventions for all code and docs (DR-001 + DR-019: stored in `.design/`) |
 
@@ -134,7 +133,7 @@ Stored in [.algorithm/](.algorithm/) — language-agnostic pseudocode for every 
 
 | Document | Purpose |
 |----------|---------|
-| [BACKLOG.md](.planning/backlog.md) | Product backlog, sprint tracking |
+| [backlog.md](.planning/backlog.md) | Product backlog, sprint tracking |
 | [todo-audit-trail-feature.md](.planning/todo-audit-trail-feature.md) | Audit Trail implementation task list |
 | [todo-rest-api-wrapper.md](.planning/todo-rest-api-wrapper.md) | REST API implementation task list |
 | [todo-web-ui-solver-visualisation.md](.planning/todo-web-ui-solver-visualisation.md) | Web UI implementation task list |

@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-18 (BACKLOG-025 through BACKLOG-031 added — structural review Risks 3-9, 11-12)
+**Last Updated:** 2026-05-19 (BACKLOG-026 resolved — planning backlog filename normalized)
 **Governed by:** `reference-architecture.md` v1.13 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,14 +25,14 @@ Per v1.3 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 21 |
+| Open | 20 |
 | In Progress | 0 |
-| Resolved | 32 |
+| Resolved | 33 |
 | **Total** | **53** |
 
 | Area | Current state |
 |------|---------------|
-| Current execution baseline | 43 scenarios / 241 steps passing |
+| Current execution baseline | 46 scenarios / 257 steps passing |
 | Active Reference Architecture | v1.13 |
 | Active Stack | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`) |
 | Current sprint focus | CI wiring, output decoupling, implementation-log normalization |
@@ -90,7 +90,6 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | BACKLOG-020 | Python Screenplay-style Step Definitions | DEMOAPP002 | Future Stack parity | Medium | Open |
 | BACKLOG-021 | C# Screenplay-style Step Definitions | DEMOAPP003 | Future Stack parity | Medium | Open |
 | BACKLOG-025 | Fix feature parity report summary terminology to match RA CI gate spec | All | Parity tooling compliance (RA §9.4) | Medium | Open |
-| BACKLOG-026 | Rename BACKLOG.md to backlog.md to comply with DR-020 | All | Document naming violation (DR-020) | Medium | Open |
 | BACKLOG-027 | Configure Serenity/JS reporters to produce living documentation | DEMOAPP001 | Framework investment unrealised | Medium | Open |
 | BACKLOG-028 | Correct stale metadata in decision-register.md and backlog.md headers | All | Governance document currency | Medium | Open |
 | BACKLOG-029 | Mark DR-010 as Superseded by DR-014 in decision register | All | Decision register governance (RA §10.6) | Medium | Open |
@@ -546,27 +545,32 @@ Acceptance criteria:
 
 ---
 
-### BACKLOG-026: Rename BACKLOG.md to backlog.md to comply with DR-020
+### BACKLOG-026: Normalize planning backlog filename to comply with DR-020
 
 **Priority:** Medium
-**Status:** Open
+**Status:** Resolved
 **Stack(s):** All
 **Nature of Gap:** Document naming violation (DR-020)
 
 Review evidence: `.review/2026-05-18_repository-structural-review.md` Risk 5
 
 DR-020 mandates kebab-case for all authored documents (exceptions: `README.md`,
-`CHANGELOG.md`, `CLAUDE.md`). The file is stored at `DOCS/.planning/BACKLOG.md`
-(uppercase) while all references in CLAUDE.md, the RA, and the file's own
-header use `DOCS/.planning/backlog.md` (lowercase). On Linux CI runners
-(case-sensitive), paths referencing `backlog.md` will fail to resolve.
+`CHANGELOG.md`, `CLAUDE.md`). The planning backlog file was exposed on disk with
+uppercase filename casing while references in CLAUDE.md, the RA, and the file's
+own header use `DOCS/.planning/backlog.md` (lowercase). On Linux CI runners
+(case-sensitive), mismatched path casing can fail to resolve.
+
+**Resolution:** The file casing was normalized to `DOCS/.planning/backlog.md`
+using a temporary intermediate `git mv` because Windows is case-insensitive.
+Editable non-review uppercase references were updated; review outputs under
+`.review/` and `DOCS/.review/` remain read-only per RA §10.7 and `.review/README.md`.
 
 Acceptance criteria:
 
-- [ ] `git mv "DOCS/.planning/BACKLOG.md" "DOCS/.planning/backlog.md"` executed
-- [ ] All remaining uppercase references updated via search: `Select-String -Recurse -Pattern "BACKLOG\.md" -Include "*.md","*.ps1","*.yml" .`
-- [ ] `npm test` remains green
-- [ ] No DR required (corrects a naming violation, not a normative rule change)
+- [x] Planning backlog filename normalized to `DOCS/.planning/backlog.md` via `git mv`
+- [x] Editable non-review uppercase references updated via search
+- [x] `npm test` remains green
+- [x] No DR required (corrects a naming violation, not a normative rule change)
 
 ---
 
@@ -714,6 +718,7 @@ Acceptance criteria:
 | MIG-10 | Add feature parity validation report process | All | 2026-05-16 | `.batch/generate-feature-parity-report.ps1` created; reports write to `.results/feature-parity/`; orchestration-design updated |
 | MIG-11 | Parameterize over-specified canonical Gherkin steps | All | 2026-05-16 | Two scenarios converted to Scenario Outlines with Examples; step defs parameterized; 43/43 pass; parity PASS; DR-018 |
 | MIG-12 | Decide metrics Stack identifier policy | All | 2026-05-16 | Short identifier `DEMOAPP001` documented in run script (DR-016 ref) and orchestration-design Section 6; stale RA v1.2 comment corrected |
+| BACKLOG-026 | Normalize planning backlog filename to lowercase | All | 2026-05-19 | `DOCS/.planning/backlog.md` filesystem casing normalized; editable non-review references updated; no DR required |
 
 ---
 

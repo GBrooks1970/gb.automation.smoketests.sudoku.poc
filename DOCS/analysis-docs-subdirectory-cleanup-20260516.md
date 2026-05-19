@@ -87,7 +87,7 @@ Additionally, `DOCS/templates/` and `DOCS/architecture/` were created directly w
 | `DOCS/implementation-logs/README.md` | `DOCS/.implementation-logs/README.md` | `git mv` |
 | `DOCS/implementation-logs/2026-01-30_initial-project-creation.md` | `DOCS/.implementation-logs/2026-01-30_initial-project-creation.md` | `git mv` |
 | `DOCS/implementation-logs/2026-05-14_naming-conventions-and-testing.md` | `DOCS/.implementation-logs/2026-05-14_naming-conventions-and-testing.md` | `git mv` |
-| `DOCS/planning/BACKLOG.md` | REMOVED | Bridge no longer needed |
+| `DOCS/planning/backlog.md` | REMOVED | Bridge no longer needed |
 | `DOCS/templates/*.md` (22 files) | `DOCS/.templates/*.md` | `git mv` all |
 
 ---
@@ -100,13 +100,13 @@ Additionally, `DOCS/templates/` and `DOCS/architecture/` were created directly w
 
 | File | Category |
 |------|----------|
-| `BACKLOG.md` | Root redirect |
+| `backlog.md` | Root redirect |
 | `CHANGELOG.md` | Governance doc |
 | `CLAUDE.md` | Agent guide |
 | `decision-register.md` | All DRs that name templates |
 | `DOCS/.design/NAMING_CONVENTIONS.md` | Naming conventions doc |
 | `DOCS/.implementation/README.md` | Archive README |
-| `DOCS/.planning/BACKLOG.md` | Authoritative backlog |
+| `DOCS/.planning/backlog.md` | Authoritative backlog |
 | `DOCS/README.md` | DOCS root index |
 | `DOCS/implementation-logs/README.md` | Will move to `.implementation-logs/` |
 | `DOCS/ref-arch-alignment_2026-05-14.md` | Historical alignment doc |
@@ -124,7 +124,7 @@ Additionally, `DOCS/templates/` and `DOCS/architecture/` were created directly w
 | File | Category |
 |------|----------|
 | `.batch/run-demoapp001.ps1` | Script comment |
-| `BACKLOG.md` | Root redirect |
+| `backlog.md` | Root redirect |
 | `CLAUDE.md` | Agent guide |
 | `DOCS/analysis-directory-naming-kebab-case-2026-05-16.md` | Historical analysis |
 | `DOCS/README.md` | DOCS root index |
@@ -144,13 +144,13 @@ Additionally, `DOCS/templates/` and `DOCS/architecture/` were created directly w
 
 | File | Category |
 |------|----------|
-| `BACKLOG.md` | Root redirect |
+| `backlog.md` | Root redirect |
 | `CHANGELOG.md` | Governance doc |
 | `CLAUDE.md` | Agent guide |
 | `decision-register.md` | DR-013, DR-017 |
 | `DOCS/.design/NAMING_CONVENTIONS.md` | Naming conventions |
 | `DOCS/.implementation/README.md` | Archive README (moving content) |
-| `DOCS/.planning/BACKLOG.md` | Authoritative backlog |
+| `DOCS/.planning/backlog.md` | Authoritative backlog |
 | `DOCS/README.md` | DOCS root index |
 | `DOCS/ref-arch-alignment_2026-05-14.md` | Historical alignment |
 | `DOCS/ref-arch-alignment_2026-05-15.md` | Active alignment |
@@ -240,7 +240,7 @@ git mv DOCS/templates/subject-app-contract.template.md    DOCS/.templates/subjec
 
 # 4. Remove bridge files (git rm)
 git rm DOCS/design/NAMING_CONVENTIONS.md
-git rm DOCS/planning/BACKLOG.md
+git rm DOCS/planning/backlog.md
 # The now-empty bridge directories disappear automatically
 ```
 
@@ -256,7 +256,7 @@ Update all files listed in Section 3, replacing:
 | `DOCS/architecture/` | `DOCS/.architecture/` |
 | `DOCS/implementation-logs/` | `DOCS/.implementation-logs/` |
 | `DOCS/design/NAMING_CONVENTIONS.md` | `DOCS/.design/NAMING_CONVENTIONS.md` |
-| `DOCS/planning/BACKLOG.md` | `DOCS/.planning/BACKLOG.md` |
+| `DOCS/planning/backlog.md` | `DOCS/.planning/backlog.md` |
 
 **Files that must NOT be changed:**
 - `DOCS/reference-architecture.md` — RA-literal paths are the governing document's own content; local divergence is recorded in DR-019

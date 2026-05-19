@@ -86,11 +86,11 @@
 
 ---
 
-### Git staging path collision (BACKLOG.md vs backlog.md)
+### Git staging path collision (uppercase casing vs lowercase index)
 
-**Symptom:** `git add "DOCS/.planning/BACKLOG.md"` failed silently (exit code 1, no file staged) because git on this Windows repository already tracks the file under the lowercase path `DOCS/.planning/backlog.md`.
+**Symptom:** `git add` using the uppercase-cased planning backlog path failed silently (exit code 1, no file staged) because git on this Windows repository already tracks the file under the lowercase path `DOCS/.planning/backlog.md`.
 
-**Root cause:** Windows filesystems are case-insensitive. The file on disk is `BACKLOG.md` but git's index records it as `backlog.md` (from a previous `git mv` or initial add with the lowercase form). The uppercase path given to `git add` resolved to the same inode but did not match the index entry.
+**Root cause:** Windows filesystems are case-insensitive. The file on disk had uppercase casing, but git's index records it as `backlog.md` (from a previous `git mv` or initial add with the lowercase form). The uppercase path given to `git add` resolved to the same inode but did not match the index entry.
 
 **Fix:** Used `git add "DOCS/.planning/backlog.md"` (lowercase). File staged correctly and committed with the other review artefacts.
 
@@ -106,7 +106,7 @@
 
 - **Backlog summary counts drift silently when detail sections are updated without syncing the table.** BACKLOG-007 and BACKLOG-023 were marked Resolved in the summary and detail section in prior sessions, but their rows remained in the active table and their detail `**Status:**` fields were not updated. The count-table says the truth; the active table and detail sections accumulated debt. A checklist of "remove row from active table + mark detail section" when resolving items would prevent this.
 
-- **Windows git case-sensitivity is a persistent friction point.** DR-020 (kebab-case for all docs) and BACKLOG-026 (rename `BACKLOG.md`) are directly motivated by this. Until BACKLOG-026 is actioned, every git operation on `backlog.md` risks the same staging confusion.
+- **Windows git case-sensitivity is a persistent friction point.** DR-020 (kebab-case for all docs) and BACKLOG-026 (normalize planning backlog filename casing) are directly motivated by this. Until BACKLOG-026 is actioned, every git operation on `backlog.md` risks the same staging confusion.
 
 ---
 
@@ -125,7 +125,7 @@
 **Left incomplete / deferred:**
 
 - BACKLOG-025 (Medium): Parity report terminology fix — deferred; latent until CI wired
-- BACKLOG-026 (Medium): `BACKLOG.md` rename — deferred; risk is latent until Linux CI
+- BACKLOG-026 (Medium): planning backlog filename casing — deferred; risk is latent until Linux CI
 - BACKLOG-027 (Medium): Serenity/JS reporters — deferred; good first task for next session
 - BACKLOG-028 (Medium): `decision-register.md` stale metadata — deferred; five-minute fix
 - BACKLOG-029 (Medium): DR-010 supersession marker — deferred; five-minute fix
@@ -144,7 +144,7 @@
 
 1. **BACKLOG-028** — Update `decision-register.md` `Last Updated` field to 2026-05-18. Five-minute fix, eliminates agent confusion about document currency.
 2. **BACKLOG-029** — Mark DR-010 as Superseded by DR-014 in `decision-register.md`. Similarly quick.
-3. **BACKLOG-026** — `git mv "DOCS/.planning/BACKLOG.md" "DOCS/.planning/backlog.md"`. Eliminates the case-sensitivity risk before Linux CI is added.
+3. **BACKLOG-026** — normalize `DOCS/.planning/backlog.md` filesystem casing through a temporary `git mv`. Eliminates the case-sensitivity risk before Linux CI is added.
 4. **BACKLOG-025** — Fix parity report terminology while the CI design is fresh; must be done before BACKLOG-004 CI wiring.
 5. **BACKLOG-027** — Configure Serenity/JS reporters. Demonstrates the full framework value and produces living documentation for future Stack authors.
 6. **BACKLOG-024** — Make `the missing digit is {int}` step genuinely parameterised before onboarding DEMOAPP002.

@@ -61,7 +61,7 @@ All three gaps have been addressed in this session.
 | File | Status | Action Taken |
 |------|--------|-------------|
 | `README.md` | OK | No changes needed |
-| `BACKLOG.md` | Updated | New Screenplay backlog items added (BACKLOG-019 through BACKLOG-021) |
+| `backlog.md` | Updated | New Screenplay backlog items added (BACKLOG-019 through BACKLOG-021) |
 | `TODO_Audit_Trail_Feature.md` | OK | No changes needed |
 | `TODO_REST_API_Wrapper.md` | OK | No changes needed |
 | `TODO_Web_UI_Solver_Visualisation.md` | OK | No changes needed |

@@ -1244,7 +1244,7 @@ demo-apps/demoapp001-typescript-cypress/
 - [audit-trail-feature.md](audit-trail-feature.md) — Audit trail system (overlap with step tracking)
 - [rest-api-wrapper.md](rest-api-wrapper.md) — REST API (future consolidation target)
 - [sudoku-solver-specification.md](sudoku-solver-specification.md) — Core solver specification
-- [BACKLOG.md](../.planning/backlog.md) — Product backlog (BACKLOG-015: Interactive Sudoku Tutor)
+- [backlog.md](../.planning/backlog.md) — Product backlog (BACKLOG-015: Interactive Sudoku Tutor)
 - [todo-web-ui-solver-visualisation.md](../.planning/todo-web-ui-solver-visualisation.md) — Implementation task list
 
 ---

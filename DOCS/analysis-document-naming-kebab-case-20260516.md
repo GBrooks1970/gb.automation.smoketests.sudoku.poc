@@ -3,7 +3,7 @@
 **Date:** 2026-05-16 (updated 2026-05-17)
 **Author:** Claude Sonnet 4.6
 **Subject:** `gb.automation.smoketests.sudoku.poc` — impact assessment for converting document filenames from the current `PREFIX_Title_Case.md` format to `lowercase-kebab-case.md`
-**Status:** All Phases 0–4 complete 2026-05-17 — 26 authored docs renamed/deleted (including decision-register.md and BACKLOG.md removal), DR-020 fully executed
+**Status:** All Phases 0–4 complete 2026-05-17 — 26 authored docs renamed/deleted (including decision-register.md and backlog.md removal), DR-020 fully executed
 
 ---
 
@@ -64,7 +64,7 @@ These 22 files are already compliant. **The problem is the remaining ~55 files.*
 | `DOCS/.planning/TODO_REST_API_Wrapper.md` | `todo-rest-api-wrapper.md` |
 | `DOCS/.planning/TODO_Web_UI_Solver_Visualisation.md` | `todo-web-ui-solver-visualisation.md` |
 | `DOCS/.planning/PROMPT_PLAYBOOK_20260330T1645Z.md` | `prompt-playbook-20260330T1645Z.md` |
-| `DOCS/.planning/BACKLOG.md` | `backlog.md` |
+| `DOCS/.planning/backlog.md` | `backlog.md` |
 | `DOCS/analysis-docs-subdirectory-cleanup-20260516.md` | `analysis-docs-subdirectory-cleanup-20260516.md` |
 | `DOCS/analysis-directory-naming-kebab-case-2026-05-16.md` | `analysis-directory-naming-kebab-case-2026-05-16.md` |
 | `DOCS/documentation-review-20260514T1100Z.md` | `documentation-review-20260514T1100Z.md` |
@@ -82,7 +82,7 @@ These 22 files are already compliant. **The problem is the remaining ~55 files.*
 | `CHANGELOG.md` | Tooling dependency (standard-version, semantic-release) | **Keep `CHANGELOG.md`** — see Section 5.2 |
 | `CLAUDE.md` | Anthropic Claude tooling default — see Section 5.3 | **Keep `CLAUDE.md`** |
 | `DECISION_REGISTER.md` | Internal governance, no tooling dependency | Rename → `decision-register.md` |
-| `BACKLOG.md` (root redirect) | Internal redirect, no tooling dependency | Remove or rename |
+| root backlog redirect | Internal redirect, no tooling dependency | Remove or rename |
 
 **Category C — Duplicate TEMPLATE_ / .template.md pairs (14 pairs)**
 
@@ -226,7 +226,7 @@ Each pair was read and compared in full on 2026-05-17. The recommended action fo
 |-----------|----------------------|----------------------|
 | Location | `DOCS/.templates/` | `DOCS/.templates/` |
 | Structure | Sprint-based: Current Sprint / High-Med-Low buckets / Resolved. No [REQUIRED] markers. No Purpose, Migration Items, Sprint Roadmap, Maintenance Rules, or Next Review Date sections. | Project-style: Purpose / Summary / Migration Items / Active Product Work / Active Item Details / Resolved Items / Sprint Roadmap / Maintenance Rules / Next Review Date. Full [REQUIRED] markers throughout. |
-| Matches current BACKLOG.md format | No — diverges significantly | Yes — matches our actual `DOCS/.planning/BACKLOG.md` exactly |
+| Matches current backlog.md format | No — diverges significantly | Yes — matches our actual `DOCS/.planning/backlog.md` exactly |
 
 **Difference:** Substantially different structure and completeness. `backlog.template.md` is the evolved, authoritative version.
 
@@ -480,12 +480,12 @@ Links to files renamed in Phase 1 must be updated atomically during the rename. 
 |-------------|----------------------|-------|
 | `DOCS/.algorithm/ALGORITHM_Sudoku_Advanced_Solver.md` | `ALGORITHM_Sudoku_Basic_Solver.md` | 2 |
 | `DOCS/.algorithm/README.md` | `ALGORITHM_Sudoku_Basic_Solver.md`, `ALGORITHM_Sudoku_Advanced_Solver.md` | 2 |
-| `DOCS/.design/DESIGN_Web_UI_Solver_Visualisation.md` | `DESIGN_Audit_Trail_Feature.md`, `DESIGN_REST_API_Wrapper.md`, `DESIGN_Sudoku_Solver_Specification.md`, `TODO_Web_UI_Solver_Visualisation.md`, `BACKLOG.md` | 5 |
+| `DOCS/.design/DESIGN_Web_UI_Solver_Visualisation.md` | `DESIGN_Audit_Trail_Feature.md`, `DESIGN_REST_API_Wrapper.md`, `DESIGN_Sudoku_Solver_Specification.md`, `TODO_Web_UI_Solver_Visualisation.md`, `backlog.md` | 5 |
 | `DOCS/.design/README.md` | `DESIGN_Sudoku_Solver_Specification.md`, `DESIGN_Naming_Conventions.md`, `NAMING_CONVENTIONS.md`, `DESIGN_Audit_Trail_Feature.md`, `DESIGN_REST_API_Wrapper.md`, `DESIGN_Web_UI_Solver_Visualisation.md`, `DESIGN_Screenplay_Migration.md` | 7 |
 | `DOCS/.howto/HOWTO_Debug_SudokuSolver.md` | `ALGORITHM_Sudoku_Basic_Solver.md`, `TODO_Hidden_Singles_Complete_Implementation.md` | 2 |
 | `DOCS/.howto/README.md` | `HOWTO_Debug_SudokuSolver.md` | 1 |
 | `DOCS/.planning/TODO_Audit_Trail_Feature.md` | `DESIGN_Audit_Trail_Feature.md` | 1 |
-| `DOCS/.planning/TODO_Hidden_Singles_Complete_Implementation.md` | `ALGORITHM_Sudoku_Basic_Solver.md` (×3), `BACKLOG.md` | 4 |
+| `DOCS/.planning/TODO_Hidden_Singles_Complete_Implementation.md` | `ALGORITHM_Sudoku_Basic_Solver.md` (×3), `backlog.md` | 4 |
 | `DOCS/.planning/TODO_REST_API_Wrapper.md` | `DESIGN_REST_API_Wrapper.md` | 1 |
 | `DOCS/.planning/TODO_Web_UI_Solver_Visualisation.md` | `DESIGN_Web_UI_Solver_Visualisation.md` | 1 |
 | `DOCS/.templates/howto.template.md` | Example comments only — not active links | — |
@@ -511,12 +511,12 @@ Links to files renamed in Phase 1 must be updated atomically during the rename. 
 |-------------|----------------------|-------|
 | `DOCS/.templates/readme.template.md` | `DECISION_REGISTER.md` | 1 |
 | `DOCS/.templates/stack-architecture.template.md` | `DECISION_REGISTER.md` | 1 |
-| `DOCS/README.md` | `BACKLOG.md` (root redirect), `DECISION_REGISTER.md` | 2 |
-| `DOCS/.templates/qa-strategy.template.md` | `DOCS/.planning/BACKLOG.md` | 1 |
-| `DOCS/.planning/README.md` | `BACKLOG.md` (within `.planning/`) | 1 |
-| `DOCS/.planning/TODO_Hidden_Singles_Complete_Implementation.md` | `BACKLOG.md` | 1 |
-| `DOCS/.design/DESIGN_Web_UI_Solver_Visualisation.md` | `BACKLOG.md` | 1 |
-| `BACKLOG.md` (root) | `DOCS/.planning/BACKLOG.md` (authoritative — not renamed) | 2 |
+| `DOCS/README.md` | root backlog redirect, `DECISION_REGISTER.md` | 2 |
+| `DOCS/.templates/qa-strategy.template.md` | `DOCS/.planning/backlog.md` | 1 |
+| `DOCS/.planning/README.md` | `backlog.md` (within `.planning/`) | 1 |
+| `DOCS/.planning/TODO_Hidden_Singles_Complete_Implementation.md` | `backlog.md` | 1 |
+| `DOCS/.design/DESIGN_Web_UI_Solver_Visualisation.md` | `backlog.md` | 1 |
+| root backlog redirect | `DOCS/.planning/backlog.md` (authoritative — not renamed) | 2 |
 
 ### Phase 1 — Authored documents in typed directories ✅ Complete 2026-05-17
 
@@ -541,7 +541,7 @@ DOCS/.planning/TODO_Hidden_Singles_Complete_Implementation.md → todo-hidden-si
 DOCS/.planning/TODO_REST_API_Wrapper.md           → todo-rest-api-wrapper.md
 DOCS/.planning/TODO_Web_UI_Solver_Visualisation.md → todo-web-ui-solver-visualisation.md
 DOCS/.planning/PROMPT_PLAYBOOK_20260330T1645Z.md  → prompt-playbook-20260330T1645Z.md
-DOCS/.planning/BACKLOG.md                         → backlog.md
+DOCS/.planning/backlog.md                         → backlog.md
 DOCS/.implementation-logs/ARCHIVE_NOTICE.md       → archive-notice.md
 ✅ DOCS/.implementation-logs/TEMPLATE_Implementation_Log.md → removed (Phase 0)
 ```
@@ -568,14 +568,14 @@ demo-apps/demoapp001-typescript-cypress/docs/screenplay-guide.md → screenplay-
 
 ```
 DECISION_REGISTER.md  → decision-register.md  ✅ renamed 2026-05-17
-BACKLOG.md            → deleted               ✅ deleted 2026-05-17 (stale convenience redirect)
+backlog.md            → deleted               ✅ deleted 2026-05-17 (stale convenience redirect)
 ```
 
-**Blast radius for Phase 3:** highest — `DECISION_REGISTER.md` referenced in 26 files; 25 updated by automated replacement. Root `BACKLOG.md` had 2 internal links pointing to it (both already pointed to `.planning/BACKLOG.md` by relative path, now corrected to `.planning/backlog.md`).
+**Blast radius for Phase 3:** highest — `DECISION_REGISTER.md` referenced in 26 files; 25 updated by automated replacement. The root backlog redirect had 2 internal links pointing to it (both already pointed to `.planning/backlog.md` by relative path, now corrected to `.planning/backlog.md`).
 
 **Completed 2026-05-17.**
 - `DECISION_REGISTER.md` renamed to `decision-register.md` — 25 files updated
-- Root `BACKLOG.md` deleted — self-described as "convenience summary only"; content was 9+ months stale (Sprint 2 era); authoritative content lives in `.planning/backlog.md`
+- Root backlog redirect deleted — self-described as "convenience summary only"; content was 9+ months stale (Sprint 2 era); authoritative content lives in `.planning/backlog.md`
 - 2 broken links in `.planning/README.md` and `.planning/todo-hidden-singles-implementation.md` updated to `backlog.md`
 - 0 remaining `DECISION_REGISTER` references in any active file
 - 43/43 scenarios pass; OverallExitCode=0
