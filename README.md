@@ -61,7 +61,7 @@ gb.automation.smoketests.sudoku.poc/
 │   │   ├── tests/                           # Test specifications
 │   │   └── puzzles.json                     # Test puzzle data
 │   │
-│   ├── demoapp002-python-pytest/            # (Planned) Python implementation
+│   ├── demoapp002-python-pytest/            # Python + pytest-bdd implementation
 │   └── demoapp003-csharp-specflow/          # (Planned) C# implementation
 │
 └── README.md                                # This file
@@ -109,11 +109,24 @@ npm start
 
 See [DEMOAPP001 README](demo-apps/demoapp001-typescript-cypress/README.md) for implementation details.
 
-### DEMOAPP002: Python + Flask (Planned)
+### DEMOAPP002: Python + pytest-bdd
 
-**Status:** 📋 Planned
+**Status:** ✅ Implemented
 
-**Tech Stack:** Python 3.x, Flask, pytest
+**Tech Stack:** Python 3.13, pytest, pytest-bdd
+
+**Quick Start:**
+```bash
+cd demo-apps/demoapp002-python-pytest
+python -m pip install -e ".[test]"
+python -m pytest
+```
+
+**Features:**
+- ✅ Python solver implementation for the shared `@util` surface
+- ✅ JSON-based puzzle loading
+- ✅ Screenplay-style abilities, tasks, questions, and actor memory
+- ✅ Shared canonical Gherkin scenarios via pytest-bdd
 
 ### DEMOAPP003: C# + .NET (Planned)
 
@@ -203,7 +216,7 @@ All implementations follow established software engineering principles:
 When implementing in a new technology stack:
 
 1. **Follow the specification** in [sudoku-solver-specification.md](DOCS/.design/sudoku-solver-specification.md)
-2. **Create a new DEMOAPP folder** (e.g., `DEMOAPP002_PYTHON_PYTEST`)
+2. **Create a new demo app folder** (e.g., `demoapp003-csharp-specflow`)
 3. **Include a README** specific to that implementation
 4. **Implement the Gherkin scenarios** from the test specification
 5. **Maintain the same behavior** across all implementations

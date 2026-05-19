@@ -1,0 +1,21 @@
+[project]
+name = "sudoku-solver-demoapp002-python-pytest"
+version = "0.1.0"
+description = "Python pytest-bdd Sudoku solver Stack for the shared Gherkin contract"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+test = [
+  "pytest>=8.0",
+  "pytest-bdd>=8.0",
+]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+pythonpath = ["."]
+testpaths = ["tests"]
+markers = [
+  "util: shared @util Sudoku feature surface",
+  "stack-demoapp002: DEMOAPP002 Python pytest Stack scenarios",
+]

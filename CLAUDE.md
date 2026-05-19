@@ -17,11 +17,11 @@ When documents conflict, use this order:
 ## Current Architecture Baseline
 
 - Reference Architecture: v1.13, accepted 2026-05-18
-- Active Stack: `DEMOAPP001_TYPESCRIPT_CYPRESS`
+- Active Stacks: `DEMOAPP001_TYPESCRIPT_CYPRESS`, `DEMOAPP002_PYTHON_PYTEST`
 - Active surface: `@util` in-process class testing
 - Canonical feature store: `features-shared/`
-- Stack-local feature copy: `demo-apps/demoapp001-typescript-cypress/tests/features/`
-- Screenplay implementation: present and passing with Serenity/JS + Cucumber.js (MIG-04 and MIG-05 resolved by DR-015)
+- Stack-local feature copies: `demo-apps/demoapp001-typescript-cypress/tests/features/`, `demo-apps/demoapp002-python-pytest/tests/features/`
+- Screenplay implementations: DEMOAPP001 passing with Serenity/JS + Cucumber.js; DEMOAPP002 passing with pytest-bdd
 - Implementation logs: authoritative at `DOCS/.implementation-logs/` (DR-019)
 - Feature parity script: `.batch/generate-feature-parity-report.ps1` (MIG-10)
 - All RA v1.3 migration gaps resolved: MIG-01 through MIG-13 all Resolved
@@ -33,28 +33,47 @@ When documents conflict, use this order:
 ```text
 gb.automation.smoketests.sudoku.poc/
 |-- demo-apps/
-|   `-- demoapp001-typescript-cypress/
+|   |-- demoapp001-typescript-cypress/
+|   |   |-- app_src/
+|   |   |   |-- index.ts
+|   |   |   |-- SudokuSolver.ts
+|   |   |   |-- SudokuOrchestrator.ts
+|   |   |   |-- SudokuCLI.ts
+|   |   |   |-- PuzzleLoader.ts
+|   |   |   `-- constants.ts
+|   |   |-- tests/
+|   |   |   |-- features/
+|   |   |   |   `-- BasicSudokuSolverLogic.feature
+|   |   |   `-- screenplay/
+|   |   |       |-- abilities/
+|   |   |       |-- actors/
+|   |   |       |-- questions/
+|   |   |       |-- step_definitions/
+|   |   |       |-- support/
+|   |   |       `-- tasks/
+|   |   |-- docs/
+|   |   |-- tooling/cucumber.js
+|   |   |-- cucumber.js
+|   |   |-- package.json
+|   |   `-- puzzles.json
+|   `-- demoapp002-python-pytest/
 |       |-- app_src/
-|       |   |-- index.ts
-|       |   |-- SudokuSolver.ts
-|       |   |-- SudokuOrchestrator.ts
-|       |   |-- SudokuCLI.ts
-|       |   |-- PuzzleLoader.ts
-|       |   `-- constants.ts
+|       |   |-- sudoku_solver.py
+|       |   |-- sudoku_orchestrator.py
+|       |   |-- puzzle_loader.py
+|       |   |-- audit.py
+|       |   `-- constants.py
 |       |-- tests/
 |       |   |-- features/
 |       |   |   `-- BasicSudokuSolverLogic.feature
 |       |   `-- screenplay/
 |       |       |-- abilities/
-|       |       |-- actors/
+|       |       |-- fixtures/
 |       |       |-- questions/
 |       |       |-- step_definitions/
 |       |       |-- support/
 |       |       `-- tasks/
-|       |-- docs/
-|       |-- tooling/cucumber.js
-|       |-- cucumber.js
-|       |-- package.json
+|       |-- pyproject.toml
 |       `-- puzzles.json
 |-- features-shared/
 |   `-- util-tests/sudoku-solver/BasicSudokuSolverLogic.feature
@@ -82,17 +101,17 @@ gb.automation.smoketests.sudoku.poc/
 | Stack name | Language | Framework | Surface type | Entry point |
 |------------|----------|-----------|--------------|-------------|
 | `DEMOAPP001_TYPESCRIPT_CYPRESS` | TypeScript 5.x | Cucumber.js + Serenity/JS | `@util` | `demo-apps/demoapp001-typescript-cypress/` |
+| `DEMOAPP002_PYTHON_PYTEST` | Python 3.13 | pytest-bdd | `@util` | `demo-apps/demoapp002-python-pytest/` |
 
 Planned future Stacks:
 
 | Stack name | Language | Framework | Surface type | Status |
 |------------|----------|-----------|--------------|--------|
-| `DEMOAPP002_PYTHON_PYTEST` | Python | pytest-bdd | `@util` | Planned |
 | `DEMOAPP003_CSHARP_SPECFLOW` | C# | SpecFlow | `@util` | Planned |
 
 ## Development Commands
 
-Run Stack commands from `demo-apps/demoapp001-typescript-cypress/`.
+Run DEMOAPP001 commands from `demo-apps/demoapp001-typescript-cypress/`.
 
 | Command | Purpose |
 |---------|---------|
@@ -103,6 +122,13 @@ Run Stack commands from `demo-apps/demoapp001-typescript-cypress/`.
 | `npm test` | Run Cucumber/Serenity Screenplay scenarios |
 | `npm start -- --help` | Show CLI options |
 
+Run DEMOAPP002 commands from `demo-apps/demoapp002-python-pytest/`.
+
+| Command | Purpose |
+|---------|---------|
+| `python -m pip install -e ".[test]"` | Install Python Stack test dependencies |
+| `python -m pytest` | Run pytest-bdd Screenplay scenarios |
+
 Repository-level orchestration:
 
 ```powershell
@@ -112,8 +138,8 @@ Repository-level orchestration:
 Expected current baseline:
 
 ```text
-43 scenarios passed
-241 steps passed
+DEMOAPP001: 46 scenarios passed / 257 steps passed
+DEMOAPP002: 46 pytest-bdd scenarios passed
 OverallExitCode=0
 ```
 

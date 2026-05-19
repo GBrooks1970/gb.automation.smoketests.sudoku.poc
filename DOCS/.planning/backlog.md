@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-19 (Sprint roadmap adjusted — BACKLOG-020 now leads Sprint 4)
+**Last Updated:** 2026-05-19 (BACKLOG-020 resolved — DEMOAPP002 Python pytest Stack onboarded)
 **Governed by:** `reference-architecture.md` v1.13 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,17 +25,17 @@ Per v1.13 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 11 |
+| Open | 10 |
 | In Progress | 0 |
-| Resolved | 42 |
+| Resolved | 43 |
 | **Total** | **53** |
 
 | Area | Current state |
 |------|---------------|
-| Current execution baseline | 46 scenarios / 257 steps passing |
+| Current execution baseline | DEMOAPP001: 46 scenarios / 257 steps passing; DEMOAPP002: 46 pytest-bdd scenarios passing |
 | Active Reference Architecture | v1.13 |
-| Active Stack | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`) |
-| Current sprint focus | Python Stack onboarding and API foundations |
+| Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`) |
+| Current sprint focus | API foundation after Python Stack onboarding |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -86,7 +86,6 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 |----|-------|----------|---------------|----------|--------|
 | BACKLOG-009 | Implement REST API Wrapper | DEMOAPP001 future API surface | Feature implementation | Medium | Open |
 | BACKLOG-018 | Implement Web UI Solver Visualisation | DEMOAPP001 future UI surface | Feature implementation | Medium | Open |
-| BACKLOG-020 | Python Screenplay-style Step Definitions | DEMOAPP002 | Future Stack parity | Medium | Open |
 | BACKLOG-021 | C# Screenplay-style Step Definitions | DEMOAPP003 | Future Stack parity | Medium | Open |
 | BACKLOG-010 | Docker Compose for Local Development | All | Local development infrastructure | Low | Open |
 | BACKLOG-011 | Performance Benchmarking Suite | All | Performance regression detection | Low | Open |
@@ -391,18 +390,22 @@ Acceptance criteria:
 ### BACKLOG-020: Python Screenplay-style Step Definitions
 
 **Priority:** Medium
-**Status:** Open
+**Status:** Resolved
 **Stack(s):** DEMOAPP002
 **Nature of Gap:** Future Stack parity
 
 Acceptance criteria:
 
-- [ ] `demo-apps/demoapp002-python-pytest/` directory created
-- [ ] Python solver implementation follows the solver specification
-- [ ] `UseSudokuSolver` and `LoadPuzzles` abilities implemented
-- [ ] Tasks and Questions implemented in Python-appropriate style
-- [ ] All canonical Gherkin scenarios pass
-- [ ] Python project configuration present
+- [x] `demo-apps/demoapp002-python-pytest/` directory created
+- [x] Python solver implementation follows the solver specification
+- [x] `UseSudokuSolver` and `LoadPuzzles` abilities implemented
+- [x] Tasks and Questions implemented in Python-appropriate style
+- [x] All canonical Gherkin scenarios pass
+- [x] Python project configuration present
+
+Resolution:
+
+- DEMOAPP002 now contains a Python solver, orchestrator, puzzle loader, audit support, pytest-bdd project configuration, a Stack-local feature copy tagged `@stack-demoapp002`, and Screenplay-style abilities, tasks, questions, actor memory, and step definitions. Local validation passes 46 canonical pytest-bdd scenarios. Memory key parity, feature parity, and step-text parity now include DEMOAPP002.
 
 ### BACKLOG-021: C# Screenplay-style Step Definitions
 
@@ -756,6 +759,7 @@ Resolution:
 | BACKLOG-024 | Make "the missing digit is {int}" step genuinely parameterised | DEMOAPP001 | 2026-05-19 | Missing digit parameter now drives column/block unit-completion fixture setup; feature text unchanged and parity retained; no DR required |
 | BACKLOG-030 | Extract actor name 'Solver' to shared constant across step definitions | DEMOAPP001 | 2026-05-19 | Shared `SOLVER_ACTOR` constant added and step definitions use `actorCalled(SOLVER_ACTOR)`; no DR required |
 | BACKLOG-027 | Configure Serenity/JS reporters to produce living documentation | DEMOAPP001 | 2026-05-19 | Serenity BDD reporter and artifact archiver configured; runner generates HTML living documentation after tests; no DR required |
+| BACKLOG-020 | Python Screenplay-style Step Definitions | DEMOAPP002 | 2026-05-19 | DEMOAPP002 Python pytest-bdd Stack created; 46 canonical scenarios pass; parity gates include DEMOAPP002; no DR required |
 
 ---
 
@@ -765,7 +769,7 @@ Resolution:
 |--------|-------|-------|-----------|--------|
 | 2 | 2026-05-14 to 2026-05-27 | Close persistent risks and governance drift | MIG-04, MIG-05, MIG-08, BACKLOG-004 | Completed 2026-05-19 |
 | 3 | 2026-05-28 to 2026-06-10 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Completed 2026-05-19 |
-| 4 | 2026-06-11 to 2026-06-24 | Python Stack start and API foundation | BACKLOG-020, BACKLOG-009 | Open |
+| 4 | 2026-06-11 to 2026-06-24 | API foundation after Python Stack start | BACKLOG-009 | Open |
 | 5 | 2026-06-25 to 2026-07-08 | API/Web UI and C# Stack start | BACKLOG-018, BACKLOG-021 | Open |
 | 6+ | 2026-07-09 onward | Multi-Stack polish, infrastructure, and future product ideas | BACKLOG-010, BACKLOG-011, BACKLOG-012 through BACKLOG-016 | Open |
 
