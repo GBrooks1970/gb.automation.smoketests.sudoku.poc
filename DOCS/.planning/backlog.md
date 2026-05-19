@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-19 (BACKLOG-025 resolved — parity summary terminology aligned)
+**Last Updated:** 2026-05-19 (BACKLOG-022 resolved — step text parity gate added)
 **Governed by:** `reference-architecture.md` v1.13 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,9 +25,9 @@ Per v1.13 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 17 |
+| Open | 16 |
 | In Progress | 0 |
-| Resolved | 36 |
+| Resolved | 37 |
 | **Total** | **53** |
 
 | Area | Current state |
@@ -90,7 +90,6 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | BACKLOG-020 | Python Screenplay-style Step Definitions | DEMOAPP002 | Future Stack parity | Medium | Open |
 | BACKLOG-021 | C# Screenplay-style Step Definitions | DEMOAPP003 | Future Stack parity | Medium | Open |
 | BACKLOG-027 | Configure Serenity/JS reporters to produce living documentation | DEMOAPP001 | Framework investment unrealised | Medium | Open |
-| BACKLOG-022 | Implement step-text parity checker (Section 8.4 criterion 3) | All | Parity automation (RA §8.4) | High | Open |
 | BACKLOG-024 | Make "the missing digit is {int}" step genuinely parameterised | DEMOAPP001 | Step definition shape (RA §8.2) | Low | Open |
 | BACKLOG-030 | Extract actor name 'Solver' to shared constant across step definitions | DEMOAPP001 | Magic string risk (RA §8.2) | Low | Open |
 | BACKLOG-031 | Update sprint roadmap to reflect resolved items | All | Planning document currency | Low | Open |
@@ -425,7 +424,7 @@ Acceptance criteria:
 ### BACKLOG-022: Implement step-text parity checker (Section 8.4 criterion 3)
 
 **Priority:** High
-**Status:** Open
+**Status:** Resolved
 **Stack(s):** All
 **Nature of Gap:** Parity automation — Section 8.4 criterion 3 (step Gherkin text matches canonical exactly) is designated MUST be automated per DR-027, but no script exists. The feature parity report checks scenario presence; it does not diff individual step text within a scenario.
 
@@ -433,10 +432,14 @@ Review evidence: `.review/2026-05-18_repository-structural-review.md` Risk 3
 
 Acceptance criteria:
 
-- [ ] Script created (e.g. `.batch/check-step-text-parity.ps1`) that diffs step text in Stack-local feature files against canonical feature files
-- [ ] Any step text divergence exits non-zero and reports the differing lines
-- [ ] Script integrated as a CI gate per Section 9.4
-- [ ] No DR required unless the implementation reveals a structural gap
+- [x] Script created (e.g. `.batch/check-step-text-parity.ps1`) that diffs step text in Stack-local feature files against canonical feature files
+- [x] Any step text divergence exits non-zero and reports the differing lines
+- [x] Script integrated as a CI gate per Section 9.4
+- [x] No DR required unless the implementation reveals a structural gap
+
+Resolution:
+
+- `.batch/check-step-text-parity.ps1` now verifies Stack-local step text against canonical feature files and reports differing line numbers. `.github/workflows/ci.yml` includes an initial step-text parity gate; BACKLOG-004 expands that workflow into the full build/lint/test CI pipeline.
 
 ---
 
@@ -732,6 +735,7 @@ Acceptance criteria:
 | BACKLOG-028 | Correct stale governance document metadata | All | 2026-05-19 | `decision-register.md` header updated to `Last Updated: 2026-05-18` and RA v1.13 governance; no DR required |
 | BACKLOG-029 | Mark DR-010 as Superseded by DR-014 in decision register | All | 2026-05-19 | DR-010 status and forward reference updated; DR-014 back reference verified; no DR required |
 | BACKLOG-025 | Fix feature parity report summary terminology to match RA CI gate spec | All | 2026-05-19 | Feature parity report summary and console output now emit `PASS`, `DRIFT`, or `MISSING`; non-PASS exit remains non-zero; no DR required |
+| BACKLOG-022 | Implement step-text parity checker (Section 8.4 criterion 3) | All | 2026-05-19 | `.batch/check-step-text-parity.ps1` added with non-zero drift exit and line reporting; initial CI gate added; no DR required |
 
 ---
 
