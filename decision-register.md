@@ -423,7 +423,7 @@ Adopt reference-architecture.md v1.2 (2026-05-15) as the governing architecture.
 ## DR-010 — Code review directory placement under DOCS/.review with dot-prefix convention
 
 **Date:** 2026-05-15
-**Status:** Accepted — 2026-05-15
+**Status:** Superseded by DR-014 -- 2026-05-16
 
 ### Context
 
@@ -450,6 +450,7 @@ Future code review output files **MUST** follow the v1.2-compliant naming and bu
 - Review directory placement is now formally recorded as a deliberate divergence from RA v1.2 default.
 - Future reviews generated will follow v1.2 shape compliance regardless of this location decision.
 - Documentation tree remains unified and discoverable under DOCS.
+- Superseded by DR-014 (2026-05-16): future review outputs now use repository-root `.review/`; `DOCS/.review/` remains historical/read-only.
 
 **Trade-offs:**
 - Code review directory does not sit at repository root `.review/` as RA v1.2 example shows (MAY-level latitude — not a MUST requirement).

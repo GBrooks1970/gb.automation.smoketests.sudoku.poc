@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-19 (BACKLOG-028 resolved — governance metadata corrected)
+**Last Updated:** 2026-05-19 (BACKLOG-029 resolved — DR-010 supersession recorded)
 **Governed by:** `reference-architecture.md` v1.13 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,9 +25,9 @@ Per v1.13 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 19 |
+| Open | 18 |
 | In Progress | 0 |
-| Resolved | 34 |
+| Resolved | 35 |
 | **Total** | **53** |
 
 | Area | Current state |
@@ -91,7 +91,6 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | BACKLOG-021 | C# Screenplay-style Step Definitions | DEMOAPP003 | Future Stack parity | Medium | Open |
 | BACKLOG-025 | Fix feature parity report summary terminology to match RA CI gate spec | All | Parity tooling compliance (RA §9.4) | Medium | Open |
 | BACKLOG-027 | Configure Serenity/JS reporters to produce living documentation | DEMOAPP001 | Framework investment unrealised | Medium | Open |
-| BACKLOG-029 | Mark DR-010 as Superseded by DR-014 in decision register | All | Decision register governance (RA §10.6) | Medium | Open |
 | BACKLOG-022 | Implement step-text parity checker (Section 8.4 criterion 3) | All | Parity automation (RA §8.4) | High | Open |
 | BACKLOG-024 | Make "the missing digit is {int}" step genuinely parameterised | DEMOAPP001 | Step definition shape (RA §8.2) | Low | Open |
 | BACKLOG-030 | Extract actor name 'Solver' to shared constant across step definitions | DEMOAPP001 | Magic string risk (RA §8.2) | Low | Open |
@@ -630,7 +629,7 @@ Acceptance criteria:
 ### BACKLOG-029: Mark DR-010 as Superseded by DR-014 in decision register
 
 **Priority:** Medium
-**Status:** Open
+**Status:** Resolved
 **Stack(s):** All
 **Nature of Gap:** Decision register governance (RA §10.6)
 
@@ -644,10 +643,14 @@ agent reading the register in order would see DR-010 as valid authority.
 
 Acceptance criteria:
 
-- [ ] DR-010 `**Status:**` field updated to: `Superseded by DR-014 -- 2026-05-16`
-- [ ] A forward reference note added to DR-010's Consequences section identifying DR-014 as the replacement
-- [ ] DR-014 verified to contain a back reference to DR-010 (add one if missing)
-- [ ] No new DR required (corrects governance record, not a normative rule change)
+- [x] DR-010 `**Status:**` field updated to: `Superseded by DR-014 -- 2026-05-16`
+- [x] A forward reference note added to DR-010's Consequences section identifying DR-014 as the replacement
+- [x] DR-014 verified to contain a back reference to DR-010 (add one if missing)
+- [x] No new DR required (corrects governance record, not a normative rule change)
+
+Resolution:
+
+- DR-010 now records DR-014 as its superseding decision, with a forward reference in Consequences. DR-014 already contained the required back reference to DR-010.
 
 ---
 
@@ -724,6 +727,7 @@ Acceptance criteria:
 | MIG-12 | Decide metrics Stack identifier policy | All | 2026-05-16 | Short identifier `DEMOAPP001` documented in run script (DR-016 ref) and orchestration-design Section 6; stale RA v1.2 comment corrected |
 | BACKLOG-026 | Normalize planning backlog filename to lowercase | All | 2026-05-19 | `DOCS/.planning/backlog.md` filesystem casing normalized; editable non-review references updated; no DR required |
 | BACKLOG-028 | Correct stale governance document metadata | All | 2026-05-19 | `decision-register.md` header updated to `Last Updated: 2026-05-18` and RA v1.13 governance; no DR required |
+| BACKLOG-029 | Mark DR-010 as Superseded by DR-014 in decision register | All | 2026-05-19 | DR-010 status and forward reference updated; DR-014 back reference verified; no DR required |
 
 ---
 
