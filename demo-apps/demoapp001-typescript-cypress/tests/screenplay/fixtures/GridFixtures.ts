@@ -1,8 +1,14 @@
 import { SudokuSolver } from '../../../app_src/SudokuSolver';
 import { GRID_SIZE, BLOCK_SIZE, EMPTY_CELL } from '../../../app_src/constants';
 
-export function setupAlmostCompleteColumn(solver: SudokuSolver, col: number): void {
-  const values = [1, 2, 3, 4, 5, 6, 8, 9];
+function digitsExcept(missingDigit: number): number[] {
+  return [1, 2, 3, 4, 5, 6, 7, 8, 9].filter(digit => digit !== missingDigit);
+}
+
+export function setupAlmostCompleteColumn(
+  solver: SudokuSolver, col: number, missingDigit: number
+): void {
+  const values = digitsExcept(missingDigit);
   for (let i = 0; i < values.length; i++) {
     solver.grid[i + 1][col] = values[i];
   }
@@ -10,9 +16,9 @@ export function setupAlmostCompleteColumn(solver: SudokuSolver, col: number): vo
 }
 
 export function setupAlmostCompleteBlock(
-  solver: SudokuSolver, blockRow: number, blockCol: number
+  solver: SudokuSolver, blockRow: number, blockCol: number, missingDigit: number
 ): void {
-  const values = [1, 2, 3, 5, 6, 7, 8, 9];
+  const values = digitsExcept(missingDigit);
   let idx = 0;
   for (let r = blockRow * BLOCK_SIZE; r < (blockRow + 1) * BLOCK_SIZE; r++) {
     for (let c = blockCol * BLOCK_SIZE; c < (blockCol + 1) * BLOCK_SIZE; c++) {

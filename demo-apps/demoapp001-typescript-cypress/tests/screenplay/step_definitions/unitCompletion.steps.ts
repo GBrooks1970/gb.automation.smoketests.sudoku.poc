@@ -7,6 +7,12 @@ import { SetupGridState } from '../tasks/SetupGridState';
 import { AlgorithmMadeProgress } from '../questions/AlgorithmMadeProgress';
 import { GridCell } from '../questions/GridCell';
 
+type MissingDigitContext =
+  | { kind: 'column'; colIndex: number }
+  | { kind: 'block'; blockRow: number; blockCol: number };
+
+let pendingMissingDigitContext: MissingDigitContext | undefined;
+
 // ---------------------------------------------------------------------------
 // Unit Completion - Given steps
 // ---------------------------------------------------------------------------
@@ -19,20 +25,32 @@ Given('a row contains the values {string}', async (valuesStr: string) => {
 });
 
 Given('column {int} contains {int} non-zero values', async (colIndex: number, _count: number) => {
-  await actorCalled('Solver').attemptsTo(
-    SetupGridState.almostCompleteColumn(colIndex)
-  );
+  pendingMissingDigitContext = { kind: 'column', colIndex };
 });
 
-Given('the missing digit is {int}', async (_digit: number) => {
-  // Context only — digit is determined by grid setup
+Given('the missing digit is {int}', async (digit: number) => {
+  const actor = actorCalled('Solver');
+
+  if (pendingMissingDigitContext?.kind === 'column') {
+    await actor.attemptsTo(
+      SetupGridState.almostCompleteColumn(pendingMissingDigitContext.colIndex, digit)
+    );
+  } else if (pendingMissingDigitContext?.kind === 'block') {
+    await actor.attemptsTo(
+      SetupGridState.almostCompleteBlock(
+        pendingMissingDigitContext.blockRow,
+        pendingMissingDigitContext.blockCol,
+        digit
+      )
+    );
+  }
+
+  pendingMissingDigitContext = undefined;
 });
 
 Given('a 3x3 block at position \\({int}, {int}) contains {int} non-zero values',
   async (blockRow: number, blockCol: number, _count: number) => {
-    await actorCalled('Solver').attemptsTo(
-      SetupGridState.almostCompleteBlock(blockRow, blockCol)
-    );
+    pendingMissingDigitContext = { kind: 'block', blockRow, blockCol };
   });
 
 Given('no row, column, or block has exactly one empty cell', async () => {

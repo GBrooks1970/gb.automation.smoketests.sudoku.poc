@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-19 (BACKLOG-031 resolved — sprint roadmap refreshed)
+**Last Updated:** 2026-05-19 (BACKLOG-024 resolved — missing digit step parameter wired)
 **Governed by:** `reference-architecture.md` v1.13 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,9 +25,9 @@ Per v1.13 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 14 |
+| Open | 13 |
 | In Progress | 0 |
-| Resolved | 39 |
+| Resolved | 40 |
 | **Total** | **53** |
 
 | Area | Current state |
@@ -89,7 +89,6 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | BACKLOG-020 | Python Screenplay-style Step Definitions | DEMOAPP002 | Future Stack parity | Medium | Open |
 | BACKLOG-021 | C# Screenplay-style Step Definitions | DEMOAPP003 | Future Stack parity | Medium | Open |
 | BACKLOG-027 | Configure Serenity/JS reporters to produce living documentation | DEMOAPP001 | Framework investment unrealised | Medium | Open |
-| BACKLOG-024 | Make "the missing digit is {int}" step genuinely parameterised | DEMOAPP001 | Step definition shape (RA §8.2) | Low | Open |
 | BACKLOG-030 | Extract actor name 'Solver' to shared constant across step definitions | DEMOAPP001 | Magic string risk (RA §8.2) | Low | Open |
 | BACKLOG-010 | Docker Compose for Local Development | All | Local development infrastructure | Low | Open |
 | BACKLOG-011 | Performance Benchmarking Suite | All | Performance regression detection | Low | Open |
@@ -499,7 +498,7 @@ Acceptance criteria:
 ### BACKLOG-024: Make "the missing digit is {int}" step genuinely parameterised
 
 **Priority:** Low
-**Status:** Open
+**Status:** Resolved
 **Stack(s):** DEMOAPP001
 **Nature of Gap:** Step definition shape (RA §8.2)
 
@@ -512,12 +511,16 @@ will propagate to future Stacks as a silent no-op. Must be resolved before DEMOA
 
 Acceptance criteria:
 
-- [ ] `setupAlmostCompleteColumn(col, missingDigit)` updated to accept the missing digit and build the column accordingly rather than hardcoding `[1,2,3,4,5,6,8,9]`
-- [ ] `unitCompletion.steps.ts` passes the `digit` parameter through to the grid setup method
-- [ ] Canonical feature file updated if the step text changes (per feature update procedure in `CLAUDE.md`)
-- [ ] Stack-local feature copy updated to match
-- [ ] `npm test` remains green
-- [ ] No DR required unless the step text change is a breaking canonical feature change
+- [x] `setupAlmostCompleteColumn(col, missingDigit)` updated to accept the missing digit and build the column accordingly rather than hardcoding `[1,2,3,4,5,6,8,9]`
+- [x] `unitCompletion.steps.ts` passes the `digit` parameter through to the grid setup method
+- [x] Canonical feature file updated if the step text changes (per feature update procedure in `CLAUDE.md`)
+- [x] Stack-local feature copy updated to match
+- [x] `npm test` remains green
+- [x] No DR required unless the step text change is a breaking canonical feature change
+
+Resolution:
+
+- The missing digit step now applies the supplied digit to the pending column or block unit-completion fixture. Feature text was unchanged, so canonical and Stack-local feature files remain in parity.
 
 ---
 
@@ -744,6 +747,7 @@ Resolution:
 | BACKLOG-022 | Implement step-text parity checker (Section 8.4 criterion 3) | All | 2026-05-19 | `.batch/check-step-text-parity.ps1` added with non-zero drift exit and line reporting; initial CI gate added; no DR required |
 | BACKLOG-004 | Setup GitHub Actions CI/CD | DEMOAPP001 | 2026-05-19 | `CI` workflow added for DEMOAPP001 build, lint, tests, parity gates, and artifact upload; README badge added |
 | BACKLOG-031 | Update sprint roadmap to reflect resolved items | All | 2026-05-19 | Sprint roadmap refreshed to remove resolved items, mark completed rows, and show current open work; no DR required |
+| BACKLOG-024 | Make "the missing digit is {int}" step genuinely parameterised | DEMOAPP001 | 2026-05-19 | Missing digit parameter now drives column/block unit-completion fixture setup; feature text unchanged and parity retained; no DR required |
 
 ---
 

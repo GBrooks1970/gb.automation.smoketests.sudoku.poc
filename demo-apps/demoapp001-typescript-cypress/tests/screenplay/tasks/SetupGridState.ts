@@ -19,19 +19,21 @@ export const SetupGridState = {
   // Unit Completion scenarios
   // ---------------------------------------------------------------------------
 
-  almostCompleteColumn: (col: number) =>
-    Interaction.where(`#actor sets up column ${col} with 8 non-zero values`, async actor => {
+  almostCompleteColumn: (col: number, missingDigit: number) =>
+    Interaction.where(`#actor sets up column ${col} missing digit ${missingDigit}`, async actor => {
       const ability = UseSudokuSolver.as(actor);
-      GridFixtures.setupAlmostCompleteColumn(ability.getSolver(), col);
+      GridFixtures.setupAlmostCompleteColumn(ability.getSolver(), col, missingDigit);
       ability.takeSnapshot();
     }),
 
-  almostCompleteBlock: (blockRow: number, blockCol: number) =>
+  almostCompleteBlock: (blockRow: number, blockCol: number, missingDigit: number) =>
     Interaction.where(
-      `#actor sets up block (${blockRow},${blockCol}) with 8 non-zero values`,
+      `#actor sets up block (${blockRow},${blockCol}) missing digit ${missingDigit}`,
       async actor => {
         const ability = UseSudokuSolver.as(actor);
-        GridFixtures.setupAlmostCompleteBlock(ability.getSolver(), blockRow, blockCol);
+        GridFixtures.setupAlmostCompleteBlock(
+          ability.getSolver(), blockRow, blockCol, missingDigit
+        );
         ability.takeSnapshot();
       }
     ),
