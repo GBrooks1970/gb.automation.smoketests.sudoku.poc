@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-19 (BACKLOG-020 resolved — DEMOAPP002 Python pytest Stack onboarded)
+**Last Updated:** 2026-05-19 (BACKLOG-032, BACKLOG-033, BACKLOG-034 raised — code review CODE_REVIEW_CLAUDE_v1_20260519T1948Z)
 **Governed by:** `reference-architecture.md` v1.13 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,10 +25,10 @@ Per v1.13 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 10 |
+| Open | 13 |
 | In Progress | 0 |
 | Resolved | 43 |
-| **Total** | **53** |
+| **Total** | **56** |
 
 | Area | Current state |
 |------|---------------|
@@ -94,6 +94,9 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | BACKLOG-014 | Advanced Solving Techniques | DEMOAPP001 and future Stacks | Solver capability | Future | Open |
 | BACKLOG-015 | Interactive Sudoku Tutor | Future product surface | Product idea | Future | Open |
 | BACKLOG-016 | Puzzle Generator | Future product surface | Product idea | Future | Open |
+| BACKLOG-032 | Refactor Python Questions to read from Actor memory | DEMOAPP002 | Screenplay parity (Risk 1) | High | Open |
+| BACKLOG-033 | Extract side effects from MultipleSolvers.isolation_verified() | DEMOAPP002 | Screenplay anti-pattern (Risk 2) | High | Open |
+| BACKLOG-034 | Resolve BACKLOG-012 as stale duplicate of BACKLOG-020 | All | Backlog governance (Risk 4) | Medium | Open |
 
 ---
 
@@ -723,6 +726,78 @@ Acceptance criteria:
 Resolution:
 
 - Sprint roadmap rows now reflect current resolved work and the remaining open backlog. Sprint 2 and Sprint 3 are marked completed on 2026-05-19; Sprint 4 and Sprint 5 remove resolved items; Sprint 6+ no longer references resolved RA items.
+
+---
+
+### BACKLOG-032: Refactor Python Questions to read from Actor memory
+
+**Priority:** High
+**Status:** Open
+**Stack(s):** DEMOAPP002
+**Nature of Gap:** Screenplay parity (RA Section 3.5 -- Memory contract)
+
+Review evidence: `.review/CODE_REVIEW_CLAUDE_v1_20260519T1948Z/02_RISKS_AND_ISSUES.md` Risk 1
+
+Four `GridCell` static methods in `tests/screenplay/questions/__init__.py` call
+`actor.ability_to(UseSudokuSolver).grid_snapshot` directly instead of reading
+`actor.recall(GRID_SNAPSHOT)`. This bypasses the Actor Memory contract and diverges from the
+TypeScript reference implementation. Must be resolved before DEMOAPP003 is authored.
+
+Acceptance criteria:
+
+- [ ] All Tasks that call `ability.take_snapshot()` also call `actor.remember(GRID_SNAPSHOT, deepcopy(snapshot))`
+- [ ] `GridCell.matches_snapshot()` reads `actor.recall(GRID_SNAPSHOT, [])` instead of `ability.grid_snapshot`
+- [ ] `GridCell.orig_matches_snapshot()` reads `actor.recall(GRID_SNAPSHOT, [])` instead of `ability.grid_snapshot`
+- [ ] `GridCell.is_deep_copy()` reads `actor.recall(GRID_SNAPSHOT, [])` instead of `ability.grid_snapshot`
+- [ ] All 46 scenarios remain passing after the refactor
+- [ ] Memory key parity checker remains passing
+- [ ] No DR required
+
+---
+
+### BACKLOG-033: Extract side effects from MultipleSolvers.isolation_verified()
+
+**Priority:** High
+**Status:** Open
+**Stack(s):** DEMOAPP002
+**Nature of Gap:** Screenplay anti-pattern (Questions must be side-effect free)
+
+Review evidence: `.review/CODE_REVIEW_CLAUDE_v1_20260519T1948Z/02_RISKS_AND_ISSUES.md` Risk 2
+
+`MultipleSolvers.isolation_verified()` calls `ability.initialise()`, `ability.solve_puzzle()`,
+and `actor.remember()` inside the Question resolver. This violates the Screenplay principle
+that Questions observe state only. The `actor.remember(ALGORITHM_PROGRESS, False)` side effect
+can corrupt subsequent step assertions. Must be resolved before DEMOAPP003 is authored.
+
+Acceptance criteria:
+
+- [ ] New Task `SolveFirstSolverForIsolationCheck` created that captures solver snapshots and runs the solve
+- [ ] `MultipleSolvers.isolation_verified()` refactored to read from actor memory only -- no Ability calls
+- [ ] `actor.remember(ALGORITHM_PROGRESS, False)` side effect removed from the Question
+- [ ] All 46 scenarios remain passing after the refactor
+- [ ] No DR required
+
+---
+
+### BACKLOG-034: Resolve BACKLOG-012 as stale duplicate of BACKLOG-020
+
+**Priority:** Medium
+**Status:** Open
+**Stack(s):** All
+**Nature of Gap:** Backlog governance (stale Open item)
+
+Review evidence: `.review/CODE_REVIEW_CLAUDE_v1_20260519T1948Z/02_RISKS_AND_ISSUES.md` Risk 4
+
+BACKLOG-012 ("Implement Python Version") is listed as Open/Future despite BACKLOG-020 having
+resolved the Python Stack implementation on 2026-05-19. The stale item inflates the Open count
+and may cause duplicate effort.
+
+Acceptance criteria:
+
+- [ ] BACKLOG-012 status changed to `Resolved`
+- [ ] BACKLOG-012 resolution note added referencing BACKLOG-020
+- [ ] Summary count table updated (Open: 13 -> 12, Resolved: 43 -> 44)
+- [ ] No DR required
 
 ---
 
