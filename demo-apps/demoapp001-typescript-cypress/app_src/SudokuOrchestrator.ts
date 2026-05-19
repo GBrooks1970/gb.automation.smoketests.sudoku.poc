@@ -20,7 +20,10 @@ import { GRID_SIZE, EMPTY_CELL } from './constants';
 export class SudokuOrchestrator {
   private auditLogger?: AuditLogger;
 
-  constructor(private solver: SudokuSolver, auditConfig?: Partial<AuditConfig>) {
+  constructor(
+    private solver: SudokuSolver,
+    auditConfig?: Partial<AuditConfig>
+  ) {
     if (auditConfig?.enabled) {
       this.auditLogger = new AuditLogger(solver.name, solver.origGrid, auditConfig);
       solver.setAuditLogger(this.auditLogger);

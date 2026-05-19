@@ -38,8 +38,12 @@ export class SudokuSolver {
       if (empties.length === 1) {
         const colIndex = this.grid[row].indexOf(EMPTY_CELL);
         const missing = this.findMissingDigit(this.grid[row]);
-        changes.push({ cell: { row, col: colIndex }, oldValue: 0, newValue: missing,
-          reason: `Last empty cell in row ${row}` });
+        changes.push({
+          cell: { row, col: colIndex },
+          oldValue: 0,
+          newValue: missing,
+          reason: `Last empty cell in row ${row}`,
+        });
         this.grid[row][colIndex] = missing;
         changed = true;
       }
@@ -52,8 +56,12 @@ export class SudokuSolver {
       if (empties.length === 1) {
         const rowIndex = column.indexOf(EMPTY_CELL);
         const missing = this.findMissingDigit(column);
-        changes.push({ cell: { row: rowIndex, col }, oldValue: 0, newValue: missing,
-          reason: `Last empty cell in column ${col}` });
+        changes.push({
+          cell: { row: rowIndex, col },
+          oldValue: 0,
+          newValue: missing,
+          reason: `Last empty cell in column ${col}`,
+        });
         this.grid[rowIndex][col] = missing;
         changed = true;
       }
@@ -66,8 +74,12 @@ export class SudokuSolver {
         if (blockCells.length === 1) {
           const blockValues = this.getBlockValues(blockRow, blockCol);
           const missing = this.findMissingDigit(blockValues);
-          changes.push({ cell: blockCells[0], oldValue: 0, newValue: missing,
-            reason: `Last empty cell in block (${blockRow},${blockCol})` });
+          changes.push({
+            cell: blockCells[0],
+            oldValue: 0,
+            newValue: missing,
+            reason: `Last empty cell in block (${blockRow},${blockCol})`,
+          });
           this.grid[blockCells[0].row][blockCells[0].col] = missing;
           changed = true;
         }
@@ -111,8 +123,12 @@ export class SudokuSolver {
         }
       }
       if (candidates.length === 1) {
-        changes.push({ cell: candidates[0], oldValue: 0, newValue: target,
-          reason: `Only valid location for ${target} in row ${row}` });
+        changes.push({
+          cell: candidates[0],
+          oldValue: 0,
+          newValue: target,
+          reason: `Only valid location for ${target} in row ${row}`,
+        });
         this.grid[candidates[0].row][candidates[0].col] = target;
         changed = true;
       }
@@ -131,8 +147,12 @@ export class SudokuSolver {
         }
       }
       if (candidates.length === 1) {
-        changes.push({ cell: candidates[0], oldValue: 0, newValue: target,
-          reason: `Only valid location for ${target} in column ${col}` });
+        changes.push({
+          cell: candidates[0],
+          oldValue: 0,
+          newValue: target,
+          reason: `Only valid location for ${target} in column ${col}`,
+        });
         this.grid[candidates[0].row][candidates[0].col] = target;
         changed = true;
       }
@@ -146,8 +166,12 @@ export class SudokuSolver {
           (cell) => !this.isInRow(target, cell.row) && !this.isInCol(target, cell.col)
         );
         if (candidates.length === 1) {
-          changes.push({ cell: candidates[0], oldValue: 0, newValue: target,
-            reason: `Only valid location for ${target} in block (${blockRow},${blockCol})` });
+          changes.push({
+            cell: candidates[0],
+            oldValue: 0,
+            newValue: target,
+            reason: `Only valid location for ${target} in block (${blockRow},${blockCol})`,
+          });
           this.grid[candidates[0].row][candidates[0].col] = target;
           changed = true;
         }
@@ -181,8 +205,12 @@ export class SudokuSolver {
         const possible = this.getCellCandidates(row, col);
         if (possible.size === 1) {
           const val = Array.from(possible)[0];
-          changes.push({ cell: { row, col }, oldValue: 0, newValue: val,
-            reason: `Only candidate remaining in cell [${row},${col}]` });
+          changes.push({
+            cell: { row, col },
+            oldValue: 0,
+            newValue: val,
+            reason: `Only candidate remaining in cell [${row},${col}]`,
+          });
           this.grid[row][col] = val;
           changed = true;
         }
@@ -230,7 +258,7 @@ export class SudokuSolver {
     };
     for (let i = 0; i < GRID_SIZE; i++) {
       if (!setEquals(new Set(this.grid[i]), digits)) return false;
-      if (!setEquals(new Set(this.grid.map(r => r[i])), digits)) return false;
+      if (!setEquals(new Set(this.grid.map((r) => r[i])), digits)) return false;
     }
     for (let br = 0; br < BLOCK_SIZE; br++) {
       for (let bc = 0; bc < BLOCK_SIZE; bc++) {

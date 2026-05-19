@@ -1,10 +1,4 @@
-import {
-  AuditConfig,
-  AuditEvent,
-  AuditStatistics,
-  AuditTrail,
-  CellChange,
-} from './AuditTypes';
+import { AuditConfig, AuditEvent, AuditStatistics, AuditTrail, CellChange } from './AuditTypes';
 
 const DEFAULT_CONFIG: AuditConfig = {
   enabled: true,
@@ -21,13 +15,9 @@ export class AuditLogger {
   private currentIteration: number = 0;
   private eventIdCounter: number = 0;
 
-  constructor(
-    puzzleName: string,
-    initialGrid: number[][],
-    config: Partial<AuditConfig> = {}
-  ) {
+  constructor(puzzleName: string, initialGrid: number[][], config: Partial<AuditConfig> = {}) {
     this.puzzleName = puzzleName;
-    this.initialGrid = initialGrid.map(r => [...r]);
+    this.initialGrid = initialGrid.map((r) => [...r]);
     this.startTime = new Date();
     this.config = { ...DEFAULT_CONFIG, ...config };
   }
@@ -54,9 +44,10 @@ export class AuditLogger {
       algorithm,
       cellChanges,
       ...(algorithmParameter !== undefined && { algorithmParameter }),
-      ...(this.config.includeGridSnapshots && gridSnapshotAfter && {
-        gridSnapshotAfter: gridSnapshotAfter.map(r => [...r]),
-      }),
+      ...(this.config.includeGridSnapshots &&
+        gridSnapshotAfter && {
+          gridSnapshotAfter: gridSnapshotAfter.map((r) => [...r]),
+        }),
     };
     this.events.push(event);
   }
@@ -84,9 +75,10 @@ export class AuditLogger {
         stats.iterationsByAlgorithm.nakedSingles++;
       }
     }
-    const total = stats.changesByAlgorithm.unitCompletion
-      + stats.changesByAlgorithm.hiddenSingles
-      + stats.changesByAlgorithm.nakedSingles;
+    const total =
+      stats.changesByAlgorithm.unitCompletion +
+      stats.changesByAlgorithm.hiddenSingles +
+      stats.changesByAlgorithm.nakedSingles;
     stats.averageChangesPerIteration =
       this.currentIteration > 0 ? total / this.currentIteration : 0;
     return stats;
@@ -100,7 +92,7 @@ export class AuditLogger {
       endTime: endTime.toISOString(),
       totalDurationMs: endTime.getTime() - this.startTime.getTime(),
       initialGrid: this.initialGrid,
-      finalGrid: finalGrid.map(r => [...r]),
+      finalGrid: finalGrid.map((r) => [...r]),
       status,
       totalIterations: this.currentIteration,
       totalChanges: this.getChangeCount(),

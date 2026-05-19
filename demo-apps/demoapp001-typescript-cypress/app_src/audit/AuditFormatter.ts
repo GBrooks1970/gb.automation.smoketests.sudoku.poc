@@ -4,7 +4,7 @@ export class AuditFormatter {
   static formatSummary(trail: AuditTrail): string {
     const s = trail.statistics;
     const total = trail.totalChanges;
-    const pct = (n: number) => total > 0 ? `(${((n / total) * 100).toFixed(1)}%)` : '(-)';
+    const pct = (n: number) => (total > 0 ? `(${((n / total) * 100).toFixed(1)}%)` : '(-)');
 
     return [
       '+---------------------------------------------------------+',
@@ -31,14 +31,13 @@ export class AuditFormatter {
         currentIteration = event.iteration;
         lines.push(`\n=== ITERATION ${currentIteration} ===`);
       }
-      const paramStr = event.algorithmParameter !== undefined
-        ? `(${event.algorithmParameter})`
-        : '';
+      const paramStr =
+        event.algorithmParameter !== undefined ? `(${event.algorithmParameter})` : '';
       for (const change of event.cellChanges) {
         lines.push(
           `[${event.algorithm}${paramStr}] ` +
-          `Cell [${change.cell.row},${change.cell.col}]: ${change.oldValue} -> ${change.newValue}` +
-          (change.reason ? `\n  Reason: ${change.reason}` : '')
+            `Cell [${change.cell.row},${change.cell.col}]: ${change.oldValue} -> ${change.newValue}` +
+            (change.reason ? `\n  Reason: ${change.reason}` : '')
         );
       }
     }

@@ -8,7 +8,10 @@ export class SudokuCLI {
   private orchestrator: SudokuOrchestrator;
   private output: IOutput;
 
-  constructor(private solver: SudokuSolver, output: IOutput = new ConsoleOutput()) {
+  constructor(
+    private solver: SudokuSolver,
+    output: IOutput = new ConsoleOutput()
+  ) {
     this.orchestrator = new SudokuOrchestrator(this.solver);
     this.output = output;
   }
