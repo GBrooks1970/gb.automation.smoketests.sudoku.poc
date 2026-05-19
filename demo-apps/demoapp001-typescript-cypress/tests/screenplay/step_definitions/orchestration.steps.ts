@@ -1,5 +1,6 @@
 import { Given, When, Then } from '@cucumber/cucumber';
 import { actorCalled } from '@serenity-js/core';
+import { SOLVER_ACTOR } from '../support/actors';
 import * as assert from 'assert';
 import { InitialiseGrid } from '../tasks/InitialiseGrid';
 import { LoadPuzzleByName } from '../tasks/LoadPuzzleByName';
@@ -12,13 +13,13 @@ import { GridCell } from '../questions/GridCell';
 // ---------------------------------------------------------------------------
 
 Given('a puzzle that requires all three techniques', async () => {
-  await actorCalled('Solver').attemptsTo(
+  await actorCalled(SOLVER_ACTOR).attemptsTo(
     LoadPuzzleByName.andInitialise('Logic Squeeze Grid')
   );
 });
 
 Given('a partially filled grid solvable with basic techniques', async () => {
-  await actorCalled('Solver').attemptsTo(
+  await actorCalled(SOLVER_ACTOR).attemptsTo(
     LoadPuzzleByName.andInitialise('Easy Scan Grid')
   );
 });
@@ -35,7 +36,7 @@ Given('every cell in the 9x9 grid contains a non-zero digit', async () => {
     [2,8,7,4,1,9,6,3,5],
     [3,4,5,2,8,6,1,7,9]
   ];
-  await actorCalled('Solver').attemptsTo(InitialiseGrid.withCompleteGrid(completedGrid));
+  await actorCalled(SOLVER_ACTOR).attemptsTo(InitialiseGrid.withCompleteGrid(completedGrid));
 });
 
 Given('no digits violate row, column, or block rules', () => {
@@ -43,13 +44,13 @@ Given('no digits violate row, column, or block rules', () => {
 });
 
 Given('a puzzle that cannot be solved with basic techniques', async () => {
-  await actorCalled('Solver').attemptsTo(
+  await actorCalled(SOLVER_ACTOR).attemptsTo(
     LoadPuzzleByName.andInitialise('Empty Grid')
   );
 });
 
 Given('the {string} puzzle is loaded', async (puzzleName: string) => {
-  await actorCalled('Solver').attemptsTo(LoadPuzzleByName.andInitialise(puzzleName));
+  await actorCalled(SOLVER_ACTOR).attemptsTo(LoadPuzzleByName.andInitialise(puzzleName));
 });
 
 // ---------------------------------------------------------------------------
@@ -57,23 +58,23 @@ Given('the {string} puzzle is loaded', async (puzzleName: string) => {
 // ---------------------------------------------------------------------------
 
 When('the main solving loop executes one iteration', async () => {
-  await actorCalled('Solver').attemptsTo(SolvePuzzle.withCurrentGrid());
+  await actorCalled(SOLVER_ACTOR).attemptsTo(SolvePuzzle.withCurrentGrid());
 });
 
 When('the solver executes the main loop', async () => {
-  await actorCalled('Solver').attemptsTo(SolvePuzzle.withCurrentGrid());
+  await actorCalled(SOLVER_ACTOR).attemptsTo(SolvePuzzle.withCurrentGrid());
 });
 
 When('the main execution loop runs', async () => {
-  await actorCalled('Solver').attemptsTo(SolvePuzzle.withCurrentGrid());
+  await actorCalled(SOLVER_ACTOR).attemptsTo(SolvePuzzle.withCurrentGrid());
 });
 
 When('the solver executes all three algorithms without making changes', async () => {
-  await actorCalled('Solver').attemptsTo(SolvePuzzle.withCurrentGrid());
+  await actorCalled(SOLVER_ACTOR).attemptsTo(SolvePuzzle.withCurrentGrid());
 });
 
 When('the orchestrator solve method is called', async () => {
-  await actorCalled('Solver').attemptsTo(SolvePuzzle.withCurrentGrid());
+  await actorCalled(SOLVER_ACTOR).attemptsTo(SolvePuzzle.withCurrentGrid());
 });
 
 // ---------------------------------------------------------------------------
@@ -81,7 +82,7 @@ When('the orchestrator solve method is called', async () => {
 // ---------------------------------------------------------------------------
 
 Then('"Unit Completion" should be attempted first', async () => {
-  const status = await actorCalled('Solver').answer(SolveStatus.current());
+  const status = await actorCalled(SOLVER_ACTOR).answer(SolveStatus.current());
   assert.strictEqual(status, 'SOLVED');
 });
 
@@ -95,51 +96,51 @@ Then('"Naked Singles" should be attempted third', () => {
 });
 
 Then('the execution order should be maintained in every iteration', async () => {
-  const status = await actorCalled('Solver').answer(SolveStatus.current());
+  const status = await actorCalled(SOLVER_ACTOR).answer(SolveStatus.current());
   assert.strictEqual(status, 'SOLVED');
 });
 
 Then('multiple iterations should occur', async () => {
-  const status = await actorCalled('Solver').answer(SolveStatus.current());
+  const status = await actorCalled(SOLVER_ACTOR).answer(SolveStatus.current());
   assert.strictEqual(status, 'SOLVED');
 });
 
 Then('each iteration should make progress until solved', async () => {
-  const status = await actorCalled('Solver').answer(SolveStatus.current());
+  const status = await actorCalled(SOLVER_ACTOR).answer(SolveStatus.current());
   assert.strictEqual(status, 'SOLVED');
 });
 
 Then('the final status should be {string}', async (status: string) => {
-  const actual = await actorCalled('Solver').answer(SolveStatus.current());
+  const actual = await actorCalled(SOLVER_ACTOR).answer(SolveStatus.current());
   assert.strictEqual(actual, status);
 });
 
 Then('the system should detect the grid is full', async () => {
-  const full = await actorCalled('Solver').answer(GridCell.isGridFull());
+  const full = await actorCalled(SOLVER_ACTOR).answer(GridCell.isGridFull());
   assert.ok(full, 'Expected grid to be full');
 });
 
 Then('the status should return {string}', async (status: string) => {
-  const actual = await actorCalled('Solver').answer(SolveStatus.current());
+  const actual = await actorCalled(SOLVER_ACTOR).answer(SolveStatus.current());
   assert.strictEqual(actual, status);
 });
 
 Then('no algorithms should be executed', async () => {
-  const status = await actorCalled('Solver').answer(SolveStatus.current());
+  const status = await actorCalled(SOLVER_ACTOR).answer(SolveStatus.current());
   assert.strictEqual(status, 'SOLVED');
 });
 
 Then('the system should exit the solving loop', async () => {
-  const status = await actorCalled('Solver').answer(SolveStatus.current());
+  const status = await actorCalled(SOLVER_ACTOR).answer(SolveStatus.current());
   assert.strictEqual(status, 'STUCK_ON_ADVANCED_LOGIC');
 });
 
 Then('the puzzle should be completely solved', async () => {
-  const status = await actorCalled('Solver').answer(SolveStatus.current());
+  const status = await actorCalled(SOLVER_ACTOR).answer(SolveStatus.current());
   assert.strictEqual(status, 'SOLVED');
 });
 
 Then('all {int} cells should contain valid digits', async (_count: number) => {
-  const allFilled = await actorCalled('Solver').answer(GridCell.allFilled());
+  const allFilled = await actorCalled(SOLVER_ACTOR).answer(GridCell.allFilled());
   assert.ok(allFilled);
 });

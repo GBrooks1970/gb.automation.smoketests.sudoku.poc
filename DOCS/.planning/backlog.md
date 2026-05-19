@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-19 (BACKLOG-024 resolved — missing digit step parameter wired)
+**Last Updated:** 2026-05-19 (BACKLOG-030 resolved — Solver actor name constant extracted)
 **Governed by:** `reference-architecture.md` v1.13 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,9 +25,9 @@ Per v1.13 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 13 |
+| Open | 12 |
 | In Progress | 0 |
-| Resolved | 40 |
+| Resolved | 41 |
 | **Total** | **53** |
 
 | Area | Current state |
@@ -89,7 +89,6 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | BACKLOG-020 | Python Screenplay-style Step Definitions | DEMOAPP002 | Future Stack parity | Medium | Open |
 | BACKLOG-021 | C# Screenplay-style Step Definitions | DEMOAPP003 | Future Stack parity | Medium | Open |
 | BACKLOG-027 | Configure Serenity/JS reporters to produce living documentation | DEMOAPP001 | Framework investment unrealised | Medium | Open |
-| BACKLOG-030 | Extract actor name 'Solver' to shared constant across step definitions | DEMOAPP001 | Magic string risk (RA §8.2) | Low | Open |
 | BACKLOG-010 | Docker Compose for Local Development | All | Local development infrastructure | Low | Open |
 | BACKLOG-011 | Performance Benchmarking Suite | All | Performance regression detection | Low | Open |
 | BACKLOG-012 | Implement Python Version | DEMOAPP002 | Future Stack implementation | Future | Open |
@@ -668,7 +667,7 @@ Resolution:
 ### BACKLOG-030: Extract actor name 'Solver' to shared constant across step definitions
 
 **Priority:** Low
-**Status:** Open
+**Status:** Resolved
 **Stack(s):** DEMOAPP001
 **Nature of Gap:** Magic string risk (RA §8.2)
 
@@ -682,10 +681,14 @@ all step definition files. The name is semantically significant to Serenity/JS
 
 Acceptance criteria:
 
-- [ ] `tests/screenplay/support/actors.ts` created: `export const SOLVER_ACTOR = 'Solver';`
-- [ ] All `actorCalled('Solver')` occurrences in step definition files replaced with `actorCalled(SOLVER_ACTOR)` (importing from `actors.ts`)
-- [ ] `npm test` remains green
-- [ ] No DR required
+- [x] `tests/screenplay/support/actors.ts` created: `export const SOLVER_ACTOR = 'Solver';`
+- [x] All `actorCalled('Solver')` occurrences in step definition files replaced with `actorCalled(SOLVER_ACTOR)` (importing from `actors.ts`)
+- [x] `npm test` remains green
+- [x] No DR required
+
+Resolution:
+
+- Step definitions now use `SOLVER_ACTOR` from `tests/screenplay/support/actors.ts`, centralising the Serenity actor persona name without changing report semantics; no DR required.
 
 ---
 
@@ -748,6 +751,7 @@ Resolution:
 | BACKLOG-004 | Setup GitHub Actions CI/CD | DEMOAPP001 | 2026-05-19 | `CI` workflow added for DEMOAPP001 build, lint, tests, parity gates, and artifact upload; README badge added |
 | BACKLOG-031 | Update sprint roadmap to reflect resolved items | All | 2026-05-19 | Sprint roadmap refreshed to remove resolved items, mark completed rows, and show current open work; no DR required |
 | BACKLOG-024 | Make "the missing digit is {int}" step genuinely parameterised | DEMOAPP001 | 2026-05-19 | Missing digit parameter now drives column/block unit-completion fixture setup; feature text unchanged and parity retained; no DR required |
+| BACKLOG-030 | Extract actor name 'Solver' to shared constant across step definitions | DEMOAPP001 | 2026-05-19 | Shared `SOLVER_ACTOR` constant added and step definitions use `actorCalled(SOLVER_ACTOR)`; no DR required |
 
 ---
 
@@ -757,8 +761,8 @@ Resolution:
 |--------|-------|-------|-----------|--------|
 | 2 | 2026-05-14 to 2026-05-27 | Close persistent risks and governance drift | MIG-04, MIG-05, MIG-08, BACKLOG-004 | Completed 2026-05-19 |
 | 3 | 2026-05-28 to 2026-06-10 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Completed 2026-05-19 |
-| 4 | 2026-06-11 to 2026-06-24 | Stack hygiene, living documentation, API foundation, and Python Stack start | BACKLOG-024, BACKLOG-027, BACKLOG-009, BACKLOG-020 | Open |
-| 5 | 2026-06-25 to 2026-07-08 | API/Web UI, C# Stack start, and step definition cleanup | BACKLOG-018, BACKLOG-021, BACKLOG-030 | Open |
+| 4 | 2026-06-11 to 2026-06-24 | Living documentation, API foundation, and Python Stack start | BACKLOG-027, BACKLOG-009, BACKLOG-020 | Open |
+| 5 | 2026-06-25 to 2026-07-08 | API/Web UI and C# Stack start | BACKLOG-018, BACKLOG-021 | Open |
 | 6+ | 2026-07-09 onward | Multi-Stack polish, infrastructure, and future product ideas | BACKLOG-010, BACKLOG-011, BACKLOG-012 through BACKLOG-016 | Open |
 
 ---

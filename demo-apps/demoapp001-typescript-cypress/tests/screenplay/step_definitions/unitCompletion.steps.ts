@@ -1,5 +1,6 @@
 import { Given, When, Then } from '@cucumber/cucumber';
 import { actorCalled } from '@serenity-js/core';
+import { SOLVER_ACTOR } from '../support/actors';
 import * as assert from 'assert';
 import { InitialiseGrid } from '../tasks/InitialiseGrid';
 import { ApplyAlgorithm } from '../tasks/ApplyAlgorithm';
@@ -19,7 +20,7 @@ let pendingMissingDigitContext: MissingDigitContext | undefined;
 
 Given('a row contains the values {string}', async (valuesStr: string) => {
   const values = valuesStr.split(',').map(s => parseInt(s.trim(), 10));
-  await actorCalled('Solver').attemptsTo(
+  await actorCalled(SOLVER_ACTOR).attemptsTo(
     InitialiseGrid.withRowValues({ row: 0, values })
   );
 });
@@ -29,7 +30,7 @@ Given('column {int} contains {int} non-zero values', async (colIndex: number, _c
 });
 
 Given('the missing digit is {int}', async (digit: number) => {
-  const actor = actorCalled('Solver');
+  const actor = actorCalled(SOLVER_ACTOR);
 
   if (pendingMissingDigitContext?.kind === 'column') {
     await actor.attemptsTo(
@@ -54,7 +55,7 @@ Given('a 3x3 block at position \\({int}, {int}) contains {int} non-zero values',
   });
 
 Given('no row, column, or block has exactly one empty cell', async () => {
-  await actorCalled('Solver').attemptsTo(
+  await actorCalled(SOLVER_ACTOR).attemptsTo(
     SetupGridState.withMultipleEmpties()
   );
 });
@@ -64,19 +65,19 @@ Given('no row, column, or block has exactly one empty cell', async () => {
 // ---------------------------------------------------------------------------
 
 When('the {string} algorithm scans the row', async (_algorithm: string) => {
-  await actorCalled('Solver').attemptsTo(ApplyAlgorithm.unitCompletion());
+  await actorCalled(SOLVER_ACTOR).attemptsTo(ApplyAlgorithm.unitCompletion());
 });
 
 When('the {string} algorithm scans the column', async (_algorithm: string) => {
-  await actorCalled('Solver').attemptsTo(ApplyAlgorithm.unitCompletion());
+  await actorCalled(SOLVER_ACTOR).attemptsTo(ApplyAlgorithm.unitCompletion());
 });
 
 When('the {string} algorithm scans the block', async (_algorithm: string) => {
-  await actorCalled('Solver').attemptsTo(ApplyAlgorithm.unitCompletion());
+  await actorCalled(SOLVER_ACTOR).attemptsTo(ApplyAlgorithm.unitCompletion());
 });
 
 When('the {string} algorithm is executed', async (algorithm: string) => {
-  const actor = actorCalled('Solver');
+  const actor = actorCalled(SOLVER_ACTOR);
   if (algorithm === 'Unit Completion') {
     await actor.attemptsTo(ApplyAlgorithm.unitCompletion());
   } else if (algorithm === 'Naked Singles') {
@@ -89,32 +90,32 @@ When('the {string} algorithm is executed', async (algorithm: string) => {
 // ---------------------------------------------------------------------------
 
 Then('the system should identify the missing value as {int}', async (_value: number) => {
-  const made = await actorCalled('Solver').answer(AlgorithmMadeProgress.afterLastCall());
+  const made = await actorCalled(SOLVER_ACTOR).answer(AlgorithmMadeProgress.afterLastCall());
   assert.ok(made, 'Expected unitCompletion to return true');
 });
 
 Then('the value {int} should be placed in the empty cell', async (value: number) => {
-  const found = await actorCalled('Solver').answer(GridCell.containsValue(value));
+  const found = await actorCalled(SOLVER_ACTOR).answer(GridCell.containsValue(value));
   assert.ok(found, `Expected value ${value} to be placed in the grid`);
 });
 
 Then('the system should place {int} in the empty cell of column {int}',
   async (value: number, col: number) => {
-    const placed = await actorCalled('Solver').answer(GridCell.inColumn(col, value));
+    const placed = await actorCalled(SOLVER_ACTOR).answer(GridCell.inColumn(col, value));
     assert.ok(placed, `Expected ${value} to be placed in column ${col}`);
   });
 
 Then('the system should place {int} in the empty cell of that block', async (value: number) => {
-  const found = await actorCalled('Solver').answer(GridCell.containsValue(value));
+  const found = await actorCalled(SOLVER_ACTOR).answer(GridCell.containsValue(value));
   assert.ok(found, `Expected value ${value} to be placed in the block`);
 });
 
 Then('the algorithm should return false', async () => {
-  const made = await actorCalled('Solver').answer(AlgorithmMadeProgress.afterLastCall());
+  const made = await actorCalled(SOLVER_ACTOR).answer(AlgorithmMadeProgress.afterLastCall());
   assert.strictEqual(made, false);
 });
 
 Then('no cells should be modified', async () => {
-  const matches = await actorCalled('Solver').answer(GridCell.matchesSnapshot());
+  const matches = await actorCalled(SOLVER_ACTOR).answer(GridCell.matchesSnapshot());
   assert.ok(matches, 'Expected no cells to be modified');
 });
