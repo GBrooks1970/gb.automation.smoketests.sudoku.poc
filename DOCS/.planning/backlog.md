@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-19 (BACKLOG-022 resolved — step text parity gate added)
+**Last Updated:** 2026-05-19 (BACKLOG-004 resolved — GitHub Actions CI configured)
 **Governed by:** `reference-architecture.md` v1.13 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,9 +25,9 @@ Per v1.13 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 16 |
+| Open | 15 |
 | In Progress | 0 |
-| Resolved | 37 |
+| Resolved | 38 |
 | **Total** | **53** |
 
 | Area | Current state |
@@ -84,7 +84,6 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 
 | ID | Title | Stack(s) | Nature of Gap | Priority | Status |
 |----|-------|----------|---------------|----------|--------|
-| BACKLOG-004 | Setup GitHub Actions CI/CD | DEMOAPP001 | CI automation | Medium | Open |
 | BACKLOG-009 | Implement REST API Wrapper | DEMOAPP001 future API surface | Feature implementation | Medium | Open |
 | BACKLOG-018 | Implement Web UI Solver Visualisation | DEMOAPP001 future UI surface | Feature implementation | Medium | Open |
 | BACKLOG-020 | Python Screenplay-style Step Definitions | DEMOAPP002 | Future Stack parity | Medium | Open |
@@ -288,18 +287,22 @@ Acceptance criteria:
 ### BACKLOG-004: Setup GitHub Actions CI/CD
 
 **Priority:** Medium
-**Status:** Open
+**Status:** Resolved
 **Stack(s):** DEMOAPP001
 **Nature of Gap:** CI automation
 
 Acceptance criteria:
 
-- [ ] `.github/workflows/ci.yml` created
-- [ ] Build step runs `npm ci` and `npm run build`
-- [ ] Lint step runs `npm run lint`
-- [ ] Test step runs `npm test`
-- [ ] PR status checks visible in GitHub
-- [ ] `README.md` updated with CI badge
+- [x] `.github/workflows/ci.yml` created
+- [x] Build step runs `npm ci` and `npm run build`
+- [x] Lint step runs `npm run lint`
+- [x] Test step runs `npm test`
+- [x] PR status checks visible in GitHub
+- [x] `README.md` updated with CI badge
+
+Resolution:
+
+- GitHub Actions workflow `CI` now runs on `pull_request`, `push`, and manual dispatch. The DEMOAPP001 job installs with `npm ci`, runs build/lint/test, executes parity gates, and uploads validation artifacts. PR status checks are configured by the `pull_request` trigger and will be visible in GitHub after the branch is pushed.
 
 ### BACKLOG-017: Unify Feature Design Overlap
 
@@ -736,6 +739,7 @@ Acceptance criteria:
 | BACKLOG-029 | Mark DR-010 as Superseded by DR-014 in decision register | All | 2026-05-19 | DR-010 status and forward reference updated; DR-014 back reference verified; no DR required |
 | BACKLOG-025 | Fix feature parity report summary terminology to match RA CI gate spec | All | 2026-05-19 | Feature parity report summary and console output now emit `PASS`, `DRIFT`, or `MISSING`; non-PASS exit remains non-zero; no DR required |
 | BACKLOG-022 | Implement step-text parity checker (Section 8.4 criterion 3) | All | 2026-05-19 | `.batch/check-step-text-parity.ps1` added with non-zero drift exit and line reporting; initial CI gate added; no DR required |
+| BACKLOG-004 | Setup GitHub Actions CI/CD | DEMOAPP001 | 2026-05-19 | `CI` workflow added for DEMOAPP001 build, lint, tests, parity gates, and artifact upload; README badge added |
 
 ---
 

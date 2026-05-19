@@ -1,5 +1,7 @@
 # Sudoku Solver - Tech-Agnostic Design Specification
 
+[![CI](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/actions/workflows/ci.yml/badge.svg)](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/actions/workflows/ci.yml)
+
 > **A pedagogical project demonstrating clean architecture, test automation, and multi-stack implementations of the same design specification.**
 
 **Version:** v1.0

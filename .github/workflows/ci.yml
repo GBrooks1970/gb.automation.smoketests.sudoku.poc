@@ -9,14 +9,53 @@ on:
   workflow_dispatch:
 
 jobs:
-  step-text-parity:
-    name: Step text parity
+  demoapp001-typescript-cypress:
+    name: DEMOAPP001 TypeScript Cypress
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Run step text parity gate
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: demo-apps/demoapp001-typescript-cypress/package-lock.json
+
+      - name: Install dependencies
+        working-directory: demo-apps/demoapp001-typescript-cypress
+        run: npm ci
+
+      - name: Build
+        working-directory: demo-apps/demoapp001-typescript-cypress
+        run: npm run build
+
+      - name: Lint
+        working-directory: demo-apps/demoapp001-typescript-cypress
+        run: npm run lint
+
+      - name: Test
+        working-directory: demo-apps/demoapp001-typescript-cypress
+        run: npm test
+
+      - name: Memory key parity
+        shell: pwsh
+        run: ./.batch/check-memory-key-parity.ps1
+
+      - name: Feature parity
+        shell: pwsh
+        run: ./.batch/generate-feature-parity-report.ps1
+
+      - name: Step text parity
         shell: pwsh
         run: ./.batch/check-step-text-parity.ps1
+
+      - name: Upload validation artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: demoapp001-validation-results
+          path: .results/
+          if-no-files-found: ignore
