@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-19 (BACKLOG-030 resolved — Solver actor name constant extracted)
+**Last Updated:** 2026-05-19 (BACKLOG-027 resolved — Serenity BDD living documentation enabled)
 **Governed by:** `reference-architecture.md` v1.13 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,9 +25,9 @@ Per v1.13 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 12 |
+| Open | 11 |
 | In Progress | 0 |
-| Resolved | 41 |
+| Resolved | 42 |
 | **Total** | **53** |
 
 | Area | Current state |
@@ -88,7 +88,6 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | BACKLOG-018 | Implement Web UI Solver Visualisation | DEMOAPP001 future UI surface | Feature implementation | Medium | Open |
 | BACKLOG-020 | Python Screenplay-style Step Definitions | DEMOAPP002 | Future Stack parity | Medium | Open |
 | BACKLOG-021 | C# Screenplay-style Step Definitions | DEMOAPP003 | Future Stack parity | Medium | Open |
-| BACKLOG-027 | Configure Serenity/JS reporters to produce living documentation | DEMOAPP001 | Framework investment unrealised | Medium | Open |
 | BACKLOG-010 | Docker Compose for Local Development | All | Local development infrastructure | Low | Open |
 | BACKLOG-011 | Performance Benchmarking Suite | All | Performance regression detection | Low | Open |
 | BACKLOG-012 | Implement Python Version | DEMOAPP002 | Future Stack implementation | Future | Open |
@@ -585,7 +584,7 @@ Acceptance criteria:
 ### BACKLOG-027: Configure Serenity/JS reporters to produce living documentation
 
 **Priority:** Medium
-**Status:** Open
+**Status:** Resolved
 **Stack(s):** DEMOAPP001
 **Nature of Gap:** Framework investment unrealised
 
@@ -599,12 +598,16 @@ demonstrating pedagogical content to new Stack authors.
 
 Acceptance criteria:
 
-- [ ] `@serenity-js/serenity-bdd` installed as a dev dependency
-- [ ] `configure.ts` updated: `crew` includes `ArtifactArchiver.storingArtifactsAt('.results/serenity')` and `new SerenityBDDReporter()`
-- [ ] `.results/serenity/` added to `.gitignore`
-- [ ] Orchestration script (`.batch/run-demoapp001.ps1`) updated to invoke the Serenity BDD CLI to generate the HTML report after the test run
-- [ ] `npm test` remains green with reporters active
-- [ ] Stack `docs/README.md` updated with instructions for viewing the report
+- [x] `@serenity-js/serenity-bdd` installed as a dev dependency
+- [x] `configure.ts` updated: `crew` includes `ArtifactArchiver.storingArtifactsAt('.results/serenity')` and the documented `@serenity-js/serenity-bdd` reporter class-description config
+- [x] `.results/serenity/` added to `.gitignore`
+- [x] Orchestration script (`.batch/run-demoapp001.ps1`) updated to invoke the Serenity BDD CLI to generate the HTML report after the test run
+- [x] `npm test` remains green with reporters active
+- [x] Stack `docs/README.md` updated with instructions for viewing the report
+
+Resolution:
+
+- Serenity BDD reporting is active for DEMOAPP001. `npm test` now emits Serenity JSON reports, `.batch/run-demoapp001.ps1` generates `.results/serenity/index.html` after the test run, generated Stack-local `.results/` output is ignored, and the Stack README documents viewing instructions plus the Java runtime prerequisite; no DR required.
 
 ---
 
@@ -752,6 +755,7 @@ Resolution:
 | BACKLOG-031 | Update sprint roadmap to reflect resolved items | All | 2026-05-19 | Sprint roadmap refreshed to remove resolved items, mark completed rows, and show current open work; no DR required |
 | BACKLOG-024 | Make "the missing digit is {int}" step genuinely parameterised | DEMOAPP001 | 2026-05-19 | Missing digit parameter now drives column/block unit-completion fixture setup; feature text unchanged and parity retained; no DR required |
 | BACKLOG-030 | Extract actor name 'Solver' to shared constant across step definitions | DEMOAPP001 | 2026-05-19 | Shared `SOLVER_ACTOR` constant added and step definitions use `actorCalled(SOLVER_ACTOR)`; no DR required |
+| BACKLOG-027 | Configure Serenity/JS reporters to produce living documentation | DEMOAPP001 | 2026-05-19 | Serenity BDD reporter and artifact archiver configured; runner generates HTML living documentation after tests; no DR required |
 
 ---
 
@@ -761,7 +765,7 @@ Resolution:
 |--------|-------|-------|-----------|--------|
 | 2 | 2026-05-14 to 2026-05-27 | Close persistent risks and governance drift | MIG-04, MIG-05, MIG-08, BACKLOG-004 | Completed 2026-05-19 |
 | 3 | 2026-05-28 to 2026-06-10 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Completed 2026-05-19 |
-| 4 | 2026-06-11 to 2026-06-24 | Living documentation, API foundation, and Python Stack start | BACKLOG-027, BACKLOG-009, BACKLOG-020 | Open |
+| 4 | 2026-06-11 to 2026-06-24 | API foundation and Python Stack start | BACKLOG-009, BACKLOG-020 | Open |
 | 5 | 2026-06-25 to 2026-07-08 | API/Web UI and C# Stack start | BACKLOG-018, BACKLOG-021 | Open |
 | 6+ | 2026-07-09 onward | Multi-Stack polish, infrastructure, and future product ideas | BACKLOG-010, BACKLOG-011, BACKLOG-012 through BACKLOG-016 | Open |
 

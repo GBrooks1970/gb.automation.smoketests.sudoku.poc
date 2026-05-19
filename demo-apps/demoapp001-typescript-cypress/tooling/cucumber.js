@@ -4,8 +4,11 @@ module.exports = {
       'tests/screenplay/support/configure.ts',
       'tests/screenplay/step_definitions/**/*.ts',
     ],
-    requireModule: ['ts-node/register', '@serenity-js/cucumber'],
-    format: ['@cucumber/pretty-formatter'],
+    requireModule: ['ts-node/register'],
+    format: ['@serenity-js/cucumber:.results/serenity-listener.ndjson', '@cucumber/pretty-formatter'],
+    formatOptions: {
+      specDirectory: 'tests/features',
+    },
     paths: ['tests/features/**/*.feature'],
     publishQuiet: true,
   }
