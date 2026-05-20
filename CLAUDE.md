@@ -18,7 +18,8 @@ When documents conflict, use this order:
 
 - Reference Architecture: v1.13, accepted 2026-05-18
 - Active Stacks: `DEMOAPP001_TYPESCRIPT_CYPRESS`, `DEMOAPP002_PYTHON_PYTEST`
-- Active surface: `@util` in-process class testing
+- Active test surface: `@util` in-process class testing
+- Active API surface: DEMOAPP001 Express REST API at `app_src/server/index.ts`
 - Canonical feature store: `features-shared/`
 - Stack-local feature copies: `demo-apps/demoapp001-typescript-cypress/tests/features/`, `demo-apps/demoapp002-python-pytest/tests/features/`
 - Screenplay implementations: DEMOAPP001 passing with Serenity/JS + Cucumber.js; DEMOAPP002 passing with pytest-bdd
@@ -40,7 +41,8 @@ gb.automation.smoketests.sudoku.poc/
 |   |   |   |-- SudokuOrchestrator.ts
 |   |   |   |-- SudokuCLI.ts
 |   |   |   |-- PuzzleLoader.ts
-|   |   |   `-- constants.ts
+|   |   |   |-- constants.ts
+|   |   |   `-- server/
 |   |   |-- tests/
 |   |   |   |-- features/
 |   |   |   |   `-- BasicSudokuSolverLogic.feature
@@ -120,6 +122,8 @@ Run DEMOAPP001 commands from `demo-apps/demoapp001-typescript-cypress/`.
 | `npm run lint` | Run ESLint over app source |
 | `npm run format:check` | Check Prettier formatting for app source |
 | `npm test` | Run Cucumber/Serenity Screenplay scenarios |
+| `npm run test:api` | Run REST API integration checks |
+| `npm run start:api` | Start Express REST API on `PORT` or 3000 |
 | `npm start -- --help` | Show CLI options |
 
 Run DEMOAPP002 commands from `demo-apps/demoapp002-python-pytest/`.
@@ -242,7 +246,6 @@ Governed by `DOCS/reference-architecture.md` v1.3 and decisions DR-012 through D
 
 1. No advanced Sudoku techniques such as Naked Pairs, X-Wing, or Swordfish.
 2. No backtracking or trial-and-error solver mode.
-3. No GitHub Actions workflow is currently configured.
 
 ## Common Tasks
 

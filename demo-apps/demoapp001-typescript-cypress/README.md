@@ -212,8 +212,10 @@ Return "SOLVED" or "STUCK_ON_ADVANCED_LOGIC"
 | Command | Description | Use Case |
 |---------|-------------|----------|
 | `npm start` | Run solver with ts-node | Development (fastest) |
+| `npm run start:api` | Run Express REST API with ts-node | API development |
 | `npm run build` | Compile TypeScript to JavaScript | Prepare for production |
 | `npm run run` | Run compiled JavaScript | Production execution |
+| `npm run test:api` | Run REST API integration checks | API validation |
 
 ---
 
@@ -432,19 +434,24 @@ Based on the design documents in `/DOCS`:
 
 ### 2. REST API Wrapper ([rest-api-wrapper.md](../../DOCS/.design/rest-api-wrapper.md))
 
-**Status:** Design complete, implementation pending
+**Status:** Implemented
 
 **Features:**
 - Express.js REST API
 - Individual endpoints for each technique
 - Full solve endpoint
 - JSON request/response with deltas
+- Puzzle list/get endpoints
+- Grid validation endpoint
 
 **Endpoints:**
 - `POST /api/techniques/unit-completion`
 - `POST /api/techniques/hidden-singles`
 - `POST /api/techniques/naked-singles`
 - `POST /api/solve`
+- `GET /api/puzzles`
+- `GET /api/puzzles/:name`
+- `POST /api/validate`
 
 ---
 

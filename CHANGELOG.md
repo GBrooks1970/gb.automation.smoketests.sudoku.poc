@@ -25,6 +25,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
   - Added CLI options: `--help` and `--timeout <ms>` / `--timeout=<ms>`
 
 ### Added
+- BACKLOG-009: DEMOAPP001 Express REST API wrapper:
+  - `npm run start:api` starts the API server on `PORT` or 3000
+  - Technique endpoints for Unit Completion, Hidden Singles, and Naked Singles
+  - `POST /api/solve` returns AuditLogger-backed step/change tracking
+  - Puzzle list/get endpoints and grid validation endpoint
+  - `npm run test:api` integration checks for all API endpoints
 - Phase 2 — Serenity/JS Screenplay Foundation:
   - `@serenity-js/core`, `@serenity-js/cucumber`, `@serenity-js/assertions` v3.43.2 installed
   - `tests/screenplay/` directory structure: `abilities/`, `actors/`, `tasks/`, `questions/`, `support/`, `step_definitions/`

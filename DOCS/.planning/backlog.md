@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-20 (RA-003 CI criterion and sprint roadmap wording reconciled)
+**Last Updated:** 2026-05-20 (BACKLOG-009 resolved — DEMOAPP001 REST API wrapper implemented)
 **Governed by:** `reference-architecture.md` v1.13 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,17 +25,17 @@ Per v1.13 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 9 |
+| Open | 8 |
 | In Progress | 0 |
-| Resolved | 47 |
+| Resolved | 48 |
 | **Total** | **56** |
 
 | Area | Current state |
 |------|---------------|
-| Current execution baseline | DEMOAPP001: 46 scenarios / 257 steps passing; DEMOAPP002: 46 pytest-bdd scenarios passing |
+| Current execution baseline | DEMOAPP001: 46 scenarios / 257 steps passing; DEMOAPP001 REST API integration PASS; DEMOAPP002: 46 pytest-bdd scenarios passing |
 | Active Reference Architecture | v1.13 |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`) |
-| Current sprint focus | API foundation after Python Stack onboarding |
+| Current sprint focus | Web UI solver visualisation after API wrapper completion |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -84,7 +84,7 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 
 | ID | Title | Stack(s) | Nature of Gap | Priority | Status |
 |----|-------|----------|---------------|----------|--------|
-| BACKLOG-009 | Implement REST API Wrapper | DEMOAPP001 future API surface | Feature implementation | Medium | Open |
+| BACKLOG-009 | Implement REST API Wrapper | DEMOAPP001 API surface | Feature implementation | Medium | Resolved |
 | BACKLOG-018 | Implement Web UI Solver Visualisation | DEMOAPP001 future UI surface | Feature implementation | Medium | Open |
 | BACKLOG-021 | C# Screenplay-style Step Definitions | DEMOAPP003 | Future Stack parity | Medium | Open |
 | BACKLOG-010 | Docker Compose for Local Development | All | Local development infrastructure | Low | Open |
@@ -356,21 +356,25 @@ Acceptance criteria:
 ### BACKLOG-009: Implement REST API Wrapper
 
 **Priority:** Medium
-**Status:** Open
-**Stack(s):** DEMOAPP001 future API surface
+**Status:** Resolved
+**Stack(s):** DEMOAPP001 API surface
 **Nature of Gap:** Feature implementation
 
 Design reference: `DOCS/.design/rest-api-wrapper.md`
 
 Acceptance criteria:
 
-- [ ] Express.js server
-- [ ] Technique endpoints for unit-completion, hidden-singles, and naked-singles
-- [ ] Solve endpoint with step tracking using AuditLogger
-- [ ] Puzzle endpoints: list and get by name
-- [ ] Validate endpoint
-- [ ] Request validation and error handling middleware
-- [ ] API tests for all endpoints
+- [x] Express.js server
+- [x] Technique endpoints for unit-completion, hidden-singles, and naked-singles
+- [x] Solve endpoint with step tracking using AuditLogger
+- [x] Puzzle endpoints: list and get by name
+- [x] Validate endpoint
+- [x] Request validation and error handling middleware
+- [x] API tests for all endpoints
+
+Resolution:
+
+- DEMOAPP001 now exposes an Express REST API under `app_src/server/`, started with `npm run start:api`. The API includes all technique endpoints, `POST /api/solve` with `AuditLogger` events/statistics, puzzle list/get endpoints, `POST /api/validate`, CORS headers, structured validation/error middleware, and `npm run test:api` endpoint coverage.
 
 ### BACKLOG-018: Implement Web UI Solver Visualisation
 
@@ -820,6 +824,7 @@ Resolution:
 | BACKLOG-032 | Refactor Python Questions to read from Actor memory | DEMOAPP002 | 2026-05-19 | False positive -- TypeScript GridCell Questions use ability.gridSnapshot directly in the same pattern; no action required. |
 | BACKLOG-033 | Extract side effects from MultipleSolvers.isolation_verified() | DEMOAPP002 | 2026-05-19 | False positive -- TypeScript MultipleSolvers.isolationVerified() has identical mutations by design; no action required. |
 | BACKLOG-034 | Resolve BACKLOG-012 as stale duplicate of BACKLOG-020 | All | 2026-05-19 | BACKLOG-012 closed, resolved items table updated; no DR required. |
+| BACKLOG-009 | Implement REST API Wrapper | DEMOAPP001 | 2026-05-20 | Express API server added with technique, solve, puzzle, validation, request validation/error middleware, and API integration tests; no DR required. |
 
 ---
 
@@ -829,7 +834,7 @@ Resolution:
 |--------|-------|-------|-----------|--------|
 | 2 | 2026-05-14 to 2026-05-27 | Close persistent risks and governance drift | MIG-04, MIG-05, MIG-08, BACKLOG-004 | Completed 2026-05-19 |
 | 3 | 2026-05-28 to 2026-06-10 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Completed 2026-05-19 |
-| 4 | 2026-06-11 to 2026-06-24 | API foundation after Python Stack start | BACKLOG-009 | Open |
+| 4 | 2026-06-11 to 2026-06-24 | API foundation after Python Stack start | BACKLOG-009 | Completed 2026-05-20 |
 | 5 | 2026-06-25 to 2026-07-08 | API/Web UI and C# Stack start | BACKLOG-018, BACKLOG-021 | Open |
 | 6+ | 2026-07-09 onward | Multi-Stack polish, infrastructure, and future product ideas | BACKLOG-010, BACKLOG-011, BACKLOG-013 through BACKLOG-016 | Open |
 

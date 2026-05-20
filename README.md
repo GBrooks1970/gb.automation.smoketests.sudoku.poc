@@ -82,7 +82,7 @@ gb.automation.smoketests.sudoku.poc/
 | Document | Purpose | Status |
 |----------|---------|--------|
 | [audit-trail-feature.md](DOCS/.design/audit-trail-feature.md) | Audit trail logging system | Design complete |
-| [rest-api-wrapper.md](DOCS/.design/rest-api-wrapper.md) | REST API wrapper specification | Design complete |
+| [rest-api-wrapper.md](DOCS/.design/rest-api-wrapper.md) | REST API wrapper specification | Implemented for DEMOAPP001 |
 
 ## Demo Applications
 
@@ -90,7 +90,7 @@ gb.automation.smoketests.sudoku.poc/
 
 **Status:** ✅ Implemented
 
-**Tech Stack:** TypeScript, Node.js, ts-node, Express.js (planned)
+**Tech Stack:** TypeScript, Node.js, ts-node, Express.js
 
 **Quick Start:**
 ```bash
@@ -104,8 +104,8 @@ npm start
 - ✅ CLI interface with grid visualization
 - ✅ JSON-based puzzle loading
 - ✅ Comprehensive test scenarios (Gherkin)
-- 🚧 Audit trail feature (design complete)
-- 🚧 REST API wrapper (design complete)
+- ✅ Audit trail feature
+- ✅ REST API wrapper
 
 See [DEMOAPP001 README](demo-apps/demoapp001-typescript-cypress/README.md) for implementation details.
 
