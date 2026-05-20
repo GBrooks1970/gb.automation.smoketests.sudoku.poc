@@ -138,8 +138,13 @@ class SetupGridState:
         )
 
     @staticmethod
-    def row_column_constraints(_count: int, _row_index: int, _target: int) -> Task:
-        return Task(lambda actor: actor.ability_to(UseSudokuSolver).take_snapshot())
+    def row_column_constraints(count: int, row_index: int, target: int) -> Task:
+        def action(actor: Actor) -> None:
+            ability = actor.ability_to(UseSudokuSolver)
+            grid_fixtures.setup_row_column_constraints(ability.get_solver(), count, row_index, target)
+            ability.take_snapshot()
+
+        return Task(action)
 
     @staticmethod
     def column_missing_digit(col_index: int, target: int) -> Task:
@@ -150,8 +155,13 @@ class SetupGridState:
         )
 
     @staticmethod
-    def column_row_constraints(_count: int, _col_index: int, _target: int) -> Task:
-        return Task(lambda actor: actor.ability_to(UseSudokuSolver).take_snapshot())
+    def column_row_constraints(count: int, col_index: int, target: int) -> Task:
+        def action(actor: Actor) -> None:
+            ability = actor.ability_to(UseSudokuSolver)
+            grid_fixtures.setup_column_row_constraints(ability.get_solver(), count, col_index, target)
+            ability.take_snapshot()
+
+        return Task(action)
 
     @staticmethod
     def block_four_empties() -> Task:

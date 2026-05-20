@@ -54,9 +54,11 @@ export const SetupGridState = {
       GridFixtures.setupRowMissingDigit(UseSudokuSolver.as(actor).getSolver(), rowIndex, target);
     }),
 
-  rowColumnConstraints: (_count: number, _rowIndex: number, _target: number) =>
-    Interaction.where('#actor confirms row-column constraints (context)', async actor => {
-      UseSudokuSolver.as(actor).takeSnapshot();
+  rowColumnConstraints: (count: number, rowIndex: number, target: number) =>
+    Interaction.where('#actor sets up row-column constraints', async actor => {
+      const ability = UseSudokuSolver.as(actor);
+      GridFixtures.setupRowColumnConstraints(ability.getSolver(), count, rowIndex, target);
+      ability.takeSnapshot();
     }),
 
   columnMissingDigit: (colIndex: number, target: number) =>
@@ -67,9 +69,11 @@ export const SetupGridState = {
       }
     ),
 
-  columnRowConstraints: (_count: number, _colIndex: number, _target: number) =>
-    Interaction.where('#actor confirms column-row constraints (context)', async actor => {
-      UseSudokuSolver.as(actor).takeSnapshot();
+  columnRowConstraints: (count: number, colIndex: number, target: number) =>
+    Interaction.where('#actor sets up column-row constraints', async actor => {
+      const ability = UseSudokuSolver.as(actor);
+      GridFixtures.setupColumnRowConstraints(ability.getSolver(), count, colIndex, target);
+      ability.takeSnapshot();
     }),
 
   blockFourEmpties: () =>

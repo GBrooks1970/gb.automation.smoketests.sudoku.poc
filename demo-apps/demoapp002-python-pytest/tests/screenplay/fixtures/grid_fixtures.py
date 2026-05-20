@@ -54,6 +54,38 @@ def setup_column_missing_digit(solver: SudokuSolver, col_index: int, target: int
             index += 1
 
 
+def setup_row_column_constraints(solver: SudokuSolver, count: int, row_index: int, target: int) -> None:
+    candidate_col = 4
+    used_rows: set[int] = set()
+    blocked = 0
+    for col in range(GRID_SIZE):
+        if blocked >= count:
+            break
+        if col == candidate_col:
+            continue
+
+        row = _blocking_row(col, row_index, candidate_col, used_rows)
+        solver.grid[row][col] = target
+        used_rows.add(row)
+        blocked += 1
+
+
+def setup_column_row_constraints(solver: SudokuSolver, count: int, col_index: int, target: int) -> None:
+    candidate_row = 4
+    used_cols: set[int] = set()
+    blocked = 0
+    for row in range(GRID_SIZE):
+        if blocked >= count:
+            break
+        if row == candidate_row:
+            continue
+
+        col = _blocking_col(row, candidate_row, col_index, used_cols)
+        solver.grid[row][col] = target
+        used_cols.add(col)
+        blocked += 1
+
+
 def setup_block_four_empties(solver: SudokuSolver) -> None:
     solver.grid[0][0] = 1
     solver.grid[1][0] = 2
@@ -165,3 +197,27 @@ def add_values_to_block(
 
 def create_solvers_from_puzzles(count: int, puzzles: list[Puzzle]) -> list[SudokuSolver]:
     return [SudokuSolver(puzzle.name, puzzle.grid) for puzzle in puzzles[:count]]
+
+
+def _blocking_row(col: int, candidate_row: int, candidate_col: int, used_rows: set[int]) -> int:
+    candidate_block_row = candidate_row // BLOCK_SIZE
+    candidate_block_col = candidate_col // BLOCK_SIZE
+    col_shares_candidate_block = col // BLOCK_SIZE == candidate_block_col
+    allowed_rows = [
+        row
+        for row in range(GRID_SIZE)
+        if row != candidate_row and (not col_shares_candidate_block or row // BLOCK_SIZE != candidate_block_row)
+    ]
+    return next((row for row in allowed_rows if row not in used_rows), allowed_rows[0])
+
+
+def _blocking_col(row: int, candidate_row: int, candidate_col: int, used_cols: set[int]) -> int:
+    candidate_block_row = candidate_row // BLOCK_SIZE
+    candidate_block_col = candidate_col // BLOCK_SIZE
+    row_shares_candidate_block = row // BLOCK_SIZE == candidate_block_row
+    allowed_cols = [
+        col
+        for col in range(GRID_SIZE)
+        if col != candidate_col and (not row_shares_candidate_block or col // BLOCK_SIZE != candidate_block_col)
+    ]
+    return next((col for col in allowed_cols if col not in used_cols), allowed_cols[0])
