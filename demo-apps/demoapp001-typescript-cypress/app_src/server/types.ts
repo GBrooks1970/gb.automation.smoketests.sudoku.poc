@@ -99,3 +99,34 @@ export interface ErrorResponse {
   details?: unknown;
   requestId?: string;
 }
+
+export interface SolveStep {
+  stepNumber: number;
+  iteration: number;
+  algorithm: 'UnitCompletion' | 'HiddenSingles' | 'NakedSingles';
+  algorithmParam?: number;
+  cell: { row: number; col: number };
+  oldValue: number;
+  newValue: number;
+}
+
+export interface VisualiseStatistics {
+  totalSteps: number;
+  totalIterations: number;
+  stepsByAlgorithm: {
+    unitCompletion: number;
+    hiddenSingles: number;
+    nakedSingles: number;
+  };
+}
+
+export interface VisualiseResult {
+  puzzleName: string;
+  difficulty: string;
+  description: string;
+  status: SolverStatus;
+  initialGrid: Grid;
+  finalGrid: Grid;
+  steps: SolveStep[];
+  statistics: VisualiseStatistics;
+}

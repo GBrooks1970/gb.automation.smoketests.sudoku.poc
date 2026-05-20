@@ -6,6 +6,7 @@
   "scripts": {
     "start": "ts-node app_src/index.ts",
     "start:api": "ts-node app_src/server/index.ts",
+    "start:web": "ts-node app_src/server/index.ts",
     "build": "tsc",
     "run": "node dist/index.js",
     "lint": "eslint app_src/**/*.ts",

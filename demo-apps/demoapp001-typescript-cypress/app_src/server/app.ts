@@ -1,14 +1,20 @@
 import express, { NextFunction, Request, RequestHandler, Response } from 'express';
+import path from 'path';
 import { ApiError } from './errors';
+import { SolveStepTracker } from './SolveStepTracker';
 import { SudokuApiService } from './SudokuApiService';
 import { ErrorResponse } from './types';
 import { parseGridRequest, parseHiddenSinglesRequest, parseSolveRequest } from './validation';
 
-export function createApp(service: SudokuApiService = new SudokuApiService()): express.Express {
+export function createApp(
+  service: SudokuApiService = new SudokuApiService(),
+  tracker: SolveStepTracker = new SolveStepTracker()
+): express.Express {
   const app = express();
 
   app.use(corsHeaders);
   app.use(express.json({ limit: '100kb' }));
+  app.use(express.static(path.join(__dirname, 'public')));
 
   app.get('/health', (_req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
@@ -65,6 +71,13 @@ export function createApp(service: SudokuApiService = new SudokuApiService()): e
     '/api/puzzles/:name',
     route((req, res) => {
       res.json(service.getPuzzleByName(firstParam(req.params.name)));
+    })
+  );
+
+  app.get(
+    '/api/visualise/:name',
+    route((req, res) => {
+      res.json(tracker.trackSolve(decodeURIComponent(firstParam(req.params.name))));
     })
   );
 
