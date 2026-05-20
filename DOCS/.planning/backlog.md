@@ -1,8 +1,8 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-20 (DR-029 review output location migrated to `DOCS/.review/`)
-**Governed by:** `reference-architecture.md` v1.14 Section 10.1
+**Last Updated:** 2026-05-20 (BACKLOG-018 Web UI Solver Visualisation resolved)
+**Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
 **Status:** Active Development
@@ -25,17 +25,17 @@ Per v1.14 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 8 |
+| Open | 7 |
 | In Progress | 0 |
-| Resolved | 48 |
+| Resolved | 49 |
 | **Total** | **56** |
 
 | Area | Current state |
 |------|---------------|
 | Current execution baseline | DEMOAPP001: 46 scenarios / 257 steps passing; DEMOAPP001 REST API integration PASS; DEMOAPP002: 46 pytest-bdd scenarios passing |
-| Active Reference Architecture | v1.14 |
+| Active Reference Architecture | v1.15 |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`) |
-| Current sprint focus | Web UI solver visualisation after API wrapper completion |
+| Current sprint focus | C# Stack start (BACKLOG-021) after Web UI completion |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -85,7 +85,7 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | ID | Title | Stack(s) | Nature of Gap | Priority | Status |
 |----|-------|----------|---------------|----------|--------|
 | BACKLOG-009 | Implement REST API Wrapper | DEMOAPP001 API surface | Feature implementation | Medium | Resolved |
-| BACKLOG-018 | Implement Web UI Solver Visualisation | DEMOAPP001 future UI surface | Feature implementation | Medium | Open |
+| BACKLOG-018 | Implement Web UI Solver Visualisation | DEMOAPP001 future UI surface | Feature implementation | Medium | Resolved |
 | BACKLOG-021 | C# Screenplay-style Step Definitions | DEMOAPP003 | Future Stack parity | Medium | Open |
 | BACKLOG-010 | Docker Compose for Local Development | All | Local development infrastructure | Low | Open |
 | BACKLOG-011 | Performance Benchmarking Suite | All | Performance regression detection | Low | Open |
@@ -379,7 +379,7 @@ Resolution:
 ### BACKLOG-018: Implement Web UI Solver Visualisation
 
 **Priority:** Medium
-**Status:** Open
+**Status:** Resolved
 **Stack(s):** DEMOAPP001 future UI surface
 **Nature of Gap:** Feature implementation
 
@@ -387,12 +387,16 @@ Design reference: `DOCS/.design/web-ui-solver-visualisation.md`
 
 Acceptance criteria:
 
-- [ ] `SolveStepTracker` adapter over `AuditLogger`
-- [ ] HTML grid display with algorithm color coding
-- [ ] Step-by-step playback controls
-- [ ] Event log panel with current step highlighting
-- [ ] Statistics panel
-- [ ] Served from the REST API Express server
+- [x] `SolveStepTracker` adapter over `AuditLogger`
+- [x] HTML grid display with algorithm color coding
+- [x] Step-by-step playback controls
+- [x] Event log panel with current step highlighting
+- [x] Statistics panel
+- [x] Served from the REST API Express server
+
+Resolution:
+
+- `SolveStepTracker` wraps `SudokuOrchestrator` + `AuditLogger`, flattening `AuditEvent[]` into a `SolveStep[]` with per-cell `stepNumber`, `iteration`, `algorithm`, and `algorithmParam`. New `GET /api/visualise/:name` endpoint returns `VisualiseResult` (initialGrid, finalGrid, steps, statistics). Static files served from `app_src/server/public/` via `express.static`. Vanilla ES-module frontend: `grid.js` renders the 9×9 grid with algorithm colour-coding and a pulsing highlight on the current cell; `player.js` manages step-index state, play/pause interval, and speed control; `app.js` orchestrates puzzle selection, API calls, the scrollable click-to-jump event log, and live statistics percentage bars. `npm run start:web` starts the combined server. 46/46 Screenplay scenarios remain green.
 
 ### BACKLOG-020: Python Screenplay-style Step Definitions
 
@@ -825,6 +829,7 @@ Resolution:
 | BACKLOG-033 | Extract side effects from MultipleSolvers.isolation_verified() | DEMOAPP002 | 2026-05-19 | False positive -- TypeScript MultipleSolvers.isolationVerified() has identical mutations by design; no action required. |
 | BACKLOG-034 | Resolve BACKLOG-012 as stale duplicate of BACKLOG-020 | All | 2026-05-19 | BACKLOG-012 closed, resolved items table updated; no DR required. |
 | BACKLOG-009 | Implement REST API Wrapper | DEMOAPP001 | 2026-05-20 | Express API server added with technique, solve, puzzle, validation, request validation/error middleware, and API integration tests; no DR required. |
+| BACKLOG-018 | Implement Web UI Solver Visualisation | DEMOAPP001 | 2026-05-20 | SolveStepTracker adapter, GET /api/visualise/:name endpoint, and vanilla ES-module frontend (grid, player, event log, statistics) served from existing Express server; no DR required. |
 
 ---
 
@@ -835,7 +840,7 @@ Resolution:
 | 2 | 2026-05-14 to 2026-05-27 | Close persistent risks and governance drift | MIG-04, MIG-05, MIG-08, BACKLOG-004 | Completed 2026-05-19 |
 | 3 | 2026-05-28 to 2026-06-10 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Completed 2026-05-19 |
 | 4 | 2026-06-11 to 2026-06-24 | API foundation after Python Stack start | BACKLOG-009 | Completed 2026-05-20 |
-| 5 | 2026-06-25 to 2026-07-08 | API/Web UI and C# Stack start | BACKLOG-018, BACKLOG-021 | Open |
+| 5 | 2026-06-25 to 2026-07-08 | API/Web UI and C# Stack start | BACKLOG-018 (completed 2026-05-20), BACKLOG-021 | In Progress |
 | 6+ | 2026-07-09 onward | Multi-Stack polish, infrastructure, and future product ideas | BACKLOG-010, BACKLOG-011, BACKLOG-013 through BACKLOG-016 | Open |
 
 ---
