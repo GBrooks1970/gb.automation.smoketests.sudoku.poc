@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-19 (BACKLOG-032, 033 closed as false positives; BACKLOG-034 actioned — review corrections complete)
+**Last Updated:** 2026-05-20 (RA-003 CI criterion and sprint roadmap wording reconciled)
 **Governed by:** `reference-architecture.md` v1.13 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -148,14 +148,14 @@ Acceptance criteria:
 **Severity:** High (review Risk 3)
 **Nature of Gap:** Section 8.1 mandates identical Memory key constants across Stacks but provides no automated verification mechanism — manual checklist only, insufficient for multi-Stack projects
 **Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 3
-**Resolution:** DR-023 — RA v1.6 adds "Automated enforcement" subsection to Section 8.1 (multi-Stack MUST provide checker, single-Stack MAY use checklist). Appendix A updated with `memory-key-check.template.md`. Template created at `DOCS/.templates/memory-key-check.template.md`. Script created at `.batch/check-memory-key-parity.ps1`. DEMOAPP001 passes: all 6 constants verified OK. CI gate depends on BACKLOG-004 (GitHub Actions).
+**Resolution:** DR-023 — RA v1.6 adds "Automated enforcement" subsection to Section 8.1 (multi-Stack MUST provide checker, single-Stack MAY use checklist). Appendix A updated with `memory-key-check.template.md`. Template created at `DOCS/.templates/memory-key-check.template.md`. Script created at `.batch/check-memory-key-parity.ps1`. DEMOAPP001 and DEMOAPP002 pass: all 6 constants verified OK per Stack. The GitHub Actions CI workflow runs the memory-key parity gate.
 
 Acceptance criteria:
 
 - [x] Section 8.1 updated: normative requirement for an automated memory-key checker in multi-Stack projects
 - [x] Appendix A updated: `memory-key-check.template.md` added (script or CI step template)
 - [x] Project implementation: `.batch/check-memory-key-parity.ps1` created for DEMOAPP001 baseline
-- [ ] CI gate: memory key checker integrated into CI pipeline (depends on RA-002 and BACKLOG-004 — not yet implemented)
+- [x] CI gate: memory key checker integrated into CI pipeline
 - [x] RA version bumped and a DR entry created
 
 ---
@@ -831,7 +831,7 @@ Resolution:
 | 3 | 2026-05-28 to 2026-06-10 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Completed 2026-05-19 |
 | 4 | 2026-06-11 to 2026-06-24 | API foundation after Python Stack start | BACKLOG-009 | Open |
 | 5 | 2026-06-25 to 2026-07-08 | API/Web UI and C# Stack start | BACKLOG-018, BACKLOG-021 | Open |
-| 6+ | 2026-07-09 onward | Multi-Stack polish, infrastructure, and future product ideas | BACKLOG-010, BACKLOG-011, BACKLOG-012 through BACKLOG-016 | Open |
+| 6+ | 2026-07-09 onward | Multi-Stack polish, infrastructure, and future product ideas | BACKLOG-010, BACKLOG-011, BACKLOG-013 through BACKLOG-016 | Open |
 
 ---
 
