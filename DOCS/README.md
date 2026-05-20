@@ -13,7 +13,7 @@
 ```
 DOCS/
 ├── README.md                               <- This file (master index)
-├── reference-architecture.md              <- Screenplay-BDD Reference Architecture v1.14
+├── reference-architecture.md              <- Screenplay-BDD Reference Architecture v1.15
 │
 ├── .analysis/                              <- Analysis and report-style documents
 │   ├── README.md

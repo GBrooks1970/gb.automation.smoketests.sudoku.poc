@@ -12,11 +12,11 @@ When documents conflict, use this order:
 4. Stack-level docs under `demo-apps/demoapp001-typescript-cypress/docs/`
 5. This guide
 
-`decision-register.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-030.
+`decision-register.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-031.
 
 ## Current Architecture Baseline
 
-- Reference Architecture: v1.14, accepted 2026-05-20
+- Reference Architecture: v1.15, accepted 2026-05-20
 - Active Stacks: `DEMOAPP001_TYPESCRIPT_CYPRESS`, `DEMOAPP002_PYTHON_PYTEST`
 - Active test surface: `@util` in-process class testing
 - Active API surface: DEMOAPP001 Express REST API at `app_src/server/index.ts`
@@ -201,7 +201,7 @@ Screenplay contract is fully implemented: all six Memory key constants are runti
 
 ## Parity Rules Summary
 
-Governed by `DOCS/reference-architecture.md` v1.14 and decisions DR-012 through DR-030.
+Governed by `DOCS/reference-architecture.md` v1.15 and decisions DR-012 through DR-031.
 
 | Rule | Current instruction |
 |------|---------------------|

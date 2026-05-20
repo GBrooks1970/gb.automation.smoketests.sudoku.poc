@@ -1671,6 +1671,63 @@ Future analysis and report-style documents MUST be created under `DOCS/.analysis
 
 ---
 
+## DR-031 — Align Reference Architecture Section 4 blueprint with current project layout
+
+**Date:** 2026-05-20
+**Status:** Accepted — 2026-05-20
+
+### Context
+
+Reference Architecture v1.14 Section 4 directory blueprint contained several mismatches with the current project layout:
+
+1. DOCS subdirectories were shown with plain names (`algorithm/`, `architecture/`, `design/`, `planning/`, `implementation-logs/`, `review/`, `templates/`) rather than the dot-prefixed names established by DR-001 and DR-019.
+2. The Stack directory pattern showed `[STACK_NAME]/` at repository root, not the `demo-apps/[stack-dir]/` Stack group pattern in use.
+3. `step_definitions/` was shown beside `screenplay/`, not inside it as the Screenplay Parity Contract and actual implementation place it.
+4. The API integration test folder `tests/api/` was absent from the blueprint.
+5. `DOCS/.analysis/` (added by DR-030) was absent from the blueprint.
+6. All RA-internal path references outside Section 4 (Sections 5, 8, and 10) used the plain-name DOCS subdirectory form, mismatching the dot-prefixed convention.
+7. An empty untracked `DOCS/implementation-logs/` directory (plain name) existed locally, conflicting with DR-019.
+
+### Decision
+
+1. Bump Reference Architecture version from v1.14 to v1.15.
+2. Rewrite Section 4 blueprint to reflect the current project layout:
+   - Stack group shown as `[stack-group-dir]/[stack-dir]/` with an OPTIONAL annotation referencing Section 4.3.
+   - DOCS subdirectories updated to dot-prefixed form matching DR-001/DR-019: `.algorithm/`, `.analysis/`, `.architecture/`, `.design/`, `.howto/`, `.implementation-logs/`, `.planning/`, `.review/`, `.templates/`.
+   - `tests/api/` shown as an OPTIONAL subfolder of `[test-src]/`.
+   - `step_definitions/` shown inside `screenplay/`, consistent with the Screenplay Parity Contract and actual DEMOAPP001/DEMOAPP002 structure.
+   - `fixtures/` shown inside `screenplay/` as OPTIONAL.
+3. Update all RA-internal path references outside Section 4 to use the dot-prefixed form.
+4. Remove the empty untracked `DOCS/implementation-logs/` directory locally.
+
+### Consequences
+
+**Outcomes:**
+- Section 4 blueprint now accurately describes the current project layout; agents reading the RA derive correct paths on first read.
+- All normative path references in the RA use dot-prefixed DOCS subdirectory names, consistent with DR-001 and DR-019.
+- The empty plain-name directory is removed, eliminating a potential naming-convention violation.
+
+**Trade-offs:**
+- Projects adopting this RA whose DOCS subdirectories use plain names must adjust path references in their own implementations. The Section 4 note on illustrative directory names continues to apply: structural roles are REQUIRED, exact names are convention-governed.
+
+**Compliance note:**
+- Changing normative path guidance in the RA is a structural rule change requiring a DR entry per RA §10.6.
+
+### Alternatives Considered
+
+**Alternative: Keep plain-name DOCS paths in RA, add a cross-reference note**
+- Description: Leave the blueprint unchanged and add a note in Section 4 pointing to the dot-prefixed DOCS subdirectory convention.
+- Rejected because: The RA would contain paths that no project using this convention actually uses; agents reading the RA would produce non-compliant paths.
+
+### Related Decisions
+
+- DR-001 — Dot-prefix convention for DOCS subdirectories.
+- DR-019 — Dot-prefix convention extended to all DOCS type-specific directories.
+- DR-029 — Review outputs under `DOCS/.review/`.
+- DR-030 — Analysis documents under `DOCS/.analysis/`.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -1689,5 +1746,5 @@ Future analysis and report-style documents MUST be created under `DOCS/.analysis
 
 ---
 
-*Last entry: DR-030. Next ID: DR-031.*
+*Last entry: DR-031. Next ID: DR-032.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

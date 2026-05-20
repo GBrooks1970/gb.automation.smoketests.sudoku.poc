@@ -1,6 +1,6 @@
 # Screenplay-BDD Test Automation — Agnostic Reference Architecture
 
-**Version:** 1.14
+**Version:** 1.15
 **Status:** Accepted
 **Date:** 2026-05-20
 **Applies to:** Any project adopting the Screenplay-BDD structure described herein
@@ -224,7 +224,7 @@ Step Definition
 
 The following structure is the REQUIRED layout for any repository adopting this architecture. Names in `UPPER_CASE` are fixed roles; names in `lower_case_italic` are illustrative and MAY vary by project.
 
-> **Note on illustrative directory names:** Directory names shown in this blueprint (e.g. `features-shared/`, `demo-apps/`) are illustrative defaults using kebab-case. Projects MUST document their chosen directory names in `DOCS/design/naming-conventions.md`. The names used in the blueprint do not override project-level naming decisions; the structural roles they represent are what is REQUIRED.
+> **Note on illustrative directory names:** Directory names shown in this blueprint (e.g. `features-shared/`, `demo-apps/`) are illustrative defaults using kebab-case. Projects MUST document their chosen directory names in `DOCS/.design/naming-conventions.md`. The names used in the blueprint do not override project-level naming decisions; the structural roles they represent are what is REQUIRED.
 
 ```
 repository-root/
@@ -237,20 +237,23 @@ repository-root/
 │       └── [feature-group]/
 │           └── *.feature
 │
-├── [STACK_NAME]/                     # One directory per Stack (repeated per Stack)
-│   ├── [subject-app-src]/            # Subject application source (if co-located)
-│   ├── [test-src]/                   # Test source: features, steps, screenplay
-│   │   ├── features/                 # Local copy of canonical features + stack tags
-│   │   ├── step_definitions/         # Step definitions (language-specific, thin)
-│   │   └── screenplay/               # Screenplay components
-│   │       ├── abilities/
-│   │       ├── actors/
-│   │       ├── tasks/
-│   │       ├── questions/
-│   │       └── support/              # Memory keys, world/context setup
-│   ├── tooling/                      # Test runner config, reporters, helpers
-│   ├── docs/                         # Stack-level documentation (Section 10.2)
-│   └── [build/config files]          # Language-specific config: package, project, toml, etc.
+├── [stack-group-dir]/                # OPTIONAL group directory for all Stacks (Section 4.3)
+│   └── [stack-dir]/                  # One directory per Stack (repeated per Stack)
+│       ├── [subject-app-src]/        # Subject application source (if co-located)
+│       ├── [test-src]/               # Test source root
+│       │   ├── features/             # Local copy of canonical features + stack tags
+│       │   ├── api/                  # API integration tests (OPTIONAL; API-surface Stacks)
+│       │   └── screenplay/           # Screenplay components and step definitions
+│       │       ├── abilities/
+│       │       ├── actors/
+│       │       ├── fixtures/         # Test data helpers (OPTIONAL)
+│       │       ├── tasks/
+│       │       ├── questions/
+│       │       ├── step_definitions/ # Step definitions (language-specific, thin)
+│       │       └── support/          # Memory keys, world/context setup
+│       ├── tooling/                  # Test runner config, reporters, helpers
+│       ├── docs/                     # Stack-level documentation (Section 10.2)
+│       └── [build/config files]      # Language-specific config: package, project, toml, etc.
 │
 ├── packages/                         # Shared code packages (OPTIONAL)
 │   └── [shared-package]/             # Code shared between Stacks (e.g. shared utilities)
@@ -259,15 +262,17 @@ repository-root/
 │   └── [runners, builders, helpers]
 │
 ├── DOCS/                             # Project-wide documentation (Section 10)
-│   ├── algorithm/                    # Algorithm specifications (one file per algorithm)
-│   ├── architecture/                 # Cross-cutting architectural specifications
-│   ├── design/                       # Design standards and conventions
+│   ├── .algorithm/                   # Algorithm specifications (one file per algorithm)
+│   ├── .analysis/                    # Analysis and report-style documents (DR-030)
+│   ├── .architecture/                # Cross-cutting architectural specifications
+│   ├── .design/                      # Design standards and conventions
 │   │   └── naming-conventions.md     # REQUIRED (Section 10.9)
-│   ├── planning/                     # Backlog, roadmap, work tracking
+│   ├── .howto/                       # How-to guides and runbooks
+│   ├── .implementation-logs/         # Development session logs (Section 10.8)
+│   ├── .planning/                    # Backlog, roadmap, work tracking
 │   │   └── backlog.md                # REQUIRED (Section 10.1)
-│   ├── implementation-logs/          # Development session logs (Section 10.8)
-│   ├── review/                       # Code review outputs (Section 10.7)
-│   └── templates/                    # MANDATORY document templates (Section 10.5)
+│   ├── .review/                      # Code review outputs (Section 10.7)
+│   └── .templates/                   # MANDATORY document templates (Section 10.5)
 │
 ├── .results/                         # Test execution output (gitignored or archived)
 │   └── .metrics/                     # Structured metrics files (Section 9.2)
@@ -298,9 +303,9 @@ The Canonical Feature Store contains only `.feature` files and MUST be readable 
 
 ### 4.3 Optional Stack Group Directory
 
-A project MAY place Stack directories under one project-specific Stack group directory when the grouping is documented in `DOCS/design/naming-conventions.md`. The group directory does not change the canonical Stack name. For example, `_API_TESTING_GHERKIN_/DEMOAPP001_TYPESCRIPT_CYPRESS/` still has the Stack name `DEMOAPP001_TYPESCRIPT_CYPRESS`.
+A project MAY place Stack directories under one project-specific Stack group directory when the grouping is documented in `DOCS/.design/naming-conventions.md`. The group directory does not change the canonical Stack name. For example, `_API_TESTING_GHERKIN_/DEMOAPP001_TYPESCRIPT_CYPRESS/` still has the Stack name `DEMOAPP001_TYPESCRIPT_CYPRESS`.
 
-> **Note on Stack directory names:** The Stack directory name (e.g. `demoapp001-typescript-cypress/`) is a filesystem representation chosen by the project and documented in `DOCS/design/naming-conventions.md`. It is distinct from the canonical Stack name (`DEMOAPP001_TYPESCRIPT_CYPRESS`). Projects MUST document the mapping between directory names and canonical Stack names.
+> **Note on Stack directory names:** The Stack directory name (e.g. `demoapp001-typescript-cypress/`) is a filesystem representation chosen by the project and documented in `DOCS/.design/naming-conventions.md`. It is distinct from the canonical Stack name (`DEMOAPP001_TYPESCRIPT_CYPRESS`). Projects MUST document the mapping between directory names and canonical Stack names.
 
 ### 4.4 Shared Packages Directory
 
@@ -346,7 +351,7 @@ When a feature file in `features-shared/` is created or updated, the change MUST
 1. Update or create the feature file in `features-shared/` with the required canonical scope tag
 2. Copy the updated file to the corresponding path in each Stack's `features/` directory
 3. Add Stack-specific or lifecycle tags to the local copy only
-4. Update `DOCS/planning/backlog.md` if any Stack cannot yet implement the new scenario (see Section 10.1)
+4. Update `DOCS/.planning/backlog.md` if any Stack cannot yet implement the new scenario (see Section 10.1)
 5. Record the decision in `decision-register.md` if the change represents a structural choice (see Section 10.6)
 
 ### 5.3 Tag Taxonomy
@@ -408,7 +413,7 @@ When a breaking change to a canonical feature file is proposed, the following MU
 
 1. All Stacks with an active implementation MUST have their step definitions updated or the affected scenarios tagged `@pending` locally.
 2. A `decision-register.md` entry MUST be created if the change represents a structural decision (e.g. removing a scenario permanently, renaming a step category).
-3. A `DOCS/planning/backlog.md` item MUST be created for every Stack that cannot implement the change immediately, with status `Open`.
+3. A `DOCS/.planning/backlog.md` item MUST be created for every Stack that cannot implement the change immediately, with status `Open`.
 4. The parity report (`.batch/generate-feature-parity-report.ps1`) MUST pass before the change is merged.
 
 **`@pending` resolution deadline:**
@@ -433,7 +438,7 @@ Test data is any fixture, seed, configuration file, or in-memory value required 
 |----------------|-------------------|
 | Used by a single Stack only | Stack's own directory (e.g. `demo-apps/demoapp001-typescript-cypress/`) |
 | Used by two or more Stacks | `packages/` or a dedicated `data/` directory at the repository root |
-| Shared test data path | MUST be documented in `DOCS/architecture/subject-app-contract.md` |
+| Shared test data path | MUST be documented in `DOCS/.architecture/subject-app-contract.md` |
 
 **Inline literal prohibition:**
 
@@ -656,7 +661,7 @@ This project currently has one active Stack (DEMOAPP001). The automated checker 
 
 Step definitions MUST be parameterised (see Section 5.4). The Gherkin text of each step MUST be identical across all Stacks. Only the implementation body differs.
 
-A Stack MUST NOT add or remove Gherkin steps relative to the canonical feature files. If a step cannot be implemented in a Stack's language or framework, that gap MUST be recorded in `DOCS/planning/backlog.md` and the scenario tagged `@pending` locally.
+A Stack MUST NOT add or remove Gherkin steps relative to the canonical feature files. If a step cannot be implemented in a Stack's language or framework, that gap MUST be recorded in `DOCS/.planning/backlog.md` and the scenario tagged `@pending` locally.
 
 ### 8.3 Screenplay Component Signatures
 
@@ -679,8 +684,8 @@ A Stack is considered in parity when all five criteria in the table below are sa
 | 1 | All scenarios in the canonical feature files are present in the Stack's local `features/` directory | Feature parity report script (`.batch/generate-feature-parity-report.ps1`) | MUST be automated |
 | 2 | All Memory key constants match the canonical values exactly | Memory key parity checker (`.batch/check-memory-key-parity.ps1`) | MUST be automated |
 | 3 | All step definition Gherkin text matches the canonical text exactly | Automated diff of step text against canonical feature file (parity report extension or dedicated script) | MUST be automated |
-| 4 | All Screenplay component signatures match the parity contract document | Manual review against `DOCS/architecture/screenplay-parity-contract.md`; automated tooling is future work | Manual (automated in future) |
-| 5 | No item in `DOCS/planning/backlog.md` is marked as an unacknowledged parity gap for this Stack | Automated backlog scan or manual review of open items | Manual |
+| 4 | All Screenplay component signatures match the parity contract document | Manual review against `DOCS/.architecture/screenplay-parity-contract.md`; automated tooling is future work | Manual (automated in future) |
+| 5 | No item in `DOCS/.planning/backlog.md` is marked as an unacknowledged parity gap for this Stack | Automated backlog scan or manual review of open items | Manual |
 
 **Normative automation requirement:**
 
@@ -827,16 +832,16 @@ Document names fall into two categories: **FIXED** names that are locked by ecos
 |---|---|---|---|---|
 | `README.md` | FIXED | repository root | `templates/readme.template.md` | Project purpose, prerequisites, quick-start per Stack, links to all other docs |
 | `CHANGELOG.md` | FIXED | repository root | `templates/changelog.template.md` | Version history, notable changes, known issues |
-| Backlog document | convention-governed | `DOCS/planning/` (or project equivalent) | `templates/backlog.template.md` | Outstanding and future work required to keep all Stacks in parity. Each item MUST identify: affected Stack(s), nature of the gap, and priority |
+| Backlog document | convention-governed | `DOCS/.planning/` (or project equivalent) | `templates/backlog.template.md` | Outstanding and future work required to keep all Stacks in parity. Each item MUST identify: affected Stack(s), nature of the gap, and priority |
 | Decision register | convention-governed | repository root | `templates/decision-record.template.md` | Structural and process decisions (see Section 10.6) |
 
 **FIXED names** (`README.md`, `CHANGELOG.md`) MUST NOT be renamed. They are recognized by GitHub, npm, and other tooling.
 
 **Convention-governed names** MUST follow the project's `naming-conventions.md` document. The illustrative names used throughout this RA (e.g. `decision-register.md`, `backlog.md`) use kebab-case, which is the RA's recommended default. Projects that adopt a different convention MUST document the exact filenames in `naming-conventions.md`.
 
-**`DOCS/planning/backlog.md` — additional rules:**
+**`DOCS/.planning/backlog.md` — additional rules:**
 
-- If a gap between Stacks exists and is not listed in `DOCS/planning/backlog.md`, it is a defect, not a decision
+- If a gap between Stacks exists and is not listed in `DOCS/.planning/backlog.md`, it is a defect, not a decision
 - Backlog items that resolve into a structural choice MUST produce a `decision-register.md` entry before the work is closed
 - Items MUST carry one of three statuses: `Open`, `In Progress`, `Resolved`
 - `Resolved` items MUST NOT be deleted — they MUST be retained as a record that the gap existed
@@ -858,7 +863,7 @@ The illustrative names shown above use kebab-case (the RA's recommended default 
 
 ### 10.3 Architecture Documents
 
-The following cross-cutting specification documents MUST exist under `DOCS/architecture/`. Each is governed by its named template.
+The following cross-cutting specification documents MUST exist under `DOCS/.architecture/`. Each is governed by its named template.
 
 | Document | Purpose |
 |---|---|
@@ -881,7 +886,7 @@ The file MUST include:
 
 ### 10.5 Template Mandate
 
-Every document category defined in Sections 10.1 through 10.9 MUST have a corresponding template file stored under `DOCS/templates/`.
+Every document category defined in Sections 10.1 through 10.9 MUST have a corresponding template file stored under `DOCS/.templates/`.
 
 **Template requirements:**
 - MUST define all required headings
@@ -910,7 +915,7 @@ An Agent or developer creating any document without a corresponding template fir
 - Decisions MUST be immutable once `Accepted` — they MAY only be `Superseded` by a newer entry that references the original by ID
 - A `Superseded` entry MUST contain a forward reference to its replacement
 - The replacement entry MUST contain a back reference to the entry it supersedes
-- `DOCS/planning/backlog.md` items that resolve into a structural choice MUST produce a Decision Register entry before the work item is marked `Resolved`
+- `DOCS/.planning/backlog.md` items that resolve into a structural choice MUST produce a Decision Register entry before the work item is marked `Resolved`
 - The AI Agent Instruction File (Section 10.4) MUST reference `decision-register.md` as the authoritative source for any rule it restates
 
 **Entry identification:**
@@ -921,7 +926,7 @@ Each entry MUST have a unique, sequential identifier in the format `DR-[NNN]` (e
 
 A `review/` directory MUST exist under `DOCS/`. It holds the outputs of comprehensive assessments of the project and its related test automation codebases. These outputs are first-class project artefacts, not disposable scratch notes.
 
-Projects MAY apply their documented naming convention to this directory. For example, a project using dot-prefixed DOCS subdirectories MAY use `DOCS/.review/`, provided that `naming-conventions.md`, the AI agent guide, and review templates all point to the same location. Review outputs MUST NOT be split between repository-root `.review/` and `DOCS/review/` unless a project-specific Decision Register entry explicitly defines a temporary migration window.
+Projects MAY apply their documented naming convention to this directory. For example, a project using dot-prefixed DOCS subdirectories MAY use `DOCS/.review/`, provided that `naming-conventions.md`, the AI agent guide, and review templates all point to the same location. Review outputs MUST NOT be split between repository-root `.review/` and `DOCS/.review/` unless a project-specific Decision Register entry explicitly defines a temporary migration window.
 
 **Contents:**
 
@@ -933,8 +938,8 @@ Projects MAY apply their documented naming convention to this directory. For exa
 
 | Shape | Naming convention | Intended use |
 |---|---|---|
-| Single-file review | `DOCS/review/YYYY-MM-DD_short-slug.md` | Focused assessments and lightweight follow-up reviews |
-| Multi-file review bundle | `DOCS/review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/` | Comprehensive reviews with separate executive summary, risk, recommendation, migration, and annex files |
+| Single-file review | `DOCS/.review/YYYY-MM-DD_short-slug.md` | Focused assessments and lightweight follow-up reviews |
+| Multi-file review bundle | `DOCS/.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/` | Comprehensive reviews with separate executive summary, risk, recommendation, migration, and annex files |
 
 `[UTC]` MUST use the compact UTC timestamp format `YYYYMMDDTHHMMZ`. The multi-file review bundle convention is an accepted extension recorded in `decision-register.md` as DR-012.
 
@@ -944,8 +949,8 @@ Projects MAY apply their documented naming convention to this directory. For exa
 - Review outputs MUST use one of the accepted output shapes above
 - Multi-file review bundles MUST include a main index file named `00_CODE_REVIEW_[AGENT]_v[N]_[UTC].md`
 - Review outputs are read-only once written — findings MUST NOT be edited after the fact; a new review supersedes an old one
-- Action items raised in a review MUST be tracked in `DOCS/planning/backlog.md` or `decision-register.md` as appropriate; they MUST NOT remain only inside the review file
-- The AI agent guide and review templates MUST name the active `DOCS/review/` path so automated agents do not create new review outputs at repository root
+- Action items raised in a review MUST be tracked in `DOCS/.planning/backlog.md` or `decision-register.md` as appropriate; they MUST NOT remain only inside the review file
+- The AI agent guide and review templates MUST name the active `DOCS/.review/` path so automated agents do not create new review outputs at repository root
 
 ### 10.8 Implementation Logs Directory
 
@@ -967,7 +972,7 @@ An `implementation-logs/` directory MUST exist under `DOCS/` or at the repositor
 
 ### 10.9 Naming Conventions — Project Standard
 
-A `DOCS/design/naming-conventions.md` document MUST exist at `DOCS/design/naming-conventions.md`. It records the naming conventions adopted for the project and serves as the authoritative reference for any Agent or developer making naming decisions.
+A `DOCS/.design/naming-conventions.md` document MUST exist at `DOCS/.design/naming-conventions.md`. It records the naming conventions adopted for the project and serves as the authoritative reference for any Agent or developer making naming decisions.
 
 **The document MUST cover, at minimum:**
 
@@ -1052,30 +1057,30 @@ The following checklist MUST be completed in order when adding a new Stack to a 
 - [ ] Confirm all step definition Gherkin text matches canonical text exactly (Section 8.2)
 - [ ] Confirm all Screenplay component signatures match the parity contract document (Section 8.3)
 - [ ] Run the full parity checklist in Section 8.4
-- [ ] If any gap exists, add it to `DOCS/planning/backlog.md` before marking onboarding complete
+- [ ] If any gap exists, add it to `DOCS/.planning/backlog.md` before marking onboarding complete
 
 ---
 
 ## Appendix A — Template File Index
 
-The following templates MUST exist under `DOCS/templates/` before the first document of each type is authored.
+The following templates MUST exist under `DOCS/.templates/` before the first document of each type is authored.
 
 | Template File | Governs | Name type |
 |---|---|---|
 | `readme.template.md` | Root `README.md` | FIXED |
 | `changelog.template.md` | Root `CHANGELOG.md` | FIXED |
-| `backlog.template.md` | Backlog document (illustrative: `DOCS/planning/backlog.md`) | convention-governed |
+| `backlog.template.md` | Backlog document (illustrative: `DOCS/.planning/backlog.md`) | convention-governed |
 | `decision-record.template.md` | Decision register entries (illustrative: `decision-register.md`) | convention-governed |
 | `stack-architecture.template.md` | Stack architecture doc in `docs/` (illustrative: `architecture.md`) | convention-governed |
 | `screenplay-guide.template.md` | Screenplay guide in `docs/` (illustrative: `screenplay-guide.md`) | convention-governed |
 | `qa-strategy.template.md` | QA strategy in `docs/` (illustrative: `qa-strategy.md`) | convention-governed |
 | `stack-readme.template.md` | `docs/README.md` per Stack | FIXED |
-| `parity-contract.template.md` | `DOCS/architecture/` parity contract | convention-governed |
-| `subject-app-contract.template.md` | `DOCS/architecture/` subject application contract | convention-governed |
-| `code-review.template.md` | `DOCS/review/` review outputs | convention-governed |
-| `implementation-log.template.md` | `DOCS/implementation-logs/` session logs | convention-governed |
-| `naming-conventions.template.md` | `DOCS/design/naming-conventions.md` | convention-governed |
-| `algorithm.template.md` | `DOCS/algorithm/` algorithm specification files | convention-governed |
+| `parity-contract.template.md` | `DOCS/.architecture/` parity contract | convention-governed |
+| `subject-app-contract.template.md` | `DOCS/.architecture/` subject application contract | convention-governed |
+| `code-review.template.md` | `DOCS/.review/` review outputs | convention-governed |
+| `implementation-log.template.md` | `DOCS/.implementation-logs/` session logs | convention-governed |
+| `naming-conventions.template.md` | `DOCS/.design/naming-conventions.md` | convention-governed |
+| `algorithm.template.md` | `DOCS/.algorithm/` algorithm specification files | convention-governed |
 | `memory-key-check.template.md` | `.batch/check-memory-key-parity` checker script (see Section 8.1) | convention-governed |
 
 ---
@@ -1113,7 +1118,7 @@ SCREENPLAY COMPONENTS
   [ ] Memory keys written/read match documented contract
 
 BACKLOG
-  [ ] Any known gap is listed in DOCS/planning/backlog.md
+  [ ] Any known gap is listed in DOCS/.planning/backlog.md
   [ ] No undocumented intentional drift exists
 ```
 
