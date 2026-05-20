@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Changed
+- DR-030: analysis and report-style documents now live under `DOCS/.analysis/`; historical report filenames were preserved.
 - DR-029 / Reference Architecture v1.14: review outputs now live only under `DOCS/.review/`; the former repository-root `.review/` contents were moved into DOCS and active templates/guidance were updated.
 - MIG-13 (DR-016): Filesystem directories renamed to kebab-case:
   - `DEMOAPPS/` → `demo-apps/`
@@ -54,7 +55,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - `DOCS/.templates/algorithm.template.md` — canonical template for algorithm documentation
 - `DOCS/.algorithm/README.md` — algorithm directory guide
 - `DOCS/reference-architecture.md` — Screenplay-BDD Reference Architecture (v1.1)
-- `DOCS/ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md` — alignment report (updated for v1.1)
+- `DOCS/.analysis/ref-arch-alignment_2026-05-14.md` — alignment report (updated for v1.1)
 - `DR-006` in `decision-register.md` — records adoption of RA v1.1 and path corrections
 - `DR-007` in `decision-register.md` — records establishment of features-shared/ canonical store
 - `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature` — canonical feature store (Phase 1 migration)
@@ -66,7 +67,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - `CLAUDE.md` updated: Stack inventory, risk register, canonical feature update procedure, `decision-register.md` reference, `naming-conventions.md` path corrected to `DOCS/.design/`
 - `DOCS/README.md` updated: reflects `.algorithm/`, `templates/` directories, root-level governance documents, `naming-conventions.md` at corrected path
 - `DOCS/.algorithm/sudoku-basic-solver.md` and `sudoku-advanced-solver.md` — relative paths updated after move to `.algorithm/`
-- `DOCS/ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md` — revised against RA v1.1; Phase 0 completion status added; §6, §9, §13, §14, §15 updated
+- `DOCS/.analysis/ref-arch-alignment_2026-05-14.md` — revised against RA v1.1; Phase 0 completion status added; §6, §9, §13, §14, §15 updated
 
 ### Removed
 - `demo-apps/demoapp001-typescript-cypress/tests/BasicSudokuSolverLogic.feature` — replaced by Stack-local copy at `tests/features/`

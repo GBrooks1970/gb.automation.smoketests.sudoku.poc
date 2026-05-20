@@ -1,7 +1,7 @@
 # Implementation Logs
 
-**Status:** Authoritative (DR-017, 2026-05-16)
-**Governed by:** `reference-architecture.md` v1.3 §10.8
+**Status:** Authoritative (DR-019, 2026-05-16)
+**Governed by:** `reference-architecture.md` v1.14 §10.8
 **Template:** `DOCS/.templates/implementation-log.template.md`
 
 This directory is the authoritative location for implementation logs. Logs document development sessions, design decisions, bugs fixed, and lessons learned.
@@ -10,7 +10,7 @@ This directory is the authoritative location for implementation logs. Logs docum
 
 ## Naming Convention
 
-Every log file MUST use the v1.3 UTC date-prefix plus short-slug pattern:
+Every log file MUST use the UTC date-prefix plus short-slug pattern:
 
 ```
 YYYY-MM-DD_short-session-topic.md
@@ -37,6 +37,12 @@ YYYY-MM-DD_short-session-topic.md
 |------|------|-------|
 | [2026-01-30_initial-project-creation.md](2026-01-30_initial-project-creation.md) | 2026-01-30 | Initial project setup, algorithm docs, solver refactoring, test expansion |
 | [2026-05-14_naming-conventions-and-testing.md](2026-05-14_naming-conventions-and-testing.md) | 2026-05-14 | Sprint 2 naming conventions, testing strategy, and v1.3 migration work |
+| [2026-05-18_structural-review-and-backlog-sprint.md](2026-05-18_structural-review-and-backlog-sprint.md) | 2026-05-18 | Structural review and backlog remediation sprint |
+| [2026-05-19_code-review-claude-v1.md](2026-05-19_code-review-claude-v1.md) | 2026-05-19 | Comprehensive code review bundle |
+| [2026-05-19_python-pytest-stack-onboarding.md](2026-05-19_python-pytest-stack-onboarding.md) | 2026-05-19 | Python pytest-bdd Stack onboarding |
+| [2026-05-20_rest-api-wrapper.md](2026-05-20_rest-api-wrapper.md) | 2026-05-20 | DEMOAPP001 REST API wrapper |
+| [2026-05-20_review-output-location-migration.md](2026-05-20_review-output-location-migration.md) | 2026-05-20 | Review output location migration |
+| [2026-05-20_analysis-folder-migration.md](2026-05-20_analysis-folder-migration.md) | 2026-05-20 | Analysis/report folder migration |
 
 ---
 

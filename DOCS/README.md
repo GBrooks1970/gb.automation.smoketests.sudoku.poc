@@ -1,6 +1,6 @@
 # DOCS — Documentation Index
 
-**Last Updated:** 2026-05-15T18:29Z
+**Last Updated:** 2026-05-20T18:45Z
 **Maintainer:** Project Lead / Development Team
 
 > This is the master index for project documentation. Active governed docs and canonical templates are
@@ -13,10 +13,24 @@
 ```
 DOCS/
 ├── README.md                               <- This file (master index)
-├── reference-architecture.md              <- Screenplay-BDD Reference Architecture v1.3
-├── documentation-review-20260514T1100Z.md
+├── reference-architecture.md              <- Screenplay-BDD Reference Architecture v1.14
 │
-├── templates/                              <- Canonical template store (RA §10.5)
+├── .analysis/                              <- Analysis and report-style documents
+│   ├── README.md
+│   ├── documentation-review-20260514T1100Z.md
+│   ├── ref-arch-alignment_2026-05-14.md
+│   ├── ref-arch-alignment_2026-05-15.md
+│   ├── analysis-directory-naming-kebab-case-2026-05-16.md
+│   ├── analysis-docs-subdirectory-cleanup-20260516.md
+│   └── analysis-document-naming-kebab-case-20260516.md
+│
+├── .architecture/                          <- Cross-cutting architecture specs
+│   ├── logging-design.md
+│   ├── orchestration-design.md
+│   ├── screenplay-parity-contract.md
+│   └── subject-app-contract.md
+│
+├── .templates/                             <- Canonical template store (RA §10.5)
 │   ├── decision-record.template.md        <- For decision-register.md entries
 │   ├── changelog.template.md              <- For root CHANGELOG.md
 │   ├── backlog.template.md                <- For DOCS/.planning/backlog.md
@@ -45,10 +59,11 @@ DOCS/
 │   ├── todo-hidden-singles-implementation.md
 │   └── prompt-playbook-20260330T1645Z.md
 │
-├── .implementation/                        <- Session implementation logs
+├── .implementation-logs/                   <- Session implementation logs
 │   ├── README.md
-│   ├── IMPL_LOG_2026-01-30_Initial_Project_Creation.md
-│   └── IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md
+│   ├── 2026-01-30_initial-project-creation.md
+│   ├── 2026-05-14_naming-conventions-and-testing.md
+│   └── 2026-05-20_analysis-folder-migration.md
 │
 ├── .howto/                                 <- Practical how-to guides
 │   ├── README.md
@@ -60,7 +75,10 @@ DOCS/
     ├── CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/
     ├── CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z/
     ├── CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z/
-    └── CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z/
+    ├── CODE_REVIEW_CLAUDE_v1_20260519T1948Z/
+    ├── CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z/
+    ├── 2026-05-18_reference-architecture-structural-review.md
+    └── 2026-05-18_repository-structural-review.md
 ```
 
 ---
@@ -148,9 +166,10 @@ Chronological record of every development session.
 
 | Log | Date | Scope |
 |-----|------|-------|
-| [IMPL_LOG_2026-01-30_Initial_Project_Creation.md](.implementation/IMPL_LOG_2026-01-30_Initial_Project_Creation.md) | 2026-01-30 | Initial setup, solver algorithms |
-| [IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md](.implementation/IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md) | 2026-05-14 | Naming, constants, Cucumber test runner |
+| [2026-01-30_initial-project-creation.md](.implementation-logs/2026-01-30_initial-project-creation.md) | 2026-01-30 | Initial setup, solver algorithms |
+| [2026-05-14_naming-conventions-and-testing.md](.implementation-logs/2026-05-14_naming-conventions-and-testing.md) | 2026-05-14 | Naming, constants, Cucumber test runner |
 | [2026-05-20_review-output-location-migration.md](.implementation-logs/2026-05-20_review-output-location-migration.md) | 2026-05-20 | Review output location migration to `DOCS/.review/` |
+| [2026-05-20_analysis-folder-migration.md](.implementation-logs/2026-05-20_analysis-folder-migration.md) | 2026-05-20 | Analysis/report documents grouped under `DOCS/.analysis/` |
 
 ---
 
@@ -181,11 +200,16 @@ review directory is `DOCS/.review/`; repository-root `.review/` is not used.
 
 ## Analysis Reports
 
-One-time assessments that are not code reviews.
+Stored in [.analysis/](.analysis/) — one-time assessments and alignment reports that are not code reviews or implementation logs.
 
 | Report | Date | Topic |
 |--------|------|-------|
-| [documentation-review-20260514T1100Z.md](documentation-review-20260514T1100Z.md) | 2026-05-14 | Project alignment vs. Reference Architecture |
+| [documentation-review-20260514T1100Z.md](.analysis/documentation-review-20260514T1100Z.md) | 2026-05-14 | Documentation ecosystem review |
+| [ref-arch-alignment_2026-05-14.md](.analysis/ref-arch-alignment_2026-05-14.md) | 2026-05-14 | Reference Architecture v1.1 alignment and migration report |
+| [ref-arch-alignment_2026-05-15.md](.analysis/ref-arch-alignment_2026-05-15.md) | 2026-05-15 | Historical Reference Architecture v1.3 re-baseline report |
+| [analysis-directory-naming-kebab-case-2026-05-16.md](.analysis/analysis-directory-naming-kebab-case-2026-05-16.md) | 2026-05-16 | Stack directory naming analysis |
+| [analysis-docs-subdirectory-cleanup-20260516.md](.analysis/analysis-docs-subdirectory-cleanup-20260516.md) | 2026-05-16 | DOCS subdirectory cleanup analysis |
+| [analysis-document-naming-kebab-case-20260516.md](.analysis/analysis-document-naming-kebab-case-20260516.md) | 2026-05-16 | Document naming migration analysis |
 
 ---
 
@@ -194,6 +218,7 @@ One-time assessments that are not code reviews.
 - When adding a document, update this index **in the same commit**
 - Before creating any new document type, check `DOCS/.templates/` for a template first
 - All algorithm docs must also be listed in [.algorithm/README.md](.algorithm/README.md)
+- All analysis reports must also be listed in [.analysis/README.md](.analysis/README.md)
 - All design docs must also be listed in [.design/README.md](.design/README.md)
 - All code reviews must also be listed in [.review/README.md](.review/README.md)
 - Implementation logs are append-only — never modify a completed log

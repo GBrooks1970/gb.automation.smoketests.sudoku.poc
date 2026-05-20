@@ -461,7 +461,7 @@ Resolution:
 **Decision Record:** DR-016
 **Scheduled:** Sprint 3 (before Stack 2 onboarding)
 
-Analysis reference: `DOCS/analysis-directory-naming-kebab-case-2026-05-16.md`
+Analysis reference: `DOCS/.analysis/analysis-directory-naming-kebab-case-2026-05-16.md`
 
 Acceptance criteria:
 
@@ -846,7 +846,7 @@ Resolution:
 2. Update the summary counts whenever an item status changes.
 3. Do not delete resolved items.
 4. Add a Decision Register entry before closing any item that resolves into a structural choice.
-5. Update `DOCS/ref-arch-alignment_2026-05-15.md` when Reference Architecture migration status changes.
+5. Update `DOCS/.analysis/ref-arch-alignment_2026-05-15.md` when Reference Architecture migration status changes.
 6. Keep `DOCS/.planning/backlog.md` as a bridge only unless DR-013 is superseded.
 
 ---

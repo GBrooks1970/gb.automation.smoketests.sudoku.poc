@@ -26,7 +26,7 @@ When the `DOCS/` directory was first structured, a visual convention was needed 
 
 ### Decision
 
-All type-specific subdirectories inside `DOCS/` use a leading dot: `.design/`, `.planning/`, `.implementation/`, `.review/`, `.algorithm/`, `.howto/`. Future DOCS subdirectories follow the same pattern.
+All type-specific subdirectories inside `DOCS/` use a leading dot: `.analysis/`, `.algorithm/`, `.architecture/`, `.design/`, `.howto/`, `.implementation/`, `.implementation-logs/`, `.planning/`, `.review/`, `.templates/`. Future DOCS subdirectories follow the same pattern.
 
 ### Consequences
 
@@ -199,7 +199,7 @@ The TypeScript Stack (DEMOAPP001) is implemented first and serves as the referen
 
 ### Context
 
-The Screenplay migration (Phases 2–4 of the migration plan documented in `ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md`) replaces procedural step definitions with Screenplay components. A question arose: should the Gherkin feature file also be refactored at the same time? The feature file has some over-specified steps (inline array values) that would ideally be parameterised.
+The Screenplay migration (Phases 2–4 of the migration plan documented in `DOCS/.analysis/ref-arch-alignment_2026-05-14.md`) replaces procedural step definitions with Screenplay components. A question arose: should the Gherkin feature file also be refactored at the same time? The feature file has some over-specified steps (inline array values) that would ideally be parameterised.
 
 ### Decision
 
@@ -758,7 +758,7 @@ All 43 scenarios pass after the migration.
 
 ### Context
 
-The UPPER_SNAKE_CASE convention for the Stack group container (`DEMOAPPS/`) and Stack directory (`DEMOAPP001_TYPESCRIPT_CYPRESS/`) was adopted implicitly and was never recorded in the Decision Register. Analysis document `DOCS/analysis-directory-naming-kebab-case-2026-05-16.md` surfaced two problems with the current convention:
+The UPPER_SNAKE_CASE convention for the Stack group container (`DEMOAPPS/`) and Stack directory (`DEMOAPP001_TYPESCRIPT_CYPRESS/`) was adopted implicitly and was never recorded in the Decision Register. Analysis document `DOCS/.analysis/analysis-directory-naming-kebab-case-2026-05-16.md` surfaced two problems with the current convention:
 
 1. **Case-sensitivity trap** — The repository is developed on a Windows (case-insensitive) filesystem and pushed to a Linux-hosted remote (case-sensitive). UPPER_CASE directory names create a latent risk where path mismatches silently succeed locally but fail on CI. This risk will become active when a CI pipeline is wired (BACKLOG-004).
 2. **Ecosystem friction** — Node.js, TypeScript, npm tooling, and modern CI/CD YAML all default to lowercase-hyphenated paths. UPPER_CASE directories require Shift-key input and are the outlier against `.batch/`, `.results/`, `features-shared/`, and all Screenplay subdirectories which are already lowercase.
@@ -820,7 +820,7 @@ The actual filesystem rename of existing directories is tracked as **MIG-13** in
 
 ### Evidence
 
-- `DOCS/analysis-directory-naming-kebab-case-2026-05-16.md` — full impact analysis with blast radius assessment and implementation plan.
+- `DOCS/.analysis/analysis-directory-naming-kebab-case-2026-05-16.md` — full impact analysis with blast radius assessment and implementation plan.
 
 ---
 
@@ -1013,7 +1013,7 @@ The `DOCS/.templates/decision-record.template.md` stale single-file is removed; 
 
 ### Evidence
 
-- `DOCS/analysis-docs-subdirectory-cleanup-20260516.md` — full discrepancy map, file inventory, and migration plan.
+- `DOCS/.analysis/analysis-docs-subdirectory-cleanup-20260516.md` — full discrepancy map, file inventory, and migration plan.
 
 ---
 
@@ -1024,7 +1024,7 @@ The `DOCS/.templates/decision-record.template.md` stale single-file is removed; 
 
 ### Context
 
-The project's document filenames currently use four simultaneous naming conventions: `PREFIX_Title_Case.md` (for authored design, algorithm, planning, and how-to documents), `UPPERCASE.md` (for root governance files), `YYYY-MM-DD_slug.md` (for implementation logs, established by DR-017), and `kebab-case.md` (for architecture documents and all `.template.md` files). This multi-convention state is inconsistent with the single-convention direction established for directories (DR-016, DR-019) and generates ongoing contributor confusion. `DOCS/analysis-document-naming-kebab-case-20260516.md` documents the full discrepancy landscape and blast-radius assessment.
+The project's document filenames currently use four simultaneous naming conventions: `PREFIX_Title_Case.md` (for authored design, algorithm, planning, and how-to documents), `UPPERCASE.md` (for root governance files), `YYYY-MM-DD_slug.md` (for implementation logs, established by DR-017), and `kebab-case.md` (for architecture documents and all `.template.md` files). This multi-convention state is inconsistent with the single-convention direction established for directories (DR-016, DR-019) and generates ongoing contributor confusion. `DOCS/.analysis/analysis-document-naming-kebab-case-20260516.md` documents the full discrepancy landscape and blast-radius assessment.
 
 ### Decision
 
@@ -1038,7 +1038,7 @@ Adopt `lowercase-kebab-case.md` as the project standard for all authored documen
 
 All generated artefacts in `.results/` (metrics files, parity reports) are also exempt — their naming is governed by RA §9.2 and the orchestration scripts, not by this convention.
 
-The migration is executed in four phases per `DOCS/analysis-document-naming-kebab-case-20260516.md §6`:
+The migration is executed in four phases per `DOCS/.analysis/analysis-document-naming-kebab-case-20260516.md §6`:
 - **Phase 1** — Authored documents in typed directories (`.design/`, `.algorithm/`, `.howto/`, `.planning/`, `.implementation-logs/`)
 - **Phase 2** — DOCS root files and Stack-level docs
 - **Phase 3** — Root governance files (`decision-register.md`, legacy backlog redirect)
@@ -1084,7 +1084,7 @@ The migration is executed in four phases per `DOCS/analysis-document-naming-keba
 
 ### Evidence
 
-- `DOCS/analysis-document-naming-kebab-case-20260516.md` — full impact assessment, pros/cons, decision points, and four-phase implementation plan.
+- `DOCS/.analysis/analysis-document-naming-kebab-case-20260516.md` — full impact assessment, pros/cons, decision points, and four-phase implementation plan.
 
 ---
 
@@ -1607,6 +1607,70 @@ Repository-root `.review/` MUST NOT be used by this project. Existing root `.rev
 
 ---
 
+## DR-030 — Use DOCS/.analysis for analysis and report-style documents
+
+**Date:** 2026-05-20
+**Status:** Accepted — 2026-05-20
+
+### Context
+
+Several analysis and report-style documents were stored directly in the `DOCS/` root alongside the master index and Reference Architecture. This made the root harder to scan and left no clear destination for future one-time assessments that are not code reviews and not implementation logs.
+
+The project already uses type-specific dot-prefixed DOCS subdirectories under DR-001 and DR-019. Analysis/report documents are a distinct document type and should follow that same organization model.
+
+### Decision
+
+Create `DOCS/.analysis/` as the authoritative location for analysis and report-style documents.
+
+Move existing report-style documents into that directory while preserving historical filenames:
+
+- `DOCS/.analysis/documentation-review-20260514T1100Z.md`
+- `DOCS/.analysis/ref-arch-alignment_2026-05-14.md`
+- `DOCS/.analysis/ref-arch-alignment_2026-05-15.md`
+- `DOCS/.analysis/analysis-directory-naming-kebab-case-2026-05-16.md`
+- `DOCS/.analysis/analysis-docs-subdirectory-cleanup-20260516.md`
+- `DOCS/.analysis/analysis-document-naming-kebab-case-20260516.md`
+
+Future analysis and report-style documents MUST be created under `DOCS/.analysis/` unless another governed directory is more specific:
+
+- Code review outputs remain under `DOCS/.review/`.
+- Development session logs remain under `DOCS/.implementation-logs/`.
+- Design specifications remain under `DOCS/.design/`.
+
+### Consequences
+
+**Outcomes:**
+- The DOCS root is reserved for the master index and governing Reference Architecture.
+- Analysis/report documents have a discoverable home and directory-level README.
+- New analysis reports follow the existing dot-prefixed DOCS directory convention.
+
+**Trade-offs:**
+- Existing links to report documents require path updates.
+- Historical report filenames are not normalized in this move, so a small amount of legacy naming remains inside `DOCS/.analysis/`.
+
+**Compliance note:**
+- This is a project-local documentation organization decision. It does not change the Reference Architecture's mandatory document set.
+- DR-020 continues to govern future document filenames; historical report filenames are preserved to avoid combining relocation with renaming.
+
+### Alternatives Considered
+
+**Alternative: Keep analysis reports in DOCS root**
+- Description: Leave all reports beside `README.md` and `reference-architecture.md`.
+- Rejected because: The DOCS root becomes a mixed collection of index, governance, and historical analysis files, which weakens scanability.
+
+**Alternative: Put analysis reports under `DOCS/.design/`**
+- Description: Treat reports as design-adjacent documents.
+- Rejected because: Reports include migration audits and alignment assessments, not only design specifications. A dedicated folder is clearer.
+
+### Related Decisions
+
+- DR-001 — Dot-prefix convention for DOCS subdirectories.
+- DR-019 — Dot-prefix convention extended to all DOCS type-specific directories.
+- DR-020 — Kebab-case convention for authored document filenames.
+- DR-029 — Separate rule for review outputs under `DOCS/.review/`.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -1625,5 +1689,5 @@ Repository-root `.review/` MUST NOT be used by this project. Existing root `.rev
 
 ---
 
-*Last entry: DR-029. Next ID: DR-030.*
+*Last entry: DR-030. Next ID: DR-031.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

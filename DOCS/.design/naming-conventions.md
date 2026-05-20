@@ -102,7 +102,7 @@ private getBlockEmptyCells(...): { r: number; c: number }[]
 | Application source | `snake_case` | Underscore | `app_src/` |
 | Test directory | `lowercase` | None | `tests/` |
 | Screenplay subdirectories | `lowercase` | None | `abilities/`, `actors/`, `tasks/`, `questions/`, `support/` |
-| DOCS type-specific subdirectories | dot + `kebab-case` | Hyphen | `.design/`, `.planning/`, `.algorithm/`, `.architecture/`, `.templates/`, `.implementation-logs/`, `.review/`, `.howto/` |
+| DOCS type-specific subdirectories | dot + `kebab-case` | Hyphen | `.analysis/`, `.design/`, `.planning/`, `.algorithm/`, `.architecture/`, `.templates/`, `.implementation-logs/`, `.review/`, `.howto/` |
 | Stack group container directory | `kebab-case` | Hyphen | `demo-apps/` |
 | Stack directory (filesystem) | `kebab-case` | Hyphen | `demoapp001-typescript-cypress/` |
 
@@ -145,7 +145,7 @@ All authored document filenames use `kebab-case.md` (DR-020). Three permanent ex
 | Document type | Pattern (DR-020) | Example |
 |---------------|-----------------|---------|
 | Design documents | `feature-name.md` | `audit-trail-feature.md` |
-| Analysis documents | `analysis-topic-YYYYMMDD.md` | `analysis-docs-subdirectory-cleanup-20260516.md` |
+| Analysis documents | `DOCS/.analysis/analysis-topic-YYYYMMDD.md` | `analysis-docs-subdirectory-cleanup-20260516.md` |
 | Algorithm documents | `domain-name.md` | `sudoku-basic-solver.md` |
 | How-to guides | `verb-subject.md` | `debug-sudoku-solver.md` |
 | Implementation logs | `YYYY-MM-DD_short-session-topic.md` (DR-017) | `2026-01-30_initial-project-creation.md` |
