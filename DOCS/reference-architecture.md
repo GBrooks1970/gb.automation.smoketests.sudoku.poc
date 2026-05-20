@@ -1,8 +1,8 @@
 # Screenplay-BDD Test Automation — Agnostic Reference Architecture
 
-**Version:** 1.13
+**Version:** 1.14
 **Status:** Accepted
-**Date:** 2026-05-18
+**Date:** 2026-05-20
 **Applies to:** Any project adopting the Screenplay-BDD structure described herein
 
 ---
@@ -266,9 +266,8 @@ repository-root/
 │   ├── planning/                     # Backlog, roadmap, work tracking
 │   │   └── backlog.md                # REQUIRED (Section 10.1)
 │   ├── implementation-logs/          # Development session logs (Section 10.8)
+│   ├── review/                       # Code review outputs (Section 10.7)
 │   └── templates/                    # MANDATORY document templates (Section 10.5)
-│
-├── code-review/ OR .review/          # Code review outputs (Section 10.7)
 │
 ├── .results/                         # Test execution output (gitignored or archived)
 │   └── .metrics/                     # Structured metrics files (Section 9.2)
@@ -920,7 +919,9 @@ Each entry MUST have a unique, sequential identifier in the format `DR-[NNN]` (e
 
 ### 10.7 Code Review Directory
 
-A `code-review/` or `.review/` directory MUST exist at the repository root. It holds the outputs of comprehensive assessments of the project and its related test automation codebases. These outputs are first-class project artefacts, not disposable scratch notes.
+A `review/` directory MUST exist under `DOCS/`. It holds the outputs of comprehensive assessments of the project and its related test automation codebases. These outputs are first-class project artefacts, not disposable scratch notes.
+
+Projects MAY apply their documented naming convention to this directory. For example, a project using dot-prefixed DOCS subdirectories MAY use `DOCS/.review/`, provided that `naming-conventions.md`, the AI agent guide, and review templates all point to the same location. Review outputs MUST NOT be split between repository-root `.review/` and `DOCS/review/` unless a project-specific Decision Register entry explicitly defines a temporary migration window.
 
 **Contents:**
 
@@ -932,8 +933,8 @@ A `code-review/` or `.review/` directory MUST exist at the repository root. It h
 
 | Shape | Naming convention | Intended use |
 |---|---|---|
-| Single-file review | `.review/YYYY-MM-DD_short-slug.md` | Focused assessments and lightweight follow-up reviews |
-| Multi-file review bundle | `.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/` | Comprehensive reviews with separate executive summary, risk, recommendation, migration, and annex files |
+| Single-file review | `DOCS/review/YYYY-MM-DD_short-slug.md` | Focused assessments and lightweight follow-up reviews |
+| Multi-file review bundle | `DOCS/review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/` | Comprehensive reviews with separate executive summary, risk, recommendation, migration, and annex files |
 
 `[UTC]` MUST use the compact UTC timestamp format `YYYYMMDDTHHMMZ`. The multi-file review bundle convention is an accepted extension recorded in `decision-register.md` as DR-012.
 
@@ -944,6 +945,7 @@ A `code-review/` or `.review/` directory MUST exist at the repository root. It h
 - Multi-file review bundles MUST include a main index file named `00_CODE_REVIEW_[AGENT]_v[N]_[UTC].md`
 - Review outputs are read-only once written — findings MUST NOT be edited after the fact; a new review supersedes an old one
 - Action items raised in a review MUST be tracked in `DOCS/planning/backlog.md` or `decision-register.md` as appropriate; they MUST NOT remain only inside the review file
+- The AI agent guide and review templates MUST name the active `DOCS/review/` path so automated agents do not create new review outputs at repository root
 
 ### 10.8 Implementation Logs Directory
 
@@ -1070,7 +1072,7 @@ The following templates MUST exist under `DOCS/templates/` before the first docu
 | `stack-readme.template.md` | `docs/README.md` per Stack | FIXED |
 | `parity-contract.template.md` | `DOCS/architecture/` parity contract | convention-governed |
 | `subject-app-contract.template.md` | `DOCS/architecture/` subject application contract | convention-governed |
-| `code-review.template.md` | `code-review/` or `.review/` review outputs | convention-governed |
+| `code-review.template.md` | `DOCS/review/` review outputs | convention-governed |
 | `implementation-log.template.md` | `DOCS/implementation-logs/` session logs | convention-governed |
 | `naming-conventions.template.md` | `DOCS/design/naming-conventions.md` | convention-governed |
 | `algorithm.template.md` | `DOCS/algorithm/` algorithm specification files | convention-governed |
@@ -1117,4 +1119,4 @@ BACKLOG
 
 ---
 
-*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `decision-register.md` before the change is merged. Current version: v1.13 (2026-05-18).*
+*This document is governed by the Decision Register. Any change to normative rules (MUST / MUST NOT / REQUIRED) MUST produce a new entry in `decision-register.md` before the change is merged. Current version: v1.14 (2026-05-20).*

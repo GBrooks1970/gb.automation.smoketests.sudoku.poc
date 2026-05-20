@@ -12,11 +12,11 @@ When documents conflict, use this order:
 4. Stack-level docs under `demo-apps/demoapp001-typescript-cypress/docs/`
 5. This guide
 
-`decision-register.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-028.
+`decision-register.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-029.
 
 ## Current Architecture Baseline
 
-- Reference Architecture: v1.13, accepted 2026-05-18
+- Reference Architecture: v1.14, accepted 2026-05-20
 - Active Stacks: `DEMOAPP001_TYPESCRIPT_CYPRESS`, `DEMOAPP002_PYTHON_PYTEST`
 - Active test surface: `@util` in-process class testing
 - Active API surface: DEMOAPP001 Express REST API at `app_src/server/index.ts`
@@ -25,7 +25,7 @@ When documents conflict, use this order:
 - Screenplay implementations: DEMOAPP001 passing with Serenity/JS + Cucumber.js; DEMOAPP002 passing with pytest-bdd
 - Implementation logs: authoritative at `DOCS/.implementation-logs/` (DR-019)
 - Feature parity script: `.batch/generate-feature-parity-report.ps1` (MIG-10)
-- All RA v1.3 migration gaps resolved: MIG-01 through MIG-13 all Resolved
+- All RA v1.3 migration gaps resolved: MIG-01 through MIG-13 all Resolved; RA v1.14 review-location rule resolved by DR-029
 - DOCS subdirectories: all dot + kebab-case (DR-019); no plain-name subdirectories
 - Document filenames: all authored docs use kebab-case (DR-020); permanent exceptions: `README.md`, `CHANGELOG.md`, `CLAUDE.md`
 
@@ -87,10 +87,9 @@ gb.automation.smoketests.sudoku.poc/
 |   |-- .planning/backlog.md                # authoritative backlog
 |   |-- .design/naming-conventions.md       # authoritative naming conventions
 |   |-- .implementation-logs/               # implementation logs (active + archive template)
-|   |-- .review/                            # historical review archive
+|   |-- .review/                            # review outputs, DR-029
 |   |-- .algorithm/                         # algorithm specifications
 |   `-- .howto/                             # how-to guides
-|-- .review/README.md                      # future review output location, DR-014
 |-- .batch/run-demoapp001.ps1
 |-- decision-register.md
 |-- CHANGELOG.md
@@ -212,7 +211,7 @@ Governed by `DOCS/reference-architecture.md` v1.3 and decisions DR-012 through D
 | Step text | Stack-local Gherkin text must match canonical text except local tags |
 | Backlog statuses | Use exactly `Open`, `In Progress`, or `Resolved` for backlog item status |
 | Templates | Use `DOCS/.templates/*.template.md` files |
-| Review outputs | New reviews go under root `.review/` with `CODE_REVIEW_[AGENT]_v[N]_[UTC]/` |
+| Review outputs | New reviews go under `DOCS/.review/` with `CODE_REVIEW_[AGENT]_v[N]_[UTC]/` |
 | DOCS subdirectories | All use dot + kebab-case (DR-019); no plain-name subdirectories |
 | Document filenames | All authored docs use kebab-case (DR-020); exceptions: `README.md`, `CHANGELOG.md`, `CLAUDE.md` |
 
@@ -226,13 +225,13 @@ Governed by `DOCS/reference-architecture.md` v1.3 and decisions DR-012 through D
 | Grid mutation | `SudokuSolver` constructor | Preserve deep-copy behavior from `origGrid` to `grid` |
 | Hidden Singles | `SudokuSolver.hiddenSingles()` | Preserve row, column, and block checks |
 | Document naming drift | New authored docs in DOCS/ | Must use kebab-case (DR-020); check before creating any new .md file |
-| Review outputs | `.review/` and `DOCS/.review/` | New reviews go to root `.review/`; historical `DOCS/.review/` bundles stay read-only |
+| Review outputs | `DOCS/.review/` | New and historical reviews live under `DOCS/.review/`; do not recreate root `.review/` |
 
 ## Documentation Pointers
 
 | Document | Purpose |
 |----------|---------|
-| `DOCS/ref-arch-alignment_2026-05-15.md` | Current v1.3 compliance and migration status |
+| `DOCS/ref-arch-alignment_2026-05-15.md` | Historical v1.3 compliance and migration status |
 | `DOCS/.architecture/screenplay-parity-contract.md` | Memory keys, Tasks, Questions, and parity signatures |
 | `DOCS/.architecture/subject-app-contract.md` | Active `@util` and future `@cli` surface contracts |
 | `DOCS/.architecture/orchestration-design.md` | Build, test, metrics, and retention design |
@@ -240,7 +239,7 @@ Governed by `DOCS/reference-architecture.md` v1.3 and decisions DR-012 through D
 | `DOCS/.planning/backlog.md` | Authoritative backlog content |
 | `DOCS/.design/naming-conventions.md` | Authoritative naming conventions (DR-020: kebab-case for all authored docs) |
 | `DOCS/analysis-document-naming-kebab-case-20260516.md` | Document naming impact assessment and migration log (Phases 0–4) |
-| `.review/README.md` | Future code review output policy |
+| `DOCS/.review/README.md` | Code review output policy |
 
 ## Current Limitations
 

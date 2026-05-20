@@ -2,8 +2,8 @@
 
 **Intended audience:** The reviewer (AI or human) conducting a full structural audit of the repository against the current Reference Architecture.
 **Template version:** 1.0 (2026-05-18)
-**Governed by:** `reference-architecture.md` §10.7
-**Produces:** `.review/YYYY-MM-DD_repository-structural-review.md`
+**Governed by:** `reference-architecture.md` v1.14 §10.7
+**Produces:** `DOCS/.review/YYYY-MM-DD_repository-structural-review.md`
 
 > This template governs single-file comprehensive structural reviews. For multi-file bundle reviews
 > (executive summary, risks, recommendations as separate files), use `code-review.template.md`.
@@ -16,7 +16,7 @@
 
 ## How to Use This Template
 
-1. Name the output file: `.review/YYYY-MM-DD_repository-structural-review.md`
+1. Name the output file: `DOCS/.review/YYYY-MM-DD_repository-structural-review.md`
    - Use today's UTC date.
    - Use `repository-structural-review` as the slug unless the review is scoped to a specific area,
      in which case use a descriptive slug (e.g. `YYYY-MM-DD_screenplay-layer-review.md`).
@@ -34,7 +34,7 @@
 ## Output File Structure
 
 ```
-.review/
+DOCS/.review/
   YYYY-MM-DD_repository-structural-review.md   # This review (single file)
 ```
 
@@ -185,7 +185,7 @@ Remove rows for RA sections that do not apply to this project's surface types.]
 | §10.4 AI agent instruction file | Required sections present | | |
 | §10.5 Template mandate | All templates present | | |
 | §10.6 Decision register | 5-field entries, immutable | | |
-| §10.7 Code review directory | Root `.review/` | | |
+| §10.7 Code review directory | `DOCS/.review/` | | |
 | §10.8 Implementation logs | Under `DOCS/.implementation-logs/` | | |
 | §10.9 Naming conventions | `DOCS/.design/naming-conventions.md` | | |
 

@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Changed
+- DR-029 / Reference Architecture v1.14: review outputs now live only under `DOCS/.review/`; the former repository-root `.review/` contents were moved into DOCS and active templates/guidance were updated.
 - MIG-13 (DR-016): Filesystem directories renamed to kebab-case:
   - `DEMOAPPS/` → `demo-apps/`
   - `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/` → `demo-apps/demoapp001-typescript-cypress/`

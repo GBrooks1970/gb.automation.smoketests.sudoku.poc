@@ -1,8 +1,8 @@
 # Decision Register
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-05-18
-**Governed by:** `reference-architecture.md` v1.13 §10.6
+**Last Updated:** 2026-05-20
+**Governed by:** `reference-architecture.md` v1.14 §10.6
 **Template:** `DOCS/.templates/decision-record.template.md`
 
 > This register is the authoritative source for every structural and process decision in this project.
@@ -450,7 +450,8 @@ Future code review output files **MUST** follow the v1.2-compliant naming and bu
 - Review directory placement is now formally recorded as a deliberate divergence from RA v1.2 default.
 - Future reviews generated will follow v1.2 shape compliance regardless of this location decision.
 - Documentation tree remains unified and discoverable under DOCS.
-- Superseded by DR-014 (2026-05-16): future review outputs now use repository-root `.review/`; `DOCS/.review/` remains historical/read-only.
+- Superseded by DR-014 (2026-05-16): future review outputs moved to repository-root `.review/`.
+- DR-014 was later superseded by DR-029 (2026-05-20): `DOCS/.review/` is again the single authoritative review output location.
 
 **Trade-offs:**
 - Code review directory does not sit at repository root `.review/` as RA v1.2 example shows (MAY-level latitude — not a MUST requirement).
@@ -577,6 +578,7 @@ Adopt `reference-architecture.md` v1.3 as the governing architecture for this re
 - This decision satisfies the v1.3 §10.7 requirement that the multi-file review bundle convention be recorded as DR-012.
 - DR-009 remains historical provenance for v1.2 adoption; DR-012 supersedes it as the active architecture version baseline.
 - DR-011 remains historical provenance for the v1.2 review bundle shape; DR-012 is authoritative for future v1.3 review bundle names.
+- DR-029 supersedes the root `.review/` location implied by this decision; the bundle naming shape remains active.
 
 ### Alternatives Considered [REQUIRED]
 
@@ -656,7 +658,7 @@ Create repository-root `.review/` as the v1.3 location for future code review ou
 
 ### Status [REQUIRED]
 
-`Accepted` — 2026-05-15
+`Superseded by DR-029` — 2026-05-20
 
 ### Consequences [REQUIRED]
 
@@ -669,6 +671,7 @@ Create repository-root `.review/` as the v1.3 location for future code review ou
 - Review outputs now have a historical archive location and a future authoritative location.
 - Agents must consult the root `.review/README.md` before creating new reviews.
 - Existing links to `DOCS/.review/` remain valid but should be understood as historical, not the target for new reviews.
+- Superseded by DR-029 (2026-05-20): review outputs now use `DOCS/.review/` as the single authoritative location; repository-root `.review/` is no longer used.
 
 **Compliance note:**
 - This decision implements the root `.review/` path accepted by v1.3 Section 10.7.
@@ -688,6 +691,7 @@ Create repository-root `.review/` as the v1.3 location for future code review ou
 
 - DR-010 — Historical code review directory placement under `DOCS/.review/`.
 - DR-012 — Active v1.3 review bundle naming convention.
+- DR-029 — Active review output location under `DOCS/.review/`.
 
 ---
 
@@ -1091,7 +1095,7 @@ The migration is executed in four phases per `DOCS/analysis-document-naming-keba
 
 ### Context
 
-`reference-architecture.md` v1.3 defined three Surface Types: API, UI, and CLI. The `@util` tag was introduced in Section 5.3 and referenced in Appendix B's compliance checklist, but no corresponding surface contract existed in Section 6, no Ability definition in Section 7, and no orchestration lifecycle in Section 9.1. This left the most commonly used surface type for single-application projects (in-process class testing) as a specification orphan. Any project using `@util` — including this one — had no normative definition to conform to. The gap was identified and documented as Risk 1 (Critical) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+`reference-architecture.md` v1.3 defined three Surface Types: API, UI, and CLI. The `@util` tag was introduced in Section 5.3 and referenced in Appendix B's compliance checklist, but no corresponding surface contract existed in Section 6, no Ability definition in Section 7, and no orchestration lifecycle in Section 9.1. This left the most commonly used surface type for single-application projects (in-process class testing) as a specification orphan. Any project using `@util` — including this one — had no normative definition to conform to. The gap was identified and documented as Risk 1 (Critical) in the structural review `DOCS/.review/2026-05-18_reference-architecture-structural-review.md`.
 
 ### Decision
 
@@ -1147,7 +1151,7 @@ Promote `@util` to a formally specified Surface Type in `reference-architecture.
 
 ### Context
 
-`reference-architecture.md` v1.4 mandated orchestration scripts (Section 9.1), metrics collection (Section 9.2), and results archival (Section 9.3) but specified nothing about how these integrate into a CI/CD pipeline. The RA had no definition of required pipeline gates, exit code handling, artifact retention in CI context, or multi-Stack pipeline behaviour. A project following the RA could satisfy all Section 9 requirements locally while having a CI pipeline that ignores the feature parity report or permits merges on non-zero exit. The gap was identified and documented as Risk 2 (High) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+`reference-architecture.md` v1.4 mandated orchestration scripts (Section 9.1), metrics collection (Section 9.2), and results archival (Section 9.3) but specified nothing about how these integrate into a CI/CD pipeline. The RA had no definition of required pipeline gates, exit code handling, artifact retention in CI context, or multi-Stack pipeline behaviour. A project following the RA could satisfy all Section 9 requirements locally while having a CI pipeline that ignores the feature parity report or permits merges on non-zero exit. The gap was identified and documented as Risk 2 (High) in the structural review `DOCS/.review/2026-05-18_reference-architecture-structural-review.md`.
 
 ### Decision
 
@@ -1202,7 +1206,7 @@ Add Section 9.4 "CI/CD Pipeline Requirements" to `reference-architecture.md` v1.
 
 ### Context
 
-Section 8.1 of `reference-architecture.md` v1.5 mandated identical Memory key constants across all Stacks and specified that the constant name must equal its string value exactly. The enforcement mechanism was manual: a developer reading the Appendix B checklist at PR review. For a single-Stack project this is adequate; for a multi-Stack project (two or more active Stacks) it is insufficient — nothing prevents a developer from introducing a parity gap that is invisible until cross-Stack debugging is required. The gap was identified and documented as Risk 3 (High) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+Section 8.1 of `reference-architecture.md` v1.5 mandated identical Memory key constants across all Stacks and specified that the constant name must equal its string value exactly. The enforcement mechanism was manual: a developer reading the Appendix B checklist at PR review. For a single-Stack project this is adequate; for a multi-Stack project (two or more active Stacks) it is insufficient — nothing prevents a developer from introducing a parity gap that is invisible until cross-Stack debugging is required. The gap was identified and documented as Risk 3 (High) in the structural review `DOCS/.review/2026-05-18_reference-architecture-structural-review.md`.
 
 ### Decision
 
@@ -1266,7 +1270,7 @@ Extend `reference-architecture.md` v1.5 to v1.6 by adding an "Automated enforcem
 
 ### Context
 
-`reference-architecture.md` Sections 5.1–5.4 defined the Canonical Feature Store concept and the propagation process for distributing feature changes to Stacks. However, Section 5 had no change governance: no classification of breaking versus non-breaking changes, no review gate requirement for breaking changes, no coordination specification for Stacks that cannot implement a change immediately, and no deadline policy for `@pending` scenarios. Without governance, a developer could modify canonical step text and only discover broken Stacks at CI time rather than at change-proposal time. The gap was identified and documented as Risk 4 (High) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+`reference-architecture.md` Sections 5.1–5.4 defined the Canonical Feature Store concept and the propagation process for distributing feature changes to Stacks. However, Section 5 had no change governance: no classification of breaking versus non-breaking changes, no review gate requirement for breaking changes, no coordination specification for Stacks that cannot implement a change immediately, and no deadline policy for `@pending` scenarios. Without governance, a developer could modify canonical step text and only discover broken Stacks at CI time rather than at change-proposal time. The gap was identified and documented as Risk 4 (High) in the structural review `DOCS/.review/2026-05-18_reference-architecture-structural-review.md`.
 
 ### Decision
 
@@ -1320,7 +1324,7 @@ Add Section 5.5 "Feature Change Governance" to `reference-architecture.md` v1.7:
 
 ### Context
 
-`reference-architecture.md` v1.8 contained a direct normative conflict: Section 10.2 specified `ARCHITECTURE.md`, `SCREENPLAY_GUIDE.md`, and `QA_STRATEGY.md` as required fixed uppercase names for Stack-level documents, while Section 10.9 required a `naming-conventions.md` document to govern all naming decisions — including file names. Following both simultaneously was impossible; adopting kebab-case (the RA's own recommended default in Section 10.9) for Stack-level docs meant violating Section 10.2. This project resolved the conflict by adopting kebab-case per DR-020, meaning this project was already in violation of the RA it was supposed to conform to. The gap was identified and documented as Risk 7 (Medium) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+`reference-architecture.md` v1.8 contained a direct normative conflict: Section 10.2 specified `ARCHITECTURE.md`, `SCREENPLAY_GUIDE.md`, and `QA_STRATEGY.md` as required fixed uppercase names for Stack-level documents, while Section 10.9 required a `naming-conventions.md` document to govern all naming decisions — including file names. Following both simultaneously was impossible; adopting kebab-case (the RA's own recommended default in Section 10.9) for Stack-level docs meant violating Section 10.2. This project resolved the conflict by adopting kebab-case per DR-020, meaning this project was already in violation of the RA it was supposed to conform to. The gap was identified and documented as Risk 7 (Medium) in the structural review `DOCS/.review/2026-05-18_reference-architecture-structural-review.md`.
 
 ### Decision
 
@@ -1384,7 +1388,7 @@ Update `reference-architecture.md` v1.9 to resolve the conflict:
 
 ### Context
 
-`reference-architecture.md` v1.9 specified behavioral contracts (Gherkin feature files), orchestration contracts (lifecycle, metrics), and parity rules, but contained no guidance on test data — the fixtures, seeds, and configuration files that drive scenario execution. For projects where test data is the primary input to the system under test (e.g. this project's `puzzles.json`), the absence creates three concrete risks: test data scattered across inconsistent locations, scenarios modifying shared data and causing order-dependent failures, and inline data literals embedded in canonical feature files defeating parameterisation. The gap was identified and documented as Risk 8 (Medium) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+`reference-architecture.md` v1.9 specified behavioral contracts (Gherkin feature files), orchestration contracts (lifecycle, metrics), and parity rules, but contained no guidance on test data — the fixtures, seeds, and configuration files that drive scenario execution. For projects where test data is the primary input to the system under test (e.g. this project's `puzzles.json`), the absence creates three concrete risks: test data scattered across inconsistent locations, scenarios modifying shared data and causing order-dependent failures, and inline data literals embedded in canonical feature files defeating parameterisation. The gap was identified and documented as Risk 8 (Medium) in the structural review `DOCS/.review/2026-05-18_reference-architecture-structural-review.md`.
 
 ### Decision
 
@@ -1439,7 +1443,7 @@ Add Section 5.6 "Test Data Management" to `reference-architecture.md` v1.10:
 
 ### Context
 
-`reference-architecture.md` Section 8.4 defined five criteria for declaring a Stack in parity but specified no verification method for any of them. Appendix B provided a manual quick-reference checklist. Neither the section nor the appendix stated whether verification was expected to be manual, scripted, or enforced as a CI gate. This project already had automated coverage for two of the five criteria (feature parity report script for criterion 1, memory key parity checker for criterion 2) but the RA did not acknowledge this distinction or mandate automation for any criterion. A checklist completed manually is subject to human error and is insufficient as a parity gate in a multi-Stack project. The gap was identified and documented as Risk 10 (Low) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+`reference-architecture.md` Section 8.4 defined five criteria for declaring a Stack in parity but specified no verification method for any of them. Appendix B provided a manual quick-reference checklist. Neither the section nor the appendix stated whether verification was expected to be manual, scripted, or enforced as a CI gate. This project already had automated coverage for two of the five criteria (feature parity report script for criterion 1, memory key parity checker for criterion 2) but the RA did not acknowledge this distinction or mandate automation for any criterion. A checklist completed manually is subject to human error and is insufficient as a parity gate in a multi-Stack project. The gap was identified and documented as Risk 10 (Low) in the structural review `DOCS/.review/2026-05-18_reference-architecture-structural-review.md`.
 
 ### Decision
 
@@ -1497,7 +1501,7 @@ Update Section 8.4 of `reference-architecture.md` v1.12:
 
 ### Context
 
-`reference-architecture.md` Section 4 showed `packages/` in the directory blueprint as "Shared code packages (OPTIONAL)" with no further specification. In a multi-Stack project, shared utilities (e.g. a common data loader, shared type definitions, or a language-agnostic utility library) will naturally emerge as the project grows. Without rules, `packages/` becomes an ungoverned vector for parity defects: Stack-specific code migrates there, test runner dependencies leak in, and interface changes break dependent Stacks without a defined coordination path. The gap was identified and documented as Risk 11 (Low) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+`reference-architecture.md` Section 4 showed `packages/` in the directory blueprint as "Shared code packages (OPTIONAL)" with no further specification. In a multi-Stack project, shared utilities (e.g. a common data loader, shared type definitions, or a language-agnostic utility library) will naturally emerge as the project grows. Without rules, `packages/` becomes an ungoverned vector for parity defects: Stack-specific code migrates there, test runner dependencies leak in, and interface changes break dependent Stacks without a defined coordination path. The gap was identified and documented as Risk 11 (Low) in the structural review `DOCS/.review/2026-05-18_reference-architecture-structural-review.md`.
 
 ### Decision
 
@@ -1546,6 +1550,63 @@ Add Section 4.4 "Shared Packages Directory" to `reference-architecture.md` v1.13
 
 ---
 
+## DR-029 — Use DOCS/.review as the authoritative review output location
+
+**Date:** 2026-05-20
+**Status:** Accepted — 2026-05-20
+
+### Context
+
+DR-014 moved future review outputs to repository-root `.review/` to satisfy Reference Architecture v1.3. In practice this created two review locations: historical reviews under `DOCS/.review/` and newer reviews under root `.review/`. That split works against the repository's established documentation structure, where project governance, planning, implementation logs, templates, and reviews are co-located under `DOCS/`.
+
+The project now chooses `DOCS/.review/` as the single authoritative location for all review outputs. The Reference Architecture is updated to v1.14 so this is a normative architecture rule rather than a project-only exception.
+
+### Decision
+
+Update `reference-architecture.md` v1.14 Section 10.7 to require review outputs under `DOCS/review/`, with project naming conventions allowed to adapt the concrete path. This repository uses the concrete path `DOCS/.review/` per DR-001 and `DOCS/.design/naming-conventions.md`.
+
+All future review outputs MUST be created under `DOCS/.review/`:
+
+- Single-file structural reviews: `DOCS/.review/YYYY-MM-DD_[scope-slug].md`
+- Multi-file review bundles: `DOCS/.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/`
+
+Repository-root `.review/` MUST NOT be used by this project. Existing root `.review/` contents are moved into `DOCS/.review/`, and active prompts/templates must be updated so automated agents do not recreate the root directory.
+
+### Consequences
+
+**Outcomes:**
+- Review outputs return to a single discoverable documentation location.
+- `DOCS/.review/` now contains both historical v1.2-shaped bundles and current v1.3+ shaped review outputs.
+- The Reference Architecture and project decision register agree on the active review directory rule.
+- DR-014 is superseded.
+
+**Trade-offs:**
+- This reverses the previous literal root-path interpretation in DR-014, so active references to root `.review/` must be updated.
+- Historical documents and old implementation logs may still mention root `.review/` as past state; those are not active workflow instructions.
+
+**Compliance note:**
+- `DOCS/.review/` follows the project's dot-prefixed DOCS subdirectory convention from DR-001.
+- DR-012 continues to govern the current multi-file bundle naming shape; this decision changes location, not bundle shape.
+
+### Alternatives Considered
+
+**Alternative: Keep both root `.review/` and `DOCS/.review/`**
+- Description: Leave existing root reviews in place and write future reviews to `DOCS/.review/`.
+- Rejected because: Two locations create avoidable ambiguity for agents and reviewers.
+
+**Alternative: Keep root `.review/` and update only prompts**
+- Description: Preserve DR-014 and continue treating `DOCS/.review/` as historical.
+- Rejected because: It conflicts with the user's approved repository organization and keeps review artefacts outside the documentation tree.
+
+### Related Decisions
+
+- DR-001 — Dot-prefix convention for DOCS subdirectories.
+- DR-010 — Earlier decision placing code review outputs under `DOCS/.review/`.
+- DR-012 — Current comprehensive review bundle naming convention.
+- DR-014 — Superseded root `.review/` decision.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -1564,5 +1625,5 @@ Add Section 4.4 "Shared Packages Directory" to `reference-architecture.md` v1.13
 
 ---
 
-*Last entry: DR-028. Next ID: DR-029.*
+*Last entry: DR-029. Next ID: DR-030.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

@@ -1,8 +1,8 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-20 (BACKLOG-009 resolved — DEMOAPP001 REST API wrapper implemented)
-**Governed by:** `reference-architecture.md` v1.13 Section 10.1
+**Last Updated:** 2026-05-20 (DR-029 review output location migrated to `DOCS/.review/`)
+**Governed by:** `reference-architecture.md` v1.14 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
 **Status:** Active Development
@@ -13,7 +13,7 @@
 
 This backlog tracks product, technical debt, and Reference Architecture migration work required to keep current and future Stacks in parity.
 
-Per v1.13 Section 10.1:
+Per v1.14 Section 10.1:
 
 - Every tracked item uses exactly one status: `Open`, `In Progress`, or `Resolved`.
 - Resolved items are retained as a record that the gap existed.
@@ -33,7 +33,7 @@ Per v1.13 Section 10.1:
 | Area | Current state |
 |------|---------------|
 | Current execution baseline | DEMOAPP001: 46 scenarios / 257 steps passing; DEMOAPP001 REST API integration PASS; DEMOAPP002: 46 pytest-bdd scenarios passing |
-| Active Reference Architecture | v1.13 |
+| Active Reference Architecture | v1.14 |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`) |
 | Current sprint focus | Web UI solver visualisation after API wrapper completion |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
@@ -46,10 +46,10 @@ Per v1.13 Section 10.1:
 |----|-------|----------|---------------|----------|--------|-----------------|
 | MIG-01 | Adopt Reference Architecture v1.3 and create DR-012 | All | Governance baseline | High | Resolved | DR-012 |
 | MIG-02 | Add RA-literal DOCS path bridges | All | Documentation path compatibility | High | Resolved | DR-013 |
-| MIG-03 | Align code review output location and naming | All | Review output compliance | High | Resolved | DR-014 |
+| MIG-03 | Align code review output location and naming | All | Review output compliance | High | Resolved | DR-014, DR-029 |
 | MIG-04 | Wire Screenplay runtime state through Actor Memory | DEMOAPP001 and future Stacks | Screenplay parity contract | High | Resolved | DR-015 |
 | MIG-05 | Remove direct Ability calls from step definitions | DEMOAPP001 and future Stacks | Layer 2 thinness | High | Resolved | DR-015 |
-| MIG-06 | Refresh AI agent guide for v1.3 | All | Agent guidance currency | Medium | Resolved | DR-012, DR-013, DR-014 |
+| MIG-06 | Refresh AI agent guide for v1.3 | All | Agent guidance currency | Medium | Resolved | DR-012, DR-013, DR-014, DR-029 |
 | MIG-07 | Reconcile backlog against v1.3 state | All | Planning currency | Medium | Resolved | None required |
 | MIG-08 | Complete template mandate details | All | Template compliance | Medium | Resolved | None required |
 | MIG-09 | Normalize implementation-log location and naming policy | All | Documentation path and naming | Medium | Resolved | DR-017 |
@@ -62,7 +62,7 @@ Per v1.13 Section 10.1:
 
 ## Reference Architecture Improvement Items
 
-Raised by structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+Raised by structural review `DOCS/.review/2026-05-18_reference-architecture-structural-review.md`.
 Items are improvements to `reference-architecture.md` v1.3 itself, not project implementation work.
 
 | ID | Title | Risk (review) | Severity | Priority | Status | Decision Record |
@@ -108,7 +108,7 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 **Status:** Resolved
 **Severity:** Critical (review Risk 1)
 **Nature of Gap:** RA specification gap — `@util` tag appears in Sections 5.3 and Appendix B but has no corresponding surface contract (Section 6), Ability definition (Section 7), or orchestration lifecycle (Section 9.1)
-**Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 1
+**Review evidence:** `DOCS/.review/2026-05-18_reference-architecture-structural-review.md` Risk 1
 **Resolution:** DR-021 — RA v1.4 adds Section 6.0 (`@util` surface contract), Section 7.0 (canonical Ability), Section 8.1 minimum Memory keys, Section 9.1 lifecycle, Appendix B checklist block. RA version bumped to v1.4 (2026-05-18).
 
 Acceptance criteria:
@@ -128,7 +128,7 @@ Acceptance criteria:
 **Status:** Resolved
 **Severity:** High (review Risk 2)
 **Nature of Gap:** RA mandates orchestration and metrics but provides no CI/CD pipeline specification — pipeline gate requirements, required exit code handling, and artifact retention in CI context are undefined
-**Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 2
+**Review evidence:** `DOCS/.review/2026-05-18_reference-architecture-structural-review.md` Risk 2
 **Resolution:** DR-022 — RA v1.5 adds Section 9.4 (CI/CD Pipeline Requirements): required gate sequence, `OverallExitCode` contract, feature parity as mandatory gate, CI artifact retention, multi-Stack pipeline isolation. RA version bumped to v1.5 (2026-05-18).
 
 Acceptance criteria:
@@ -147,7 +147,7 @@ Acceptance criteria:
 **Status:** Resolved
 **Severity:** High (review Risk 3)
 **Nature of Gap:** Section 8.1 mandates identical Memory key constants across Stacks but provides no automated verification mechanism — manual checklist only, insufficient for multi-Stack projects
-**Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 3
+**Review evidence:** `DOCS/.review/2026-05-18_reference-architecture-structural-review.md` Risk 3
 **Resolution:** DR-023 — RA v1.6 adds "Automated enforcement" subsection to Section 8.1 (multi-Stack MUST provide checker, single-Stack MAY use checklist). Appendix A updated with `memory-key-check.template.md`. Template created at `DOCS/.templates/memory-key-check.template.md`. Script created at `.batch/check-memory-key-parity.ps1`. DEMOAPP001 and DEMOAPP002 pass: all 6 constants verified OK per Stack. The GitHub Actions CI workflow runs the memory-key parity gate.
 
 Acceptance criteria:
@@ -166,7 +166,7 @@ Acceptance criteria:
 **Status:** Resolved
 **Severity:** High (review Risk 4)
 **Nature of Gap:** Section 5 defines feature propagation process but no change approval process — no specification for who can modify canonical features, what review is required, or how breaking changes are coordinated across Stacks
-**Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 4
+**Review evidence:** `DOCS/.review/2026-05-18_reference-architecture-structural-review.md` Risk 4
 **Resolution:** DR-024 — RA v1.7 adds Section 5.5 (Feature Change Governance): breaking vs non-breaking classification table, breaking change gate sequence (MUST), `@pending` one-sprint resolution deadline with two-sprint escalation to defect, canonical file protection rules. RA version bumped to v1.7 (2026-05-18).
 
 Acceptance criteria:
@@ -185,7 +185,7 @@ Acceptance criteria:
 **Status:** Resolved
 **Severity:** Medium (review Risk 5)
 **Nature of Gap:** RA uses `features_shared/` (underscore) throughout Sections 4, 5, 5.2, 5.3, and 11 — any project adopting kebab-case naming diverges from RA examples immediately without a reconciliation path; agents reading the RA produce non-compliant paths
-**Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 5
+**Review evidence:** `DOCS/.review/2026-05-18_reference-architecture-structural-review.md` Risk 5
 **Resolution:** RA v1.8 — all 8 occurrences of `features_shared/` replaced with `features-shared/`. Section 4 intro note added clarifying blueprint names are illustrative defaults. Section 4.3 note added clarifying Stack directory name vs canonical Stack name distinction. No DR required (editorial correction, no normative rule change).
 
 Acceptance criteria:
@@ -203,7 +203,7 @@ Acceptance criteria:
 **Status:** Resolved
 **Severity:** Medium (review Risk 7)
 **Nature of Gap:** Section 10.2 mandates `ARCHITECTURE.md`, `SCREENPLAY_GUIDE.md`, `QA_STRATEGY.md` as uppercase fixed names, but Section 10.9 mandates a naming conventions document that allows kebab-case — following both requirements simultaneously is impossible; this project has `architecture.md`, `qa-strategy.md`, `screenplay-guide.md` per DR-020
-**Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 7
+**Review evidence:** `DOCS/.review/2026-05-18_reference-architecture-structural-review.md` Risk 7
 **Resolution:** DR-025 — RA v1.9 introduces FIXED vs convention-governed name-type distinction. Section 10.1 updated (README.md, CHANGELOG.md FIXED; others convention-governed). Section 10.2 updated: uppercase fixed names removed, replaced with convention-governed roles with kebab-case illustrative defaults and migration note. Appendix A name-type column added. This project's DR-020 kebab-case docs now explicitly in compliance.
 
 Acceptance criteria:
@@ -221,7 +221,7 @@ Acceptance criteria:
 **Status:** Resolved
 **Severity:** Medium (review Risk 8)
 **Nature of Gap:** The RA defines behavioral contracts (Gherkin feature files) and orchestration contracts (lifecycle, metrics) but provides no guidance on test data. For projects where test data is the primary input to the system under test (e.g. `puzzles.json`), there is no specification for: where test data lives (Stack, canonical store, or shared package), how test data is versioned alongside feature files, data isolation between scenarios, or data-driven testing patterns beyond parameterised step text.
-**Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 8
+**Review evidence:** `DOCS/.review/2026-05-18_reference-architecture-structural-review.md` Risk 8
 **Resolution:** DR-026 — RA v1.10 adds Section 5.6 (Test Data Management): location rules table (Stack-local vs shared), inline literal prohibition (MUST NOT), scenario isolation MUST (deep copy or in-memory), shared data versioning treated as breaking change, Scenario Outline guidance for data-driven scenarios. DEMOAPP001 `puzzles.json` confirmed compliant — Stack-local, read-only during test execution.
 
 Acceptance criteria:
@@ -239,7 +239,7 @@ Acceptance criteria:
 **Status:** Resolved
 **Severity:** Low (review Risk 9)
 **Nature of Gap:** Section 9.3 requires that a change to the test result retention policy be recorded in `CHANGELOG.md`. CHANGELOG.md is intended for release notes and notable changes visible to project consumers. A retention window change is an operational configuration concern for the build system operator, not a release note. In practice this rule will either be silently ignored (policy changes without a changelog entry) or the changelog accumulates operational noise that obscures actual feature changes.
-**Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 9
+**Review evidence:** `DOCS/.review/2026-05-18_reference-architecture-structural-review.md` Risk 9
 **Resolution:** RA v1.11 — Section 9.3 bullet updated: `CHANGELOG.md` replaced with `decision-register.md`. Retention policy changes now MUST be recorded as a DR entry with the new window, reason, and effective date. No DR required (editorial correction to a low-stakes rule).
 
 Acceptance criteria:
@@ -255,7 +255,7 @@ Acceptance criteria:
 **Status:** Resolved
 **Severity:** Low (review Risk 10)
 **Nature of Gap:** Section 8.4 defines five criteria for declaring a Stack in parity but specifies no verification method for any of them. Appendix B provides a manual checklist. Neither specifies whether verification is manual, scripted, or a CI gate. The current project has automated coverage for criterion 1 (feature parity report) and criterion 2 (memory key parity check), but criteria 3–5 remain manual-only. A checklist filled in manually is subject to human error and is insufficient as a parity gate at scale.
-**Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 10
+**Review evidence:** `DOCS/.review/2026-05-18_reference-architecture-structural-review.md` Risk 10
 **Resolution:** DR-027 — RA v1.12 replaces Section 8.4 numbered list with a verification method table (criterion, description, method, automated/manual). Normative statement added: criteria 1, 2, and 3 MUST be verified by automated tools. Criterion 3 (step-text diff) has no dedicated script yet — tracked as BACKLOG-022. DR-027 required (new MUST language).
 
 Acceptance criteria:
@@ -272,7 +272,7 @@ Acceptance criteria:
 **Status:** Resolved
 **Severity:** Low (review Risk 11)
 **Nature of Gap:** Section 4 shows `packages/` as "Shared code packages (OPTIONAL)" with no further specification. In a multi-Stack project, shared utilities (e.g. a common PuzzleLoader or shared assertion helper) will naturally emerge. There is no guidance on what is appropriate to place there, how shared packages relate to the parity contract, whether they count as part of the Stack or the project, or how package interface changes are versioned and propagated across Stacks.
-**Review evidence:** `.review/2026-05-18_reference-architecture-structural-review.md` Risk 11
+**Review evidence:** `DOCS/.review/2026-05-18_reference-architecture-structural-review.md` Risk 11
 **Resolution:** DR-028 — RA v1.13 adds Section 4.4 (Shared Packages Directory): independent versioning MUST, MUST NOT include Stack-specific code or test runner imports, public interface changes treated as breaking changes (Section 5.5 gate), DR entry MUST, parity verification run MUST. Shared package failures are project-level breaking changes — must be resolved before Stack is declared in parity. DEMOAPP001 has no packages/ usage; compliant. DR-028 recorded.
 
 Acceptance criteria:
@@ -437,7 +437,7 @@ Acceptance criteria:
 **Stack(s):** All
 **Nature of Gap:** Parity automation — Section 8.4 criterion 3 (step Gherkin text matches canonical exactly) is designated MUST be automated per DR-027, but no script exists. The feature parity report checks scenario presence; it does not diff individual step text within a scenario.
 
-Review evidence: `.review/2026-05-18_repository-structural-review.md` Risk 3
+Review evidence: `DOCS/.review/2026-05-18_repository-structural-review.md` Risk 3
 
 Acceptance criteria:
 
@@ -482,7 +482,7 @@ Acceptance criteria:
 **Stack(s):** DEMOAPP001
 **Nature of Gap:** Ability layer violation (RA §3.2)
 
-Review evidence: `.review/2026-05-18_repository-structural-review.md` Risk 2
+Review evidence: `DOCS/.review/2026-05-18_repository-structural-review.md` Risk 2
 
 The `UseSudokuSolver` Ability (399 lines, 17 private fields, 40+ methods) contains grid manipulation
 helpers, a duplicate `isValidPlacement` constraint checker, and compound operations that belong in
@@ -510,7 +510,7 @@ Acceptance criteria:
 **Stack(s):** DEMOAPP001
 **Nature of Gap:** Step definition shape (RA §8.2)
 
-Review evidence: `.review/2026-05-18_repository-structural-review.md` Risk 11
+Review evidence: `DOCS/.review/2026-05-18_repository-structural-review.md` Risk 11
 
 The step `Given('the missing digit is {int}', ...)` in `unitCompletion.steps.ts` accepts a digit
 parameter from the Gherkin but discards it. The missing digit is hardcoded in
@@ -539,7 +539,7 @@ Resolution:
 **Stack(s):** All
 **Nature of Gap:** Parity tooling compliance (RA §9.4)
 
-Review evidence: `.review/2026-05-18_repository-structural-review.md` Risk 4
+Review evidence: `DOCS/.review/2026-05-18_repository-structural-review.md` Risk 4
 
 RA §9.4 states the CI pipeline MUST fail if `Overall result: DRIFT` or
 `Overall result: MISSING` appears in the report output. The script
@@ -569,7 +569,7 @@ Resolution:
 **Stack(s):** All
 **Nature of Gap:** Document naming violation (DR-020)
 
-Review evidence: `.review/2026-05-18_repository-structural-review.md` Risk 5
+Review evidence: `DOCS/.review/2026-05-18_repository-structural-review.md` Risk 5
 
 DR-020 mandates kebab-case for all authored documents (exceptions: `README.md`,
 `CHANGELOG.md`, `CLAUDE.md`). The planning backlog file was exposed on disk with
@@ -580,7 +580,7 @@ own header use `DOCS/.planning/backlog.md` (lowercase). On Linux CI runners
 **Resolution:** The file casing was normalized to `DOCS/.planning/backlog.md`
 using a temporary intermediate `git mv` because Windows is case-insensitive.
 Editable non-review uppercase references were updated; review outputs under
-`.review/` and `DOCS/.review/` remain read-only per RA §10.7 and `.review/README.md`.
+`DOCS/.review/` remain read-only per RA §10.7 and `DOCS/.review/README.md`.
 
 Acceptance criteria:
 
@@ -598,7 +598,7 @@ Acceptance criteria:
 **Stack(s):** DEMOAPP001
 **Nature of Gap:** Framework investment unrealised
 
-Review evidence: `.review/2026-05-18_repository-structural-review.md` Risk 6
+Review evidence: `DOCS/.review/2026-05-18_repository-structural-review.md` Risk 6
 
 `tests/screenplay/support/configure.ts` sets `crew: []`. Serenity/JS's primary
 differentiator over plain Cucumber is its HTML living documentation report.
@@ -628,7 +628,7 @@ Resolution:
 **Stack(s):** All
 **Nature of Gap:** Governance document currency
 
-Review evidence: `.review/2026-05-18_repository-structural-review.md` Risk 7
+Review evidence: `DOCS/.review/2026-05-18_repository-structural-review.md` Risk 7
 
 `decision-register.md` header shows `Last Updated: 2026-05-16` while DR-021
 through DR-028 were added on 2026-05-18. The `backlog.md` header previously
@@ -656,13 +656,13 @@ Acceptance criteria:
 **Stack(s):** All
 **Nature of Gap:** Decision register governance (RA §10.6)
 
-Review evidence: `.review/2026-05-18_repository-structural-review.md` Risk 8
+Review evidence: `DOCS/.review/2026-05-18_repository-structural-review.md` Risk 8
 
 DR-010 formally accepted `DOCS/.review/` as the code review output location.
-DR-014 subsequently moved this to the repository-root `.review/`. DR-010
-remains `Status: Accepted` with no forward reference to DR-014. Per RA §10.6,
-a superseded entry MUST contain a forward reference to its replacement. An
-agent reading the register in order would see DR-010 as valid authority.
+DR-014 subsequently moved this to repository-root `.review/`. DR-010 remained
+`Status: Accepted` with no forward reference to DR-014. Per RA §10.6, a
+superseded entry MUST contain a forward reference to its replacement. An agent
+reading the register in order would see DR-010 as valid authority.
 
 Acceptance criteria:
 
@@ -673,7 +673,7 @@ Acceptance criteria:
 
 Resolution:
 
-- DR-010 now records DR-014 as its superseding decision, with a forward reference in Consequences. DR-014 already contained the required back reference to DR-010.
+- DR-010 now records DR-014 as its superseding decision, with a forward reference in Consequences. DR-014 already contained the required back reference to DR-010. DR-014 was later superseded by DR-029, which restores `DOCS/.review/` as the single authoritative review output location.
 
 ---
 
@@ -684,7 +684,7 @@ Resolution:
 **Stack(s):** DEMOAPP001
 **Nature of Gap:** Magic string risk (RA §8.2)
 
-Review evidence: `.review/2026-05-18_repository-structural-review.md` Risk 9
+Review evidence: `DOCS/.review/2026-05-18_repository-structural-review.md` Risk 9
 
 The string `'Solver'` is used as the argument to `actorCalled('Solver')` in
 every step definition file without being extracted to a shared constant. If
@@ -712,7 +712,7 @@ Resolution:
 **Stack(s):** All
 **Nature of Gap:** Planning document currency
 
-Review evidence: `.review/2026-05-18_repository-structural-review.md` Risk 12
+Review evidence: `DOCS/.review/2026-05-18_repository-structural-review.md` Risk 12
 
 The sprint roadmap in `DOCS/.planning/backlog.md` shows Sprint 6+ listing
 "RA-001 through RA-006 (Open)" while all ten RA items are Resolved. Sprint 2
@@ -740,7 +740,7 @@ Resolution:
 **Stack(s):** DEMOAPP002
 **Nature of Gap:** Screenplay parity (RA Section 3.5 -- Memory contract)
 
-Review evidence: `.review/CODE_REVIEW_CLAUDE_v1_20260519T1948Z/02_RISKS_AND_ISSUES.md` Risk 1
+Review evidence: `DOCS/.review/CODE_REVIEW_CLAUDE_v1_20260519T1948Z/02_RISKS_AND_ISSUES.md` Risk 1
 
 Resolution:
 
@@ -758,7 +758,7 @@ Resolution:
 **Stack(s):** DEMOAPP002
 **Nature of Gap:** Screenplay anti-pattern (Questions must be side-effect free)
 
-Review evidence: `.review/CODE_REVIEW_CLAUDE_v1_20260519T1948Z/02_RISKS_AND_ISSUES.md` Risk 2
+Review evidence: `DOCS/.review/CODE_REVIEW_CLAUDE_v1_20260519T1948Z/02_RISKS_AND_ISSUES.md` Risk 2
 
 Resolution:
 
@@ -777,7 +777,7 @@ Resolution:
 **Stack(s):** All
 **Nature of Gap:** Backlog governance (stale Open item)
 
-Review evidence: `.review/CODE_REVIEW_CLAUDE_v1_20260519T1948Z/02_RISKS_AND_ISSUES.md` Risk 4
+Review evidence: `DOCS/.review/CODE_REVIEW_CLAUDE_v1_20260519T1948Z/02_RISKS_AND_ISSUES.md` Risk 4
 
 Resolution:
 
@@ -798,8 +798,8 @@ Resolution:
 | BACKLOG-019 | Migrate TypeScript Tests to Screenplay Pattern | DEMOAPP001 | 2026-05-15 | Screenplay layer implemented and green |
 | MIG-01 | Adopt Reference Architecture v1.3 and create DR-012 | All | 2026-05-15 | DR-012 |
 | MIG-02 | Add RA-literal DOCS path bridges | All | 2026-05-15 | DR-013 |
-| MIG-03 | Align code review output location and naming | All | 2026-05-15 | DR-014 |
-| MIG-06 | Refresh AI agent guide for v1.3 | All | 2026-05-15 | `CLAUDE.md` current |
+| MIG-03 | Align code review output location and naming | All | 2026-05-15 | DR-014; updated by DR-029 |
+| MIG-06 | Refresh AI agent guide for v1.3 | All | 2026-05-15 | `CLAUDE.md` current; updated by DR-029 |
 | MIG-07 | Reconcile backlog against v1.3 state | All | 2026-05-15 | This update |
 | MIG-08 | Complete template mandate details | All | 2026-05-15 | Required annotations added; current docs use lowercase template references |
 | MIG-04 | Wire Screenplay runtime state through Actor Memory | DEMOAPP001 | 2026-05-16 | TakeNotes wired; all 6 Memory keys runtime-active; DR-015 |

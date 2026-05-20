@@ -1,5 +1,9 @@
 # Code Review Template
 
+> Historical project-specific template. For new reviews, use
+> `DOCS/.templates/code-review.template.md`; all outputs go under
+> `DOCS/.review/`.
+
 This template provides a comprehensive framework for conducting thorough code reviews of test automation projects.
 
 ---
@@ -289,7 +293,7 @@ Example structure:
 
 ```bash
 # 1. Create review directory
-mkdir -p .review/CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T1430Z
+mkdir -p DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T1430Z
 
 # 2. Generate main index
 # Create 00_CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T1430Z.md
@@ -298,11 +302,11 @@ mkdir -p .review/CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T1430Z
 # Create 01_EXECUTIVE_SUMMARY.md through 07_MIGRATION_PLANS.md
 
 # 4. Create project-specific reviews
-mkdir -p .review/CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T1430Z/03_PROJECT_REVIEWS
+mkdir -p DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T1430Z/03_PROJECT_REVIEWS
 # Create PROJECT_001_*.md, PROJECT_002_*.md, etc.
 
 # 5. Add annexes if needed
-mkdir -p .review/CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T1430Z/ANNEX
+mkdir -p DOCS/.review/CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T1430Z/ANNEX
 # Create optional annex files
 
 # 6. Validate structure and navigation

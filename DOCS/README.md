@@ -84,7 +84,7 @@ Canonical template store — all document templates live here. Use a template be
 | [subject-app-contract.template.md](.templates/subject-app-contract.template.md) | `DOCS/.architecture/subject-app-contract.md` | 6 |
 | [algorithm.template.md](.templates/algorithm.template.md) | `DOCS/.algorithm/` algorithm docs | — |
 | [implementation-log.template.md](.templates/implementation-log.template.md) | `DOCS/.implementation-logs/YYYY-MM-DD_*.md` | — |
-| [code-review.template.md](.templates/code-review.template.md) | `.review/CODE_REVIEW_*/` | — |
+| [code-review.template.md](.templates/code-review.template.md) | `DOCS/.review/CODE_REVIEW_*/` | — |
 | [design-document.template.md](.templates/design-document.template.md) | `DOCS/.design/` design documents | — |
 | [howto.template.md](.templates/howto.template.md) | `DOCS/.howto/` how-to guides | — |
 
@@ -150,6 +150,7 @@ Chronological record of every development session.
 |-----|------|-------|
 | [IMPL_LOG_2026-01-30_Initial_Project_Creation.md](.implementation/IMPL_LOG_2026-01-30_Initial_Project_Creation.md) | 2026-01-30 | Initial setup, solver algorithms |
 | [IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md](.implementation/IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md) | 2026-05-14 | Naming, constants, Cucumber test runner |
+| [2026-05-20_review-output-location-migration.md](.implementation-logs/2026-05-20_review-output-location-migration.md) | 2026-05-20 | Review output location migration to `DOCS/.review/` |
 
 ---
 
@@ -163,7 +164,8 @@ Chronological record of every development session.
 
 ## Code Reviews
 
-Reviews are snapshots: timestamped, immutable once written.
+Reviews are snapshots: timestamped, immutable once written. The authoritative
+review directory is `DOCS/.review/`; repository-root `.review/` is not used.
 
 | Review | Reviewer | Date | Grade |
 |--------|---------|------|-------|
@@ -171,6 +173,9 @@ Reviews are snapshots: timestamped, immutable once written.
 | [CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z](.review/CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z/) | GPT-5.3 Codex | 2026-03-30 | — |
 | [CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z](.review/CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z/) | CLAUDE Opus 4.6 | 2026-03-30 | B+ |
 | [CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z](.review/CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z/) | CLAUDE Sonnet 4.6 | 2026-05-13 | A- |
+| [2026-05-18_reference-architecture-structural-review.md](.review/2026-05-18_reference-architecture-structural-review.md) | Codex | 2026-05-18 | — |
+| [2026-05-18_repository-structural-review.md](.review/2026-05-18_repository-structural-review.md) | Codex | 2026-05-18 | — |
+| [CODE_REVIEW_CLAUDE_v1_20260519T1948Z](.review/CODE_REVIEW_CLAUDE_v1_20260519T1948Z/) | CLAUDE | 2026-05-19 | A- |
 
 ---
 
