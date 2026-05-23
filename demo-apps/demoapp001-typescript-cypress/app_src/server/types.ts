@@ -100,14 +100,11 @@ export interface ErrorResponse {
   requestId?: string;
 }
 
-export interface SolveStep {
+export interface SolveStep extends CellChange {
   stepNumber: number;
   iteration: number;
   algorithm: 'UnitCompletion' | 'HiddenSingles' | 'NakedSingles';
   algorithmParam?: number;
-  cell: { row: number; col: number };
-  oldValue: number;
-  newValue: number;
 }
 
 export interface VisualiseStatistics {

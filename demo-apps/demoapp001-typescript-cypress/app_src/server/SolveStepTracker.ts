@@ -7,9 +7,7 @@ import { cloneGrid } from './validation';
 import { SolveStep, SolverStatus, VisualiseResult } from './types';
 
 export class SolveStepTracker {
-  constructor(
-    private readonly puzzleLoader: PuzzleLoader = new PuzzleLoader('../puzzles.json')
-  ) {}
+  constructor(private readonly puzzleLoader: PuzzleLoader = new PuzzleLoader('../puzzles.json')) {}
 
   trackSolve(puzzleName: string): VisualiseResult {
     const puzzle = this.puzzleLoader.getPuzzleByName(puzzleName);

@@ -11,6 +11,7 @@ async function run(): Promise<void> {
   await validateEndpoint();
   await techniqueEndpoints();
   await solveEndpoint();
+  await visualiseEndpoint();
 
   console.log('API integration tests: PASS');
 }
@@ -113,6 +114,39 @@ async function solveEndpoint(): Promise<void> {
   assert.ok(solveResponse.body.totalChanges > 0);
   assert.ok(solveResponse.body.iterations > 0);
   assert.ok(Array.isArray(solveResponse.body.events));
+}
+
+async function visualiseEndpoint(): Promise<void> {
+  const pageResponse = await request(app).get('/').expect(200);
+  assert.match(pageResponse.text, /Sudoku Solver Visualisation/);
+
+  const visualiseResponse = await request(app).get('/api/visualise/Easy%20Scan%20Grid').expect(200);
+  assert.strictEqual(visualiseResponse.body.puzzleName, 'Easy Scan Grid');
+  assert.strictEqual(visualiseResponse.body.status, 'SOLVED');
+  assert.strictEqual(visualiseResponse.body.initialGrid.length, GRID_SIZE);
+  assert.strictEqual(visualiseResponse.body.finalGrid.length, GRID_SIZE);
+  assert.ok(Array.isArray(visualiseResponse.body.steps));
+  assert.ok(visualiseResponse.body.steps.length > 0);
+  assert.strictEqual(
+    visualiseResponse.body.statistics.totalSteps,
+    visualiseResponse.body.steps.length
+  );
+
+  const firstStep = visualiseResponse.body.steps[0];
+  assert.strictEqual(firstStep.stepNumber, 1);
+  assert.ok(['UnitCompletion', 'HiddenSingles', 'NakedSingles'].includes(firstStep.algorithm));
+  assert.strictEqual(typeof firstStep.cell.row, 'number');
+  assert.strictEqual(typeof firstStep.cell.col, 'number');
+
+  const { unitCompletion, hiddenSingles, nakedSingles } =
+    visualiseResponse.body.statistics.stepsByAlgorithm;
+  assert.strictEqual(
+    unitCompletion + hiddenSingles + nakedSingles,
+    visualiseResponse.body.steps.length
+  );
+
+  const missingResponse = await request(app).get('/api/visualise/Unknown').expect(404);
+  assert.strictEqual(missingResponse.body.error, 'PUZZLE_NOT_FOUND');
 }
 
 function emptyGrid(): number[][] {

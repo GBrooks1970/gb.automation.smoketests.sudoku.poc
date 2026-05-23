@@ -123,6 +123,7 @@ Run DEMOAPP001 commands from `demo-apps/demoapp001-typescript-cypress/`.
 | `npm test` | Run Cucumber/Serenity Screenplay scenarios |
 | `npm run test:api` | Run REST API integration checks |
 | `npm run start:api` | Start Express REST API on `PORT` or 3000 |
+| `npm run start:web` | Start the combined Express API and Web UI server |
 | `npm start -- --help` | Show CLI options |
 
 Run DEMOAPP002 commands from `demo-apps/demoapp002-python-pytest/`.
