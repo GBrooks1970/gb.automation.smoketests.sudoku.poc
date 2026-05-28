@@ -17,12 +17,12 @@ When documents conflict, use this order:
 ## Current Architecture Baseline
 
 - Reference Architecture: v1.15, accepted 2026-05-20
-- Active Stacks: `DEMOAPP001_TYPESCRIPT_CYPRESS`, `DEMOAPP002_PYTHON_PYTEST`
+- Active Stacks: `DEMOAPP001_TYPESCRIPT_CYPRESS`, `DEMOAPP002_PYTHON_PYTEST`, `DEMOAPP003_CSHARP_SPECFLOW`
 - Active test surface: `@util` in-process class testing
 - Active API surface: DEMOAPP001 Express REST API at `app_src/server/index.ts`
 - Canonical feature store: `features-shared/`
-- Stack-local feature copies: `demo-apps/demoapp001-typescript-cypress/tests/features/`, `demo-apps/demoapp002-python-pytest/tests/features/`
-- Screenplay implementations: DEMOAPP001 passing with Serenity/JS + Cucumber.js; DEMOAPP002 passing with pytest-bdd
+- Stack-local feature copies: `demo-apps/demoapp001-typescript-cypress/tests/features/`, `demo-apps/demoapp002-python-pytest/tests/features/`, `demo-apps/demoapp003-csharp-specflow/tests/features/`
+- Screenplay implementations: DEMOAPP001 passing with Serenity/JS + Cucumber.js; DEMOAPP002 passing with pytest-bdd; DEMOAPP003 passing with SpecFlow + NUnit
 - Implementation logs: authoritative at `DOCS/.implementation-logs/` (DR-019)
 - Feature parity script: `.batch/generate-feature-parity-report.ps1` (MIG-10)
 - All RA v1.3 migration gaps resolved: MIG-01 through MIG-13 all Resolved; RA v1.14 review-location rule resolved by DR-029
@@ -58,24 +58,33 @@ gb.automation.smoketests.sudoku.poc/
 |   |   |-- cucumber.js
 |   |   |-- package.json
 |   |   `-- puzzles.json
-|   `-- demoapp002-python-pytest/
+|   |-- demoapp002-python-pytest/
+|   |   |-- app_src/
+|   |   |   |-- sudoku_solver.py
+|   |   |   |-- sudoku_orchestrator.py
+|   |   |   |-- puzzle_loader.py
+|   |   |   |-- audit.py
+|   |   |   `-- constants.py
+|   |   |-- tests/
+|   |   |   |-- features/
+|   |   |   |   `-- BasicSudokuSolverLogic.feature
+|   |   |   `-- screenplay/
+|   |   |       |-- abilities/
+|   |   |       |-- fixtures/
+|   |   |       |-- questions/
+|   |   |       |-- step_definitions/
+|   |   |       |-- support/
+|   |   |       `-- tasks/
+|   |   |-- pyproject.toml
+|   |   `-- puzzles.json
+|   `-- demoapp003-csharp-specflow/
 |       |-- app_src/
-|       |   |-- sudoku_solver.py
-|       |   |-- sudoku_orchestrator.py
-|       |   |-- puzzle_loader.py
-|       |   |-- audit.py
-|       |   `-- constants.py
 |       |-- tests/
 |       |   |-- features/
 |       |   |   `-- BasicSudokuSolverLogic.feature
 |       |   `-- screenplay/
-|       |       |-- abilities/
-|       |       |-- fixtures/
-|       |       |-- questions/
-|       |       |-- step_definitions/
-|       |       |-- support/
-|       |       `-- tasks/
-|       |-- pyproject.toml
+|       |-- tooling/performance/
+|       |-- docs/
 |       `-- puzzles.json
 |-- features-shared/
 |   `-- util-tests/sudoku-solver/BasicSudokuSolverLogic.feature
@@ -103,12 +112,7 @@ gb.automation.smoketests.sudoku.poc/
 |------------|----------|-----------|--------------|-------------|
 | `DEMOAPP001_TYPESCRIPT_CYPRESS` | TypeScript 5.x | Cucumber.js + Serenity/JS | `@util` | `demo-apps/demoapp001-typescript-cypress/` |
 | `DEMOAPP002_PYTHON_PYTEST` | Python 3.13 | pytest-bdd | `@util` | `demo-apps/demoapp002-python-pytest/` |
-
-Planned future Stacks:
-
-| Stack name | Language | Framework | Surface type | Status |
-|------------|----------|-----------|--------------|--------|
-| `DEMOAPP003_CSHARP_SPECFLOW` | C# | SpecFlow | `@util` | Planned |
+| `DEMOAPP003_CSHARP_SPECFLOW` | C# / .NET 8 | SpecFlow + NUnit | `@util` | `demo-apps/demoapp003-csharp-specflow/` |
 
 ## Development Commands
 
@@ -133,17 +137,37 @@ Run DEMOAPP002 commands from `demo-apps/demoapp002-python-pytest/`.
 | `python -m pip install -e ".[test]"` | Install Python Stack test dependencies |
 | `python -m pytest` | Run pytest-bdd Screenplay scenarios |
 
+Run DEMOAPP003 commands from `demo-apps/demoapp003-csharp-specflow/`.
+
+| Command | Purpose |
+|---------|---------|
+| `dotnet restore` | Restore C# Stack dependencies |
+| `dotnet test` | Run SpecFlow/NUnit Screenplay scenarios |
+| `dotnet run --project tooling/performance/DemoApp003.Performance.csproj --configuration Release` | Run C# reporting-only benchmarks |
+
 Repository-level orchestration:
 
 ```powershell
 .\.batch\run-demoapp001.ps1
+.\.batch\run-parity-checks.ps1
+.\.batch\run-performance-benchmarks.ps1
+docker compose config
+docker compose run --rm demoapp001-tests
+docker compose run --rm demoapp002-tests
+docker compose run --rm demoapp003-tests
+docker compose run --rm parity-checks
+docker compose --profile api up demoapp001-api
+docker compose --profile benchmark run --rm performance-benchmarks
 ```
+
+Docker runtime commands require Docker Desktop or another Docker Engine with Compose v2.
 
 Expected current baseline:
 
 ```text
 DEMOAPP001: 46 scenarios passed / 257 steps passed
 DEMOAPP002: 46 pytest-bdd scenarios passed
+DEMOAPP003: 46 SpecFlow scenarios passed
 OverallExitCode=0
 ```
 

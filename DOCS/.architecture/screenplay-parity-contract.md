@@ -1,7 +1,7 @@
 # Screenplay Parity Contract
 
-**Last updated:** 2026-05-19
-**Stacks covered:** DEMOAPP001_TYPESCRIPT_CYPRESS (current), DEMOAPP002_PYTHON_PYTEST (current), DEMOAPP003_CSHARP_SPECFLOW (planned)
+**Last updated:** 2026-05-28
+**Stacks covered:** DEMOAPP001_TYPESCRIPT_CYPRESS (current), DEMOAPP002_PYTHON_PYTEST (current), DEMOAPP003_CSHARP_SPECFLOW (current)
 **Governed by:** `decision-register.md` (signature or key changes require a DR entry)
 
 ---
@@ -45,7 +45,7 @@ Adding a new key requires updating this document, Stack memory-key files, and a 
 |------|---------|-----------|
 | TypeScript (current) | `new UseSudokuSolver()` | `UseSudokuSolver.as(actor)` |
 | Python (current) | `UseSudokuSolver()` | `actor.ability_to(UseSudokuSolver)` |
-| C# (planned) | `new UseSudokuSolver()` | framework actor ability lookup |
+| C# (current) | `new UseSudokuSolver()` | `actor.AbilityTo<UseSudokuSolver>()` |
 
 **Normative interface (BACKLOG-023 — slimmed, 2026-05-18):**
 
@@ -75,7 +75,7 @@ Validation logic (`isValidPlacement`, `noConstraintViolations`, `isValidSolution
 |------|---------|-----------|
 | TypeScript (current) | `LoadPuzzles.from(filePath)` | `LoadPuzzles.as(actor)` |
 | Python (current) | `LoadPuzzles.from_path(path)` | `actor.ability_to(LoadPuzzles)` |
-| C# (planned) | `LoadPuzzles.From(path)` | framework actor ability lookup |
+| C# (current) | `LoadPuzzles.From(path)` | `actor.AbilityTo<LoadPuzzles>()` |
 
 ---
 

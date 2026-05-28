@@ -62,7 +62,7 @@ gb.automation.smoketests.sudoku.poc/
 │   │   └── puzzles.json                     # Test puzzle data
 │   │
 │   ├── demoapp002-python-pytest/            # Python + pytest-bdd implementation
-│   └── demoapp003-csharp-specflow/          # (Planned) C# implementation
+│   └── demoapp003-csharp-specflow/          # C# + SpecFlow implementation
 │
 └── README.md                                # This file
 ```
@@ -128,11 +128,41 @@ python -m pytest
 - ✅ Screenplay-style abilities, tasks, questions, and actor memory
 - ✅ Shared canonical Gherkin scenarios via pytest-bdd
 
-### DEMOAPP003: C# + .NET (Planned)
+### DEMOAPP003: C# + SpecFlow
 
-**Status:** 📋 Planned
+**Status:** ✅ Implemented
 
-**Tech Stack:** C# 10+, .NET 6+, NUnit
+**Tech Stack:** C#, .NET 8, SpecFlow, NUnit
+
+**Quick Start:**
+```bash
+cd demo-apps/demoapp003-csharp-specflow
+dotnet restore
+dotnet test
+```
+
+**Features:**
+- ✅ C# solver implementation for the shared `@util` surface
+- ✅ JSON-based puzzle loading
+- ✅ Screenplay-style abilities, tasks, questions, and actor memory
+- ✅ Shared canonical Gherkin scenarios via SpecFlow
+
+### Repository-Level Commands
+
+```powershell
+.\.batch\run-parity-checks.ps1
+.\.batch\run-performance-benchmarks.ps1
+docker compose config
+docker compose run --rm demoapp001-tests
+docker compose run --rm demoapp002-tests
+docker compose run --rm demoapp003-tests
+docker compose run --rm parity-checks
+docker compose --profile api up demoapp001-api
+docker compose --profile benchmark run --rm performance-benchmarks
+```
+
+Performance results are reporting-only and are written to `.results/performance/`.
+Docker runtime commands require Docker Desktop or another Docker Engine with Compose v2.
 
 ## Key Design Principles
 
@@ -216,7 +246,7 @@ All implementations follow established software engineering principles:
 When implementing in a new technology stack:
 
 1. **Follow the specification** in [sudoku-solver-specification.md](DOCS/.design/sudoku-solver-specification.md)
-2. **Create a new demo app folder** (e.g., `demoapp003-csharp-specflow`)
+2. **Create a new demo app folder** following the documented `demoappNNN-language-framework` convention
 3. **Include a README** specific to that implementation
 4. **Implement the Gherkin scenarios** from the test specification
 5. **Maintain the same behavior** across all implementations

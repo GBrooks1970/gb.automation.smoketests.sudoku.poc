@@ -1,7 +1,7 @@
 # Implementation Logs
 
 **Status:** Authoritative (DR-019, 2026-05-16)
-**Governed by:** `reference-architecture.md` v1.14 §10.8
+**Governed by:** `reference-architecture.md` v1.15 §10.8
 **Template:** `DOCS/.templates/implementation-log.template.md`
 
 This directory is the authoritative location for implementation logs. Logs document development sessions, design decisions, bugs fixed, and lessons learned.
@@ -43,6 +43,8 @@ YYYY-MM-DD_short-session-topic.md
 | [2026-05-20_rest-api-wrapper.md](2026-05-20_rest-api-wrapper.md) | 2026-05-20 | DEMOAPP001 REST API wrapper |
 | [2026-05-20_review-output-location-migration.md](2026-05-20_review-output-location-migration.md) | 2026-05-20 | Review output location migration |
 | [2026-05-20_analysis-folder-migration.md](2026-05-20_analysis-folder-migration.md) | 2026-05-20 | Analysis/report folder migration |
+| [2026-05-24_web-ui-visualisation-cleanup.md](2026-05-24_web-ui-visualisation-cleanup.md) | 2026-05-24 | Web UI visualisation cleanup |
+| [2026-05-28_backlog-to-todo-plan-implementation.md](2026-05-28_backlog-to-todo-plan-implementation.md) | 2026-05-28 | Backlog-to-todo plan implementation |
 
 ---
 

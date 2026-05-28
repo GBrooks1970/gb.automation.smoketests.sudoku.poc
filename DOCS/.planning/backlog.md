@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-20 (BACKLOG-018 Web UI Solver Visualisation resolved)
+**Last Updated:** 2026-05-28 (BACKLOG-011, BACKLOG-013, BACKLOG-021 resolved; BACKLOG-010 in progress)
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -13,7 +13,7 @@
 
 This backlog tracks product, technical debt, and Reference Architecture migration work required to keep current and future Stacks in parity.
 
-Per v1.14 Section 10.1:
+Per v1.15 Section 10.1:
 
 - Every tracked item uses exactly one status: `Open`, `In Progress`, or `Resolved`.
 - Resolved items are retained as a record that the gap existed.
@@ -25,17 +25,17 @@ Per v1.14 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 7 |
-| In Progress | 0 |
-| Resolved | 49 |
+| Open | 3 |
+| In Progress | 1 |
+| Resolved | 52 |
 | **Total** | **56** |
 
 | Area | Current state |
 |------|---------------|
-| Current execution baseline | DEMOAPP001: 46 scenarios / 257 steps passing; DEMOAPP001 REST API integration PASS; DEMOAPP002: 46 pytest-bdd scenarios passing |
+| Current execution baseline | DEMOAPP001: 46 scenarios / 257 steps passing; DEMOAPP001 REST API integration PASS; DEMOAPP002: 46 pytest-bdd scenarios passing; DEMOAPP003: 46 SpecFlow scenarios passing; 3-Stack parity PASS |
 | Active Reference Architecture | v1.15 |
-| Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`) |
-| Current sprint focus | C# Stack start (BACKLOG-021) after Web UI completion |
+| Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
+| Current sprint focus | Finish Docker Compose runtime verification, then future product/solver work |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -86,11 +86,11 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 |----|-------|----------|---------------|----------|--------|
 | BACKLOG-009 | Implement REST API Wrapper | DEMOAPP001 API surface | Feature implementation | Medium | Resolved |
 | BACKLOG-018 | Implement Web UI Solver Visualisation | DEMOAPP001 future UI surface | Feature implementation | Medium | Resolved |
-| BACKLOG-021 | C# Screenplay-style Step Definitions | DEMOAPP003 | Future Stack parity | Medium | Open |
-| BACKLOG-010 | Docker Compose for Local Development | All | Local development infrastructure | Low | Open |
-| BACKLOG-011 | Performance Benchmarking Suite | All | Performance regression detection | Low | Open |
+| BACKLOG-021 | C# Screenplay-style Step Definitions | DEMOAPP003 | Future Stack parity | Medium | Resolved |
+| BACKLOG-010 | Docker Compose for Local Development | All | Local development infrastructure | Low | In Progress |
+| BACKLOG-011 | Performance Benchmarking Suite | All | Performance regression detection | Low | Resolved |
 | BACKLOG-012 | Implement Python Version | DEMOAPP002 | Future Stack implementation | Future | Resolved |
-| BACKLOG-013 | Implement C# Version | DEMOAPP003 | Future Stack implementation | Future | Open |
+| BACKLOG-013 | Implement C# Version | DEMOAPP003 | Future Stack implementation | Future | Resolved |
 | BACKLOG-014 | Advanced Solving Techniques | DEMOAPP001 and future Stacks | Solver capability | Future | Open |
 | BACKLOG-015 | Interactive Sudoku Tutor | Future product surface | Product idea | Future | Open |
 | BACKLOG-016 | Puzzle Generator | Future product surface | Product idea | Future | Open |
@@ -421,18 +421,22 @@ Resolution:
 ### BACKLOG-021: C# Screenplay-style Step Definitions
 
 **Priority:** Medium
-**Status:** Open
+**Status:** Resolved
 **Stack(s):** DEMOAPP003
 **Nature of Gap:** Future Stack parity
 
 Acceptance criteria:
 
-- [ ] `demo-apps/demoapp003-csharp-specflow/` directory created
-- [ ] C# solver implementation follows the solver specification
-- [ ] Screenplay-style `IAbility`, `ITask`, and `IQuestion<T>` interfaces defined
-- [ ] `UseSudokuSolver` and `LoadPuzzles` abilities implemented
-- [ ] All canonical Gherkin scenarios pass
-- [ ] `dotnet test` runs with SpecFlow
+- [x] `demo-apps/demoapp003-csharp-specflow/` directory created
+- [x] C# solver implementation follows the solver specification
+- [x] Screenplay-style `IAbility`, `ITask`, and `IQuestion<T>` interfaces defined
+- [x] `UseSudokuSolver` and `LoadPuzzles` abilities implemented
+- [x] All canonical Gherkin scenarios pass
+- [x] `dotnet test` runs with SpecFlow
+
+Resolution:
+
+- DEMOAPP003 now implements the canonical @util feature contract with .NET 8, SpecFlow, NUnit, a C# solver/orchestrator/puzzle-loader/audit model, Screenplay-style Actor/Ability/Task/Question components, Stack-local docs, benchmark runner, and parity-script integration. `dotnet test` passes 46/46 scenarios. DR-032 records the Stack decision.
 
 ### BACKLOG-022: Implement step-text parity checker (Section 8.4 criterion 3)
 
@@ -830,6 +834,9 @@ Resolution:
 | BACKLOG-034 | Resolve BACKLOG-012 as stale duplicate of BACKLOG-020 | All | 2026-05-19 | BACKLOG-012 closed, resolved items table updated; no DR required. |
 | BACKLOG-009 | Implement REST API Wrapper | DEMOAPP001 | 2026-05-20 | Express API server added with technique, solve, puzzle, validation, request validation/error middleware, and API integration tests; no DR required. |
 | BACKLOG-018 | Implement Web UI Solver Visualisation | DEMOAPP001 | 2026-05-20 | SolveStepTracker adapter, GET /api/visualise/:name endpoint, and vanilla ES-module frontend (grid, player, event log, statistics) served from existing Express server; no DR required. |
+| BACKLOG-021 | C# Screenplay-style Step Definitions | DEMOAPP003 | 2026-05-28 | DEMOAPP003 C# SpecFlow Stack added with 46 canonical scenarios passing; parity scripts include C#; DR-032. |
+| BACKLOG-013 | Implement C# Version | DEMOAPP003 | 2026-05-28 | Covered by BACKLOG-021; closed as duplicate/umbrella following the BACKLOG-012/BACKLOG-020 precedent. |
+| BACKLOG-011 | Performance Benchmarking Suite | All | 2026-05-28 | Reporting-only benchmark harnesses added for DEMOAPP001/002/003 with root aggregation script and `.results/performance/` artifacts; no timing threshold gate. |
 
 ---
 
@@ -838,10 +845,10 @@ Resolution:
 | Sprint | Dates | Focus | Key Items | Status |
 |--------|-------|-------|-----------|--------|
 | 2 | 2026-05-14 to 2026-05-27 | Close persistent risks and governance drift | MIG-04, MIG-05, MIG-08, BACKLOG-004 | Completed 2026-05-19 |
-| 3 | 2026-05-28 to 2026-06-10 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Completed 2026-05-19 |
-| 4 | 2026-06-11 to 2026-06-24 | API foundation after Python Stack start | BACKLOG-009 | Completed 2026-05-20 |
-| 5 | 2026-06-25 to 2026-07-08 | API/Web UI and C# Stack start | BACKLOG-018 (completed 2026-05-20), BACKLOG-021 | In Progress |
-| 6+ | 2026-07-09 onward | Multi-Stack polish, infrastructure, and future product ideas | BACKLOG-010, BACKLOG-011, BACKLOG-013 through BACKLOG-016 | Open |
+| 3 | 2026-05-19 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Completed 2026-05-19 |
+| 4 | 2026-05-20 | API foundation and Web UI completion | BACKLOG-009, BACKLOG-018 | Completed 2026-05-20 |
+| 5 | 2026-05-28 onward | C# Stack, local Compose, and benchmarking | BACKLOG-021, BACKLOG-013, BACKLOG-010, BACKLOG-011 | In Progress — Docker runtime verification pending |
+| 6+ | After BACKLOG-010 verification | Future solver and product ideas | BACKLOG-014, BACKLOG-015, BACKLOG-016 | Open |
 
 ---
 

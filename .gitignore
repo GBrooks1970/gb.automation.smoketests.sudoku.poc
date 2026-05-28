@@ -9,6 +9,10 @@ __pycache__/
 # Compiled TypeScript output — matches any Stack directory at any depth
 dist/
 
+# .NET build output — matches any Stack directory at any depth
+bin/
+obj/
+
 # Batch script text output
 /.batch/output/*.txt
 

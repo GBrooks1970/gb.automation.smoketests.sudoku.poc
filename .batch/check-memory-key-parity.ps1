@@ -6,6 +6,7 @@
 # Stack identifier mapping (DR-016):
 #   DEMOAPP001 -> DEMOAPP001_TYPESCRIPT_CYPRESS
 #   DEMOAPP002 -> DEMOAPP002_PYTHON_PYTEST
+#   DEMOAPP003 -> DEMOAPP003_CSHARP_SPECFLOW
 
 param()
 
@@ -23,6 +24,11 @@ $Stacks = @(
         Name    = 'DEMOAPP002'
         Path    = "$PSScriptRoot\..\demo-apps\demoapp002-python-pytest\tests\screenplay\support\memory_keys.py"
         Pattern = "(?m)^\s*(\w+)\s*=\s*['""](\w+)['""]"
+    }
+    @{
+        Name    = 'DEMOAPP003'
+        Path    = "$PSScriptRoot\..\demo-apps\demoapp003-csharp-specflow\tests\screenplay\support\MemoryKeys.cs"
+        Pattern = "(?m)^\s*public\s+const\s+string\s+(\w+)\s*=\s*""(\w+)"""
     }
 )
 

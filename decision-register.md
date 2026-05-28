@@ -1,7 +1,7 @@
 # Decision Register
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-05-20
+**Last Updated:** 2026-05-28
 **Governed by:** `reference-architecture.md` v1.14 §10.6
 **Template:** `DOCS/.templates/decision-record.template.md`
 
@@ -1728,6 +1728,57 @@ Reference Architecture v1.14 Section 4 directory blueprint contained several mis
 
 ---
 
+## DR-032 — Add C# SpecFlow parity Stack
+
+**Date:** 2026-05-28
+**Status:** Accepted — 2026-05-28
+
+### Context
+
+BACKLOG-021 and BACKLOG-013 required the planned C# Stack to become an active parity implementation. The Reference Architecture onboarding checklist requires a recorded decision before adding a new Stack so future agents know the canonical Stack name, filesystem location, surface type, and framework choice.
+
+### Decision
+
+Add `DEMOAPP003_CSHARP_SPECFLOW` as an active @util Stack at `demo-apps/demoapp003-csharp-specflow/`. Use .NET 8, SpecFlow, and NUnit to execute the same canonical Gherkin feature contract as DEMOAPP001 and DEMOAPP002.
+
+### Status
+
+`Accepted` — 2026-05-28
+
+### Consequences
+
+**Outcomes:**
+- The project now has three active parity Stacks: TypeScript, Python, and C#.
+- Parity automation must include C# feature and Memory key files.
+- BACKLOG-013 is covered by the implementation scope of BACKLOG-021.
+
+**Trade-offs:**
+- CI, Docker Compose, and local validation now include a .NET toolchain.
+- The C# Stack carries NuGet package restore and SpecFlow code-generation dependencies.
+
+**Compliance note:**
+- This aligns with RA Section 11 onboarding and DR-004's sequential TypeScript to Python to C# migration strategy.
+
+### Alternatives Considered
+
+**Alternative: Use NUnit tests without SpecFlow**
+- Description: Parse or duplicate scenario coverage directly in NUnit.
+- Rejected because: It would not execute the canonical Gherkin contract through a BDD runner.
+
+**Alternative: Use Reqnroll instead of SpecFlow**
+- Description: Use the actively maintained SpecFlow successor package.
+- Rejected because: The backlog item and Stack name explicitly identify SpecFlow; changing framework identity would require a separate backlog/decision update.
+
+### Related Decisions
+
+- DR-003 — In-process (@util) surface for DEMOAPP001 tests.
+- DR-004 — Sequential Stack migration strategy.
+- DR-016 — Stack filesystem directory naming.
+- DR-023 — Automated Memory key parity enforcement.
+- DR-027 — Automated step-text parity verification.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -1746,5 +1797,5 @@ Reference Architecture v1.14 Section 4 directory blueprint contained several mis
 
 ---
 
-*Last entry: DR-031. Next ID: DR-032.*
+*Last entry: DR-032. Next ID: DR-033.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

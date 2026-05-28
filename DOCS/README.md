@@ -1,6 +1,6 @@
 # DOCS — Documentation Index
 
-**Last Updated:** 2026-05-20T18:45Z
+**Last Updated:** 2026-05-28T18:20Z
 **Maintainer:** Project Lead / Development Team
 
 > This is the master index for project documentation. Active governed docs and canonical templates are
@@ -152,9 +152,15 @@ Stored in [.algorithm/](.algorithm/) — language-agnostic pseudocode for every 
 | Document | Purpose |
 |----------|---------|
 | [backlog.md](.planning/backlog.md) | Product backlog, sprint tracking |
-| [todo-audit-trail-feature.md](.planning/todo-audit-trail-feature.md) | Audit Trail implementation task list |
-| [todo-rest-api-wrapper.md](.planning/todo-rest-api-wrapper.md) | REST API implementation task list |
-| [todo-web-ui-solver-visualisation.md](.planning/todo-web-ui-solver-visualisation.md) | Web UI implementation task list |
+| [todo-csharp-screenplay-stack.md](.planning/todo-csharp-screenplay-stack.md) | C# Screenplay Stack implementation task list (COMPLETED) |
+| [todo-docker-compose-local-development.md](.planning/todo-docker-compose-local-development.md) | Docker Compose local development task list (IN PROGRESS) |
+| [todo-performance-benchmarking-suite.md](.planning/todo-performance-benchmarking-suite.md) | Performance benchmarking suite task list (COMPLETED) |
+| [todo-advanced-solving-techniques.md](.planning/todo-advanced-solving-techniques.md) | Advanced solving techniques task list |
+| [todo-puzzle-generator.md](.planning/todo-puzzle-generator.md) | Puzzle generator task list |
+| [todo-interactive-sudoku-tutor.md](.planning/todo-interactive-sudoku-tutor.md) | Interactive Sudoku tutor task list |
+| [todo-audit-trail-feature.md](.planning/todo-audit-trail-feature.md) | Audit Trail implementation task list (ARCHIVED) |
+| [todo-rest-api-wrapper.md](.planning/todo-rest-api-wrapper.md) | REST API implementation task list (ARCHIVED) |
+| [todo-web-ui-solver-visualisation.md](.planning/todo-web-ui-solver-visualisation.md) | Web UI implementation task list (ARCHIVED) |
 | [todo-hidden-singles-implementation.md](.planning/todo-hidden-singles-implementation.md) | Hidden Singles implementation (COMPLETED) |
 | [prompt-playbook-20260330T1645Z.md](.planning/prompt-playbook-20260330T1645Z.md) | AI session reproducibility guide |
 
@@ -170,6 +176,8 @@ Chronological record of every development session.
 | [2026-05-14_naming-conventions-and-testing.md](.implementation-logs/2026-05-14_naming-conventions-and-testing.md) | 2026-05-14 | Naming, constants, Cucumber test runner |
 | [2026-05-20_review-output-location-migration.md](.implementation-logs/2026-05-20_review-output-location-migration.md) | 2026-05-20 | Review output location migration to `DOCS/.review/` |
 | [2026-05-20_analysis-folder-migration.md](.implementation-logs/2026-05-20_analysis-folder-migration.md) | 2026-05-20 | Analysis/report documents grouped under `DOCS/.analysis/` |
+| [2026-05-24_web-ui-visualisation-cleanup.md](.implementation-logs/2026-05-24_web-ui-visualisation-cleanup.md) | 2026-05-24 | Web UI visualisation cleanup |
+| [2026-05-28_backlog-to-todo-plan-implementation.md](.implementation-logs/2026-05-28_backlog-to-todo-plan-implementation.md) | 2026-05-28 | Backlog-to-todo plan implementation |
 
 ---
 

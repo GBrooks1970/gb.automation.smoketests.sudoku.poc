@@ -13,7 +13,8 @@ param(
   [string]$CanonicalRoot = "features-shared",
   [string[]]$StackRoot   = @(
     "demo-apps/demoapp001-typescript-cypress/tests/features",
-    "demo-apps/demoapp002-python-pytest/tests/features"
+    "demo-apps/demoapp002-python-pytest/tests/features",
+    "demo-apps/demoapp003-csharp-specflow/tests/features"
   )
 )
 

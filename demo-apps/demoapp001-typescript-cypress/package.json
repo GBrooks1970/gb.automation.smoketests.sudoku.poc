@@ -13,7 +13,8 @@
     "format": "prettier --write app_src/**/*.ts",
     "format:check": "prettier --check app_src/**/*.ts",
     "test": "cucumber-js --config tooling/cucumber.js",
-    "test:api": "ts-node tests/api/api.integration.ts"
+    "test:api": "ts-node tests/api/api.integration.ts",
+    "benchmark": "ts-node tooling/performance/benchmark.ts"
   },
   "keywords": [
     "sudoku",

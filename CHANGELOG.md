@@ -9,6 +9,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Changed
+- DR-032: Added `DEMOAPP003_CSHARP_SPECFLOW` as an active C# SpecFlow/NUnit Stack, updated parity contracts and CI, and resolved BACKLOG-021 plus umbrella BACKLOG-013.
+- BACKLOG-010 remains in progress: Docker Compose files and Dockerfiles exist for all active Stacks, but runtime verification is pending until Docker Desktop/Linux engine is available locally.
+- BACKLOG-011 resolved with reporting-only benchmark harnesses for TypeScript, Python, and C# plus root aggregation under `.results/performance/`.
 - DR-031 / Reference Architecture v1.15: Section 4 directory blueprint updated to match current project layout — dot-prefixed DOCS subdirectories (`.algorithm/`, `.analysis/`, `.architecture/`, `.design/`, `.howto/`, `.implementation-logs/`, `.planning/`, `.review/`, `.templates/`), Stack group pattern (`demo-apps/[stack-dir]/`), `tests/api/` optional folder, and `step_definitions/` placed inside `screenplay/`. All internal RA path references updated to dot-prefixed form. Empty untracked `DOCS/implementation-logs/` directory removed.
 - DR-030: analysis and report-style documents now live under `DOCS/.analysis/`; historical report filenames were preserved.
 - DR-029 / Reference Architecture v1.14: review outputs now live only under `DOCS/.review/`; the former repository-root `.review/` contents were moved into DOCS and active templates/guidance were updated.
@@ -28,6 +31,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
   - Added CLI options: `--help` and `--timeout <ms>` / `--timeout=<ms>`
 
 ### Added
+- `demo-apps/demoapp003-csharp-specflow/` with C# solver/orchestrator, Screenplay-style actors, abilities, tasks, questions, Memory keys, SpecFlow step definitions, and 46 canonical scenarios.
+- Root parity helpers: `.batch/run-parity-checks.ps1`, C#-aware feature parity checks, and C# Memory key parity checks.
+- Root benchmark helper `.batch/run-performance-benchmarks.ps1` and per-Stack benchmark runners.
+- `docker-compose.yml` plus Stack-local Dockerfiles for TypeScript, Python, and C# local development containers.
+- Planning hygiene docs: `todo-csharp-screenplay-stack.md`, `todo-interactive-sudoku-tutor.md`, refreshed todo statuses, and `2026-05-28_backlog-to-todo-plan-implementation.md`.
 - BACKLOG-009: DEMOAPP001 Express REST API wrapper:
   - `npm run start:api` starts the API server on `PORT` or 3000
   - Technique endpoints for Unit Completion, Hidden Singles, and Naked Singles
