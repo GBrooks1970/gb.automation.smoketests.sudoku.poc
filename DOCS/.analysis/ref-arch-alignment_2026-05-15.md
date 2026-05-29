@@ -5,6 +5,10 @@
 **Subject:** `gb.automation.smoketests.sudoku.poc` vs `reference-architecture.md` v1.3
 **Status:** v1.3 re-baseline; MIG-04 and MIG-05 resolved 2026-05-16; MIG-09 through MIG-12 resolved 2026-05-16
 
+> Historical v1.3 alignment report. Review output location was superseded by
+> DR-029 and Reference Architecture v1.14 on 2026-05-20; new reviews now use
+> `DOCS/.review/`.
+
 ---
 
 ## Executive Summary

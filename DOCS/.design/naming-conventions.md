@@ -1,7 +1,7 @@
 # Naming Conventions
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-05-17 (DR-020 — kebab-case adopted for all authored document filenames)
+**Last Updated:** 2026-05-28 (DR-032 - DEMOAPP003_CSHARP_SPECFLOW added)
 **Status:** Adopted
 **Governed by:** `reference-architecture.md` §10.9
 **Template:** `DOCS/.templates/naming-conventions.template.md`
@@ -102,7 +102,7 @@ private getBlockEmptyCells(...): { r: number; c: number }[]
 | Application source | `snake_case` | Underscore | `app_src/` |
 | Test directory | `lowercase` | None | `tests/` |
 | Screenplay subdirectories | `lowercase` | None | `abilities/`, `actors/`, `tasks/`, `questions/`, `support/` |
-| DOCS type-specific subdirectories | dot + `kebab-case` | Hyphen | `.design/`, `.planning/`, `.algorithm/`, `.architecture/`, `.templates/`, `.implementation-logs/`, `.review/`, `.howto/` |
+| DOCS type-specific subdirectories | dot + `kebab-case` | Hyphen | `.analysis/`, `.design/`, `.planning/`, `.algorithm/`, `.architecture/`, `.templates/`, `.implementation-logs/`, `.review/`, `.howto/` |
 | Stack group container directory | `kebab-case` | Hyphen | `demo-apps/` |
 | Stack directory (filesystem) | `kebab-case` | Hyphen | `demoapp001-typescript-cypress/` |
 
@@ -123,18 +123,18 @@ The **canonical Stack name** is an identifier, not a filesystem path. It is used
 | Pattern | `DEMOAPP[NNN]_[LANGUAGE]_[FRAMEWORK]` |
 | Uniqueness | Must be unique across the repository |
 | Allowed characters | A–Z, 0–9, underscore |
-| Current canonical names | `DEMOAPP001_TYPESCRIPT_CYPRESS` |
+| Current canonical names | `DEMOAPP001_TYPESCRIPT_CYPRESS`, `DEMOAPP002_PYTHON_PYTEST`, `DEMOAPP003_CSHARP_SPECFLOW` |
 
 **Directory vs. canonical name (DR-016):**
 
 | Element | Convention | Example |
 |---------|-----------|---------|
-| Filesystem directory name | `kebab-case` (Section 3) | `demo-apps/demoapp001-typescript-cypress/` |
-| Canonical Stack name | `UPPER_SNAKE_CASE` (this section) | `DEMOAPP001_TYPESCRIPT_CYPRESS` |
-| Short Stack identifier (metrics) | `UPPER_SNAKE_CASE`, prefix of canonical name | `DEMOAPP001` |
-| Stack tag (Gherkin) | `@stack-[lowercase-short-id]` | `@stack-demoapp001` |
+| Filesystem directory name | `kebab-case` (Section 3) | `demo-apps/demoapp003-csharp-specflow/` |
+| Canonical Stack name | `UPPER_SNAKE_CASE` (this section) | `DEMOAPP003_CSHARP_SPECFLOW` |
+| Short Stack identifier (metrics) | `UPPER_SNAKE_CASE`, prefix of canonical name | `DEMOAPP003` |
+| Stack tag (Gherkin) | `@stack-[lowercase-short-id]` | `@stack-demoapp003` |
 
-The filesystem directory and the canonical name are separate concerns. A contributor working on the filesystem sees `demoapp001-typescript-cypress/`; a contributor reading metrics, Memory keys, or parity contracts sees `DEMOAPP001_TYPESCRIPT_CYPRESS`.
+The filesystem directory and the canonical name are separate concerns. A contributor working on the filesystem sees `demoapp003-csharp-specflow/`; a contributor reading metrics, Memory keys, or parity contracts sees `DEMOAPP003_CSHARP_SPECFLOW`.
 
 ---
 
@@ -145,7 +145,7 @@ All authored document filenames use `kebab-case.md` (DR-020). Three permanent ex
 | Document type | Pattern (DR-020) | Example |
 |---------------|-----------------|---------|
 | Design documents | `feature-name.md` | `audit-trail-feature.md` |
-| Analysis documents | `analysis-topic-YYYYMMDD.md` | `analysis-docs-subdirectory-cleanup-20260516.md` |
+| Analysis documents | `DOCS/.analysis/analysis-topic-YYYYMMDD.md` | `analysis-docs-subdirectory-cleanup-20260516.md` |
 | Algorithm documents | `domain-name.md` | `sudoku-basic-solver.md` |
 | How-to guides | `verb-subject.md` | `debug-sudoku-solver.md` |
 | Implementation logs | `YYYY-MM-DD_short-session-topic.md` (DR-017) | `2026-01-30_initial-project-creation.md` |
@@ -209,7 +209,7 @@ All authored document filenames use `kebab-case.md` (DR-020). Three permanent ex
 | Format | `DR-NNN` (zero-padded to 3 digits) |
 | Uniqueness | IDs MUST NOT be reused, even when superseded |
 | Sequence | Sequential, starting at `DR-001` |
-| Current next ID | `DR-021` |
+| Current next ID | `DR-033` |
 
 ---
 

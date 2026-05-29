@@ -2,8 +2,8 @@
 
 **Language:** TypeScript 5.x
 **Framework:** Cucumber.js 12 + Serenity/JS 3.43.2
-**Surface type:** @util
-**Last updated:** 2026-05-19
+**Surface types:** @util, @api
+**Last updated:** 2026-05-20
 
 ---
 
@@ -28,6 +28,7 @@ npm install
 
 ```bash
 npm test
+npm run test:api
 ```
 
 Expected output (current baseline):
@@ -35,6 +36,7 @@ Expected output (current baseline):
 ```text
 46 scenarios (46 passed)
 257 steps (257 passed)
+API integration tests: PASS
 ```
 
 Run by tag:
@@ -75,7 +77,9 @@ npx serenity-bdd run --source .results/serenity --destination .results/serenity 
 ```text
 demoapp001-typescript-cypress/
 ├── app_src/
+│   └── server/
 ├── tests/
+│   ├── api/
 │   ├── features/
 │   └── screenplay/
 │       ├── abilities/
@@ -96,7 +100,9 @@ demoapp001-typescript-cypress/
 |---------|-------------|
 | `npm run build` | Compile TypeScript to JavaScript |
 | `npm test` | Run full BDD suite |
+| `npm run test:api` | Run REST API integration checks |
 | `npm start` | Run CLI demo app with ts-node |
+| `npm run start:api` | Start Express REST API on `PORT` or 3000 |
 | `npm run lint` | Lint TypeScript source |
 | `npm run format` | Format TypeScript source |
 

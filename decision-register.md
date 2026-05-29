@@ -1,8 +1,8 @@
 # Decision Register
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-05-18
-**Governed by:** `reference-architecture.md` v1.13 §10.6
+**Last Updated:** 2026-05-28
+**Governed by:** `reference-architecture.md` v1.14 §10.6
 **Template:** `DOCS/.templates/decision-record.template.md`
 
 > This register is the authoritative source for every structural and process decision in this project.
@@ -26,7 +26,7 @@ When the `DOCS/` directory was first structured, a visual convention was needed 
 
 ### Decision
 
-All type-specific subdirectories inside `DOCS/` use a leading dot: `.design/`, `.planning/`, `.implementation/`, `.review/`, `.algorithm/`, `.howto/`. Future DOCS subdirectories follow the same pattern.
+All type-specific subdirectories inside `DOCS/` use a leading dot: `.analysis/`, `.algorithm/`, `.architecture/`, `.design/`, `.howto/`, `.implementation/`, `.implementation-logs/`, `.planning/`, `.review/`, `.templates/`. Future DOCS subdirectories follow the same pattern.
 
 ### Consequences
 
@@ -199,7 +199,7 @@ The TypeScript Stack (DEMOAPP001) is implemented first and serves as the referen
 
 ### Context
 
-The Screenplay migration (Phases 2–4 of the migration plan documented in `ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md`) replaces procedural step definitions with Screenplay components. A question arose: should the Gherkin feature file also be refactored at the same time? The feature file has some over-specified steps (inline array values) that would ideally be parameterised.
+The Screenplay migration (Phases 2–4 of the migration plan documented in `DOCS/.analysis/ref-arch-alignment_2026-05-14.md`) replaces procedural step definitions with Screenplay components. A question arose: should the Gherkin feature file also be refactored at the same time? The feature file has some over-specified steps (inline array values) that would ideally be parameterised.
 
 ### Decision
 
@@ -450,7 +450,8 @@ Future code review output files **MUST** follow the v1.2-compliant naming and bu
 - Review directory placement is now formally recorded as a deliberate divergence from RA v1.2 default.
 - Future reviews generated will follow v1.2 shape compliance regardless of this location decision.
 - Documentation tree remains unified and discoverable under DOCS.
-- Superseded by DR-014 (2026-05-16): future review outputs now use repository-root `.review/`; `DOCS/.review/` remains historical/read-only.
+- Superseded by DR-014 (2026-05-16): future review outputs moved to repository-root `.review/`.
+- DR-014 was later superseded by DR-029 (2026-05-20): `DOCS/.review/` is again the single authoritative review output location.
 
 **Trade-offs:**
 - Code review directory does not sit at repository root `.review/` as RA v1.2 example shows (MAY-level latitude — not a MUST requirement).
@@ -577,6 +578,7 @@ Adopt `reference-architecture.md` v1.3 as the governing architecture for this re
 - This decision satisfies the v1.3 §10.7 requirement that the multi-file review bundle convention be recorded as DR-012.
 - DR-009 remains historical provenance for v1.2 adoption; DR-012 supersedes it as the active architecture version baseline.
 - DR-011 remains historical provenance for the v1.2 review bundle shape; DR-012 is authoritative for future v1.3 review bundle names.
+- DR-029 supersedes the root `.review/` location implied by this decision; the bundle naming shape remains active.
 
 ### Alternatives Considered [REQUIRED]
 
@@ -656,7 +658,7 @@ Create repository-root `.review/` as the v1.3 location for future code review ou
 
 ### Status [REQUIRED]
 
-`Accepted` — 2026-05-15
+`Superseded by DR-029` — 2026-05-20
 
 ### Consequences [REQUIRED]
 
@@ -669,6 +671,7 @@ Create repository-root `.review/` as the v1.3 location for future code review ou
 - Review outputs now have a historical archive location and a future authoritative location.
 - Agents must consult the root `.review/README.md` before creating new reviews.
 - Existing links to `DOCS/.review/` remain valid but should be understood as historical, not the target for new reviews.
+- Superseded by DR-029 (2026-05-20): review outputs now use `DOCS/.review/` as the single authoritative location; repository-root `.review/` is no longer used.
 
 **Compliance note:**
 - This decision implements the root `.review/` path accepted by v1.3 Section 10.7.
@@ -688,6 +691,7 @@ Create repository-root `.review/` as the v1.3 location for future code review ou
 
 - DR-010 — Historical code review directory placement under `DOCS/.review/`.
 - DR-012 — Active v1.3 review bundle naming convention.
+- DR-029 — Active review output location under `DOCS/.review/`.
 
 ---
 
@@ -754,7 +758,7 @@ All 43 scenarios pass after the migration.
 
 ### Context
 
-The UPPER_SNAKE_CASE convention for the Stack group container (`DEMOAPPS/`) and Stack directory (`DEMOAPP001_TYPESCRIPT_CYPRESS/`) was adopted implicitly and was never recorded in the Decision Register. Analysis document `DOCS/analysis-directory-naming-kebab-case-2026-05-16.md` surfaced two problems with the current convention:
+The UPPER_SNAKE_CASE convention for the Stack group container (`DEMOAPPS/`) and Stack directory (`DEMOAPP001_TYPESCRIPT_CYPRESS/`) was adopted implicitly and was never recorded in the Decision Register. Analysis document `DOCS/.analysis/analysis-directory-naming-kebab-case-2026-05-16.md` surfaced two problems with the current convention:
 
 1. **Case-sensitivity trap** — The repository is developed on a Windows (case-insensitive) filesystem and pushed to a Linux-hosted remote (case-sensitive). UPPER_CASE directory names create a latent risk where path mismatches silently succeed locally but fail on CI. This risk will become active when a CI pipeline is wired (BACKLOG-004).
 2. **Ecosystem friction** — Node.js, TypeScript, npm tooling, and modern CI/CD YAML all default to lowercase-hyphenated paths. UPPER_CASE directories require Shift-key input and are the outlier against `.batch/`, `.results/`, `features-shared/`, and all Screenplay subdirectories which are already lowercase.
@@ -816,7 +820,7 @@ The actual filesystem rename of existing directories is tracked as **MIG-13** in
 
 ### Evidence
 
-- `DOCS/analysis-directory-naming-kebab-case-2026-05-16.md` — full impact analysis with blast radius assessment and implementation plan.
+- `DOCS/.analysis/analysis-directory-naming-kebab-case-2026-05-16.md` — full impact analysis with blast radius assessment and implementation plan.
 
 ---
 
@@ -1009,7 +1013,7 @@ The `DOCS/.templates/decision-record.template.md` stale single-file is removed; 
 
 ### Evidence
 
-- `DOCS/analysis-docs-subdirectory-cleanup-20260516.md` — full discrepancy map, file inventory, and migration plan.
+- `DOCS/.analysis/analysis-docs-subdirectory-cleanup-20260516.md` — full discrepancy map, file inventory, and migration plan.
 
 ---
 
@@ -1020,7 +1024,7 @@ The `DOCS/.templates/decision-record.template.md` stale single-file is removed; 
 
 ### Context
 
-The project's document filenames currently use four simultaneous naming conventions: `PREFIX_Title_Case.md` (for authored design, algorithm, planning, and how-to documents), `UPPERCASE.md` (for root governance files), `YYYY-MM-DD_slug.md` (for implementation logs, established by DR-017), and `kebab-case.md` (for architecture documents and all `.template.md` files). This multi-convention state is inconsistent with the single-convention direction established for directories (DR-016, DR-019) and generates ongoing contributor confusion. `DOCS/analysis-document-naming-kebab-case-20260516.md` documents the full discrepancy landscape and blast-radius assessment.
+The project's document filenames currently use four simultaneous naming conventions: `PREFIX_Title_Case.md` (for authored design, algorithm, planning, and how-to documents), `UPPERCASE.md` (for root governance files), `YYYY-MM-DD_slug.md` (for implementation logs, established by DR-017), and `kebab-case.md` (for architecture documents and all `.template.md` files). This multi-convention state is inconsistent with the single-convention direction established for directories (DR-016, DR-019) and generates ongoing contributor confusion. `DOCS/.analysis/analysis-document-naming-kebab-case-20260516.md` documents the full discrepancy landscape and blast-radius assessment.
 
 ### Decision
 
@@ -1034,7 +1038,7 @@ Adopt `lowercase-kebab-case.md` as the project standard for all authored documen
 
 All generated artefacts in `.results/` (metrics files, parity reports) are also exempt — their naming is governed by RA §9.2 and the orchestration scripts, not by this convention.
 
-The migration is executed in four phases per `DOCS/analysis-document-naming-kebab-case-20260516.md §6`:
+The migration is executed in four phases per `DOCS/.analysis/analysis-document-naming-kebab-case-20260516.md §6`:
 - **Phase 1** — Authored documents in typed directories (`.design/`, `.algorithm/`, `.howto/`, `.planning/`, `.implementation-logs/`)
 - **Phase 2** — DOCS root files and Stack-level docs
 - **Phase 3** — Root governance files (`decision-register.md`, legacy backlog redirect)
@@ -1080,7 +1084,7 @@ The migration is executed in four phases per `DOCS/analysis-document-naming-keba
 
 ### Evidence
 
-- `DOCS/analysis-document-naming-kebab-case-20260516.md` — full impact assessment, pros/cons, decision points, and four-phase implementation plan.
+- `DOCS/.analysis/analysis-document-naming-kebab-case-20260516.md` — full impact assessment, pros/cons, decision points, and four-phase implementation plan.
 
 ---
 
@@ -1091,7 +1095,7 @@ The migration is executed in four phases per `DOCS/analysis-document-naming-keba
 
 ### Context
 
-`reference-architecture.md` v1.3 defined three Surface Types: API, UI, and CLI. The `@util` tag was introduced in Section 5.3 and referenced in Appendix B's compliance checklist, but no corresponding surface contract existed in Section 6, no Ability definition in Section 7, and no orchestration lifecycle in Section 9.1. This left the most commonly used surface type for single-application projects (in-process class testing) as a specification orphan. Any project using `@util` — including this one — had no normative definition to conform to. The gap was identified and documented as Risk 1 (Critical) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+`reference-architecture.md` v1.3 defined three Surface Types: API, UI, and CLI. The `@util` tag was introduced in Section 5.3 and referenced in Appendix B's compliance checklist, but no corresponding surface contract existed in Section 6, no Ability definition in Section 7, and no orchestration lifecycle in Section 9.1. This left the most commonly used surface type for single-application projects (in-process class testing) as a specification orphan. Any project using `@util` — including this one — had no normative definition to conform to. The gap was identified and documented as Risk 1 (Critical) in the structural review `DOCS/.review/2026-05-18_reference-architecture-structural-review.md`.
 
 ### Decision
 
@@ -1147,7 +1151,7 @@ Promote `@util` to a formally specified Surface Type in `reference-architecture.
 
 ### Context
 
-`reference-architecture.md` v1.4 mandated orchestration scripts (Section 9.1), metrics collection (Section 9.2), and results archival (Section 9.3) but specified nothing about how these integrate into a CI/CD pipeline. The RA had no definition of required pipeline gates, exit code handling, artifact retention in CI context, or multi-Stack pipeline behaviour. A project following the RA could satisfy all Section 9 requirements locally while having a CI pipeline that ignores the feature parity report or permits merges on non-zero exit. The gap was identified and documented as Risk 2 (High) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+`reference-architecture.md` v1.4 mandated orchestration scripts (Section 9.1), metrics collection (Section 9.2), and results archival (Section 9.3) but specified nothing about how these integrate into a CI/CD pipeline. The RA had no definition of required pipeline gates, exit code handling, artifact retention in CI context, or multi-Stack pipeline behaviour. A project following the RA could satisfy all Section 9 requirements locally while having a CI pipeline that ignores the feature parity report or permits merges on non-zero exit. The gap was identified and documented as Risk 2 (High) in the structural review `DOCS/.review/2026-05-18_reference-architecture-structural-review.md`.
 
 ### Decision
 
@@ -1202,7 +1206,7 @@ Add Section 9.4 "CI/CD Pipeline Requirements" to `reference-architecture.md` v1.
 
 ### Context
 
-Section 8.1 of `reference-architecture.md` v1.5 mandated identical Memory key constants across all Stacks and specified that the constant name must equal its string value exactly. The enforcement mechanism was manual: a developer reading the Appendix B checklist at PR review. For a single-Stack project this is adequate; for a multi-Stack project (two or more active Stacks) it is insufficient — nothing prevents a developer from introducing a parity gap that is invisible until cross-Stack debugging is required. The gap was identified and documented as Risk 3 (High) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+Section 8.1 of `reference-architecture.md` v1.5 mandated identical Memory key constants across all Stacks and specified that the constant name must equal its string value exactly. The enforcement mechanism was manual: a developer reading the Appendix B checklist at PR review. For a single-Stack project this is adequate; for a multi-Stack project (two or more active Stacks) it is insufficient — nothing prevents a developer from introducing a parity gap that is invisible until cross-Stack debugging is required. The gap was identified and documented as Risk 3 (High) in the structural review `DOCS/.review/2026-05-18_reference-architecture-structural-review.md`.
 
 ### Decision
 
@@ -1266,7 +1270,7 @@ Extend `reference-architecture.md` v1.5 to v1.6 by adding an "Automated enforcem
 
 ### Context
 
-`reference-architecture.md` Sections 5.1–5.4 defined the Canonical Feature Store concept and the propagation process for distributing feature changes to Stacks. However, Section 5 had no change governance: no classification of breaking versus non-breaking changes, no review gate requirement for breaking changes, no coordination specification for Stacks that cannot implement a change immediately, and no deadline policy for `@pending` scenarios. Without governance, a developer could modify canonical step text and only discover broken Stacks at CI time rather than at change-proposal time. The gap was identified and documented as Risk 4 (High) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+`reference-architecture.md` Sections 5.1–5.4 defined the Canonical Feature Store concept and the propagation process for distributing feature changes to Stacks. However, Section 5 had no change governance: no classification of breaking versus non-breaking changes, no review gate requirement for breaking changes, no coordination specification for Stacks that cannot implement a change immediately, and no deadline policy for `@pending` scenarios. Without governance, a developer could modify canonical step text and only discover broken Stacks at CI time rather than at change-proposal time. The gap was identified and documented as Risk 4 (High) in the structural review `DOCS/.review/2026-05-18_reference-architecture-structural-review.md`.
 
 ### Decision
 
@@ -1320,7 +1324,7 @@ Add Section 5.5 "Feature Change Governance" to `reference-architecture.md` v1.7:
 
 ### Context
 
-`reference-architecture.md` v1.8 contained a direct normative conflict: Section 10.2 specified `ARCHITECTURE.md`, `SCREENPLAY_GUIDE.md`, and `QA_STRATEGY.md` as required fixed uppercase names for Stack-level documents, while Section 10.9 required a `naming-conventions.md` document to govern all naming decisions — including file names. Following both simultaneously was impossible; adopting kebab-case (the RA's own recommended default in Section 10.9) for Stack-level docs meant violating Section 10.2. This project resolved the conflict by adopting kebab-case per DR-020, meaning this project was already in violation of the RA it was supposed to conform to. The gap was identified and documented as Risk 7 (Medium) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+`reference-architecture.md` v1.8 contained a direct normative conflict: Section 10.2 specified `ARCHITECTURE.md`, `SCREENPLAY_GUIDE.md`, and `QA_STRATEGY.md` as required fixed uppercase names for Stack-level documents, while Section 10.9 required a `naming-conventions.md` document to govern all naming decisions — including file names. Following both simultaneously was impossible; adopting kebab-case (the RA's own recommended default in Section 10.9) for Stack-level docs meant violating Section 10.2. This project resolved the conflict by adopting kebab-case per DR-020, meaning this project was already in violation of the RA it was supposed to conform to. The gap was identified and documented as Risk 7 (Medium) in the structural review `DOCS/.review/2026-05-18_reference-architecture-structural-review.md`.
 
 ### Decision
 
@@ -1384,7 +1388,7 @@ Update `reference-architecture.md` v1.9 to resolve the conflict:
 
 ### Context
 
-`reference-architecture.md` v1.9 specified behavioral contracts (Gherkin feature files), orchestration contracts (lifecycle, metrics), and parity rules, but contained no guidance on test data — the fixtures, seeds, and configuration files that drive scenario execution. For projects where test data is the primary input to the system under test (e.g. this project's `puzzles.json`), the absence creates three concrete risks: test data scattered across inconsistent locations, scenarios modifying shared data and causing order-dependent failures, and inline data literals embedded in canonical feature files defeating parameterisation. The gap was identified and documented as Risk 8 (Medium) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+`reference-architecture.md` v1.9 specified behavioral contracts (Gherkin feature files), orchestration contracts (lifecycle, metrics), and parity rules, but contained no guidance on test data — the fixtures, seeds, and configuration files that drive scenario execution. For projects where test data is the primary input to the system under test (e.g. this project's `puzzles.json`), the absence creates three concrete risks: test data scattered across inconsistent locations, scenarios modifying shared data and causing order-dependent failures, and inline data literals embedded in canonical feature files defeating parameterisation. The gap was identified and documented as Risk 8 (Medium) in the structural review `DOCS/.review/2026-05-18_reference-architecture-structural-review.md`.
 
 ### Decision
 
@@ -1439,7 +1443,7 @@ Add Section 5.6 "Test Data Management" to `reference-architecture.md` v1.10:
 
 ### Context
 
-`reference-architecture.md` Section 8.4 defined five criteria for declaring a Stack in parity but specified no verification method for any of them. Appendix B provided a manual quick-reference checklist. Neither the section nor the appendix stated whether verification was expected to be manual, scripted, or enforced as a CI gate. This project already had automated coverage for two of the five criteria (feature parity report script for criterion 1, memory key parity checker for criterion 2) but the RA did not acknowledge this distinction or mandate automation for any criterion. A checklist completed manually is subject to human error and is insufficient as a parity gate in a multi-Stack project. The gap was identified and documented as Risk 10 (Low) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+`reference-architecture.md` Section 8.4 defined five criteria for declaring a Stack in parity but specified no verification method for any of them. Appendix B provided a manual quick-reference checklist. Neither the section nor the appendix stated whether verification was expected to be manual, scripted, or enforced as a CI gate. This project already had automated coverage for two of the five criteria (feature parity report script for criterion 1, memory key parity checker for criterion 2) but the RA did not acknowledge this distinction or mandate automation for any criterion. A checklist completed manually is subject to human error and is insufficient as a parity gate in a multi-Stack project. The gap was identified and documented as Risk 10 (Low) in the structural review `DOCS/.review/2026-05-18_reference-architecture-structural-review.md`.
 
 ### Decision
 
@@ -1497,7 +1501,7 @@ Update Section 8.4 of `reference-architecture.md` v1.12:
 
 ### Context
 
-`reference-architecture.md` Section 4 showed `packages/` in the directory blueprint as "Shared code packages (OPTIONAL)" with no further specification. In a multi-Stack project, shared utilities (e.g. a common data loader, shared type definitions, or a language-agnostic utility library) will naturally emerge as the project grows. Without rules, `packages/` becomes an ungoverned vector for parity defects: Stack-specific code migrates there, test runner dependencies leak in, and interface changes break dependent Stacks without a defined coordination path. The gap was identified and documented as Risk 11 (Low) in the structural review `.review/2026-05-18_reference-architecture-structural-review.md`.
+`reference-architecture.md` Section 4 showed `packages/` in the directory blueprint as "Shared code packages (OPTIONAL)" with no further specification. In a multi-Stack project, shared utilities (e.g. a common data loader, shared type definitions, or a language-agnostic utility library) will naturally emerge as the project grows. Without rules, `packages/` becomes an ungoverned vector for parity defects: Stack-specific code migrates there, test runner dependencies leak in, and interface changes break dependent Stacks without a defined coordination path. The gap was identified and documented as Risk 11 (Low) in the structural review `DOCS/.review/2026-05-18_reference-architecture-structural-review.md`.
 
 ### Decision
 
@@ -1546,6 +1550,285 @@ Add Section 4.4 "Shared Packages Directory" to `reference-architecture.md` v1.13
 
 ---
 
+## DR-029 — Use DOCS/.review as the authoritative review output location
+
+**Date:** 2026-05-20
+**Status:** Accepted — 2026-05-20
+
+### Context
+
+DR-014 moved future review outputs to repository-root `.review/` to satisfy Reference Architecture v1.3. In practice this created two review locations: historical reviews under `DOCS/.review/` and newer reviews under root `.review/`. That split works against the repository's established documentation structure, where project governance, planning, implementation logs, templates, and reviews are co-located under `DOCS/`.
+
+The project now chooses `DOCS/.review/` as the single authoritative location for all review outputs. The Reference Architecture is updated to v1.14 so this is a normative architecture rule rather than a project-only exception.
+
+### Decision
+
+Update `reference-architecture.md` v1.14 Section 10.7 to require review outputs under `DOCS/review/`, with project naming conventions allowed to adapt the concrete path. This repository uses the concrete path `DOCS/.review/` per DR-001 and `DOCS/.design/naming-conventions.md`.
+
+All future review outputs MUST be created under `DOCS/.review/`:
+
+- Single-file structural reviews: `DOCS/.review/YYYY-MM-DD_[scope-slug].md`
+- Multi-file review bundles: `DOCS/.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/`
+
+Repository-root `.review/` MUST NOT be used by this project. Existing root `.review/` contents are moved into `DOCS/.review/`, and active prompts/templates must be updated so automated agents do not recreate the root directory.
+
+### Consequences
+
+**Outcomes:**
+- Review outputs return to a single discoverable documentation location.
+- `DOCS/.review/` now contains both historical v1.2-shaped bundles and current v1.3+ shaped review outputs.
+- The Reference Architecture and project decision register agree on the active review directory rule.
+- DR-014 is superseded.
+
+**Trade-offs:**
+- This reverses the previous literal root-path interpretation in DR-014, so active references to root `.review/` must be updated.
+- Historical documents and old implementation logs may still mention root `.review/` as past state; those are not active workflow instructions.
+
+**Compliance note:**
+- `DOCS/.review/` follows the project's dot-prefixed DOCS subdirectory convention from DR-001.
+- DR-012 continues to govern the current multi-file bundle naming shape; this decision changes location, not bundle shape.
+
+### Alternatives Considered
+
+**Alternative: Keep both root `.review/` and `DOCS/.review/`**
+- Description: Leave existing root reviews in place and write future reviews to `DOCS/.review/`.
+- Rejected because: Two locations create avoidable ambiguity for agents and reviewers.
+
+**Alternative: Keep root `.review/` and update only prompts**
+- Description: Preserve DR-014 and continue treating `DOCS/.review/` as historical.
+- Rejected because: It conflicts with the user's approved repository organization and keeps review artefacts outside the documentation tree.
+
+### Related Decisions
+
+- DR-001 — Dot-prefix convention for DOCS subdirectories.
+- DR-010 — Earlier decision placing code review outputs under `DOCS/.review/`.
+- DR-012 — Current comprehensive review bundle naming convention.
+- DR-014 — Superseded root `.review/` decision.
+
+---
+
+## DR-030 — Use DOCS/.analysis for analysis and report-style documents
+
+**Date:** 2026-05-20
+**Status:** Accepted — 2026-05-20
+
+### Context
+
+Several analysis and report-style documents were stored directly in the `DOCS/` root alongside the master index and Reference Architecture. This made the root harder to scan and left no clear destination for future one-time assessments that are not code reviews and not implementation logs.
+
+The project already uses type-specific dot-prefixed DOCS subdirectories under DR-001 and DR-019. Analysis/report documents are a distinct document type and should follow that same organization model.
+
+### Decision
+
+Create `DOCS/.analysis/` as the authoritative location for analysis and report-style documents.
+
+Move existing report-style documents into that directory while preserving historical filenames:
+
+- `DOCS/.analysis/documentation-review-20260514T1100Z.md`
+- `DOCS/.analysis/ref-arch-alignment_2026-05-14.md`
+- `DOCS/.analysis/ref-arch-alignment_2026-05-15.md`
+- `DOCS/.analysis/analysis-directory-naming-kebab-case-2026-05-16.md`
+- `DOCS/.analysis/analysis-docs-subdirectory-cleanup-20260516.md`
+- `DOCS/.analysis/analysis-document-naming-kebab-case-20260516.md`
+
+Future analysis and report-style documents MUST be created under `DOCS/.analysis/` unless another governed directory is more specific:
+
+- Code review outputs remain under `DOCS/.review/`.
+- Development session logs remain under `DOCS/.implementation-logs/`.
+- Design specifications remain under `DOCS/.design/`.
+
+### Consequences
+
+**Outcomes:**
+- The DOCS root is reserved for the master index and governing Reference Architecture.
+- Analysis/report documents have a discoverable home and directory-level README.
+- New analysis reports follow the existing dot-prefixed DOCS directory convention.
+
+**Trade-offs:**
+- Existing links to report documents require path updates.
+- Historical report filenames are not normalized in this move, so a small amount of legacy naming remains inside `DOCS/.analysis/`.
+
+**Compliance note:**
+- This is a project-local documentation organization decision. It does not change the Reference Architecture's mandatory document set.
+- DR-020 continues to govern future document filenames; historical report filenames are preserved to avoid combining relocation with renaming.
+
+### Alternatives Considered
+
+**Alternative: Keep analysis reports in DOCS root**
+- Description: Leave all reports beside `README.md` and `reference-architecture.md`.
+- Rejected because: The DOCS root becomes a mixed collection of index, governance, and historical analysis files, which weakens scanability.
+
+**Alternative: Put analysis reports under `DOCS/.design/`**
+- Description: Treat reports as design-adjacent documents.
+- Rejected because: Reports include migration audits and alignment assessments, not only design specifications. A dedicated folder is clearer.
+
+### Related Decisions
+
+- DR-001 — Dot-prefix convention for DOCS subdirectories.
+- DR-019 — Dot-prefix convention extended to all DOCS type-specific directories.
+- DR-020 — Kebab-case convention for authored document filenames.
+- DR-029 — Separate rule for review outputs under `DOCS/.review/`.
+
+---
+
+## DR-031 — Align Reference Architecture Section 4 blueprint with current project layout
+
+**Date:** 2026-05-20
+**Status:** Accepted — 2026-05-20
+
+### Context
+
+Reference Architecture v1.14 Section 4 directory blueprint contained several mismatches with the current project layout:
+
+1. DOCS subdirectories were shown with plain names (`algorithm/`, `architecture/`, `design/`, `planning/`, `implementation-logs/`, `review/`, `templates/`) rather than the dot-prefixed names established by DR-001 and DR-019.
+2. The Stack directory pattern showed `[STACK_NAME]/` at repository root, not the `demo-apps/[stack-dir]/` Stack group pattern in use.
+3. `step_definitions/` was shown beside `screenplay/`, not inside it as the Screenplay Parity Contract and actual implementation place it.
+4. The API integration test folder `tests/api/` was absent from the blueprint.
+5. `DOCS/.analysis/` (added by DR-030) was absent from the blueprint.
+6. All RA-internal path references outside Section 4 (Sections 5, 8, and 10) used the plain-name DOCS subdirectory form, mismatching the dot-prefixed convention.
+7. An empty untracked `DOCS/implementation-logs/` directory (plain name) existed locally, conflicting with DR-019.
+
+### Decision
+
+1. Bump Reference Architecture version from v1.14 to v1.15.
+2. Rewrite Section 4 blueprint to reflect the current project layout:
+   - Stack group shown as `[stack-group-dir]/[stack-dir]/` with an OPTIONAL annotation referencing Section 4.3.
+   - DOCS subdirectories updated to dot-prefixed form matching DR-001/DR-019: `.algorithm/`, `.analysis/`, `.architecture/`, `.design/`, `.howto/`, `.implementation-logs/`, `.planning/`, `.review/`, `.templates/`.
+   - `tests/api/` shown as an OPTIONAL subfolder of `[test-src]/`.
+   - `step_definitions/` shown inside `screenplay/`, consistent with the Screenplay Parity Contract and actual DEMOAPP001/DEMOAPP002 structure.
+   - `fixtures/` shown inside `screenplay/` as OPTIONAL.
+3. Update all RA-internal path references outside Section 4 to use the dot-prefixed form.
+4. Remove the empty untracked `DOCS/implementation-logs/` directory locally.
+
+### Consequences
+
+**Outcomes:**
+- Section 4 blueprint now accurately describes the current project layout; agents reading the RA derive correct paths on first read.
+- All normative path references in the RA use dot-prefixed DOCS subdirectory names, consistent with DR-001 and DR-019.
+- The empty plain-name directory is removed, eliminating a potential naming-convention violation.
+
+**Trade-offs:**
+- Projects adopting this RA whose DOCS subdirectories use plain names must adjust path references in their own implementations. The Section 4 note on illustrative directory names continues to apply: structural roles are REQUIRED, exact names are convention-governed.
+
+**Compliance note:**
+- Changing normative path guidance in the RA is a structural rule change requiring a DR entry per RA §10.6.
+
+### Alternatives Considered
+
+**Alternative: Keep plain-name DOCS paths in RA, add a cross-reference note**
+- Description: Leave the blueprint unchanged and add a note in Section 4 pointing to the dot-prefixed DOCS subdirectory convention.
+- Rejected because: The RA would contain paths that no project using this convention actually uses; agents reading the RA would produce non-compliant paths.
+
+### Related Decisions
+
+- DR-001 — Dot-prefix convention for DOCS subdirectories.
+- DR-019 — Dot-prefix convention extended to all DOCS type-specific directories.
+- DR-029 — Review outputs under `DOCS/.review/`.
+- DR-030 — Analysis documents under `DOCS/.analysis/`.
+
+---
+
+## DR-032 — Add C# SpecFlow parity Stack
+
+**Date:** 2026-05-28
+**Status:** Accepted — 2026-05-28
+
+### Context
+
+BACKLOG-021 and BACKLOG-013 required the planned C# Stack to become an active parity implementation. The Reference Architecture onboarding checklist requires a recorded decision before adding a new Stack so future agents know the canonical Stack name, filesystem location, surface type, and framework choice.
+
+### Decision
+
+Add `DEMOAPP003_CSHARP_SPECFLOW` as an active @util Stack at `demo-apps/demoapp003-csharp-specflow/`. Use .NET 8, SpecFlow, and NUnit to execute the same canonical Gherkin feature contract as DEMOAPP001 and DEMOAPP002.
+
+### Status
+
+`Accepted` — 2026-05-28
+
+### Consequences
+
+**Outcomes:**
+- The project now has three active parity Stacks: TypeScript, Python, and C#.
+- Parity automation must include C# feature and Memory key files.
+- BACKLOG-013 is covered by the implementation scope of BACKLOG-021.
+
+**Trade-offs:**
+- CI, Docker Compose, and local validation now include a .NET toolchain.
+- The C# Stack carries NuGet package restore and SpecFlow code-generation dependencies.
+
+**Compliance note:**
+- This aligns with RA Section 11 onboarding and DR-004's sequential TypeScript to Python to C# migration strategy.
+
+### Alternatives Considered
+
+**Alternative: Use NUnit tests without SpecFlow**
+- Description: Parse or duplicate scenario coverage directly in NUnit.
+- Rejected because: It would not execute the canonical Gherkin contract through a BDD runner.
+
+**Alternative: Use Reqnroll instead of SpecFlow**
+- Description: Use the actively maintained SpecFlow successor package.
+- Rejected because: The backlog item and Stack name explicitly identify SpecFlow; changing framework identity would require a separate backlog/decision update.
+
+### Related Decisions
+
+- DR-003 — In-process (@util) surface for DEMOAPP001 tests.
+- DR-004 — Sequential Stack migration strategy.
+- DR-016 — Stack filesystem directory naming.
+- DR-023 — Automated Memory key parity enforcement.
+- DR-027 — Automated step-text parity verification.
+
+---
+
+## DR-033 — Multi-Stack Local Containerization (Docker Compose)
+
+**Date:** 2026-05-29
+**Status:** Accepted — 2026-05-29
+
+### Context
+
+BACKLOG-010 requested a local development environment setup using Docker Compose to facilitate offline multi-stack execution, parity verification, and performance benchmarking across all parity stacks without requiring developers to preconfigure multi-language SDKs (Node, Python, .NET) on their host machine. The Docker Desktop and container runtime environment must be robust, low-footprint to handle host memory constraints, and support standard development volumes to prevent files lock and caching bottlenecks.
+
+### Decision
+
+Implement containerization via a top-level `docker-compose.yml` incorporating the following components:
+1. Low-footprint, Alpine/slim-based Dockerfiles for each Stack (`demoapp001-tests`, `demoapp002-tests`, `demoapp003-tests`).
+2. Live development profile `api` exposing `demoapp001-api` on port `3000`.
+3. Standalone `parity-checks` service for local verification running existing PowerShell scripts.
+4. Profiling profile `benchmark` defining `performance-benchmarks` executing the performance harness inside Python, TypeScript, and .NET.
+5. Standardized volume mounting mapping `/workspace` to project root, combined with aggressive `.dockerignore` filters to isolate runtime and output states.
+
+### Status
+
+`Accepted` — 2026-05-29
+
+### Consequences
+
+**Outcomes:**
+- The entire multi-stack ecosystem (TypeScript, Python, C#) is compiled and verified in standard, repeatable environments.
+- Developers can execute parity-checks and benchmarking directly inside temporary containers.
+- Reduced host machine dependency setup.
+
+**Trade-offs:**
+- Requires modern Docker and Compose v2 installed.
+- Host physical RAM limitations can constrain concurrent process execution (e.g. WSL backend thrashing under heavy BuildKit downloads or container startups when host has low available memory). This is mediated by transitioning to alpine/slim base images (e.g., `node:20-alpine` over `node:20-bookworm`).
+
+**Compliance note:**
+- Aligns with RA Section 9.1 orchestration, Section 5 test data mapping, and standardizes multi-stack boundaries.
+
+### Alternatives Considered
+
+**Alternative: Complete VM pre-seed image**
+- Description: Distribute a complete Vagrant or VirtualBox VM containing the entire project.
+- Rejected because: Too heavyweight, slow boot times, and hard to run in standard modern CI/CD setups.
+
+### Related Decisions
+
+- DR-003 — In-process (@util) surface for DEMOAPP001 tests.
+- DR-016 — Stack filesystem directory naming.
+- DR-032 — Add C# SpecFlow parity Stack.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -1564,5 +1847,5 @@ Add Section 4.4 "Shared Packages Directory" to `reference-architecture.md` v1.13
 
 ---
 
-*Last entry: DR-028. Next ID: DR-029.*
+*Last entry: DR-033. Next ID: DR-034.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

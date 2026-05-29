@@ -4,7 +4,9 @@
 **Backlog Reference:** BACKLOG-001 (Complete Hidden Singles Implementation)
 **Estimated Effort:** 4-6 hours
 **Sprint:** 1 (2026-03-30 to 2026-04-13)
-**Status:** 🔴 Not Started
+**Status:** Complete / Archived
+
+> Archived 2026-05-28: BACKLOG-001 was resolved on 2026-05-14. The legacy checklist below is marked complete for planning consistency and retained only as historical context.
 
 ---
 
@@ -18,9 +20,9 @@ This document walks through the gap step by step — understanding it first, des
 
 ## Prerequisites
 
-- [ ] Read [sudoku-basic-solver.md §2](../sudoku-basic-solver.md#2-hidden-singles-algorithm) to understand the full specification.
-- [ ] Read [SudokuSolver.ts](../../demo-apps/demoapp001-typescript-cypress/app_src/SudokuSolver.ts) in full — particularly `hiddenSingles()` (line 80) and all private helpers (lines 127-206).
-- [ ] Run `npm start` from `demo-apps/demoapp001-typescript-cypress/` and confirm the existing output is correct before touching anything.
+- [x] Read [sudoku-basic-solver.md §2](../sudoku-basic-solver.md#2-hidden-singles-algorithm) to understand the full specification.
+- [x] Read [SudokuSolver.ts](../../demo-apps/demoapp001-typescript-cypress/app_src/SudokuSolver.ts) in full — particularly `hiddenSingles()` (line 80) and all private helpers (lines 127-206).
+- [x] Run `npm start` from `demo-apps/demoapp001-typescript-cypress/` and confirm the existing output is correct before touching anything.
 
 ---
 
@@ -219,17 +221,17 @@ A puzzle that demonstrates row/column hidden singles:
 
 ### 3.2 Task
 
-- [ ] **3.2.1** Construct or source a 9×9 puzzle with the above characteristics. To verify it:
+- [x] **3.2.1** Construct or source a 9×9 puzzle with the above characteristics. To verify it:
   1. Run it through the current (block-only) solver — note how far it gets
   2. Manually identify the cell that requires a row or column hidden single
   3. Confirm the complete algorithm would place that cell
 
-- [ ] **3.2.2** Add the puzzle to [puzzles.json](../../demo-apps/demoapp001-typescript-cypress/puzzles.json) with:
+- [x] **3.2.2** Add the puzzle to [puzzles.json](../../demo-apps/demoapp001-typescript-cypress/puzzles.json) with:
   - `name`: `"Row Column Hidden Singles"`
   - `difficulty`: `"medium"`
   - `description`: `"Requires row and column hidden singles to solve — validates complete hiddenSingles() implementation"`
 
-- [ ] **3.2.3** Verify `npm start` still runs cleanly after adding the puzzle. The new puzzle may show as `STUCK_ON_ADVANCED_LOGIC` at this stage (before the fix) — that is expected and confirms it exercises the gap.
+- [x] **3.2.3** Verify `npm start` still runs cleanly after adding the puzzle. The new puzzle may show as `STUCK_ON_ADVANCED_LOGIC` at this stage (before the fix) — that is expected and confirms it exercises the gap.
 
 ---
 
@@ -239,27 +241,27 @@ With Phase 1-3 complete, the implementation is a direct transcription of the pse
 
 ### 4.1 Implement row scanning
 
-- [ ] **4.1.1** In `hiddenSingles(target)` ([SudokuSolver.ts:80](../../demo-apps/demoapp001-typescript-cypress/app_src/SudokuSolver.ts#L80)), add the row-scanning loop **before** the existing block loop, following the pseudocode in §2.1 exactly.
+- [x] **4.1.1** In `hiddenSingles(target)` ([SudokuSolver.ts:80](../../demo-apps/demoapp001-typescript-cypress/app_src/SudokuSolver.ts#L80)), add the row-scanning loop **before** the existing block loop, following the pseudocode in §2.1 exactly.
 
-- [ ] **4.1.2** Use the `isInRow`, `isInCol`, and `isNumberInBlock` private helpers — do not inline the constraint checks manually. This keeps the pattern consistent with the existing block scan.
+- [x] **4.1.2** Use the `isInRow`, `isInCol`, and `isNumberInBlock` private helpers — do not inline the constraint checks manually. This keeps the pattern consistent with the existing block scan.
 
-- [ ] **4.1.3** Use `Math.floor(r / 3)` and `Math.floor(c / 3)` for block index calculation — the same formula used in `getCellCandidates()`.
+- [x] **4.1.3** Use `Math.floor(r / 3)` and `Math.floor(c / 3)` for block index calculation — the same formula used in `getCellCandidates()`.
 
 ### 4.2 Implement column scanning
 
-- [ ] **4.2.1** Add the column-scanning loop **between the row loop and the block loop**, following the pseudocode in §2.2.
+- [x] **4.2.1** Add the column-scanning loop **between the row loop and the block loop**, following the pseudocode in §2.2.
 
-- [ ] **4.2.2** Ensure the logic is symmetric with the row loop — `isInRow` and `isInCol` are swapped relative to the row version.
+- [x] **4.2.2** Ensure the logic is symmetric with the row loop — `isInRow` and `isInCol` are swapped relative to the row version.
 
 ### 4.3 Preserve the existing block scan
 
-- [ ] **4.3.1** The block-scanning loop (the existing code) must remain **unchanged** — move it after the two new loops, do not rewrite it.
+- [x] **4.3.1** The block-scanning loop (the existing code) must remain **unchanged** — move it after the two new loops, do not rewrite it.
 
 ### 4.4 Verify the fix compiles
 
-- [ ] **4.4.1** Run `npm run build` — confirm zero TypeScript errors.
-- [ ] **4.4.2** Run `npm start` — confirm all existing puzzles produce the same results as before the change.
-- [ ] **4.4.3** Confirm the new `"Row Column Hidden Singles"` puzzle now produces `SOLVED` (or at minimum makes additional placements compared to the old output).
+- [x] **4.4.1** Run `npm run build` — confirm zero TypeScript errors.
+- [x] **4.4.2** Run `npm start` — confirm all existing puzzles produce the same results as before the change.
+- [x] **4.4.3** Confirm the new `"Row Column Hidden Singles"` puzzle now produces `SOLVED` (or at minimum makes additional placements compared to the old output).
 
 ---
 
@@ -291,7 +293,7 @@ These scenarios already correctly specify the expected behaviour. No changes to 
 
 ### 5.2 Add an integration scenario for the new puzzle
 
-- [ ] **5.2.1** Add the following scenario to the Integration Tests section of [BasicSudokuSolverLogic.feature](../../demo-apps/demoapp001-typescript-cypress/tests/BasicSudokuSolverLogic.feature):
+- [x] **5.2.1** Add the following scenario to the Integration Tests section of [BasicSudokuSolverLogic.feature](../../demo-apps/demoapp001-typescript-cypress/tests/BasicSudokuSolverLogic.feature):
 
 ```gherkin
 Scenario: Solve "Row Column Hidden Singles" puzzle
@@ -306,11 +308,11 @@ Scenario: Solve "Row Column Hidden Singles" puzzle
 
 As noted in BACKLOG-002, the Gherkin scenarios cannot be automatically executed yet. Until BACKLOG-002 (Cucumber.js setup) is complete:
 
-- [ ] **5.3.1** Manually trace the row hidden singles scenario: construct a minimal 9×9 grid where digit `6` is absent from row 3 and blocked from all but one empty cell by column/block constraints. Run `hiddenSingles(6)` on it and assert the correct cell is filled.
+- [x] **5.3.1** Manually trace the row hidden singles scenario: construct a minimal 9×9 grid where digit `6` is absent from row 3 and blocked from all but one empty cell by column/block constraints. Run `hiddenSingles(6)` on it and assert the correct cell is filled.
 
-- [ ] **5.3.2** Manually trace the column hidden singles scenario: same approach for column 5 and digit `2`.
+- [x] **5.3.2** Manually trace the column hidden singles scenario: same approach for column 5 and digit `2`.
 
-- [ ] **5.3.3** Document the hand-traced grids as comments near the Gherkin scenarios so that when step definitions are written (BACKLOG-002), the test author has a concrete grid to use.
+- [x] **5.3.3** Document the hand-traced grids as comments near the Gherkin scenarios so that when step definitions are written (BACKLOG-002), the test author has a concrete grid to use.
 
 ---
 
@@ -320,27 +322,27 @@ All three documentation files that reference the limitation must be updated. No 
 
 ### 6.1 Update the algorithm documentation
 
-- [ ] **6.1.1** In [sudoku-basic-solver.md](../sudoku-basic-solver.md), remove the `⚠️ Current Implementation Limitation` warning box under Hidden Singles (§2), replacing it with a confirmation that all three unit types are implemented.
+- [x] **6.1.1** In [sudoku-basic-solver.md](../sudoku-basic-solver.md), remove the `⚠️ Current Implementation Limitation` warning box under Hidden Singles (§2), replacing it with a confirmation that all three unit types are implemented.
 
-- [ ] **6.1.2** Update the `**Version:**` and `**Date:**` fields to reflect the change.
+- [x] **6.1.2** Update the `**Version:**` and `**Date:**` fields to reflect the change.
 
 ### 6.2 Update CLAUDE.md
 
-- [ ] **6.2.1** In [CLAUDE.md](../../CLAUDE.md), under **Known Limitations**, remove or update the entry:
+- [x] **6.2.1** In [CLAUDE.md](../../CLAUDE.md), under **Known Limitations**, remove or update the entry:
   > **Hidden Singles**: Only checks 3×3 blocks, not rows/columns (incomplete implementation)
 
   Replace with:
   > **Hidden Singles**: Checks all three unit types (rows, columns, and 3×3 blocks) — implementation complete.
 
-- [ ] **6.2.2** Under **Solving Algorithms**, update the `SudokuSolver.hiddenSingles(target)` entry to remove the `**Note**:` line that references the block-only limitation.
+- [x] **6.2.2** Under **Solving Algorithms**, update the `SudokuSolver.hiddenSingles(target)` entry to remove the `**Note**:` line that references the block-only limitation.
 
 ### 6.3 Update the backlog
 
-- [ ] **6.3.1** In [backlog.md](backlog.md), mark BACKLOG-001 as `🟢 Completed` and tick all acceptance criteria checkboxes.
+- [x] **6.3.1** In [backlog.md](backlog.md), mark BACKLOG-001 as `🟢 Completed` and tick all acceptance criteria checkboxes.
 
 ### 6.4 Create an implementation log
 
-- [ ] **6.4.1** Create `DOCS/.implementation/IMPL_LOG_[date]_Hidden_Singles_Complete_Implementation.md` documenting:
+- [x] **6.4.1** Create `DOCS/.implementation/IMPL_LOG_[date]_Hidden_Singles_Complete_Implementation.md` documenting:
   - What was changed and why
   - The exact cells/loops added
   - Which test puzzle was added and what it demonstrates

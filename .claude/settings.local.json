@@ -25,7 +25,10 @@
       "PowerShell(Get-ChildItem -Path \"d:\\\\__GB_DEV\\\\_GitHub\\\\gb.automation.smoketests.sudoku.poc\\\\demo-apps\" -Force | Select-Object Name, @{Name=\"Type\"; Expression={if\\($_.PSIsContainer\\){\"DIR\"}else{\"FILE\"}}} | Format-Table -AutoSize)",
       "PowerShell(Get-ChildItem -Path \"d:\\\\__GB_DEV\\\\_GitHub\\\\gb.automation.smoketests.sudoku.poc\\\\DOCS\" -Force | Select-Object Name, @{Name=\"Type\"; Expression={if\\($_.PSIsContainer\\){\"DIR\"}else{\"FILE\"}}} | Format-Table -AutoSize)",
       "PowerShell(Get-ChildItem -Path \"d:\\\\__GB_DEV\\\\_GitHub\\\\gb.automation.smoketests.sudoku.poc\\\\features-shared\" -Force | Select-Object Name, @{Name=\"Type\"; Expression={if\\($_.PSIsContainer\\){\"DIR\"}else{\"FILE\"}}} | Format-Table -AutoSize)",
-      "PowerShell(Get-ChildItem -Path \"d:\\\\__GB_DEV\\\\_GitHub\\\\gb.automation.smoketests.sudoku.poc\\\\.results\" -Force | Select-Object Name, @{Name=\"Type\"; Expression={if\\($_.PSIsContainer\\){\"DIR\"}else{\"FILE\"}}} | Format-Table -AutoSize)"
+      "PowerShell(Get-ChildItem -Path \"d:\\\\__GB_DEV\\\\_GitHub\\\\gb.automation.smoketests.sudoku.poc\\\\.results\" -Force | Select-Object Name, @{Name=\"Type\"; Expression={if\\($_.PSIsContainer\\){\"DIR\"}else{\"FILE\"}}} | Format-Table -AutoSize)",
+      "PowerShell(Remove-Item -Path \"d:\\\\__GB_DEV\\\\_GitHub\\\\gb.automation.smoketests.sudoku.poc\\\\DOCS\\\\implementation-logs\" -Recurse -Force -Confirm:$false)",
+      "PowerShell(git -C \"d:\\\\__GB_DEV\\\\_GitHub\\\\gb.automation.smoketests.sudoku.poc\" status --short)",
+      "PowerShell(git -C \"d:\\\\__GB_DEV\\\\_GitHub\\\\gb.automation.smoketests.sudoku.poc\" commit -m $msg)"
     ]
   }
 }

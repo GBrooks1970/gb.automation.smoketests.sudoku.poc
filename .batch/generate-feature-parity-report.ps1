@@ -11,14 +11,17 @@
 
 param(
   [string]$CanonicalRoot = "features-shared",
-  [string]$StackRoot     = "demo-apps/demoapp001-typescript-cypress/tests/features"
+  [string[]]$StackRoot   = @(
+    "demo-apps/demoapp001-typescript-cypress/tests/features",
+    "demo-apps/demoapp002-python-pytest/tests/features",
+    "demo-apps/demoapp003-csharp-specflow/tests/features"
+  )
 )
 
 $ErrorActionPreference = 'Stop'
 
 $repoRoot   = Split-Path -Parent $PSScriptRoot
 $canonical  = Join-Path $repoRoot $CanonicalRoot
-$stack      = Join-Path $repoRoot $StackRoot
 $outDir     = Join-Path $repoRoot ".results/feature-parity"
 $timestamp  = (Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmZ')
 $reportFile = Join-Path $outDir "FEATURE_PARITY_${timestamp}.md"
@@ -26,45 +29,65 @@ $reportFile = Join-Path $outDir "FEATURE_PARITY_${timestamp}.md"
 New-Item -ItemType Directory -Path $outDir -Force | Out-Null
 
 $canonicalFeatures = Get-ChildItem -Path $canonical -Recurse -Filter "*.feature"
-$stackFeatures     = Get-ChildItem -Path $stack    -Recurse -Filter "*.feature"
 $results = [System.Collections.Generic.List[hashtable]]::new()
 $overallPass = $true
 
-foreach ($cf in $canonicalFeatures) {
-  # Stack-local copies are flat (filename only, no subdirectory replication)
-  $fileName  = $cf.Name
-  $stackFile = $stackFeatures | Where-Object { $_.Name -eq $fileName } | Select-Object -First 1
+foreach ($stackRootEntry in $StackRoot) {
+  $stack = Join-Path $repoRoot $stackRootEntry
 
-  $entry = @{
-    CanonicalPath = $cf.FullName.Substring($repoRoot.Length).TrimStart('\','/')
-    StackPath     = if ($stackFile) { $stackFile.FullName.Substring($repoRoot.Length).TrimStart('\','/') } else { "(not found)" }
-    Status        = ''
-    Notes         = ''
-  }
-
-  if (-not $stackFile) {
-    $entry.Status = 'MISSING'
-    $entry.Notes  = 'Stack-local copy not found by filename'
-    $overallPass  = $false
-  } else {
-    # Compare non-tag lines (tag lines carry stack-local additions)
-    $canonLines = (Get-Content $cf.FullName) | Where-Object { $_ -notmatch '^\s*@' }
-    $stackLines = (Get-Content $stackFile.FullName) | Where-Object { $_ -notmatch '^\s*@' }
-
-    $canonBody = ($canonLines -join "`n").Trim()
-    $stackBody = ($stackLines -join "`n").Trim()
-
-    if ($canonBody -eq $stackBody) {
-      $entry.Status = 'IN_PARITY'
-      $entry.Notes  = 'Bodies match after tag-line exclusion'
-    } else {
-      $entry.Status = 'DRIFT'
-      $entry.Notes  = 'Body mismatch after tag-line exclusion'
-      $overallPass  = $false
+  if (-not (Test-Path -LiteralPath $stack)) {
+    foreach ($cf in $canonicalFeatures) {
+      $results.Add(@{
+        StackRoot     = $stackRootEntry
+        CanonicalPath = $cf.FullName.Substring($repoRoot.Length).TrimStart('\','/')
+        StackPath     = "(stack root not found)"
+        Status        = 'MISSING'
+        Notes         = 'Stack-local feature root not found'
+      })
     }
+    $overallPass = $false
+    continue
   }
 
-  $results.Add($entry)
+  $stackFeatures = Get-ChildItem -Path $stack -Recurse -Filter "*.feature"
+
+  foreach ($cf in $canonicalFeatures) {
+    # Stack-local copies are flat (filename only, no subdirectory replication)
+    $fileName  = $cf.Name
+    $stackFile = $stackFeatures | Where-Object { $_.Name -eq $fileName } | Select-Object -First 1
+
+    $entry = @{
+      StackRoot     = $stackRootEntry
+      CanonicalPath = $cf.FullName.Substring($repoRoot.Length).TrimStart('\','/')
+      StackPath     = if ($stackFile) { $stackFile.FullName.Substring($repoRoot.Length).TrimStart('\','/') } else { "(not found)" }
+      Status        = ''
+      Notes         = ''
+    }
+
+    if (-not $stackFile) {
+      $entry.Status = 'MISSING'
+      $entry.Notes  = 'Stack-local copy not found by filename'
+      $overallPass  = $false
+    } else {
+      # Compare non-tag lines (tag lines carry stack-local additions)
+      $canonLines = (Get-Content $cf.FullName) | Where-Object { $_ -notmatch '^\s*@' }
+      $stackLines = (Get-Content $stackFile.FullName) | Where-Object { $_ -notmatch '^\s*@' }
+
+      $canonBody = ($canonLines -join "`n").Trim()
+      $stackBody = ($stackLines -join "`n").Trim()
+
+      if ($canonBody -eq $stackBody) {
+        $entry.Status = 'IN_PARITY'
+        $entry.Notes  = 'Bodies match after tag-line exclusion'
+      } else {
+        $entry.Status = 'DRIFT'
+        $entry.Notes  = 'Body mismatch after tag-line exclusion'
+        $overallPass  = $false
+      }
+    }
+
+    $results.Add($entry)
+  }
 }
 
 $inParity = @($results | Where-Object { $_.Status -eq 'IN_PARITY' }).Count
@@ -86,15 +109,15 @@ $lines.Add("# Feature Parity Report")
 $lines.Add("")
 $lines.Add("${b}Generated:${b} $((Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mmZ'))")
 $lines.Add("${b}Canonical root:${b} ``$CanonicalRoot``")
-$lines.Add("${b}Stack root:${b} ``$StackRoot``")
+$lines.Add("${b}Stack roots:${b} ``$($StackRoot -join '`, `')``")
 $lines.Add("${b}Overall result:${b} $overallResult")
 $lines.Add("")
 $lines.Add("---")
 $lines.Add("")
 $lines.Add("## Feature File Status")
 $lines.Add("")
-$lines.Add("| Status | Canonical path | Stack path | Notes |")
-$lines.Add("|--------|---------------|-----------|-------|")
+$lines.Add("| Status | Stack root | Canonical path | Stack path | Notes |")
+$lines.Add("|--------|------------|---------------|-----------|-------|")
 
 foreach ($r in $results) {
   $icon = switch ($r.Status) {
@@ -103,7 +126,7 @@ foreach ($r in $results) {
     'DRIFT'     { 'DRIFT' }
     default     { $r.Status }
   }
-  $lines.Add("| $icon | $($r.CanonicalPath) | $($r.StackPath) | $($r.Notes) |")
+  $lines.Add("| $icon | $($r.StackRoot) | $($r.CanonicalPath) | $($r.StackPath) | $($r.Notes) |")
 }
 
 $lines.Add("")

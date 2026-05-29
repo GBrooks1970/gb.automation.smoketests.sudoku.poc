@@ -1,0 +1,49 @@
+name: sudoku-smoketests
+
+services:
+  demoapp001-tests:
+    build:
+      context: ./demo-apps/demoapp001-typescript-cypress
+    command: sh -lc "npm run build && npm run lint && npm run test:api && npm test"
+
+  demoapp001-api:
+    build:
+      context: ./demo-apps/demoapp001-typescript-cypress
+    command: npm run start:api
+    environment:
+      PORT: "3000"
+    ports:
+      - "3000:3000"
+    profiles:
+      - api
+
+  demoapp002-tests:
+    build:
+      context: ./demo-apps/demoapp002-python-pytest
+    command: python -m pytest
+
+  demoapp003-tests:
+    build:
+      context: ./demo-apps/demoapp003-csharp-specflow
+    command: dotnet test --no-restore
+
+  parity-checks:
+    image: mcr.microsoft.com/powershell:7.4-ubuntu-22.04
+    working_dir: /workspace
+    volumes:
+      - ./:/workspace
+    command: pwsh -NoLogo -NoProfile -File ./.batch/run-parity-checks.ps1
+
+  performance-benchmarks:
+    build:
+      context: .
+      dockerfile: tooling/performance/Dockerfile
+    command: >
+      bash -lc "cd demo-apps/demoapp001-typescript-cypress
+      && npm run benchmark
+      && cd ../demoapp002-python-pytest
+      && python3 -m tooling.performance.benchmark
+      && cd /workspace
+      && dotnet run --project demo-apps/demoapp003-csharp-specflow/tooling/performance/DemoApp003.Performance.csproj --configuration Release"
+    profiles:
+      - benchmark

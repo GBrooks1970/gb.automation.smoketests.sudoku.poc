@@ -9,6 +9,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Changed
+- DR-032: Added `DEMOAPP003_CSHARP_SPECFLOW` as an active C# SpecFlow/NUnit Stack, updated parity contracts and CI, and resolved BACKLOG-021 plus umbrella BACKLOG-013.
+- BACKLOG-010 remains in progress: Docker Compose files and Dockerfiles exist for all active Stacks, but runtime verification is pending until Docker Desktop/Linux engine is available locally.
+- BACKLOG-011 resolved with reporting-only benchmark harnesses for TypeScript, Python, and C# plus root aggregation under `.results/performance/`.
+- DR-031 / Reference Architecture v1.15: Section 4 directory blueprint updated to match current project layout — dot-prefixed DOCS subdirectories (`.algorithm/`, `.analysis/`, `.architecture/`, `.design/`, `.howto/`, `.implementation-logs/`, `.planning/`, `.review/`, `.templates/`), Stack group pattern (`demo-apps/[stack-dir]/`), `tests/api/` optional folder, and `step_definitions/` placed inside `screenplay/`. All internal RA path references updated to dot-prefixed form. Empty untracked `DOCS/implementation-logs/` directory removed.
+- DR-030: analysis and report-style documents now live under `DOCS/.analysis/`; historical report filenames were preserved.
+- DR-029 / Reference Architecture v1.14: review outputs now live only under `DOCS/.review/`; the former repository-root `.review/` contents were moved into DOCS and active templates/guidance were updated.
 - MIG-13 (DR-016): Filesystem directories renamed to kebab-case:
   - `DEMOAPPS/` → `demo-apps/`
   - `DEMOAPPS/DEMOAPP001_TYPESCRIPT_CYPRESS/` → `demo-apps/demoapp001-typescript-cypress/`
@@ -25,6 +31,17 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
   - Added CLI options: `--help` and `--timeout <ms>` / `--timeout=<ms>`
 
 ### Added
+- `demo-apps/demoapp003-csharp-specflow/` with C# solver/orchestrator, Screenplay-style actors, abilities, tasks, questions, Memory keys, SpecFlow step definitions, and 46 canonical scenarios.
+- Root parity helpers: `.batch/run-parity-checks.ps1`, C#-aware feature parity checks, and C# Memory key parity checks.
+- Root benchmark helper `.batch/run-performance-benchmarks.ps1` and per-Stack benchmark runners.
+- `docker-compose.yml` plus Stack-local Dockerfiles for TypeScript, Python, and C# local development containers.
+- Planning hygiene docs: `todo-csharp-screenplay-stack.md`, `todo-interactive-sudoku-tutor.md`, refreshed todo statuses, and `2026-05-28_backlog-to-todo-plan-implementation.md`.
+- BACKLOG-009: DEMOAPP001 Express REST API wrapper:
+  - `npm run start:api` starts the API server on `PORT` or 3000
+  - Technique endpoints for Unit Completion, Hidden Singles, and Naked Singles
+  - `POST /api/solve` returns AuditLogger-backed step/change tracking
+  - Puzzle list/get endpoints and grid validation endpoint
+  - `npm run test:api` integration checks for all API endpoints
 - Phase 2 — Serenity/JS Screenplay Foundation:
   - `@serenity-js/core`, `@serenity-js/cucumber`, `@serenity-js/assertions` v3.43.2 installed
   - `tests/screenplay/` directory structure: `abilities/`, `actors/`, `tasks/`, `questions/`, `support/`, `step_definitions/`
@@ -47,7 +64,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - `DOCS/.templates/algorithm.template.md` — canonical template for algorithm documentation
 - `DOCS/.algorithm/README.md` — algorithm directory guide
 - `DOCS/reference-architecture.md` — Screenplay-BDD Reference Architecture (v1.1)
-- `DOCS/ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md` — alignment report (updated for v1.1)
+- `DOCS/.analysis/ref-arch-alignment_2026-05-14.md` — alignment report (updated for v1.1)
 - `DR-006` in `decision-register.md` — records adoption of RA v1.1 and path corrections
 - `DR-007` in `decision-register.md` — records establishment of features-shared/ canonical store
 - `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature` — canonical feature store (Phase 1 migration)
@@ -59,7 +76,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - `CLAUDE.md` updated: Stack inventory, risk register, canonical feature update procedure, `decision-register.md` reference, `naming-conventions.md` path corrected to `DOCS/.design/`
 - `DOCS/README.md` updated: reflects `.algorithm/`, `templates/` directories, root-level governance documents, `naming-conventions.md` at corrected path
 - `DOCS/.algorithm/sudoku-basic-solver.md` and `sudoku-advanced-solver.md` — relative paths updated after move to `.algorithm/`
-- `DOCS/ANALYSIS_Screenplay_BDD_Architecture_Alignment_20260514.md` — revised against RA v1.1; Phase 0 completion status added; §6, §9, §13, §14, §15 updated
+- `DOCS/.analysis/ref-arch-alignment_2026-05-14.md` — revised against RA v1.1; Phase 0 completion status added; §6, §9, §13, §14, §15 updated
 
 ### Removed
 - `demo-apps/demoapp001-typescript-cypress/tests/BasicSudokuSolverLogic.feature` — replaced by Stack-local copy at `tests/features/`

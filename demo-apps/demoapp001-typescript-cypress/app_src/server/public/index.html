@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sudoku Solver Visualisation</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Sudoku Solver Visualisation</h1>
+    <div id="puzzle-selector">
+      <label for="puzzle-dropdown">Puzzle:</label>
+      <select id="puzzle-dropdown">
+        <option value="">-- Select a puzzle --</option>
+      </select>
+      <span id="puzzle-difficulty"></span>
+      <p id="puzzle-description"></p>
+    </div>
+  </header>
+
+  <main>
+    <section id="grid-panel">
+      <div id="loading" class="hidden">Solving&hellip;</div>
+      <div id="error-banner" class="hidden"></div>
+      <div id="sudoku-grid"></div>
+
+      <div id="playback-controls">
+        <button id="btn-first" title="Jump to start" disabled>&#x23EE;</button>
+        <button id="btn-prev"  title="Previous step" disabled>&#x23EA;</button>
+        <button id="btn-play"  title="Play / Pause"  disabled>&#x25B6;</button>
+        <button id="btn-next"  title="Next step"     disabled>&#x23E9;</button>
+        <button id="btn-last"  title="Jump to end"   disabled>&#x23ED;</button>
+        <span id="step-counter">Step 0 of 0</span>
+      </div>
+
+      <div id="speed-control">
+        <label for="speed-slider">Speed:
+          <span id="speed-label">500 ms</span>
+        </label>
+        <input type="range" id="speed-slider" min="100" max="2000" value="500" step="100">
+      </div>
+
+      <div id="legend">
+        <span class="legend-item original">Original</span>
+        <span class="legend-item unit-completion">Unit Completion</span>
+        <span class="legend-item hidden-singles">Hidden Singles</span>
+        <span class="legend-item naked-singles">Naked Singles</span>
+      </div>
+    </section>
+
+    <section id="info-panel">
+      <div id="event-log">
+        <h3>Event Log</h3>
+        <ol id="event-list"><li class="placeholder">Select a puzzle to begin.</li></ol>
+      </div>
+      <div id="statistics">
+        <h3>Statistics</h3>
+        <div id="stats-content">
+          <p class="placeholder">No solve data yet.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>

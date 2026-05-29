@@ -1,0 +1,10 @@
+.git/
+.results/
+.tmp/
+**/bin/
+**/obj/
+**/dist/
+**/node_modules/
+**/.pytest_cache/
+**/__pycache__/
+**/*.pyc

@@ -20,6 +20,14 @@ Planning documents serve as:
   - High/Medium/Low priority items
   - Future enhancements and ideas
   - Status tracking and estimates
+- **Backlog-linked TODO files** - Implementation checklists for active or archived backlog work
+  - [todo-csharp-screenplay-stack.md](todo-csharp-screenplay-stack.md) - BACKLOG-021, complete
+  - [todo-docker-compose-local-development.md](todo-docker-compose-local-development.md) - BACKLOG-010, in progress
+  - [todo-performance-benchmarking-suite.md](todo-performance-benchmarking-suite.md) - BACKLOG-011, complete
+  - [todo-advanced-solving-techniques.md](todo-advanced-solving-techniques.md) - BACKLOG-014, future
+  - [todo-puzzle-generator.md](todo-puzzle-generator.md) - BACKLOG-016, future
+  - [todo-interactive-sudoku-tutor.md](todo-interactive-sudoku-tutor.md) - BACKLOG-015, future
+  - Archived resolved todos: [todo-hidden-singles-implementation.md](todo-hidden-singles-implementation.md), [todo-audit-trail-feature.md](todo-audit-trail-feature.md), [todo-rest-api-wrapper.md](todo-rest-api-wrapper.md), [todo-web-ui-solver-visualisation.md](todo-web-ui-solver-visualisation.md)
 
 ### Document Types (Future)
 

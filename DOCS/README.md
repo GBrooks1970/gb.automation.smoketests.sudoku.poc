@@ -1,6 +1,6 @@
 # DOCS — Documentation Index
 
-**Last Updated:** 2026-05-15T18:29Z
+**Last Updated:** 2026-05-28T18:20Z
 **Maintainer:** Project Lead / Development Team
 
 > This is the master index for project documentation. Active governed docs and canonical templates are
@@ -13,10 +13,24 @@
 ```
 DOCS/
 ├── README.md                               <- This file (master index)
-├── reference-architecture.md              <- Screenplay-BDD Reference Architecture v1.3
-├── documentation-review-20260514T1100Z.md
+├── reference-architecture.md              <- Screenplay-BDD Reference Architecture v1.15
 │
-├── templates/                              <- Canonical template store (RA §10.5)
+├── .analysis/                              <- Analysis and report-style documents
+│   ├── README.md
+│   ├── documentation-review-20260514T1100Z.md
+│   ├── ref-arch-alignment_2026-05-14.md
+│   ├── ref-arch-alignment_2026-05-15.md
+│   ├── analysis-directory-naming-kebab-case-2026-05-16.md
+│   ├── analysis-docs-subdirectory-cleanup-20260516.md
+│   └── analysis-document-naming-kebab-case-20260516.md
+│
+├── .architecture/                          <- Cross-cutting architecture specs
+│   ├── logging-design.md
+│   ├── orchestration-design.md
+│   ├── screenplay-parity-contract.md
+│   └── subject-app-contract.md
+│
+├── .templates/                             <- Canonical template store (RA §10.5)
 │   ├── decision-record.template.md        <- For decision-register.md entries
 │   ├── changelog.template.md              <- For root CHANGELOG.md
 │   ├── backlog.template.md                <- For DOCS/.planning/backlog.md
@@ -45,10 +59,11 @@ DOCS/
 │   ├── todo-hidden-singles-implementation.md
 │   └── prompt-playbook-20260330T1645Z.md
 │
-├── .implementation/                        <- Session implementation logs
+├── .implementation-logs/                   <- Session implementation logs
 │   ├── README.md
-│   ├── IMPL_LOG_2026-01-30_Initial_Project_Creation.md
-│   └── IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md
+│   ├── 2026-01-30_initial-project-creation.md
+│   ├── 2026-05-14_naming-conventions-and-testing.md
+│   └── 2026-05-20_analysis-folder-migration.md
 │
 ├── .howto/                                 <- Practical how-to guides
 │   ├── README.md
@@ -60,7 +75,10 @@ DOCS/
     ├── CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/
     ├── CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z/
     ├── CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z/
-    └── CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z/
+    ├── CODE_REVIEW_CLAUDE_v1_20260519T1948Z/
+    ├── CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z/
+    ├── 2026-05-18_reference-architecture-structural-review.md
+    └── 2026-05-18_repository-structural-review.md
 ```
 
 ---
@@ -84,7 +102,7 @@ Canonical template store — all document templates live here. Use a template be
 | [subject-app-contract.template.md](.templates/subject-app-contract.template.md) | `DOCS/.architecture/subject-app-contract.md` | 6 |
 | [algorithm.template.md](.templates/algorithm.template.md) | `DOCS/.algorithm/` algorithm docs | — |
 | [implementation-log.template.md](.templates/implementation-log.template.md) | `DOCS/.implementation-logs/YYYY-MM-DD_*.md` | — |
-| [code-review.template.md](.templates/code-review.template.md) | `.review/CODE_REVIEW_*/` | — |
+| [code-review.template.md](.templates/code-review.template.md) | `DOCS/.review/CODE_REVIEW_*/` | — |
 | [design-document.template.md](.templates/design-document.template.md) | `DOCS/.design/` design documents | — |
 | [howto.template.md](.templates/howto.template.md) | `DOCS/.howto/` how-to guides | — |
 
@@ -121,9 +139,9 @@ Stored in [.algorithm/](.algorithm/) — language-agnostic pseudocode for every 
 | Document | Purpose | Status | Version |
 |----------|---------|--------|---------|
 | [sudoku-solver-specification.md](.design/sudoku-solver-specification.md) | Tech-agnostic solver spec | Implemented | v1.0 |
-| [audit-trail-feature.md](.design/audit-trail-feature.md) | Audit logging system | Approved, not implemented | v1.1 |
-| [rest-api-wrapper.md](.design/rest-api-wrapper.md) | Express REST API | Approved, not implemented | v1.0 |
-| [web-ui-solver-visualisation.md](.design/web-ui-solver-visualisation.md) | Browser step-by-step visualisation | Approved, not implemented | v1.2 |
+| [audit-trail-feature.md](.design/audit-trail-feature.md) | Audit logging system | Implemented | v1.1 |
+| [rest-api-wrapper.md](.design/rest-api-wrapper.md) | Express REST API | Implemented | v1.0 |
+| [web-ui-solver-visualisation.md](.design/web-ui-solver-visualisation.md) | Browser step-by-step visualisation | Implemented | v1.2 |
 | [naming-conventions-design.md](.design/naming-conventions-design.md) | TypeScript naming standards | Adopted | v1.0 |
 | [screenplay-migration.md](.design/screenplay-migration.md) | Screenplay pattern migration for tests | Approved | v1.0 |
 
@@ -134,9 +152,15 @@ Stored in [.algorithm/](.algorithm/) — language-agnostic pseudocode for every 
 | Document | Purpose |
 |----------|---------|
 | [backlog.md](.planning/backlog.md) | Product backlog, sprint tracking |
-| [todo-audit-trail-feature.md](.planning/todo-audit-trail-feature.md) | Audit Trail implementation task list |
-| [todo-rest-api-wrapper.md](.planning/todo-rest-api-wrapper.md) | REST API implementation task list |
-| [todo-web-ui-solver-visualisation.md](.planning/todo-web-ui-solver-visualisation.md) | Web UI implementation task list |
+| [todo-csharp-screenplay-stack.md](.planning/todo-csharp-screenplay-stack.md) | C# Screenplay Stack implementation task list (COMPLETED) |
+| [todo-docker-compose-local-development.md](.planning/todo-docker-compose-local-development.md) | Docker Compose local development task list (IN PROGRESS) |
+| [todo-performance-benchmarking-suite.md](.planning/todo-performance-benchmarking-suite.md) | Performance benchmarking suite task list (COMPLETED) |
+| [todo-advanced-solving-techniques.md](.planning/todo-advanced-solving-techniques.md) | Advanced solving techniques task list |
+| [todo-puzzle-generator.md](.planning/todo-puzzle-generator.md) | Puzzle generator task list |
+| [todo-interactive-sudoku-tutor.md](.planning/todo-interactive-sudoku-tutor.md) | Interactive Sudoku tutor task list |
+| [todo-audit-trail-feature.md](.planning/todo-audit-trail-feature.md) | Audit Trail implementation task list (ARCHIVED) |
+| [todo-rest-api-wrapper.md](.planning/todo-rest-api-wrapper.md) | REST API implementation task list (ARCHIVED) |
+| [todo-web-ui-solver-visualisation.md](.planning/todo-web-ui-solver-visualisation.md) | Web UI implementation task list (ARCHIVED) |
 | [todo-hidden-singles-implementation.md](.planning/todo-hidden-singles-implementation.md) | Hidden Singles implementation (COMPLETED) |
 | [prompt-playbook-20260330T1645Z.md](.planning/prompt-playbook-20260330T1645Z.md) | AI session reproducibility guide |
 
@@ -148,8 +172,12 @@ Chronological record of every development session.
 
 | Log | Date | Scope |
 |-----|------|-------|
-| [IMPL_LOG_2026-01-30_Initial_Project_Creation.md](.implementation/IMPL_LOG_2026-01-30_Initial_Project_Creation.md) | 2026-01-30 | Initial setup, solver algorithms |
-| [IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md](.implementation/IMPL_LOG_2026-05-14_Sprint2_Naming_Conventions_And_Testing.md) | 2026-05-14 | Naming, constants, Cucumber test runner |
+| [2026-01-30_initial-project-creation.md](.implementation-logs/2026-01-30_initial-project-creation.md) | 2026-01-30 | Initial setup, solver algorithms |
+| [2026-05-14_naming-conventions-and-testing.md](.implementation-logs/2026-05-14_naming-conventions-and-testing.md) | 2026-05-14 | Naming, constants, Cucumber test runner |
+| [2026-05-20_review-output-location-migration.md](.implementation-logs/2026-05-20_review-output-location-migration.md) | 2026-05-20 | Review output location migration to `DOCS/.review/` |
+| [2026-05-20_analysis-folder-migration.md](.implementation-logs/2026-05-20_analysis-folder-migration.md) | 2026-05-20 | Analysis/report documents grouped under `DOCS/.analysis/` |
+| [2026-05-24_web-ui-visualisation-cleanup.md](.implementation-logs/2026-05-24_web-ui-visualisation-cleanup.md) | 2026-05-24 | Web UI visualisation cleanup |
+| [2026-05-28_backlog-to-todo-plan-implementation.md](.implementation-logs/2026-05-28_backlog-to-todo-plan-implementation.md) | 2026-05-28 | Backlog-to-todo plan implementation |
 
 ---
 
@@ -163,7 +191,8 @@ Chronological record of every development session.
 
 ## Code Reviews
 
-Reviews are snapshots: timestamped, immutable once written.
+Reviews are snapshots: timestamped, immutable once written. The authoritative
+review directory is `DOCS/.review/`; repository-root `.review/` is not used.
 
 | Review | Reviewer | Date | Grade |
 |--------|---------|------|-------|
@@ -171,16 +200,24 @@ Reviews are snapshots: timestamped, immutable once written.
 | [CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z](.review/CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z/) | GPT-5.3 Codex | 2026-03-30 | — |
 | [CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z](.review/CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z/) | CLAUDE Opus 4.6 | 2026-03-30 | B+ |
 | [CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z](.review/CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z/) | CLAUDE Sonnet 4.6 | 2026-05-13 | A- |
+| [2026-05-18_reference-architecture-structural-review.md](.review/2026-05-18_reference-architecture-structural-review.md) | Codex | 2026-05-18 | — |
+| [2026-05-18_repository-structural-review.md](.review/2026-05-18_repository-structural-review.md) | Codex | 2026-05-18 | — |
+| [CODE_REVIEW_CLAUDE_v1_20260519T1948Z](.review/CODE_REVIEW_CLAUDE_v1_20260519T1948Z/) | CLAUDE | 2026-05-19 | A- |
 
 ---
 
 ## Analysis Reports
 
-One-time assessments that are not code reviews.
+Stored in [.analysis/](.analysis/) — one-time assessments and alignment reports that are not code reviews or implementation logs.
 
 | Report | Date | Topic |
 |--------|------|-------|
-| [documentation-review-20260514T1100Z.md](documentation-review-20260514T1100Z.md) | 2026-05-14 | Project alignment vs. Reference Architecture |
+| [documentation-review-20260514T1100Z.md](.analysis/documentation-review-20260514T1100Z.md) | 2026-05-14 | Documentation ecosystem review |
+| [ref-arch-alignment_2026-05-14.md](.analysis/ref-arch-alignment_2026-05-14.md) | 2026-05-14 | Reference Architecture v1.1 alignment and migration report |
+| [ref-arch-alignment_2026-05-15.md](.analysis/ref-arch-alignment_2026-05-15.md) | 2026-05-15 | Historical Reference Architecture v1.3 re-baseline report |
+| [analysis-directory-naming-kebab-case-2026-05-16.md](.analysis/analysis-directory-naming-kebab-case-2026-05-16.md) | 2026-05-16 | Stack directory naming analysis |
+| [analysis-docs-subdirectory-cleanup-20260516.md](.analysis/analysis-docs-subdirectory-cleanup-20260516.md) | 2026-05-16 | DOCS subdirectory cleanup analysis |
+| [analysis-document-naming-kebab-case-20260516.md](.analysis/analysis-document-naming-kebab-case-20260516.md) | 2026-05-16 | Document naming migration analysis |
 
 ---
 
@@ -189,6 +226,7 @@ One-time assessments that are not code reviews.
 - When adding a document, update this index **in the same commit**
 - Before creating any new document type, check `DOCS/.templates/` for a template first
 - All algorithm docs must also be listed in [.algorithm/README.md](.algorithm/README.md)
+- All analysis reports must also be listed in [.analysis/README.md](.analysis/README.md)
 - All design docs must also be listed in [.design/README.md](.design/README.md)
 - All code reviews must also be listed in [.review/README.md](.review/README.md)
 - Implementation logs are append-only — never modify a completed log

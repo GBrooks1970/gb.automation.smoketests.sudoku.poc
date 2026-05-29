@@ -1,7 +1,7 @@
 # Screenplay Parity Contract
 
-**Last updated:** 2026-05-15
-**Stacks covered:** DEMOAPP001_TYPESCRIPT_CYPRESS (current), DEMOAPP002_PYTHON_PYTEST (planned), DEMOAPP003_CSHARP_SPECFLOW (planned)
+**Last updated:** 2026-05-28
+**Stacks covered:** DEMOAPP001_TYPESCRIPT_CYPRESS (current), DEMOAPP002_PYTHON_PYTEST (current), DEMOAPP003_CSHARP_SPECFLOW (current)
 **Governed by:** `decision-register.md` (signature or key changes require a DR entry)
 
 ---
@@ -44,8 +44,8 @@ Adding a new key requires updating this document, Stack memory-key files, and a 
 | Stack | Factory | Retrieval |
 |------|---------|-----------|
 | TypeScript (current) | `new UseSudokuSolver()` | `UseSudokuSolver.as(actor)` |
-| Python (planned) | `UseSudokuSolver()` | framework actor context ability lookup |
-| C# (planned) | `new UseSudokuSolver()` | framework actor ability lookup |
+| Python (current) | `UseSudokuSolver()` | `actor.ability_to(UseSudokuSolver)` |
+| C# (current) | `new UseSudokuSolver()` | `actor.AbilityTo<UseSudokuSolver>()` |
 
 **Normative interface (BACKLOG-023 — slimmed, 2026-05-18):**
 
@@ -61,9 +61,10 @@ Adding a new key requires updating this document, Stack memory-key files, and a 
 | Cross-step state setters | `setTargetCell`, `setTargetValue`, `takeSnapshot`, `storeSnapshot`, `reinitialiseFromSnapshot`, `validateAndStore`, `setMultipleSolvers`, `setSolverError` |
 | Read-only accessors | `algorithmMadeProgress`, `result`, `targetCell`, `targetValue`, `gridSnapshot`, `validationResult`, `multipleSolvers`, `solverError` |
 
-Grid setup helpers (formerly on this Ability) now live in `tests/screenplay/fixtures/GridFixtures.ts`
-as pure functions taking a `SudokuSolver`. Tasks obtain the solver via `ability.getSolver()` and
-pass it to the relevant fixture function.
+Grid setup helpers now live under each Stack's Screenplay fixture layer, such as
+`tests/screenplay/fixtures/GridFixtures.ts` in DEMOAPP001 and
+`tests/screenplay/fixtures/grid_fixtures.py` in DEMOAPP002. Tasks obtain the
+solver via the Stack Ability and pass it to the relevant fixture function.
 
 Validation logic (`isValidPlacement`, `noConstraintViolations`, `isValidSolution`) is now on
 `SudokuSolver` (app_src) as public methods.
@@ -73,8 +74,8 @@ Validation logic (`isValidPlacement`, `noConstraintViolations`, `isValidSolution
 | Stack | Factory | Retrieval |
 |------|---------|-----------|
 | TypeScript (current) | `LoadPuzzles.from(filePath)` | `LoadPuzzles.as(actor)` |
-| Python (planned) | `LoadPuzzles.from_path(path)` | framework actor context ability lookup |
-| C# (planned) | `LoadPuzzles.From(path)` | framework actor ability lookup |
+| Python (current) | `LoadPuzzles.from_path(path)` | `actor.ability_to(LoadPuzzles)` |
+| C# (current) | `LoadPuzzles.From(path)` | `actor.AbilityTo<LoadPuzzles>()` |
 
 ---
 

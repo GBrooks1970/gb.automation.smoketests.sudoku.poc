@@ -8,23 +8,24 @@ When documents conflict, use this order:
 
 1. `decision-register.md`
 2. `DOCS/reference-architecture.md`
-3. `DOCS/ref-arch-alignment_2026-05-15.md`
+3. `DOCS/.analysis/ref-arch-alignment_2026-05-15.md`
 4. Stack-level docs under `demo-apps/demoapp001-typescript-cypress/docs/`
 5. This guide
 
-`decision-register.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-028.
+`decision-register.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-033.
 
 ## Current Architecture Baseline
 
-- Reference Architecture: v1.13, accepted 2026-05-18
-- Active Stack: `DEMOAPP001_TYPESCRIPT_CYPRESS`
-- Active surface: `@util` in-process class testing
+- Reference Architecture: v1.15, accepted 2026-05-20
+- Active Stacks: `DEMOAPP001_TYPESCRIPT_CYPRESS`, `DEMOAPP002_PYTHON_PYTEST`, `DEMOAPP003_CSHARP_SPECFLOW`
+- Active test surface: `@util` in-process class testing
+- Active API surface: DEMOAPP001 Express REST API at `app_src/server/index.ts`
 - Canonical feature store: `features-shared/`
-- Stack-local feature copy: `demo-apps/demoapp001-typescript-cypress/tests/features/`
-- Screenplay implementation: present and passing with Serenity/JS + Cucumber.js (MIG-04 and MIG-05 resolved by DR-015)
+- Stack-local feature copies: `demo-apps/demoapp001-typescript-cypress/tests/features/`, `demo-apps/demoapp002-python-pytest/tests/features/`, `demo-apps/demoapp003-csharp-specflow/tests/features/`
+- Screenplay implementations: DEMOAPP001 passing with Serenity/JS + Cucumber.js; DEMOAPP002 passing with pytest-bdd; DEMOAPP003 passing with SpecFlow + NUnit
 - Implementation logs: authoritative at `DOCS/.implementation-logs/` (DR-019)
 - Feature parity script: `.batch/generate-feature-parity-report.ps1` (MIG-10)
-- All RA v1.3 migration gaps resolved: MIG-01 through MIG-13 all Resolved
+- All RA v1.3 migration gaps resolved: MIG-01 through MIG-13 all Resolved; RA v1.14 review-location rule resolved by DR-029
 - DOCS subdirectories: all dot + kebab-case (DR-019); no plain-name subdirectories
 - Document filenames: all authored docs use kebab-case (DR-020); permanent exceptions: `README.md`, `CHANGELOG.md`, `CLAUDE.md`
 
@@ -33,43 +34,71 @@ When documents conflict, use this order:
 ```text
 gb.automation.smoketests.sudoku.poc/
 |-- demo-apps/
-|   `-- demoapp001-typescript-cypress/
+|   |-- demoapp001-typescript-cypress/
+|   |   |-- app_src/
+|   |   |   |-- index.ts
+|   |   |   |-- SudokuSolver.ts
+|   |   |   |-- SudokuOrchestrator.ts
+|   |   |   |-- SudokuCLI.ts
+|   |   |   |-- PuzzleLoader.ts
+|   |   |   |-- constants.ts
+|   |   |   `-- server/
+|   |   |-- tests/
+|   |   |   |-- features/
+|   |   |   |   `-- BasicSudokuSolverLogic.feature
+|   |   |   `-- screenplay/
+|   |   |       |-- abilities/
+|   |   |       |-- actors/
+|   |   |       |-- questions/
+|   |   |       |-- step_definitions/
+|   |   |       |-- support/
+|   |   |       `-- tasks/
+|   |   |-- docs/
+|   |   |-- tooling/cucumber.js
+|   |   |-- cucumber.js
+|   |   |-- package.json
+|   |   `-- puzzles.json
+|   |-- demoapp002-python-pytest/
+|   |   |-- app_src/
+|   |   |   |-- sudoku_solver.py
+|   |   |   |-- sudoku_orchestrator.py
+|   |   |   |-- puzzle_loader.py
+|   |   |   |-- audit.py
+|   |   |   `-- constants.py
+|   |   |-- tests/
+|   |   |   |-- features/
+|   |   |   |   `-- BasicSudokuSolverLogic.feature
+|   |   |   `-- screenplay/
+|   |   |       |-- abilities/
+|   |   |       |-- fixtures/
+|   |   |       |-- questions/
+|   |   |       |-- step_definitions/
+|   |   |       |-- support/
+|   |   |       `-- tasks/
+|   |   |-- pyproject.toml
+|   |   `-- puzzles.json
+|   `-- demoapp003-csharp-specflow/
 |       |-- app_src/
-|       |   |-- index.ts
-|       |   |-- SudokuSolver.ts
-|       |   |-- SudokuOrchestrator.ts
-|       |   |-- SudokuCLI.ts
-|       |   |-- PuzzleLoader.ts
-|       |   `-- constants.ts
 |       |-- tests/
 |       |   |-- features/
 |       |   |   `-- BasicSudokuSolverLogic.feature
 |       |   `-- screenplay/
-|       |       |-- abilities/
-|       |       |-- actors/
-|       |       |-- questions/
-|       |       |-- step_definitions/
-|       |       |-- support/
-|       |       `-- tasks/
+|       |-- tooling/performance/
 |       |-- docs/
-|       |-- tooling/cucumber.js
-|       |-- cucumber.js
-|       |-- package.json
 |       `-- puzzles.json
 |-- features-shared/
 |   `-- util-tests/sudoku-solver/BasicSudokuSolverLogic.feature
 |-- DOCS/
 |   |-- reference-architecture.md
-|   |-- ref-arch-alignment_2026-05-15.md
 |   |-- .architecture/                      # cross-cutting architecture specs
+|   |-- .analysis/                          # analysis and report-style docs, DR-030
 |   |-- .templates/                         # all document templates
 |   |-- .planning/backlog.md                # authoritative backlog
 |   |-- .design/naming-conventions.md       # authoritative naming conventions
 |   |-- .implementation-logs/               # implementation logs (active + archive template)
-|   |-- .review/                            # historical review archive
+|   |-- .review/                            # review outputs, DR-029
 |   |-- .algorithm/                         # algorithm specifications
 |   `-- .howto/                             # how-to guides
-|-- .review/README.md                      # future review output location, DR-014
 |-- .batch/run-demoapp001.ps1
 |-- decision-register.md
 |-- CHANGELOG.md
@@ -82,17 +111,12 @@ gb.automation.smoketests.sudoku.poc/
 | Stack name | Language | Framework | Surface type | Entry point |
 |------------|----------|-----------|--------------|-------------|
 | `DEMOAPP001_TYPESCRIPT_CYPRESS` | TypeScript 5.x | Cucumber.js + Serenity/JS | `@util` | `demo-apps/demoapp001-typescript-cypress/` |
-
-Planned future Stacks:
-
-| Stack name | Language | Framework | Surface type | Status |
-|------------|----------|-----------|--------------|--------|
-| `DEMOAPP002_PYTHON_PYTEST` | Python | pytest-bdd | `@util` | Planned |
-| `DEMOAPP003_CSHARP_SPECFLOW` | C# | SpecFlow | `@util` | Planned |
+| `DEMOAPP002_PYTHON_PYTEST` | Python 3.13 | pytest-bdd | `@util` | `demo-apps/demoapp002-python-pytest/` |
+| `DEMOAPP003_CSHARP_SPECFLOW` | C# / .NET 8 | SpecFlow + NUnit | `@util` | `demo-apps/demoapp003-csharp-specflow/` |
 
 ## Development Commands
 
-Run Stack commands from `demo-apps/demoapp001-typescript-cypress/`.
+Run DEMOAPP001 commands from `demo-apps/demoapp001-typescript-cypress/`.
 
 | Command | Purpose |
 |---------|---------|
@@ -101,19 +125,49 @@ Run Stack commands from `demo-apps/demoapp001-typescript-cypress/`.
 | `npm run lint` | Run ESLint over app source |
 | `npm run format:check` | Check Prettier formatting for app source |
 | `npm test` | Run Cucumber/Serenity Screenplay scenarios |
+| `npm run test:api` | Run REST API integration checks |
+| `npm run start:api` | Start Express REST API on `PORT` or 3000 |
+| `npm run start:web` | Start the combined Express API and Web UI server |
 | `npm start -- --help` | Show CLI options |
+
+Run DEMOAPP002 commands from `demo-apps/demoapp002-python-pytest/`.
+
+| Command | Purpose |
+|---------|---------|
+| `python -m pip install -e ".[test]"` | Install Python Stack test dependencies |
+| `python -m pytest` | Run pytest-bdd Screenplay scenarios |
+
+Run DEMOAPP003 commands from `demo-apps/demoapp003-csharp-specflow/`.
+
+| Command | Purpose |
+|---------|---------|
+| `dotnet restore` | Restore C# Stack dependencies |
+| `dotnet test` | Run SpecFlow/NUnit Screenplay scenarios |
+| `dotnet run --project tooling/performance/DemoApp003.Performance.csproj --configuration Release` | Run C# reporting-only benchmarks |
 
 Repository-level orchestration:
 
 ```powershell
 .\.batch\run-demoapp001.ps1
+.\.batch\run-parity-checks.ps1
+.\.batch\run-performance-benchmarks.ps1
+docker compose config
+docker compose run --rm demoapp001-tests
+docker compose run --rm demoapp002-tests
+docker compose run --rm demoapp003-tests
+docker compose run --rm parity-checks
+docker compose --profile api up demoapp001-api
+docker compose --profile benchmark run --rm performance-benchmarks
 ```
+
+Docker runtime commands require Docker Desktop or another Docker Engine with Compose v2.
 
 Expected current baseline:
 
 ```text
-43 scenarios passed
-241 steps passed
+DEMOAPP001: 46 scenarios passed / 257 steps passed
+DEMOAPP002: 46 pytest-bdd scenarios passed
+DEMOAPP003: 46 SpecFlow scenarios passed
 OverallExitCode=0
 ```
 
@@ -172,7 +226,7 @@ Screenplay contract is fully implemented: all six Memory key constants are runti
 
 ## Parity Rules Summary
 
-Governed by `DOCS/reference-architecture.md` v1.3 and decisions DR-012 through DR-020.
+Governed by `DOCS/reference-architecture.md` v1.15 and decisions DR-012 through DR-033.
 
 | Rule | Current instruction |
 |------|---------------------|
@@ -182,7 +236,8 @@ Governed by `DOCS/reference-architecture.md` v1.3 and decisions DR-012 through D
 | Step text | Stack-local Gherkin text must match canonical text except local tags |
 | Backlog statuses | Use exactly `Open`, `In Progress`, or `Resolved` for backlog item status |
 | Templates | Use `DOCS/.templates/*.template.md` files |
-| Review outputs | New reviews go under root `.review/` with `CODE_REVIEW_[AGENT]_v[N]_[UTC]/` |
+| Review outputs | New reviews go under `DOCS/.review/` with `CODE_REVIEW_[AGENT]_v[N]_[UTC]/` |
+| Analysis reports | New one-time analysis/report docs go under `DOCS/.analysis/` |
 | DOCS subdirectories | All use dot + kebab-case (DR-019); no plain-name subdirectories |
 | Document filenames | All authored docs use kebab-case (DR-020); exceptions: `README.md`, `CHANGELOG.md`, `CLAUDE.md` |
 
@@ -196,27 +251,27 @@ Governed by `DOCS/reference-architecture.md` v1.3 and decisions DR-012 through D
 | Grid mutation | `SudokuSolver` constructor | Preserve deep-copy behavior from `origGrid` to `grid` |
 | Hidden Singles | `SudokuSolver.hiddenSingles()` | Preserve row, column, and block checks |
 | Document naming drift | New authored docs in DOCS/ | Must use kebab-case (DR-020); check before creating any new .md file |
-| Review outputs | `.review/` and `DOCS/.review/` | New reviews go to root `.review/`; historical `DOCS/.review/` bundles stay read-only |
+| Review outputs | `DOCS/.review/` | New and historical reviews live under `DOCS/.review/`; do not recreate root `.review/` |
+| Analysis reports | `DOCS/.analysis/` | One-time analysis/report docs live under `DOCS/.analysis/`; do not place them at DOCS root |
 
 ## Documentation Pointers
 
 | Document | Purpose |
 |----------|---------|
-| `DOCS/ref-arch-alignment_2026-05-15.md` | Current v1.3 compliance and migration status |
+| `DOCS/.analysis/ref-arch-alignment_2026-05-15.md` | Historical v1.3 compliance and migration status |
 | `DOCS/.architecture/screenplay-parity-contract.md` | Memory keys, Tasks, Questions, and parity signatures |
 | `DOCS/.architecture/subject-app-contract.md` | Active `@util` and future `@cli` surface contracts |
 | `DOCS/.architecture/orchestration-design.md` | Build, test, metrics, and retention design |
 | `DOCS/.architecture/logging-design.md` | Logging and reporting strategy |
 | `DOCS/.planning/backlog.md` | Authoritative backlog content |
 | `DOCS/.design/naming-conventions.md` | Authoritative naming conventions (DR-020: kebab-case for all authored docs) |
-| `DOCS/analysis-document-naming-kebab-case-20260516.md` | Document naming impact assessment and migration log (Phases 0–4) |
-| `.review/README.md` | Future code review output policy |
+| `DOCS/.analysis/analysis-document-naming-kebab-case-20260516.md` | Document naming impact assessment and migration log (Phases 0–4) |
+| `DOCS/.review/README.md` | Code review output policy |
 
 ## Current Limitations
 
 1. No advanced Sudoku techniques such as Naked Pairs, X-Wing, or Swordfish.
 2. No backtracking or trial-and-error solver mode.
-3. No GitHub Actions workflow is currently configured.
 
 ## Common Tasks
 

@@ -127,6 +127,6 @@ When additional Stacks are onboarded, each MUST be assigned a distinct short ide
 ## 9. Traceability
 
 - Governing architecture: `DOCS/reference-architecture.md` v1.3
-- Alignment report: `DOCS/ref-arch-alignment_2026-05-15.md`
+- Alignment report: `DOCS/.analysis/ref-arch-alignment_2026-05-15.md`
 - Stack identifier decision: DR-016
 - Feature parity process decision: MIG-10 (accepted 2026-05-16)

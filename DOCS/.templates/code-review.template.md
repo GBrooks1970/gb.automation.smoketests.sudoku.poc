@@ -2,8 +2,8 @@
 
 **Intended audience:** The reviewer (AI or human) conducting a comprehensive code review.
 **Template version:** 1.0 (2026-05-14)
-**Governed by:** `reference-architecture.md` v1.3 §10.7
-**Produces:** `.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/`
+**Governed by:** `reference-architecture.md` v1.14 §10.7
+**Produces:** `DOCS/.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/`
 
 > This template is the canonical version. The copy at `DOCS/.review/code-review-template.md` is a historical project-specific version.
 > Review outputs are **read-only** once written — do not edit findings after the fact.
@@ -13,7 +13,7 @@
 
 ## How to Use This Template
 
-1. Create the output directory: `.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/`
+1. Create the output directory: `DOCS/.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/`
 2. Author each file below from scratch — no copy-paste from previous reviews.
 3. Timestamp format: `YYYYMMDDTHHMMZ` (UTC, no seconds).
 4. After writing, add action items to `DOCS/.planning/backlog.md` before closing the session.
@@ -23,7 +23,7 @@
 ## Required Output Files [REQUIRED — all must be present]
 
 ```
-.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/
+DOCS/.review/CODE_REVIEW_[AGENT]_v[N]_[UTC]/
 ├── 00_CODE_REVIEW_[AGENT]_v[N]_[UTC].md           # Index and metadata
 ├── 01_EXECUTIVE_SUMMARY.md
 ├── 02_RISKS_AND_ISSUES.md

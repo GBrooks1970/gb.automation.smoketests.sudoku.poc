@@ -56,6 +56,40 @@ export function setupColumnMissingDigit(
   }
 }
 
+export function setupRowColumnConstraints(
+  solver: SudokuSolver, count: number, rowIndex: number, target: number
+): void {
+  const candidateCol = 4;
+  const usedRows = new Set<number>();
+  let blocked = 0;
+
+  for (let col = 0; col < GRID_SIZE && blocked < count; col++) {
+    if (col === candidateCol) continue;
+
+    const row = findBlockingRow(col, rowIndex, candidateCol, usedRows);
+    solver.grid[row][col] = target;
+    usedRows.add(row);
+    blocked++;
+  }
+}
+
+export function setupColumnRowConstraints(
+  solver: SudokuSolver, count: number, colIndex: number, target: number
+): void {
+  const candidateRow = 4;
+  const usedCols = new Set<number>();
+  let blocked = 0;
+
+  for (let row = 0; row < GRID_SIZE && blocked < count; row++) {
+    if (row === candidateRow) continue;
+
+    const col = findBlockingCol(row, candidateRow, colIndex, usedCols);
+    solver.grid[row][col] = target;
+    usedCols.add(col);
+    blocked++;
+  }
+}
+
 export function setupBlockFourEmpties(solver: SudokuSolver): void {
   solver.grid[0][0] = 1;
   solver.grid[1][0] = 2;
@@ -171,4 +205,34 @@ export function createSolversFromPuzzles(
   puzzles: Array<{ name: string; grid: number[][] }>
 ): SudokuSolver[] {
   return puzzles.slice(0, count).map(p => new SudokuSolver(p.name, p.grid));
+}
+
+function findBlockingRow(
+  col: number,
+  candidateRow: number,
+  candidateCol: number,
+  usedRows: Set<number>
+): number {
+  const candidateBlockRow = Math.floor(candidateRow / BLOCK_SIZE);
+  const candidateBlockCol = Math.floor(candidateCol / BLOCK_SIZE);
+  const colSharesCandidateBlock = Math.floor(col / BLOCK_SIZE) === candidateBlockCol;
+  const allowedRows = Array.from({ length: GRID_SIZE }, (_, row) => row)
+    .filter(row => row !== candidateRow)
+    .filter(row => !colSharesCandidateBlock || Math.floor(row / BLOCK_SIZE) !== candidateBlockRow);
+  return allowedRows.find(row => !usedRows.has(row)) ?? allowedRows[0];
+}
+
+function findBlockingCol(
+  row: number,
+  candidateRow: number,
+  candidateCol: number,
+  usedCols: Set<number>
+): number {
+  const candidateBlockRow = Math.floor(candidateRow / BLOCK_SIZE);
+  const candidateBlockCol = Math.floor(candidateCol / BLOCK_SIZE);
+  const rowSharesCandidateBlock = Math.floor(row / BLOCK_SIZE) === candidateBlockRow;
+  const allowedCols = Array.from({ length: GRID_SIZE }, (_, col) => col)
+    .filter(col => col !== candidateCol)
+    .filter(col => !rowSharesCandidateBlock || Math.floor(col / BLOCK_SIZE) !== candidateBlockCol);
+  return allowedCols.find(col => !usedCols.has(col)) ?? allowedCols[0];
 }
