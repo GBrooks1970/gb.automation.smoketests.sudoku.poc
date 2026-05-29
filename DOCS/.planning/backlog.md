@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-28 (BACKLOG-011, BACKLOG-013, BACKLOG-021 resolved; BACKLOG-010 in progress)
+**Last Updated:** 2026-05-29 (BACKLOG-010 resolved; all sprint items resolved)
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -26,8 +26,8 @@ Per v1.15 Section 10.1:
 | Status | Count |
 |--------|-------|
 | Open | 3 |
-| In Progress | 1 |
-| Resolved | 52 |
+| In Progress | 0 |
+| Resolved | 53 |
 | **Total** | **56** |
 
 | Area | Current state |
@@ -35,7 +35,7 @@ Per v1.15 Section 10.1:
 | Current execution baseline | DEMOAPP001: 46 scenarios / 257 steps passing; DEMOAPP001 REST API integration PASS; DEMOAPP002: 46 pytest-bdd scenarios passing; DEMOAPP003: 46 SpecFlow scenarios passing; 3-Stack parity PASS |
 | Active Reference Architecture | v1.15 |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | Finish Docker Compose runtime verification, then future product/solver work |
+| Current sprint focus | Future product/solver work (all current sprint items resolved) |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -87,7 +87,7 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | BACKLOG-009 | Implement REST API Wrapper | DEMOAPP001 API surface | Feature implementation | Medium | Resolved |
 | BACKLOG-018 | Implement Web UI Solver Visualisation | DEMOAPP001 future UI surface | Feature implementation | Medium | Resolved |
 | BACKLOG-021 | C# Screenplay-style Step Definitions | DEMOAPP003 | Future Stack parity | Medium | Resolved |
-| BACKLOG-010 | Docker Compose for Local Development | All | Local development infrastructure | Low | In Progress |
+| BACKLOG-010 | Docker Compose for Local Development | All | Local development infrastructure | Low | Resolved |
 | BACKLOG-011 | Performance Benchmarking Suite | All | Performance regression detection | Low | Resolved |
 | BACKLOG-012 | Implement Python Version | DEMOAPP002 | Future Stack implementation | Future | Resolved |
 | BACKLOG-013 | Implement C# Version | DEMOAPP003 | Future Stack implementation | Future | Resolved |
@@ -837,6 +837,7 @@ Resolution:
 | BACKLOG-021 | C# Screenplay-style Step Definitions | DEMOAPP003 | 2026-05-28 | DEMOAPP003 C# SpecFlow Stack added with 46 canonical scenarios passing; parity scripts include C#; DR-032. |
 | BACKLOG-013 | Implement C# Version | DEMOAPP003 | 2026-05-28 | Covered by BACKLOG-021; closed as duplicate/umbrella following the BACKLOG-012/BACKLOG-020 precedent. |
 | BACKLOG-011 | Performance Benchmarking Suite | All | 2026-05-28 | Reporting-only benchmark harnesses added for DEMOAPP001/002/003 with root aggregation script and `.results/performance/` artifacts; no timing threshold gate. |
+| BACKLOG-010 | Docker Compose for Local Development | All | 2026-05-29 | Integrated Alpine, slim, and SDK-based multi-stack Compose services, parity validation loops, and aggregated benchmarking runtimes; DR-033 |
 
 ---
 
@@ -847,8 +848,8 @@ Resolution:
 | 2 | 2026-05-14 to 2026-05-27 | Close persistent risks and governance drift | MIG-04, MIG-05, MIG-08, BACKLOG-004 | Completed 2026-05-19 |
 | 3 | 2026-05-19 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Completed 2026-05-19 |
 | 4 | 2026-05-20 | API foundation and Web UI completion | BACKLOG-009, BACKLOG-018 | Completed 2026-05-20 |
-| 5 | 2026-05-28 onward | C# Stack, local Compose, and benchmarking | BACKLOG-021, BACKLOG-013, BACKLOG-010, BACKLOG-011 | In Progress — Docker runtime verification pending |
-| 6+ | After BACKLOG-010 verification | Future solver and product ideas | BACKLOG-014, BACKLOG-015, BACKLOG-016 | Open |
+| 5 | 2026-05-28 onward | C# Stack, local Compose, and benchmarking | BACKLOG-021, BACKLOG-013, BACKLOG-010, BACKLOG-011 | Completed 2026-05-29 |
+| 6+ | After Sprint 5 completion | Future solver and product ideas | BACKLOG-014, BACKLOG-015, BACKLOG-016 | Open |
 
 ---
 

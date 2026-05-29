@@ -11,6 +11,9 @@ test = [
   "pytest-bdd>=8.0",
 ]
 
+[tool.setuptools.packages.find]
+include = ["app_src*"]
+
 [tool.pytest.ini_options]
 addopts = "-q"
 pythonpath = ["."]

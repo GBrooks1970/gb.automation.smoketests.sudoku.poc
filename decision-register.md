@@ -1779,6 +1779,56 @@ Add `DEMOAPP003_CSHARP_SPECFLOW` as an active @util Stack at `demo-apps/demoapp0
 
 ---
 
+## DR-033 — Multi-Stack Local Containerization (Docker Compose)
+
+**Date:** 2026-05-29
+**Status:** Accepted — 2026-05-29
+
+### Context
+
+BACKLOG-010 requested a local development environment setup using Docker Compose to facilitate offline multi-stack execution, parity verification, and performance benchmarking across all parity stacks without requiring developers to preconfigure multi-language SDKs (Node, Python, .NET) on their host machine. The Docker Desktop and container runtime environment must be robust, low-footprint to handle host memory constraints, and support standard development volumes to prevent files lock and caching bottlenecks.
+
+### Decision
+
+Implement containerization via a top-level `docker-compose.yml` incorporating the following components:
+1. Low-footprint, Alpine/slim-based Dockerfiles for each Stack (`demoapp001-tests`, `demoapp002-tests`, `demoapp003-tests`).
+2. Live development profile `api` exposing `demoapp001-api` on port `3000`.
+3. Standalone `parity-checks` service for local verification running existing PowerShell scripts.
+4. Profiling profile `benchmark` defining `performance-benchmarks` executing the performance harness inside Python, TypeScript, and .NET.
+5. Standardized volume mounting mapping `/workspace` to project root, combined with aggressive `.dockerignore` filters to isolate runtime and output states.
+
+### Status
+
+`Accepted` — 2026-05-29
+
+### Consequences
+
+**Outcomes:**
+- The entire multi-stack ecosystem (TypeScript, Python, C#) is compiled and verified in standard, repeatable environments.
+- Developers can execute parity-checks and benchmarking directly inside temporary containers.
+- Reduced host machine dependency setup.
+
+**Trade-offs:**
+- Requires modern Docker and Compose v2 installed.
+- Host physical RAM limitations can constrain concurrent process execution (e.g. WSL backend thrashing under heavy BuildKit downloads or container startups when host has low available memory). This is mediated by transitioning to alpine/slim base images (e.g., `node:20-alpine` over `node:20-bookworm`).
+
+**Compliance note:**
+- Aligns with RA Section 9.1 orchestration, Section 5 test data mapping, and standardizes multi-stack boundaries.
+
+### Alternatives Considered
+
+**Alternative: Complete VM pre-seed image**
+- Description: Distribute a complete Vagrant or VirtualBox VM containing the entire project.
+- Rejected because: Too heavyweight, slow boot times, and hard to run in standard modern CI/CD setups.
+
+### Related Decisions
+
+- DR-003 — In-process (@util) surface for DEMOAPP001 tests.
+- DR-016 — Stack filesystem directory naming.
+- DR-032 — Add C# SpecFlow parity Stack.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -1797,5 +1847,5 @@ Add `DEMOAPP003_CSHARP_SPECFLOW` as an active @util Stack at `demo-apps/demoapp0
 
 ---
 
-*Last entry: DR-032. Next ID: DR-033.*
+*Last entry: DR-033. Next ID: DR-034.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*
