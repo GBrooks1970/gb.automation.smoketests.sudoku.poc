@@ -12,7 +12,7 @@ When documents conflict, use this order:
 4. Stack-level docs under `demo-apps/demoapp001-typescript-cypress/docs/`
 5. This guide
 
-`decision-register.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-031.
+`decision-register.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-033.
 
 ## Current Architecture Baseline
 
@@ -226,7 +226,7 @@ Screenplay contract is fully implemented: all six Memory key constants are runti
 
 ## Parity Rules Summary
 
-Governed by `DOCS/reference-architecture.md` v1.15 and decisions DR-012 through DR-031.
+Governed by `DOCS/reference-architecture.md` v1.15 and decisions DR-012 through DR-033.
 
 | Rule | Current instruction |
 |------|---------------------|
