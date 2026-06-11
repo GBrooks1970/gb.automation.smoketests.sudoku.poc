@@ -38,7 +38,7 @@ By the end of this guide you will know how to run the batch orchestration script
 Always run the script from the repository root — not from inside the stack directory:
 
 ```powershell
-cd d:\__GB_DEV\_GitHub\gb.automation.smoketests.sudoku.poc
+cd D:\_CLAUDE_COWORK\PROJ001\claude-outputs\test-automation-portfolio\gb.automation.smoketests.sudoku.poc
 .\.batch\run-demoapp001.ps1
 ```
 
