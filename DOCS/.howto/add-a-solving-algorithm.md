@@ -157,7 +157,7 @@ Add the identical scenario body. The Stack-local file already has `@util @stack-
 ### Step 6: Run the feature parity report to confirm sync
 
 ```powershell
-cd d:\__GB_DEV\_GitHub\gb.automation.smoketests.sudoku.poc
+cd D:\_CLAUDE_COWORK\PROJ001\claude-outputs\test-automation-portfolio\gb.automation.smoketests.sudoku.poc
 .\.batch\generate-feature-parity-report.ps1
 ```
 

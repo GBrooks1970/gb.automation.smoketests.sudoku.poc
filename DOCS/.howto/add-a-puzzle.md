@@ -129,7 +129,7 @@ If you see an error like `Puzzle "My New Puzzle" must have exactly 9 rows`, fix 
 ### Step 4: Run the full test suite
 
 ```powershell
-cd d:\__GB_DEV\_GitHub\gb.automation.smoketests.sudoku.poc
+cd D:\_CLAUDE_COWORK\PROJ001\claude-outputs\test-automation-portfolio\gb.automation.smoketests.sudoku.poc
 .\.batch\run-demoapp001.ps1
 ```
 

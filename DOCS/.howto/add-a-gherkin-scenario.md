@@ -80,7 +80,7 @@ The Stack-local file has `@util @stack-demoapp001` at the top of the file — yo
 ### Step 3: Run the feature parity report
 
 ```powershell
-cd d:\__GB_DEV\_GitHub\gb.automation.smoketests.sudoku.poc
+cd D:\_CLAUDE_COWORK\PROJ001\claude-outputs\test-automation-portfolio\gb.automation.smoketests.sudoku.poc
 .\.batch\generate-feature-parity-report.ps1
 ```
 
