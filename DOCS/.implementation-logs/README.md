@@ -45,6 +45,7 @@ YYYY-MM-DD_short-session-topic.md
 | [2026-05-20_analysis-folder-migration.md](2026-05-20_analysis-folder-migration.md) | 2026-05-20 | Analysis/report folder migration |
 | [2026-05-24_web-ui-visualisation-cleanup.md](2026-05-24_web-ui-visualisation-cleanup.md) | 2026-05-24 | Web UI visualisation cleanup |
 | [2026-05-28_backlog-to-todo-plan-implementation.md](2026-05-28_backlog-to-todo-plan-implementation.md) | 2026-05-28 | Backlog-to-todo plan implementation |
+| [2026-05-30_sudoku-spec-v1-structural-review.md](2026-05-30_sudoku-spec-v1-structural-review.md) | 2026-05-30 | Sudoku solver specification v1.0 structural review |
 
 ---
 

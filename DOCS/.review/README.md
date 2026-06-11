@@ -100,6 +100,7 @@ DOCS/.review/
 | [2026-05-18_reference-architecture-structural-review.md](2026-05-18_reference-architecture-structural-review.md) | Codex | 2026-05-18 | — | Reference Architecture structural review |
 | [2026-05-18_repository-structural-review.md](2026-05-18_repository-structural-review.md) | Codex | 2026-05-18 | — | Repository structural review |
 | [CODE_REVIEW_CLAUDE_v1_20260519T1948Z](CODE_REVIEW_CLAUDE_v1_20260519T1948Z/00_CODE_REVIEW_CLAUDE_v1_20260519T1948Z.md) | CLAUDE | 2026-05-19 | A- | Full current-shape code review bundle |
+| [CODE_REVIEW_GPT_5_3_Codex_v1_20260530T0823Z](CODE_REVIEW_GPT_5_3_Codex_v1_20260530T0823Z/00_CODE_REVIEW_GPT_5_3_Codex_v1_20260530T0823Z.md) | GPT-5.3 Codex | 2026-05-30 | -- | Sudoku solver v1.0 specification structural design review |
 
 ---
 
