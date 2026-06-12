@@ -158,8 +158,8 @@ public static class MultipleSolvers
                 return false;
             }
 
-            var snap1 = GridHelpers.DeepCopy(solvers[1].Grid);
-            var snap2 = GridHelpers.DeepCopy(solvers[2].Grid);
+            var snap1 = solvers[1].GetGrid();
+            var snap2 = solvers[2].GetGrid();
 
             ability.Initialise(solvers[0].Name, solvers[0].OriginalGrid);
             ability.SolvePuzzle();

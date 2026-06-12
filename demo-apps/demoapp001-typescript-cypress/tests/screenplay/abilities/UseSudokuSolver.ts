@@ -94,7 +94,7 @@ export class UseSudokuSolver extends Ability {
   }
 
   takeSnapshot(): void {
-    this._gridSnapshot = this.getSolver().grid.map(r => [...r]);
+    this._gridSnapshot = this.getSolver().getGrid();
   }
 
   storeSnapshot(grid: number[][]): void {

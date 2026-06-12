@@ -17,6 +17,17 @@ public sealed class SudokuSolver
 
     public void SetAuditLogger(AuditLogger logger) => _auditLogger = logger;
 
+    /// <summary>
+    /// Returns a deep-copy snapshot of the current working grid (v1.0 <c>getGrid</c>
+    /// operation). Mutating the returned array never affects solver state.
+    /// Prefer this over reading <see cref="Grid"/> directly wherever access is
+    /// read-only. The public <see cref="Grid"/> property is retained for
+    /// compatibility, but mutating it directly from outside the solver is
+    /// deprecated — external mutation bypasses the solving algorithms and the
+    /// audit trail.
+    /// </summary>
+    public int[][] GetGrid() => GridHelpers.DeepCopy(Grid);
+
     public bool UnitCompletion()
     {
         var changed = false;

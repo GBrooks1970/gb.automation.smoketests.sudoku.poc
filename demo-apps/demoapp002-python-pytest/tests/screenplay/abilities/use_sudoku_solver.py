@@ -62,7 +62,7 @@ class UseSudokuSolver:
         self._target_value = value
 
     def take_snapshot(self) -> None:
-        self._grid_snapshot = deepcopy(self.get_solver().grid)
+        self._grid_snapshot = self.get_solver().get_grid()
 
     def store_snapshot(self, grid: list[list[int]]) -> None:
         self._grid_snapshot = deepcopy(grid)

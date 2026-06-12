@@ -54,7 +54,7 @@ public sealed class UseSudokuSolver : IAbility
 
     public void SetTargetValue(int value) => TargetValue = value;
 
-    public void TakeSnapshot() => GridSnapshot = GridHelpers.DeepCopy(_solver.Grid);
+    public void TakeSnapshot() => GridSnapshot = _solver.GetGrid();
 
     public void StoreSnapshot(IReadOnlyList<IReadOnlyList<int>> grid) => GridSnapshot = GridHelpers.DeepCopy(grid);
 
