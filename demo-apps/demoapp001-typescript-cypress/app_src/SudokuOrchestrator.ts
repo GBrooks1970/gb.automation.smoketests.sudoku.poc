@@ -36,6 +36,13 @@ export class SudokuOrchestrator {
    * @returns "SOLVED" if the puzzle is complete, "STUCK_ON_ADVANCED_LOGIC" if basic techniques are insufficient
    */
   public solve(): string {
+    // Already-solved inputs return SOLVED immediately without executing any
+    // algorithms (v1.0 edge case; shared Gherkin contract "Stop execution when
+    // puzzle is completely solved").
+    if (this.isGridFull()) {
+      return 'SOLVED';
+    }
+
     let isProgressing = true;
 
     while (isProgressing) {

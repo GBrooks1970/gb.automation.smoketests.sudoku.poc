@@ -7,6 +7,13 @@
 **Version:** v1.0
 **Date:** 2026-01-30T20:00:00Z
 
+> **Baseline status (2026-06-12):** This document is the **original core baseline** for the
+> solver's algorithmic design. The platform as a whole — deliberate extensions, stack parity
+> rules, and staged/optional surfaces — is specified by
+> `sudoku-solver-platform-specification.md` v1.1 (DR-034), which qualifies a small number of
+> statements in this document (see its Section 2.2). Capabilities absent from this document are
+> not necessarily drift; check v1.1 before classifying them.
+
 ---
 
 ## Table of Contents

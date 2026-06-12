@@ -8,6 +8,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 
 ## [Unreleased]
 
+### Fixed
+- SUD-01 (review `CODE_REVIEW_GPT_5_3_Codex_v1_20260530T0823Z` Risk 2): all three orchestrators (`SudokuOrchestrator.ts`, `sudoku_orchestrator.py`, `SudokuOrchestrator.cs`) now check grid fullness before entering the progress loop, so an already-solved input returns `SOLVED` immediately without executing any algorithms, matching the v1.0 edge case and the shared Gherkin contract. Audit trails for solved inputs now record zero iterations and zero events.
+
 ### Changed
 - DR-032: Added `DEMOAPP003_CSHARP_SPECFLOW` as an active C# SpecFlow/NUnit Stack, updated parity contracts and CI, and resolved BACKLOG-021 plus umbrella BACKLOG-013.
 - BACKLOG-010 remains in progress: Docker Compose files and Dockerfiles exist for all active Stacks, but runtime verification is pending until Docker Desktop/Linux engine is available locally.
@@ -31,6 +34,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
   - Added CLI options: `--help` and `--timeout <ms>` / `--timeout=<ms>`
 
 ### Added
+- SUD-02 (review `CODE_REVIEW_GPT_5_3_Codex_v1_20260530T0823Z` Risk 1): `DOCS/.design/sudoku-solver-platform-specification.md` v1.1 — platform specification evolving the v1.0 baseline (which it marks as the original core baseline): core solver contract, deliberate extensions (row/column/block Hidden Singles promoted to explicit requirement, audit trail, REST API, web UI, Docker Compose, performance tooling), stack parity rules, and staged-capability surfaces (API/web on the roadmap for DEMOAPP002/003). Recorded as DR-034 (Proposed; accepted on merge of the carrying PR). Root `README.md` version/status metadata is deliberately untouched until acceptance.
 - `demo-apps/demoapp003-csharp-specflow/` with C# solver/orchestrator, Screenplay-style actors, abilities, tasks, questions, Memory keys, SpecFlow step definitions, and 46 canonical scenarios.
 - Root parity helpers: `.batch/run-parity-checks.ps1`, C#-aware feature parity checks, and C# Memory key parity checks.
 - Root benchmark helper `.batch/run-performance-benchmarks.ps1` and per-Stack benchmark runners.

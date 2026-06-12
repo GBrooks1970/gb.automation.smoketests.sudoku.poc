@@ -1,7 +1,7 @@
 # Decision Register
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-05-28
+**Last Updated:** 2026-06-12
 **Governed by:** `reference-architecture.md` v1.14 §10.6
 **Template:** `DOCS/.templates/decision-record.template.md`
 
@@ -1831,7 +1831,54 @@ Implement containerization via a top-level `docker-compose.yml` incorporating th
 
 ## Proposed Decisions
 
-*None at this time.*
+## DR-034 — Adopt v1.1 platform specification evolving the v1.0 baseline
+
+**Date:** 2026-06-12
+**Status:** Proposed — accepted when the pull request carrying `DOCS/.design/sudoku-solver-platform-specification.md` is merged
+
+### Context
+
+Code review `DOCS/.review/CODE_REVIEW_GPT_5_3_Codex_v1_20260530T0823Z/` (Risk 1, High) found that the repository's capabilities — row/column/block Hidden Singles, audit trail, REST API, web visualisation, Docker Compose, performance tooling, and multi-stack parity governance — exceed the scope of `DOCS/.design/sudoku-solver-specification.md` v1.0. With v1.0 as the sole implementation authority, maintainers risk misclassifying intentional evolution as drift, and reviewers risk generating false positives against the older baseline. A platform-level specification was needed that classifies every capability without discarding v1.0's algorithmic detail.
+
+### Decision
+
+Adopt `DOCS/.design/sudoku-solver-platform-specification.md` v1.1 as the authoritative platform specification. It is numbered v1.1 as an **evolution** of the v1.0 baseline, not a supersession (user decision, 2026-06-12); v1.0 remains in place as the original core baseline for core-solver algorithmic detail. The v1.1 document promotes row/column/block Hidden Singles to an explicit requirement, classifies deliberate extensions and staged-capability surfaces, and states the stack parity rules. Acceptance occurs when the user merges the pull request carrying the document; root `README.md` version/status metadata is updated only after that merge.
+
+### Status
+
+`Proposed` — 2026-06-12. Becomes `Accepted` on merge of the carrying pull request (worklist item SUD-02).
+
+### Consequences
+
+**Outcomes:**
+- Current implemented behaviour (e.g. row/column/block Hidden Singles) is requirement, not drift; future reviews assess against v1.1.
+- New stack authors read v1.0 for solver algorithms and v1.1 for platform obligations and optional surfaces.
+- API/web surfaces are formally staged capability with a roadmap for DEMOAPP002/003, not a parity failure.
+
+**Trade-offs:**
+- Two specification documents must be read together; v1.1 Section 2.2 is the single reconciliation table and must be kept current.
+- README metadata lags until the acceptance merge.
+
+**Compliance note:**
+- Aligned with RA v1.15: parity governance remains in the RA; v1.1 summarises and defers to it. Document naming follows DR-020 (kebab-case).
+
+### Alternatives Considered
+
+**Alternative: Number the new specification v2.0 and supersede v1.0**
+- Description: Mark v1.0 as superseded and carry all algorithmic detail forward into a single v2.0 document.
+- Rejected because: The user confirmed (2026-06-12) the document is an evolution — v1.0's algorithmic content remains correct and authoritative for the core solver; duplicating ~900 lines into v2.0 would create a divergence risk with no benefit.
+
+**Alternative: Patch v1.0 in place with extension sections**
+- Description: Edit `sudoku-solver-specification.md` to add the extensions, parity rules, and staged surfaces.
+- Rejected because: It would blur the historical baseline the review asked to preserve, and platform governance (parity, staged capability) is a different concern and audience from the language-agnostic solver algorithm design.
+
+### Related Decisions
+
+- DR-012 — Reference Architecture adoption (parity governance the v1.1 spec defers to).
+- DR-020 — kebab-case document naming (governs the new file's name).
+- DR-033 — Docker Compose containerization (classified as a deliberate extension by v1.1).
+
+---
 
 ---
 
@@ -1847,5 +1894,5 @@ Implement containerization via a top-level `docker-compose.yml` incorporating th
 
 ---
 
-*Last entry: DR-033. Next ID: DR-034.*
+*Last entry: DR-034 (Proposed). Next ID: DR-035.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

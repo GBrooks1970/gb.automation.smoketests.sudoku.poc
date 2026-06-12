@@ -17,6 +17,14 @@ public sealed class SudokuOrchestrator
 
     public string Solve()
     {
+        // Already-solved inputs return SOLVED immediately without executing any
+        // algorithms (v1.0 edge case; shared Gherkin contract "Stop execution
+        // when puzzle is completely solved").
+        if (IsGridFull())
+        {
+            return "SOLVED";
+        }
+
         var isProgressing = true;
         while (isProgressing)
         {

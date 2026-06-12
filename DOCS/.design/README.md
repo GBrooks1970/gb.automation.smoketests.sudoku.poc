@@ -385,6 +385,12 @@ Provide feedback in structured format with specific references to sections.
 | [web-ui-solver-visualisation.md](web-ui-solver-visualisation.md) | Browser step-by-step visualisation | v1.2 |
 | [screenplay-migration.md](screenplay-migration.md) | Screenplay pattern migration for BDD tests | v1.0 |
 
+### In Review
+
+| Document | Purpose | Version |
+|----------|---------|---------|
+| [sudoku-solver-platform-specification.md](sudoku-solver-platform-specification.md) | Platform specification — core solver contract, deliberate extensions, stack parity rules, staged surfaces (DR-034; accepted on merge of its pull request) | v1.1 |
+
 ### In Progress
 
 *None currently*
