@@ -14,6 +14,12 @@ class SudokuOrchestrator:
             solver.set_audit_logger(self._audit_logger)
 
     def solve(self) -> str:
+        # Already-solved inputs return SOLVED immediately without executing any
+        # algorithms (v1.0 edge case; shared Gherkin contract "Stop execution
+        # when puzzle is completely solved").
+        if self.is_grid_full():
+            return "SOLVED"
+
         is_progressing = True
 
         while is_progressing:
