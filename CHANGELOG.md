@@ -8,6 +8,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 
 ## [Unreleased]
 
+### Fixed
+- SUD-01 (review `CODE_REVIEW_GPT_5_3_Codex_v1_20260530T0823Z` Risk 2): all three orchestrators (`SudokuOrchestrator.ts`, `sudoku_orchestrator.py`, `SudokuOrchestrator.cs`) now check grid fullness before entering the progress loop, so an already-solved input returns `SOLVED` immediately without executing any algorithms, matching the v1.0 edge case and the shared Gherkin contract. Audit trails for solved inputs now record zero iterations and zero events.
+
 ### Changed
 - DR-032: Added `DEMOAPP003_CSHARP_SPECFLOW` as an active C# SpecFlow/NUnit Stack, updated parity contracts and CI, and resolved BACKLOG-021 plus umbrella BACKLOG-013.
 - BACKLOG-010 remains in progress: Docker Compose files and Dockerfiles exist for all active Stacks, but runtime verification is pending until Docker Desktop/Linux engine is available locally.
