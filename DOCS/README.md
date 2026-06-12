@@ -44,6 +44,7 @@ DOCS/
 ├── .design/                                <- Design & specification documents
 │   ├── README.md                           <- Design directory guide
 │   ├── sudoku-solver-specification.md
+│   ├── sudoku-solver-platform-specification.md
 │   ├── audit-trail-feature.md
 │   ├── rest-api-wrapper.md
 │   ├── web-ui-solver-visualisation.md
@@ -138,7 +139,8 @@ Stored in [.algorithm/](.algorithm/) — language-agnostic pseudocode for every 
 
 | Document | Purpose | Status | Version |
 |----------|---------|--------|---------|
-| [sudoku-solver-specification.md](.design/sudoku-solver-specification.md) | Tech-agnostic solver spec | Implemented | v1.0 |
+| [sudoku-solver-specification.md](.design/sudoku-solver-specification.md) | Tech-agnostic solver spec (original core baseline) | Implemented | v1.0 |
+| [sudoku-solver-platform-specification.md](.design/sudoku-solver-platform-specification.md) | Platform spec — core contract, deliberate extensions, parity rules, staged surfaces | Proposed (DR-034; accepted on PR merge) | v1.1 |
 | [audit-trail-feature.md](.design/audit-trail-feature.md) | Audit logging system | Implemented | v1.1 |
 | [rest-api-wrapper.md](.design/rest-api-wrapper.md) | Express REST API | Implemented | v1.0 |
 | [web-ui-solver-visualisation.md](.design/web-ui-solver-visualisation.md) | Browser step-by-step visualisation | Implemented | v1.2 |
