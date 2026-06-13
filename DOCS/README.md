@@ -1,6 +1,6 @@
 # DOCS — Documentation Index
 
-**Last Updated:** 2026-05-28T18:20Z
+**Last Updated:** 2026-06-13
 **Maintainer:** Project Lead / Development Team
 
 > This is the master index for project documentation. Active governed docs and canonical templates are
@@ -28,7 +28,8 @@ DOCS/
 │   ├── logging-design.md
 │   ├── orchestration-design.md
 │   ├── screenplay-parity-contract.md
-│   └── subject-app-contract.md
+│   ├── subject-app-contract.md
+│   └── validation-boundaries.md            <- NEW (2026-06-13, DR-035)
 │
 ├── .templates/                             <- Canonical template store (RA §10.5)
 │   ├── decision-record.template.md        <- For decision-register.md entries

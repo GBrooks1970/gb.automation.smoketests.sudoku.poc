@@ -55,6 +55,7 @@ A `@util` surface tests logic in-process without spawning a live application pro
 | Puzzle endpoints | ✅ | `GET /api/puzzles`, `GET /api/puzzles/:name` |
 | Validation endpoint | ✅ | `POST /api/validate` reports grid conflicts |
 | Request validation and error responses | ✅ | Invalid requests return structured JSON error payloads |
+| OpenAPI contract | ✅ | `demo-apps/demoapp001-typescript-cypress/docs/openapi.yaml` (DR-035); validation layering per `validation-boundaries.md` |
 | API integration checks | ✅ | `npm run test:api` |
 
 ---
