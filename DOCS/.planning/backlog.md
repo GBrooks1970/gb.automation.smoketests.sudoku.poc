@@ -1,7 +1,8 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-05-29 (BACKLOG-010 resolved; all sprint items resolved)
+**Last Updated:** 2026-06-13 (reconciled the 2026-05-30 GPT-5.3-Codex code-review remediation
+stream — BACKLOG-035 through BACKLOG-042 / worklist SUD-01..08 — all Resolved)
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -27,15 +28,16 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 3 |
 | In Progress | 0 |
-| Resolved | 53 |
-| **Total** | **56** |
+| Resolved | 61 |
+| **Total** | **64** |
 
 | Area | Current state |
 |------|---------------|
 | Current execution baseline | DEMOAPP001: 46 scenarios / 257 steps passing; DEMOAPP001 REST API integration PASS; DEMOAPP002: 46 pytest-bdd scenarios passing; DEMOAPP003: 46 SpecFlow scenarios passing; 3-Stack parity PASS |
 | Active Reference Architecture | v1.15 |
+| Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | Future product/solver work (all current sprint items resolved) |
+| Current sprint focus | Future product/solver work (all current sprint items resolved; 2026-05-30 code-review remediation stream closed — BACKLOG-035..042) |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -77,6 +79,32 @@ Items are improvements to `reference-architecture.md` v1.3 itself, not project i
 | RA-008 | Replace CHANGELOG.md retention policy rule with decision-register.md (Section 9.3) | Risk 9 | Low | Low | Resolved | None required |
 | RA-009 | Add verification method column to parity criteria (Section 8.4) | Risk 10 | Low | Low | Resolved | DR-027 |
 | RA-010 | Specify shared `packages/` directory rules in RA (Section 4.4) | Risk 11 | Low | Low | Resolved | DR-028 |
+
+---
+
+## Code Review Remediation Items (GPT-5.3-Codex review, 2026-05-30)
+
+Raised by `DOCS/.review/CODE_REVIEW_GPT_5_3_Codex_v1_20260530T0823Z/` (Risks 1–6, plus its Next
+Steps). The review postdated this backlog by one day, so the remediation was tracked and delivered
+through the portfolio worklist `WORKLIST_gb.automation.smoketests.sudoku.poc.md` (items SUD-01..08)
+and is reconciled here as the authoritative record. All **Resolved 2026-06-13**.
+
+| ID | Worklist | Title | Stack(s) | Review risk | Priority | Status | Decision Record |
+|----|----------|-------|----------|-------------|----------|--------|-----------------|
+| BACKLOG-035 | SUD-01 | Early solved-grid check before the progress loop (already-solved input returns `SOLVED` without invoking algorithms) | All | Risk 2 | High | Resolved | None required |
+| BACKLOG-036 | SUD-02 | Draft v1.1 solver-platform specification evolving the v1.0 baseline | All (docs) | Risk 1 | High | Resolved | DR-034 |
+| BACKLOG-037 | SUD-03 | Deep-copy grid snapshot methods (`getGrid`/`get_grid`/`GetGrid`); public `grid` retained, direct mutation deprecated | All | Risk 3 | Medium | Resolved | None required |
+| BACKLOG-038 | SUD-04 | Document validation-layer boundaries (loader = structure; solver/API = constraints) + author DEMOAPP001 OpenAPI contract | DEMOAPP001 (docs) | Risk 4 | Medium | Resolved | DR-035 |
+| BACKLOG-039 | SUD-05 | Stack capability matrix — core/BDD parity required, API/web staged as roadmap for DEMOAPP002/003 | All (docs) | Risk 5 | Medium | Resolved | None required |
+| BACKLOG-040 | SUD-06 | Document C# loader integer validation (typed `System.Text.Json` deserialization as the integer-type gate) | DEMOAPP003 (docs) | Risk 6 | Low | Resolved | None required |
+| BACKLOG-041 | SUD-07 | Accept v1.1 spec post-merge — DR-034 flipped to Accepted, root README version/status metadata updated | All (docs) | Next Step 2 | Medium | Resolved | DR-034 |
+| BACKLOG-042 | SUD-08 | Bump GitHub Actions to Node-24-compatible versions (`checkout@v5`/`setup-node@v5`/`setup-python@v6`/`setup-dotnet@v5`/`upload-artifact@v6`) ahead of the 2026-06-16 cutover | CI | Currency | Medium | Resolved | None required |
+
+Delivery: SUD-01/02 in PR #18; SUD-03/04 in PR #19; SUD-07/08 in PR #20; SUD-05/06 in PR #21.
+All three stacks remained green (46 scenarios each) with memory-key / feature / step-text parity
+passing at each step; CI ran green on the new Node-24 action pins. Docs-only items were verified by
+link/anchor resolution and stale-claim greps. The structural decisions are recorded as DR-034 (v1.1
+platform spec) and DR-035 (validation boundaries + OpenAPI), both Accepted.
 
 ---
 
@@ -838,6 +866,14 @@ Resolution:
 | BACKLOG-013 | Implement C# Version | DEMOAPP003 | 2026-05-28 | Covered by BACKLOG-021; closed as duplicate/umbrella following the BACKLOG-012/BACKLOG-020 precedent. |
 | BACKLOG-011 | Performance Benchmarking Suite | All | 2026-05-28 | Reporting-only benchmark harnesses added for DEMOAPP001/002/003 with root aggregation script and `.results/performance/` artifacts; no timing threshold gate. |
 | BACKLOG-010 | Docker Compose for Local Development | All | 2026-05-29 | Integrated Alpine, slim, and SDK-based multi-stack Compose services, parity validation loops, and aggregated benchmarking runtimes; DR-033 |
+| BACKLOG-035 | Early solved-grid check (SUD-01) | All | 2026-06-13 | `isGridFull`-style guard before the progress loop in all three orchestrators; already-solved input returns `SOLVED` with 0 iterations/0 events; 46×3 green, parity PASS; PR #18 |
+| BACKLOG-036 | v1.1 solver-platform specification (SUD-02) | All | 2026-06-13 | `sudoku-solver-platform-specification.md` v1.1 evolves the v1.0 core baseline; DR-034; PR #18 |
+| BACKLOG-037 | Deep-copy grid snapshot methods (SUD-03) | All | 2026-06-13 | `getGrid`/`get_grid`/`GetGrid` return deep copies; read-only call sites converted; public `grid` retained, direct mutation deprecated in stack docs; PR #19 |
+| BACKLOG-038 | Validation-layer boundaries + OpenAPI contract (SUD-04) | DEMOAPP001 | 2026-06-13 | `validation-boundaries.md` (loader=structure, solver/API=constraints; strict mode deferred); DEMOAPP001 `openapi.yaml` (9 paths, 19 schemas); DR-035; PR #19 |
+| BACKLOG-039 | Stack capability matrix (SUD-05) | All | 2026-06-13 | 7×3 matrix in platform spec §6.1 + README mirror; core/BDD parity required, API/web roadmap for DEMOAPP002/003; PR #21 |
+| BACKLOG-040 | C# loader integer validation docs (SUD-06) | DEMOAPP003 | 2026-06-13 | DEMOAPP003 README documents typed `System.Text.Json` deserialization as the integer-type gate before the v1.0 §7.1 range check; `PuzzleLoader.cs` untouched; PR #21 |
+| BACKLOG-041 | Accept v1.1 spec post-merge (SUD-07) | All | 2026-06-13 | DR-034 flipped Proposed→Accepted; root README + DOCS indexes present v1.1 as platform authority with v1.0 as core baseline; CLAUDE.md DR range corrected; PR #20 |
+| BACKLOG-042 | Node-24 GitHub Actions bump (SUD-08) | CI | 2026-06-13 | `ci.yml` action pins bumped to Node-24 majors ahead of the 2026-06-16 cutover; CI green on the new pins, no deprecation warnings; PR #20 |
 
 ---
 
