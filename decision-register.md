@@ -1,7 +1,7 @@
 # Decision Register
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-06-12
+**Last Updated:** 2026-06-13
 **Governed by:** `reference-architecture.md` v1.14 §10.6
 **Template:** `DOCS/.templates/decision-record.template.md`
 
@@ -1879,12 +1879,10 @@ Code review `DOCS/.review/CODE_REVIEW_GPT_5_3_Codex_v1_20260530T0823Z/` (Risk 4,
 
 ---
 
-## Proposed Decisions
-
 ## DR-034 — Adopt v1.1 platform specification evolving the v1.0 baseline
 
 **Date:** 2026-06-12
-**Status:** Proposed — accepted when the pull request carrying `DOCS/.design/sudoku-solver-platform-specification.md` is merged
+**Status:** Accepted — user decision 2026-06-12; accepted on merge of PR #18 (2026-06-12), recorded 2026-06-13
 
 ### Context
 
@@ -1892,11 +1890,11 @@ Code review `DOCS/.review/CODE_REVIEW_GPT_5_3_Codex_v1_20260530T0823Z/` (Risk 1,
 
 ### Decision
 
-Adopt `DOCS/.design/sudoku-solver-platform-specification.md` v1.1 as the authoritative platform specification. It is numbered v1.1 as an **evolution** of the v1.0 baseline, not a supersession (user decision, 2026-06-12); v1.0 remains in place as the original core baseline for core-solver algorithmic detail. The v1.1 document promotes row/column/block Hidden Singles to an explicit requirement, classifies deliberate extensions and staged-capability surfaces, and states the stack parity rules. Acceptance occurs when the user merges the pull request carrying the document; root `README.md` version/status metadata is updated only after that merge.
+Adopt `DOCS/.design/sudoku-solver-platform-specification.md` v1.1 as the authoritative platform specification. It is numbered v1.1 as an **evolution** of the v1.0 baseline, not a supersession (user decision, 2026-06-12); v1.0 remains in place as the original core baseline for core-solver algorithmic detail. The v1.1 document promotes row/column/block Hidden Singles to an explicit requirement, classifies deliberate extensions and staged-capability surfaces, and states the stack parity rules. Acceptance occurred when the user merged the pull request carrying the document (PR #18, merge commit `9a2e29f`, 2026-06-12); root `README.md` version/status metadata is updated under worklist item SUD-07.
 
 ### Status
 
-`Proposed` — 2026-06-12. Becomes `Accepted` on merge of the carrying pull request (worklist item SUD-02).
+`Accepted` — user decision 2026-06-12 (worklist item SUD-02); accepted on merge of PR #18 (merge commit `9a2e29f`, 2026-06-12); flipped from Proposed and recorded 2026-06-13 (worklist item SUD-07).
 
 ### Consequences
 
@@ -1907,7 +1905,6 @@ Adopt `DOCS/.design/sudoku-solver-platform-specification.md` v1.1 as the authori
 
 **Trade-offs:**
 - Two specification documents must be read together; v1.1 Section 2.2 is the single reconciliation table and must be kept current.
-- README metadata lags until the acceptance merge.
 
 **Compliance note:**
 - Aligned with RA v1.15: parity governance remains in the RA; v1.1 summarises and defers to it. Document naming follows DR-020 (kebab-case).
@@ -1930,6 +1927,10 @@ Adopt `DOCS/.design/sudoku-solver-platform-specification.md` v1.1 as the authori
 
 ---
 
+## Proposed Decisions
+
+*None at this time.*
+
 ---
 
 ## Superseded Decisions
@@ -1944,5 +1945,5 @@ Adopt `DOCS/.design/sudoku-solver-platform-specification.md` v1.1 as the authori
 
 ---
 
-*Last entry: DR-035 (Accepted); DR-034 remains Proposed. Next ID: DR-036.*
+*Last entry: DR-035 (Accepted); DR-034 Accepted (flipped from Proposed 2026-06-13, SUD-07). Next ID: DR-036.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

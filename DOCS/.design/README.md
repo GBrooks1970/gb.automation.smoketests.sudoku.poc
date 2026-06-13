@@ -389,7 +389,7 @@ Provide feedback in structured format with specific references to sections.
 
 | Document | Purpose | Version |
 |----------|---------|---------|
-| [sudoku-solver-platform-specification.md](sudoku-solver-platform-specification.md) | Platform specification — core solver contract, deliberate extensions, stack parity rules, staged surfaces (DR-034; accepted on merge of its pull request) | v1.1 |
+| [sudoku-solver-platform-specification.md](sudoku-solver-platform-specification.md) | Platform specification — core solver contract, deliberate extensions, stack parity rules, staged surfaces (DR-034, Accepted; merged via PR #18) | v1.1 |
 
 ### In Progress
 
