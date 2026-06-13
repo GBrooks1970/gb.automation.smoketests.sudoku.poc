@@ -139,9 +139,31 @@ one stack pioneers and others adopt by roadmap, not by parity obligation.
   capability for these stacks is **on the roadmap** (user decision, 2026-06-12) — they are not
   "intentionally util-only" forever, and their current absence of API/web surfaces is not a
   parity failure.
-- A per-stack **capability matrix** (core solver, BDD parity, CLI/display, audit, REST API,
-  web UI, performance tooling) is delivered under worklist item SUD-05 (review Risk 5) and, once
-  landed, is the authoritative statement of which stack carries which surface.
+### 6.1 Stack capability matrix
+
+The matrix below is the authoritative statement of which stack carries which surface (worklist item
+SUD-05, review Risk 5). It separates **required parity** (Section 5) from **staged capability**:
+
+| Capability | DEMOAPP001 (TypeScript) | DEMOAPP002 (Python) | DEMOAPP003 (C#) | Parity status |
+|------------|:-----------------------:|:-------------------:|:---------------:|---------------|
+| Core solver (Unit Completion, Hidden Singles, Naked Singles) | Yes | Yes | Yes | **Required** for all stacks |
+| BDD/Screenplay parity (46 canonical scenarios) | Yes | Yes | Yes | **Required** for all stacks |
+| Audit trail (iteration tracking, algorithm attribution, statistics) | Yes | Yes | Yes | Extension; present in all stacks |
+| CLI / grid display | Yes | No | No | Staged capability (DEMOAPP001 pioneer) |
+| REST API | Yes | Roadmap | Roadmap | Staged capability; roadmap for DEMOAPP002/003 |
+| Web UI visualisation | Yes | Roadmap | Roadmap | Staged capability; roadmap for DEMOAPP002/003 |
+| Performance tooling (reporting-only benchmark harness) | Yes | Yes | Yes | Extension; present in all stacks |
+
+Reading the matrix:
+
+- **Required** rows bind every stack. A gap there is a parity failure (Section 5).
+- **Yes** in an extension row records a capability that is present today but is not itself a parity
+  obligation; absence in another stack is not drift.
+- **Roadmap** marks a surface that DEMOAPP002/003 are expected to gain (user decision, 2026-06-12).
+  It is *not* "intentionally util-only" — the current absence of these surfaces is a staging
+  decision, not a permanent scope boundary, and is not a parity failure.
+- **No** marks a surface a stack does not carry and has no recorded roadmap commitment to add
+  (the CLI/display surface is currently a DEMOAPP001 convenience, not a platform requirement).
 
 ## 7. Specification Change Process
 

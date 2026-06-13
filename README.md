@@ -149,6 +149,26 @@ dotnet test
 - ✅ Screenplay-style abilities, tasks, questions, and actor memory
 - ✅ Shared canonical Gherkin scenarios via SpecFlow
 
+### Stack Capability Matrix
+
+Core solver and BDD/Screenplay parity are **required** for every stack. Operational surfaces (REST
+API, web UI) are **staged capability**: DEMOAPP001 (TypeScript) is the pioneer stack, and API/web
+capability is on the **roadmap** for DEMOAPP002 (Python) and DEMOAPP003 (C#) — their current absence
+is a staging decision, not a parity failure. See the authoritative matrix in the
+[platform specification §6.1](DOCS/.design/sudoku-solver-platform-specification.md#61-stack-capability-matrix).
+
+| Capability | DEMOAPP001 (TS) | DEMOAPP002 (Py) | DEMOAPP003 (C#) | Parity status |
+|------------|:---------------:|:---------------:|:---------------:|---------------|
+| Core solver | ✅ | ✅ | ✅ | Required |
+| BDD/Screenplay parity (46 scenarios) | ✅ | ✅ | ✅ | Required |
+| Audit trail | ✅ | ✅ | ✅ | Extension (all stacks) |
+| CLI / grid display | ✅ | ➖ | ➖ | Staged (DEMOAPP001) |
+| REST API | ✅ | 🛣️ | 🛣️ | Staged; roadmap for Py/C# |
+| Web UI visualisation | ✅ | 🛣️ | 🛣️ | Staged; roadmap for Py/C# |
+| Performance tooling | ✅ | ✅ | ✅ | Extension (all stacks) |
+
+Legend: ✅ present · 🛣️ roadmap · ➖ not carried (no roadmap commitment).
+
 ### Repository-Level Commands
 
 ```powershell
