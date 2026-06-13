@@ -4,8 +4,9 @@
 
 > **A pedagogical project demonstrating clean architecture, test automation, and multi-stack implementations of the same design specification.**
 
-**Version:** v1.0
-**Date:** 2026-01-30T20:00:00Z
+**Platform specification:** v1.1 (authoritative) — see [sudoku-solver-platform-specification.md](DOCS/.design/sudoku-solver-platform-specification.md)
+**Core solver baseline:** v1.0 — see [sudoku-solver-specification.md](DOCS/.design/sudoku-solver-specification.md)
+**Date:** 2026-01-30T20:00:00Z (core baseline); platform v1.1 accepted 2026-06-12 (DR-034)
 
 ## Overview
 
@@ -73,7 +74,8 @@ gb.automation.smoketests.sudoku.poc/
 
 | Document | Purpose | Audience |
 |----------|---------|----------|
-| [sudoku-solver-specification.md](DOCS/.design/sudoku-solver-specification.md) | Complete implementation specification | Developers implementing in any language |
+| [sudoku-solver-platform-specification.md](DOCS/.design/sudoku-solver-platform-specification.md) | **Authoritative platform specification (v1.1)** — classifies the core contract, deliberate extensions, parity rules, and staged surfaces | Maintainers, reviewers, new stack authors |
+| [sudoku-solver-specification.md](DOCS/.design/sudoku-solver-specification.md) | Core solver baseline (v1.0) — language-agnostic algorithmic specification | Developers implementing the core solver in any language |
 | [sudoku-basic-solver.md](DOCS/.algorithm/sudoku-basic-solver.md) | Detailed algorithm descriptions with examples | Developers & educators |
 | [BasicSudokuSolverLogic.feature](demo-apps/demoapp001-typescript-cypress/tests/features/BasicSudokuSolverLogic.feature) | BDD test scenarios (Gherkin) | QA & developers |
 
@@ -220,7 +222,7 @@ All implementations follow established software engineering principles:
 - **Test Pyramid** - Unit tests (fast), integration tests (medium), BDD tests (slow but comprehensive)
 
 **Cross-References and Traceability:**
-- **Canonical Source** - [sudoku-solver-specification.md](DOCS/.design/sudoku-solver-specification.md) is the authoritative specification
+- **Canonical Source** - [sudoku-solver-platform-specification.md](DOCS/.design/sudoku-solver-platform-specification.md) (v1.1) is the authoritative platform specification; [sudoku-solver-specification.md](DOCS/.design/sudoku-solver-specification.md) (v1.0) remains the core solver baseline
 - **Algorithm Details** - [sudoku-basic-solver.md](DOCS/.algorithm/sudoku-basic-solver.md) provides pseudocode and examples
 - **Implementation Links** - Code comments reference specification sections for traceability
 - **Test-to-Spec Mapping** - Each Gherkin scenario maps to specification requirements

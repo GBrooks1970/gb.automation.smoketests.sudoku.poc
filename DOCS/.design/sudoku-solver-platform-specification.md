@@ -6,7 +6,7 @@
 
 **Version:** v1.1
 **Date:** 2026-06-12
-**Status:** Proposed — accepted when the pull request carrying this document is merged (DR-034)
+**Status:** Accepted — merged via PR #18 (merge commit `9a2e29f`, 2026-06-12); recorded as Accepted in DR-034
 **Evolves:** `sudoku-solver-specification.md` v1.0 (2026-01-30), which remains the **original core baseline**
 
 ---
