@@ -21,6 +21,19 @@ export class SudokuSolver {
   }
 
   /**
+   * Returns a deep-copy snapshot of the current working grid (v1.0 `getGrid`
+   * operation). Mutating the returned array never affects solver state.
+   *
+   * Prefer this over reading `grid` directly wherever access is read-only.
+   * The public `grid` member is retained for compatibility, but mutating it
+   * directly from outside the solver is deprecated — external mutation
+   * bypasses the solving algorithms and the audit trail.
+   */
+  public getGrid(): number[][] {
+    return this.grid.map((row) => [...row]);
+  }
+
+  /**
    * Unit Completion Algorithm
    * Goal: Solve units (rows, columns, or blocks) that have only one empty cell.
    * Technique: The missing digit must go in the only remaining empty cell.

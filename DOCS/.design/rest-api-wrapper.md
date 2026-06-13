@@ -1017,6 +1017,10 @@ export function validateHiddenSingles(req: Request, res: Response, next: NextFun
 
 #### 2.1 OpenAPI/Swagger Documentation
 
+> **Resolved differently (2026-06-13, DR-035):** an authored OpenAPI 3.0 contract was adopted at
+> `demo-apps/demoapp001-typescript-cypress/docs/openapi.yaml` instead of the generated
+> swagger-jsdoc approach sketched below. The sketch is retained as design history.
+
 **Create**: `api/swagger.ts`
 
 ```typescript

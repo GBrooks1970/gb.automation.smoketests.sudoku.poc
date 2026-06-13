@@ -1829,6 +1829,56 @@ Implement containerization via a top-level `docker-compose.yml` incorporating th
 
 ---
 
+## DR-035 — Validation layer boundaries: loaders structural-only, OpenAPI contract adopted, strict loader mode deferred
+
+**Date:** 2026-06-13
+**Status:** Accepted — user decision 2026-06-12, documented 2026-06-13
+
+### Context
+
+Code review `DOCS/.review/CODE_REVIEW_GPT_5_3_Codex_v1_20260530T0823Z/` (Risk 4, Medium) found that constraint validation is implemented unevenly relative to v1.0's optional guidance: loaders validate structure (shape/range/integer), solvers expose a constraint query, and only the DEMOAPP001 REST API offers an explicit constraint-validation surface. The split is intentional but was undocumented, and the review suggested considering an optional strict duplicate-validation mode on loaders. The review also recommended (Refactor 5) an OpenAPI contract if the TypeScript REST API is a stable public surface.
+
+### Decision
+
+1. **Document the validation layer split as authoritative:** loaders perform structure validation only (v1.0 §7.1, fail-fast, identical wording across stacks); solvers expose a constraint *query* (`noConstraintViolations` / `no_constraint_violations` / `NoConstraintViolations`) without gating solving on it; the DEMOAPP001 REST API re-validates structure on every grid-accepting endpoint and offers constraint validation on demand via `POST /api/validate`. The authoritative statement is `DOCS/.architecture/validation-boundaries.md`, which platform specification v1.1 §2.2 (row 4) defers to.
+2. **Adopt an authored OpenAPI 3.0 contract** for the DEMOAPP001 REST API at `demo-apps/demoapp001-typescript-cypress/docs/openapi.yaml`, describing implemented behaviour; it must be updated in the same change as any endpoint or schema change.
+3. **Do not adopt the optional strict duplicate-validation loader mode** — explicitly deferred (user decision, 2026-06-12), not an open question. Revisiting requires a new decision-register entry.
+
+### Status
+
+`Accepted` — user decision 2026-06-12 (worklist item SUD-04); documents landed 2026-06-13.
+
+### Consequences
+
+**Outcomes:**
+- Layer responsibilities are stated once, identically for all three stacks; reviewers assess loaders against structure-only expectations.
+- The REST API has a stable, citable HTTP contract; API changes carry a documentation obligation.
+- Structurally valid but logically contradictory grids remain accepted by technique/solve surfaces with behaviour undefined by v1.0 — now documented rather than implicit.
+
+**Trade-offs:**
+- The OpenAPI document is authored, not generated, so it can drift if the same-change update rule is not honoured.
+- Callers needing legality assurance must request it explicitly (solver query or `POST /api/validate`).
+
+**Compliance note:**
+- Document naming follows DR-020 (kebab-case). The boundaries doc lives in `DOCS/.architecture/` alongside the other cross-cutting contracts; the OpenAPI file lives with the stack that implements the surface.
+
+### Alternatives Considered
+
+**Alternative: Optional strict duplicate-validation mode on loaders**
+- Description: A loader flag performing row/column/block duplicate detection at load time.
+- Rejected because: `puzzles.json` is curated fixture data already covered by the solver query, the API validate endpoint, and the test suites; a behavioural switch would blur the layer split and add three-stack parity surface for no test benefit. Deferred by explicit user decision, not left open.
+
+**Alternative: Generate the OpenAPI document from code annotations**
+- Description: Derive the contract via swagger-jsdoc or similar tooling.
+- Rejected because: The Express wrapper is small and stable; an authored document avoids adding a build-time dependency and annotation noise to `app_src/server/`, at the cost of the same-change update rule.
+
+### Related Decisions
+
+- DR-020 — kebab-case document naming.
+- DR-034 — v1.1 platform specification (its §2.2 row 4 defers layer responsibilities to the boundaries doc).
+
+---
+
 ## Proposed Decisions
 
 ## DR-034 — Adopt v1.1 platform specification evolving the v1.0 baseline
@@ -1894,5 +1944,5 @@ Adopt `DOCS/.design/sudoku-solver-platform-specification.md` v1.1 as the authori
 
 ---
 
-*Last entry: DR-034 (Proposed). Next ID: DR-035.*
+*Last entry: DR-035 (Accepted); DR-034 remains Proposed. Next ID: DR-036.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

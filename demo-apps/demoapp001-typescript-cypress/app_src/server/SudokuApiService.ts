@@ -86,7 +86,7 @@ export class SudokuApiService {
       totalChanges: auditTrail.totalChanges,
       statistics: auditTrail.statistics,
       ...(options.returnGridSnapshot && { gridBefore }),
-      gridAfter: cloneGrid(solver.grid),
+      gridAfter: solver.getGrid(),
       ...(status === 'STUCK_ON_ADVANCED_LOGIC' && { emptyCells: countEmptyCells(solver.grid) }),
       ...(options.includeIterationHistory && { events: auditTrail.events }),
     };
@@ -151,7 +151,7 @@ export class SudokuApiService {
       timestamp: new Date().toISOString(),
       durationMs,
       changes,
-      ...(options.returnGridSnapshot && { gridBefore, gridAfter: cloneGrid(solver.grid) }),
+      ...(options.returnGridSnapshot && { gridBefore, gridAfter: solver.getGrid() }),
       ...(targetNumber !== undefined && { targetNumber }),
     };
   }

@@ -261,6 +261,7 @@ Governed by `DOCS/reference-architecture.md` v1.15 and decisions DR-012 through 
 | `DOCS/.analysis/ref-arch-alignment_2026-05-15.md` | Historical v1.3 compliance and migration status |
 | `DOCS/.architecture/screenplay-parity-contract.md` | Memory keys, Tasks, Questions, and parity signatures |
 | `DOCS/.architecture/subject-app-contract.md` | Active `@util` and future `@cli` surface contracts |
+| `DOCS/.architecture/validation-boundaries.md` | Validation layer responsibilities: loader = structure, solver/API = constraints (DR-035) |
 | `DOCS/.architecture/orchestration-design.md` | Build, test, metrics, and retention design |
 | `DOCS/.architecture/logging-design.md` | Logging and reporting strategy |
 | `DOCS/.planning/backlog.md` | Authoritative backlog content |

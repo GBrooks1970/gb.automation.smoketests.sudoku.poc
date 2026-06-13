@@ -1,0 +1,628 @@
+openapi: 3.0.3
+info:
+  title: Sudoku Solver REST API (DEMOAPP001)
+  description: |
+    HTTP contract for the DEMOAPP001 Express REST API wrapper around the Sudoku solver
+    (`app_src/server/`). Adopted by decision DR-035 (worklist item SUD-04, review
+    Refactor 5). This document is authored, not generated: it describes the implemented
+    behaviour of `app.ts`, `validation.ts`, `SudokuApiService.ts` and `SolveStepTracker.ts`,
+    and must be updated in the same change as any endpoint or schema change.
+
+    Validation layering (see `DOCS/.architecture/validation-boundaries.md`): every
+    grid-accepting endpoint performs structure validation (9x9, integer cells 0-9) and
+    rejects malformed input with a structured error. Constraint validation (duplicate
+    digits in a row/column/block) is only performed by `POST /api/validate`; technique and
+    solve endpoints accept structurally valid but logically contradictory grids, for which
+    solving behaviour is undefined by specification v1.0.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Local development server (`npm run start:api`; port from PORT, default 3000)
+
+tags:
+  - name: meta
+    description: Health and metadata
+  - name: techniques
+    description: Execute a single solving technique against a supplied grid
+  - name: solve
+    description: Full orchestrated solve
+  - name: validation
+    description: Constraint validation of a supplied grid
+  - name: puzzles
+    description: Bundled puzzle fixtures
+  - name: visualise
+    description: Step-tracked solve of a bundled puzzle for visualisation
+
+paths:
+  /health:
+    get:
+      tags: [meta]
+      summary: Health check
+      operationId: getHealth
+      responses:
+        '200':
+          description: Service is up
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status, timestamp]
+                properties:
+                  status:
+                    type: string
+                    enum: [ok]
+                  timestamp:
+                    type: string
+                    format: date-time
+
+  /api/techniques/unit-completion:
+    post:
+      tags: [techniques]
+      summary: Run the Unit Completion technique once
+      operationId: postUnitCompletion
+      requestBody:
+        $ref: '#/components/requestBodies/GridRequest'
+      responses:
+        '200':
+          description: Technique executed (changed may be false)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TechniqueResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/techniques/hidden-singles:
+    post:
+      tags: [techniques]
+      summary: Run the Hidden Singles technique once
+      description: |
+        With `targetNumber` set, scans for that digit only; without it, scans digits 1-9.
+      operationId: postHiddenSingles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/GridRequestBody'
+                - type: object
+                  properties:
+                    targetNumber:
+                      type: integer
+                      minimum: 1
+                      maximum: 9
+                      description: Optional digit to scan for; omit to scan all digits
+      responses:
+        '200':
+          description: Technique executed (changed may be false)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TechniqueResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '422':
+          description: targetNumber present but not an integer 1-9 (`INVALID_TARGET_NUMBER`)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/techniques/naked-singles:
+    post:
+      tags: [techniques]
+      summary: Run the Naked Singles technique once
+      operationId: postNakedSingles
+      requestBody:
+        $ref: '#/components/requestBodies/GridRequest'
+      responses:
+        '200':
+          description: Technique executed (changed may be false)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TechniqueResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/solve:
+    post:
+      tags: [solve]
+      summary: Run the full orchestrated solve with audit tracking
+      operationId: postSolve
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [grid]
+              properties:
+                grid:
+                  $ref: '#/components/schemas/Grid'
+                options:
+                  $ref: '#/components/schemas/SolveOptions'
+      responses:
+        '200':
+          description: Solve completed (status may be STUCK_ON_ADVANCED_LOGIC)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SolveResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/validate:
+    post:
+      tags: [validation]
+      summary: Constraint-validate a grid
+      description: |
+        Reports duplicate non-zero digits per row, column and block. This is the only
+        endpoint that performs constraint validation; structure validation of the request
+        grid still applies first.
+      operationId: postValidate
+      requestBody:
+        $ref: '#/components/requestBodies/GridRequest'
+      responses:
+        '200':
+          description: Validation result (valid may be false; HTTP status is still 200)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/puzzles:
+    get:
+      tags: [puzzles]
+      summary: List bundled puzzles
+      operationId: getPuzzles
+      responses:
+        '200':
+          description: Puzzle summaries
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PuzzleListResponse'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/puzzles/{name}:
+    get:
+      tags: [puzzles]
+      summary: Get a bundled puzzle by name
+      operationId: getPuzzleByName
+      parameters:
+        - $ref: '#/components/parameters/PuzzleName'
+      responses:
+        '200':
+          description: Puzzle with grid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PuzzleResponse'
+        '404':
+          $ref: '#/components/responses/PuzzleNotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/visualise/{name}:
+    get:
+      tags: [visualise]
+      summary: Solve a bundled puzzle and return the step-by-step trace
+      operationId: getVisualise
+      parameters:
+        - $ref: '#/components/parameters/PuzzleName'
+      responses:
+        '200':
+          description: Step-tracked solve result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VisualiseResult'
+        '404':
+          $ref: '#/components/responses/PuzzleNotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+components:
+  parameters:
+    PuzzleName:
+      name: name
+      in: path
+      required: true
+      description: Puzzle name as listed by `GET /api/puzzles` (URL-encoded)
+      schema:
+        type: string
+
+  requestBodies:
+    GridRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GridRequestBody'
+
+  responses:
+    BadRequest:
+      description: |
+        Malformed request: `MISSING_GRID` (no grid field), `INVALID_GRID_FORMAT`
+        (structure validation failed; details carry the offending field), or
+        `INVALID_JSON` (unparseable body).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    PuzzleNotFound:
+      description: No bundled puzzle has the given name (`PUZZLE_NOT_FOUND`; details list available names)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    InternalError:
+      description: Unexpected failure (`INTERNAL_SERVER_ERROR`, or `AUDIT_TRAIL_UNAVAILABLE` on solve/visualise)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+    Grid:
+      type: array
+      description: 9x9 Sudoku grid; 0 denotes an empty cell
+      minItems: 9
+      maxItems: 9
+      items:
+        type: array
+        minItems: 9
+        maxItems: 9
+        items:
+          type: integer
+          minimum: 0
+          maximum: 9
+
+    RequestOptions:
+      type: object
+      description: Optional per-request flags; unspecified flags default as documented
+      properties:
+        includeReason:
+          type: boolean
+          default: true
+          description: Include human-readable reasons on cell changes
+        returnGridSnapshot:
+          type: boolean
+          default: true
+          description: Include gridBefore (and gridAfter on technique responses) in the response
+
+    SolveOptions:
+      allOf:
+        - $ref: '#/components/schemas/RequestOptions'
+        - type: object
+          properties:
+            includeIterationHistory:
+              type: boolean
+              default: false
+              description: Include the full audit event list in the response
+
+    GridRequestBody:
+      type: object
+      required: [grid]
+      properties:
+        grid:
+          $ref: '#/components/schemas/Grid'
+        options:
+          $ref: '#/components/schemas/RequestOptions'
+
+    CellChange:
+      type: object
+      required: [cell, oldValue, newValue]
+      properties:
+        cell:
+          type: object
+          required: [row, col]
+          properties:
+            row:
+              type: integer
+              minimum: 0
+              maximum: 8
+            col:
+              type: integer
+              minimum: 0
+              maximum: 8
+        oldValue:
+          type: integer
+          minimum: 0
+          maximum: 9
+        newValue:
+          type: integer
+          minimum: 0
+          maximum: 9
+        reason:
+          type: string
+
+    AuditEvent:
+      type: object
+      required: [eventId, timestamp, iteration, algorithm, cellChanges]
+      properties:
+        eventId:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
+        iteration:
+          type: integer
+        algorithm:
+          type: string
+          enum: [UnitCompletion, HiddenSingles, NakedSingles]
+        algorithmParameter:
+          type: integer
+        cellChanges:
+          type: array
+          items:
+            $ref: '#/components/schemas/CellChange'
+        gridSnapshotAfter:
+          $ref: '#/components/schemas/Grid'
+
+    AuditStatistics:
+      type: object
+      required: [changesByAlgorithm, iterationsByAlgorithm, averageChangesPerIteration]
+      properties:
+        changesByAlgorithm:
+          $ref: '#/components/schemas/PerAlgorithmCounts'
+        iterationsByAlgorithm:
+          $ref: '#/components/schemas/PerAlgorithmCounts'
+        averageChangesPerIteration:
+          type: number
+
+    PerAlgorithmCounts:
+      type: object
+      required: [unitCompletion, hiddenSingles, nakedSingles]
+      properties:
+        unitCompletion:
+          type: integer
+        hiddenSingles:
+          type: integer
+        nakedSingles:
+          type: integer
+
+    TechniqueResponse:
+      type: object
+      required: [success, technique, changed, message, timestamp, durationMs, changes]
+      properties:
+        success:
+          type: boolean
+          enum: [true]
+        technique:
+          type: string
+          enum: [UnitCompletion, HiddenSingles, NakedSingles]
+        changed:
+          type: boolean
+        message:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        durationMs:
+          type: number
+        changes:
+          type: array
+          items:
+            $ref: '#/components/schemas/CellChange'
+        gridBefore:
+          $ref: '#/components/schemas/Grid'
+        gridAfter:
+          $ref: '#/components/schemas/Grid'
+        targetNumber:
+          type: integer
+          minimum: 1
+          maximum: 9
+
+    SolveResponse:
+      type: object
+      required: [success, status, message, timestamp, durationMs, iterations, totalChanges, statistics, gridAfter]
+      properties:
+        success:
+          type: boolean
+          enum: [true]
+        status:
+          type: string
+          enum: [SOLVED, STUCK_ON_ADVANCED_LOGIC]
+        message:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        durationMs:
+          type: number
+        iterations:
+          type: integer
+        totalChanges:
+          type: integer
+        statistics:
+          $ref: '#/components/schemas/AuditStatistics'
+        gridBefore:
+          $ref: '#/components/schemas/Grid'
+        gridAfter:
+          $ref: '#/components/schemas/Grid'
+        emptyCells:
+          type: integer
+          description: Present only when status is STUCK_ON_ADVANCED_LOGIC
+        events:
+          type: array
+          description: Present only when options.includeIterationHistory is true
+          items:
+            $ref: '#/components/schemas/AuditEvent'
+
+    ValidationConflict:
+      type: object
+      required: [type, value, cells]
+      properties:
+        type:
+          type: string
+          enum: [duplicate_in_row, duplicate_in_column, duplicate_in_block]
+        value:
+          type: integer
+          minimum: 1
+          maximum: 9
+        cells:
+          type: array
+          items:
+            type: object
+            required: [row, col]
+            properties:
+              row:
+                type: integer
+              col:
+                type: integer
+        row:
+          type: integer
+          description: Present for duplicate_in_row
+        col:
+          type: integer
+          description: Present for duplicate_in_column
+        block:
+          type: object
+          description: Present for duplicate_in_block
+          properties:
+            row:
+              type: integer
+            col:
+              type: integer
+
+    ValidationResponse:
+      type: object
+      required: [valid, message, dimensions, emptyCells, conflicts]
+      properties:
+        valid:
+          type: boolean
+        message:
+          type: string
+        dimensions:
+          type: string
+          example: 9x9
+        emptyCells:
+          type: integer
+        conflicts:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationConflict'
+
+    PuzzleSummary:
+      type: object
+      required: [name, difficulty, description]
+      properties:
+        name:
+          type: string
+        difficulty:
+          type: string
+        description:
+          type: string
+
+    PuzzleResponse:
+      allOf:
+        - $ref: '#/components/schemas/PuzzleSummary'
+        - type: object
+          required: [grid]
+          properties:
+            grid:
+              $ref: '#/components/schemas/Grid'
+
+    PuzzleListResponse:
+      type: object
+      required: [puzzles, count]
+      properties:
+        puzzles:
+          type: array
+          items:
+            $ref: '#/components/schemas/PuzzleSummary'
+        count:
+          type: integer
+
+    SolveStep:
+      allOf:
+        - $ref: '#/components/schemas/CellChange'
+        - type: object
+          required: [stepNumber, iteration, algorithm]
+          properties:
+            stepNumber:
+              type: integer
+            iteration:
+              type: integer
+            algorithm:
+              type: string
+              enum: [UnitCompletion, HiddenSingles, NakedSingles]
+            algorithmParam:
+              type: integer
+
+    VisualiseStatistics:
+      type: object
+      required: [totalSteps, totalIterations, stepsByAlgorithm]
+      properties:
+        totalSteps:
+          type: integer
+        totalIterations:
+          type: integer
+        stepsByAlgorithm:
+          $ref: '#/components/schemas/PerAlgorithmCounts'
+
+    VisualiseResult:
+      type: object
+      required: [puzzleName, difficulty, description, status, initialGrid, finalGrid, steps, statistics]
+      properties:
+        puzzleName:
+          type: string
+        difficulty:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [SOLVED, STUCK_ON_ADVANCED_LOGIC]
+        initialGrid:
+          $ref: '#/components/schemas/Grid'
+        finalGrid:
+          $ref: '#/components/schemas/Grid'
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/SolveStep'
+        statistics:
+          $ref: '#/components/schemas/VisualiseStatistics'
+
+    ErrorResponse:
+      type: object
+      required: [success, error, message]
+      properties:
+        success:
+          type: boolean
+          enum: [false]
+        error:
+          type: string
+          description: Stable machine-readable code
+          enum:
+            - MISSING_GRID
+            - INVALID_GRID_FORMAT
+            - INVALID_JSON
+            - INVALID_TARGET_NUMBER
+            - PUZZLE_NOT_FOUND
+            - ROUTE_NOT_FOUND
+            - AUDIT_TRAIL_UNAVAILABLE
+            - INTERNAL_SERVER_ERROR
+        message:
+          type: string
+        details:
+          description: Field-level detail; shape varies by error code
+        requestId:
+          type: string

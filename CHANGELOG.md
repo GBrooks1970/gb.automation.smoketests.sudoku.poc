@@ -8,10 +8,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 
 ## [Unreleased]
 
+### Added
+- SUD-04 (review `CODE_REVIEW_GPT_5_3_Codex_v1_20260530T0823Z` Risk 4, DR-035): `DOCS/.architecture/validation-boundaries.md` states the validation layer split authoritatively — loaders perform structure validation only (v1.0 §7.1); solvers expose a constraint query without gating solving on it; the DEMOAPP001 REST API re-validates structure on every grid-accepting endpoint and offers constraint validation via `POST /api/validate`. The optional strict duplicate-validation loader mode is explicitly deferred (user decision 2026-06-12), not open.
+- SUD-04 (review Refactor 5, DR-035): authored OpenAPI 3.0 contract for the DEMOAPP001 REST API at `demo-apps/demoapp001-typescript-cypress/docs/openapi.yaml` covering all nine endpoints, request/response schemas, and the structured error codes; must be updated in the same change as any endpoint or schema change.
+
 ### Fixed
 - SUD-01 (review `CODE_REVIEW_GPT_5_3_Codex_v1_20260530T0823Z` Risk 2): all three orchestrators (`SudokuOrchestrator.ts`, `sudoku_orchestrator.py`, `SudokuOrchestrator.cs`) now check grid fullness before entering the progress loop, so an already-solved input returns `SOLVED` immediately without executing any algorithms, matching the v1.0 edge case and the shared Gherkin contract. Audit trails for solved inputs now record zero iterations and zero events.
 
 ### Changed
+- SUD-03 (review `CODE_REVIEW_GPT_5_3_Codex_v1_20260530T0823Z` Risk 3): all three solvers now expose the v1.0 `getGrid` snapshot operation returning a deep copy of the working grid — `SudokuSolver.getGrid()` (TypeScript), `SudokuSolver.get_grid()` (Python), `SudokuSolver.GetGrid()` (C#). Read-only call sites (CLI display, REST API grid snapshots, solve-step tracker, Screenplay snapshot helpers) now use it instead of reading the public grid member directly. The public `grid` / `Grid` members are retained for compatibility; direct external mutation is documented as deprecated in each stack README and in platform specification v1.1 §2.2.
 - DR-032: Added `DEMOAPP003_CSHARP_SPECFLOW` as an active C# SpecFlow/NUnit Stack, updated parity contracts and CI, and resolved BACKLOG-021 plus umbrella BACKLOG-013.
 - BACKLOG-010 remains in progress: Docker Compose files and Dockerfiles exist for all active Stacks, but runtime verification is pending until Docker Desktop/Linux engine is available locally.
 - BACKLOG-011 resolved with reporting-only benchmark harnesses for TypeScript, Python, and C# plus root aggregation under `.results/performance/`.

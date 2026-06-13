@@ -22,3 +22,12 @@ puzzles.json             Stack-local puzzle data used by PuzzleLoader
 
 The feature body must stay in parity with
 `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature`.
+
+## Grid Access
+
+`SudokuSolver.get_grid()` returns a deep-copy snapshot of the working grid
+(the v1.0 `getGrid` operation) — prefer it wherever access is read-only. The
+public `grid` attribute is retained for compatibility (test fixtures use it to
+compose grid states), but mutating it directly from outside the solver is
+**deprecated**: external mutation bypasses the solving algorithms and the
+audit trail.

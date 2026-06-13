@@ -25,3 +25,12 @@ dotnet run --project tooling/performance/DemoApp003.Performance.csproj --configu
 | `docs/` | Stack-level architecture, Screenplay, and QA documentation |
 
 Feature files are owned by `features-shared/`; only stack-local tags belong in `tests/features/`.
+
+## Grid Access
+
+`SudokuSolver.GetGrid()` returns a deep-copy snapshot of the working grid (the
+v1.0 `getGrid` operation) — prefer it wherever access is read-only. The public
+`Grid` property is retained for compatibility (test fixtures use it to compose
+grid states), but mutating it directly from outside the solver is
+**deprecated**: external mutation bypasses the solving algorithms and the
+audit trail.

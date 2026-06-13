@@ -19,6 +19,17 @@ class SudokuSolver:
     def set_audit_logger(self, logger: AuditLogger) -> None:
         self._audit_logger = logger
 
+    def get_grid(self) -> list[list[int]]:
+        """Return a deep-copy snapshot of the current working grid (v1.0 ``getGrid``).
+
+        Mutating the returned list never affects solver state. Prefer this over
+        reading ``grid`` directly wherever access is read-only. The public
+        ``grid`` attribute is retained for compatibility, but mutating it
+        directly from outside the solver is deprecated -- external mutation
+        bypasses the solving algorithms and the audit trail.
+        """
+        return deepcopy(self.grid)
+
     def unit_completion(self) -> bool:
         changed = False
         changes: list[dict[str, Any]] = []

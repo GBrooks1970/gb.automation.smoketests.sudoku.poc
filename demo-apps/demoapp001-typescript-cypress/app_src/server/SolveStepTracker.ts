@@ -39,7 +39,7 @@ export class SolveStepTracker {
       description: puzzle.description,
       status,
       initialGrid,
-      finalGrid: cloneGrid(solver.grid),
+      finalGrid: solver.getGrid(),
       steps,
       statistics: {
         totalSteps: steps.length,

@@ -159,13 +159,20 @@ This implementation follows the **Single Responsibility Principle** with four ma
 | `unitCompletion()` | None | boolean | Fills units with one empty cell |
 | `hiddenSingles(digit)` | number (1-9) | boolean | Places digit in blocks where it has one valid location |
 | `nakedSingles()` | None | boolean | Fills cells with only one candidate |
+| `getGrid()` | None | number[][] | Deep-copy snapshot of the working grid (v1.0 `getGrid` operation) |
 
-**Returns:** `true` if at least one cell was modified, `false` otherwise
+**Returns:** `true` if at least one cell was modified, `false` otherwise (algorithm methods)
 
 **Implementation Details:**
 - Deep copies original grid to preserve immutability
 - Each algorithm is independently callable for unit testing
 - Helper methods for row/column/block validation
+
+**Grid access policy:** prefer `getGrid()` wherever access is read-only — it
+returns a deep copy that can never alter solver state. The public `grid`
+member is retained for compatibility (test fixtures use it to compose grid
+states), but mutating it directly from outside the solver is **deprecated**:
+external mutation bypasses the solving algorithms and the audit trail.
 
 #### 3. SudokuOrchestrator ([SudokuOrchestrator.ts](app_src/SudokuOrchestrator.ts))
 

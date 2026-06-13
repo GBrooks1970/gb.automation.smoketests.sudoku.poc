@@ -19,10 +19,11 @@ export class SudokuCLI {
   public displayGrid(): void {
     this.output.write(`\n--${this.solver.name}----`);
     this.output.write('\n-------------------------');
+    const grid = this.solver.getGrid();
     for (let i = 0; i < GRID_SIZE; i++) {
       let rowString = '| ';
       for (let j = 0; j < GRID_SIZE; j++) {
-        const cellValue = this.solver.grid[i][j];
+        const cellValue = grid[i][j];
         rowString += (cellValue === EMPTY_CELL ? '.' : cellValue) + ' ';
         if ((j + 1) % BLOCK_SIZE === 0) rowString += '| ';
       }
