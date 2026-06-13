@@ -48,10 +48,14 @@ using the v1.0 §7.1 wording (`must have exactly 9 rows`, `must have exactly 9 c
 | DEMOAPP003 | `demo-apps/demoapp003-csharp-specflow/app_src/PuzzleLoader.cs` | Typed deserialization — `System.Text.Json` into `int[][]` rejects non-integer JSON before the range check runs |
 
 The DEMOAPP003 difference is a mechanism difference, not a responsibility difference: integer
-enforcement happens at deserialization rather than in an explicit cell check, so the error
-surfaces as a deserialization exception rather than the v1.0 §7.1 message. Whether to document
-that in the stack docs or wrap the exception into the v1.0 wording is tracked as worklist item
-SUD-06 (review Risk 6, Low).
+enforcement happens at deserialization rather than in an explicit cell check, so a non-integer
+numeric shape surfaces as a `System.Text.Json.JsonException` at load time rather than as the
+v1.0 §7.1 message. Worklist item SUD-06 (review Risk 6, Low) **resolved this by documentation**
+(the lower-risk of the two offered options): the DEMOAPP003 README "Puzzle Validation" section
+states typed deserialization is the C# integer-validation mechanism and notes the resulting
+error-surface difference. The loader was deliberately **not** changed to wrap the exception into
+the v1.0 wording — that would add C#-only behaviour the other stacks do not have, for a Low-severity
+cosmetic difference in an internal fixture-load path.
 
 **Cross-stack parity rule:** the three loaders MUST keep identical validation rules and error
 wording (after language idiom). A change to one loader's validation is a change to all three.
