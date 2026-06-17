@@ -273,6 +273,8 @@ When implementing in a new technology stack:
 4. **Implement the Gherkin scenarios** from the test specification
 5. **Maintain the same behavior** across all implementations
 
+**Prerequisite for local parity gates:** the `.batch/*.ps1` parity scripts (memory-key, feature, and step-text parity) run via PowerShell. To reproduce these gates locally you need [PowerShell (`pwsh`) 7+](https://github.com/PowerShell/PowerShell) installed; CI runs them on `ubuntu-latest` with `pwsh` preinstalled. A pure Node/Python/C# toolchain alone is not sufficient to run the parity checks.
+
 ## License
 
 This is an educational project. See LICENSE file for details.
