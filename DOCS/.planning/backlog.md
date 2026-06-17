@@ -29,8 +29,8 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 3 |
 | In Progress | 0 |
-| Resolved | 63 |
-| **Total** | **66** |
+| Resolved | 64 |
+| **Total** | **67** |
 
 | Area | Current state |
 |------|---------------|
@@ -120,6 +120,7 @@ reconciled here as the authoritative record.
 |----|----------|-------|----------|-------------|----------|--------|-----------------|
 | BACKLOG-043 | SUD-09 | Fix root README "+ Flask" mislabel of the Python stack (diagram boxes relabelled to the real toolchains: TypeScript/Cucumber, Python/pytest-bdd, C#/SpecFlow) | All (docs) | Risk 1 | Low | Resolved | None required |
 | BACKLOG-044 | SUD-10 | Update stale root README "35+ test scenarios" claim to the true figure (46 scenarios per stack / 138 across all three; DEMOAPP001 = 46/257 steps) | All (docs) | Risk 2 | Low | Resolved | None required |
+| BACKLOG-045 | SUD-11 | Governance hygiene: add an ordering note at DR-035 explaining it was authored before DR-034 (IDs sequential, on-page order reversed); drop seconds from the root README date metadata per the no-seconds convention (`2026-01-30T20:00:00Z` -> `2026-01-30T20:00Z`) | All (docs) | Risk 4 | Low | Resolved | None required (editorial) |
 
 ---
 
