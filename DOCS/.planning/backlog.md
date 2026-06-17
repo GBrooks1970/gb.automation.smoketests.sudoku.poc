@@ -1,8 +1,9 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-06-13 (reconciled the 2026-05-30 GPT-5.3-Codex code-review remediation
-stream — BACKLOG-035 through BACKLOG-042 / worklist SUD-01..08 — all Resolved)
+**Last Updated:** 2026-06-17 (reconciling the 2026-06-16 CLAUDE_Opus_4_8 code-review remediation
+stream — BACKLOG-043+ / worklist SUD-09.. — as items land; 2026-06-13 reconciled the 2026-05-30
+GPT-5.3-Codex stream BACKLOG-035 through BACKLOG-042 / worklist SUD-01..08)
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -28,8 +29,8 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 3 |
 | In Progress | 0 |
-| Resolved | 61 |
-| **Total** | **64** |
+| Resolved | 62 |
+| **Total** | **65** |
 
 | Area | Current state |
 |------|---------------|
@@ -105,6 +106,19 @@ All three stacks remained green (46 scenarios each) with memory-key / feature / 
 passing at each step; CI ran green on the new Node-24 action pins. Docs-only items were verified by
 link/anchor resolution and stale-claim greps. The structural decisions are recorded as DR-034 (v1.1
 platform spec) and DR-035 (validation boundaries + OpenAPI), both Accepted.
+
+---
+
+## Code Review Remediation Items (CLAUDE_Opus_4_8 review, 2026-06-16)
+
+Raised by `DOCS/.review/CODE_REVIEW_CLAUDE_Opus_4_8_v1_20260616T1546Z/` (Risks 1–5; all
+Low/editorial or Informational — no Critical/High/Medium findings). Tracked and delivered through
+the portfolio worklist `WORKLIST_gb.automation.smoketests.sudoku.poc.md` (items SUD-09..13) and
+reconciled here as the authoritative record.
+
+| ID | Worklist | Title | Stack(s) | Review risk | Priority | Status | Decision Record |
+|----|----------|-------|----------|-------------|----------|--------|-----------------|
+| BACKLOG-043 | SUD-09 | Fix root README "+ Flask" mislabel of the Python stack (diagram boxes relabelled to the real toolchains: TypeScript/Cucumber, Python/pytest-bdd, C#/SpecFlow) | All (docs) | Risk 1 | Low | Resolved | None required |
 
 ---
 
@@ -874,6 +888,7 @@ Resolution:
 | BACKLOG-040 | C# loader integer validation docs (SUD-06) | DEMOAPP003 | 2026-06-13 | DEMOAPP003 README documents typed `System.Text.Json` deserialization as the integer-type gate before the v1.0 §7.1 range check; `PuzzleLoader.cs` untouched; PR #21 |
 | BACKLOG-041 | Accept v1.1 spec post-merge (SUD-07) | All | 2026-06-13 | DR-034 flipped Proposed→Accepted; root README + DOCS indexes present v1.1 as platform authority with v1.0 as core baseline; CLAUDE.md DR range corrected; PR #20 |
 | BACKLOG-042 | Node-24 GitHub Actions bump (SUD-08) | CI | 2026-06-13 | `ci.yml` action pins bumped to Node-24 majors ahead of the 2026-06-16 cutover; CI green on the new pins, no deprecation warnings; PR #20 |
+| BACKLOG-043 | Fix root README "+ Flask" mislabel (SUD-09) | All | 2026-06-17 | Architecture diagram Python box no longer reads "+ Flask"; all three boxes relabelled to real toolchains (TypeScript/Cucumber, Python/pytest-bdd, C#/SpecFlow); `git grep Flask` returns no source hits; review CLAUDE_Opus_4_8 v1 Risk 1; no DR required |
 
 ---
 
