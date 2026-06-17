@@ -29,8 +29,8 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 3 |
 | In Progress | 0 |
-| Resolved | 62 |
-| **Total** | **65** |
+| Resolved | 63 |
+| **Total** | **66** |
 
 | Area | Current state |
 |------|---------------|
@@ -119,6 +119,7 @@ reconciled here as the authoritative record.
 | ID | Worklist | Title | Stack(s) | Review risk | Priority | Status | Decision Record |
 |----|----------|-------|----------|-------------|----------|--------|-----------------|
 | BACKLOG-043 | SUD-09 | Fix root README "+ Flask" mislabel of the Python stack (diagram boxes relabelled to the real toolchains: TypeScript/Cucumber, Python/pytest-bdd, C#/SpecFlow) | All (docs) | Risk 1 | Low | Resolved | None required |
+| BACKLOG-044 | SUD-10 | Update stale root README "35+ test scenarios" claim to the true figure (46 scenarios per stack / 138 across all three; DEMOAPP001 = 46/257 steps) | All (docs) | Risk 2 | Low | Resolved | None required |
 
 ---
 
@@ -889,6 +890,7 @@ Resolution:
 | BACKLOG-041 | Accept v1.1 spec post-merge (SUD-07) | All | 2026-06-13 | DR-034 flipped Proposed→Accepted; root README + DOCS indexes present v1.1 as platform authority with v1.0 as core baseline; CLAUDE.md DR range corrected; PR #20 |
 | BACKLOG-042 | Node-24 GitHub Actions bump (SUD-08) | CI | 2026-06-13 | `ci.yml` action pins bumped to Node-24 majors ahead of the 2026-06-16 cutover; CI green on the new pins, no deprecation warnings; PR #20 |
 | BACKLOG-043 | Fix root README "+ Flask" mislabel (SUD-09) | All | 2026-06-17 | Architecture diagram Python box no longer reads "+ Flask"; all three boxes relabelled to real toolchains (TypeScript/Cucumber, Python/pytest-bdd, C#/SpecFlow); `git grep Flask` returns no source hits; review CLAUDE_Opus_4_8 v1 Risk 1; no DR required |
+| BACKLOG-044 | Update stale README "35+ test scenarios" count (SUD-10) | All | 2026-06-17 | README pedagogical section now states the true figure (46 scenarios per stack / 138 across all three; DEMOAPP001 = 46/257 steps), consistent with backlog baseline line 36 and CLAUDE.md; `grep "35+"` over README returns no stale-count hit; review CLAUDE_Opus_4_8 v1 Risk 2; no DR required |
 
 ---
 
