@@ -6,7 +6,7 @@
 
 **Platform specification:** v1.1 (authoritative) — see [sudoku-solver-platform-specification.md](DOCS/.design/sudoku-solver-platform-specification.md)
 **Core solver baseline:** v1.0 — see [sudoku-solver-specification.md](DOCS/.design/sudoku-solver-specification.md)
-**Date:** 2026-01-30T20:00:00Z (core baseline); platform v1.1 accepted 2026-06-12 (DR-034)
+**Date:** 2026-01-30T20:00Z (core baseline); platform v1.1 accepted 2026-06-12 (DR-034)
 
 ## Overview
 

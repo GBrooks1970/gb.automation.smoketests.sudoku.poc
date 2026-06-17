@@ -1831,6 +1831,11 @@ Implement containerization via a top-level `docker-compose.yml` incorporating th
 
 ## DR-035 — Validation layer boundaries: loaders structural-only, OpenAPI contract adopted, strict loader mode deferred
 
+> **Ordering note:** This entry appears before DR-034 in this section because it was authored
+> first (worklist item SUD-04, validation boundaries) while DR-034 (SUD-02, v1.1 platform spec)
+> was finalised immediately after. The IDs are correct and sequential; only the on-page order is
+> reversed. Retained as-is to preserve the existing anchors and cross-references.
+
 **Date:** 2026-06-13
 **Status:** Accepted — user decision 2026-06-12, documented 2026-06-13
 
