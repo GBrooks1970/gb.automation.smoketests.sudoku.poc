@@ -29,8 +29,8 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 3 |
 | In Progress | 0 |
-| Resolved | 65 |
-| **Total** | **68** |
+| Resolved | 66 |
+| **Total** | **69** |
 
 | Area | Current state |
 |------|---------------|
@@ -122,6 +122,7 @@ reconciled here as the authoritative record.
 | BACKLOG-044 | SUD-10 | Update stale root README "35+ test scenarios" claim to the true figure (46 scenarios per stack / 138 across all three; DEMOAPP001 = 46/257 steps) | All (docs) | Risk 2 | Low | Resolved | None required |
 | BACKLOG-045 | SUD-11 | Governance hygiene: add an ordering note at DR-035 explaining it was authored before DR-034 (IDs sequential, on-page order reversed); drop seconds from the root README date metadata per the no-seconds convention (`2026-01-30T20:00:00Z` -> `2026-01-30T20:00Z`) | All (docs) | Risk 4 | Low | Resolved | None required (editorial) |
 | BACKLOG-046 | SUD-12 | README ASCII-vs-emoji policy — option (a) documented exception: record in `DOCS/.design/naming-conventions.md` §5.1 that the root README is a deliberate, governed exception permitted rich formatting (emoji status glyphs + box-drawing diagram) as the primary human-facing doc, while all other authored docs stay ASCII/kebab-case per DR-020; README and naming-conventions no longer contradict | All (docs) | Risk 3 | Low | Resolved | None required (DR-020 already reserves README) |
+| BACKLOG-047 | SUD-13 | CI aggregate `gate` job + `pwsh` prerequisite note — option (b) DO IT: add a lightweight `gate` job to `.github/workflows/ci.yml` with `needs: [demoapp001-typescript-cypress, demoapp002-python-pytest, demoapp003-csharp-specflow]` running a trivial step, to serve as a single fan-in required status check that branch protection can pin; add a `pwsh` (PowerShell 7+) prerequisite note to the README contributor section for reproducing the `.batch/*.ps1` parity gates locally | CI + docs | Risk 5 | Informational | Resolved | None required (no structural change; gate is a CI convenience) |
 
 ---
 
