@@ -847,6 +847,103 @@ Resolution:
 
 ---
 
+### BACKLOG-014: Advanced Solving Techniques
+
+**Priority:** Future
+**Status:** Open
+**Stack(s):** DEMOAPP001 and future Stacks (parity required)
+**Nature of Gap:** Solver capability — the solver implements only three deterministic techniques
+(Unit Completion, Hidden Singles, Naked Singles) and returns `STUCK_ON_ADVANCED_LOGIC` once they are
+exhausted. There is no support for the harder human-style strategies (Naked/Hidden Pairs, Pointing
+Pairs, X-Wing, Swordfish) and no backtracking/trial-and-error mode (see `CLAUDE.md` "Current
+Limitations").
+
+Design reference: `DOCS/.design/advanced-solving-techniques.md` (to be authored)
+Algorithm reference: `DOCS/.algorithm/` — one specification per technique (to be authored)
+
+This is the only one of the three future ideas that changes solver behaviour, so it is bound by the
+canonical-feature-first procedure (`CLAUDE.md`) and full three-stack parity. It is also a
+prerequisite for difficulty grading in BACKLOG-016 and for technique explanations in BACKLOG-015.
+
+Acceptance criteria:
+
+- [ ] Design doc authored at `DOCS/.design/advanced-solving-techniques.md` listing the techniques in
+      scope, their ordering relative to the existing three, and the deterministic (no-guessing) boundary
+- [ ] An algorithm specification added under `DOCS/.algorithm/` for each new technique
+- [ ] New `SudokuSolver` methods implement at least Naked Pairs and X-Wing (further techniques optional
+      per the design doc), with no trial-and-error/backtracking unless explicitly decided in a DR
+- [ ] `SudokuOrchestrator.solve()` integrates the new techniques after the existing three; an
+      already-solved or simply-solvable grid is unaffected (preserves the SUD-01 early-exit guard)
+- [ ] Canonical Gherkin coverage added in `features-shared/` first, then propagated to all three Stack
+      copies; new step definitions / Screenplay components added per Stack
+- [ ] Algorithm attribution for each cell change recorded through the existing `AuditLogger`
+- [ ] `npm test`, `python -m pytest`, and `dotnet test` green; memory-key, feature, and step-text parity PASS
+- [ ] A decision-register entry recorded if any structural choice (e.g. enabling backtracking, a new
+      result string) is made before the item is closed
+
+---
+
+### BACKLOG-015: Interactive Sudoku Tutor
+
+**Priority:** Future
+**Status:** Open
+**Stack(s):** DEMOAPP001 first (future-Stack parity per the SUD-05 capability matrix)
+**Nature of Gap:** Product idea — the existing Web UI (BACKLOG-018, Resolved) *replays* a completed
+solve read-only. There is no interactive mode that guides a user through their own grid, suggests the
+next deterministic move, and explains which technique applies and why.
+
+Design reference: `DOCS/.design/interactive-sudoku-tutor.md` (to be authored)
+
+Builds on the resolved audit trail (BACKLOG-008), `SolveStepTracker` / Web UI (BACKLOG-018), and the
+REST API (BACKLOG-009). Richer explanations depend on BACKLOG-014 (advanced techniques). Per the
+SUD-05 capability matrix this is a DEMOAPP001 surface first; Python/C# remain roadmap.
+
+Acceptance criteria:
+
+- [ ] Design doc authored at `DOCS/.design/interactive-sudoku-tutor.md` defining the tutor surface,
+      its tag (e.g. an extension of the existing `@web` / API surface), and the user interaction model
+- [ ] A "next move" hint engine that, given a partial grid, returns the next deterministic step, the
+      technique name, and a human-readable rationale — sourced from the existing solver + `AuditLogger`,
+      not a second solving implementation
+- [ ] Interactive guided-mode UI served from the existing Express server (`npm run start:web`),
+      reusing the grid / event-log / statistics components where possible
+- [ ] Behavioural coverage added (canonical-feature-first if the tutor logic is testable at the `@util`
+      surface; otherwise API/UI-level tests as the design doc specifies)
+- [ ] A decision-register entry recorded for the new surface contract before the item is closed
+- [ ] Capability matrix (platform spec §6.1) updated to record tutor support per Stack
+
+---
+
+### BACKLOG-016: Puzzle Generator
+
+**Priority:** Future
+**Status:** Open
+**Stack(s):** DEMOAPP001 first (future-Stack parity per the SUD-05 capability matrix)
+**Nature of Gap:** Product idea — the project only *consumes* fixed puzzles from `puzzles.json`. There
+is no capability to generate new valid puzzles (a complete solution reduced to a uniquely-solvable
+clue set) with a target difficulty.
+
+Design reference: `DOCS/.design/puzzle-generator.md` (to be authored)
+
+Difficulty grading is naturally expressed in terms of which techniques a puzzle requires, so the
+difficulty dimension depends on BACKLOG-014. Generated puzzles must satisfy the existing loader and
+validation-boundary rules (DR-035) and the `puzzles.json` schema.
+
+Acceptance criteria:
+
+- [ ] Design doc authored at `DOCS/.design/puzzle-generator.md` covering the generation strategy
+      (full-solution construction then clue removal), the uniqueness guarantee, and the difficulty model
+- [ ] Generator produces a complete valid solution and removes cells while preserving a unique solution
+- [ ] Difficulty rating derived from the solving techniques a puzzle requires (links to BACKLOG-014);
+      puzzles tagged with a difficulty consistent with the existing `puzzles.json` `difficulty` field
+- [ ] Generated puzzles validate through the existing `PuzzleLoader` (structure) and solver/API
+      (constraints) per `validation-boundaries.md`; output conforms to the `puzzles.json` schema
+- [ ] Behavioural coverage added per the design doc (canonical-feature-first where applicable)
+- [ ] A decision-register entry recorded for the new capability before the item is closed
+- [ ] Capability matrix (platform spec §6.1) updated to record generator support per Stack
+
+---
+
 ## Resolved Items
 
 | ID | Title | Stack(s) | Resolved | Notes |
