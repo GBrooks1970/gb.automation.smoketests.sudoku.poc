@@ -1,9 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-06-17 (reconciling the 2026-06-16 CLAUDE_Opus_4_8 code-review remediation
-stream — BACKLOG-043+ / worklist SUD-09.. — as items land; 2026-06-13 reconciled the 2026-05-30
-GPT-5.3-Codex stream BACKLOG-035 through BACKLOG-042 / worklist SUD-01..08)
+**Last Updated:** 2026-06-19 (PR #26 merged, landing SUD-13/BACKLOG-047 on `main` at `1f09e03` — CI
+aggregate `gate` job + pwsh prerequisite note; corrected a stale `Status: Open` on the
+already-Resolved MIG-13 detail block. 2026-06-17 reconciled the 2026-06-16 CLAUDE_Opus_4_8 stream —
+BACKLOG-043..047 / worklist SUD-09..13; 2026-06-13 reconciled the 2026-05-30 GPT-5.3-Codex stream
+BACKLOG-035 through BACKLOG-042 / worklist SUD-01..08)
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -509,7 +511,7 @@ Resolution:
 ### MIG-13: Rename Stack filesystem directories to kebab-case
 
 **Priority:** Medium
-**Status:** Open
+**Status:** Resolved
 **Stack(s):** DEMOAPP001 and future Stacks
 **Nature of Gap:** Directory naming alignment
 **Decision Record:** DR-016
@@ -528,6 +530,11 @@ Acceptance criteria:
 - [x] All markdown documentation updated; 0 stale-path links in focus files (Phase 4)
 - [x] `naming-conventions.md`, `CLAUDE.md`, `CHANGELOG.md`, `decision-register.md` updated (Phase 3)
 - [x] DR-016 referenced in commit message (Phase 2 commit)
+
+**Resolution:** All acceptance criteria completed across Phases 2-4 (directory and `features-shared/`
+renames via `git mv`, build/test green, documentation updated). The Migration table and the Summary
+counts already recorded this as Resolved; the stale `Status: Open` in this detail block was
+corrected on 2026-06-19. No count change — MIG-13 was never part of the Open=3 set.
 
 ### BACKLOG-023: Refactor UseSudokuSolver Ability to remove fixture and validation logic
 
