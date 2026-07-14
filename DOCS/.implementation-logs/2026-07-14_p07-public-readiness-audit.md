@@ -61,7 +61,9 @@ only this repository public and execute the [Publication runbook](#publication-r
 - updated GitHub actions where newer majors exist, enforced read-only workflow permissions,
   disabled persisted checkout credentials, and made artefact retention explicitly seven days;
 - applied the configured TypeScript formatter and reconciled the July review, backlog, changelog,
-  decision-register metadata, repository map, active runtime claims, and restore instructions.
+  decision-register metadata, repository map, active runtime claims, and restore instructions;
+- enforced LF checkout for TypeScript so the documented Prettier gate is reproducible on Windows
+  as well as Linux.
 
 ## Accepted or Non-Blocking Conditions
 
