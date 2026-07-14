@@ -25,6 +25,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - SUD-04 (review Refactor 5, DR-035): authored OpenAPI 3.0 contract for the DEMOAPP001 REST API at `demo-apps/demoapp001-typescript-cypress/docs/openapi.yaml` covering all nine endpoints, request/response schemas, and the structured error codes; must be updated in the same change as any endpoint or schema change.
 
 ### Fixed
+- P-07 publication verification: DEMOAPP002's `.dockerignore` now uses `**/` patterns so nested
+  `__pycache__/`, `*.pyc`, `.pytest_cache/`, and `*.egg-info/` artefacts are excluded from the
+  Docker build context. Previously, running the host pytest suite before `docker compose build`
+  baked host `.pyc` files into the image and broke pytest-bdd feature-path resolution inside the
+  container; CI clean checkouts were unaffected.
 - BACKLOG-048: refreshed compatible npm dependencies, clearing the dev-only `form-data` advisory;
   npm, Python, and NuGet vulnerability scans now report zero known findings.
 - BACKLOG-050: removed the tracked BDD-generated `.feature.cs`; Reqnroll now generates code-behind
