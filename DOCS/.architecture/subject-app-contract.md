@@ -12,7 +12,7 @@
 | DEMOAPP001_TYPESCRIPT_CYPRESS | @util | TypeScript class imports from `app_src/` | Current production test surface |
 | DEMOAPP001_TYPESCRIPT_CYPRESS | @api | `npm run start:api` (`app_src/server/index.ts`) | Express REST API wrapper |
 | DEMOAPP002_PYTHON_PYTEST | @util | Python imports from `app_src/` | Python Stack parity surface |
-| DEMOAPP003_CSHARP_SPECFLOW | @util | C# imports from `app_src/` | C# SpecFlow parity surface |
+| DEMOAPP003_CSHARP_SPECFLOW (stable legacy ID) | @util | C# imports from `app_src/` | C# Reqnroll parity surface |
 | DEMOAPP001_TYPESCRIPT_CYPRESS (future mode) | @cli | `npm start` (`app_src/index.ts`) | Potential future parity mode |
 
 ---

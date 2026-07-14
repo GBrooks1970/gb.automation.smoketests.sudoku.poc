@@ -1,11 +1,10 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-06-19 (PR #26 merged, landing SUD-13/BACKLOG-047 on `main` at `1f09e03` — CI
-aggregate `gate` job + pwsh prerequisite note; corrected a stale `Status: Open` on the
-already-Resolved MIG-13 detail block. 2026-06-17 reconciled the 2026-06-16 CLAUDE_Opus_4_8 stream —
-BACKLOG-043..047 / worklist SUD-09..13; 2026-06-13 reconciled the 2026-05-30 GPT-5.3-Codex stream
-BACKLOG-035 through BACKLOG-042 / worklist SUD-01..08)
+**Last Updated:** 2026-07-14 (reconciled the 2026-07-06 `CLAUDE_Fable_5` review and portfolio P-07
+public-readiness audit as BACKLOG-048..053; migrated the active C# runtime to Reqnroll/.NET 10,
+updated Node/CI dependency baselines, added reproducible Python/NuGet dependency inputs, and
+retained the assertion-strengthening recommendation as optional open work)
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -29,18 +28,18 @@ Per v1.15 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 3 |
+| Open | 4 |
 | In Progress | 0 |
-| Resolved | 66 |
-| **Total** | **69** |
+| Resolved | 71 |
+| **Total** | **75** |
 
 | Area | Current state |
 |------|---------------|
-| Current execution baseline | DEMOAPP001: 46 scenarios / 257 steps passing; DEMOAPP001 REST API integration PASS; DEMOAPP002: 46 pytest-bdd scenarios passing; DEMOAPP003: 46 SpecFlow scenarios passing; 3-Stack parity PASS |
+| Current execution baseline | DEMOAPP001: Node 24, 46 scenarios / 257 steps passing, REST API integration PASS; DEMOAPP002: Python 3.13, 46 pytest-bdd scenarios passing; DEMOAPP003: .NET 10, 46 Reqnroll scenarios passing; 3-Stack parity PASS |
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | Future product/solver work (all current sprint items resolved; 2026-05-30 code-review remediation stream closed — BACKLOG-035..042) |
+| Current sprint focus | Optional assertion strengthening (BACKLOG-051) and parked future product/solver work |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -128,6 +127,41 @@ reconciled here as the authoritative record.
 
 ---
 
+## Code Review and P-07 Reconciliation (CLAUDE_Fable_5, 2026-07-06; P-07, 2026-07-14)
+
+The review's dependency/runtime and documentation findings were re-tested rather than copied
+forward. P-07 then extended the evidence to the complete Git history, GitHub metadata, licence,
+artefacts, CI safety, dependency licences, and clean bootstrap. The independent audit record is
+[`2026-07-14_p07-public-readiness-audit.md`](../.implementation-logs/2026-07-14_p07-public-readiness-audit.md).
+
+| ID | Title | Stack(s) | Review/audit evidence | Priority | Status | Decision Record |
+|----|-------|----------|-----------------------|----------|--------|-----------------|
+| BACKLOG-048 | Clear dependency advisories and make bootstrap inputs reproducible | All | Review Risk 2 plus P-07 dependency/bootstrap audit | Medium | Resolved | None required |
+| BACKLOG-049 | Replace EOL Node 20 and refresh CI action/runtime safety | DEMOAPP001 + CI/containers | Review Risk 3 plus P-07 CI audit | Medium | Resolved | None required |
+| BACKLOG-050 | Replace EOL SpecFlow/.NET 8 maintenance boundary | DEMOAPP003 | Review Risk 1 | Medium | Resolved | DR-036 |
+| BACKLOG-051 | Strengthen orchestration ordering and no-execution assertions | All | Review Risk 7 | Low | Open | Required only if the canonical contract changes |
+| BACKLOG-052 | Reconcile documentation and governance currency | All (docs) | Review Risks 5, 6, 8 and I-3 | Low | Resolved | None required |
+| BACKLOG-053 | Complete independent Sudoku publication-readiness audit | All + GitHub metadata/history | Portfolio P-07 | Medium | Resolved | Publication remains a separate owner decision |
+
+Resolution evidence:
+
+- BACKLOG-048: npm audit is zero after a compatible lock refresh; Python test constraints and
+  NuGet lockfiles now make all three restore inputs repeatable; Python and NuGet scans report no
+  known vulnerabilities.
+- BACKLOG-049: Node 24 LTS is enforced in package metadata, CI, and containers; current action
+  majors are used where available, checkout credentials are not persisted, and workflow
+  permissions are read-only.
+- BACKLOG-050: Reqnroll 3.3.4 + NUnit 4 on .NET 10 LTS passes all 46 scenarios. Generated
+  code-behind moved to ignored `obj/`; DR-036 preserves the old Stack ID/path as explicit legacy
+  integration identifiers.
+- BACKLOG-052: CHANGELOG/review-stream currency, decision-register v1.15 metadata, root README
+  structure/runtime claims, and this backlog's stale review date are reconciled.
+- BACKLOG-053: the audit is a conditional technical go. Publication still requires an explicit
+  historical-email decision and repository-specific visibility approval; private status is not a
+  defect.
+
+---
+
 ## Active Product and Technical Work
 
 | ID | Title | Stack(s) | Nature of Gap | Priority | Status |
@@ -142,6 +176,7 @@ reconciled here as the authoritative record.
 | BACKLOG-014 | Advanced Solving Techniques | DEMOAPP001 and future Stacks | Solver capability | Future | Open |
 | BACKLOG-015 | Interactive Sudoku Tutor | Future product surface | Product idea | Future | Open |
 | BACKLOG-016 | Puzzle Generator | Future product surface | Product idea | Future | Open |
+| BACKLOG-051 | Strengthen orchestration ordering/no-execution assertions | All | Test assertion fidelity | Low | Open |
 | BACKLOG-032 | Refactor Python Questions to read from Actor memory | DEMOAPP002 | Screenplay parity (Risk 1) | High | Resolved |
 | BACKLOG-033 | Extract side effects from MultipleSolvers.isolation_verified() | DEMOAPP002 | Screenplay anti-pattern (Risk 2) | High | Resolved |
 | BACKLOG-034 | Resolve BACKLOG-012 as stale duplicate of BACKLOG-020 | All | Backlog governance (Risk 4) | Medium | Resolved |
@@ -149,6 +184,30 @@ reconciled here as the authoritative record.
 ---
 
 ## Active Item Details
+
+### BACKLOG-051: Strengthen orchestration ordering and no-execution assertions
+
+**Priority:** Low
+**Status:** Open
+**Stack(s):** All three parity Stacks
+**Nature of Gap:** Some orchestration `Then` steps infer algorithm ordering or no execution from
+the overall result rather than asserting the audit event sequence directly.
+
+This is not a publication blocker: current behaviour is deterministic, all 138 stack scenarios and
+parity gates pass, and the audit trail already provides the needed observability. It remains useful
+test-strengthening work for a later feature-change tranche.
+
+Acceptance criteria:
+
+- [ ] Assert zero audit iterations/events for the already-solved scenario in all three Stacks.
+- [ ] Assert the algorithm event order for a fixture that requires all three techniques, or soften
+      the canonical Gherkin text so it states only what the tests observe.
+- [ ] Change `features-shared/` first, propagate the canonical feature, and keep feature/step-text
+      parity green.
+- [ ] Run all three 46-scenario suites and all parity gates.
+- [ ] Add a decision record only if the canonical behavioural contract changes structurally.
+
+---
 
 ### RA-001: Define `@util` surface type formally in RA Sections 6 and 7
 
@@ -998,6 +1057,14 @@ Acceptance criteria:
 | BACKLOG-042 | Node-24 GitHub Actions bump (SUD-08) | CI | 2026-06-13 | `ci.yml` action pins bumped to Node-24 majors ahead of the 2026-06-16 cutover; CI green on the new pins, no deprecation warnings; PR #20 |
 | BACKLOG-043 | Fix root README "+ Flask" mislabel (SUD-09) | All | 2026-06-17 | Architecture diagram Python box no longer reads "+ Flask"; all three boxes relabelled to real toolchains (TypeScript/Cucumber, Python/pytest-bdd, C#/SpecFlow); `git grep Flask` returns no source hits; review CLAUDE_Opus_4_8 v1 Risk 1; no DR required |
 | BACKLOG-044 | Update stale README "35+ test scenarios" count (SUD-10) | All | 2026-06-17 | README pedagogical section now states the true figure (46 scenarios per stack / 138 across all three; DEMOAPP001 = 46/257 steps), consistent with backlog baseline line 36 and CLAUDE.md; `grep "35+"` over README returns no stale-count hit; review CLAUDE_Opus_4_8 v1 Risk 2; no DR required |
+| BACKLOG-045 | Governance ordering/date hygiene (SUD-11) | All | 2026-06-17 | DR-035 ordering note and root README no-seconds date convention reconciled. |
+| BACKLOG-046 | Govern the root README rich-formatting exception (SUD-12) | All | 2026-06-17 | Naming conventions explicitly permit the root README's emoji/box-drawing presentation. |
+| BACKLOG-047 | CI aggregate gate + local pwsh prerequisite (SUD-13) | CI + docs | 2026-06-19 | Fan-in gate job and local parity prerequisite documented. |
+| BACKLOG-048 | Dependency advisories and reproducible restore inputs | All | 2026-07-14 | Zero known npm/Python/NuGet vulnerabilities; npm, Python constraints, and NuGet lock inputs committed. |
+| BACKLOG-049 | Node 24 and CI runtime/action safety | DEMOAPP001 + CI | 2026-07-14 | Node 24 LTS, read-only workflow permissions, non-persisted checkout credentials, and current action majors. |
+| BACKLOG-050 | Reqnroll/.NET 10 migration | DEMOAPP003 | 2026-07-14 | 46/46 scenarios pass on Reqnroll 3.3.4, NUnit 4, and .NET 10; DR-036. |
+| BACKLOG-052 | Documentation/governance currency reconciliation | All | 2026-07-14 | Fable Risks 5/6/8 and I-3 reconciled across active docs. |
+| BACKLOG-053 | Sudoku P-07 publication-readiness audit | All | 2026-07-14 | Conditional technical go; owner email/visibility gates remain outside implementation. |
 
 ---
 
@@ -1009,7 +1076,7 @@ Acceptance criteria:
 | 3 | 2026-05-19 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Completed 2026-05-19 |
 | 4 | 2026-05-20 | API foundation and Web UI completion | BACKLOG-009, BACKLOG-018 | Completed 2026-05-20 |
 | 5 | 2026-05-28 onward | C# Stack, local Compose, and benchmarking | BACKLOG-021, BACKLOG-013, BACKLOG-010, BACKLOG-011 | Completed 2026-05-29 |
-| 6+ | After Sprint 5 completion | Future solver and product ideas | BACKLOG-014, BACKLOG-015, BACKLOG-016 | Open |
+| 6+ | After P-07 remediation | Optional test strengthening and future product ideas | BACKLOG-051, BACKLOG-014, BACKLOG-015, BACKLOG-016 | Open |
 
 ---
 
@@ -1024,5 +1091,5 @@ Acceptance criteria:
 
 ---
 
-**Next Review Date:** 2026-05-27
+**Next Review Date:** 2026-10-14
 **Backlog Owner:** Project Lead / Development Team

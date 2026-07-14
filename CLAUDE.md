@@ -12,7 +12,7 @@ When documents conflict, use this order:
 4. Stack-level docs under `demo-apps/demoapp001-typescript-cypress/docs/`
 5. This guide
 
-`decision-register.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-035 (excluding superseded/deprecated entries).
+`decision-register.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-036 (excluding superseded/deprecated entries).
 
 ## Current Architecture Baseline
 
@@ -22,7 +22,7 @@ When documents conflict, use this order:
 - Active API surface: DEMOAPP001 Express REST API at `app_src/server/index.ts`
 - Canonical feature store: `features-shared/`
 - Stack-local feature copies: `demo-apps/demoapp001-typescript-cypress/tests/features/`, `demo-apps/demoapp002-python-pytest/tests/features/`, `demo-apps/demoapp003-csharp-specflow/tests/features/`
-- Screenplay implementations: DEMOAPP001 passing with Serenity/JS + Cucumber.js; DEMOAPP002 passing with pytest-bdd; DEMOAPP003 passing with SpecFlow + NUnit
+- Screenplay implementations: DEMOAPP001 passing with Serenity/JS + Cucumber.js; DEMOAPP002 passing with pytest-bdd; DEMOAPP003 passing with Reqnroll + NUnit
 - Implementation logs: authoritative at `DOCS/.implementation-logs/` (DR-019)
 - Feature parity script: `.batch/generate-feature-parity-report.ps1` (MIG-10)
 - All RA v1.3 migration gaps resolved: MIG-01 through MIG-13 all Resolved; RA v1.14 review-location rule resolved by DR-029
@@ -112,7 +112,7 @@ gb.automation.smoketests.sudoku.poc/
 |------------|----------|-----------|--------------|-------------|
 | `DEMOAPP001_TYPESCRIPT_CYPRESS` | TypeScript 5.x | Cucumber.js + Serenity/JS | `@util` | `demo-apps/demoapp001-typescript-cypress/` |
 | `DEMOAPP002_PYTHON_PYTEST` | Python 3.13 | pytest-bdd | `@util` | `demo-apps/demoapp002-python-pytest/` |
-| `DEMOAPP003_CSHARP_SPECFLOW` | C# / .NET 8 | SpecFlow + NUnit | `@util` | `demo-apps/demoapp003-csharp-specflow/` |
+| `DEMOAPP003_CSHARP_SPECFLOW` (stable legacy ID) | C# / .NET 10 | Reqnroll + NUnit | `@util` | `demo-apps/demoapp003-csharp-specflow/` |
 
 ## Development Commands
 
@@ -120,7 +120,7 @@ Run DEMOAPP001 commands from `demo-apps/demoapp001-typescript-cypress/`.
 
 | Command | Purpose |
 |---------|---------|
-| `npm install` | Install dependencies |
+| `npm ci` | Install locked dependencies |
 | `npm run build` | Compile TypeScript |
 | `npm run lint` | Run ESLint over app source |
 | `npm run format:check` | Check Prettier formatting for app source |
@@ -134,15 +134,15 @@ Run DEMOAPP002 commands from `demo-apps/demoapp002-python-pytest/`.
 
 | Command | Purpose |
 |---------|---------|
-| `python -m pip install -e ".[test]"` | Install Python Stack test dependencies |
+| `python -m pip install -c requirements-test.lock -e ".[test]"` | Install constrained Python Stack test dependencies |
 | `python -m pytest` | Run pytest-bdd Screenplay scenarios |
 
 Run DEMOAPP003 commands from `demo-apps/demoapp003-csharp-specflow/`.
 
 | Command | Purpose |
 |---------|---------|
-| `dotnet restore` | Restore C# Stack dependencies |
-| `dotnet test` | Run SpecFlow/NUnit Screenplay scenarios |
+| `dotnet restore --locked-mode` | Restore locked C# Stack dependencies |
+| `dotnet test --no-restore` | Run Reqnroll/NUnit Screenplay scenarios |
 | `dotnet run --project tooling/performance/DemoApp003.Performance.csproj --configuration Release` | Run C# reporting-only benchmarks |
 
 Repository-level orchestration:
@@ -167,7 +167,7 @@ Expected current baseline:
 ```text
 DEMOAPP001: 46 scenarios passed / 257 steps passed
 DEMOAPP002: 46 pytest-bdd scenarios passed
-DEMOAPP003: 46 SpecFlow scenarios passed
+DEMOAPP003: 46 Reqnroll scenarios passed
 OverallExitCode=0
 ```
 

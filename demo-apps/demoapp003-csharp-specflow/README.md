@@ -1,16 +1,18 @@
-# DEMOAPP003: C# + SpecFlow Sudoku Solver
+# DEMOAPP003: C# + Reqnroll Sudoku Solver
 
 DEMOAPP003 is the C# parity Stack for the shared Sudoku solver Gherkin contract.
+The established `DEMOAPP003_CSHARP_SPECFLOW` identifier, directory, and solution filename are
+retained as stable legacy integration points; DR-036 records the framework/runtime migration.
 
 ## Prerequisites
 
-- .NET SDK 8.0+
+- .NET SDK 10.0
 
 ## Commands
 
 ```powershell
-dotnet restore
-dotnet test
+dotnet restore --locked-mode
+dotnet test --no-restore
 dotnet run --project tooling/performance/DemoApp003.Performance.csproj --configuration Release
 ```
 
@@ -20,7 +22,7 @@ dotnet run --project tooling/performance/DemoApp003.Performance.csproj --configu
 |------|---------|
 | `app_src/` | C# Sudoku solver, orchestrator, puzzle loader, and audit models |
 | `tests/features/` | Stack-local copy of canonical Gherkin |
-| `tests/screenplay/` | Actor, abilities, tasks, questions, fixtures, and SpecFlow bindings |
+| `tests/screenplay/` | Actor, abilities, tasks, questions, fixtures, and Reqnroll bindings |
 | `tooling/performance/` | Reporting-only benchmark runner |
 | `docs/` | Stack-level architecture, Screenplay, and QA documentation |
 

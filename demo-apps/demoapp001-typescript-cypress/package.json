@@ -2,6 +2,10 @@
   "name": "sudoku-solver-demo",
   "version": "1.0.0",
   "description": "Sudoku solver implementing basic solving techniques",
+  "private": true,
+  "engines": {
+    "node": ">=24 <25"
+  },
   "main": "dist/index.js",
   "scripts": {
     "start": "ts-node app_src/index.ts",
@@ -31,7 +35,7 @@
     "@serenity-js/cucumber": "^3.43.2",
     "@serenity-js/serenity-bdd": "^3.43.2",
     "@types/express": "^5.0.6",
-    "@types/node": "^20.0.0",
+    "@types/node": "^24.13.0",
     "@types/supertest": "^7.2.0",
     "@typescript-eslint/eslint-plugin": "^8.59.3",
     "@typescript-eslint/parser": "^8.59.3",

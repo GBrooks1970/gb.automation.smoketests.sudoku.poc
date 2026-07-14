@@ -9,6 +9,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Added
+- P-07: added an evidence-backed Sudoku publication-readiness audit covering the current tree,
+  complete Git history, GitHub metadata, licence/dependency terms, generated and large artefacts,
+  README/CI safety, and clean bootstrap. Repository visibility is unchanged.
+- BACKLOG-048: added a Python test constraints file and NuGet lockfiles so all three Stack restore
+  inputs are reproducible.
+- DR-036: recorded the Reqnroll/.NET 10 migration while retaining the established C# Stack ID/path
+  as explicit stable legacy identifiers.
 - P-04 / D-06: added canonical ISC terms, repaired the root README licence link, and aligned
   TypeScript, Python, and C# project metadata/documentation without changing dependency terms or
   private repository visibility.
@@ -18,14 +25,27 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - SUD-04 (review Refactor 5, DR-035): authored OpenAPI 3.0 contract for the DEMOAPP001 REST API at `demo-apps/demoapp001-typescript-cypress/docs/openapi.yaml` covering all nine endpoints, request/response schemas, and the structured error codes; must be updated in the same change as any endpoint or schema change.
 
 ### Fixed
+- BACKLOG-048: refreshed compatible npm dependencies, clearing the dev-only `form-data` advisory;
+  npm, Python, and NuGet vulnerability scans now report zero known findings.
+- BACKLOG-050: removed the tracked BDD-generated `.feature.cs`; Reqnroll now generates code-behind
+  under ignored `obj/` output so clean builds do not rewrite source control.
 - SUD-01 (review `CODE_REVIEW_GPT_5_3_Codex_v1_20260530T0823Z` Risk 2): all three orchestrators (`SudokuOrchestrator.ts`, `sudoku_orchestrator.py`, `SudokuOrchestrator.cs`) now check grid fullness before entering the progress loop, so an already-solved input returns `SOLVED` immediately without executing any algorithms, matching the v1.0 edge case and the shared Gherkin contract. Audit trails for solved inputs now record zero iterations and zero events.
 
 ### Changed
+- BACKLOG-049: moved the TypeScript Stack, CI, and container tooling from EOL Node 20 to Node 24
+  LTS; refreshed checkout/setup/upload actions, made workflow permissions read-only, and disabled
+  persisted checkout credentials.
+- BACKLOG-050 / DR-036: migrated DEMOAPP003 from discontinued SpecFlow/.NET 8 to Reqnroll 3.3.4,
+  NUnit 4, and .NET 10 LTS without changing the 46-scenario canonical contract.
+- BACKLOG-052: reconciled the SUD-09..13 history and current README/backlog/decision-register
+  metadata, structure, runtime, and restore instructions identified by the 2026-07-06 review.
 - SUD-03 (review `CODE_REVIEW_GPT_5_3_Codex_v1_20260530T0823Z` Risk 3): all three solvers now expose the v1.0 `getGrid` snapshot operation returning a deep copy of the working grid — `SudokuSolver.getGrid()` (TypeScript), `SudokuSolver.get_grid()` (Python), `SudokuSolver.GetGrid()` (C#). Read-only call sites (CLI display, REST API grid snapshots, solve-step tracker, Screenplay snapshot helpers) now use it instead of reading the public grid member directly. The public `grid` / `Grid` members are retained for compatibility; direct external mutation is documented as deprecated in each stack README and in platform specification v1.1 §2.2.
 - SUD-08 (CI maintenance): bumped GitHub Actions in `.github/workflows/ci.yml` to the major versions that run on the Node 24 runner ahead of GitHub forcing Node 24 on Actions from 2026-06-16 — `actions/checkout@v4→v5`, `actions/setup-node@v4→v5`, `actions/setup-python@v5→v6`, `actions/setup-dotnet@v4→v5`, `actions/upload-artifact@v4→v6`. No workflow logic changed; the app toolchain Node version (`node-version: 20`) is unchanged as it is independent of the action runtime.
 - SUD-07 (SUD-02 deferred tail): DR-034 flipped from Proposed to Accepted following the merge of PR #18 (merge commit `9a2e29f`, 2026-06-12) — the v1.1 platform specification is now the authoritative platform specification with v1.0 as the original core solver baseline. Root `README.md` version/status metadata updated to present this authority order (header, Core Specifications table, Canonical Source). The stale `DR-001 through DR-033` accepted-range note in `CLAUDE.md` was corrected to DR-001 through DR-035.
 - DR-032: Added `DEMOAPP003_CSHARP_SPECFLOW` as an active C# SpecFlow/NUnit Stack, updated parity contracts and CI, and resolved BACKLOG-021 plus umbrella BACKLOG-013.
-- BACKLOG-010 remains in progress: Docker Compose files and Dockerfiles exist for all active Stacks, but runtime verification is pending until Docker Desktop/Linux engine is available locally.
+- BACKLOG-010 is resolved: Docker Compose files and Dockerfiles cover all active Stacks; the P-07
+  environment could validate Compose configuration but not container execution because its Docker
+  Linux engine was unavailable.
 - BACKLOG-011 resolved with reporting-only benchmark harnesses for TypeScript, Python, and C# plus root aggregation under `.results/performance/`.
 - DR-031 / Reference Architecture v1.15: Section 4 directory blueprint updated to match current project layout — dot-prefixed DOCS subdirectories (`.algorithm/`, `.analysis/`, `.architecture/`, `.design/`, `.howto/`, `.implementation-logs/`, `.planning/`, `.review/`, `.templates/`), Stack group pattern (`demo-apps/[stack-dir]/`), `tests/api/` optional folder, and `step_definitions/` placed inside `screenplay/`. All internal RA path references updated to dot-prefixed form. Empty untracked `DOCS/implementation-logs/` directory removed.
 - DR-030: analysis and report-style documents now live under `DOCS/.analysis/`; historical report filenames were preserved.

@@ -7,7 +7,7 @@ pytest, and pytest-bdd.
 
 ```powershell
 cd demo-apps/demoapp002-python-pytest
-python -m pip install -e ".[test]"
+python -m pip install -c requirements-test.lock -e ".[test]"
 python -m pytest
 ```
 

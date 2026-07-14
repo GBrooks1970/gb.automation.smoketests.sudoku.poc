@@ -1,8 +1,8 @@
 # Decision Register
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-06-13
-**Governed by:** `reference-architecture.md` v1.14 §10.6
+**Last Updated:** 2026-07-14
+**Governed by:** `reference-architecture.md` v1.15 §10.6
 **Template:** `DOCS/.templates/decision-record.template.md`
 
 > This register is the authoritative source for every structural and process decision in this project.
@@ -1731,7 +1731,7 @@ Reference Architecture v1.14 Section 4 directory blueprint contained several mis
 ## DR-032 — Add C# SpecFlow parity Stack
 
 **Date:** 2026-05-28
-**Status:** Accepted — 2026-05-28
+**Status:** Accepted — 2026-05-28; framework/runtime choice superseded by DR-036
 
 ### Context
 
@@ -1932,6 +1932,68 @@ Adopt `DOCS/.design/sudoku-solver-platform-specification.md` v1.1 as the authori
 
 ---
 
+## DR-036 — Migrate the C# parity Stack to Reqnroll and .NET 10 while retaining its stable identifier
+
+**Date:** 2026-07-14
+**Status:** Accepted — P-07 remediation authorised 2026-07-14
+
+### Context
+
+The 2026-07-06 `CLAUDE_Fable_5` review found that DEMOAPP003 still depended on SpecFlow 3.9.74,
+which is discontinued, while targeting .NET 8 in its final support months. P-07's independent
+publication audit confirmed this as a public-maintenance credibility blocker. The supported
+successor is Reqnroll, and .NET 10 is the current LTS line.
+
+The established Stack ID (`DEMOAPP003_CSHARP_SPECFLOW`), directory, solution name, parity scripts,
+and historical links already form a broad integration surface. Renaming all of those identifiers
+would add substantial review churn without changing runtime behaviour.
+
+### Decision
+
+1. Replace `SpecFlow.NUnit` with `Reqnroll.NUnit` and migrate bindings from the
+   `TechTalk.SpecFlow` namespace to `Reqnroll`.
+2. Target .NET 10 LTS across the subject application, tests, performance harness, CI, and
+   containers. Use current NUnit/test tooling and committed NuGet lockfiles.
+3. Generate Reqnroll feature code-behind under ignored `obj/` output and remove the previously
+   tracked generated `.feature.cs` file.
+4. Retain `DEMOAPP003_CSHARP_SPECFLOW`, `demoapp003-csharp-specflow/`, and the existing solution
+   filename as **stable legacy identifiers**. Current human-facing documentation must label the
+   runtime as Reqnroll and explain the legacy name.
+
+### Consequences
+
+**Outcomes:**
+- The C# parity Stack uses a maintained BDD framework and an active LTS runtime through 2028.
+- The same 46 canonical scenarios continue to execute through NUnit with all parity contracts
+  unchanged.
+- Clean builds no longer rewrite a tracked generated code-behind file.
+- CI and container restore can enforce the committed NuGet dependency graph.
+
+**Trade-offs:**
+- The stable Stack ID/path contains the historical word `SPECFLOW`; maintainers must not infer the
+  active runtime from that identifier alone.
+- Migration documentation must distinguish the original DR-032 decision from the current DR-036
+  runtime choice.
+
+### Alternatives Considered
+
+**Alternative: Keep SpecFlow and document a frozen support boundary**
+- Rejected because: the portfolio can preserve the same Gherkin and NUnit model on the maintained
+  successor with low implementation risk; publishing on a deliberately EOL framework adds no
+  teaching value.
+
+**Alternative: Rename the Stack ID, directory, and solution to Reqnroll**
+- Rejected because: it would churn parity scripts, documentation, historical references, Docker
+  paths, and portfolio links without improving test behaviour or dependency safety.
+
+### Related Decisions
+
+- DR-016 — Stack filesystem directory naming.
+- DR-032 — Original C# SpecFlow parity Stack; framework/runtime portion superseded here.
+- DR-033 — Multi-Stack Docker Compose environment.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -1950,5 +2012,5 @@ Adopt `DOCS/.design/sudoku-solver-platform-specification.md` v1.1 as the authori
 
 ---
 
-*Last entry: DR-035 (Accepted); DR-034 Accepted (flipped from Proposed 2026-06-13, SUD-07). Next ID: DR-036.*
+*Last entry: DR-036 (Accepted). Next ID: DR-037.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

@@ -1,8 +1,8 @@
 # DEMOAPP003_CSHARP_SPECFLOW — QA Strategy
 
-**Stack:** DEMOAPP003_CSHARP_SPECFLOW
+**Stack:** DEMOAPP003_CSHARP_SPECFLOW (stable legacy identifier)
 **Surface type:** @util
-**Last updated:** 2026-05-28
+**Last updated:** 2026-07-14
 
 ## 1. What Is Tested
 
@@ -35,7 +35,7 @@ The Stack runs the full canonical Sudoku solver feature contract against the C# 
 
 - Setup: every scenario creates a fresh actor and solver ability.
 - Isolation: solver grids are deep-copied before mutation.
-- Teardown: Memory is discarded when SpecFlow creates the next scenario actor.
+- Teardown: Memory is discarded when Reqnroll creates the next scenario actor.
 - External data: `puzzles.json` is stack-local and read-only during tests.
 
 ## 5. Coverage Metrics

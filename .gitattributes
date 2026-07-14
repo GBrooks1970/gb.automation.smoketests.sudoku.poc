@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Prettier checks TypeScript source with LF on every supported checkout platform
+*.ts text eol=lf

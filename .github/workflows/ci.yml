@@ -8,6 +8,9 @@ on:
       - master
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   demoapp001-typescript-cypress:
     name: DEMOAPP001 TypeScript Cypress
@@ -15,12 +18,14 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v7
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
           cache-dependency-path: demo-apps/demoapp001-typescript-cypress/package-lock.json
 
@@ -58,11 +63,12 @@ jobs:
 
       - name: Upload validation artifacts
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: demoapp001-validation-results
           path: .results/
           if-no-files-found: ignore
+          retention-days: 7
 
   demoapp002-python-pytest:
     name: DEMOAPP002 Python Pytest
@@ -70,39 +76,45 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup Python
         uses: actions/setup-python@v6
         with:
           python-version: "3.13"
           cache: pip
-          cache-dependency-path: demo-apps/demoapp002-python-pytest/pyproject.toml
+          cache-dependency-path: |
+            demo-apps/demoapp002-python-pytest/pyproject.toml
+            demo-apps/demoapp002-python-pytest/requirements-test.lock
 
       - name: Install dependencies
         working-directory: demo-apps/demoapp002-python-pytest
-        run: python -m pip install -e ".[test]"
+        run: python -m pip install -c requirements-test.lock -e ".[test]"
 
       - name: Test
         working-directory: demo-apps/demoapp002-python-pytest
         run: python -m pytest
 
   demoapp003-csharp-specflow:
-    name: DEMOAPP003 C# SpecFlow
+    name: DEMOAPP003 C# Reqnroll
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: "8.0.x"
+          dotnet-version: "10.0.x"
 
       - name: Restore
         working-directory: demo-apps/demoapp003-csharp-specflow
-        run: dotnet restore
+        run: dotnet restore --locked-mode
 
       - name: Test
         working-directory: demo-apps/demoapp003-csharp-specflow

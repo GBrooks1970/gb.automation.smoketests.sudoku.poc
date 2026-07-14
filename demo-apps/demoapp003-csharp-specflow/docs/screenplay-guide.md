@@ -1,13 +1,13 @@
 # DEMOAPP003_CSHARP_SPECFLOW — Screenplay Guide
 
-**Stack:** DEMOAPP003_CSHARP_SPECFLOW
+**Stack:** DEMOAPP003_CSHARP_SPECFLOW (stable legacy identifier)
 **Language:** C#
-**Screenplay library:** Local lightweight interfaces over SpecFlow
-**Last updated:** 2026-05-28
+**Screenplay library:** Local lightweight interfaces over Reqnroll
+**Last updated:** 2026-07-14
 
 ## 1. Actor Setup
 
-`SudokuActors.MakeSolverActor()` creates a fresh `Actor` for every scenario and equips it with `UseSudokuSolver` and `LoadPuzzles`. The SpecFlow `[BeforeScenario]` hook recreates the actor, so Memory is isolated per scenario.
+`SudokuActors.MakeSolverActor()` creates a fresh `Actor` for every scenario and equips it with `UseSudokuSolver` and `LoadPuzzles`. The Reqnroll `[BeforeScenario]` hook recreates the actor, so Memory is isolated per scenario.
 
 ## 2. Abilities
 
@@ -39,7 +39,7 @@ All Memory keys live in `tests/screenplay/support/MemoryKeys.cs`.
 
 ## 6. Adding a Scenario
 
-Update `features-shared/`, propagate the feature body to `tests/features/`, add only stack-local tags in the C# copy, then implement any new Task/Question before adding or extending SpecFlow bindings.
+Update `features-shared/`, propagate the feature body to `tests/features/`, add only stack-local tags in the C# copy, then implement any new Task/Question before adding or extending Reqnroll bindings.
 
 ## 7. Step Definition Conventions
 
