@@ -2,6 +2,7 @@
 name = "sudoku-solver-demoapp002-python-pytest"
 version = "0.1.0"
 description = "Python pytest-bdd Sudoku solver Stack for the shared Gherkin contract"
+license = "ISC"
 requires-python = ">=3.11"
 dependencies = []
 

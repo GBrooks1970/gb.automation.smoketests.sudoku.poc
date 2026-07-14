@@ -277,7 +277,11 @@ When implementing in a new technology stack:
 
 ## License
 
-This is an educational project. See LICENSE file for details.
+[ISC](LICENSE) — © 2026 Gary Brooks.
+
+The root licence covers the original specifications, implementations, tests, tooling, and
+documentation across all three technology stacks. Third-party packages and container images retain
+their respective licence terms.
 
 ## Questions or Feedback?
 

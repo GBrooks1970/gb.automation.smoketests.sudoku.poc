@@ -31,3 +31,8 @@ public `grid` attribute is retained for compatibility (test fixtures use it to
 compose grid states), but mutating it directly from outside the solver is
 **deprecated**: external mutation bypasses the solving algorithms and the
 audit trail.
+
+## License
+
+This Python stack is part of the repository's [ISC-licensed](../../LICENSE) original project
+material. Python dependencies retain their respective licence terms.

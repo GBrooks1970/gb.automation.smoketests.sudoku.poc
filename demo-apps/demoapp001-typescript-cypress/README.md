@@ -533,3 +533,10 @@ npm install
 - Check the [tech-agnostic specification](../../DOCS/.design/sudoku-solver-specification.md) first
 - Review [algorithm documentation](../../DOCS/.algorithm/sudoku-basic-solver.md) for technique details
 - Examine the [test scenarios](tests/BasicSudokuSolverLogic.feature) for expected behaviors
+
+---
+
+## License
+
+This TypeScript stack is part of the repository's [ISC-licensed](../../LICENSE) original project
+material. npm dependencies retain their respective licence terms.

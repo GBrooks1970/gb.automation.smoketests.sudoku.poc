@@ -54,3 +54,8 @@ non-integer and out-of-range cells before solving — is identical across all
 three stacks. The cross-cutting layer responsibilities are authoritative in
 [`DOCS/.architecture/validation-boundaries.md`](../../DOCS/.architecture/validation-boundaries.md)
 §2.1.
+
+## License
+
+This C# stack is part of the repository's [ISC-licensed](../../LICENSE) original project material.
+NuGet dependencies retain their respective licence terms.
