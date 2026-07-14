@@ -3,7 +3,7 @@ using DemoApp003.Specs.Screenplay.Questions;
 using DemoApp003.Specs.Screenplay.Support;
 using DemoApp003.Specs.Screenplay.Tasks;
 using DemoApp003.Sudoku;
-using TechTalk.SpecFlow;
+using Reqnroll;
 
 namespace DemoApp003.Specs.Screenplay.StepDefinitions;
 

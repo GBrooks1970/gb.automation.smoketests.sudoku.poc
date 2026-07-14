@@ -1,35 +1,38 @@
 # DEMOAPP003_CSHARP_SPECFLOW — Stack README
 
-**Language:** C# on .NET 8
-**Framework:** SpecFlow 3.9 + NUnit
+**Language:** C# on .NET 10 LTS
+**Framework:** Reqnroll 3.3 + NUnit 4
 **Surface type:** @util
-**Last updated:** 2026-05-28
+**Last updated:** 2026-07-14
+
+`DEMOAPP003_CSHARP_SPECFLOW` and its directory remain stable legacy identifiers; the active BDD
+runtime is Reqnroll (DR-036).
 
 ## Prerequisites
 
-- .NET SDK 8.0+
+- .NET SDK 10.0
 
 ## Setup
 
 ```powershell
 cd demo-apps/demoapp003-csharp-specflow
-dotnet restore
+dotnet restore --locked-mode
 ```
 
 ## Running Tests
 
 ```powershell
-dotnet test
+dotnet test --no-restore
 ```
 
-Expected output: 46 scenarios passing through generated SpecFlow/NUnit tests.
+Expected output: 46 scenarios passing through generated Reqnroll/NUnit tests.
 
 ## Key Commands
 
 | Command | Description |
 |---------|-------------|
-| `dotnet restore` | Restore NuGet packages |
-| `dotnet test` | Run the SpecFlow/NUnit suite |
+| `dotnet restore --locked-mode` | Restore NuGet packages from committed lockfiles |
+| `dotnet test --no-restore` | Run the Reqnroll/NUnit suite |
 | `dotnet run --project tooling/performance/DemoApp003.Performance.csproj --configuration Release` | Run reporting-only benchmarks |
 
 ## Deeper Reading

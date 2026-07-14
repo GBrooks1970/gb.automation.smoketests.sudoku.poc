@@ -14,7 +14,7 @@ This demo application implements the [Sudoku Solver Design Specification](../../
 | Component | Technology | Version | Purpose |
 |-----------|-----------|---------|---------|
 | **Language** | TypeScript | 5.x | Type-safe JavaScript with compile-time checks |
-| **Runtime** | Node.js | 16+ | JavaScript runtime environment |
+| **Runtime** | Node.js | 24 LTS | JavaScript runtime environment |
 | **Compiler** | TypeScript Compiler (tsc) | 5.x | Transpiles TypeScript to JavaScript |
 | **Dev Runner** | ts-node | 10.x | Direct TypeScript execution for development |
 | **Module System** | CommonJS | ES2020 | Node.js module compatibility |
@@ -27,7 +27,7 @@ This demo application implements the [Sudoku Solver Design Specification](../../
 
 ### Prerequisites
 
-- Node.js v16 or higher
+- Node.js 24 LTS
 - npm (comes with Node.js)
 
 ### Installation & Running
@@ -37,7 +37,7 @@ This demo application implements the [Sudoku Solver Design Specification](../../
 cd demo-apps/demoapp001-typescript-cypress
 
 # 2. Install dependencies
-npm install
+npm ci
 
 # 3. Run the solver
 npm start
@@ -91,7 +91,8 @@ demoapp001-typescript-cypress/
 │   └── PuzzleLoader.ts               # Loads and validates puzzles from JSON
 │
 ├── tests/                            # Test specifications
-│   └── BasicSudokuSolverLogic.feature    # Gherkin/BDD test scenarios
+│   └── features/
+│       └── BasicSudokuSolverLogic.feature # Gherkin/BDD test scenarios
 │
 ├── dist/                             # Compiled JavaScript output (generated)
 │
@@ -322,7 +323,7 @@ Puzzles are stored in `puzzles.json`:
 
 ### Test Specifications
 
-Test scenarios are defined in [BasicSudokuSolverLogic.feature](tests/BasicSudokuSolverLogic.feature) using Gherkin syntax (BDD).
+Test scenarios are defined in [BasicSudokuSolverLogic.feature](tests/features/BasicSudokuSolverLogic.feature) using Gherkin syntax (BDD).
 
 **Test Coverage:**
 - ✅ Unit Completion (rows, columns, blocks)
@@ -496,7 +497,7 @@ npx tsc --watch
 
 **Solution:** Install dependencies:
 ```bash
-npm install
+npm ci
 ```
 
 ### Issue: Module resolution errors
@@ -524,7 +525,7 @@ npm install
 - [Parent README](../../README.md) - Repository overview
 - [Design Specification](../../DOCS/.design/sudoku-solver-specification.md) - Tech-agnostic spec
 - [Algorithm Details](../../DOCS/.algorithm/sudoku-basic-solver.md) - Algorithm explanations
-- [Test Scenarios](tests/BasicSudokuSolverLogic.feature) - BDD test specifications
+- [Test Scenarios](tests/features/BasicSudokuSolverLogic.feature) - BDD test specifications
 
 ---
 
@@ -532,7 +533,7 @@ npm install
 
 - Check the [tech-agnostic specification](../../DOCS/.design/sudoku-solver-specification.md) first
 - Review [algorithm documentation](../../DOCS/.algorithm/sudoku-basic-solver.md) for technique details
-- Examine the [test scenarios](tests/BasicSudokuSolverLogic.feature) for expected behaviors
+- Examine the [test scenarios](tests/features/BasicSudokuSolverLogic.feature) for expected behaviors
 
 ---
 

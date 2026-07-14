@@ -9,8 +9,8 @@
 
 ## Prerequisites
 
-- Node.js 20+
-- npm 8+
+- Node.js 24 LTS
+- npm (bundled with Node.js 24)
 - Java Runtime Environment on `PATH` for Serenity BDD HTML report generation
 
 ---
@@ -19,7 +19,7 @@
 
 ```bash
 cd demo-apps/demoapp001-typescript-cypress
-npm install
+npm ci
 ```
 
 ---

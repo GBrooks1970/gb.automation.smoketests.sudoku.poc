@@ -8,6 +8,14 @@
 **Core solver baseline:** v1.0 — see [sudoku-solver-specification.md](DOCS/.design/sudoku-solver-specification.md)
 **Date:** 2026-01-30T20:00Z (core baseline); platform v1.1 accepted 2026-06-12 (DR-034)
 
+## Public-readiness status
+
+This repository remains private. The
+[2026-07-14 public-readiness audit](DOCS/.implementation-logs/2026-07-14_p07-public-readiness-audit.md)
+records the technical evidence and owner decisions required before any visibility change.
+Publication is a separate, explicit action; merging audit/remediation changes does not authorise
+it.
+
 ## Overview
 
 This repository contains:
@@ -34,7 +42,7 @@ This project follows a **specification-driven development** model:
         ▼                 ▼                 ▼
    ┌──────────┐      ┌────────────┐      ┌──────────┐
    │TypeScript│      │   Python   │      │    C#    │  ← Multiple implementations
-   │+ Cucumber│      │+ pytest-bdd│      │+ SpecFlow│
+   │+ Cucumber│      │+ pytest-bdd│      │+ Reqnroll│
    └──────────┘      └────────────┘      └──────────┘
 ```
 
@@ -48,13 +56,15 @@ All implementations follow the same:
 
 ```
 gb.automation.smoketests.sudoku.poc/
+├── .batch/                                  # Parity and orchestration scripts
+├── features-shared/                         # Canonical Gherkin feature store
 ├── DOCS/                                    # Tech-agnostic documentation
-│   ├── .design/                             # Design documents
-│   │   ├── sudoku-solver-specification.md    # Core specification (language agnostic)
-│   │   ├── audit-trail-feature.md            # Audit trail feature design
-│   │   └── rest-api-wrapper.md               # REST API wrapper design
-│   └── sudoku-basic-solver.md         # Algorithm details with pseudocode
-│
+│   ├── .algorithm/                          # Algorithm specifications
+│   ├── .architecture/                       # Cross-stack contracts
+│   ├── .design/                             # Product and platform designs
+│   ├── .planning/                           # Authoritative project backlog
+│   ├── .review/                             # Historical review evidence
+│   └── reference-architecture.md            # Multi-stack governance baseline
 ├── demo-apps/                               # Technology-specific implementations
 │   ├── demoapp001-typescript-cypress/       # TypeScript + Node.js implementation
 │   │   ├── README.md                        # Implementation-specific guide
@@ -63,8 +73,8 @@ gb.automation.smoketests.sudoku.poc/
 │   │   └── puzzles.json                     # Test puzzle data
 │   │
 │   ├── demoapp002-python-pytest/            # Python + pytest-bdd implementation
-│   └── demoapp003-csharp-specflow/          # C# + SpecFlow implementation
-│
+│   └── demoapp003-csharp-specflow/          # C# + Reqnroll (stable legacy path)
+├── decision-register.md                     # Structural/process decisions
 └── README.md                                # This file
 ```
 
@@ -97,7 +107,7 @@ gb.automation.smoketests.sudoku.poc/
 **Quick Start:**
 ```bash
 cd demo-apps/demoapp001-typescript-cypress
-npm install
+npm ci
 npm start
 ```
 
@@ -120,7 +130,7 @@ See [DEMOAPP001 README](demo-apps/demoapp001-typescript-cypress/README.md) for i
 **Quick Start:**
 ```bash
 cd demo-apps/demoapp002-python-pytest
-python -m pip install -e ".[test]"
+python -m pip install -c requirements-test.lock -e ".[test]"
 python -m pytest
 ```
 
@@ -130,24 +140,24 @@ python -m pytest
 - ✅ Screenplay-style abilities, tasks, questions, and actor memory
 - ✅ Shared canonical Gherkin scenarios via pytest-bdd
 
-### DEMOAPP003: C# + SpecFlow
+### DEMOAPP003: C# + Reqnroll
 
 **Status:** ✅ Implemented
 
-**Tech Stack:** C#, .NET 8, SpecFlow, NUnit
+**Tech Stack:** C#, .NET 10 LTS, Reqnroll, NUnit
 
 **Quick Start:**
 ```bash
 cd demo-apps/demoapp003-csharp-specflow
-dotnet restore
-dotnet test
+dotnet restore --locked-mode
+dotnet test --no-restore
 ```
 
 **Features:**
 - ✅ C# solver implementation for the shared `@util` surface
 - ✅ JSON-based puzzle loading
 - ✅ Screenplay-style abilities, tasks, questions, and actor memory
-- ✅ Shared canonical Gherkin scenarios via SpecFlow
+- ✅ Shared canonical Gherkin scenarios via Reqnroll
 
 ### Stack Capability Matrix
 

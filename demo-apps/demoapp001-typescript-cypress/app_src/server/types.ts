@@ -71,9 +71,7 @@ export interface PuzzleListResponse {
 }
 
 export type ValidationConflictType =
-  | 'duplicate_in_row'
-  | 'duplicate_in_column'
-  | 'duplicate_in_block';
+  'duplicate_in_row' | 'duplicate_in_column' | 'duplicate_in_block';
 
 export interface ValidationConflict {
   type: ValidationConflictType;
