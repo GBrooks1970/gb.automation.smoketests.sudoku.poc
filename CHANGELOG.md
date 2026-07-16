@@ -9,6 +9,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Added
+- BACKLOG-055 (SUD-19, review `CODE_REVIEW_CLAUDE_Fable_5_v1_20260706T1048Z` "Next Steps",
+  consider-level): added `.batch/check-ra-header-currency.ps1`, asserting that
+  `decision-register.md` and `DOCS/.planning/backlog.md` cite the active Reference Architecture
+  version declared in `DOCS/reference-architecture.md`. RA-header drift had recurred three times
+  (BACKLOG-028, SUD-11, this review's Risk 6) with nothing catching it automatically. Wired into
+  `.batch/run-parity-checks.ps1` (first check) and a new CI step in `.github/workflows/ci.yml`.
 - BACKLOG-054 (SUD-17, review `CODE_REVIEW_CLAUDE_Fable_5_v1_20260706T1048Z` Risk 4, LOW): recorded
   the backlog closure for the licence decision. The worklist's MIT default (2026-07-07 note) is
   superseded by the portfolio P-04 licence audit's approved-and-delivered D-06 decision (ISC),

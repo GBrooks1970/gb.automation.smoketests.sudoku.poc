@@ -49,6 +49,10 @@ jobs:
         working-directory: demo-apps/demoapp001-typescript-cypress
         run: npm test
 
+      - name: RA header currency
+        shell: pwsh
+        run: ./.batch/check-ra-header-currency.ps1
+
       - name: Memory key parity
         shell: pwsh
         run: ./.batch/check-memory-key-parity.ps1

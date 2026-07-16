@@ -7,6 +7,7 @@ param()
 $ErrorActionPreference = 'Stop'
 
 $checks = @(
+  ".\.batch\check-ra-header-currency.ps1",
   ".\.batch\check-memory-key-parity.ps1",
   ".\.batch\generate-feature-parity-report.ps1",
   ".\.batch\check-step-text-parity.ps1"

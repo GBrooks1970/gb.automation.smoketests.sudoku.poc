@@ -3,7 +3,8 @@
 **Project:** Sudoku Solver POC
 **Last Updated:** 2026-07-17 (recorded BACKLOG-054: the SUD-17 licence-closure reconciliation
 against the portfolio P-04/D-06 decision, which supersedes the review-derived MIT default with
-the already-delivered ISC alignment)
+the already-delivered ISC alignment; recorded BACKLOG-055: the SUD-19 RA header-currency parity
+guard)
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -29,8 +30,8 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 4 |
 | In Progress | 0 |
-| Resolved | 72 |
-| **Total** | **76** |
+| Resolved | 73 |
+| **Total** | **77** |
 
 | Area | Current state |
 |------|---------------|
@@ -142,6 +143,7 @@ artefacts, CI safety, dependency licences, and clean bootstrap. The independent 
 | BACKLOG-052 | Reconcile documentation and governance currency | All (docs) | Review Risks 5, 6, 8 and I-3 | Low | Resolved | None required |
 | BACKLOG-053 | Complete independent Sudoku publication-readiness audit | All + GitHub metadata/history | Portfolio P-07 | Medium | Resolved | Publication remains a separate owner decision |
 | BACKLOG-054 | Reconcile SUD-17 licence closure (root LICENSE + manifest metadata) | All | Review Risk 4 (LOW) plus portfolio P-04 licence audit | Low | Resolved | None required (D-06 recorded in portfolio `PORTFOLIO_P04_DECISION_MATRIX_2026-07-14.md`) |
+| BACKLOG-055 | Add RA header-currency guard to `.batch/run-parity-checks.ps1` | All (tooling) | Review "Next Steps" (consider-level); drift recurred 3x (BACKLOG-028, SUD-11, Risk 6) | Low | Resolved | None required |
 
 Resolution evidence:
 
@@ -174,6 +176,16 @@ Resolution evidence:
   per the review's own finding (Risk 4, LOW) — the structural decision is recorded at the portfolio
   level in D-06. This entry exists only to close the loop between the worklist and the backlog; no
   further licence file or metadata change is made by this item.
+- BACKLOG-055: added `.batch/check-ra-header-currency.ps1`, which reads the active RA version from
+  `DOCS/reference-architecture.md`'s `**Version:**` header and asserts that both
+  `decision-register.md`'s and `DOCS/.planning/backlog.md`'s own "Governed by" headers cite that
+  same version, failing (exit 1) on any mismatch or missing header. Wired as the first step in
+  `.batch/run-parity-checks.ps1` and as a new "RA header currency" CI step (before "Memory key
+  parity") in the DEMOAPP001 job of `.github/workflows/ci.yml`, since that job is where the other
+  cross-stack parity gates already run. Verified locally: passes on current `main` state (both
+  headers cite v1.15, matching `DOCS/reference-architecture.md`); a negative test with an injected
+  stale `v1.14` citation in `decision-register.md` correctly failed (exit 1) before being reverted.
+  This guard must run after SUD-18 lands the v1.15 header fix, which it already has (BACKLOG-052).
 
 ---
 
@@ -1081,6 +1093,7 @@ Acceptance criteria:
 | BACKLOG-052 | Documentation/governance currency reconciliation | All | 2026-07-14 | Fable Risks 5/6/8 and I-3 reconciled across active docs. |
 | BACKLOG-053 | Sudoku P-07 publication-readiness audit | All | 2026-07-14 | Conditional technical go; owner email/visibility gates remain outside implementation. |
 | BACKLOG-054 | SUD-17 licence closure reconciliation | All | 2026-07-17 | Portfolio D-06 approved and delivered ISC (PR #30), superseding the worklist's MIT default; root/manifest metadata already consistent; no DR required. |
+| BACKLOG-055 | RA header-currency parity guard (SUD-19) | All (tooling) | 2026-07-17 | `.batch/check-ra-header-currency.ps1` asserts decision-register.md/backlog.md cite the active RA version; wired into run-parity-checks.ps1 and CI; PASS on current main. |
 
 ---
 
