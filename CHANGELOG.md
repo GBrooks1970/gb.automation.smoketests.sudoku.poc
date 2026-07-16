@@ -9,6 +9,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Added
+- BACKLOG-054 (SUD-17, review `CODE_REVIEW_CLAUDE_Fable_5_v1_20260706T1048Z` Risk 4, LOW): recorded
+  the backlog closure for the licence decision. The worklist's MIT default (2026-07-07 note) is
+  superseded by the portfolio P-04 licence audit's approved-and-delivered D-06 decision (ISC),
+  already applied to this repository by PR #30. No licence file or metadata change made here;
+  docs-only reconciliation between the worklist and `DOCS/.planning/backlog.md`.
 - P-07: added an evidence-backed Sudoku publication-readiness audit covering the current tree,
   complete Git history, GitHub metadata, licence/dependency terms, generated and large artefacts,
   README/CI safety, and clean bootstrap. Repository visibility is unchanged.

@@ -1,10 +1,9 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-07-14 (reconciled the 2026-07-06 `CLAUDE_Fable_5` review and portfolio P-07
-public-readiness audit as BACKLOG-048..053; migrated the active C# runtime to Reqnroll/.NET 10,
-updated Node/CI dependency baselines, added reproducible Python/NuGet dependency inputs, and
-retained the assertion-strengthening recommendation as optional open work)
+**Last Updated:** 2026-07-17 (recorded BACKLOG-054: the SUD-17 licence-closure reconciliation
+against the portfolio P-04/D-06 decision, which supersedes the review-derived MIT default with
+the already-delivered ISC alignment)
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -30,8 +29,8 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 4 |
 | In Progress | 0 |
-| Resolved | 71 |
-| **Total** | **75** |
+| Resolved | 72 |
+| **Total** | **76** |
 
 | Area | Current state |
 |------|---------------|
@@ -142,6 +141,7 @@ artefacts, CI safety, dependency licences, and clean bootstrap. The independent 
 | BACKLOG-051 | Strengthen orchestration ordering and no-execution assertions | All | Review Risk 7 | Low | Open | Required only if the canonical contract changes |
 | BACKLOG-052 | Reconcile documentation and governance currency | All (docs) | Review Risks 5, 6, 8 and I-3 | Low | Resolved | None required |
 | BACKLOG-053 | Complete independent Sudoku publication-readiness audit | All + GitHub metadata/history | Portfolio P-07 | Medium | Resolved | Publication remains a separate owner decision |
+| BACKLOG-054 | Reconcile SUD-17 licence closure (root LICENSE + manifest metadata) | All | Review Risk 4 (LOW) plus portfolio P-04 licence audit | Low | Resolved | None required (D-06 recorded in portfolio `PORTFOLIO_P04_DECISION_MATRIX_2026-07-14.md`) |
 
 Resolution evidence:
 
@@ -159,6 +159,21 @@ Resolution evidence:
 - BACKLOG-053: the audit is a conditional technical go. Publication still requires an explicit
   historical-email decision and repository-specific visibility approval; private status is not a
   defect.
+- BACKLOG-054: SUD-17 (worklist, derived 2026-07-06) asked for a root MIT `LICENSE` per a
+  2026-07-07 user decision recorded at the time. The portfolio-wide P-04 licence audit (2026-07-14)
+  re-examined every project's licence position and instead approved and delivered **ISC** for this
+  project as decision D-06 (`PORTFOLIO_P04_DECISION_MATRIX_2026-07-14.md`: "Preserves the only
+  existing machine-readable project signal and extends it consistently across the root/multi-stack
+  documentation"), delivered via [PR #30](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/30)
+  (`docs: align ISC licensing across stacks`, merged 2026-07-14T12:03Z, CI green). D-06 therefore
+  supersedes the worklist's MIT default. Root `LICENSE`, `demoapp001`'s `package.json`
+  (`"license": "ISC"`), `demoapp002`'s `pyproject.toml` (`license = "ISC"`), and the README licence
+  section are already mutually consistent on ISC; re-verified 2026-07-17 (`npm audit` in
+  `demo-apps/demoapp001-typescript-cypress/` still reports 0 vulnerabilities as a sanity check, no
+  licence-affecting change made). No DR is required in this project's own `decision-register.md`
+  per the review's own finding (Risk 4, LOW) — the structural decision is recorded at the portfolio
+  level in D-06. This entry exists only to close the loop between the worklist and the backlog; no
+  further licence file or metadata change is made by this item.
 
 ---
 
@@ -1065,6 +1080,7 @@ Acceptance criteria:
 | BACKLOG-050 | Reqnroll/.NET 10 migration | DEMOAPP003 | 2026-07-14 | 46/46 scenarios pass on Reqnroll 3.3.4, NUnit 4, and .NET 10; DR-036. |
 | BACKLOG-052 | Documentation/governance currency reconciliation | All | 2026-07-14 | Fable Risks 5/6/8 and I-3 reconciled across active docs. |
 | BACKLOG-053 | Sudoku P-07 publication-readiness audit | All | 2026-07-14 | Conditional technical go; owner email/visibility gates remain outside implementation. |
+| BACKLOG-054 | SUD-17 licence closure reconciliation | All | 2026-07-17 | Portfolio D-06 approved and delivered ISC (PR #30), superseding the worklist's MIT default; root/manifest metadata already consistent; no DR required. |
 
 ---
 
