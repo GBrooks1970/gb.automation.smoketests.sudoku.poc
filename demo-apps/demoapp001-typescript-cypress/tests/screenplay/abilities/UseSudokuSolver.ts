@@ -1,7 +1,7 @@
 import { Ability } from '@serenity-js/core';
 import { SudokuSolver } from '../../../app_src/SudokuSolver';
 import { SudokuOrchestrator } from '../../../app_src/SudokuOrchestrator';
-import { AuditTrail } from '../../../app_src/audit/AuditTypes';
+import { AuditEvent, AuditTrail } from '../../../app_src/audit/AuditTypes';
 
 /**
  * Ability: UseSudokuSolver
@@ -26,6 +26,16 @@ export class UseSudokuSolver extends Ability {
   private _solverError: Error | null = null;
   private _auditEnabled: boolean = false;
   private _lastAuditTrail: AuditTrail | undefined = undefined;
+
+  // Orchestration-ordering instrumentation (SUD-20 / BACKLOG-051): a solve run that always
+  // captures the audit event sequence so orchestration Then-steps can assert real algorithm
+  // ordering and no-execution counts instead of inferring them from the overall solve status.
+  // Deliberately separate from `_lastAuditTrail` / `auditEnabled`, which govern the opt-in audit
+  // trail feature (`Given("audit logging is enabled")`) and must stay unaffected by this — the
+  // "Solver without audit logging produces no trail" scenario asserts `lastAuditTrail` is
+  // `undefined` after a plain solve, and this instrumentation must not change that.
+  private _lastOrderingEvents: AuditEvent[] = [];
+  private _lastOrderingIterations: number = 0;
 
   constructor() { super(); }
 
@@ -75,6 +85,21 @@ export class UseSudokuSolver extends Ability {
 
   enableAudit(): void {
     this._auditEnabled = true;
+  }
+
+  /**
+   * Runs the full solving loop with audit instrumentation always on, capturing the raw event
+   * sequence and iteration count for algorithm-ordering assertions (SUD-20 / BACKLOG-051).
+   * Behaviour-neutral: `SudokuSolver`'s algorithms only conditionally *log* to the audit logger,
+   * they never branch on whether one is attached, so the returned status and final grid are
+   * identical to a plain `solvePuzzle()` call.
+   */
+  solvePuzzleTrackingOrder(): void {
+    const orchestrator = new SudokuOrchestrator(this.getSolver(), { enabled: true });
+    this.solveResult = orchestrator.solve();
+    const trail = orchestrator.getAuditTrail();
+    this._lastOrderingEvents = trail?.events ?? [];
+    this._lastOrderingIterations = trail?.totalIterations ?? 0;
   }
 
   isGridFull(): boolean {
@@ -136,4 +161,6 @@ export class UseSudokuSolver extends Ability {
   get solverError(): Error | null { return this._solverError; }
   get auditEnabled(): boolean { return this._auditEnabled; }
   get lastAuditTrail(): AuditTrail | undefined { return this._lastAuditTrail; }
+  get lastOrderingEvents(): AuditEvent[] { return this._lastOrderingEvents; }
+  get lastOrderingIterations(): number { return this._lastOrderingIterations; }
 }

@@ -18,6 +18,15 @@ public sealed class UseSudokuSolver : IAbility
     public Exception? SolverError { get; private set; }
     public AuditTrail? LastAuditTrail { get; private set; }
 
+    // Orchestration-ordering instrumentation (SUD-20 / BACKLOG-051): a solve run that always
+    // captures the audit event sequence so orchestration step definitions can assert real
+    // algorithm ordering and no-execution counts instead of inferring them from the overall
+    // solve status. Deliberately separate from `LastAuditTrail`, which governs the opt-in audit
+    // trail feature and must stay unaffected — the "Solver without audit logging produces no
+    // trail" scenario asserts `LastAuditTrail` is `null` after a plain solve.
+    public IReadOnlyList<AuditEvent> LastOrderingEvents { get; private set; } = [];
+    public int LastOrderingIterations { get; private set; }
+
     public void Initialise(string name, IReadOnlyList<IReadOnlyList<int>>? grid = null)
     {
         _solver = new SudokuSolver(name, grid);
@@ -49,6 +58,22 @@ public sealed class UseSudokuSolver : IAbility
     public bool IsGridFull() => new SudokuOrchestrator(_solver).IsGridFull();
 
     public void EnableAudit() => _auditEnabled = true;
+
+    /// <summary>
+    /// Runs the full solving loop with audit instrumentation always on, capturing the raw event
+    /// sequence and iteration count for algorithm-ordering assertions (SUD-20 / BACKLOG-051).
+    /// Behaviour-neutral: SudokuSolver's algorithms only conditionally log to the audit logger,
+    /// they never branch on whether one is attached, so the returned status and final grid are
+    /// identical to a plain SolvePuzzle() call.
+    /// </summary>
+    public void SolvePuzzleTrackingOrder()
+    {
+        var orchestrator = new SudokuOrchestrator(_solver, new AuditConfig(Enabled: true));
+        Result = orchestrator.Solve();
+        var trail = orchestrator.GetAuditTrail();
+        LastOrderingEvents = trail?.Events ?? [];
+        LastOrderingIterations = trail?.TotalIterations ?? 0;
+    }
 
     public void SetTargetCell(int row, int col) => TargetCell = new CellPosition(row, col);
 

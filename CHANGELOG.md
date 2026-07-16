@@ -9,6 +9,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Added
+- BACKLOG-051 (SUD-20, review `CODE_REVIEW_CLAUDE_Fable_5_v1_20260706T1048Z` Risk 7, LOW): added a
+  tracked-order solve path (`solvePuzzleTrackingOrder()` / `solve_puzzle_tracking_order()` /
+  `SolvePuzzleTrackingOrder()`) to all three Stacks, wired only into the two orchestration
+  When-steps used by "Execute solving techniques in correct order" and "Stop execution when puzzle
+  is completely solved". DEMOAPP003's `AuditTrail` record gained a `TotalIterations` field for
+  parity with the TS/Python audit trail shapes.
 - BACKLOG-055 (SUD-19, review `CODE_REVIEW_CLAUDE_Fable_5_v1_20260706T1048Z` "Next Steps",
   consider-level): added `.batch/check-ra-header-currency.ps1`, asserting that
   `decision-register.md` and `DOCS/.planning/backlog.md` cite the active Reference Architecture
@@ -34,6 +40,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - SUD-05 (review `CODE_REVIEW_GPT_5_3_Codex_v1_20260530T0823Z` Risk 5): added an authoritative per-stack capability matrix to platform specification v1.1 §6.1 (and a concise mirror in the root `README.md`) covering core solver, BDD/Screenplay parity, audit trail, CLI/display, REST API, web UI, and performance tooling for DEMOAPP001/002/003. Core-solver and BDD/Screenplay parity are presented as required for every stack; REST API and web UI are presented as staged capability with API/web on the roadmap for DEMOAPP002/003 (user decision 2026-06-12) rather than intentionally util-only. Docs-only; no behaviour change.
 - SUD-04 (review `CODE_REVIEW_GPT_5_3_Codex_v1_20260530T0823Z` Risk 4, DR-035): `DOCS/.architecture/validation-boundaries.md` states the validation layer split authoritatively — loaders perform structure validation only (v1.0 §7.1); solvers expose a constraint query without gating solving on it; the DEMOAPP001 REST API re-validates structure on every grid-accepting endpoint and offers constraint validation via `POST /api/validate`. The optional strict duplicate-validation loader mode is explicitly deferred (user decision 2026-06-12), not open.
 - SUD-04 (review Refactor 5, DR-035): authored OpenAPI 3.0 contract for the DEMOAPP001 REST API at `demo-apps/demoapp001-typescript-cypress/docs/openapi.yaml` covering all nine endpoints, request/response schemas, and the structured error codes; must be updated in the same change as any endpoint or schema change.
+
+### Changed
+- BACKLOG-051 (SUD-20): orchestration `Then`-steps for the two affected scenarios now assert real
+  invariants derived from actual audit event data (Unit Completion first when logged, Hidden
+  Singles digits strictly ascending 1-9, Naked Singles last when logged, zero iterations/events for
+  the already-solved contract) instead of re-checking the overall `SOLVED` status. Canonical
+  Gherkin text is unchanged; no DR required.
 
 ### Fixed
 - P-07 publication verification: DEMOAPP002's `.dockerignore` now uses `**/` patterns so nested

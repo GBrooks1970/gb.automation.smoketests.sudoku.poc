@@ -26,4 +26,16 @@ export const SolvePuzzle = {
       ability.solvePuzzle();
       await notes<SudokuNotes>().set(SOLVE_RESULT, ability.result).performAs(actor);
     }),
+
+  // SUD-20 / BACKLOG-051: same solve, but always captures the audit event sequence so
+  // orchestration Then-steps can assert real algorithm ordering / no-execution counts.
+  withCurrentGridTrackingOrder: () =>
+    Interaction.where(
+      '#actor runs the solving loop on the current grid, tracking algorithm order',
+      async actor => {
+        const ability = UseSudokuSolver.as(actor);
+        ability.solvePuzzleTrackingOrder();
+        await notes<SudokuNotes>().set(SOLVE_RESULT, ability.result).performAs(actor);
+      }
+    ),
 };

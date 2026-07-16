@@ -405,6 +405,18 @@ class SolvePuzzle:
 
         return Task(action)
 
+    @staticmethod
+    def with_current_grid_tracking_order() -> Task:
+        """SUD-20 / BACKLOG-051: same solve, but always captures the audit event sequence so
+        orchestration Then-steps can assert real algorithm ordering / no-execution counts."""
+
+        def action(actor: Actor) -> None:
+            ability = actor.ability_to(UseSudokuSolver)
+            ability.solve_puzzle_tracking_order()
+            actor.remember(SOLVE_RESULT, ability.result)
+
+        return Task(action)
+
 
 class EnableAuditLogging:
     @staticmethod

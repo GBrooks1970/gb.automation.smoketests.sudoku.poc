@@ -26,6 +26,7 @@ public sealed record AuditTrail(
     string Status,
     IReadOnlyList<AuditEvent> Events,
     int TotalChanges,
-    AuditStatistics Statistics);
+    AuditStatistics Statistics,
+    int TotalIterations);
 
 public sealed record AuditConfig(bool Enabled = false);

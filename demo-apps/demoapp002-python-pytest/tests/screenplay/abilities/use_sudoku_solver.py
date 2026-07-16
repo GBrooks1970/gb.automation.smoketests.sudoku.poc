@@ -19,6 +19,16 @@ class UseSudokuSolver:
         self._audit_enabled = False
         self._last_audit_trail: dict | None = None
 
+        # Orchestration-ordering instrumentation (SUD-20 / BACKLOG-051): a solve run that always
+        # captures the audit event sequence so orchestration step definitions can assert real
+        # algorithm ordering and no-execution counts instead of inferring them from the overall
+        # solve status. Deliberately separate from `_last_audit_trail` / `audit_enabled`, which
+        # govern the opt-in audit trail feature and must stay unaffected — the "Solver without
+        # audit logging produces no trail" scenario asserts `last_audit_trail` is `None` after a
+        # plain solve.
+        self._last_ordering_events: list[dict] = []
+        self._last_ordering_iterations = 0
+
     def initialise(self, name: str, grid: list[list[int]] | None = None) -> None:
         self._solver = SudokuSolver(name, grid)
         self._last_algorithm_changed = False
@@ -51,6 +61,18 @@ class UseSudokuSolver:
 
     def enable_audit(self) -> None:
         self._audit_enabled = True
+
+    def solve_puzzle_tracking_order(self) -> None:
+        """Runs the full solving loop with audit instrumentation always on, capturing the raw
+        event sequence and iteration count for algorithm-ordering assertions (SUD-20 /
+        BACKLOG-051). Behaviour-neutral: SudokuSolver's algorithms only conditionally *log* to
+        the audit logger, they never branch on whether one is attached, so the returned status
+        and final grid are identical to a plain solve_puzzle() call."""
+        orchestrator = SudokuOrchestrator(self.get_solver(), {"enabled": True})
+        self._solve_result = orchestrator.solve()
+        trail = orchestrator.get_audit_trail()
+        self._last_ordering_events = trail["events"] if trail else []
+        self._last_ordering_iterations = trail["totalIterations"] if trail else 0
 
     def is_grid_full(self) -> bool:
         return SudokuOrchestrator(self.get_solver()).is_grid_full()
@@ -118,3 +140,11 @@ class UseSudokuSolver:
     @property
     def last_audit_trail(self) -> dict | None:
         return self._last_audit_trail
+
+    @property
+    def last_ordering_events(self) -> list[dict]:
+        return self._last_ordering_events
+
+    @property
+    def last_ordering_iterations(self) -> int:
+        return self._last_ordering_iterations

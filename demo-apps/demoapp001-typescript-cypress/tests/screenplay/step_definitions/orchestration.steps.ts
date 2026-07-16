@@ -7,6 +7,31 @@ import { LoadPuzzleByName } from '../tasks/LoadPuzzleByName';
 import { SolvePuzzle } from '../tasks/SolvePuzzle';
 import { SolveStatus } from '../questions/SolveStatus';
 import { GridCell } from '../questions/GridCell';
+import { UseSudokuSolver } from '../abilities/UseSudokuSolver';
+import { AuditEvent } from '../../../app_src/audit/AuditTypes';
+
+// ---------------------------------------------------------------------------
+// Orchestration - ordering helpers (SUD-20 / BACKLOG-051)
+// ---------------------------------------------------------------------------
+
+// Fixed priority order the orchestrator always calls algorithms in (SudokuOrchestrator.solve()).
+const ALGORITHM_RANK: Record<AuditEvent['algorithm'], number> = {
+  UnitCompletion: 0,
+  HiddenSingles: 1,
+  NakedSingles: 2,
+};
+
+function orderingEvents(): AuditEvent[] {
+  return UseSudokuSolver.as(actorCalled(SOLVER_ACTOR)).lastOrderingEvents;
+}
+
+function eventsInIteration(events: AuditEvent[], iteration: number): AuditEvent[] {
+  return events.filter(e => e.iteration === iteration);
+}
+
+function iterationNumbers(events: AuditEvent[]): number[] {
+  return [...new Set(events.map(e => e.iteration))].sort((a, b) => a - b);
+}
 
 // ---------------------------------------------------------------------------
 // Orchestration - Given steps
@@ -58,7 +83,7 @@ Given('the {string} puzzle is loaded', async (puzzleName: string) => {
 // ---------------------------------------------------------------------------
 
 When('the main solving loop executes one iteration', async () => {
-  await actorCalled(SOLVER_ACTOR).attemptsTo(SolvePuzzle.withCurrentGrid());
+  await actorCalled(SOLVER_ACTOR).attemptsTo(SolvePuzzle.withCurrentGridTrackingOrder());
 });
 
 When('the solver executes the main loop', async () => {
@@ -66,7 +91,7 @@ When('the solver executes the main loop', async () => {
 });
 
 When('the main execution loop runs', async () => {
-  await actorCalled(SOLVER_ACTOR).attemptsTo(SolvePuzzle.withCurrentGrid());
+  await actorCalled(SOLVER_ACTOR).attemptsTo(SolvePuzzle.withCurrentGridTrackingOrder());
 });
 
 When('the solver executes all three algorithms without making changes', async () => {
@@ -84,20 +109,77 @@ When('the orchestrator solve method is called', async () => {
 Then('"Unit Completion" should be attempted first', async () => {
   const status = await actorCalled(SOLVER_ACTOR).answer(SolveStatus.current());
   assert.strictEqual(status, 'SOLVED');
+
+  // The orchestrator always calls unitCompletion() before hiddenSingles()/nakedSingles() every
+  // iteration (SudokuOrchestrator.solve()), but the audit trail only logs an event when a call
+  // produces a change. So the real, always-true claim observable from the trail is: whenever a
+  // Unit Completion event IS logged for an iteration, it is that iteration's first event — no
+  // Hidden Singles or Naked Singles event precedes it.
+  const events = orderingEvents();
+  for (const iteration of iterationNumbers(events)) {
+    const iterEvents = eventsInIteration(events, iteration);
+    const ucIndex = iterEvents.findIndex(e => e.algorithm === 'UnitCompletion');
+    if (ucIndex !== -1) {
+      assert.strictEqual(ucIndex, 0,
+        `Iteration ${iteration}: Unit Completion event was not first (index ${ucIndex} of ${iterEvents.length})`);
+    }
+  }
 });
 
 Then('"Hidden Singles" should be attempted second for digits {int} through {int}',
-  (_from: number, _to: number) => {
-    // Verified by overall SOLVED result
+  async (from: number, to: number) => {
+    const events = orderingEvents();
+    for (const iteration of iterationNumbers(events)) {
+      const iterEvents = eventsInIteration(events, iteration);
+      const ucIndex = iterEvents.findIndex(e => e.algorithm === 'UnitCompletion');
+      const hsEvents = iterEvents.filter(e => e.algorithm === 'HiddenSingles');
+      const firstHsIndex = iterEvents.findIndex(e => e.algorithm === 'HiddenSingles');
+
+      if (ucIndex !== -1 && firstHsIndex !== -1) {
+        assert.ok(ucIndex < firstHsIndex,
+          `Iteration ${iteration}: a Hidden Singles event preceded the Unit Completion event`);
+      }
+
+      let lastDigit = 0;
+      for (const e of hsEvents) {
+        const digit = e.algorithmParameter as number;
+        assert.ok(digit >= from && digit <= to,
+          `Iteration ${iteration}: Hidden Singles digit ${digit} is outside the expected range ${from}-${to}`);
+        assert.ok(digit > lastDigit,
+          `Iteration ${iteration}: Hidden Singles digit ${digit} did not increase after ${lastDigit} (out of scan order)`);
+        lastDigit = digit;
+      }
+    }
   });
 
 Then('"Naked Singles" should be attempted third', () => {
-  // Verified by overall SOLVED result
+  const events = orderingEvents();
+  for (const iteration of iterationNumbers(events)) {
+    const iterEvents = eventsInIteration(events, iteration);
+    const nsIndex = iterEvents.findIndex(e => e.algorithm === 'NakedSingles');
+    if (nsIndex !== -1) {
+      assert.strictEqual(nsIndex, iterEvents.length - 1,
+        `Iteration ${iteration}: Naked Singles event was not last (index ${nsIndex} of ${iterEvents.length})`);
+    }
+  }
 });
 
 Then('the execution order should be maintained in every iteration', async () => {
   const status = await actorCalled(SOLVER_ACTOR).answer(SolveStatus.current());
   assert.strictEqual(status, 'SOLVED');
+
+  const events = orderingEvents();
+  assert.ok(events.length > 0, 'Expected at least one audit event for a puzzle requiring all three techniques');
+  for (const iteration of iterationNumbers(events)) {
+    const iterEvents = eventsInIteration(events, iteration);
+    let maxRankSoFar = -1;
+    for (const e of iterEvents) {
+      const rank = ALGORITHM_RANK[e.algorithm];
+      assert.ok(rank >= maxRankSoFar,
+        `Iteration ${iteration}: event ${e.eventId} (${e.algorithm}) broke the Unit Completion -> Hidden Singles -> Naked Singles priority order`);
+      maxRankSoFar = rank;
+    }
+  }
 });
 
 Then('multiple iterations should occur', async () => {
@@ -128,6 +210,16 @@ Then('the status should return {string}', async (status: string) => {
 Then('no algorithms should be executed', async () => {
   const status = await actorCalled(SOLVER_ACTOR).answer(SolveStatus.current());
   assert.strictEqual(status, 'SOLVED');
+
+  // SUD-01 contract (BACKLOG-035): an already-solved grid returns SOLVED via the early
+  // isGridFull() check in SudokuOrchestrator.solve(), before the progress loop — and therefore
+  // before startIteration() is ever called — so the audit trail must show zero iterations and
+  // zero events, not merely an overall SOLVED status.
+  const ability = UseSudokuSolver.as(actorCalled(SOLVER_ACTOR));
+  assert.strictEqual(ability.lastOrderingIterations, 0,
+    `Expected 0 iterations for an already-solved grid but got ${ability.lastOrderingIterations}`);
+  assert.strictEqual(ability.lastOrderingEvents.length, 0,
+    `Expected 0 audit events for an already-solved grid but got ${ability.lastOrderingEvents.length}`);
 });
 
 Then('the system should exit the solving loop', async () => {
