@@ -1,10 +1,12 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-07-14 (reconciled the 2026-07-06 `CLAUDE_Fable_5` review and portfolio P-07
-public-readiness audit as BACKLOG-048..053; migrated the active C# runtime to Reqnroll/.NET 10,
-updated Node/CI dependency baselines, added reproducible Python/NuGet dependency inputs, and
-retained the assertion-strengthening recommendation as optional open work)
+**Last Updated:** 2026-07-17 (closed the remaining `WORKLIST_gb.automation.smoketests.sudoku.poc.md`
+items: BACKLOG-054 reconciles the SUD-17 licence closure against the portfolio P-04/D-06 decision,
+which supersedes the review-derived MIT default with the already-delivered ISC alignment;
+BACKLOG-055 adds the SUD-19 RA header-currency parity guard; BACKLOG-051 (SUD-20) resolves the
+orchestration ordering/no-execution assertions review finding with real audit-event assertions.
+No open backlog items remain from the 2026-07-06 review or the P-07 audit)
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -28,10 +30,10 @@ Per v1.15 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 4 |
+| Open | 3 |
 | In Progress | 0 |
-| Resolved | 71 |
-| **Total** | **75** |
+| Resolved | 74 |
+| **Total** | **77** |
 
 | Area | Current state |
 |------|---------------|
@@ -39,7 +41,7 @@ Per v1.15 Section 10.1:
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | Optional assertion strengthening (BACKLOG-051) and parked future product/solver work |
+| Current sprint focus | Parked future product/solver work (BACKLOG-014/015/016) only — no open technical debt |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -139,9 +141,11 @@ artefacts, CI safety, dependency licences, and clean bootstrap. The independent 
 | BACKLOG-048 | Clear dependency advisories and make bootstrap inputs reproducible | All | Review Risk 2 plus P-07 dependency/bootstrap audit | Medium | Resolved | None required |
 | BACKLOG-049 | Replace EOL Node 20 and refresh CI action/runtime safety | DEMOAPP001 + CI/containers | Review Risk 3 plus P-07 CI audit | Medium | Resolved | None required |
 | BACKLOG-050 | Replace EOL SpecFlow/.NET 8 maintenance boundary | DEMOAPP003 | Review Risk 1 | Medium | Resolved | DR-036 |
-| BACKLOG-051 | Strengthen orchestration ordering and no-execution assertions | All | Review Risk 7 | Low | Open | Required only if the canonical contract changes |
+| BACKLOG-051 | Strengthen orchestration ordering and no-execution assertions | All | Review Risk 7 | Low | Resolved | Not required — canonical Gherkin unchanged |
 | BACKLOG-052 | Reconcile documentation and governance currency | All (docs) | Review Risks 5, 6, 8 and I-3 | Low | Resolved | None required |
 | BACKLOG-053 | Complete independent Sudoku publication-readiness audit | All + GitHub metadata/history | Portfolio P-07 | Medium | Resolved | Publication remains a separate owner decision |
+| BACKLOG-054 | Reconcile SUD-17 licence closure (root LICENSE + manifest metadata) | All | Review Risk 4 (LOW) plus portfolio P-04 licence audit | Low | Resolved | None required (D-06 recorded in portfolio `PORTFOLIO_P04_DECISION_MATRIX_2026-07-14.md`) |
+| BACKLOG-055 | Add RA header-currency guard to `.batch/run-parity-checks.ps1` | All (tooling) | Review "Next Steps" (consider-level); drift recurred 3x (BACKLOG-028, SUD-11, Risk 6) | Low | Resolved | None required |
 
 Resolution evidence:
 
@@ -159,6 +163,53 @@ Resolution evidence:
 - BACKLOG-053: the audit is a conditional technical go. Publication still requires an explicit
   historical-email decision and repository-specific visibility approval; private status is not a
   defect.
+- BACKLOG-054: SUD-17 (worklist, derived 2026-07-06) asked for a root MIT `LICENSE` per a
+  2026-07-07 user decision recorded at the time. The portfolio-wide P-04 licence audit (2026-07-14)
+  re-examined every project's licence position and instead approved and delivered **ISC** for this
+  project as decision D-06 (`PORTFOLIO_P04_DECISION_MATRIX_2026-07-14.md`: "Preserves the only
+  existing machine-readable project signal and extends it consistently across the root/multi-stack
+  documentation"), delivered via [PR #30](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/30)
+  (`docs: align ISC licensing across stacks`, merged 2026-07-14T12:03Z, CI green). D-06 therefore
+  supersedes the worklist's MIT default. Root `LICENSE`, `demoapp001`'s `package.json`
+  (`"license": "ISC"`), `demoapp002`'s `pyproject.toml` (`license = "ISC"`), and the README licence
+  section are already mutually consistent on ISC; re-verified 2026-07-17 (`npm audit` in
+  `demo-apps/demoapp001-typescript-cypress/` still reports 0 vulnerabilities as a sanity check, no
+  licence-affecting change made). No DR is required in this project's own `decision-register.md`
+  per the review's own finding (Risk 4, LOW) — the structural decision is recorded at the portfolio
+  level in D-06. This entry exists only to close the loop between the worklist and the backlog; no
+  further licence file or metadata change is made by this item.
+- BACKLOG-055: added `.batch/check-ra-header-currency.ps1`, which reads the active RA version from
+  `DOCS/reference-architecture.md`'s `**Version:**` header and asserts that both
+  `decision-register.md`'s and `DOCS/.planning/backlog.md`'s own "Governed by" headers cite that
+  same version, failing (exit 1) on any mismatch or missing header. Wired as the first step in
+  `.batch/run-parity-checks.ps1` and as a new "RA header currency" CI step (before "Memory key
+  parity") in the DEMOAPP001 job of `.github/workflows/ci.yml`, since that job is where the other
+  cross-stack parity gates already run. Verified locally: passes on current `main` state (both
+  headers cite v1.15, matching `DOCS/reference-architecture.md`); a negative test with an injected
+  stale `v1.14` citation in `decision-register.md` correctly failed (exit 1) before being reverted.
+  This guard must run after SUD-18 lands the v1.15 header fix, which it already has (BACKLOG-052).
+- BACKLOG-051: the orchestration `Then`-step bodies for "Execute solving techniques in correct
+  order" and "Stop execution when puzzle is completely solved" (`orchestration.steps.ts` lines
+  ~89-147 pre-change, and the Python/C# mirrors) previously only re-checked the overall `SOLVED`
+  status, which the review correctly identified as not actually testing ordering or non-execution.
+  A new solve path (`solvePuzzleTrackingOrder()`/`solve_puzzle_tracking_order()`/
+  `SolvePuzzleTrackingOrder()`) always captures the audit event sequence — deliberately kept
+  separate from the opt-in audit-trail feature (`lastAuditTrail`) so "Solver without audit logging
+  produces no trail" stays unaffected — and is wired only into the two When-steps these two
+  scenarios use. The Then-steps now assert real, always-true invariants derived from the actual
+  event data (verified empirically against every current puzzle fixture before writing the
+  assertions): Unit Completion, when logged, is always an iteration's first event; Hidden Singles
+  digits appear in strictly ascending 1-9 order after Unit Completion; Naked Singles, when logged,
+  is always an iteration's last event; and the already-solved-grid scenario shows exactly 0
+  iterations and 0 audit events (the SUD-01/BACKLOG-035 contract). DEMOAPP003's `AuditTrail` record
+  gained a `TotalIterations` field (previously only exposed via TS `totalIterations`/Python
+  `total_iterations`) to support the last check with parity across all three stacks. Canonical
+  Gherkin text is unchanged, so no DR is required per the review's own criterion ("only if the
+  canonical behavioural contract changes structurally"). Verified: all three 46-scenario suites
+  green (DEMOAPP001 locally; DEMOAPP002 locally; DEMOAPP003 via a net9.0 scratch-copy compile/test
+  check, since the sandboxed dev environment only has .NET SDKs up to 9.0.316 and this Stack
+  targets net10.0 — CI (`dotnet-version: "10.0.x"`) is authoritative for the real target); all
+  parity gates PASS.
 
 ---
 
@@ -176,7 +227,7 @@ Resolution evidence:
 | BACKLOG-014 | Advanced Solving Techniques | DEMOAPP001 and future Stacks | Solver capability | Future | Open |
 | BACKLOG-015 | Interactive Sudoku Tutor | Future product surface | Product idea | Future | Open |
 | BACKLOG-016 | Puzzle Generator | Future product surface | Product idea | Future | Open |
-| BACKLOG-051 | Strengthen orchestration ordering/no-execution assertions | All | Test assertion fidelity | Low | Open |
+| BACKLOG-051 | Strengthen orchestration ordering/no-execution assertions | All | Test assertion fidelity | Low | Resolved |
 | BACKLOG-032 | Refactor Python Questions to read from Actor memory | DEMOAPP002 | Screenplay parity (Risk 1) | High | Resolved |
 | BACKLOG-033 | Extract side effects from MultipleSolvers.isolation_verified() | DEMOAPP002 | Screenplay anti-pattern (Risk 2) | High | Resolved |
 | BACKLOG-034 | Resolve BACKLOG-012 as stale duplicate of BACKLOG-020 | All | Backlog governance (Risk 4) | Medium | Resolved |
@@ -188,24 +239,26 @@ Resolution evidence:
 ### BACKLOG-051: Strengthen orchestration ordering and no-execution assertions
 
 **Priority:** Low
-**Status:** Open
+**Status:** Resolved
 **Stack(s):** All three parity Stacks
 **Nature of Gap:** Some orchestration `Then` steps infer algorithm ordering or no execution from
 the overall result rather than asserting the audit event sequence directly.
-
-This is not a publication blocker: current behaviour is deterministic, all 138 stack scenarios and
-parity gates pass, and the audit trail already provides the needed observability. It remains useful
-test-strengthening work for a later feature-change tranche.
+**Resolution:** SUD-20 (2026-07-17). A dedicated tracked-order solve path in all three Stacks
+always captures the audit event sequence for the two affected scenarios only, leaving every other
+scenario's solve path (and the opt-in audit-trail feature) untouched. The `Then`-steps now assert
+real invariants derived from the actual event data instead of the overall `SOLVED` status. No DR
+required — canonical Gherkin unchanged.
 
 Acceptance criteria:
 
-- [ ] Assert zero audit iterations/events for the already-solved scenario in all three Stacks.
-- [ ] Assert the algorithm event order for a fixture that requires all three techniques, or soften
-      the canonical Gherkin text so it states only what the tests observe.
-- [ ] Change `features-shared/` first, propagate the canonical feature, and keep feature/step-text
-      parity green.
-- [ ] Run all three 46-scenario suites and all parity gates.
-- [ ] Add a decision record only if the canonical behavioural contract changes structurally.
+- [x] Assert zero audit iterations/events for the already-solved scenario in all three Stacks.
+- [x] Assert the algorithm event order for a fixture that requires all three techniques (option:
+      soften Gherkin text — not needed; real assertions on the actual event data sufficed).
+- [x] Change `features-shared/` first, propagate the canonical feature, and keep feature/step-text
+      parity green (no Gherkin change was needed; parity confirmed green regardless).
+- [x] Run all three 46-scenario suites and all parity gates.
+- [x] Add a decision record only if the canonical behavioural contract changes structurally (it did
+      not — no DR added).
 
 ---
 
@@ -1065,6 +1118,9 @@ Acceptance criteria:
 | BACKLOG-050 | Reqnroll/.NET 10 migration | DEMOAPP003 | 2026-07-14 | 46/46 scenarios pass on Reqnroll 3.3.4, NUnit 4, and .NET 10; DR-036. |
 | BACKLOG-052 | Documentation/governance currency reconciliation | All | 2026-07-14 | Fable Risks 5/6/8 and I-3 reconciled across active docs. |
 | BACKLOG-053 | Sudoku P-07 publication-readiness audit | All | 2026-07-14 | Conditional technical go; owner email/visibility gates remain outside implementation. |
+| BACKLOG-054 | SUD-17 licence closure reconciliation | All | 2026-07-17 | Portfolio D-06 approved and delivered ISC (PR #30), superseding the worklist's MIT default; root/manifest metadata already consistent; no DR required. |
+| BACKLOG-055 | RA header-currency parity guard (SUD-19) | All (tooling) | 2026-07-17 | `.batch/check-ra-header-currency.ps1` asserts decision-register.md/backlog.md cite the active RA version; wired into run-parity-checks.ps1 and CI; PASS on current main. |
+| BACKLOG-051 | Orchestration ordering/no-execution assertions (SUD-20) | All | 2026-07-17 | Tracked-order solve path in all three Stacks; real audit-event assertions replace SOLVED-status inference; 46×3 green, all parity gates PASS; no DR (Gherkin unchanged). |
 
 ---
 
@@ -1076,7 +1132,7 @@ Acceptance criteria:
 | 3 | 2026-05-19 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Completed 2026-05-19 |
 | 4 | 2026-05-20 | API foundation and Web UI completion | BACKLOG-009, BACKLOG-018 | Completed 2026-05-20 |
 | 5 | 2026-05-28 onward | C# Stack, local Compose, and benchmarking | BACKLOG-021, BACKLOG-013, BACKLOG-010, BACKLOG-011 | Completed 2026-05-29 |
-| 6+ | After P-07 remediation | Optional test strengthening and future product ideas | BACKLOG-051, BACKLOG-014, BACKLOG-015, BACKLOG-016 | Open |
+| 6+ | After P-07 remediation | Optional test strengthening (BACKLOG-051, completed 2026-07-17) and future product ideas | BACKLOG-014, BACKLOG-015, BACKLOG-016 | Open |
 
 ---
 

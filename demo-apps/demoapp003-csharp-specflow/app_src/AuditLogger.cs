@@ -44,7 +44,8 @@ public sealed class AuditLogger
             status,
             _events.ToArray(),
             totalChanges,
-            statistics);
+            statistics,
+            _currentIteration);
     }
 
     private int CountChanges(string algorithm) =>

@@ -329,6 +329,16 @@ public static class SolvePuzzle
             ability.SolvePuzzleWithAudit();
             actor.Remember(MemoryKeys.SOLVE_RESULT, ability.Result);
         });
+
+    // SUD-20 / BACKLOG-051: same solve, but always captures the audit event sequence so
+    // orchestration Then-steps can assert real algorithm ordering / no-execution counts.
+    public static ITask WithCurrentGridTrackingOrder() =>
+        new DelegateTask(actor =>
+        {
+            var ability = actor.AbilityTo<UseSudokuSolver>();
+            ability.SolvePuzzleTrackingOrder();
+            actor.Remember(MemoryKeys.SOLVE_RESULT, ability.Result);
+        });
 }
 
 public static class EnableAuditLogging

@@ -3,6 +3,7 @@ from __future__ import annotations
 import pytest
 from pytest_bdd import given, parsers, scenarios, then, when
 
+from tests.screenplay.abilities import UseSudokuSolver
 from tests.screenplay.questions import (
     AlgorithmMadeProgress,
     AuditTrail,
@@ -344,17 +345,22 @@ def quoted_puzzle_loaded(actor: Actor, puzzle_name: str) -> None:
     actor.attempts_to(LoadPuzzleByName.and_initialise(puzzle_name))
 
 
-@when("the main solving loop executes one iteration")
 @when("the solver executes the main loop")
-@when("the main execution loop runs")
 @when("the solver executes all three algorithms without making changes")
 @when("the orchestrator solve method is called")
 def solving_loop_runs(actor: Actor) -> None:
     actor.attempts_to(SolvePuzzle.with_current_grid())
 
 
-@then('"Unit Completion" should be attempted first')
-@then("the execution order should be maintained in every iteration")
+# SUD-20 / BACKLOG-051: these two When-phrases feed the ordering/no-execution assertions below,
+# so they always capture the audit event sequence (with_current_grid_tracking_order), unlike the
+# other When-phrases above which share the plain with_current_grid().
+@when("the main solving loop executes one iteration")
+@when("the main execution loop runs")
+def solving_loop_runs_tracking_order(actor: Actor) -> None:
+    actor.attempts_to(SolvePuzzle.with_current_grid_tracking_order())
+
+
 @then("multiple iterations should occur")
 @then("each iteration should make progress until solved")
 @then("the puzzle should be completely solved")
@@ -362,14 +368,92 @@ def solved_status_verified(actor: Actor) -> None:
     assert actor.answer(SolveStatus.current()) == "SOLVED"
 
 
+# Fixed priority order the orchestrator always calls algorithms in (SudokuOrchestrator.solve()).
+_ALGORITHM_RANK = {"UnitCompletion": 0, "HiddenSingles": 1, "NakedSingles": 2}
+
+
+def _events_in_iteration(events: list[dict], iteration: int) -> list[dict]:
+    return [e for e in events if e["iteration"] == iteration]
+
+
+def _iteration_numbers(events: list[dict]) -> list[int]:
+    return sorted({e["iteration"] for e in events})
+
+
+@then('"Unit Completion" should be attempted first')
+def unit_completion_attempted_first(actor: Actor) -> None:
+    assert actor.answer(SolveStatus.current()) == "SOLVED"
+
+    # The orchestrator always calls unit_completion() before hidden_singles()/naked_singles()
+    # every iteration, but the audit trail only logs an event when a call produces a change. So
+    # the real, always-true claim observable from the trail is: whenever a Unit Completion event
+    # IS logged for an iteration, it is that iteration's first event.
+    events = actor.ability_to(UseSudokuSolver).last_ordering_events
+    for iteration in _iteration_numbers(events):
+        iter_events = _events_in_iteration(events, iteration)
+        uc_index = next((i for i, e in enumerate(iter_events) if e["algorithm"] == "UnitCompletion"), -1)
+        if uc_index != -1:
+            assert uc_index == 0, (
+                f"Iteration {iteration}: Unit Completion event was not first "
+                f"(index {uc_index} of {len(iter_events)})"
+            )
+
+
 @then(parsers.parse('"Hidden Singles" should be attempted second for digits {start:d} through {end:d}'))
-def hidden_singles_attempted_second(start: int, end: int) -> None:
-    assert (start, end) == (1, 9)
+def hidden_singles_attempted_second(actor: Actor, start: int, end: int) -> None:
+    events = actor.ability_to(UseSudokuSolver).last_ordering_events
+    for iteration in _iteration_numbers(events):
+        iter_events = _events_in_iteration(events, iteration)
+        uc_index = next((i for i, e in enumerate(iter_events) if e["algorithm"] == "UnitCompletion"), -1)
+        hs_events = [e for e in iter_events if e["algorithm"] == "HiddenSingles"]
+        first_hs_index = next((i for i, e in enumerate(iter_events) if e["algorithm"] == "HiddenSingles"), -1)
+
+        if uc_index != -1 and first_hs_index != -1:
+            assert uc_index < first_hs_index, (
+                f"Iteration {iteration}: a Hidden Singles event preceded the Unit Completion event"
+            )
+
+        last_digit = 0
+        for e in hs_events:
+            digit = e["algorithmParameter"]
+            assert start <= digit <= end, (
+                f"Iteration {iteration}: Hidden Singles digit {digit} is outside the expected range {start}-{end}"
+            )
+            assert digit > last_digit, (
+                f"Iteration {iteration}: Hidden Singles digit {digit} did not increase after {last_digit} "
+                f"(out of scan order)"
+            )
+            last_digit = digit
 
 
 @then('"Naked Singles" should be attempted third')
-def naked_singles_attempted_third() -> None:
-    pass
+def naked_singles_attempted_third(actor: Actor) -> None:
+    events = actor.ability_to(UseSudokuSolver).last_ordering_events
+    for iteration in _iteration_numbers(events):
+        iter_events = _events_in_iteration(events, iteration)
+        ns_index = next((i for i, e in enumerate(iter_events) if e["algorithm"] == "NakedSingles"), -1)
+        if ns_index != -1:
+            assert ns_index == len(iter_events) - 1, (
+                f"Iteration {iteration}: Naked Singles event was not last "
+                f"(index {ns_index} of {len(iter_events)})"
+            )
+
+
+@then("the execution order should be maintained in every iteration")
+def execution_order_maintained(actor: Actor) -> None:
+    assert actor.answer(SolveStatus.current()) == "SOLVED"
+
+    events = actor.ability_to(UseSudokuSolver).last_ordering_events
+    assert events, "Expected at least one audit event for a puzzle requiring all three techniques"
+    for iteration in _iteration_numbers(events):
+        max_rank_so_far = -1
+        for e in _events_in_iteration(events, iteration):
+            rank = _ALGORITHM_RANK[e["algorithm"]]
+            assert rank >= max_rank_so_far, (
+                f"Iteration {iteration}: event {e['eventId']} ({e['algorithm']}) broke the "
+                f"Unit Completion -> Hidden Singles -> Naked Singles priority order"
+            )
+            max_rank_so_far = rank
 
 
 @then(parsers.parse('the final status should be "{status}"'))
@@ -387,6 +471,18 @@ def system_detects_grid_full(actor: Actor) -> None:
 @then("no algorithms should be executed")
 def no_algorithms_executed(actor: Actor) -> None:
     assert actor.answer(SolveStatus.current()) == "SOLVED"
+
+    # SUD-01 contract (BACKLOG-035): an already-solved grid returns SOLVED via the early
+    # is_grid_full() check in SudokuOrchestrator.solve(), before the progress loop - and
+    # therefore before start_iteration() is ever called - so the audit trail must show zero
+    # iterations and zero events, not merely an overall SOLVED status.
+    ability = actor.ability_to(UseSudokuSolver)
+    assert ability.last_ordering_iterations == 0, (
+        f"Expected 0 iterations for an already-solved grid but got {ability.last_ordering_iterations}"
+    )
+    assert len(ability.last_ordering_events) == 0, (
+        f"Expected 0 audit events for an already-solved grid but got {len(ability.last_ordering_events)}"
+    )
 
 
 @then("the system should exit the solving loop")
