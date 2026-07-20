@@ -226,7 +226,8 @@ Screenplay contract is fully implemented: all six Memory key constants are runti
 
 ## Parity Rules Summary
 
-Governed by `DOCS/reference-architecture.md` v1.15 and decisions DR-012 through DR-033.
+Governed by `DOCS/reference-architecture.md` v1.15 and the accepted decision range stated once in
+the Authority Order above.
 
 | Rule | Current instruction |
 |------|---------------------|
