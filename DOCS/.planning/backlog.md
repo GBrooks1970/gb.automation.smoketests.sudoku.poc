@@ -1,12 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-07-20 (resolved BACKLOG-056 / TRIAGE-01, BACKLOG-057 / TRIAGE-02, and
-BACKLOG-058 / TRIAGE-03 from the 2026-07-18 review. Static analysis covers DEMOAPP001 test/tooling
-TypeScript, the governance currency guard covers CLAUDE.md, and the local parity container now
-matches CI's PowerShell 7.5 / Ubuntu 24.04 pair. TRIAGE-04 remains in the portfolio worklist and is
-not yet materialised as a backlog record; the three Open backlog items remain parked future
-product/solver work)
+**Last Updated:** 2026-07-20 (resolved BACKLOG-056 through BACKLOG-059 / TRIAGE-01..04 from the
+2026-07-18 review. Static analysis covers DEMOAPP001 test/tooling TypeScript, the governance
+currency guard covers CLAUDE.md, the local parity container matches CI's PowerShell 7.5 / Ubuntu
+24.04 pair, and DEMOAPP001 installs enforce the declared Node 24 range. All four review-remediation
+items are complete; the three Open backlog items remain parked future product/solver work)
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -32,8 +31,8 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 3 |
 | In Progress | 0 |
-| Resolved | 77 |
-| **Total** | **80** |
+| Resolved | 78 |
+| **Total** | **81** |
 
 | Area | Current state |
 |------|---------------|
@@ -225,6 +224,7 @@ backlog retains their final status and verification evidence.
 | BACKLOG-056 | TRIAGE-01 | Extend lint and formatting gates across DEMOAPP001 test/tooling TypeScript | DEMOAPP001 + CI | Risk 1 | Low | Resolved | None required |
 | BACKLOG-057 | TRIAGE-02 | Reconcile CLAUDE.md's accepted DR range and extend the governance-currency guard | All (docs/tooling) | Risk 2 | Low | Resolved | None required |
 | BACKLOG-058 | TRIAGE-03 | Align the local parity-check container with CI's PowerShell and Ubuntu versions | All (tooling) | Risk 3 | Low | Resolved | None required |
+| BACKLOG-059 | TRIAGE-04 | Enforce DEMOAPP001's declared Node 24 engine range during npm installs | DEMOAPP001 | Risk 4 | Low | Resolved | None required |
 
 Resolution evidence:
 
@@ -246,6 +246,11 @@ Resolution evidence:
   the PowerShell 7.4 / Ubuntu 22.04 lineage. `docker compose config --quiet` and
   `docker compose run --rm parity-checks` both pass on the local Docker Linux engine; the container
   reports PASS for RA currency, Memory-key, feature, and step-text parity. No DR required.
+- BACKLOG-059: DEMOAPP001 now has a Stack-local `.npmrc` with `engine-strict=true`, enforcing its
+  declared `node >=24 <25` range at install time. On local Node 20.19.5 / npm 10.8.2, `npm ci`
+  fails immediately with `EBADENGINE` and exit 1. In an isolated Node 24.18.0 / npm 11.16.0
+  container, a clean `npm ci` reports 0 vulnerabilities, then build, lint, format check, API
+  integration, and all 46 scenarios / 257 steps pass. No DR required.
 
 ---
 
