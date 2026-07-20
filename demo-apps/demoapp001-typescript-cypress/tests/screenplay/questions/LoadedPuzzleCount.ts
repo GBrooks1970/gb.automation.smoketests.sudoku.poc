@@ -8,7 +8,5 @@ import { LoadPuzzles } from '../abilities/LoadPuzzles';
  */
 export const LoadedPuzzleCount = {
   current: () =>
-    Question.about('the number of loaded puzzles', actor =>
-      LoadPuzzles.as(actor).getCount()
-    ),
+    Question.about('the number of loaded puzzles', (actor) => LoadPuzzles.as(actor).getCount()),
 };

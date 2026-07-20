@@ -106,7 +106,10 @@ function toRecord(
 }
 
 function writeResults(records: BenchmarkRecord[]): void {
-  const timestamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
+  const timestamp = new Date()
+    .toISOString()
+    .replace(/[-:]/g, '')
+    .replace(/\.\d{3}Z$/, 'Z');
   const outDir = path.resolve(process.cwd(), '../../.results/performance', STACK);
   fs.mkdirSync(outDir, { recursive: true });
 
@@ -114,7 +117,10 @@ function writeResults(records: BenchmarkRecord[]): void {
   const csvPath = path.join(outDir, `performance-${timestamp}.csv`);
   const mdPath = path.join(outDir, `performance-${timestamp}.md`);
 
-  fs.writeFileSync(jsonPath, JSON.stringify({ generatedAt: new Date().toISOString(), records }, null, 2));
+  fs.writeFileSync(
+    jsonPath,
+    JSON.stringify({ generatedAt: new Date().toISOString(), records }, null, 2)
+  );
   fs.writeFileSync(csvPath, toCsv(records));
   fs.writeFileSync(mdPath, toMarkdown(records));
 

@@ -1,12 +1,10 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-07-17 (closed the remaining `WORKLIST_gb.automation.smoketests.sudoku.poc.md`
-items: BACKLOG-054 reconciles the SUD-17 licence closure against the portfolio P-04/D-06 decision,
-which supersedes the review-derived MIT default with the already-delivered ISC alignment;
-BACKLOG-055 adds the SUD-19 RA header-currency parity guard; BACKLOG-051 (SUD-20) resolves the
-orchestration ordering/no-execution assertions review finding with real audit-event assertions.
-No open backlog items remain from the 2026-07-06 review or the P-07 audit)
+**Last Updated:** 2026-07-20 (resolved BACKLOG-056 / TRIAGE-01 from the 2026-07-18 review by
+extending DEMOAPP001 lint and Prettier coverage to its test and tooling TypeScript, and adding the
+format check to CI. TRIAGE-02..04 remain in the portfolio worklist and are not yet materialised as
+backlog records; the three Open backlog items remain parked future product/solver work)
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -32,8 +30,8 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 3 |
 | In Progress | 0 |
-| Resolved | 74 |
-| **Total** | **77** |
+| Resolved | 75 |
+| **Total** | **78** |
 
 | Area | Current state |
 |------|---------------|
@@ -210,6 +208,29 @@ Resolution evidence:
   check, since the sandboxed dev environment only has .NET SDKs up to 9.0.316 and this Stack
   targets net10.0 — CI (`dotnet-version: "10.0.x"`) is authoritative for the real target); all
   parity gates PASS.
+
+---
+
+## Code Review Remediation Items (CLAUDE_Fable_5 v2, 2026-07-18)
+
+Raised by
+`DOCS/.review/CODE_REVIEW_CLAUDE_Fable_5_v2_20260718T0609Z/` and tracked through the portfolio
+worklist extension (TRIAGE-01..04). Items are added here when completed so this authoritative
+backlog retains their final status and verification evidence.
+
+| ID | Worklist | Title | Stack(s) | Review risk | Priority | Status | Decision Record |
+|----|----------|-------|----------|-------------|----------|--------|-----------------|
+| BACKLOG-056 | TRIAGE-01 | Extend lint and formatting gates across DEMOAPP001 test/tooling TypeScript | DEMOAPP001 + CI | Risk 1 | Low | Resolved | None required |
+
+Resolution evidence:
+
+- BACKLOG-056: ESLint and Prettier now cover `app_src/**/*.ts`, `tests/**/*.ts`, and
+  `tooling/**/*.ts`; the type-aware ESLint block uses `tsconfig.cucumber.json`, with the
+  established Screenplay PascalCase factories and uppercase Memory properties represented in the
+  naming rules. CI now runs `npm run format:check` beside lint. The 37 newly covered files were
+  formatted. Local verification: clean `npm ci` (0 vulnerabilities; expected Node-20 engine
+  warnings because the project requires Node 24), build, lint, format check, API integration tests,
+  46 scenarios / 257 steps, and all repository parity checks PASS. Node-24 CI is authoritative.
 
 ---
 
@@ -1121,6 +1142,7 @@ Acceptance criteria:
 | BACKLOG-054 | SUD-17 licence closure reconciliation | All | 2026-07-17 | Portfolio D-06 approved and delivered ISC (PR #30), superseding the worklist's MIT default; root/manifest metadata already consistent; no DR required. |
 | BACKLOG-055 | RA header-currency parity guard (SUD-19) | All (tooling) | 2026-07-17 | `.batch/check-ra-header-currency.ps1` asserts decision-register.md/backlog.md cite the active RA version; wired into run-parity-checks.ps1 and CI; PASS on current main. |
 | BACKLOG-051 | Orchestration ordering/no-execution assertions (SUD-20) | All | 2026-07-17 | Tracked-order solve path in all three Stacks; real audit-event assertions replace SOLVED-status inference; 46×3 green, all parity gates PASS; no DR (Gherkin unchanged). |
+| BACKLOG-056 | DEMOAPP001 test/tooling static-analysis coverage (TRIAGE-01) | DEMOAPP001 + CI | 2026-07-20 | ESLint/Prettier cover app, tests, and tooling; CI runs format checking; 46 scenarios / 257 steps and parity gates PASS. |
 
 ---
 

@@ -13,9 +13,9 @@
     "start:web": "ts-node app_src/server/index.ts",
     "build": "tsc",
     "run": "node dist/index.js",
-    "lint": "eslint app_src/**/*.ts",
-    "format": "prettier --write app_src/**/*.ts",
-    "format:check": "prettier --check app_src/**/*.ts",
+    "lint": "eslint \"app_src/**/*.ts\" \"tests/**/*.ts\" \"tooling/**/*.ts\"",
+    "format": "prettier --write \"app_src/**/*.ts\" \"tests/**/*.ts\" \"tooling/**/*.ts\"",
+    "format:check": "prettier --check \"app_src/**/*.ts\" \"tests/**/*.ts\" \"tooling/**/*.ts\"",
     "test": "cucumber-js --config tooling/cucumber.js",
     "test:api": "ts-node tests/api/api.integration.ts",
     "benchmark": "ts-node tooling/performance/benchmark.ts"

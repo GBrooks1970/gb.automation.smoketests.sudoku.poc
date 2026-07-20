@@ -12,23 +12,36 @@ import { ALGORITHM_PROGRESS, SudokuNotes } from '../support/memory-keys';
  */
 export const CheckAlgorithmProgress = {
   unitCompletionOnSnapshot: () =>
-    Interaction.where('#actor re-initialises from snapshot and applies Unit Completion', async actor => {
-      const ability = UseSudokuSolver.as(actor);
-      ability.reinitialiseFromSnapshot();
-      ability.applyUnitCompletion();
-      await notes<SudokuNotes>().set(ALGORITHM_PROGRESS, ability.algorithmMadeProgress).performAs(actor);
-    }),
+    Interaction.where(
+      '#actor re-initialises from snapshot and applies Unit Completion',
+      async (actor) => {
+        const ability = UseSudokuSolver.as(actor);
+        ability.reinitialiseFromSnapshot();
+        ability.applyUnitCompletion();
+        await notes<SudokuNotes>()
+          .set(ALGORITHM_PROGRESS, ability.algorithmMadeProgress)
+          .performAs(actor);
+      }
+    ),
 
   nakedSinglesOnSnapshot: () =>
-    Interaction.where('#actor re-initialises from snapshot and applies Naked Singles', async actor => {
-      const ability = UseSudokuSolver.as(actor);
-      ability.reinitialiseFromSnapshot();
-      ability.applyNakedSingles();
-      await notes<SudokuNotes>().set(ALGORITHM_PROGRESS, ability.algorithmMadeProgress).performAs(actor);
-    }),
+    Interaction.where(
+      '#actor re-initialises from snapshot and applies Naked Singles',
+      async (actor) => {
+        const ability = UseSudokuSolver.as(actor);
+        ability.reinitialiseFromSnapshot();
+        ability.applyNakedSingles();
+        await notes<SudokuNotes>()
+          .set(ALGORITHM_PROGRESS, ability.algorithmMadeProgress)
+          .performAs(actor);
+      }
+    ),
 
   reinitFromSnapshot: () =>
-    Interaction.where('#actor re-initialises solver from the stored grid snapshot', async actor => {
-      UseSudokuSolver.as(actor).reinitialiseFromSnapshot();
-    }),
+    Interaction.where(
+      '#actor re-initialises solver from the stored grid snapshot',
+      async (actor) => {
+        UseSudokuSolver.as(actor).reinitialiseFromSnapshot();
+      }
+    ),
 };

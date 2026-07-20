@@ -10,7 +10,5 @@ import { Puzzle } from '../../../app_src/PuzzleLoader';
  */
 export const LoadedPuzzles = {
   all: () =>
-    Question.about('all loaded puzzles', actor =>
-      LoadPuzzles.as(actor).getAll() as Puzzle[]
-    ),
+    Question.about('all loaded puzzles', (actor) => LoadPuzzles.as(actor).getAll() as Puzzle[]),
 };

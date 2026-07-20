@@ -26,11 +26,11 @@ function orderingEvents(): AuditEvent[] {
 }
 
 function eventsInIteration(events: AuditEvent[], iteration: number): AuditEvent[] {
-  return events.filter(e => e.iteration === iteration);
+  return events.filter((e) => e.iteration === iteration);
 }
 
 function iterationNumbers(events: AuditEvent[]): number[] {
-  return [...new Set(events.map(e => e.iteration))].sort((a, b) => a - b);
+  return [...new Set(events.map((e) => e.iteration))].sort((a, b) => a - b);
 }
 
 // ---------------------------------------------------------------------------
@@ -38,28 +38,24 @@ function iterationNumbers(events: AuditEvent[]): number[] {
 // ---------------------------------------------------------------------------
 
 Given('a puzzle that requires all three techniques', async () => {
-  await actorCalled(SOLVER_ACTOR).attemptsTo(
-    LoadPuzzleByName.andInitialise('Logic Squeeze Grid')
-  );
+  await actorCalled(SOLVER_ACTOR).attemptsTo(LoadPuzzleByName.andInitialise('Logic Squeeze Grid'));
 });
 
 Given('a partially filled grid solvable with basic techniques', async () => {
-  await actorCalled(SOLVER_ACTOR).attemptsTo(
-    LoadPuzzleByName.andInitialise('Easy Scan Grid')
-  );
+  await actorCalled(SOLVER_ACTOR).attemptsTo(LoadPuzzleByName.andInitialise('Easy Scan Grid'));
 });
 
 Given('every cell in the 9x9 grid contains a non-zero digit', async () => {
   const completedGrid = [
-    [5,3,4,6,7,8,9,1,2],
-    [6,7,2,1,9,5,3,4,8],
-    [1,9,8,3,4,2,5,6,7],
-    [8,5,9,7,6,1,4,2,3],
-    [4,2,6,8,5,3,7,9,1],
-    [7,1,3,9,2,4,8,5,6],
-    [9,6,1,5,3,7,2,8,4],
-    [2,8,7,4,1,9,6,3,5],
-    [3,4,5,2,8,6,1,7,9]
+    [5, 3, 4, 6, 7, 8, 9, 1, 2],
+    [6, 7, 2, 1, 9, 5, 3, 4, 8],
+    [1, 9, 8, 3, 4, 2, 5, 6, 7],
+    [8, 5, 9, 7, 6, 1, 4, 2, 3],
+    [4, 2, 6, 8, 5, 3, 7, 9, 1],
+    [7, 1, 3, 9, 2, 4, 8, 5, 6],
+    [9, 6, 1, 5, 3, 7, 2, 8, 4],
+    [2, 8, 7, 4, 1, 9, 6, 3, 5],
+    [3, 4, 5, 2, 8, 6, 1, 7, 9],
   ];
   await actorCalled(SOLVER_ACTOR).attemptsTo(InitialiseGrid.withCompleteGrid(completedGrid));
 });
@@ -69,9 +65,7 @@ Given('no digits violate row, column, or block rules', () => {
 });
 
 Given('a puzzle that cannot be solved with basic techniques', async () => {
-  await actorCalled(SOLVER_ACTOR).attemptsTo(
-    LoadPuzzleByName.andInitialise('Empty Grid')
-  );
+  await actorCalled(SOLVER_ACTOR).attemptsTo(LoadPuzzleByName.andInitialise('Empty Grid'));
 });
 
 Given('the {string} puzzle is loaded', async (puzzleName: string) => {
@@ -118,48 +112,62 @@ Then('"Unit Completion" should be attempted first', async () => {
   const events = orderingEvents();
   for (const iteration of iterationNumbers(events)) {
     const iterEvents = eventsInIteration(events, iteration);
-    const ucIndex = iterEvents.findIndex(e => e.algorithm === 'UnitCompletion');
+    const ucIndex = iterEvents.findIndex((e) => e.algorithm === 'UnitCompletion');
     if (ucIndex !== -1) {
-      assert.strictEqual(ucIndex, 0,
-        `Iteration ${iteration}: Unit Completion event was not first (index ${ucIndex} of ${iterEvents.length})`);
+      assert.strictEqual(
+        ucIndex,
+        0,
+        `Iteration ${iteration}: Unit Completion event was not first (index ${ucIndex} of ${iterEvents.length})`
+      );
     }
   }
 });
 
-Then('"Hidden Singles" should be attempted second for digits {int} through {int}',
+Then(
+  '"Hidden Singles" should be attempted second for digits {int} through {int}',
   async (from: number, to: number) => {
     const events = orderingEvents();
     for (const iteration of iterationNumbers(events)) {
       const iterEvents = eventsInIteration(events, iteration);
-      const ucIndex = iterEvents.findIndex(e => e.algorithm === 'UnitCompletion');
-      const hsEvents = iterEvents.filter(e => e.algorithm === 'HiddenSingles');
-      const firstHsIndex = iterEvents.findIndex(e => e.algorithm === 'HiddenSingles');
+      const ucIndex = iterEvents.findIndex((e) => e.algorithm === 'UnitCompletion');
+      const hsEvents = iterEvents.filter((e) => e.algorithm === 'HiddenSingles');
+      const firstHsIndex = iterEvents.findIndex((e) => e.algorithm === 'HiddenSingles');
 
       if (ucIndex !== -1 && firstHsIndex !== -1) {
-        assert.ok(ucIndex < firstHsIndex,
-          `Iteration ${iteration}: a Hidden Singles event preceded the Unit Completion event`);
+        assert.ok(
+          ucIndex < firstHsIndex,
+          `Iteration ${iteration}: a Hidden Singles event preceded the Unit Completion event`
+        );
       }
 
       let lastDigit = 0;
       for (const e of hsEvents) {
         const digit = e.algorithmParameter as number;
-        assert.ok(digit >= from && digit <= to,
-          `Iteration ${iteration}: Hidden Singles digit ${digit} is outside the expected range ${from}-${to}`);
-        assert.ok(digit > lastDigit,
-          `Iteration ${iteration}: Hidden Singles digit ${digit} did not increase after ${lastDigit} (out of scan order)`);
+        assert.ok(
+          digit >= from && digit <= to,
+          `Iteration ${iteration}: Hidden Singles digit ${digit} is outside the expected range ${from}-${to}`
+        );
+        assert.ok(
+          digit > lastDigit,
+          `Iteration ${iteration}: Hidden Singles digit ${digit} did not increase after ${lastDigit} (out of scan order)`
+        );
         lastDigit = digit;
       }
     }
-  });
+  }
+);
 
 Then('"Naked Singles" should be attempted third', () => {
   const events = orderingEvents();
   for (const iteration of iterationNumbers(events)) {
     const iterEvents = eventsInIteration(events, iteration);
-    const nsIndex = iterEvents.findIndex(e => e.algorithm === 'NakedSingles');
+    const nsIndex = iterEvents.findIndex((e) => e.algorithm === 'NakedSingles');
     if (nsIndex !== -1) {
-      assert.strictEqual(nsIndex, iterEvents.length - 1,
-        `Iteration ${iteration}: Naked Singles event was not last (index ${nsIndex} of ${iterEvents.length})`);
+      assert.strictEqual(
+        nsIndex,
+        iterEvents.length - 1,
+        `Iteration ${iteration}: Naked Singles event was not last (index ${nsIndex} of ${iterEvents.length})`
+      );
     }
   }
 });
@@ -169,14 +177,19 @@ Then('the execution order should be maintained in every iteration', async () => 
   assert.strictEqual(status, 'SOLVED');
 
   const events = orderingEvents();
-  assert.ok(events.length > 0, 'Expected at least one audit event for a puzzle requiring all three techniques');
+  assert.ok(
+    events.length > 0,
+    'Expected at least one audit event for a puzzle requiring all three techniques'
+  );
   for (const iteration of iterationNumbers(events)) {
     const iterEvents = eventsInIteration(events, iteration);
     let maxRankSoFar = -1;
     for (const e of iterEvents) {
       const rank = ALGORITHM_RANK[e.algorithm];
-      assert.ok(rank >= maxRankSoFar,
-        `Iteration ${iteration}: event ${e.eventId} (${e.algorithm}) broke the Unit Completion -> Hidden Singles -> Naked Singles priority order`);
+      assert.ok(
+        rank >= maxRankSoFar,
+        `Iteration ${iteration}: event ${e.eventId} (${e.algorithm}) broke the Unit Completion -> Hidden Singles -> Naked Singles priority order`
+      );
       maxRankSoFar = rank;
     }
   }
@@ -216,10 +229,16 @@ Then('no algorithms should be executed', async () => {
   // before startIteration() is ever called — so the audit trail must show zero iterations and
   // zero events, not merely an overall SOLVED status.
   const ability = UseSudokuSolver.as(actorCalled(SOLVER_ACTOR));
-  assert.strictEqual(ability.lastOrderingIterations, 0,
-    `Expected 0 iterations for an already-solved grid but got ${ability.lastOrderingIterations}`);
-  assert.strictEqual(ability.lastOrderingEvents.length, 0,
-    `Expected 0 audit events for an already-solved grid but got ${ability.lastOrderingEvents.length}`);
+  assert.strictEqual(
+    ability.lastOrderingIterations,
+    0,
+    `Expected 0 iterations for an already-solved grid but got ${ability.lastOrderingIterations}`
+  );
+  assert.strictEqual(
+    ability.lastOrderingEvents.length,
+    0,
+    `Expected 0 audit events for an already-solved grid but got ${ability.lastOrderingEvents.length}`
+  );
 });
 
 Then('the system should exit the solving loop', async () => {

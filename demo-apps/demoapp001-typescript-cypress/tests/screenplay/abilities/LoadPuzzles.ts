@@ -41,6 +41,10 @@ export class LoadPuzzles extends Ability {
     return this.loader?.getAllPuzzles() ?? [];
   }
 
-  getCount(): number { return this.loader?.getPuzzleCount() ?? 0; }
-  getError(): Error | null { return this.lastError; }
+  getCount(): number {
+    return this.loader?.getPuzzleCount() ?? 0;
+  }
+  getError(): Error | null {
+    return this.lastError;
+  }
 }

@@ -24,10 +24,9 @@ Given('a grid with {int} rows instead of {int}', async (rows: number, _expected:
   }
 });
 
-Given('a grid where row {int} contains two {int}\'s',
-  async (rowIndex: number, val: number) => {
-    await actorCalled(SOLVER_ACTOR).attemptsTo(InitialiseGrid.withDuplicateInRow(rowIndex, val));
-  });
+Given("a grid where row {int} contains two {int}'s", async (rowIndex: number, val: number) => {
+  await actorCalled(SOLVER_ACTOR).attemptsTo(InitialiseGrid.withDuplicateInRow(rowIndex, val));
+});
 
 Given('a grid state where no algorithm can make progress', async () => {
   await actorCalled(SOLVER_ACTOR).attemptsTo(SetupGridState.noProgress());
@@ -87,7 +86,8 @@ Then('"Unit Completion" should return false', async () => {
   assert.strictEqual(made, false);
 });
 
-Then('"Hidden Singles" should return false for all digits {int}-{int}',
+Then(
+  '"Hidden Singles" should return false for all digits {int}-{int}',
   async (from: number, to: number) => {
     await actorCalled(SOLVER_ACTOR).attemptsTo(CheckAlgorithmProgress.reinitFromSnapshot());
     for (let d = from; d <= to; d++) {
@@ -95,7 +95,8 @@ Then('"Hidden Singles" should return false for all digits {int}-{int}',
       const made = await actorCalled(SOLVER_ACTOR).answer(AlgorithmMadeProgress.afterLastCall());
       assert.strictEqual(made, false, `Expected hiddenSingles(${d}) to return false`);
     }
-  });
+  }
+);
 
 Then('"Naked Singles" should return false', async () => {
   await actorCalled(SOLVER_ACTOR).attemptsTo(CheckAlgorithmProgress.nakedSinglesOnSnapshot());

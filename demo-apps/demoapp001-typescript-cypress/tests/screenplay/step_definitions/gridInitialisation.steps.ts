@@ -13,15 +13,15 @@ import { GridSnapshot } from '../questions/GridSnapshot';
 // ---------------------------------------------------------------------------
 
 const SPECIFIC_GRID = [
-  [5,3,0,0,7,0,0,0,0],
-  [6,0,0,1,9,5,0,0,0],
-  [0,9,8,0,0,0,0,6,0],
-  [8,0,0,0,6,0,0,0,3],
-  [4,0,0,8,0,3,0,0,1],
-  [7,0,0,0,2,0,0,0,6],
-  [0,6,0,0,0,0,2,8,0],
-  [0,0,0,4,1,9,0,0,5],
-  [0,0,0,0,8,0,0,7,9]
+  [5, 3, 0, 0, 7, 0, 0, 0, 0],
+  [6, 0, 0, 1, 9, 5, 0, 0, 0],
+  [0, 9, 8, 0, 0, 0, 0, 6, 0],
+  [8, 0, 0, 0, 6, 0, 0, 0, 3],
+  [4, 0, 0, 8, 0, 3, 0, 0, 1],
+  [7, 0, 0, 0, 2, 0, 0, 0, 6],
+  [0, 6, 0, 0, 0, 0, 2, 8, 0],
+  [0, 0, 0, 4, 1, 9, 0, 0, 5],
+  [0, 0, 0, 0, 8, 0, 0, 7, 9],
 ];
 
 Given('a puzzle grid with specific values', async () => {
@@ -29,9 +29,7 @@ Given('a puzzle grid with specific values', async () => {
 });
 
 Given('a SudokuSolver is created with a puzzle grid', async () => {
-  await actorCalled(SOLVER_ACTOR).attemptsTo(
-    InitialiseGrid.fromPuzzleNamed('Easy Scan Grid')
-  );
+  await actorCalled(SOLVER_ACTOR).attemptsTo(InitialiseGrid.fromPuzzleNamed('Easy Scan Grid'));
 });
 
 // ---------------------------------------------------------------------------
@@ -54,7 +52,10 @@ When('the solver modifies cells during solving', async () => {
 Then("the solver's working grid should contain a deep copy of the puzzle", async () => {
   const actor = actorCalled(SOLVER_ACTOR);
   const isDeepCopy = await actor.answer(GridCell.isDeepCopy());
-  assert.ok(isDeepCopy, 'Expected working grid to be a deep copy of the snapshot (same values, different reference)');
+  assert.ok(
+    isDeepCopy,
+    'Expected working grid to be a deep copy of the snapshot (same values, different reference)'
+  );
 });
 
 Then('the original grid should remain unchanged', async () => {

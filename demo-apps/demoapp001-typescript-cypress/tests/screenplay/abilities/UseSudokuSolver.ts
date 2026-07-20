@@ -37,7 +37,9 @@ export class UseSudokuSolver extends Ability {
   private _lastOrderingEvents: AuditEvent[] = [];
   private _lastOrderingIterations: number = 0;
 
-  constructor() { super(); }
+  constructor() {
+    super();
+  }
 
   // ---------------------------------------------------------------------------
   // Core solver lifecycle
@@ -123,7 +125,7 @@ export class UseSudokuSolver extends Ability {
   }
 
   storeSnapshot(grid: number[][]): void {
-    this._gridSnapshot = grid.map(r => [...r]);
+    this._gridSnapshot = grid.map((r) => [...r]);
   }
 
   reinitialiseFromSnapshot(): void {
@@ -136,7 +138,8 @@ export class UseSudokuSolver extends Ability {
 
   validateAndStore(row: number, col: number, value: number): void {
     this._validationResult = this.getSolver().isValidPlacement(row, col, value)
-      ? 'VALID' : 'INVALID';
+      ? 'VALID'
+      : 'INVALID';
   }
 
   setMultipleSolvers(solvers: SudokuSolver[]): void {
@@ -151,16 +154,40 @@ export class UseSudokuSolver extends Ability {
   // State accessors
   // ---------------------------------------------------------------------------
 
-  get algorithmMadeProgress(): boolean { return this.lastAlgorithmChanged; }
-  get result(): string { return this.solveResult; }
-  get targetCell(): { row: number; col: number } { return this._targetCell; }
-  get targetValue(): number { return this._targetValue; }
-  get gridSnapshot(): number[][] { return this._gridSnapshot; }
-  get validationResult(): string { return this._validationResult; }
-  get multipleSolvers(): SudokuSolver[] { return this._multipleSolvers; }
-  get solverError(): Error | null { return this._solverError; }
-  get auditEnabled(): boolean { return this._auditEnabled; }
-  get lastAuditTrail(): AuditTrail | undefined { return this._lastAuditTrail; }
-  get lastOrderingEvents(): AuditEvent[] { return this._lastOrderingEvents; }
-  get lastOrderingIterations(): number { return this._lastOrderingIterations; }
+  get algorithmMadeProgress(): boolean {
+    return this.lastAlgorithmChanged;
+  }
+  get result(): string {
+    return this.solveResult;
+  }
+  get targetCell(): { row: number; col: number } {
+    return this._targetCell;
+  }
+  get targetValue(): number {
+    return this._targetValue;
+  }
+  get gridSnapshot(): number[][] {
+    return this._gridSnapshot;
+  }
+  get validationResult(): string {
+    return this._validationResult;
+  }
+  get multipleSolvers(): SudokuSolver[] {
+    return this._multipleSolvers;
+  }
+  get solverError(): Error | null {
+    return this._solverError;
+  }
+  get auditEnabled(): boolean {
+    return this._auditEnabled;
+  }
+  get lastAuditTrail(): AuditTrail | undefined {
+    return this._lastAuditTrail;
+  }
+  get lastOrderingEvents(): AuditEvent[] {
+    return this._lastOrderingEvents;
+  }
+  get lastOrderingIterations(): number {
+    return this._lastOrderingIterations;
+  }
 }

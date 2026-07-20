@@ -10,16 +10,14 @@ import { GRID_SIZE } from '../../../app_src/constants';
  */
 export const CurrentSolver = {
   name: () =>
-    Question.about('the name of the current solver puzzle', actor =>
-      UseSudokuSolver.as(actor).getSolver().name
+    Question.about(
+      'the name of the current solver puzzle',
+      (actor) => UseSudokuSolver.as(actor).getSolver().name
     ),
 
   hasValidGrid: () =>
-    Question.about('whether the current solver has a valid 9x9 origGrid', actor => {
+    Question.about('whether the current solver has a valid 9x9 origGrid', (actor) => {
       const solver = UseSudokuSolver.as(actor).getSolver();
-      return (
-        solver.origGrid.length === GRID_SIZE &&
-        solver.origGrid[0].length === GRID_SIZE
-      );
+      return solver.origGrid.length === GRID_SIZE && solver.origGrid[0].length === GRID_SIZE;
     }),
 };

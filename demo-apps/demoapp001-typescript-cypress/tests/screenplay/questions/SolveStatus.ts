@@ -9,7 +9,7 @@ import { SOLVE_RESULT, SudokuNotes } from '../support/memory-keys';
  */
 export const SolveStatus = {
   current: () =>
-    Question.about('the solve status', async actor => {
+    Question.about('the solve status', async (actor) => {
       const status = await actor.answer(notes<SudokuNotes>().get(SOLVE_RESULT));
       return status ?? '';
     }),
