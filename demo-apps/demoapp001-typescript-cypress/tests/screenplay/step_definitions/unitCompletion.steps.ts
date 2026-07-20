@@ -9,8 +9,7 @@ import { AlgorithmMadeProgress } from '../questions/AlgorithmMadeProgress';
 import { GridCell } from '../questions/GridCell';
 
 type MissingDigitContext =
-  | { kind: 'column'; colIndex: number }
-  | { kind: 'block'; blockRow: number; blockCol: number };
+  { kind: 'column'; colIndex: number } | { kind: 'block'; blockRow: number; blockCol: number };
 
 let pendingMissingDigitContext: MissingDigitContext | undefined;
 
@@ -19,10 +18,8 @@ let pendingMissingDigitContext: MissingDigitContext | undefined;
 // ---------------------------------------------------------------------------
 
 Given('a row contains the values {string}', async (valuesStr: string) => {
-  const values = valuesStr.split(',').map(s => parseInt(s.trim(), 10));
-  await actorCalled(SOLVER_ACTOR).attemptsTo(
-    InitialiseGrid.withRowValues({ row: 0, values })
-  );
+  const values = valuesStr.split(',').map((s) => parseInt(s.trim(), 10));
+  await actorCalled(SOLVER_ACTOR).attemptsTo(InitialiseGrid.withRowValues({ row: 0, values }));
 });
 
 Given('column {int} contains {int} non-zero values', async (colIndex: number, _count: number) => {
@@ -49,15 +46,15 @@ Given('the missing digit is {int}', async (digit: number) => {
   pendingMissingDigitContext = undefined;
 });
 
-Given('a 3x3 block at position \\({int}, {int}) contains {int} non-zero values',
+Given(
+  'a 3x3 block at position \\({int}, {int}) contains {int} non-zero values',
   async (blockRow: number, blockCol: number, _count: number) => {
     pendingMissingDigitContext = { kind: 'block', blockRow, blockCol };
-  });
+  }
+);
 
 Given('no row, column, or block has exactly one empty cell', async () => {
-  await actorCalled(SOLVER_ACTOR).attemptsTo(
-    SetupGridState.withMultipleEmpties()
-  );
+  await actorCalled(SOLVER_ACTOR).attemptsTo(SetupGridState.withMultipleEmpties());
 });
 
 // ---------------------------------------------------------------------------
@@ -99,11 +96,13 @@ Then('the value {int} should be placed in the empty cell', async (value: number)
   assert.ok(found, `Expected value ${value} to be placed in the grid`);
 });
 
-Then('the system should place {int} in the empty cell of column {int}',
+Then(
+  'the system should place {int} in the empty cell of column {int}',
   async (value: number, col: number) => {
     const placed = await actorCalled(SOLVER_ACTOR).answer(GridCell.inColumn(col, value));
     assert.ok(placed, `Expected ${value} to be placed in column ${col}`);
-  });
+  }
+);
 
 Then('the system should place {int} in the empty cell of that block', async (value: number) => {
   const found = await actorCalled(SOLVER_ACTOR).answer(GridCell.containsValue(value));

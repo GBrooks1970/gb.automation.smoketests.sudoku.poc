@@ -10,20 +10,23 @@ import { LoadPuzzles } from '../abilities/LoadPuzzles';
  */
 export const LoadPuzzleByName = {
   andInitialise: (name: string) =>
-    Interaction.where(`#actor loads puzzle "${name}" and initialises the solver`, async actor => {
+    Interaction.where(`#actor loads puzzle "${name}" and initialises the solver`, async (actor) => {
       const puzzle = LoadPuzzles.as(actor).getByName(name);
       if (!puzzle) throw new Error(`Puzzle not found: "${name}"`);
       UseSudokuSolver.as(actor).initialise(puzzle.name, puzzle.grid);
     }),
 
   andInitialiseOrDefault: (name: string) =>
-    Interaction.where(`#actor loads puzzle "${name}" or initialises an empty solver if not found`, async actor => {
-      const puzzle = LoadPuzzles.as(actor).getByName(name);
-      const ability = UseSudokuSolver.as(actor);
-      if (puzzle) {
-        ability.initialise(puzzle.name, puzzle.grid);
-      } else {
-        ability.initialise('notfound');
+    Interaction.where(
+      `#actor loads puzzle "${name}" or initialises an empty solver if not found`,
+      async (actor) => {
+        const puzzle = LoadPuzzles.as(actor).getByName(name);
+        const ability = UseSudokuSolver.as(actor);
+        if (puzzle) {
+          ability.initialise(puzzle.name, puzzle.grid);
+        } else {
+          ability.initialise('notfound');
+        }
       }
-    }),
+    ),
 };

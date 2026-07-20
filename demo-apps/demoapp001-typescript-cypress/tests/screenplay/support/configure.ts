@@ -13,9 +13,12 @@ import { SudokuActors } from '../actors/SudokuActors';
  */
 configure({
   crew: [
-    ['@serenity-js/serenity-bdd', {
-      specDirectory: './tests/features',
-    }],
+    [
+      '@serenity-js/serenity-bdd',
+      {
+        specDirectory: './tests/features',
+      },
+    ],
     ArtifactArchiver.storingArtifactsAt('.results/serenity'),
   ],
   actors: SudokuActors,

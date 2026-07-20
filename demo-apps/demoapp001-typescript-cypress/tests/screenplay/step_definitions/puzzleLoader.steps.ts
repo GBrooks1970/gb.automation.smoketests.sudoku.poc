@@ -92,8 +92,10 @@ Then('a validation error should be thrown', async () => {
 
 Then('the error message should indicate {string}', async (msg: string) => {
   const error = await actorCalled(SOLVER_ACTOR).answer(ErrorThrown.last());
-  assert.ok(error!.message.includes(msg),
-    `Expected error to contain "${msg}", got: ${error?.message}`);
+  assert.ok(
+    error!.message.includes(msg),
+    `Expected error to contain "${msg}", got: ${error?.message}`
+  );
 });
 
 Then('the correct puzzle should be returned', async () => {
@@ -128,6 +130,5 @@ Then('an error should be thrown', async () => {
 
 Then('the error message should contain {string}', async (msg: string) => {
   const error = await actorCalled(SOLVER_ACTOR).answer(ErrorThrown.last());
-  assert.ok(error!.message.includes(msg),
-    `Expected "${msg}" in: ${error?.message}`);
+  assert.ok(error!.message.includes(msg), `Expected "${msg}" in: ${error?.message}`);
 });

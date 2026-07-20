@@ -9,7 +9,7 @@ import { VALIDATION_RESULT, SudokuNotes } from '../support/memory-keys';
  */
 export const PlacementValidity = {
   ofLastAttempt: () =>
-    Question.about('the placement validity result', async actor => {
+    Question.about('the placement validity result', async (actor) => {
       const result = await actor.answer(notes<SudokuNotes>().get(VALIDATION_RESULT));
       return result ?? '';
     }),

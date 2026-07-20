@@ -5,5 +5,5 @@
     "outDir": "./dist-cucumber",
     "noEmit": true
   },
-  "include": ["app_src/**/*", "tests/**/*.ts"]
+  "include": ["app_src/**/*", "tests/**/*.ts", "tooling/**/*.ts"]
 }

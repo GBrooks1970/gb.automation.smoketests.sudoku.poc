@@ -10,13 +10,16 @@ import { LoadPuzzles } from '../abilities/LoadPuzzles';
  */
 export const LoadPuzzleByIndex = {
   andInitialise: (index: number) =>
-    Interaction.where(`#actor loads puzzle at index ${index} and initialises the solver`, async actor => {
-      const puzzle = LoadPuzzles.as(actor).getByIndex(index);
-      const ability = UseSudokuSolver.as(actor);
-      if (puzzle) {
-        ability.initialise(puzzle.name, puzzle.grid);
-      } else {
-        ability.initialise('notfound');
+    Interaction.where(
+      `#actor loads puzzle at index ${index} and initialises the solver`,
+      async (actor) => {
+        const puzzle = LoadPuzzles.as(actor).getByIndex(index);
+        const ability = UseSudokuSolver.as(actor);
+        if (puzzle) {
+          ability.initialise(puzzle.name, puzzle.grid);
+        } else {
+          ability.initialise('notfound');
+        }
       }
-    }),
+    ),
 };

@@ -12,21 +12,21 @@ import { LAST_ERROR, SudokuNotes } from '../support/memory-keys';
  */
 export const SimulateError = {
   forInvalidRowCount: (rows: number) =>
-    Interaction.where(`#actor simulates a dimension error (${rows} rows)`, async actor => {
+    Interaction.where(`#actor simulates a dimension error (${rows} rows)`, async (actor) => {
       const error = new Error(`Puzzle "test" (index 0) must have exactly 9 rows`);
       UseSudokuSolver.as(actor).setSolverError(error);
       await notes<SudokuNotes>().set(LAST_ERROR, error).performAs(actor);
     }),
 
   forInvalidCellValue: (value: number) =>
-    Interaction.where(`#actor simulates an invalid cell value error (${value})`, async actor => {
+    Interaction.where(`#actor simulates an invalid cell value error (${value})`, async (actor) => {
       const error = new Error(`Puzzle "Bad" has invalid value at [0][0]: ${value}`);
       UseSudokuSolver.as(actor).setSolverError(error);
       await notes<SudokuNotes>().set(LAST_ERROR, error).performAs(actor);
     }),
 
   forMissingFile: () =>
-    Interaction.where('#actor simulates a missing puzzle file error', async actor => {
+    Interaction.where('#actor simulates a missing puzzle file error', async (actor) => {
       const loaderError = LoadPuzzles.as(actor).getError();
       const error = loaderError ?? new Error('Puzzle file not found');
       UseSudokuSolver.as(actor).setSolverError(error);

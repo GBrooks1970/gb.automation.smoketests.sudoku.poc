@@ -16,24 +16,30 @@ Given('an empty cell at row {int}, column {int}', async (row: number, col: numbe
   await actorCalled(SOLVER_ACTOR).attemptsTo(SetupGridState.targetCell(row, col));
 });
 
-Given('the numbers {int}, {int}, {int} are in the same row',
+Given(
+  'the numbers {int}, {int}, {int} are in the same row',
   async (a: number, b: number, c: number) => {
     await actorCalled(SOLVER_ACTOR).attemptsTo(SetupGridState.valuesInRow([a, b, c]));
-  });
+  }
+);
 
-Given('the numbers {int}, {int}, {int} are in the same column',
+Given(
+  'the numbers {int}, {int}, {int} are in the same column',
   async (a: number, b: number, c: number) => {
     await actorCalled(SOLVER_ACTOR).attemptsTo(SetupGridState.valuesInColumn([a, b, c]));
-  });
+  }
+);
 
-Given('the numbers {int}, {int} are in the same 3x3 block',
-  async (a: number, b: number) => {
-    await actorCalled(SOLVER_ACTOR).attemptsTo(SetupGridState.valuesInBlock([a, b]));
-  });
-
-Given('an empty cell has {int} possible candidates: {string}', async (_count: number, _candidatesStr: string) => {
-  await actorCalled(SOLVER_ACTOR).attemptsTo(SetupGridState.threeCandidates());
+Given('the numbers {int}, {int} are in the same 3x3 block', async (a: number, b: number) => {
+  await actorCalled(SOLVER_ACTOR).attemptsTo(SetupGridState.valuesInBlock([a, b]));
 });
+
+Given(
+  'an empty cell has {int} possible candidates: {string}',
+  async (_count: number, _candidatesStr: string) => {
+    await actorCalled(SOLVER_ACTOR).attemptsTo(SetupGridState.threeCandidates());
+  }
+);
 
 Given('{int} empty cells each have exactly one possible value', async (_count: number) => {
   await actorCalled(SOLVER_ACTOR).attemptsTo(SetupGridState.threeNakedSingles());
@@ -47,21 +53,22 @@ Given('{int} empty cells each have exactly one possible value', async (_count: n
 // Naked Singles - Then steps
 // ---------------------------------------------------------------------------
 
-Then('the system should determine the only possible value is {int}',
-  async (value: number) => {
-    const actor = actorCalled(SOLVER_ACTOR);
-    const made = await actor.answer(AlgorithmMadeProgress.afterLastCall());
-    assert.ok(made, 'Expected nakedSingles to return true');
-    const { row, col } = await actor.answer(TargetCell.current());
-    const cellValue = await actor.answer(GridCell.at(row, col));
-    assert.strictEqual(cellValue, value);
-  });
+Then('the system should determine the only possible value is {int}', async (value: number) => {
+  const actor = actorCalled(SOLVER_ACTOR);
+  const made = await actor.answer(AlgorithmMadeProgress.afterLastCall());
+  assert.ok(made, 'Expected nakedSingles to return true');
+  const { row, col } = await actor.answer(TargetCell.current());
+  const cellValue = await actor.answer(GridCell.at(row, col));
+  assert.strictEqual(cellValue, value);
+});
 
-Then('the cell at row {int}, column {int} should be updated to {int}',
+Then(
+  'the cell at row {int}, column {int} should be updated to {int}',
   async (row: number, col: number, value: number) => {
     const cellValue = await actorCalled(SOLVER_ACTOR).answer(GridCell.at(row, col));
     assert.strictEqual(cellValue, value);
-  });
+  }
+);
 
 Then('the cell should not be filled', async () => {
   const actor = actorCalled(SOLVER_ACTOR);
@@ -75,15 +82,14 @@ Then('the algorithm should continue to other cells', async () => {
   assert.strictEqual(made, false);
 });
 
-Then('all {int} cells should be filled with their respective values',
-  async (_count: number) => {
-    const actor = actorCalled(SOLVER_ACTOR);
-    const made = await actor.answer(AlgorithmMadeProgress.afterLastCall());
-    assert.ok(made, 'Expected nakedSingles to return true');
-    assert.strictEqual(await actor.answer(GridCell.at(0, 0)), 5);
-    assert.strictEqual(await actor.answer(GridCell.at(4, 4)), 5);
-    assert.strictEqual(await actor.answer(GridCell.at(8, 8)), 9);
-  });
+Then('all {int} cells should be filled with their respective values', async (_count: number) => {
+  const actor = actorCalled(SOLVER_ACTOR);
+  const made = await actor.answer(AlgorithmMadeProgress.afterLastCall());
+  assert.ok(made, 'Expected nakedSingles to return true');
+  assert.strictEqual(await actor.answer(GridCell.at(0, 0)), 5);
+  assert.strictEqual(await actor.answer(GridCell.at(4, 4)), 5);
+  assert.strictEqual(await actor.answer(GridCell.at(8, 8)), 9);
+});
 
 Then('the algorithm should return true', async () => {
   const made = await actorCalled(SOLVER_ACTOR).answer(AlgorithmMadeProgress.afterLastCall());

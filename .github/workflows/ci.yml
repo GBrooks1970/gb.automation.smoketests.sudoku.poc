@@ -41,6 +41,10 @@ jobs:
         working-directory: demo-apps/demoapp001-typescript-cypress
         run: npm run lint
 
+      - name: Check formatting
+        working-directory: demo-apps/demoapp001-typescript-cypress
+        run: npm run format:check
+
       - name: API integration tests
         working-directory: demo-apps/demoapp001-typescript-cypress
         run: npm run test:api

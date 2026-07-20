@@ -32,16 +32,17 @@ Then('the audit trail should be generated', () => {
 
 Then('the audit trail should contain at least one cell change', () => {
   const trail = UseSudokuSolver.as(actorCalled(SOLVER_ACTOR)).lastAuditTrail;
-  assert.ok(trail && trail.totalChanges > 0,
-    `Expected at least one cell change but got ${trail?.totalChanges ?? 0}`);
+  assert.ok(
+    trail && trail.totalChanges > 0,
+    `Expected at least one cell change but got ${trail?.totalChanges ?? 0}`
+  );
 });
 
 Then('every cell change should have an algorithm attribution', () => {
   const trail = UseSudokuSolver.as(actorCalled(SOLVER_ACTOR)).lastAuditTrail;
   assert.ok(trail, 'Expected an audit trail');
   for (const event of trail.events) {
-    assert.ok(event.algorithm,
-      `Event ${event.eventId} has no algorithm attribution`);
+    assert.ok(event.algorithm, `Event ${event.eventId} has no algorithm attribution`);
   }
 });
 
@@ -49,11 +50,15 @@ Then('the audit trail statistics should account for all changes', () => {
   const trail = UseSudokuSolver.as(actorCalled(SOLVER_ACTOR)).lastAuditTrail;
   assert.ok(trail, 'Expected an audit trail');
   const s = trail.statistics;
-  const statsTotal = s.changesByAlgorithm.unitCompletion
-    + s.changesByAlgorithm.hiddenSingles
-    + s.changesByAlgorithm.nakedSingles;
-  assert.strictEqual(statsTotal, trail.totalChanges,
-    `Statistics total (${statsTotal}) does not match totalChanges (${trail.totalChanges})`);
+  const statsTotal =
+    s.changesByAlgorithm.unitCompletion +
+    s.changesByAlgorithm.hiddenSingles +
+    s.changesByAlgorithm.nakedSingles;
+  assert.strictEqual(
+    statsTotal,
+    trail.totalChanges,
+    `Statistics total (${statsTotal}) does not match totalChanges (${trail.totalChanges})`
+  );
 });
 
 Then('no audit trail should be present', () => {

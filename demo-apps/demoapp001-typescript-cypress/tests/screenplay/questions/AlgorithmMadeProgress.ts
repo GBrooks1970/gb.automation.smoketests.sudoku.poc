@@ -9,7 +9,7 @@ import { ALGORITHM_PROGRESS, SudokuNotes } from '../support/memory-keys';
  */
 export const AlgorithmMadeProgress = {
   afterLastCall: () =>
-    Question.about('whether the algorithm made progress', async actor => {
+    Question.about('whether the algorithm made progress', async (actor) => {
       const progress = await actor.answer(notes<SudokuNotes>().get(ALGORITHM_PROGRESS));
       return progress ?? false;
     }),

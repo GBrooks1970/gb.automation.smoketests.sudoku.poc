@@ -10,7 +10,7 @@ import { GRID_SNAPSHOT, SudokuNotes } from '../support/memory-keys';
  */
 export const GridSnapshot = {
   current: () =>
-    Question.about('the stored grid snapshot', async actor => {
+    Question.about('the stored grid snapshot', async (actor) => {
       const snap = await actor.answer(notes<SudokuNotes>().get(GRID_SNAPSHOT));
       return (snap ?? []) as number[][];
     }),

@@ -21,7 +21,7 @@ export const SudokuActors: Cast = {
     return actor.whoCan(
       new UseSudokuSolver(),
       LoadPuzzles.from(PUZZLES_PATH),
-      TakeNotes.usingAnEmptyNotepad<SudokuNotes>(),
+      TakeNotes.usingAnEmptyNotepad<SudokuNotes>()
     );
   },
 };

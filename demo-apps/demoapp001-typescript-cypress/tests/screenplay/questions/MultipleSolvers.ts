@@ -11,12 +11,13 @@ import { ALGORITHM_PROGRESS, SudokuNotes } from '../support/memory-keys';
  */
 export const MultipleSolvers = {
   count: () =>
-    Question.about('the number of independent solver instances', actor =>
-      UseSudokuSolver.as(actor).multipleSolvers.length
+    Question.about(
+      'the number of independent solver instances',
+      (actor) => UseSudokuSolver.as(actor).multipleSolvers.length
     ),
 
   areIndependent: () =>
-    Question.about('whether solver instances have independent grid references', actor => {
+    Question.about('whether solver instances have independent grid references', (actor) => {
       const solvers = UseSudokuSolver.as(actor).multipleSolvers;
       if (solvers.length < 2) return true;
       for (let i = 0; i < solvers.length - 1; i++) {
@@ -26,12 +27,12 @@ export const MultipleSolvers = {
     }),
 
   isolationVerified: () =>
-    Question.about('whether solving one solver left the others unchanged', async actor => {
+    Question.about('whether solving one solver left the others unchanged', async (actor) => {
       const ability = UseSudokuSolver.as(actor);
       const solvers = ability.multipleSolvers;
 
-      const snap1 = solvers[1].grid.map(r => [...r]);
-      const snap2 = solvers[2].grid.map(r => [...r]);
+      const snap1 = solvers[1].grid.map((r) => [...r]);
+      const snap2 = solvers[2].grid.map((r) => [...r]);
 
       ability.initialise(solvers[0].name, solvers[0].origGrid);
       ability.solvePuzzle();
@@ -39,8 +40,14 @@ export const MultipleSolvers = {
       let isolated = true;
       for (let r = 0; r < solvers[1].grid.length; r++) {
         for (let c = 0; c < solvers[1].grid[r].length; c++) {
-          if (solvers[1].grid[r][c] !== snap1[r][c]) { isolated = false; break; }
-          if (solvers[2].grid[r][c] !== snap2[r][c]) { isolated = false; break; }
+          if (solvers[1].grid[r][c] !== snap1[r][c]) {
+            isolated = false;
+            break;
+          }
+          if (solvers[2].grid[r][c] !== snap2[r][c]) {
+            isolated = false;
+            break;
+          }
         }
         if (!isolated) break;
       }

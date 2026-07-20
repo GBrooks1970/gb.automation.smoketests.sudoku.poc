@@ -11,7 +11,7 @@ import { SOLVE_RESULT, SudokuNotes } from '../support/memory-keys';
  */
 export const SolvePuzzle = {
   named: (puzzleName: string) =>
-    Interaction.where(`#actor solves puzzle "${puzzleName}"`, async actor => {
+    Interaction.where(`#actor solves puzzle "${puzzleName}"`, async (actor) => {
       const puzzle = LoadPuzzles.as(actor).getByName(puzzleName);
       if (!puzzle) throw new Error(`Puzzle not found: "${puzzleName}"`);
       const ability = UseSudokuSolver.as(actor);
@@ -21,7 +21,7 @@ export const SolvePuzzle = {
     }),
 
   withCurrentGrid: () =>
-    Interaction.where('#actor runs the solving loop on the current grid', async actor => {
+    Interaction.where('#actor runs the solving loop on the current grid', async (actor) => {
       const ability = UseSudokuSolver.as(actor);
       ability.solvePuzzle();
       await notes<SudokuNotes>().set(SOLVE_RESULT, ability.result).performAs(actor);
@@ -32,7 +32,7 @@ export const SolvePuzzle = {
   withCurrentGridTrackingOrder: () =>
     Interaction.where(
       '#actor runs the solving loop on the current grid, tracking algorithm order',
-      async actor => {
+      async (actor) => {
         const ability = UseSudokuSolver.as(actor);
         ability.solvePuzzleTrackingOrder();
         await notes<SudokuNotes>().set(SOLVE_RESULT, ability.result).performAs(actor);

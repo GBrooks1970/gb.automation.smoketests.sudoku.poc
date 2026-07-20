@@ -4,11 +4,11 @@ const prettierConfig = require("eslint-config-prettier");
 
 module.exports = [
   {
-    files: ["app_src/**/*.ts"],
+    files: ["app_src/**/*.ts", "tests/**/*.ts", "tooling/**/*.ts"],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        project: true,
+        project: "./tsconfig.cucumber.json",
         tsconfigRootDir: __dirname
       }
     },
@@ -25,8 +25,12 @@ module.exports = [
         },
         {
           "selector": "variable",
-          "format": ["camelCase", "UPPER_CASE"],
+          "format": ["camelCase", "UPPER_CASE", "PascalCase"],
           "leadingUnderscore": "allow"
+        },
+        {
+          "selector": "import",
+          "format": ["camelCase", "PascalCase"]
         },
         {
           "selector": "parameter",
@@ -44,7 +48,7 @@ module.exports = [
         },
         {
           "selector": "property",
-          "format": ["camelCase"],
+          "format": ["camelCase", "UPPER_CASE", "PascalCase"],
           "leadingUnderscore": "allow"
         }
       ]

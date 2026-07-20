@@ -9,7 +9,7 @@ import { TARGET_CELL, SudokuNotes } from '../support/memory-keys';
  */
 export const TargetCell = {
   current: () =>
-    Question.about('the current target cell coordinates', async actor => {
+    Question.about('the current target cell coordinates', async (actor) => {
       const tc = await actor.answer(notes<SudokuNotes>().get(TARGET_CELL));
       return tc ?? { row: 0, col: 0 };
     }),

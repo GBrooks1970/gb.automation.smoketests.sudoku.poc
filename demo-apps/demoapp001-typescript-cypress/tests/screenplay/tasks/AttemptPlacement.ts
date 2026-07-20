@@ -10,7 +10,7 @@ import { VALIDATION_RESULT, SudokuNotes } from '../support/memory-keys';
  */
 export const AttemptPlacement = {
   ofValue: (value: number) =>
-    Interaction.where(`#actor attempts to place ${value} at the target cell`, async actor => {
+    Interaction.where(`#actor attempts to place ${value} at the target cell`, async (actor) => {
       const ability = UseSudokuSolver.as(actor);
       ability.setTargetValue(value);
       const { row, col } = ability.targetCell;

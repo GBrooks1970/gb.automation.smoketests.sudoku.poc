@@ -2,11 +2,13 @@ import { SudokuSolver } from '../../../app_src/SudokuSolver';
 import { GRID_SIZE, BLOCK_SIZE, EMPTY_CELL } from '../../../app_src/constants';
 
 function digitsExcept(missingDigit: number): number[] {
-  return [1, 2, 3, 4, 5, 6, 7, 8, 9].filter(digit => digit !== missingDigit);
+  return [1, 2, 3, 4, 5, 6, 7, 8, 9].filter((digit) => digit !== missingDigit);
 }
 
 export function setupAlmostCompleteColumn(
-  solver: SudokuSolver, col: number, missingDigit: number
+  solver: SudokuSolver,
+  col: number,
+  missingDigit: number
 ): void {
   const values = digitsExcept(missingDigit);
   for (let i = 0; i < values.length; i++) {
@@ -16,7 +18,10 @@ export function setupAlmostCompleteColumn(
 }
 
 export function setupAlmostCompleteBlock(
-  solver: SudokuSolver, blockRow: number, blockCol: number, missingDigit: number
+  solver: SudokuSolver,
+  blockRow: number,
+  blockCol: number,
+  missingDigit: number
 ): void {
   const values = digitsExcept(missingDigit);
   let idx = 0;
@@ -30,16 +35,13 @@ export function setupAlmostCompleteBlock(
 export function setupMultipleEmpties(solver: SudokuSolver): void {
   for (let row = 0; row < GRID_SIZE; row++) {
     for (let col = 0; col < GRID_SIZE; col++) {
-      solver.grid[row][col] =
-        (row + col) % 2 === 0 ? ((row * 3 + col + 1) % 9) + 1 : EMPTY_CELL;
+      solver.grid[row][col] = (row + col) % 2 === 0 ? ((row * 3 + col + 1) % 9) + 1 : EMPTY_CELL;
     }
   }
 }
 
-export function setupRowMissingDigit(
-  solver: SudokuSolver, rowIndex: number, target: number
-): void {
-  const digits = [1, 2, 3, 4, 5, 6, 7, 8, 9].filter(d => d !== target);
+export function setupRowMissingDigit(solver: SudokuSolver, rowIndex: number, target: number): void {
+  const digits = [1, 2, 3, 4, 5, 6, 7, 8, 9].filter((d) => d !== target);
   let idx = 0;
   for (let col = 0; col < GRID_SIZE; col++) {
     solver.grid[rowIndex][col] = col === 4 ? EMPTY_CELL : digits[idx++];
@@ -47,9 +49,11 @@ export function setupRowMissingDigit(
 }
 
 export function setupColumnMissingDigit(
-  solver: SudokuSolver, colIndex: number, target: number
+  solver: SudokuSolver,
+  colIndex: number,
+  target: number
 ): void {
-  const digits = [1, 2, 3, 4, 5, 6, 7, 8, 9].filter(d => d !== target);
+  const digits = [1, 2, 3, 4, 5, 6, 7, 8, 9].filter((d) => d !== target);
   let idx = 0;
   for (let row = 0; row < GRID_SIZE; row++) {
     solver.grid[row][colIndex] = row === 4 ? EMPTY_CELL : digits[idx++];
@@ -57,7 +61,10 @@ export function setupColumnMissingDigit(
 }
 
 export function setupRowColumnConstraints(
-  solver: SudokuSolver, count: number, rowIndex: number, target: number
+  solver: SudokuSolver,
+  count: number,
+  rowIndex: number,
+  target: number
 ): void {
   const candidateCol = 4;
   const usedRows = new Set<number>();
@@ -74,7 +81,10 @@ export function setupRowColumnConstraints(
 }
 
 export function setupColumnRowConstraints(
-  solver: SudokuSolver, count: number, colIndex: number, target: number
+  solver: SudokuSolver,
+  count: number,
+  colIndex: number,
+  target: number
 ): void {
   const candidateRow = 4;
   const usedCols = new Set<number>();
@@ -144,24 +154,40 @@ export function setupThreeNakedSingles(solver: SudokuSolver): void {
 
 export function setupNamedGridState(solver: SudokuSolver, gridState: string): void {
   switch (gridState) {
-    case 'has5InSameRow':   solver.grid[0][5] = 5; break;
-    case 'has3InSameCol':   solver.grid[5][0] = 3; break;
-    case 'has7InSameBlock': solver.grid[0][0] = 7; break;
-    case 'has1InRowAndCol': solver.grid[8][0] = 1; solver.grid[0][8] = 1; break;
-    case 'fullyConstrained': solver.grid[3][0] = 8; break;
+    case 'has5InSameRow':
+      solver.grid[0][5] = 5;
+      break;
+    case 'has3InSameCol':
+      solver.grid[5][0] = 3;
+      break;
+    case 'has7InSameBlock':
+      solver.grid[0][0] = 7;
+      break;
+    case 'has1InRowAndCol':
+      solver.grid[8][0] = 1;
+      solver.grid[0][8] = 1;
+      break;
+    case 'fullyConstrained':
+      solver.grid[3][0] = 8;
+      break;
     // emptyGrid, noConflicts, noConstraints: no-op (fresh solver already empty)
   }
 }
 
 export function setupWithDuplicateInRow(
-  solver: SudokuSolver, rowIndex: number, value: number
+  solver: SudokuSolver,
+  rowIndex: number,
+  value: number
 ): void {
   solver.grid[rowIndex][0] = value;
   solver.grid[rowIndex][1] = value;
 }
 
 export function addValuesToRow(
-  solver: SudokuSolver, row: number, excludeCol: number, values: number[]
+  solver: SudokuSolver,
+  row: number,
+  excludeCol: number,
+  values: number[]
 ): void {
   let placed = 0;
   for (let c = 0; c < GRID_SIZE && placed < values.length; c++) {
@@ -172,7 +198,10 @@ export function addValuesToRow(
 }
 
 export function addValuesToColumn(
-  solver: SudokuSolver, col: number, excludeRow: number, values: number[]
+  solver: SudokuSolver,
+  col: number,
+  excludeRow: number,
+  values: number[]
 ): void {
   let placed = 0;
   for (let r = 0; r < GRID_SIZE && placed < values.length; r++) {
@@ -184,8 +213,10 @@ export function addValuesToColumn(
 
 export function addValuesToBlock(
   solver: SudokuSolver,
-  targetRow: number, targetCol: number,
-  excludeRow: number, excludeCol: number,
+  targetRow: number,
+  targetCol: number,
+  excludeRow: number,
+  excludeCol: number,
   values: number[]
 ): void {
   const blockStartRow = Math.floor(targetRow / BLOCK_SIZE) * BLOCK_SIZE;
@@ -204,7 +235,7 @@ export function createSolversFromPuzzles(
   count: number,
   puzzles: Array<{ name: string; grid: number[][] }>
 ): SudokuSolver[] {
-  return puzzles.slice(0, count).map(p => new SudokuSolver(p.name, p.grid));
+  return puzzles.slice(0, count).map((p) => new SudokuSolver(p.name, p.grid));
 }
 
 function findBlockingRow(
@@ -217,9 +248,11 @@ function findBlockingRow(
   const candidateBlockCol = Math.floor(candidateCol / BLOCK_SIZE);
   const colSharesCandidateBlock = Math.floor(col / BLOCK_SIZE) === candidateBlockCol;
   const allowedRows = Array.from({ length: GRID_SIZE }, (_, row) => row)
-    .filter(row => row !== candidateRow)
-    .filter(row => !colSharesCandidateBlock || Math.floor(row / BLOCK_SIZE) !== candidateBlockRow);
-  return allowedRows.find(row => !usedRows.has(row)) ?? allowedRows[0];
+    .filter((row) => row !== candidateRow)
+    .filter(
+      (row) => !colSharesCandidateBlock || Math.floor(row / BLOCK_SIZE) !== candidateBlockRow
+    );
+  return allowedRows.find((row) => !usedRows.has(row)) ?? allowedRows[0];
 }
 
 function findBlockingCol(
@@ -232,7 +265,9 @@ function findBlockingCol(
   const candidateBlockCol = Math.floor(candidateCol / BLOCK_SIZE);
   const rowSharesCandidateBlock = Math.floor(row / BLOCK_SIZE) === candidateBlockRow;
   const allowedCols = Array.from({ length: GRID_SIZE }, (_, col) => col)
-    .filter(col => col !== candidateCol)
-    .filter(col => !rowSharesCandidateBlock || Math.floor(col / BLOCK_SIZE) !== candidateBlockCol);
-  return allowedCols.find(col => !usedCols.has(col)) ?? allowedCols[0];
+    .filter((col) => col !== candidateCol)
+    .filter(
+      (col) => !rowSharesCandidateBlock || Math.floor(col / BLOCK_SIZE) !== candidateBlockCol
+    );
+  return allowedCols.find((col) => !usedCols.has(col)) ?? allowedCols[0];
 }
