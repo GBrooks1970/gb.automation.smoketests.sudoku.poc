@@ -1,10 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-07-20 (resolved BACKLOG-056 / TRIAGE-01 from the 2026-07-18 review by
-extending DEMOAPP001 lint and Prettier coverage to its test and tooling TypeScript, and adding the
-format check to CI. TRIAGE-02..04 remain in the portfolio worklist and are not yet materialised as
-backlog records; the three Open backlog items remain parked future product/solver work)
+**Last Updated:** 2026-07-20 (resolved BACKLOG-056 / TRIAGE-01 and BACKLOG-057 / TRIAGE-02 from the
+2026-07-18 review. Static analysis now covers DEMOAPP001 test/tooling TypeScript, and the governance
+currency guard now covers CLAUDE.md's RA citation and accepted DR range. TRIAGE-03..04 remain in the
+portfolio worklist and are not yet materialised as backlog records; the three Open backlog items
+remain parked future product/solver work)
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -30,8 +31,8 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 3 |
 | In Progress | 0 |
-| Resolved | 75 |
-| **Total** | **78** |
+| Resolved | 76 |
+| **Total** | **79** |
 
 | Area | Current state |
 |------|---------------|
@@ -221,6 +222,7 @@ backlog retains their final status and verification evidence.
 | ID | Worklist | Title | Stack(s) | Review risk | Priority | Status | Decision Record |
 |----|----------|-------|----------|-------------|----------|--------|-----------------|
 | BACKLOG-056 | TRIAGE-01 | Extend lint and formatting gates across DEMOAPP001 test/tooling TypeScript | DEMOAPP001 + CI | Risk 1 | Low | Resolved | None required |
+| BACKLOG-057 | TRIAGE-02 | Reconcile CLAUDE.md's accepted DR range and extend the governance-currency guard | All (docs/tooling) | Risk 2 | Low | Resolved | None required |
 
 Resolution evidence:
 
@@ -231,6 +233,12 @@ Resolution evidence:
   formatted. Local verification: clean `npm ci` (0 vulnerabilities; expected Node-20 engine
   warnings because the project requires Node 24), build, lint, format check, API integration tests,
   46 scenarios / 257 steps, and all repository parity checks PASS. Node-24 CI is authoritative.
+- BACKLOG-057: removed CLAUDE.md's duplicate stale DR range, leaving the Authority Order as the
+  single accepted-range statement. The RA header-currency guard now checks CLAUDE.md alongside the
+  decision register and backlog, accepts its `DOCS/reference-architecture.md` citation, derives
+  the latest accepted DR from the decision register's `Next ID` footer, and rejects stale ranges.
+  Verified with a current-state PASS and an injected `DR-001 through DR-035` negative test that
+  failed before the correct `DR-001 through DR-036` range was restored. No DR required.
 
 ---
 
@@ -1143,6 +1151,7 @@ Acceptance criteria:
 | BACKLOG-055 | RA header-currency parity guard (SUD-19) | All (tooling) | 2026-07-17 | `.batch/check-ra-header-currency.ps1` asserts decision-register.md/backlog.md cite the active RA version; wired into run-parity-checks.ps1 and CI; PASS on current main. |
 | BACKLOG-051 | Orchestration ordering/no-execution assertions (SUD-20) | All | 2026-07-17 | Tracked-order solve path in all three Stacks; real audit-event assertions replace SOLVED-status inference; 46×3 green, all parity gates PASS; no DR (Gherkin unchanged). |
 | BACKLOG-056 | DEMOAPP001 test/tooling static-analysis coverage (TRIAGE-01) | DEMOAPP001 + CI | 2026-07-20 | ESLint/Prettier cover app, tests, and tooling; CI runs format checking; 46 scenarios / 257 steps and parity gates PASS. |
+| BACKLOG-057 | CLAUDE.md governance-currency guard (TRIAGE-02) | All (docs/tooling) | 2026-07-20 | Removed the stale duplicate DR range; guard now checks CLAUDE.md's RA citation and DR-001..latest range against the decision register. |
 
 ---
 
