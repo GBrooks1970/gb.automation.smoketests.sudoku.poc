@@ -1,11 +1,12 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-07-20 (resolved BACKLOG-056 / TRIAGE-01 and BACKLOG-057 / TRIAGE-02 from the
-2026-07-18 review. Static analysis now covers DEMOAPP001 test/tooling TypeScript, and the governance
-currency guard now covers CLAUDE.md's RA citation and accepted DR range. TRIAGE-03..04 remain in the
-portfolio worklist and are not yet materialised as backlog records; the three Open backlog items
-remain parked future product/solver work)
+**Last Updated:** 2026-07-20 (resolved BACKLOG-056 / TRIAGE-01, BACKLOG-057 / TRIAGE-02, and
+BACKLOG-058 / TRIAGE-03 from the 2026-07-18 review. Static analysis covers DEMOAPP001 test/tooling
+TypeScript, the governance currency guard covers CLAUDE.md, and the local parity container now
+matches CI's PowerShell 7.5 / Ubuntu 24.04 pair. TRIAGE-04 remains in the portfolio worklist and is
+not yet materialised as a backlog record; the three Open backlog items remain parked future
+product/solver work)
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -31,8 +32,8 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 3 |
 | In Progress | 0 |
-| Resolved | 76 |
-| **Total** | **79** |
+| Resolved | 77 |
+| **Total** | **80** |
 
 | Area | Current state |
 |------|---------------|
@@ -223,6 +224,7 @@ backlog retains their final status and verification evidence.
 |----|----------|-------|----------|-------------|----------|--------|-----------------|
 | BACKLOG-056 | TRIAGE-01 | Extend lint and formatting gates across DEMOAPP001 test/tooling TypeScript | DEMOAPP001 + CI | Risk 1 | Low | Resolved | None required |
 | BACKLOG-057 | TRIAGE-02 | Reconcile CLAUDE.md's accepted DR range and extend the governance-currency guard | All (docs/tooling) | Risk 2 | Low | Resolved | None required |
+| BACKLOG-058 | TRIAGE-03 | Align the local parity-check container with CI's PowerShell and Ubuntu versions | All (tooling) | Risk 3 | Low | Resolved | None required |
 
 Resolution evidence:
 
@@ -239,6 +241,11 @@ Resolution evidence:
   the latest accepted DR from the decision register's `Next ID` footer, and rejects stale ranges.
   Verified with a current-state PASS and an injected `DR-001 through DR-035` negative test that
   failed before the correct `DR-001 through DR-036` range was restored. No DR required.
+- BACKLOG-058: the Compose `parity-checks` service now pins
+  `mcr.microsoft.com/powershell:7.5-ubuntu-24.04`, matching the shell/OS pair used by CI instead of
+  the PowerShell 7.4 / Ubuntu 22.04 lineage. `docker compose config --quiet` and
+  `docker compose run --rm parity-checks` both pass on the local Docker Linux engine; the container
+  reports PASS for RA currency, Memory-key, feature, and step-text parity. No DR required.
 
 ---
 

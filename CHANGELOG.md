@@ -42,6 +42,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - SUD-04 (review Refactor 5, DR-035): authored OpenAPI 3.0 contract for the DEMOAPP001 REST API at `demo-apps/demoapp001-typescript-cypress/docs/openapi.yaml` covering all nine endpoints, request/response schemas, and the structured error codes; must be updated in the same change as any endpoint or schema change.
 
 ### Changed
+- BACKLOG-058 (TRIAGE-03, review `CODE_REVIEW_CLAUDE_Fable_5_v2_20260718T0609Z` Risk 3, LOW):
+  aligned the local Compose parity gate with CI by moving its container from PowerShell 7.4 on
+  Ubuntu 22.04 to PowerShell 7.5 on Ubuntu 24.04.
 - BACKLOG-057 (TRIAGE-02, review `CODE_REVIEW_CLAUDE_Fable_5_v2_20260718T0609Z` Risk 2, LOW):
   removed CLAUDE.md's stale duplicate accepted-DR range and extended the governance-currency guard
   to validate CLAUDE.md's RA citation and decision range against the decision register.
