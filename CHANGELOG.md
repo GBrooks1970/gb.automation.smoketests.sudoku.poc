@@ -9,6 +9,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Added
+- BACKLOG-059 (TRIAGE-04, review `CODE_REVIEW_CLAUDE_Fable_5_v2_20260718T0609Z` Risk 4, LOW):
+  added a Stack-local `.npmrc` with `engine-strict=true`, so npm installs fail fast outside the
+  declared Node `>=24 <25` support range instead of continuing after a warning.
 - BACKLOG-051 (SUD-20, review `CODE_REVIEW_CLAUDE_Fable_5_v1_20260706T1048Z` Risk 7, LOW): added a
   tracked-order solve path (`solvePuzzleTrackingOrder()` / `solve_puzzle_tracking_order()` /
   `SolvePuzzleTrackingOrder()`) to all three Stacks, wired only into the two orchestration
