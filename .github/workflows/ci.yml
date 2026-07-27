@@ -108,6 +108,12 @@ jobs:
         working-directory: demo-apps/demoapp002-python-pytest
         run: python -m pip install -c requirements-test.lock -e ".[test]"
 
+      - name: Component coverage baseline (report-only)
+        working-directory: demo-apps/demoapp002-python-pytest
+        run: |
+          python -m coverage run -m pytest tests/component
+          python -m coverage report
+
       - name: Test
         working-directory: demo-apps/demoapp002-python-pytest
         run: python -m pytest

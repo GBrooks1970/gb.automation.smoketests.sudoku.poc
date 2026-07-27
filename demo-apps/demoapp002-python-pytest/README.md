@@ -11,20 +11,30 @@ python -m pip install -c requirements-test.lock -e ".[test]"
 python -m pytest
 ```
 
+The focused component lane and its report-only branch/line baseline are separate from the BDD
+contract:
+
+```powershell
+python -m pytest tests/component
+python -m coverage run -m pytest tests/component
+python -m coverage report
+```
+
 ## Structure
 
 ```text
 app_src/                 Python Sudoku subject implementation
 tests/features/          Stack-local copy of the canonical Gherkin feature
-tests/component/         Focused attempt-observer contract tests
+tests/component/         Focused loader, solver, orchestration and validation tests
 tests/screenplay/        Screenplay-style abilities, tasks, questions, and steps
 puzzles.json             Stack-local puzzle data used by PuzzleLoader
 ```
 
 The feature body must stay in parity with
 `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature`.
-The current suite contains 48 tests: 46 canonical BDD scenarios plus 2 focused orchestration
-contract tests.
+The current suite contains 74 tests: 48 canonical BDD scenarios plus 26 focused component tests.
+The measured component scope and exclusions are recorded in
+[the component-test coverage baseline](docs/component-test-coverage-baseline.md).
 
 ## Grid Access
 

@@ -8,6 +8,7 @@ dependencies = []
 
 [project.optional-dependencies]
 test = [
+  "coverage[toml]>=7.10,<8",
   "pytest>=8.0",
   "pytest-bdd>=8.0",
 ]
@@ -23,3 +24,17 @@ markers = [
   "util: shared @util Sudoku feature surface",
   "stack-demoapp002: DEMOAPP002 Python pytest Stack scenarios",
 ]
+
+[tool.coverage.run]
+branch = true
+source = ["app_src"]
+omit = [
+  "*/app_src/__init__.py",
+  "*/app_src/attempt.py",
+  "*/app_src/audit.py",
+  "*/app_src/constants.py",
+]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true

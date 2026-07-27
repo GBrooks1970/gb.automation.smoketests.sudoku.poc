@@ -17,6 +17,8 @@ SOLVED_EXCEPT_ONE = [
     [2, 8, 7, 4, 1, 9, 6, 3, 5],
     [3, 4, 5, 2, 8, 6, 1, 7, 9],
 ]
+SOLVED_GRID = [row.copy() for row in SOLVED_EXCEPT_ONE]
+SOLVED_GRID[0][8] = 2
 
 
 def expected_iteration() -> list[tuple[str, int | None]]:
@@ -60,3 +62,24 @@ def test_observer_records_immutable_changes_and_non_terminal_progress() -> None:
         changed_event.iteration = 99  # type: ignore[misc]
     with pytest.raises(AttributeError):
         changed_event.changes.append(changed_event.changes[0])  # type: ignore[attr-defined]
+
+
+def test_completed_grid_exits_before_any_solving_attempt() -> None:
+    events: list[AttemptEvent] = []
+    solver = SudokuSolver("complete", SOLVED_GRID)
+
+    result = SudokuOrchestrator(solver, attempt_observer=events.append).solve()
+
+    assert result == "SOLVED"
+    assert events == []
+
+
+def test_observer_rejects_changed_result_without_cell_evidence() -> None:
+    solver = SudokuSolver("inconsistent technique", EMPTY_GRID)
+    solver.unit_completion = lambda: True  # type: ignore[method-assign]
+
+    with pytest.raises(
+        RuntimeError,
+        match="UnitCompletion returned changed=True but produced 0 cell changes",
+    ):
+        SudokuOrchestrator(solver, attempt_observer=lambda _: None).solve()
