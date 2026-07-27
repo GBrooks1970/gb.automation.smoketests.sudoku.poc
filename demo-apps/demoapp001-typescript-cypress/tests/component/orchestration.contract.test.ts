@@ -20,6 +20,8 @@ const SOLVED_EXCEPT_ONE = [
   [2, 8, 7, 4, 1, 9, 6, 3, 5],
   [3, 4, 5, 2, 8, 6, 1, 7, 9],
 ];
+const SOLVED_GRID = SOLVED_EXCEPT_ONE.map((row) => [...row]);
+SOLVED_GRID[0][8] = 2;
 
 function expectedIteration(): Array<{ technique: AttemptTechnique; parameter?: number }> {
   return [
@@ -76,5 +78,25 @@ test('observer records immutable change evidence and progress before the termina
   assert.throws(
     () => (changedEvent.changes as AttemptCellChange[]).push(changedEvent.changes[0]),
     TypeError
+  );
+});
+
+test('completed grids exit before any solving attempt', () => {
+  const events: AttemptEvent[] = [];
+  const solver = new SudokuSolver('complete', SOLVED_GRID);
+
+  const result = new SudokuOrchestrator(solver, undefined, (event) => events.push(event)).solve();
+
+  assert.equal(result, 'SOLVED');
+  assert.deepEqual(events, []);
+});
+
+test('attempt observers reject a changed result without cell evidence', () => {
+  const solver = new SudokuSolver('inconsistent technique', EMPTY_GRID);
+  solver.unitCompletion = () => true;
+
+  assert.throws(
+    () => new SudokuOrchestrator(solver, undefined, () => undefined).solve(),
+    /UnitCompletion returned changed=true but produced 0 cell changes/
   );
 });

@@ -16,7 +16,9 @@
     "lint": "eslint \"app_src/**/*.ts\" \"tests/**/*.ts\" \"tooling/**/*.ts\"",
     "format": "prettier --write \"app_src/**/*.ts\" \"tests/**/*.ts\" \"tooling/**/*.ts\"",
     "format:check": "prettier --check \"app_src/**/*.ts\" \"tests/**/*.ts\" \"tooling/**/*.ts\"",
-    "test": "npm run test:orchestration && cucumber-js --config tooling/cucumber.js",
+    "test": "npm run test:component && cucumber-js --config tooling/cucumber.js",
+    "test:component": "node --test -r ts-node/register tests/component/*.test.ts",
+    "test:coverage": "node --test --experimental-test-coverage --test-coverage-include=app_src/PuzzleLoader.ts --test-coverage-include=app_src/SudokuSolver.ts --test-coverage-include=app_src/SudokuOrchestrator.ts --test-coverage-include=app_src/server/SudokuApiService.ts --test-coverage-include=app_src/server/validation.ts -r ts-node/register tests/component/*.test.ts",
     "test:orchestration": "node --test -r ts-node/register tests/component/orchestration.contract.test.ts",
     "test:api": "ts-node tests/api/api.integration.ts",
     "benchmark": "ts-node tooling/performance/benchmark.ts"

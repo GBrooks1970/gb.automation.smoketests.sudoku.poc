@@ -28,15 +28,17 @@ npm ci
 
 ```bash
 npm test
+npm run test:component
+npm run test:coverage
 npm run test:api
 ```
 
 Expected output (current baseline):
 
 ```text
-2 orchestration component tests (2 passed)
-46 scenarios (46 passed)
-259 steps (259 passed)
+16 component tests (16 passed)
+48 scenarios (48 passed)
+267 steps (267 passed)
 API integration tests: PASS
 ```
 
@@ -101,7 +103,9 @@ demoapp001-typescript-cypress/
 | Command | Description |
 |---------|-------------|
 | `npm run build` | Compile TypeScript to JavaScript |
-| `npm test` | Run orchestration contract tests and the full BDD suite |
+| `npm test` | Run the component lane and the full BDD suite |
+| `npm run test:component` | Run all focused lower-level component tests |
+| `npm run test:coverage` | Run component tests with report-only native Node coverage |
 | `npm run test:orchestration` | Run the focused attempt-observer contract tests |
 | `npm run test:api` | Run REST API integration checks |
 | `npm start` | Run CLI demo app with ts-node |
@@ -122,6 +126,7 @@ See canonical update process in `../../CLAUDE.md`.
 ## Deeper Reading
 
 - `docs/architecture.md` — layer model and dependency boundaries
+- [component-test-coverage-baseline.md](component-test-coverage-baseline.md) — SUD-24 component inventory, baseline and exclusions
 - `docs/screenplay-guide.md` — Actor/Ability/Task/Question implementation details
 - `docs/qa-strategy.md` — scope and coverage posture
 - `../../DOCS/.templates/stack-readme.template.md` — source template used
