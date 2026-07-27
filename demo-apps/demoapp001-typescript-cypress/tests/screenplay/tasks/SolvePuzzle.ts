@@ -27,8 +27,8 @@ export const SolvePuzzle = {
       await notes<SudokuNotes>().set(SOLVE_RESULT, ability.result).performAs(actor);
     }),
 
-  // SUD-20 / BACKLOG-051: same solve, but always captures the audit event sequence so
-  // orchestration Then-steps can assert real algorithm ordering / no-execution counts.
+  // Backward-compatible SUD-20 task name; SUD-22 now captures immutable attempt events without
+  // enabling the change-only audit trail.
   withCurrentGridTrackingOrder: () =>
     Interaction.where(
       '#actor runs the solving loop on the current grid, tracking algorithm order',

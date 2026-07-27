@@ -1,4 +1,4 @@
-@util @stack-demoapp002
+@util
 Feature: Basic Sudoku Solver Logic
   As an automated Sudoku solver
   I want to apply three fundamental solving techniques systematically
@@ -132,12 +132,13 @@ Feature: Basic Sudoku Solver Logic
   # =============================================================================
 
   Scenario: Execute solving techniques in correct order
-    Given a puzzle that requires all three techniques
-    When the main solving loop executes one iteration
+    Given a puzzle that exercises the complete basic-technique attempt sequence
+    When the main solving loop executes with attempt tracing
     Then "Unit Completion" should be attempted first
     And "Hidden Singles" should be attempted second for digits 1 through 9
     And "Naked Singles" should be attempted third
     And the execution order should be maintained in every iteration
+    And every attempt should expose immutable change evidence
 
   Scenario: Solve a puzzle requiring multiple iterations
     Given a partially filled grid solvable with basic techniques
@@ -243,7 +244,8 @@ Feature: Basic Sudoku Solver Logic
     Given the puzzle "Logic Squeeze Grid" is loaded from JSON
     When the solver attempts to solve it
     Then the status should be "SOLVED"
-    And the puzzle should require all three techniques
+    And Unit Completion should be attempted without changing the grid
+    And Hidden Singles and Naked Singles should each change the grid
     And the solution should be valid
 
   Scenario: Solve "Minimal Clues" puzzle using complete Hidden Singles

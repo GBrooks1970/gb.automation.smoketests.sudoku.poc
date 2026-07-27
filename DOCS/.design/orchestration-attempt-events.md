@@ -1,10 +1,10 @@
 # Orchestration Attempt Events - Design Document
 
-**Version:** v1.0
+**Version:** v1.1
 **Date:** 2026-07-27T19:27Z
 **Author:** Portfolio worklist SUD-21
 **Reviewer:** Codex
-**Status:** Approved
+**Status:** Implemented
 **Decision:** DR-037
 
 ---
@@ -39,14 +39,13 @@ occurred in the correct order. This design introduces an implementation-neutral,
 
 **In scope:**
 
-- A deterministic attempt-event schema shared by TypeScript, Python and C#.
-- The sequencing, immutability and compatibility rules for the future observer.
+- A deterministic attempt-event schema and optional observer shared by TypeScript, Python and C#.
+- The sequencing, immutability and compatibility rules for the observer.
 - A characterisation baseline for the five current puzzles.
 - An explicit decision about the inaccurate `Logic Squeeze Grid` all-three-techniques claim.
 
 **Out of scope:**
 
-- Instrumenting the production orchestrators; SUD-22 owns that implementation.
 - Changing solver results, algorithm order or the existing `AuditTrail` payload.
 - Adding advanced techniques, backtracking or a general lower-level test framework.
 
@@ -64,7 +63,7 @@ occurred in the correct order. This design introduces an implementation-neutral,
 - Every current basic-technique call can be represented without language-specific types.
 - An unchanged attempt remains observable with `changed: false` and an empty change list.
 - Consumers cannot mutate a recorded event or its nested cell-change evidence.
-- SUD-22 can add the observer without changing the current solve result or audit response shape.
+- The implemented observer does not change the current solve result or audit response shape.
 
 ---
 
@@ -257,8 +256,8 @@ The complete iteration continues through Hidden Singles parameter 9 and then Nak
 
 No current compact fixture honestly proves causal dependence on all three techniques. The
 `Logic Squeeze Grid` metadata is narrowed to say that the current solve records Hidden Singles and
-Naked Singles changes while Unit Completion is attempted without changing a cell. SUD-22 will
-align the canonical scenario wording and bindings with observable evidence; it must not retain an
+Naked Singles changes while Unit Completion is attempted without changing a cell. SUD-22 aligns
+the canonical scenario wording and bindings with that observable evidence and removes the
 unprovable "requires all three" assertion.
 
 ### 5.5 Error Handling
@@ -277,12 +276,13 @@ belongs in the event contract.
 - Approve DR-037 and this schema.
 - Narrow non-executable fixture metadata/documentation without changing solver behaviour.
 
-### Phase 2 - Instrumentation and Executable Specification (SUD-22)
+### Phase 2 - Instrumentation and Executable Specification (SUD-22, Complete)
 
-- Add the optional observer contract in all three stacks.
-- Publish an event at every orchestrator call site.
-- Add focused removal/reordering tests and direct Hidden Singles unit-pass tests.
-- Update canonical Gherkin first, propagate all bindings, and retain parity.
+- Added the optional observer contract in all three stacks.
+- Published an event at every orchestrator call site.
+- Added observer-spy component tests for removal/reordering sensitivity; the existing focused
+  Hidden Singles row, column and box scenarios protect its internal passes.
+- Updated canonical Gherkin first, propagated every binding, and retained parity.
 
 ### Risk Mitigation
 
@@ -297,10 +297,9 @@ belongs in the event contract.
 
 ## 7. Refactoring Strategy
 
-No production refactoring occurs in SUD-21. SUD-22 should add the smallest optional seam needed by
-each language while keeping public solve results and existing audit methods source-compatible. The
-observer can be removed independently if it proves unsuitable; the committed characterisation
-evidence remains the rollback baseline.
+SUD-22 adds the smallest optional seam needed by each language while keeping public solve results
+and existing audit methods source-compatible. The observer can be removed independently if it
+proves unsuitable; the committed characterisation evidence remains the rollback baseline.
 
 ---
 
@@ -318,11 +317,11 @@ evidence remains the rollback baseline.
 
 ## 9. Migration Path
 
-1. Land this approved contract and baseline without production changes.
-2. Introduce optional observer types in all three stacks in one SUD-22 change.
-3. Add focused tests before altering canonical scenario wording.
-4. Update the canonical feature and all local copies/bindings together.
-5. Run the full three-stack and parity gates; roll back the observer seam if compatibility drifts.
+1. Landed this approved contract and baseline without production changes in SUD-21.
+2. Introduced optional observer types in all three stacks in SUD-22.
+3. Added focused observer-spy tests before altering canonical scenario wording.
+4. Updated the canonical feature and all local copies/bindings together.
+5. Ran the full three-stack and parity gates with result and audit compatibility retained.
 
 No data migration or consumer action is required.
 
@@ -356,8 +355,8 @@ implementations would not share a clean contract.
 ## 11. Open Questions
 
 None block implementation. The fixture question is resolved in favour of narrower wording, and the
-observer/audit relationship is resolved by DR-037. SUD-22 may refine language-specific type names
-without changing the field meanings above.
+observer/audit relationship is resolved by DR-037. SUD-22's idiomatic language-specific type names
+retain the field meanings above.
 
 ---
 
@@ -375,6 +374,7 @@ without changing the field meanings above.
 
 | Version | Date | Change |
 |---|---|---|
+| v1.1 | 2026-07-27 | Recorded the completed SUD-22 implementation and executable verification |
 | v1.0 | 2026-07-27 | Approved SUD-21 attempt-event contract and fixture decision |
 
 ### Approval

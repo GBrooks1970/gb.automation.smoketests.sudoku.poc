@@ -165,7 +165,7 @@ Docker runtime commands require Docker Desktop or another Docker Engine with Com
 Expected current baseline:
 
 ```text
-DEMOAPP001: 46 scenarios passed / 257 steps passed
+DEMOAPP001: 46 scenarios passed / 259 steps passed
 DEMOAPP002: 46 pytest-bdd scenarios passed
 DEMOAPP003: 46 Reqnroll scenarios passed
 OverallExitCode=0

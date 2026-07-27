@@ -2,6 +2,12 @@ import { SudokuSolver } from './SudokuSolver';
 import { AuditLogger } from './audit/AuditLogger';
 import { AuditConfig, AuditTrail } from './audit/AuditTypes';
 import { GRID_SIZE, EMPTY_CELL } from './constants';
+import {
+  AttemptCellChange,
+  AttemptEvent,
+  AttemptObserver,
+  AttemptTechnique,
+} from './orchestration/AttemptTypes';
 
 /**
  * Main Controller for Sudoku Logic.
@@ -19,10 +25,12 @@ import { GRID_SIZE, EMPTY_CELL } from './constants';
  */
 export class SudokuOrchestrator {
   private auditLogger?: AuditLogger;
+  private attemptSequence = 0;
 
   constructor(
     private solver: SudokuSolver,
-    auditConfig?: Partial<AuditConfig>
+    auditConfig?: Partial<AuditConfig>,
+    private readonly attemptObserver?: AttemptObserver
   ) {
     if (auditConfig?.enabled) {
       this.auditLogger = new AuditLogger(solver.name, solver.origGrid, auditConfig);
@@ -36,6 +44,8 @@ export class SudokuOrchestrator {
    * @returns "SOLVED" if the puzzle is complete, "STUCK_ON_ADVANCED_LOGIC" if basic techniques are insufficient
    */
   public solve(): string {
+    this.attemptSequence = 0;
+
     // Already-solved inputs return SOLVED immediately without executing any
     // algorithms (v1.0 edge case; shared Gherkin contract "Stop execution when
     // puzzle is completely solved").
@@ -44,29 +54,33 @@ export class SudokuOrchestrator {
     }
 
     let isProgressing = true;
+    let iteration = 0;
 
     while (isProgressing) {
+      iteration += 1;
       let changedThisPass = false;
 
       this.auditLogger?.startIteration();
 
       // Step 1: Unit Completion (simplest technique - O(n) per unit)
       // Fills cells in rows/columns/blocks that have only one empty cell
-      if (this.solver.unitCompletion()) {
+      if (this.runAttempt(iteration, 'UnitCompletion', () => this.solver.unitCompletion())) {
         changedThisPass = true;
       }
 
       // Step 2: Hidden Singles (medium complexity - scan per digit)
       // For each digit 1-9, find units where that digit can only go in one place
       for (let digit = 1; digit <= GRID_SIZE; digit++) {
-        if (this.solver.hiddenSingles(digit)) {
+        if (
+          this.runAttempt(iteration, 'HiddenSingles', () => this.solver.hiddenSingles(digit), digit)
+        ) {
           changedThisPass = true;
         }
       }
 
       // Step 3: Naked Singles (most complex - O(n²) cell examination)
       // Find cells that can only contain one digit after eliminating all "seen" values
-      if (this.solver.nakedSingles()) {
+      if (this.runAttempt(iteration, 'NakedSingles', () => this.solver.nakedSingles())) {
         changedThisPass = true;
       }
 
@@ -92,5 +106,63 @@ export class SudokuOrchestrator {
     if (!this.auditLogger) return undefined;
     const status = this.isGridFull() ? 'SOLVED' : 'STUCK_ON_ADVANCED_LOGIC';
     return this.auditLogger.getTrail(this.solver.grid, status);
+  }
+
+  private runAttempt(
+    iteration: number,
+    technique: AttemptTechnique,
+    invoke: () => boolean,
+    parameter?: number
+  ): boolean {
+    if (!this.attemptObserver) {
+      return invoke();
+    }
+
+    const before = this.solver.getGrid();
+    const changed = invoke();
+    const changes = this.diffGrid(before, this.solver.getGrid());
+
+    if (changed !== changes.length > 0) {
+      throw new Error(
+        `${technique} returned changed=${changed} but produced ${changes.length} cell changes`
+      );
+    }
+
+    this.attemptSequence += 1;
+    const immutableChanges = Object.freeze(
+      changes.map((change) =>
+        Object.freeze({
+          ...change,
+          cell: Object.freeze({ ...change.cell }),
+        })
+      )
+    );
+    const event: AttemptEvent = Object.freeze({
+      iteration,
+      sequence: this.attemptSequence,
+      technique,
+      ...(parameter === undefined ? {} : { parameter }),
+      changed,
+      changes: immutableChanges,
+    });
+
+    this.attemptObserver(event);
+    return changed;
+  }
+
+  private diffGrid(before: number[][], after: number[][]): AttemptCellChange[] {
+    const changes: AttemptCellChange[] = [];
+    for (let row = 0; row < GRID_SIZE; row++) {
+      for (let col = 0; col < GRID_SIZE; col++) {
+        if (before[row][col] !== after[row][col]) {
+          changes.push({
+            cell: { row, col },
+            oldValue: before[row][col],
+            newValue: after[row][col],
+          });
+        }
+      }
+    }
+    return changes;
   }
 }

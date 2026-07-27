@@ -330,8 +330,7 @@ public static class SolvePuzzle
             actor.Remember(MemoryKeys.SOLVE_RESULT, ability.Result);
         });
 
-    // SUD-20 / BACKLOG-051: same solve, but always captures the audit event sequence so
-    // orchestration Then-steps can assert real algorithm ordering / no-execution counts.
+    // Backward-compatible SUD-20 task name, now backed by SUD-22 attempt events.
     public static ITask WithCurrentGridTrackingOrder() =>
         new DelegateTask(actor =>
         {

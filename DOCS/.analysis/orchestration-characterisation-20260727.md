@@ -14,8 +14,9 @@ Stack-local `puzzles.json` files. TypeScript ran under Node 24.18.0, Python unde
 was built/run with .NET SDK 10.0.302. All three stacks produced the same status, final grid,
 iteration count and per-technique cell-change counts shown below.
 
-The current audit trail records successful changes, not attempts. Until SUD-22 implements DR-037,
-attempt counts in this baseline are explicitly **inferred from the current loop contract**:
+The audit trail records successful changes, not attempts. The pre-SUD-22 counts in this baseline
+are therefore explicitly **inferred from the current loop contract**, rather than from the
+dedicated trace that SUD-22 subsequently implemented:
 
 - Unit Completion: one attempt per iteration;
 - Hidden Singles: nine attempts per iteration, target digits 1 through 9;
@@ -80,7 +81,7 @@ the worklist's recommended narrower claim rather than inventing an unverified re
 
 ## SUD-22 Compatibility Baseline
 
-SUD-22 must preserve:
+SUD-22 preserved:
 
 - every status and result grid above;
 - the current iteration and cell-change counts unless a separately approved behavioural decision
@@ -89,5 +90,6 @@ SUD-22 must preserve:
 - zero attempts for an already-solved input, as already required by SUD-01;
 - exact feature, step-text and memory-key parity across all three stacks.
 
-After DR-037 is implemented, attempt counts must be observed from emitted events rather than
-inferred from iterations. Removal or reordering mutations must then fail focused tests.
+SUD-22 now observes attempt counts from emitted immutable events rather than inferring them from
+iterations. Its focused observer-spy tests fail when an expected call is removed or reordered;
+the three existing Hidden Singles scenarios protect its internal row, column and box passes.

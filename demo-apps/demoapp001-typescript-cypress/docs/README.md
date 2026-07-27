@@ -3,7 +3,7 @@
 **Language:** TypeScript 5.x
 **Framework:** Cucumber.js 12 + Serenity/JS 3.43.2
 **Surface types:** @util, @api
-**Last updated:** 2026-05-20
+**Last updated:** 2026-07-27
 
 ---
 
@@ -34,8 +34,9 @@ npm run test:api
 Expected output (current baseline):
 
 ```text
+2 orchestration component tests (2 passed)
 46 scenarios (46 passed)
-257 steps (257 passed)
+259 steps (259 passed)
 API integration tests: PASS
 ```
 
@@ -80,6 +81,7 @@ demoapp001-typescript-cypress/
 │   └── server/
 ├── tests/
 │   ├── api/
+│   ├── component/
 │   ├── features/
 │   └── screenplay/
 │       ├── abilities/
@@ -99,7 +101,8 @@ demoapp001-typescript-cypress/
 | Command | Description |
 |---------|-------------|
 | `npm run build` | Compile TypeScript to JavaScript |
-| `npm test` | Run full BDD suite |
+| `npm test` | Run orchestration contract tests and the full BDD suite |
+| `npm run test:orchestration` | Run the focused attempt-observer contract tests |
 | `npm run test:api` | Run REST API integration checks |
 | `npm start` | Run CLI demo app with ts-node |
 | `npm run start:api` | Start Express REST API on `PORT` or 3000 |
