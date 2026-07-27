@@ -9,6 +9,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Added
+- BACKLOG-063 (SUD-24, review `CODE_REVIEW_CODEX_v1_20260723T2351Z` Risk 4, MEDIUM):
+  added a distinct 16-test DEMOAPP001 component lane for loader boundaries, minimal solver
+  techniques, orchestration guards, and API validation/status mapping. Added Node 24 native
+  report-only coverage in CI and documented its selected-module baseline and exclusions.
 - BACKLOG-062 (SUD-23, review `CODE_REVIEW_CODEX_v1_20260723T2351Z` Risk 2, MEDIUM):
   added a canonical `true` / `false` JSON boolean-cell rejection scenario backed by the real
   PuzzleLoader in all three Stacks, plus focused Python loader boundary tests and DEMOAPP001 API
@@ -59,6 +63,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - SUD-04 (review Refactor 5, DR-035): authored OpenAPI 3.0 contract for the DEMOAPP001 REST API at `demo-apps/demoapp001-typescript-cypress/docs/openapi.yaml` covering all nine endpoints, request/response schemas, and the structured error codes; must be updated in the same change as any endpoint or schema change.
 
 ### Changed
+- BACKLOG-063: `npm test` now runs the complete component lane before Cucumber; CI records
+  `npm run test:coverage` output in the existing validation artefact. The first baseline is 73.23%
+  lines / 87.67% branches / 79.59% functions across five selected production modules. Coverage
+  remains diagnostic with no threshold until SUD-28 reviews exclusions and mutation evidence.
 - BACKLOG-062: DEMOAPP002 now requires exact `int` puzzle cells instead of accepting Python
   `bool` values through `isinstance(cell, int)`. Valid integer values, public error wording and
   REST status codes remain unchanged; no validation-boundary contract or DR change was required.

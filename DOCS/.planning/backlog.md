@@ -1,11 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-07-27 (resolved BACKLOG-062 / SUD-23 from the 2026-07-23 Codex review:
-DEMOAPP002 now rejects JSON booleans through exact integer-type validation, a canonical `true` /
-`false` loader boundary runs in all three Stacks, and every DEMOAPP001 grid-accepting REST endpoint
-is protected by the same malformed-input check. The public integer-only validation contract remains
-unchanged; the three Open backlog items remain parked future product/solver work)
+**Last Updated:** 2026-07-27 (resolved BACKLOG-063 / SUD-24 from the 2026-07-23 Codex review:
+DEMOAPP001 now has a distinct 16-test component lane covering loader, technique, orchestration and
+API-service seams, plus a report-only Node 24 native coverage baseline. The selected-module baseline
+is 73.23% lines / 87.67% branches; thresholds remain deferred to SUD-28, and the three Open backlog
+items remain parked future product/solver work)
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -31,16 +31,16 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 3 |
 | In Progress | 0 |
-| Resolved | 81 |
-| **Total** | **84** |
+| Resolved | 82 |
+| **Total** | **85** |
 
 | Area | Current state |
 |------|---------------|
-| Current execution baseline | DEMOAPP001: Node 24, 2 component tests plus 48 scenarios / 267 steps passing, REST API integration PASS; DEMOAPP002: Python 3.13, 53 tests (48 pytest-bdd + 5 component) passing; DEMOAPP003: .NET 10, 50 tests (48 Reqnroll + 2 component) passing; 3-Stack parity PASS |
+| Current execution baseline | DEMOAPP001: Node 24, 16 component tests plus 48 scenarios / 267 steps passing, REST API integration PASS; report-only selected-module coverage 73.23% lines / 87.67% branches; DEMOAPP002: Python 3.13, 53 tests (48 pytest-bdd + 5 component) passing; DEMOAPP003: .NET 10, 50 tests (48 Reqnroll + 2 component) passing; 3-Stack parity PASS |
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | Codex review remediation worklist SUD-21..31 (SUD-21..23 and BACKLOG-060..062 resolved), plus parked future product/solver work BACKLOG-014/015/016 |
+| Current sprint focus | Codex review remediation worklist SUD-21..31 (SUD-21..24 and BACKLOG-060..063 resolved), plus parked future product/solver work BACKLOG-014/015/016 |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -265,6 +265,7 @@ against the free range after BACKLOG-059 and must still be checked immediately b
 | BACKLOG-060 | SUD-21 | Characterise orchestration fixtures and define an immutable attempt-event contract | All (tests/fixtures + docs/design) | R1 | High | Resolved | DR-037 |
 | BACKLOG-061 | SUD-22 | Instrument immutable attempt events and make orchestration specifications mutation-sensitive | All (code + tests + docs) | R1 | High | Resolved | DR-037 |
 | BACKLOG-062 | SUD-23 | Reject JSON boolean cells consistently at loader and REST boundaries | All (code + tests) | R2 | Medium | Resolved | None required |
+| BACKLOG-063 | SUD-24 | Add a focused TypeScript component lane and first coverage baseline | DEMOAPP001 (tests + CI + docs) | R4 | Medium | Resolved | None required |
 
 Resolution evidence:
 
@@ -299,6 +300,19 @@ Resolution evidence:
   scenarios / 267 steps), Python 3.13 (53 tests), C# .NET 10 (50 tests), API integration and all
   repository parity gates PASS. The existing integer-only contract, error wording and REST status
   codes are unchanged, so no DR or validation-boundary contract update was required.
+- BACKLOG-063: DEMOAPP001 now exposes `test:component` as a 16-test lower-level lane distinct from
+  the 48-scenario Cucumber contract. Focused tests exercise loader shape/type/range/query boundaries;
+  minimal Unit Completion, Hidden Singles and Naked Singles grids; SUD-22 attempt evidence plus the
+  early-complete and inconsistent-change orchestration seams; and API `400`/`404`/`422`, constraint
+  and `SOLVED`/`STUCK_ON_ADVANCED_LOGIC` mappings. `test:coverage` uses Node 24's native coverage
+  with explicit production-module includes and no threshold flags. The first diagnostic baseline is
+  73.23% lines / 87.67% branches / 79.59% functions across `PuzzleLoader`, `SudokuSolver`,
+  `SudokuOrchestrator`, `SudokuApiService` and server validation; per-module values, exclusions and
+  reproduction are recorded in `demo-apps/demoapp001-typescript-cypress/docs/component-test-coverage-baseline.md`.
+  CI retains the raw report in its existing validation artefact. No DR was required because this is
+  report-only evidence; SUD-28 owns mutation review and any justified threshold. Verification:
+  Node 24 build, lint, format, API integration, 16 component tests, 48 scenarios / 267 steps and all
+  repository parity gates PASS; Python 53 and .NET 10 50-test regression suites remain green.
 
 ---
 
@@ -1215,6 +1229,7 @@ Acceptance criteria:
 | BACKLOG-060 | Orchestration characterisation and attempt-event contract (SUD-21) | All | 2026-07-27 | Cross-stack baseline captured; DR-037 approved immutable attempt events; `Logic Squeeze Grid` claim narrowed without changing solve behaviour. |
 | BACKLOG-061 | Immutable orchestration attempt instrumentation (SUD-22) | All | 2026-07-27 | Optional attempt observers, exact-order/progress contract tests and canonical three-Stack assertions implemented; change-only audit compatibility retained. |
 | BACKLOG-062 | Cross-Stack JSON boolean-cell rejection (SUD-23) | All | 2026-07-27 | Exact Python integer validation, canonical `true`/`false` real-loader coverage in all Stacks, and all DEMOAPP001 grid POST boundaries reject booleans; public contract unchanged. |
+| BACKLOG-063 | TypeScript component lane and coverage baseline (SUD-24) | DEMOAPP001 | 2026-07-27 | 16 focused component tests; Node 24 report-only baseline of 73.23% lines / 87.67% branches across five selected production modules; no threshold before SUD-28. |
 
 ---
 
@@ -1226,7 +1241,7 @@ Acceptance criteria:
 | 3 | 2026-05-19 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Completed 2026-05-19 |
 | 4 | 2026-05-20 | API foundation and Web UI completion | BACKLOG-009, BACKLOG-018 | Completed 2026-05-20 |
 | 5 | 2026-05-28 onward | C# Stack, local Compose, and benchmarking | BACKLOG-021, BACKLOG-013, BACKLOG-010, BACKLOG-011 | Completed 2026-05-29 |
-| 6+ | After P-07 remediation | Codex review remediation followed by future product ideas | SUD-21..31 worklist; BACKLOG-014, BACKLOG-015, BACKLOG-016 | In Progress (SUD-21..23 complete) |
+| 6+ | After P-07 remediation | Codex review remediation followed by future product ideas | SUD-21..31 worklist; BACKLOG-014, BACKLOG-015, BACKLOG-016 | In Progress (SUD-21..24 complete) |
 
 ---
 

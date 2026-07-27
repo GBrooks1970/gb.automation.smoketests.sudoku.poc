@@ -49,6 +49,13 @@ jobs:
         working-directory: demo-apps/demoapp001-typescript-cypress
         run: npm run test:api
 
+      - name: Component coverage baseline (report-only)
+        working-directory: demo-apps/demoapp001-typescript-cypress
+        run: |
+          set -o pipefail
+          mkdir -p ../../.results/coverage
+          npm run test:coverage 2>&1 | tee ../../.results/coverage/demoapp001-component-coverage.txt
+
       - name: Test
         working-directory: demo-apps/demoapp001-typescript-cypress
         run: npm test
