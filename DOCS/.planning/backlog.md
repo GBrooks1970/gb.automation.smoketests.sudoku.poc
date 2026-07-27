@@ -1,11 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-07-27 (resolved BACKLOG-061 / SUD-22 from the 2026-07-23 Codex review:
-implemented DR-037's immutable attempt observer in all three Stacks, replaced change-only ordering
-inference with exact attempt evidence, and made iteration progress plus the narrowed
-`Logic Squeeze Grid` claim executable. Solver results and the existing audit response remain
-compatible; the three Open backlog items remain parked future product/solver work)
+**Last Updated:** 2026-07-27 (resolved BACKLOG-062 / SUD-23 from the 2026-07-23 Codex review:
+DEMOAPP002 now rejects JSON booleans through exact integer-type validation, a canonical `true` /
+`false` loader boundary runs in all three Stacks, and every DEMOAPP001 grid-accepting REST endpoint
+is protected by the same malformed-input check. The public integer-only validation contract remains
+unchanged; the three Open backlog items remain parked future product/solver work)
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -31,16 +31,16 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 3 |
 | In Progress | 0 |
-| Resolved | 80 |
-| **Total** | **83** |
+| Resolved | 81 |
+| **Total** | **84** |
 
 | Area | Current state |
 |------|---------------|
-| Current execution baseline | DEMOAPP001: Node 24, 2 component tests plus 46 scenarios / 259 steps passing, REST API integration PASS; DEMOAPP002: Python 3.13, 48 tests (46 pytest-bdd + 2 component) passing; DEMOAPP003: .NET 10, 48 tests (46 Reqnroll + 2 component) passing; 3-Stack parity PASS |
+| Current execution baseline | DEMOAPP001: Node 24, 2 component tests plus 48 scenarios / 267 steps passing, REST API integration PASS; DEMOAPP002: Python 3.13, 53 tests (48 pytest-bdd + 5 component) passing; DEMOAPP003: .NET 10, 50 tests (48 Reqnroll + 2 component) passing; 3-Stack parity PASS |
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | Codex review remediation worklist SUD-21..31 (SUD-21/22 and BACKLOG-060/061 resolved), plus parked future product/solver work BACKLOG-014/015/016 |
+| Current sprint focus | Codex review remediation worklist SUD-21..31 (SUD-21..23 and BACKLOG-060..062 resolved), plus parked future product/solver work BACKLOG-014/015/016 |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -264,6 +264,7 @@ against the free range after BACKLOG-059 and must still be checked immediately b
 |----|----------|-------|----------|-------------|----------|--------|-----------------|
 | BACKLOG-060 | SUD-21 | Characterise orchestration fixtures and define an immutable attempt-event contract | All (tests/fixtures + docs/design) | R1 | High | Resolved | DR-037 |
 | BACKLOG-061 | SUD-22 | Instrument immutable attempt events and make orchestration specifications mutation-sensitive | All (code + tests + docs) | R1 | High | Resolved | DR-037 |
+| BACKLOG-062 | SUD-23 | Reject JSON boolean cells consistently at loader and REST boundaries | All (code + tests) | R2 | Medium | Resolved | None required |
 
 Resolution evidence:
 
@@ -289,6 +290,15 @@ Resolution evidence:
   (2 component tests + 46 scenarios / 259 steps), Python 3.13 (48 tests), C# .NET 10 (48 tests),
   API integration and all repository parity gates PASS. BACKLOG-051 remains historical evidence
   of the earlier change-only ordering assertions; this item closes the residual observability gap.
+- BACKLOG-062: DEMOAPP002's loader now uses an exact `type(cell) is int` boundary, rejecting JSON
+  `true` and `false` instead of accepting Python's `bool` subtype. A canonical two-example scenario
+  uses the same otherwise-valid 9x9 malformed puzzle in the TypeScript, Python and C# real-loader
+  bindings without asserting language-specific exception text. Focused Python tests cover both
+  booleans and unchanged integer boundaries; DEMOAPP001 API integration covers both booleans across
+  all five grid-accepting POST endpoints. Verification: TypeScript Node 24 (2 component tests + 48
+  scenarios / 267 steps), Python 3.13 (53 tests), C# .NET 10 (50 tests), API integration and all
+  repository parity gates PASS. The existing integer-only contract, error wording and REST status
+  codes are unchanged, so no DR or validation-boundary contract update was required.
 
 ---
 
@@ -1204,6 +1214,7 @@ Acceptance criteria:
 | BACKLOG-057 | CLAUDE.md governance-currency guard (TRIAGE-02) | All (docs/tooling) | 2026-07-20 | Removed the stale duplicate DR range; guard now checks CLAUDE.md's RA citation and DR-001..latest range against the decision register. |
 | BACKLOG-060 | Orchestration characterisation and attempt-event contract (SUD-21) | All | 2026-07-27 | Cross-stack baseline captured; DR-037 approved immutable attempt events; `Logic Squeeze Grid` claim narrowed without changing solve behaviour. |
 | BACKLOG-061 | Immutable orchestration attempt instrumentation (SUD-22) | All | 2026-07-27 | Optional attempt observers, exact-order/progress contract tests and canonical three-Stack assertions implemented; change-only audit compatibility retained. |
+| BACKLOG-062 | Cross-Stack JSON boolean-cell rejection (SUD-23) | All | 2026-07-27 | Exact Python integer validation, canonical `true`/`false` real-loader coverage in all Stacks, and all DEMOAPP001 grid POST boundaries reject booleans; public contract unchanged. |
 
 ---
 
@@ -1215,7 +1226,7 @@ Acceptance criteria:
 | 3 | 2026-05-19 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Completed 2026-05-19 |
 | 4 | 2026-05-20 | API foundation and Web UI completion | BACKLOG-009, BACKLOG-018 | Completed 2026-05-20 |
 | 5 | 2026-05-28 onward | C# Stack, local Compose, and benchmarking | BACKLOG-021, BACKLOG-013, BACKLOG-010, BACKLOG-011 | Completed 2026-05-29 |
-| 6+ | After P-07 remediation | Codex review remediation followed by future product ideas | SUD-21..31 worklist; BACKLOG-014, BACKLOG-015, BACKLOG-016 | In Progress (SUD-21/22 complete) |
+| 6+ | After P-07 remediation | Codex review remediation followed by future product ideas | SUD-21..31 worklist; BACKLOG-014, BACKLOG-015, BACKLOG-016 | In Progress (SUD-21..23 complete) |
 
 ---
 

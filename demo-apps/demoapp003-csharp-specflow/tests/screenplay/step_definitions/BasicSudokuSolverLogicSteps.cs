@@ -5,6 +5,7 @@ using DemoApp003.Specs.Screenplay.Support;
 using DemoApp003.Specs.Screenplay.Tasks;
 using DemoApp003.Sudoku;
 using Reqnroll;
+using System.Text.Json;
 
 namespace DemoApp003.Specs.Screenplay.StepDefinitions;
 
@@ -461,6 +462,43 @@ public sealed class BasicSudokuSolverLogicSteps
     [Given(@"a puzzle with a cell value of (\d+) in the JSON file")]
     public void PuzzleWithInvalidCell(int value) =>
         _actor.AttemptsTo(SimulateError.ForInvalidCellValue(value));
+
+    [Given(@"a puzzle with a JSON boolean cell value of ""([^""]*)""")]
+    public void PuzzleWithBooleanCell(string value)
+    {
+        var grid = Enumerable.Range(0, Constants.GridSize)
+            .Select(_ => Enumerable.Range(0, Constants.GridSize).Select(_ => (object)0).ToArray())
+            .ToArray();
+        grid[0][0] = bool.Parse(value);
+        var payload = JsonSerializer.Serialize(new
+        {
+            puzzles = new[]
+            {
+                new
+                {
+                    name = "Boolean Cell Boundary",
+                    difficulty = "invalid",
+                    description = "A malformed puzzle containing a JSON boolean cell",
+                    grid,
+                },
+            },
+        });
+        var tempDirectory = Path.Combine(Path.GetTempPath(), $"sudoku-boolean-cell-{Guid.NewGuid():N}");
+        var filePath = Path.Combine(tempDirectory, "puzzles.json");
+
+        Directory.CreateDirectory(tempDirectory);
+        try
+        {
+            File.WriteAllText(filePath, payload);
+            var loader = LoadPuzzles.From(filePath);
+            _actor.WhoCan(loader);
+            _actor.Remember(MemoryKeys.LAST_ERROR, loader.GetError());
+        }
+        finally
+        {
+            Directory.Delete(tempDirectory, recursive: true);
+        }
+    }
 
     [Given(@"puzzles are loaded from JSON")]
     public void PuzzlesLoadedFromJson()

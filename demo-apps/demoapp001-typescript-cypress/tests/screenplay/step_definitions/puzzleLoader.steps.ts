@@ -1,7 +1,10 @@
 import { Given, When, Then } from '@cucumber/cucumber';
-import { actorCalled } from '@serenity-js/core';
+import { actorCalled, notes } from '@serenity-js/core';
 import { SOLVER_ACTOR } from '../support/actors';
 import * as assert from 'assert';
+import * as fs from 'fs';
+import * as os from 'os';
+import * as path from 'path';
 import { LoadPuzzleByName } from '../tasks/LoadPuzzleByName';
 import { LoadPuzzleByIndex } from '../tasks/LoadPuzzleByIndex';
 import { LoadPuzzlesByDifficulty } from '../tasks/LoadPuzzlesByDifficulty';
@@ -12,6 +15,8 @@ import { LoadedPuzzles } from '../questions/LoadedPuzzles';
 import { CurrentSolver } from '../questions/CurrentSolver';
 import { MultipleSolvers } from '../questions/MultipleSolvers';
 import { GRID_SIZE } from '../../../app_src/constants';
+import { LoadPuzzles } from '../abilities/LoadPuzzles';
+import { LAST_ERROR, SudokuNotes } from '../support/memory-keys';
 
 // ---------------------------------------------------------------------------
 // PuzzleLoader - Given steps
@@ -27,6 +32,40 @@ Given('a puzzle with an 8x9 grid in the JSON file', async () => {
 
 Given('a puzzle with a cell value of {int} in the JSON file', async (_value: number) => {
   await actorCalled(SOLVER_ACTOR).attemptsTo(SimulateError.forInvalidCellValue(_value));
+});
+
+Given('a puzzle with a JSON boolean cell value of {string}', async (value: string) => {
+  assert.match(value, /^(true|false)$/);
+  const booleanValue = value === 'true';
+  const tempDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'sudoku-boolean-cell-'));
+  const filePath = path.join(tempDirectory, 'puzzles.json');
+  const grid: unknown[][] = Array.from({ length: GRID_SIZE }, () => Array(GRID_SIZE).fill(0));
+  grid[0][0] = booleanValue;
+
+  try {
+    fs.writeFileSync(
+      filePath,
+      JSON.stringify({
+        puzzles: [
+          {
+            name: 'Boolean Cell Boundary',
+            difficulty: 'invalid',
+            description: 'A malformed puzzle containing a JSON boolean cell',
+            grid,
+          },
+        ],
+      }),
+      'utf-8'
+    );
+
+    const loader = LoadPuzzles.from(filePath);
+    actorCalled(SOLVER_ACTOR).whoCan(loader);
+    await notes<SudokuNotes>()
+      .set(LAST_ERROR, loader.getError())
+      .performAs(actorCalled(SOLVER_ACTOR));
+  } finally {
+    fs.rmSync(tempDirectory, { recursive: true, force: true });
+  }
 });
 
 Given('puzzles are loaded from JSON', () => {

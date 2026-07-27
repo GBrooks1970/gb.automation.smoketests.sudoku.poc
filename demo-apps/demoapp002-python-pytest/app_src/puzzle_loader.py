@@ -64,7 +64,7 @@ class PuzzleLoader:
                 if len(row) != GRID_SIZE:
                     raise ValueError(f'Puzzle "{puzzle.name}" row {row_index} must have exactly 9 columns')
                 for col_index, cell in enumerate(row):
-                    if not isinstance(cell, int) or cell < EMPTY_CELL or cell > MAX_DIGIT:
+                    if type(cell) is not int or cell < EMPTY_CELL or cell > MAX_DIGIT:
                         raise ValueError(
                             f'Puzzle "{puzzle.name}" has invalid value at [{row_index}][{col_index}]: {cell}'
                         )

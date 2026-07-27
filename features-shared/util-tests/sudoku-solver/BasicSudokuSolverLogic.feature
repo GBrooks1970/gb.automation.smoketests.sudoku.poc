@@ -190,6 +190,16 @@ Feature: Basic Sudoku Solver Logic
     Then a validation error should be thrown
     And the error message should indicate "invalid value"
 
+  Scenario Outline: Reject JSON boolean puzzle cell values on load
+    Given a puzzle with a JSON boolean cell value of "<value>"
+    When the PuzzleLoader attempts to load the file
+    Then a validation error should be thrown
+
+    Examples:
+      | value |
+      | true  |
+      | false |
+
   Scenario: Get puzzle by name
     Given puzzles are loaded from JSON
     When requesting a puzzle by name "Easy Scan Grid"
