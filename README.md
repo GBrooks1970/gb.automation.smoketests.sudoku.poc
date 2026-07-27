@@ -94,6 +94,7 @@ gb.automation.smoketests.sudoku.poc/
 | Document | Purpose | Status |
 |----------|---------|--------|
 | [audit-trail-feature.md](DOCS/.design/audit-trail-feature.md) | Audit trail logging system | Design complete |
+| [orchestration-attempt-events.md](DOCS/.design/orchestration-attempt-events.md) | Cross-stack attempt-event evidence contract (DR-037) | Approved for SUD-22 |
 | [rest-api-wrapper.md](DOCS/.design/rest-api-wrapper.md) | REST API wrapper specification | Implemented for DEMOAPP001 |
 
 ## Demo Applications

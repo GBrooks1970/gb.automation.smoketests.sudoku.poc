@@ -1,11 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-07-20 (resolved BACKLOG-056 through BACKLOG-059 / TRIAGE-01..04 from the
-2026-07-18 review. Static analysis covers DEMOAPP001 test/tooling TypeScript, the governance
-currency guard covers CLAUDE.md, the local parity container matches CI's PowerShell 7.5 / Ubuntu
-24.04 pair, and DEMOAPP001 installs enforce the declared Node 24 range. All four review-remediation
-items are complete; the three Open backlog items remain parked future product/solver work)
+**Last Updated:** 2026-07-27 (resolved BACKLOG-060 / SUD-21 from the 2026-07-23 Codex review:
+captured the cross-stack orchestration baseline, approved DR-037's immutable attempt-event contract,
+and narrowed the unsupported `Logic Squeeze Grid` all-three-techniques claim. Production solve
+behaviour and the existing audit response remain unchanged; the three Open backlog items remain
+parked future product/solver work)
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -31,8 +31,8 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 3 |
 | In Progress | 0 |
-| Resolved | 78 |
-| **Total** | **81** |
+| Resolved | 79 |
+| **Total** | **82** |
 
 | Area | Current state |
 |------|---------------|
@@ -40,7 +40,7 @@ Per v1.15 Section 10.1:
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | Parked future product/solver work (BACKLOG-014/015/016) only — no open technical debt |
+| Current sprint focus | Codex review remediation worklist SUD-21..31 (SUD-21 / BACKLOG-060 resolved), plus parked future product/solver work BACKLOG-014/015/016 |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -251,6 +251,31 @@ Resolution evidence:
   fails immediately with `EBADENGINE` and exit 1. In an isolated Node 24.18.0 / npm 11.16.0
   container, a clean `npm ci` reports 0 vulnerabilities, then build, lint, format check, API
   integration, and all 46 scenarios / 257 steps pass. No DR required.
+
+---
+
+## Code Review Remediation Items (Codex v1, 2026-07-23)
+
+Raised by `DOCS/.review/CODE_REVIEW_CODEX_v1_20260723T2351Z/` and tracked through the portfolio
+worklist extension SUD-21..31. Items are added here when completed; BACKLOG-060..070 were reserved
+against the free range after BACKLOG-059 and must still be checked immediately before each write.
+
+| ID | Worklist | Title | Stack(s) | Review risk | Priority | Status | Decision Record |
+|----|----------|-------|----------|-------------|----------|--------|-----------------|
+| BACKLOG-060 | SUD-21 | Characterise orchestration fixtures and define an immutable attempt-event contract | All (tests/fixtures + docs/design) | R1 | High | Resolved | DR-037 |
+
+Resolution evidence:
+
+- BACKLOG-060: `DOCS/.analysis/orchestration-characterisation-20260727.md` records matching
+  TypeScript/Node 24, Python 3.13 and C#/.NET 10 results for all five puzzles: final grids,
+  iterations, inferred current-loop attempt counts, changed-event counts and cell-change counts.
+  It proves that `Logic Squeeze Grid` changes cells through Hidden Singles and Naked Singles but
+  records zero Unit Completion changes; a test-only mutation probe still solves it when any one
+  technique is disabled. DR-037 therefore adopts the narrower fixture claim and approves
+  `DOCS/.design/orchestration-attempt-events.md` as the language-neutral SUD-22 contract. The
+  contract separates deterministic immutable attempt events from the existing change-only audit
+  response. Production orchestration and canonical Gherkin remain unchanged in SUD-21; SUD-22 owns
+  instrumentation and the same-change canonical/three-Stack executable-specification update.
 
 ---
 
@@ -1164,6 +1189,7 @@ Acceptance criteria:
 | BACKLOG-051 | Orchestration ordering/no-execution assertions (SUD-20) | All | 2026-07-17 | Tracked-order solve path in all three Stacks; real audit-event assertions replace SOLVED-status inference; 46×3 green, all parity gates PASS; no DR (Gherkin unchanged). |
 | BACKLOG-056 | DEMOAPP001 test/tooling static-analysis coverage (TRIAGE-01) | DEMOAPP001 + CI | 2026-07-20 | ESLint/Prettier cover app, tests, and tooling; CI runs format checking; 46 scenarios / 257 steps and parity gates PASS. |
 | BACKLOG-057 | CLAUDE.md governance-currency guard (TRIAGE-02) | All (docs/tooling) | 2026-07-20 | Removed the stale duplicate DR range; guard now checks CLAUDE.md's RA citation and DR-001..latest range against the decision register. |
+| BACKLOG-060 | Orchestration characterisation and attempt-event contract (SUD-21) | All | 2026-07-27 | Cross-stack baseline captured; DR-037 approved immutable attempt events; `Logic Squeeze Grid` claim narrowed without changing solve behaviour. |
 
 ---
 
@@ -1175,7 +1201,7 @@ Acceptance criteria:
 | 3 | 2026-05-19 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Completed 2026-05-19 |
 | 4 | 2026-05-20 | API foundation and Web UI completion | BACKLOG-009, BACKLOG-018 | Completed 2026-05-20 |
 | 5 | 2026-05-28 onward | C# Stack, local Compose, and benchmarking | BACKLOG-021, BACKLOG-013, BACKLOG-010, BACKLOG-011 | Completed 2026-05-29 |
-| 6+ | After P-07 remediation | Optional test strengthening (BACKLOG-051, completed 2026-07-17) and future product ideas | BACKLOG-014, BACKLOG-015, BACKLOG-016 | Open |
+| 6+ | After P-07 remediation | Codex review remediation followed by future product ideas | SUD-21..31 worklist; BACKLOG-014, BACKLOG-015, BACKLOG-016 | In Progress (SUD-21 complete) |
 
 ---
 

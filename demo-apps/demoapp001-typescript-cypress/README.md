@@ -294,7 +294,7 @@ Puzzles are stored in `puzzles.json`:
 | Name | Difficulty | Expected Result | Description |
 |------|------------|-----------------|-------------|
 | Easy Scan Grid | easy | SOLVED | Tests Unit Completion and Hidden Singles |
-| Logic Squeeze Grid | medium | SOLVED | Requires all three techniques |
+| Logic Squeeze Grid | medium | SOLVED | Hidden Singles + Naked Singles changes; Unit Completion attempted with no changes |
 | Minimal Clues | hard | STUCK | 17 clues - requires advanced techniques |
 | Empty Grid | test | STUCK | Test case for failure detection |
 

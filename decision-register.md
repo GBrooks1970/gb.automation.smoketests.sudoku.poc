@@ -1,7 +1,7 @@
 # Decision Register
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-07-14
+**Last Updated:** 2026-07-27
 **Governed by:** `reference-architecture.md` v1.15 §10.6
 **Template:** `DOCS/.templates/decision-record.template.md`
 
@@ -1994,6 +1994,83 @@ would add substantial review churn without changing runtime behaviour.
 
 ---
 
+## DR-037 — Adopt immutable orchestration attempt events and narrow the Logic Squeeze claim
+
+**Date:** 2026-07-27
+**Status:** Accepted — recommended SUD-21 plan authorised by the project owner 2026-07-27
+
+### Context
+
+The canonical orchestration scenarios claim that every basic technique is attempted in order and
+that `Logic Squeeze Grid` requires all three techniques. The existing audit trail records only
+successful cell changes, so it cannot prove unchanged attempts. Cross-stack characterisation also
+shows that `Logic Squeeze Grid` records zero Unit Completion changes and still solves when any one
+technique is replaced by a no-op.
+
+### Decision
+
+Adopt the implementation-neutral `AttemptEvent` contract in
+`DOCS/.design/orchestration-attempt-events.md` for SUD-22: one immutable event per orchestrator call,
+with iteration, monotonic sequence, technique, optional parameter/unit/index context, changed flag,
+and deep-copied cell-change evidence. Retain the existing `AuditTrail` as a separate change-only
+compatibility contract. Narrow the `Logic Squeeze Grid` claim to the observable Hidden Singles and
+Naked Singles participation rather than asserting that the fixture requires all three techniques.
+
+### Status
+
+`Accepted` — 2026-07-27, when the project owner instructed the loop to proceed with the recommended
+SUD-21 plan.
+
+### Consequences
+
+**Outcomes:**
+
+- SUD-22 has one deterministic schema to implement across TypeScript, Python and C#.
+- Unchanged attempts become observable without changing the semantics of REST/web audit payloads.
+- Removal or reordering mutations can be detected by focused tests rather than inferred from a
+  final `SOLVED` result.
+- Fixture documentation no longer presents `Logic Squeeze Grid` as evidence it cannot supply.
+
+**Trade-offs:**
+
+- The observer creates a second evidence stream beside the existing audit trail.
+- Implementations must deep-copy nested evidence and keep field/index conventions aligned.
+- Row, column and box passes inside `HiddenSingles` still require technique-focused tests because
+  one orchestrator-boundary event represents the outer target-digit call.
+
+**Compliance note:**
+
+- The contract preserves RA v1.15 parity and canonical-feature governance. SUD-22 must update the
+  canonical feature first and propagate the same behaviour to all three Stacks in one change.
+
+### Alternatives Considered
+
+**Alternative: Extend the existing audit trail with unchanged calls**
+
+- Description: Emit an `AuditEvent` for every attempted algorithm call.
+- Rejected because: it would change a current REST/web-facing contract whose events intentionally
+  mean successful cell changes.
+
+**Alternative: Infer attempts permanently from iteration count**
+
+- Description: Keep calculating 1/9/1 attempts per iteration without runtime instrumentation.
+- Rejected because: removal or reordering of a call would leave the inferred evidence green.
+
+**Alternative: Replace `Logic Squeeze Grid` immediately**
+
+- Description: Introduce a new fixture advertised as causally requiring all three techniques.
+- Rejected because: no current compact fixture passed that mutation test; an unverified replacement
+  would perpetuate the same evidence problem.
+
+### Related Decisions
+
+- DR-015 — Screenplay runtime state and thin step definitions.
+- DR-024 — Canonical feature change governance.
+- DR-034 — v1.1 platform specification and parity contract.
+- DR-035 — Validation boundaries and REST/OpenAPI contract.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -2012,5 +2089,5 @@ would add substantial review churn without changing runtime behaviour.
 
 ---
 
-*Last entry: DR-036 (Accepted). Next ID: DR-037.*
+*Last entry: DR-037 (Accepted). Next ID: DR-038.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

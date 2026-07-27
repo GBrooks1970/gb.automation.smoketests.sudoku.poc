@@ -381,6 +381,7 @@ Provide feedback in structured format with specific references to sections.
 | Document | Purpose | Version |
 |----------|---------|---------|
 | [audit-trail-feature.md](audit-trail-feature.md) | Audit logging system | v1.1 |
+| [orchestration-attempt-events.md](orchestration-attempt-events.md) | Cross-stack attempt-event contract for SUD-22 (DR-037) | v1.0 |
 | [rest-api-wrapper.md](rest-api-wrapper.md) | Express REST API wrapper | v1.0 |
 | [web-ui-solver-visualisation.md](web-ui-solver-visualisation.md) | Browser step-by-step visualisation | v1.2 |
 | [screenplay-migration.md](screenplay-migration.md) | Screenplay pattern migration for BDD tests | v1.0 |
