@@ -143,6 +143,7 @@ Stored in [.algorithm/](.algorithm/) — language-agnostic pseudocode for every 
 | [sudoku-solver-specification.md](.design/sudoku-solver-specification.md) | Tech-agnostic solver spec (original core baseline) | Implemented | v1.0 |
 | [sudoku-solver-platform-specification.md](.design/sudoku-solver-platform-specification.md) | Platform spec — core contract, deliberate extensions, parity rules, staged surfaces | Accepted (DR-034; merged via PR #18) | v1.1 |
 | [audit-trail-feature.md](.design/audit-trail-feature.md) | Audit logging system | Implemented | v1.1 |
+| [orchestration-attempt-events.md](.design/orchestration-attempt-events.md) | Cross-stack attempt-event contract and SUD-22 implementation plan | Approved (DR-037) | v1.0 |
 | [rest-api-wrapper.md](.design/rest-api-wrapper.md) | Express REST API | Implemented | v1.0 |
 | [web-ui-solver-visualisation.md](.design/web-ui-solver-visualisation.md) | Browser step-by-step visualisation | Implemented | v1.2 |
 | [naming-conventions-design.md](.design/naming-conventions-design.md) | TypeScript naming standards | Adopted | v1.0 |

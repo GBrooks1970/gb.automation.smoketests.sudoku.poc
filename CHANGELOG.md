@@ -9,6 +9,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Added
+- BACKLOG-060 (SUD-21, review `CODE_REVIEW_CODEX_v1_20260723T2351Z` Risk 1, HIGH): recorded a
+  three-stack orchestration characterisation baseline and approved DR-037's language-neutral,
+  immutable attempt-event contract for SUD-22 without changing production solve behaviour or the
+  existing change-only audit response.
 - BACKLOG-059 (TRIAGE-04, review `CODE_REVIEW_CLAUDE_Fable_5_v2_20260718T0609Z` Risk 4, LOW):
   added a Stack-local `.npmrc` with `engine-strict=true`, so npm installs fail fast outside the
   declared Node `>=24 <25` support range instead of continuing after a warning.
@@ -45,6 +49,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - SUD-04 (review Refactor 5, DR-035): authored OpenAPI 3.0 contract for the DEMOAPP001 REST API at `demo-apps/demoapp001-typescript-cypress/docs/openapi.yaml` covering all nine endpoints, request/response schemas, and the structured error codes; must be updated in the same change as any endpoint or schema change.
 
 ### Changed
+- BACKLOG-060: narrowed `Logic Squeeze Grid` metadata and documentation to the behaviour the
+  current fixture demonstrates. It records Hidden Singles and Naked Singles changes while Unit
+  Completion is attempted without a change; the executable Gherkin wording remains the SUD-22
+  instrumentation task.
 - BACKLOG-058 (TRIAGE-03, review `CODE_REVIEW_CLAUDE_Fable_5_v2_20260718T0609Z` Risk 3, LOW):
   aligned the local Compose parity gate with CI by moving its container from PowerShell 7.4 on
   Ubuntu 22.04 to PowerShell 7.5 on Ubuntu 24.04.

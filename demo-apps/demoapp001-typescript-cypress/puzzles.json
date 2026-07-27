@@ -19,7 +19,7 @@
     {
       "name": "Logic Squeeze Grid",
       "difficulty": "medium",
-      "description": "Requires combination of all three basic techniques",
+      "description": "Solved by Hidden Singles and Naked Singles; Unit Completion is attempted but makes no changes",
       "grid": [
         [0, 0, 0, 2, 6, 0, 7, 0, 1],
         [6, 8, 0, 0, 7, 0, 0, 9, 0],
