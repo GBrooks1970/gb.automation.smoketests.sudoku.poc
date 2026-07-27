@@ -9,6 +9,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Added
+- BACKLOG-062 (SUD-23, review `CODE_REVIEW_CODEX_v1_20260723T2351Z` Risk 2, MEDIUM):
+  added a canonical `true` / `false` JSON boolean-cell rejection scenario backed by the real
+  PuzzleLoader in all three Stacks, plus focused Python loader boundary tests and DEMOAPP001 API
+  integration checks for every grid-accepting POST endpoint.
 - BACKLOG-061 (SUD-22, review `CODE_REVIEW_CODEX_v1_20260723T2351Z` Risk 1, HIGH):
   implemented DR-037's optional immutable attempt observer in TypeScript, Python, and C#. Every
   Unit Completion, Hidden Singles digit 1-9, and Naked Singles invocation now produces
@@ -55,6 +59,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - SUD-04 (review Refactor 5, DR-035): authored OpenAPI 3.0 contract for the DEMOAPP001 REST API at `demo-apps/demoapp001-typescript-cypress/docs/openapi.yaml` covering all nine endpoints, request/response schemas, and the structured error codes; must be updated in the same change as any endpoint or schema change.
 
 ### Changed
+- BACKLOG-062: DEMOAPP002 now requires exact `int` puzzle cells instead of accepting Python
+  `bool` values through `isinstance(cell, int)`. Valid integer values, public error wording and
+  REST status codes remain unchanged; no validation-boundary contract or DR change was required.
 - BACKLOG-061: canonical orchestration Gherkin and all three bindings now assert the exact
   eleven-attempt sequence per iteration, more than one iteration, progress in every non-terminal
   pass, and immutable evidence. `Logic Squeeze Grid` now executably proves the approved narrower

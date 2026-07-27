@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+import json
+
 import pytest
 from pytest_bdd import given, parsers, scenarios, then, when
 
 from app_src import AttemptEvent
-from tests.screenplay.abilities import UseSudokuSolver
+from tests.screenplay.abilities import LoadPuzzles, UseSudokuSolver
 from tests.screenplay.questions import (
     AlgorithmMadeProgress,
     AuditTrail,
@@ -21,6 +23,7 @@ from tests.screenplay.questions import (
 )
 from tests.screenplay.support.actor import Actor
 from tests.screenplay.support.actors import make_solver_actor
+from tests.screenplay.support.memory_keys import LAST_ERROR
 from tests.screenplay.tasks import (
     ApplyAlgorithm,
     AttemptPlacement,
@@ -515,6 +518,33 @@ def puzzle_with_8x9_grid(actor: Actor) -> None:
 @given(parsers.parse("a puzzle with a cell value of {value:d} in the JSON file"))
 def puzzle_with_invalid_cell(actor: Actor, value: int) -> None:
     actor.attempts_to(SimulateError.for_invalid_cell_value(value))
+
+
+@given(parsers.parse('a puzzle with a JSON boolean cell value of "{value}"'))
+def puzzle_with_boolean_cell(actor: Actor, tmp_path, value: str) -> None:
+    assert value in {"true", "false"}
+    grid = [[0 for _ in range(9)] for _ in range(9)]
+    grid[0][0] = value == "true"
+    file_path = tmp_path / "puzzles.json"
+    file_path.write_text(
+        json.dumps(
+            {
+                "puzzles": [
+                    {
+                        "name": "Boolean Cell Boundary",
+                        "difficulty": "invalid",
+                        "description": "A malformed puzzle containing a JSON boolean cell",
+                        "grid": grid,
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    loader = LoadPuzzles.from_path(str(file_path))
+    actor.who_can(loader)
+    actor.remember(LAST_ERROR, loader.get_error())
 
 
 @given("puzzles are loaded from JSON")

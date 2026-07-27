@@ -9,6 +9,7 @@ async function run(): Promise<void> {
   await healthCheck();
   await puzzleEndpoints();
   await validateEndpoint();
+  await rejectBooleanCellsAtEveryGridEndpoint();
   await techniqueEndpoints();
   await solveEndpoint();
   await visualiseEndpoint();
@@ -64,6 +65,41 @@ async function validateEndpoint(): Promise<void> {
     .send({ grid: [[1, 2, 3]] })
     .expect(400);
   assert.strictEqual(formatResponse.body.error, 'INVALID_GRID_FORMAT');
+
+  const integerBoundaryGrid = emptyGrid();
+  integerBoundaryGrid[0][0] = 9;
+  const integerBoundaryResponse = await request(app)
+    .post('/api/validate')
+    .send({ grid: integerBoundaryGrid })
+    .expect(200);
+  assert.strictEqual(integerBoundaryResponse.body.valid, true);
+}
+
+async function rejectBooleanCellsAtEveryGridEndpoint(): Promise<void> {
+  const endpoints = [
+    { path: '/api/techniques/unit-completion', body: {} },
+    { path: '/api/techniques/hidden-singles', body: { targetNumber: 1 } },
+    { path: '/api/techniques/naked-singles', body: {} },
+    { path: '/api/solve', body: {} },
+    { path: '/api/validate', body: {} },
+  ];
+
+  for (const booleanCell of [true, false]) {
+    const grid: unknown[][] = emptyGrid();
+    grid[0][0] = booleanCell;
+
+    for (const endpoint of endpoints) {
+      const response = await request(app)
+        .post(endpoint.path)
+        .send({ ...endpoint.body, grid })
+        .expect(400);
+      assert.strictEqual(
+        response.body.error,
+        'INVALID_GRID_FORMAT',
+        `${endpoint.path} accepted JSON boolean cell ${booleanCell}`
+      );
+    }
+  }
 }
 
 async function techniqueEndpoints(): Promise<void> {
