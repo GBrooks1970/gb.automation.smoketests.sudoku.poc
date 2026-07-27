@@ -94,7 +94,7 @@ gb.automation.smoketests.sudoku.poc/
 | Document | Purpose | Status |
 |----------|---------|--------|
 | [audit-trail-feature.md](DOCS/.design/audit-trail-feature.md) | Audit trail logging system | Design complete |
-| [orchestration-attempt-events.md](DOCS/.design/orchestration-attempt-events.md) | Cross-stack attempt-event evidence contract (DR-037) | Approved for SUD-22 |
+| [orchestration-attempt-events.md](DOCS/.design/orchestration-attempt-events.md) | Cross-stack attempt-event evidence contract (DR-037) | Implemented by SUD-22 |
 | [rest-api-wrapper.md](DOCS/.design/rest-api-wrapper.md) | REST API wrapper specification | Implemented for DEMOAPP001 |
 
 ## Demo Applications
@@ -249,7 +249,7 @@ All implementations follow established software engineering principles:
 **Testing Patterns:**
 - **AAA Pattern Consistency** - All tests follow Arrange-Act-Assert structure
 - **BDD Scenarios** - Given-When-Then format for clear behavior specification
-- **Gherkin Examples** - 46 scenarios per stack (138 across all three; DEMOAPP001 = 46 scenarios / 257 steps) demonstrating comprehensive coverage
+- **Gherkin Examples** - 46 scenarios per stack (138 across all three; DEMOAPP001 = 46 scenarios / 259 steps) demonstrating comprehensive coverage
 - **Test Pyramid** - Unit tests (fast), integration tests (medium), BDD tests (slow but comprehensive)
 
 **Cross-References and Traceability:**

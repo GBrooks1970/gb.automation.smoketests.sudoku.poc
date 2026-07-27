@@ -51,11 +51,6 @@ Then('the solution should be valid \\(no constraint violations)', async () => {
   assert.ok(valid, 'Solution has constraint violations');
 });
 
-Then('the puzzle should require all three techniques', async () => {
-  const status = await actorCalled(SOLVER_ACTOR).answer(SolveStatus.current());
-  assert.strictEqual(status, 'SOLVED');
-});
-
 Then('the solution should be valid', async () => {
   const valid = await actorCalled(SOLVER_ACTOR).answer(GridCell.isValidSolution());
   assert.ok(valid);

@@ -1,7 +1,8 @@
 import { Ability } from '@serenity-js/core';
 import { SudokuSolver } from '../../../app_src/SudokuSolver';
 import { SudokuOrchestrator } from '../../../app_src/SudokuOrchestrator';
-import { AuditEvent, AuditTrail } from '../../../app_src/audit/AuditTypes';
+import { AuditTrail } from '../../../app_src/audit/AuditTypes';
+import { AttemptEvent } from '../../../app_src/orchestration/AttemptTypes';
 
 /**
  * Ability: UseSudokuSolver
@@ -27,15 +28,10 @@ export class UseSudokuSolver extends Ability {
   private _auditEnabled: boolean = false;
   private _lastAuditTrail: AuditTrail | undefined = undefined;
 
-  // Orchestration-ordering instrumentation (SUD-20 / BACKLOG-051): a solve run that always
-  // captures the audit event sequence so orchestration Then-steps can assert real algorithm
-  // ordering and no-execution counts instead of inferring them from the overall solve status.
-  // Deliberately separate from `_lastAuditTrail` / `auditEnabled`, which govern the opt-in audit
-  // trail feature (`Given("audit logging is enabled")`) and must stay unaffected by this — the
-  // "Solver without audit logging produces no trail" scenario asserts `lastAuditTrail` is
-  // `undefined` after a plain solve, and this instrumentation must not change that.
-  private _lastOrderingEvents: AuditEvent[] = [];
-  private _lastOrderingIterations: number = 0;
+  // SUD-22 / BACKLOG-061: attempt evidence is collected independently from the opt-in audit
+  // response. A plain solve can therefore prove unchanged invocations without making
+  // `lastAuditTrail` present or coupling the production observer to Cucumber.
+  private _lastAttemptEvents: ReadonlyArray<AttemptEvent> = Object.freeze([]);
 
   constructor() {
     super();
@@ -50,6 +46,7 @@ export class UseSudokuSolver extends Ability {
     this.lastAlgorithmChanged = false;
     this.solveResult = '';
     this._solverError = null;
+    this._lastAttemptEvents = Object.freeze([]);
   }
 
   getSolver(): SudokuSolver {
@@ -74,14 +71,22 @@ export class UseSudokuSolver extends Ability {
   }
 
   solvePuzzle(): void {
-    const orchestrator = new SudokuOrchestrator(this.getSolver());
+    const events: AttemptEvent[] = [];
+    const orchestrator = new SudokuOrchestrator(this.getSolver(), undefined, (event) =>
+      events.push(event)
+    );
     this.solveResult = orchestrator.solve();
+    this._lastAttemptEvents = Object.freeze([...events]);
     this._lastAuditTrail = undefined;
   }
 
   solvePuzzleWithAudit(): void {
-    const orchestrator = new SudokuOrchestrator(this.getSolver(), { enabled: true });
+    const events: AttemptEvent[] = [];
+    const orchestrator = new SudokuOrchestrator(this.getSolver(), { enabled: true }, (event) =>
+      events.push(event)
+    );
     this.solveResult = orchestrator.solve();
+    this._lastAttemptEvents = Object.freeze([...events]);
     this._lastAuditTrail = orchestrator.getAuditTrail();
   }
 
@@ -90,18 +95,11 @@ export class UseSudokuSolver extends Ability {
   }
 
   /**
-   * Runs the full solving loop with audit instrumentation always on, capturing the raw event
-   * sequence and iteration count for algorithm-ordering assertions (SUD-20 / BACKLOG-051).
-   * Behaviour-neutral: `SudokuSolver`'s algorithms only conditionally *log* to the audit logger,
-   * they never branch on whether one is attached, so the returned status and final grid are
-   * identical to a plain `solvePuzzle()` call.
+   * Backward-compatible Screenplay task entry point retained from SUD-20. The SUD-22 observer now
+   * supplies exact attempt evidence, so no audit logger is enabled for this test-only path.
    */
   solvePuzzleTrackingOrder(): void {
-    const orchestrator = new SudokuOrchestrator(this.getSolver(), { enabled: true });
-    this.solveResult = orchestrator.solve();
-    const trail = orchestrator.getAuditTrail();
-    this._lastOrderingEvents = trail?.events ?? [];
-    this._lastOrderingIterations = trail?.totalIterations ?? 0;
+    this.solvePuzzle();
   }
 
   isGridFull(): boolean {
@@ -184,10 +182,10 @@ export class UseSudokuSolver extends Ability {
   get lastAuditTrail(): AuditTrail | undefined {
     return this._lastAuditTrail;
   }
-  get lastOrderingEvents(): AuditEvent[] {
-    return this._lastOrderingEvents;
+  get lastAttemptEvents(): ReadonlyArray<AttemptEvent> {
+    return this._lastAttemptEvents;
   }
-  get lastOrderingIterations(): number {
-    return this._lastOrderingIterations;
+  get lastAttemptIterations(): number {
+    return new Set(this._lastAttemptEvents.map(({ iteration }) => iteration)).size;
   }
 }

@@ -9,6 +9,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Added
+- BACKLOG-061 (SUD-22, review `CODE_REVIEW_CODEX_v1_20260723T2351Z` Risk 1, HIGH):
+  implemented DR-037's optional immutable attempt observer in TypeScript, Python, and C#. Every
+  Unit Completion, Hidden Singles digit 1-9, and Naked Singles invocation now produces
+  deterministic evidence even when it changes no cells, while the existing audit response stays
+  change-only. Added two focused observer-spy component tests per Stack for exact order,
+  solve-wide sequence, progress and immutability.
 - BACKLOG-060 (SUD-21, review `CODE_REVIEW_CODEX_v1_20260723T2351Z` Risk 1, HIGH): recorded a
   three-stack orchestration characterisation baseline and approved DR-037's language-neutral,
   immutable attempt-event contract for SUD-22 without changing production solve behaviour or the
@@ -49,6 +55,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - SUD-04 (review Refactor 5, DR-035): authored OpenAPI 3.0 contract for the DEMOAPP001 REST API at `demo-apps/demoapp001-typescript-cypress/docs/openapi.yaml` covering all nine endpoints, request/response schemas, and the structured error codes; must be updated in the same change as any endpoint or schema change.
 
 ### Changed
+- BACKLOG-061: canonical orchestration Gherkin and all three bindings now assert the exact
+  eleven-attempt sequence per iteration, more than one iteration, progress in every non-terminal
+  pass, and immutable evidence. `Logic Squeeze Grid` now executably proves the approved narrower
+  claim: Unit Completion is attempted without a change, while Hidden Singles and Naked Singles
+  both change the grid. The BDD baseline remains 46 scenarios and is now 259 TypeScript step
+  executions; each Python and C# suite now contains 48 tests including the two component checks.
 - BACKLOG-060: narrowed `Logic Squeeze Grid` metadata and documentation to the behaviour the
   current fixture demonstrates. It records Hidden Singles and Naked Singles changes while Unit
   Completion is attempted without a change; the executable Gherkin wording remains the SUD-22

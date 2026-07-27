@@ -3,7 +3,7 @@
 **Language:** C# on .NET 10 LTS
 **Framework:** Reqnroll 3.3 + NUnit 4
 **Surface type:** @util
-**Last updated:** 2026-07-14
+**Last updated:** 2026-07-27
 
 `DEMOAPP003_CSHARP_SPECFLOW` and its directory remain stable legacy identifiers; the active BDD
 runtime is Reqnroll (DR-036).
@@ -25,7 +25,8 @@ dotnet restore --locked-mode
 dotnet test --no-restore
 ```
 
-Expected output: 46 scenarios passing through generated Reqnroll/NUnit tests.
+Expected output: 48 tests passing — 46 generated Reqnroll scenarios plus 2 focused orchestration
+contract tests.
 
 ## Key Commands
 

@@ -16,12 +16,15 @@ python -m pytest
 ```text
 app_src/                 Python Sudoku subject implementation
 tests/features/          Stack-local copy of the canonical Gherkin feature
+tests/component/         Focused attempt-observer contract tests
 tests/screenplay/        Screenplay-style abilities, tasks, questions, and steps
 puzzles.json             Stack-local puzzle data used by PuzzleLoader
 ```
 
 The feature body must stay in parity with
 `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature`.
+The current suite contains 48 tests: 46 canonical BDD scenarios plus 2 focused orchestration
+contract tests.
 
 ## Grid Access
 

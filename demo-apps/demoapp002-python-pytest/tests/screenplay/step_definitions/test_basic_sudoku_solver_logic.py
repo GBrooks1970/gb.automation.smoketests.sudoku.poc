@@ -3,6 +3,7 @@ from __future__ import annotations
 import pytest
 from pytest_bdd import given, parsers, scenarios, then, when
 
+from app_src import AttemptEvent
 from tests.screenplay.abilities import UseSudokuSolver
 from tests.screenplay.questions import (
     AlgorithmMadeProgress,
@@ -304,7 +305,7 @@ def validation_result(actor: Actor, expected: str) -> None:
     assert actor.answer(PlacementValidity.of_last_attempt()) == expected
 
 
-@given("a puzzle that requires all three techniques")
+@given("a puzzle that exercises the complete basic-technique attempt sequence")
 def puzzle_requires_all_techniques(actor: Actor) -> None:
     actor.attempts_to(LoadPuzzleByName.and_initialise("Logic Squeeze Grid"))
 
@@ -352,108 +353,114 @@ def solving_loop_runs(actor: Actor) -> None:
     actor.attempts_to(SolvePuzzle.with_current_grid())
 
 
-# SUD-20 / BACKLOG-051: these two When-phrases feed the ordering/no-execution assertions below,
-# so they always capture the audit event sequence (with_current_grid_tracking_order), unlike the
-# other When-phrases above which share the plain with_current_grid().
-@when("the main solving loop executes one iteration")
+# SUD-22 / BACKLOG-061: these phrases use the backward-compatible SUD-20 task entry point,
+# which now captures immutable attempt events without enabling the audit trail.
+@when("the main solving loop executes with attempt tracing")
 @when("the main execution loop runs")
 def solving_loop_runs_tracking_order(actor: Actor) -> None:
     actor.attempts_to(SolvePuzzle.with_current_grid_tracking_order())
 
 
-@then("multiple iterations should occur")
-@then("each iteration should make progress until solved")
 @then("the puzzle should be completely solved")
 def solved_status_verified(actor: Actor) -> None:
     assert actor.answer(SolveStatus.current()) == "SOLVED"
 
 
-# Fixed priority order the orchestrator always calls algorithms in (SudokuOrchestrator.solve()).
-_ALGORITHM_RANK = {"UnitCompletion": 0, "HiddenSingles": 1, "NakedSingles": 2}
+def _attempt_events(actor: Actor) -> tuple[AttemptEvent, ...]:
+    return actor.ability_to(UseSudokuSolver).last_attempt_events
 
 
-def _events_in_iteration(events: list[dict], iteration: int) -> list[dict]:
-    return [e for e in events if e["iteration"] == iteration]
+def _events_in_iteration(
+    events: tuple[AttemptEvent, ...], iteration: int
+) -> list[AttemptEvent]:
+    return [event for event in events if event.iteration == iteration]
 
 
-def _iteration_numbers(events: list[dict]) -> list[int]:
-    return sorted({e["iteration"] for e in events})
+def _iteration_numbers(events: tuple[AttemptEvent, ...]) -> list[int]:
+    return sorted({event.iteration for event in events})
 
 
 @then('"Unit Completion" should be attempted first')
 def unit_completion_attempted_first(actor: Actor) -> None:
     assert actor.answer(SolveStatus.current()) == "SOLVED"
 
-    # The orchestrator always calls unit_completion() before hidden_singles()/naked_singles()
-    # every iteration, but the audit trail only logs an event when a call produces a change. So
-    # the real, always-true claim observable from the trail is: whenever a Unit Completion event
-    # IS logged for an iteration, it is that iteration's first event.
-    events = actor.ability_to(UseSudokuSolver).last_ordering_events
+    events = _attempt_events(actor)
     for iteration in _iteration_numbers(events):
         iter_events = _events_in_iteration(events, iteration)
-        uc_index = next((i for i, e in enumerate(iter_events) if e["algorithm"] == "UnitCompletion"), -1)
-        if uc_index != -1:
-            assert uc_index == 0, (
-                f"Iteration {iteration}: Unit Completion event was not first "
-                f"(index {uc_index} of {len(iter_events)})"
-            )
+        assert iter_events[0].technique == "UnitCompletion", (
+            f"Iteration {iteration}: Unit Completion was not the first recorded attempt"
+        )
 
 
 @then(parsers.parse('"Hidden Singles" should be attempted second for digits {start:d} through {end:d}'))
 def hidden_singles_attempted_second(actor: Actor, start: int, end: int) -> None:
-    events = actor.ability_to(UseSudokuSolver).last_ordering_events
+    events = _attempt_events(actor)
     for iteration in _iteration_numbers(events):
         iter_events = _events_in_iteration(events, iteration)
-        uc_index = next((i for i, e in enumerate(iter_events) if e["algorithm"] == "UnitCompletion"), -1)
-        hs_events = [e for e in iter_events if e["algorithm"] == "HiddenSingles"]
-        first_hs_index = next((i for i, e in enumerate(iter_events) if e["algorithm"] == "HiddenSingles"), -1)
-
-        if uc_index != -1 and first_hs_index != -1:
-            assert uc_index < first_hs_index, (
-                f"Iteration {iteration}: a Hidden Singles event preceded the Unit Completion event"
+        hs_events = iter_events[1:-1]
+        assert len(hs_events) == end - start + 1, (
+            f"Iteration {iteration}: expected {end - start + 1} Hidden Singles attempts"
+        )
+        for index, event in enumerate(hs_events):
+            assert event.technique == "HiddenSingles", (
+                f"Iteration {iteration}: attempt {index + 2} was not Hidden Singles"
             )
-
-        last_digit = 0
-        for e in hs_events:
-            digit = e["algorithmParameter"]
-            assert start <= digit <= end, (
-                f"Iteration {iteration}: Hidden Singles digit {digit} is outside the expected range {start}-{end}"
+            assert event.parameter == start + index, (
+                f"Iteration {iteration}: Hidden Singles digit was out of scan order"
             )
-            assert digit > last_digit, (
-                f"Iteration {iteration}: Hidden Singles digit {digit} did not increase after {last_digit} "
-                f"(out of scan order)"
-            )
-            last_digit = digit
 
 
 @then('"Naked Singles" should be attempted third')
 def naked_singles_attempted_third(actor: Actor) -> None:
-    events = actor.ability_to(UseSudokuSolver).last_ordering_events
+    events = _attempt_events(actor)
     for iteration in _iteration_numbers(events):
         iter_events = _events_in_iteration(events, iteration)
-        ns_index = next((i for i, e in enumerate(iter_events) if e["algorithm"] == "NakedSingles"), -1)
-        if ns_index != -1:
-            assert ns_index == len(iter_events) - 1, (
-                f"Iteration {iteration}: Naked Singles event was not last "
-                f"(index {ns_index} of {len(iter_events)})"
-            )
+        assert iter_events[-1].technique == "NakedSingles", (
+            f"Iteration {iteration}: Naked Singles was not the final recorded attempt"
+        )
 
 
 @then("the execution order should be maintained in every iteration")
 def execution_order_maintained(actor: Actor) -> None:
     assert actor.answer(SolveStatus.current()) == "SOLVED"
 
-    events = actor.ability_to(UseSudokuSolver).last_ordering_events
-    assert events, "Expected at least one audit event for a puzzle requiring all three techniques"
+    events = _attempt_events(actor)
+    assert events, "Expected attempt evidence for the basic orchestration sequence"
+    expected_sequence = 1
     for iteration in _iteration_numbers(events):
-        max_rank_so_far = -1
-        for e in _events_in_iteration(events, iteration):
-            rank = _ALGORITHM_RANK[e["algorithm"]]
-            assert rank >= max_rank_so_far, (
-                f"Iteration {iteration}: event {e['eventId']} ({e['algorithm']}) broke the "
-                f"Unit Completion -> Hidden Singles -> Naked Singles priority order"
+        iter_events = _events_in_iteration(events, iteration)
+        assert len(iter_events) == 11, (
+            f"Iteration {iteration}: expected exactly 11 attempt events"
+        )
+        for event in iter_events:
+            assert event.sequence == expected_sequence, (
+                f"Iteration {iteration}: expected solve-wide sequence {expected_sequence}"
             )
-            max_rank_so_far = rank
+            expected_sequence += 1
+
+
+@then("every attempt should expose immutable change evidence")
+def attempt_evidence_immutable(actor: Actor) -> None:
+    for event in _attempt_events(actor):
+        assert event.changed == bool(event.changes)
+        assert isinstance(event.changes, tuple)
+        assert all(change.__dataclass_params__.frozen for change in event.changes)
+
+
+@then("multiple iterations should occur")
+def multiple_iterations_occur(actor: Actor) -> None:
+    assert actor.answer(SolveStatus.current()) == "SOLVED"
+    assert actor.ability_to(UseSudokuSolver).last_attempt_iterations > 1
+
+
+@then("each iteration should make progress until solved")
+def each_non_terminal_iteration_progresses(actor: Actor) -> None:
+    assert actor.answer(SolveStatus.current()) == "SOLVED"
+    events = _attempt_events(actor)
+    for iteration in _iteration_numbers(events)[:-1]:
+        assert any(event.changed for event in _events_in_iteration(events, iteration)), (
+            f"Non-terminal iteration {iteration} made no progress"
+        )
 
 
 @then(parsers.parse('the final status should be "{status}"'))
@@ -474,14 +481,13 @@ def no_algorithms_executed(actor: Actor) -> None:
 
     # SUD-01 contract (BACKLOG-035): an already-solved grid returns SOLVED via the early
     # is_grid_full() check in SudokuOrchestrator.solve(), before the progress loop - and
-    # therefore before start_iteration() is ever called - so the audit trail must show zero
-    # iterations and zero events, not merely an overall SOLVED status.
+    # therefore before any attempt can be observed.
     ability = actor.ability_to(UseSudokuSolver)
-    assert ability.last_ordering_iterations == 0, (
-        f"Expected 0 iterations for an already-solved grid but got {ability.last_ordering_iterations}"
+    assert ability.last_attempt_iterations == 0, (
+        f"Expected 0 iterations for an already-solved grid but got {ability.last_attempt_iterations}"
     )
-    assert len(ability.last_ordering_events) == 0, (
-        f"Expected 0 audit events for an already-solved grid but got {len(ability.last_ordering_events)}"
+    assert len(ability.last_attempt_events) == 0, (
+        f"Expected 0 attempt events for an already-solved grid but got {len(ability.last_attempt_events)}"
     )
 
 
@@ -679,9 +685,22 @@ def solution_valid_no_violations(actor: Actor) -> None:
     assert actor.answer(GridCell.is_valid_solution())
 
 
-@then("the puzzle should require all three techniques")
-def puzzle_requires_all_three(actor: Actor) -> None:
-    assert actor.answer(SolveStatus.current()) == "SOLVED"
+@then("Unit Completion should be attempted without changing the grid")
+def unit_completion_attempted_without_change(actor: Actor) -> None:
+    attempts = [
+        event for event in _attempt_events(actor) if event.technique == "UnitCompletion"
+    ]
+    assert attempts
+    assert all(not event.changed and not event.changes for event in attempts)
+
+
+@then("Hidden Singles and Naked Singles should each change the grid")
+def hidden_and_naked_singles_change_grid(actor: Actor) -> None:
+    changed_techniques = {
+        event.technique for event in _attempt_events(actor) if event.changed
+    }
+    assert "HiddenSingles" in changed_techniques
+    assert "NakedSingles" in changed_techniques
 
 
 @then("the solution should be valid")

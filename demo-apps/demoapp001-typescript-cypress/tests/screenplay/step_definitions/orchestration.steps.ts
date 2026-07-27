@@ -8,28 +8,21 @@ import { SolvePuzzle } from '../tasks/SolvePuzzle';
 import { SolveStatus } from '../questions/SolveStatus';
 import { GridCell } from '../questions/GridCell';
 import { UseSudokuSolver } from '../abilities/UseSudokuSolver';
-import { AuditEvent } from '../../../app_src/audit/AuditTypes';
+import { AttemptEvent } from '../../../app_src/orchestration/AttemptTypes';
 
 // ---------------------------------------------------------------------------
-// Orchestration - ordering helpers (SUD-20 / BACKLOG-051)
+// Orchestration - attempt helpers (SUD-22 / BACKLOG-061)
 // ---------------------------------------------------------------------------
 
-// Fixed priority order the orchestrator always calls algorithms in (SudokuOrchestrator.solve()).
-const ALGORITHM_RANK: Record<AuditEvent['algorithm'], number> = {
-  UnitCompletion: 0,
-  HiddenSingles: 1,
-  NakedSingles: 2,
-};
-
-function orderingEvents(): AuditEvent[] {
-  return UseSudokuSolver.as(actorCalled(SOLVER_ACTOR)).lastOrderingEvents;
+function attemptEvents(): ReadonlyArray<AttemptEvent> {
+  return UseSudokuSolver.as(actorCalled(SOLVER_ACTOR)).lastAttemptEvents;
 }
 
-function eventsInIteration(events: AuditEvent[], iteration: number): AuditEvent[] {
+function eventsInIteration(events: ReadonlyArray<AttemptEvent>, iteration: number): AttemptEvent[] {
   return events.filter((e) => e.iteration === iteration);
 }
 
-function iterationNumbers(events: AuditEvent[]): number[] {
+function iterationNumbers(events: ReadonlyArray<AttemptEvent>): number[] {
   return [...new Set(events.map((e) => e.iteration))].sort((a, b) => a - b);
 }
 
@@ -37,7 +30,7 @@ function iterationNumbers(events: AuditEvent[]): number[] {
 // Orchestration - Given steps
 // ---------------------------------------------------------------------------
 
-Given('a puzzle that requires all three techniques', async () => {
+Given('a puzzle that exercises the complete basic-technique attempt sequence', async () => {
   await actorCalled(SOLVER_ACTOR).attemptsTo(LoadPuzzleByName.andInitialise('Logic Squeeze Grid'));
 });
 
@@ -76,7 +69,7 @@ Given('the {string} puzzle is loaded', async (puzzleName: string) => {
 // Orchestration - When steps
 // ---------------------------------------------------------------------------
 
-When('the main solving loop executes one iteration', async () => {
+When('the main solving loop executes with attempt tracing', async () => {
   await actorCalled(SOLVER_ACTOR).attemptsTo(SolvePuzzle.withCurrentGridTrackingOrder());
 });
 
@@ -104,71 +97,54 @@ Then('"Unit Completion" should be attempted first', async () => {
   const status = await actorCalled(SOLVER_ACTOR).answer(SolveStatus.current());
   assert.strictEqual(status, 'SOLVED');
 
-  // The orchestrator always calls unitCompletion() before hiddenSingles()/nakedSingles() every
-  // iteration (SudokuOrchestrator.solve()), but the audit trail only logs an event when a call
-  // produces a change. So the real, always-true claim observable from the trail is: whenever a
-  // Unit Completion event IS logged for an iteration, it is that iteration's first event — no
-  // Hidden Singles or Naked Singles event precedes it.
-  const events = orderingEvents();
+  const events = attemptEvents();
   for (const iteration of iterationNumbers(events)) {
     const iterEvents = eventsInIteration(events, iteration);
-    const ucIndex = iterEvents.findIndex((e) => e.algorithm === 'UnitCompletion');
-    if (ucIndex !== -1) {
-      assert.strictEqual(
-        ucIndex,
-        0,
-        `Iteration ${iteration}: Unit Completion event was not first (index ${ucIndex} of ${iterEvents.length})`
-      );
-    }
+    assert.strictEqual(
+      iterEvents[0]?.technique,
+      'UnitCompletion',
+      `Iteration ${iteration}: Unit Completion was not the first recorded attempt`
+    );
   }
 });
 
 Then(
   '"Hidden Singles" should be attempted second for digits {int} through {int}',
   async (from: number, to: number) => {
-    const events = orderingEvents();
+    const events = attemptEvents();
     for (const iteration of iterationNumbers(events)) {
       const iterEvents = eventsInIteration(events, iteration);
-      const ucIndex = iterEvents.findIndex((e) => e.algorithm === 'UnitCompletion');
-      const hsEvents = iterEvents.filter((e) => e.algorithm === 'HiddenSingles');
-      const firstHsIndex = iterEvents.findIndex((e) => e.algorithm === 'HiddenSingles');
-
-      if (ucIndex !== -1 && firstHsIndex !== -1) {
-        assert.ok(
-          ucIndex < firstHsIndex,
-          `Iteration ${iteration}: a Hidden Singles event preceded the Unit Completion event`
+      const hsEvents = iterEvents.slice(1, -1);
+      assert.strictEqual(
+        hsEvents.length,
+        to - from + 1,
+        `Iteration ${iteration}: expected ${to - from + 1} Hidden Singles attempts`
+      );
+      hsEvents.forEach((event, index) => {
+        assert.strictEqual(
+          event.technique,
+          'HiddenSingles',
+          `Iteration ${iteration}: attempt ${index + 2} was not Hidden Singles`
         );
-      }
-
-      let lastDigit = 0;
-      for (const e of hsEvents) {
-        const digit = e.algorithmParameter as number;
-        assert.ok(
-          digit >= from && digit <= to,
-          `Iteration ${iteration}: Hidden Singles digit ${digit} is outside the expected range ${from}-${to}`
+        assert.strictEqual(
+          event.parameter,
+          from + index,
+          `Iteration ${iteration}: Hidden Singles digit was out of scan order`
         );
-        assert.ok(
-          digit > lastDigit,
-          `Iteration ${iteration}: Hidden Singles digit ${digit} did not increase after ${lastDigit} (out of scan order)`
-        );
-        lastDigit = digit;
-      }
+      });
     }
   }
 );
 
 Then('"Naked Singles" should be attempted third', () => {
-  const events = orderingEvents();
+  const events = attemptEvents();
   for (const iteration of iterationNumbers(events)) {
     const iterEvents = eventsInIteration(events, iteration);
-    const nsIndex = iterEvents.findIndex((e) => e.algorithm === 'NakedSingles');
-    if (nsIndex !== -1) {
-      assert.strictEqual(
-        nsIndex,
-        iterEvents.length - 1,
-        `Iteration ${iteration}: Naked Singles event was not last (index ${nsIndex} of ${iterEvents.length})`
-      );
-    }
+    assert.strictEqual(
+      iterEvents[iterEvents.length - 1]?.technique,
+      'NakedSingles',
+      `Iteration ${iteration}: Naked Singles was not the final recorded attempt`
+    );
   }
 });
 
@@ -176,21 +152,35 @@ Then('the execution order should be maintained in every iteration', async () => 
   const status = await actorCalled(SOLVER_ACTOR).answer(SolveStatus.current());
   assert.strictEqual(status, 'SOLVED');
 
-  const events = orderingEvents();
-  assert.ok(
-    events.length > 0,
-    'Expected at least one audit event for a puzzle requiring all three techniques'
-  );
+  const events = attemptEvents();
+  assert.ok(events.length > 0, 'Expected attempt evidence for the basic orchestration sequence');
+  let expectedSequence = 1;
   for (const iteration of iterationNumbers(events)) {
     const iterEvents = eventsInIteration(events, iteration);
-    let maxRankSoFar = -1;
-    for (const e of iterEvents) {
-      const rank = ALGORITHM_RANK[e.algorithm];
-      assert.ok(
-        rank >= maxRankSoFar,
-        `Iteration ${iteration}: event ${e.eventId} (${e.algorithm}) broke the Unit Completion -> Hidden Singles -> Naked Singles priority order`
+    assert.strictEqual(
+      iterEvents.length,
+      11,
+      `Iteration ${iteration}: expected exactly 11 attempt events`
+    );
+    for (const event of iterEvents) {
+      assert.strictEqual(
+        event.sequence,
+        expectedSequence,
+        `Iteration ${iteration}: expected solve-wide sequence ${expectedSequence}`
       );
-      maxRankSoFar = rank;
+      expectedSequence += 1;
+    }
+  }
+});
+
+Then('every attempt should expose immutable change evidence', () => {
+  for (const event of attemptEvents()) {
+    assert.strictEqual(event.changed, event.changes.length > 0);
+    assert.ok(Object.isFrozen(event), `Attempt ${event.sequence} is mutable`);
+    assert.ok(Object.isFrozen(event.changes), `Attempt ${event.sequence} changes are mutable`);
+    for (const change of event.changes) {
+      assert.ok(Object.isFrozen(change), `Attempt ${event.sequence} change is mutable`);
+      assert.ok(Object.isFrozen(change.cell), `Attempt ${event.sequence} cell is mutable`);
     }
   }
 });
@@ -198,11 +188,23 @@ Then('the execution order should be maintained in every iteration', async () => 
 Then('multiple iterations should occur', async () => {
   const status = await actorCalled(SOLVER_ACTOR).answer(SolveStatus.current());
   assert.strictEqual(status, 'SOLVED');
+  assert.ok(
+    UseSudokuSolver.as(actorCalled(SOLVER_ACTOR)).lastAttemptIterations > 1,
+    'Expected more than one solving iteration'
+  );
 });
 
 Then('each iteration should make progress until solved', async () => {
   const status = await actorCalled(SOLVER_ACTOR).answer(SolveStatus.current());
   assert.strictEqual(status, 'SOLVED');
+  const events = attemptEvents();
+  const iterations = iterationNumbers(events);
+  for (const iteration of iterations.slice(0, -1)) {
+    assert.ok(
+      eventsInIteration(events, iteration).some(({ changed }) => changed),
+      `Non-terminal iteration ${iteration} made no progress`
+    );
+  }
 });
 
 Then('the final status should be {string}', async (status: string) => {
@@ -230,15 +232,34 @@ Then('no algorithms should be executed', async () => {
   // zero events, not merely an overall SOLVED status.
   const ability = UseSudokuSolver.as(actorCalled(SOLVER_ACTOR));
   assert.strictEqual(
-    ability.lastOrderingIterations,
+    ability.lastAttemptIterations,
     0,
-    `Expected 0 iterations for an already-solved grid but got ${ability.lastOrderingIterations}`
+    `Expected 0 iterations for an already-solved grid but got ${ability.lastAttemptIterations}`
   );
   assert.strictEqual(
-    ability.lastOrderingEvents.length,
+    ability.lastAttemptEvents.length,
     0,
-    `Expected 0 audit events for an already-solved grid but got ${ability.lastOrderingEvents.length}`
+    `Expected 0 attempt events for an already-solved grid but got ${ability.lastAttemptEvents.length}`
   );
+});
+
+Then('Unit Completion should be attempted without changing the grid', () => {
+  const unitCompletion = attemptEvents().filter(({ technique }) => technique === 'UnitCompletion');
+  assert.ok(unitCompletion.length > 0, 'Expected Unit Completion attempts');
+  assert.ok(
+    unitCompletion.every(({ changed, changes }) => !changed && changes.length === 0),
+    'Logic Squeeze Grid should not attribute changes to Unit Completion'
+  );
+});
+
+Then('Hidden Singles and Naked Singles should each change the grid', () => {
+  const changedTechniques = new Set(
+    attemptEvents()
+      .filter(({ changed }) => changed)
+      .map(({ technique }) => technique)
+  );
+  assert.ok(changedTechniques.has('HiddenSingles'), 'Expected a Hidden Singles change');
+  assert.ok(changedTechniques.has('NakedSingles'), 'Expected a Naked Singles change');
 });
 
 Then('the system should exit the solving loop', async () => {

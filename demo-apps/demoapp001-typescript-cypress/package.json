@@ -16,7 +16,8 @@
     "lint": "eslint \"app_src/**/*.ts\" \"tests/**/*.ts\" \"tooling/**/*.ts\"",
     "format": "prettier --write \"app_src/**/*.ts\" \"tests/**/*.ts\" \"tooling/**/*.ts\"",
     "format:check": "prettier --check \"app_src/**/*.ts\" \"tests/**/*.ts\" \"tooling/**/*.ts\"",
-    "test": "cucumber-js --config tooling/cucumber.js",
+    "test": "npm run test:orchestration && cucumber-js --config tooling/cucumber.js",
+    "test:orchestration": "node --test -r ts-node/register tests/component/orchestration.contract.test.ts",
     "test:api": "ts-node tests/api/api.integration.ts",
     "benchmark": "ts-node tooling/performance/benchmark.ts"
   },

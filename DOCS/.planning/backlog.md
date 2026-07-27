@@ -1,11 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-07-27 (resolved BACKLOG-060 / SUD-21 from the 2026-07-23 Codex review:
-captured the cross-stack orchestration baseline, approved DR-037's immutable attempt-event contract,
-and narrowed the unsupported `Logic Squeeze Grid` all-three-techniques claim. Production solve
-behaviour and the existing audit response remain unchanged; the three Open backlog items remain
-parked future product/solver work)
+**Last Updated:** 2026-07-27 (resolved BACKLOG-061 / SUD-22 from the 2026-07-23 Codex review:
+implemented DR-037's immutable attempt observer in all three Stacks, replaced change-only ordering
+inference with exact attempt evidence, and made iteration progress plus the narrowed
+`Logic Squeeze Grid` claim executable. Solver results and the existing audit response remain
+compatible; the three Open backlog items remain parked future product/solver work)
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -31,16 +31,16 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 3 |
 | In Progress | 0 |
-| Resolved | 79 |
-| **Total** | **82** |
+| Resolved | 80 |
+| **Total** | **83** |
 
 | Area | Current state |
 |------|---------------|
-| Current execution baseline | DEMOAPP001: Node 24, 46 scenarios / 257 steps passing, REST API integration PASS; DEMOAPP002: Python 3.13, 46 pytest-bdd scenarios passing; DEMOAPP003: .NET 10, 46 Reqnroll scenarios passing; 3-Stack parity PASS |
+| Current execution baseline | DEMOAPP001: Node 24, 2 component tests plus 46 scenarios / 259 steps passing, REST API integration PASS; DEMOAPP002: Python 3.13, 48 tests (46 pytest-bdd + 2 component) passing; DEMOAPP003: .NET 10, 48 tests (46 Reqnroll + 2 component) passing; 3-Stack parity PASS |
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | Codex review remediation worklist SUD-21..31 (SUD-21 / BACKLOG-060 resolved), plus parked future product/solver work BACKLOG-014/015/016 |
+| Current sprint focus | Codex review remediation worklist SUD-21..31 (SUD-21/22 and BACKLOG-060/061 resolved), plus parked future product/solver work BACKLOG-014/015/016 |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -263,6 +263,7 @@ against the free range after BACKLOG-059 and must still be checked immediately b
 | ID | Worklist | Title | Stack(s) | Review risk | Priority | Status | Decision Record |
 |----|----------|-------|----------|-------------|----------|--------|-----------------|
 | BACKLOG-060 | SUD-21 | Characterise orchestration fixtures and define an immutable attempt-event contract | All (tests/fixtures + docs/design) | R1 | High | Resolved | DR-037 |
+| BACKLOG-061 | SUD-22 | Instrument immutable attempt events and make orchestration specifications mutation-sensitive | All (code + tests + docs) | R1 | High | Resolved | DR-037 |
 
 Resolution evidence:
 
@@ -276,6 +277,18 @@ Resolution evidence:
   contract separates deterministic immutable attempt events from the existing change-only audit
   response. Production orchestration and canonical Gherkin remain unchanged in SUD-21; SUD-22 owns
   instrumentation and the same-change canonical/three-Stack executable-specification update.
+- BACKLOG-061: every orchestrator call now emits an optional, deterministic attempt event after
+  invocation, including unchanged calls, a solve-wide sequence, iteration, Hidden Singles digit,
+  changed flag and immutable before/after cell evidence. Observer spies in each Stack assert the
+  exact eleven-attempt sequence and terminal-progress behaviour; the existing focused Hidden
+  Singles row/column/box scenarios continue to protect its three internal passes. Canonical
+  Gherkin now asserts exact order, more than one iteration, progress in every non-terminal pass,
+  immutable evidence, and the truthful `Logic Squeeze Grid` behaviour: Unit Completion is
+  attempted without changes while Hidden Singles and Naked Singles both change the grid. The
+  existing audit payload and result grids remain unchanged. Verification: TypeScript Node 24
+  (2 component tests + 46 scenarios / 259 steps), Python 3.13 (48 tests), C# .NET 10 (48 tests),
+  API integration and all repository parity gates PASS. BACKLOG-051 remains historical evidence
+  of the earlier change-only ordering assertions; this item closes the residual observability gap.
 
 ---
 
@@ -1190,6 +1203,7 @@ Acceptance criteria:
 | BACKLOG-056 | DEMOAPP001 test/tooling static-analysis coverage (TRIAGE-01) | DEMOAPP001 + CI | 2026-07-20 | ESLint/Prettier cover app, tests, and tooling; CI runs format checking; 46 scenarios / 257 steps and parity gates PASS. |
 | BACKLOG-057 | CLAUDE.md governance-currency guard (TRIAGE-02) | All (docs/tooling) | 2026-07-20 | Removed the stale duplicate DR range; guard now checks CLAUDE.md's RA citation and DR-001..latest range against the decision register. |
 | BACKLOG-060 | Orchestration characterisation and attempt-event contract (SUD-21) | All | 2026-07-27 | Cross-stack baseline captured; DR-037 approved immutable attempt events; `Logic Squeeze Grid` claim narrowed without changing solve behaviour. |
+| BACKLOG-061 | Immutable orchestration attempt instrumentation (SUD-22) | All | 2026-07-27 | Optional attempt observers, exact-order/progress contract tests and canonical three-Stack assertions implemented; change-only audit compatibility retained. |
 
 ---
 
@@ -1201,7 +1215,7 @@ Acceptance criteria:
 | 3 | 2026-05-19 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Completed 2026-05-19 |
 | 4 | 2026-05-20 | API foundation and Web UI completion | BACKLOG-009, BACKLOG-018 | Completed 2026-05-20 |
 | 5 | 2026-05-28 onward | C# Stack, local Compose, and benchmarking | BACKLOG-021, BACKLOG-013, BACKLOG-010, BACKLOG-011 | Completed 2026-05-29 |
-| 6+ | After P-07 remediation | Codex review remediation followed by future product ideas | SUD-21..31 worklist; BACKLOG-014, BACKLOG-015, BACKLOG-016 | In Progress (SUD-21 complete) |
+| 6+ | After P-07 remediation | Codex review remediation followed by future product ideas | SUD-21..31 worklist; BACKLOG-014, BACKLOG-015, BACKLOG-016 | In Progress (SUD-21/22 complete) |
 
 ---
 

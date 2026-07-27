@@ -266,7 +266,7 @@ public sealed class BasicSudokuSolverLogicSteps
     public void ValidationResult(string expected) =>
         Assert.That(_actor.Answer(PlacementValidity.OfLastAttempt()), Is.EqualTo(expected));
 
-    [Given(@"a puzzle that requires all three techniques")]
+    [Given(@"a puzzle that exercises the complete basic-technique attempt sequence")]
     public void PuzzleRequiresAllTechniques() =>
         _actor.AttemptsTo(LoadPuzzleByName.AndInitialise("Logic Squeeze Grid"));
 
@@ -297,32 +297,23 @@ public sealed class BasicSudokuSolverLogicSteps
     public void SolvingLoopRuns() =>
         _actor.AttemptsTo(SolvePuzzle.WithCurrentGrid());
 
-    // SUD-20 / BACKLOG-051: these two When-phrases feed the ordering/no-execution assertions
-    // below, so they always capture the audit event sequence (WithCurrentGridTrackingOrder),
-    // unlike the other When-phrases above which share the plain WithCurrentGrid().
-    [When(@"the main solving loop executes one iteration")]
+    // SUD-22 / BACKLOG-061: these phrases use the backward-compatible SUD-20 task entry point,
+    // which now captures immutable attempt events without enabling the audit trail.
+    [When(@"the main solving loop executes with attempt tracing")]
     [When(@"the main execution loop runs")]
     public void SolvingLoopRunsTrackingOrder() =>
         _actor.AttemptsTo(SolvePuzzle.WithCurrentGridTrackingOrder());
 
-    [Then(@"multiple iterations should occur")]
-    [Then(@"each iteration should make progress until solved")]
     [Then(@"the puzzle should be completely solved")]
     public void SolvedStatusVerified() =>
         Assert.That(_actor.Answer(SolveStatus.Current()), Is.EqualTo("SOLVED"));
 
-    // Fixed priority order the orchestrator always calls algorithms in (SudokuOrchestrator.Solve()).
-    private static readonly IReadOnlyDictionary<string, int> AlgorithmRank = new Dictionary<string, int>
-    {
-        ["UnitCompletion"] = 0,
-        ["HiddenSingles"] = 1,
-        ["NakedSingles"] = 2,
-    };
-
-    private static IReadOnlyList<AuditEvent> EventsInIteration(IReadOnlyList<AuditEvent> events, int iteration) =>
+    private static IReadOnlyList<AttemptEvent> EventsInIteration(
+        IReadOnlyList<AttemptEvent> events,
+        int iteration) =>
         events.Where(e => e.Iteration == iteration).ToArray();
 
-    private static IReadOnlyList<int> IterationNumbers(IReadOnlyList<AuditEvent> events) =>
+    private static IReadOnlyList<int> IterationNumbers(IReadOnlyList<AttemptEvent> events) =>
         events.Select(e => e.Iteration).Distinct().OrderBy(i => i).ToArray();
 
     [Then(@"""Unit Completion"" should be attempted first")]
@@ -330,48 +321,30 @@ public sealed class BasicSudokuSolverLogicSteps
     {
         Assert.That(_actor.Answer(SolveStatus.Current()), Is.EqualTo("SOLVED"));
 
-        // The orchestrator always calls UnitCompletion() before HiddenSingles()/NakedSingles()
-        // every iteration, but the audit trail only logs an event when a call produces a change.
-        // So the real, always-true claim observable from the trail is: whenever a Unit
-        // Completion event IS logged for an iteration, it is that iteration's first event.
-        var events = _actor.AbilityTo<UseSudokuSolver>().LastOrderingEvents;
+        var events = _actor.AbilityTo<UseSudokuSolver>().LastAttemptEvents;
         foreach (var iteration in IterationNumbers(events))
         {
             var iterEvents = EventsInIteration(events, iteration);
-            var ucIndex = iterEvents.ToList().FindIndex(e => e.Algorithm == "UnitCompletion");
-            if (ucIndex != -1)
-            {
-                Assert.That(ucIndex, Is.EqualTo(0),
-                    $"Iteration {iteration}: Unit Completion event was not first (index {ucIndex} of {iterEvents.Count})");
-            }
+            Assert.That(iterEvents[0].Technique, Is.EqualTo("UnitCompletion"),
+                $"Iteration {iteration}: Unit Completion was not the first recorded attempt");
         }
     }
 
     [Then(@"""Hidden Singles"" should be attempted second for digits (\d+) through (\d+)")]
     public void HiddenSinglesAttemptedSecond(int start, int end)
     {
-        var events = _actor.AbilityTo<UseSudokuSolver>().LastOrderingEvents;
+        var events = _actor.AbilityTo<UseSudokuSolver>().LastAttemptEvents;
         foreach (var iteration in IterationNumbers(events))
         {
-            var iterEvents = EventsInIteration(events, iteration).ToList();
-            var ucIndex = iterEvents.FindIndex(e => e.Algorithm == "UnitCompletion");
-            var firstHsIndex = iterEvents.FindIndex(e => e.Algorithm == "HiddenSingles");
-
-            if (ucIndex != -1 && firstHsIndex != -1)
+            var hiddenSingles = EventsInIteration(events, iteration).Skip(1).SkipLast(1).ToArray();
+            Assert.That(hiddenSingles, Has.Length.EqualTo(end - start + 1),
+                $"Iteration {iteration}: unexpected Hidden Singles attempt count");
+            for (var index = 0; index < hiddenSingles.Length; index++)
             {
-                Assert.That(ucIndex, Is.LessThan(firstHsIndex),
-                    $"Iteration {iteration}: a Hidden Singles event preceded the Unit Completion event");
-            }
-
-            var lastDigit = 0;
-            foreach (var e in iterEvents.Where(e => e.Algorithm == "HiddenSingles"))
-            {
-                var digit = e.AlgorithmParam ?? 0;
-                Assert.That(digit, Is.InRange(start, end),
-                    $"Iteration {iteration}: Hidden Singles digit {digit} is outside the expected range {start}-{end}");
-                Assert.That(digit, Is.GreaterThan(lastDigit),
-                    $"Iteration {iteration}: Hidden Singles digit {digit} did not increase after {lastDigit} (out of scan order)");
-                lastDigit = digit;
+                Assert.That(hiddenSingles[index].Technique, Is.EqualTo("HiddenSingles"),
+                    $"Iteration {iteration}: attempt {index + 2} was not Hidden Singles");
+                Assert.That(hiddenSingles[index].Parameter, Is.EqualTo(start + index),
+                    $"Iteration {iteration}: Hidden Singles digit was out of scan order");
             }
         }
     }
@@ -379,16 +352,12 @@ public sealed class BasicSudokuSolverLogicSteps
     [Then(@"""Naked Singles"" should be attempted third")]
     public void NakedSinglesAttemptedThird()
     {
-        var events = _actor.AbilityTo<UseSudokuSolver>().LastOrderingEvents;
+        var events = _actor.AbilityTo<UseSudokuSolver>().LastAttemptEvents;
         foreach (var iteration in IterationNumbers(events))
         {
-            var iterEvents = EventsInIteration(events, iteration).ToList();
-            var nsIndex = iterEvents.FindIndex(e => e.Algorithm == "NakedSingles");
-            if (nsIndex != -1)
-            {
-                Assert.That(nsIndex, Is.EqualTo(iterEvents.Count - 1),
-                    $"Iteration {iteration}: Naked Singles event was not last (index {nsIndex} of {iterEvents.Count})");
-            }
+            var iterEvents = EventsInIteration(events, iteration);
+            Assert.That(iterEvents[^1].Technique, Is.EqualTo("NakedSingles"),
+                $"Iteration {iteration}: Naked Singles was not the final recorded attempt");
         }
     }
 
@@ -397,19 +366,51 @@ public sealed class BasicSudokuSolverLogicSteps
     {
         Assert.That(_actor.Answer(SolveStatus.Current()), Is.EqualTo("SOLVED"));
 
-        var events = _actor.AbilityTo<UseSudokuSolver>().LastOrderingEvents;
+        var events = _actor.AbilityTo<UseSudokuSolver>().LastAttemptEvents;
         Assert.That(events, Is.Not.Empty,
-            "Expected at least one audit event for a puzzle requiring all three techniques");
+            "Expected attempt evidence for the basic orchestration sequence");
+        var expectedSequence = 1;
         foreach (var iteration in IterationNumbers(events))
         {
-            var maxRankSoFar = -1;
-            foreach (var e in EventsInIteration(events, iteration))
+            var iterEvents = EventsInIteration(events, iteration);
+            Assert.That(iterEvents, Has.Count.EqualTo(11),
+                $"Iteration {iteration}: expected exactly 11 attempt events");
+            foreach (var attempt in iterEvents)
             {
-                var rank = AlgorithmRank[e.Algorithm];
-                Assert.That(rank, Is.GreaterThanOrEqualTo(maxRankSoFar),
-                    $"Iteration {iteration}: event ({e.Algorithm}) broke the Unit Completion -> Hidden Singles -> Naked Singles priority order");
-                maxRankSoFar = rank;
+                Assert.That(attempt.Sequence, Is.EqualTo(expectedSequence),
+                    $"Iteration {iteration}: expected solve-wide sequence {expectedSequence}");
+                expectedSequence += 1;
             }
+        }
+    }
+
+    [Then(@"every attempt should expose immutable change evidence")]
+    public void AttemptEvidenceIsImmutable()
+    {
+        foreach (var attempt in _actor.AbilityTo<UseSudokuSolver>().LastAttemptEvents)
+        {
+            Assert.That(attempt.Changed, Is.EqualTo(attempt.Changes.Count > 0));
+            Assert.That(((ICollection<CellChange>)attempt.Changes).IsReadOnly, Is.True,
+                $"Attempt {attempt.Sequence} changes must be read-only");
+        }
+    }
+
+    [Then(@"multiple iterations should occur")]
+    public void MultipleIterationsOccur()
+    {
+        Assert.That(_actor.Answer(SolveStatus.Current()), Is.EqualTo("SOLVED"));
+        Assert.That(_actor.AbilityTo<UseSudokuSolver>().LastAttemptIterations, Is.GreaterThan(1));
+    }
+
+    [Then(@"each iteration should make progress until solved")]
+    public void EachNonTerminalIterationProgresses()
+    {
+        Assert.That(_actor.Answer(SolveStatus.Current()), Is.EqualTo("SOLVED"));
+        var events = _actor.AbilityTo<UseSudokuSolver>().LastAttemptEvents;
+        foreach (var iteration in IterationNumbers(events).SkipLast(1))
+        {
+            Assert.That(EventsInIteration(events, iteration).Any(e => e.Changed), Is.True,
+                $"Non-terminal iteration {iteration} made no progress");
         }
     }
 
@@ -430,13 +431,12 @@ public sealed class BasicSudokuSolverLogicSteps
 
         // SUD-01 contract (BACKLOG-035): an already-solved grid returns SOLVED via the early
         // IsGridFull() check in SudokuOrchestrator.Solve(), before the progress loop - and
-        // therefore before StartIteration() is ever called - so the audit trail must show zero
-        // iterations and zero events, not merely an overall SOLVED status.
+        // therefore before any attempt can be observed.
         var ability = _actor.AbilityTo<UseSudokuSolver>();
-        Assert.That(ability.LastOrderingIterations, Is.EqualTo(0),
-            $"Expected 0 iterations for an already-solved grid but got {ability.LastOrderingIterations}");
-        Assert.That(ability.LastOrderingEvents, Is.Empty,
-            $"Expected 0 audit events for an already-solved grid but got {ability.LastOrderingEvents.Count}");
+        Assert.That(ability.LastAttemptIterations, Is.EqualTo(0),
+            $"Expected 0 iterations for an already-solved grid but got {ability.LastAttemptIterations}");
+        Assert.That(ability.LastAttemptEvents, Is.Empty,
+            $"Expected 0 attempt events for an already-solved grid but got {ability.LastAttemptEvents.Count}");
     }
 
     [Then(@"the system should exit the solving loop")]
@@ -599,9 +599,26 @@ public sealed class BasicSudokuSolverLogicSteps
     public void SolutionValidNoViolations() =>
         Assert.That(_actor.Answer(GridCell.IsValidSolution()), Is.True);
 
-    [Then(@"the puzzle should require all three techniques")]
-    public void PuzzleRequiresAllThree() =>
-        Assert.That(_actor.Answer(SolveStatus.Current()), Is.EqualTo("SOLVED"));
+    [Then(@"Unit Completion should be attempted without changing the grid")]
+    public void UnitCompletionAttemptedWithoutChange()
+    {
+        var attempts = _actor.AbilityTo<UseSudokuSolver>().LastAttemptEvents
+            .Where(e => e.Technique == "UnitCompletion")
+            .ToArray();
+        Assert.That(attempts, Is.Not.Empty);
+        Assert.That(attempts, Has.All.Matches<AttemptEvent>(e => !e.Changed && e.Changes.Count == 0));
+    }
+
+    [Then(@"Hidden Singles and Naked Singles should each change the grid")]
+    public void HiddenAndNakedSinglesChangeGrid()
+    {
+        var changedTechniques = _actor.AbilityTo<UseSudokuSolver>().LastAttemptEvents
+            .Where(e => e.Changed)
+            .Select(e => e.Technique)
+            .ToHashSet();
+        Assert.That(changedTechniques, Does.Contain("HiddenSingles"));
+        Assert.That(changedTechniques, Does.Contain("NakedSingles"));
+    }
 
     [Then(@"the solution should be valid")]
     public void SolutionValid() =>
