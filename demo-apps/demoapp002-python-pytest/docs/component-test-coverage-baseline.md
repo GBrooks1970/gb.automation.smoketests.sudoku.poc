@@ -6,7 +6,7 @@
 
 **Runtime:** Python 3.13.14; coverage.py 7.15.2
 
-**Status:** Diagnostic, report-only baseline; no coverage threshold is configured
+**Status:** Baseline retained; SUD-28 enforces 85% combined branch-aware coverage
 
 ## Purpose
 
@@ -33,8 +33,8 @@ python -m coverage report
 ```
 
 The default `python -m pytest` command retains both the component lane and full pytest-bdd suite.
-CI runs the coverage commands as a named report-only step under Python 3.13 before that complete
-test gate.
+CI runs the coverage commands as a blocking coverage-floor step under Python 3.13 before that
+complete test gate.
 
 ## Baseline
 
@@ -48,8 +48,10 @@ the three production modules named by SUD-25:
 | `app_src/sudoku_solver.py` | 163 / 188 | 86.70% | 106 / 116 | 91.38% | 88.49% |
 | **Selected-module total** | **253 / 289** | **87.54%** | **136 / 154** | **88.31%** | **87.81%** |
 
-These numbers are a starting observation, not a quality target. SUD-28 owns review of uncovered
-branches, mutation evidence and any justified incremental floor.
+These numbers remain the starting observation, not a quality target. SUD-28 reviewed the selected
+scope and adopted an 85% combined statement-and-branch floor through coverage.py's `fail_under`.
+The floor sits below the 87.81% measured baseline and preserves branch collection. See
+`DOCS/.analysis/coverage-and-mutation-policy-20260728.md` and DR-038.
 
 ## Exclusions and interpretation
 
@@ -61,9 +63,8 @@ branches, mutation evidence and any justified incremental floor.
   its own canonical audit scenarios; neither is an independent SUD-25 target.
 - Puzzle catalogue data, generated output, performance tooling and third-party code are outside
   this focused baseline.
-- A lower percentage is not a failure in this report-only phase. The uncovered statement and
-  partial-branch locations emitted by `coverage report` guide SUD-28 rather than being hidden by an
-  arbitrary threshold.
+- Coverage below 85% fails `coverage report`. Missing statements and partial branches remain
+  visible so future work improves meaningful paths instead of excluding them to increase a number.
 
 ## Reproduction
 
@@ -75,5 +76,5 @@ python -m coverage run -m pytest tests/component
 python -m coverage report
 ```
 
-`pyproject.toml` enables branch collection and selects the three production modules through its
-source/omit configuration. It intentionally contains no `fail_under` setting.
+`pyproject.toml` enables branch collection, selects the three production modules through its
+source/omit configuration, and sets `fail_under = 85` for the combined report total.

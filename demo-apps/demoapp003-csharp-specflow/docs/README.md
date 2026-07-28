@@ -35,8 +35,8 @@ focused component tests in a separate NUnit project.
 | `dotnet restore --locked-mode` | Restore NuGet packages from committed lockfiles |
 | `dotnet test --no-restore` | Run the 48-test Reqnroll lane and 24-test component lane |
 | `dotnet test tests/component/DemoApp003.ComponentTests.csproj --no-restore` | Run only the focused component lane |
-| `dotnet test tests/component/DemoApp003.ComponentTests.csproj --no-restore --collect:"XPlat Code Coverage" --settings tests/component/coverage.runsettings --results-directory .results/component-coverage` | Collect the report-only selected-module coverage baseline |
-| `./tooling/coverage/Write-CoverageSummary.ps1 -CoverageDirectory .results/component-coverage` | Print line and branch evidence from the latest Cobertura report |
+| `dotnet test tests/component/DemoApp003.ComponentTests.csproj --no-restore --collect:"XPlat Code Coverage" --settings tests/component/coverage.runsettings --results-directory .results/component-coverage` | Collect the selected-module coverage evidence |
+| `./tooling/coverage/Write-CoverageSummary.ps1 -CoverageDirectory .results/component-coverage -MinimumLinePercent 80 -MinimumBranchPercent 80` | Enforce line and branch floors against the latest Cobertura report |
 | `dotnet run --project tooling/performance/DemoApp003.Performance.csproj --configuration Release` | Run reporting-only benchmarks |
 
 ## Deeper Reading

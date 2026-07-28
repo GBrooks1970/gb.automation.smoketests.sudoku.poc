@@ -215,13 +215,30 @@ All implementations follow established software engineering principles:
 **Design Philosophy:**
 - **KISS (Keep It Simple, Stupid)** - Straightforward implementations, no over-engineering
 - **YAGNI (You Aren't Gonna Need It)** - Only implement what's specified, no premature features
-- **Test Pyramid** - Unit tests for algorithms, integration tests for orchestration, BDD for behavior
+- **Measured Test Pyramid** - Focused component contracts protect production seams, API/OpenAPI
+  integration protects the pioneer HTTP surface, and BDD protects shared behaviour across all Stacks
 - **REST/OpenAPI Alignment** - API designs follow RESTful conventions and OpenAPI standards
 
 **Testing Approach:**
 - **ISTQB Techniques** - Boundary value analysis, equivalence partitioning where valuable
 - **BDD (Gherkin)** - Behavior-driven test scenarios for acceptance criteria
 - **Unit Testability** - Each algorithm callable independently with deterministic results
+
+The current lower-level evidence is measured rather than inferred: DEMOAPP001 has 16 component
+tests plus executable API/OpenAPI contracts, DEMOAPP002 has 26 component tests, and DEMOAPP003 has
+24 component tests. Each Stack also runs the canonical 48-scenario behaviour contract. Component
+coverage is enforced against deliberately selected production scope using conservative floors:
+
+| Stack | Measured baseline | CI floor |
+|---|---:|---:|
+| TypeScript / Node 24 | 73.23% lines / 87.67% branches / 79.59% functions | 70% / 85% / 75% |
+| Python 3.13 | 87.81% combined with branch collection | 85% combined |
+| C# / .NET 10 | 86.03% lines / 84.91% branches | 80% / 80% |
+
+A focused Node 24 mutation trial kills all 10 loader/orchestrator mutations, including removal and
+reordering of each basic technique call. See
+[coverage-and-mutation-policy-20260728.md](DOCS/.analysis/coverage-and-mutation-policy-20260728.md)
+and DR-038 for scope, exclusions and threshold governance.
 
 **Code Quality:**
 - **Minimal Comments** - Code should be self-documenting through clear naming
@@ -249,8 +266,9 @@ All implementations follow established software engineering principles:
 **Testing Patterns:**
 - **AAA Pattern Consistency** - All tests follow Arrange-Act-Assert structure
 - **BDD Scenarios** - Given-When-Then format for clear behavior specification
-- **Gherkin Examples** - 46 scenarios per stack (138 across all three; DEMOAPP001 = 46 scenarios / 259 steps) demonstrating comprehensive coverage
-- **Test Pyramid** - Unit tests (fast), integration tests (medium), BDD tests (slow but comprehensive)
+- **Gherkin Examples** - 48 scenarios per Stack (144 across all three; DEMOAPP001 = 48 scenarios / 267 steps) demonstrating comprehensive coverage
+- **Test Pyramid** - Measured component contracts (fast), API/OpenAPI integration (medium), and
+  cross-Stack BDD acceptance tests (broad behaviour evidence)
 
 **Cross-References and Traceability:**
 - **Canonical Source** - [sudoku-solver-platform-specification.md](DOCS/.design/sudoku-solver-platform-specification.md) (v1.1) is the authoritative platform specification; [sudoku-solver-specification.md](DOCS/.design/sudoku-solver-specification.md) (v1.0) remains the core solver baseline

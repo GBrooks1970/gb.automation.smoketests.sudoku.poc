@@ -6,7 +6,7 @@
 
 **Runtime:** Node.js 24.18.0
 
-**Status:** Diagnostic, report-only baseline; no coverage threshold is configured
+**Status:** Baseline retained; SUD-28 enforces 70% lines / 85% branches / 75% functions
 
 ## Purpose
 
@@ -32,7 +32,7 @@ npm run test:coverage
 ```
 
 `npm test` runs the component lane before the full Cucumber suite. CI also runs
-`npm run test:coverage` as a named report-only step and retains its raw output in the existing
+`npm run test:coverage` as a blocking coverage-floor step and retains its raw output in the existing
 `demoapp001-validation-results` artefact.
 
 ## Baseline
@@ -49,8 +49,11 @@ Coverage is deliberately limited to the five production modules named by SUD-24:
 | `app_src/server/validation.ts` | 80.07% | 83.93% | 91.67% |
 | **Selected-module total** | **73.23%** | **87.67%** | **79.59%** |
 
-These numbers are a starting observation, not a quality target. SUD-28 owns review of uncovered
-branches, mutation evidence and any justified incremental floor.
+These numbers remain the starting observation, not a quality target. SUD-28 reviewed the selected
+scope and adopted floors of 70% lines, 85% branches and 75% functions. The floors sit below the
+measured baseline so ordinary runtime variation does not create vanity churn while a material loss
+of focused evidence fails CI. See
+`DOCS/.analysis/coverage-and-mutation-policy-20260728.md` and DR-038.
 
 ## Exclusions and interpretation
 
@@ -62,8 +65,8 @@ branches, mutation evidence and any justified incremental floor.
   code are outside this focused baseline.
 - Audit helpers and other production modules may execute indirectly, but they are not included in
   the selected-module total because SUD-24 did not inventory them as independent component targets.
-- A lower percentage is not a failure in this report-only phase. The uncovered-line lists in the
-  raw Node report are retained to guide SUD-28 rather than being hidden by an arbitrary threshold.
+- Coverage below any configured floor fails the command. Uncovered-line lists remain visible so
+  future work improves meaningful branches instead of excluding them to increase a percentage.
 
 ## Reproduction
 
@@ -74,5 +77,6 @@ npm ci
 npm run test:coverage
 ```
 
-The coverage command contains include filters only. It intentionally contains none of Node's
-`--test-coverage-lines`, `--test-coverage-branches` or `--test-coverage-functions` threshold flags.
+The coverage command retains the SUD-24 include filters and sets Node's
+`--test-coverage-lines=70`, `--test-coverage-branches=85` and
+`--test-coverage-functions=75` threshold flags.

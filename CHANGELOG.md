@@ -9,6 +9,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Added
+- BACKLOG-067 (SUD-28, review `CODE_REVIEW_CODEX_v1_20260723T2351Z` Risk 4, MEDIUM):
+  added a reproducible Node 24 mutation trial that mutates isolated temporary copies only. All 10
+  loader/orchestrator mutants are killed, including removal and reordering of each basic technique
+  call. The evidence and threshold rationale are recorded in
+  `DOCS/.analysis/coverage-and-mutation-policy-20260728.md` and DR-038.
 - BACKLOG-066 (SUD-27, review `CODE_REVIEW_CODEX_v1_20260723T2351Z` Risk 4, MEDIUM):
   added committed Redocly linting and four OpenAPI response-contract tests for representative real
   success, client-error and server-error paths. The focused negative control proves a missing
@@ -77,6 +82,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - SUD-04 (review Refactor 5, DR-035): authored OpenAPI 3.0 contract for the DEMOAPP001 REST API at `demo-apps/demoapp001-typescript-cypress/docs/openapi.yaml` covering all nine endpoints, request/response schemas, and the structured error codes; must be updated in the same change as any endpoint or schema change.
 
 ### Changed
+- BACKLOG-067: the TypeScript, Python and C# component-coverage lanes now block CI below their
+  selected-scope floors (70/85/75, 85 combined, and 80/80 respectively). Deliberate 99% negative
+  controls prove each enforcement path fails closed; production behaviour is unchanged.
 - BACKLOG-066: Node 24 CI now blocks on `npm run verify:openapi` after API integration. The
   implemented contract explicitly records its ISC licence and unauthenticated demo surface;
   endpoints and response behaviour are unchanged under existing DR-035 authority.

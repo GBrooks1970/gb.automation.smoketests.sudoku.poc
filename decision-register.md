@@ -1,7 +1,7 @@
 # Decision Register
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-07-27
+**Last Updated:** 2026-07-28
 **Governed by:** `reference-architecture.md` v1.15 §10.6
 **Template:** `DOCS/.templates/decision-record.template.md`
 
@@ -2071,6 +2071,81 @@ SUD-21 plan.
 
 ---
 
+## DR-038 — Enforce conservative component-coverage floors and retain focused mutation as evidence
+
+**Date:** 2026-07-28
+**Status:** Accepted — recommended SUD-28 policy authorised by the project owner 2026-07-28
+
+### Context
+
+SUD-24, SUD-25 and SUD-26 established report-only component baselines for deliberately selected
+production modules in each Stack. The results were strong enough to detect material regressions but
+were not yet blocking. Review finding R4 also asked whether focused tests could detect removal or
+reordering of the three basic orchestration techniques and weakening of loader boundaries. Making
+coverage thresholds blocking creates a durable project rule, so the policy must be recorded before
+BACKLOG-067 closes.
+
+### Decision
+
+Enforce conservative floors against the existing selected scopes: DEMOAPP001 requires 70% lines,
+85% branches and 75% functions using Node 24 native coverage; DEMOAPP002 requires 85% combined
+statement-and-branch coverage with branch collection enabled; DEMOAPP003 requires 80% lines and 80%
+branches from the selected Cobertura report. These are regression guardrails, not targets.
+
+Retain the SUD-24/25/26 scope and exclusion rationale. A floor increase should follow new test or
+mutation evidence. A floor reduction requires an explicit amendment to this decision; widening an
+exclusion to conceal a regression is not an acceptable substitute.
+
+Keep the deterministic DEMOAPP001 loader/orchestrator mutation trial as reproducible evidence, not
+a permanent CI gate. Reconsider broader blocking mutation testing only when its scope, stability
+and maintenance cost can be justified independently.
+
+### Status
+
+`Accepted` — 2026-07-28, when the project owner instructed the loop to continue with SUD-28.
+
+### Consequences
+
+**Outcomes:**
+
+- Each Stack's CI job now fails when focused production coverage falls below its selected floor.
+- The floors preserve room for normal instrumentation variation while protecting meaningful branch
+  evidence rather than generated code or vanity totals.
+- The focused Node 24 trial kills removal and reordering of each basic technique call plus four
+  loader-boundary mutations; the exact evidence is recorded in
+  `DOCS/.analysis/coverage-and-mutation-policy-20260728.md`.
+- Component coverage complements rather than replaces the canonical 48-scenario behaviour suite
+  and repository parity gates.
+
+**Trade-offs:**
+
+- Different coverage engines expose different aggregate measures, so the numeric floors are
+  intentionally Stack-specific rather than falsely normalised.
+- Focused mutation evidence can become stale when source structure changes; the committed trial
+  fails when its exact anchors no longer identify the intended production call sites.
+
+### Alternatives Considered
+
+**Alternative: Set every floor at the measured baseline**
+- Rejected because: exact-baseline thresholds create percentage churn without proving stronger
+  behaviour and leave no instrumentation headroom.
+
+**Alternative: Require one cross-Stack percentage**
+- Rejected because: Node, coverage.py and Coverlet aggregate lines, branches and functions
+  differently, and the selected capability scopes are deliberately Stack-specific.
+
+**Alternative: Add a full mutation framework as a blocking CI job**
+- Rejected because: R4 requires focused evidence; a broad mutation score would add dependency,
+  runtime and maintenance cost without a justified policy boundary.
+
+### Related Decisions
+
+- DR-024 — Canonical feature change governance.
+- DR-034 — v1.1 platform specification and parity contract.
+- DR-037 — Immutable orchestration attempt events and narrowed fixture claim.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -2089,5 +2164,5 @@ SUD-21 plan.
 
 ---
 
-*Last entry: DR-037 (Accepted). Next ID: DR-038.*
+*Last entry: DR-038 (Accepted). Next ID: DR-039.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*
