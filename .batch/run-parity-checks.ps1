@@ -9,6 +9,7 @@ $ErrorActionPreference = 'Stop'
 $checks = @(
   ".\.batch\check-ra-header-currency.ps1",
   ".\.batch\test-documentation-currency.ps1",
+  ".\.batch\test-dependency-audit-policy.ps1",
   ".\.batch\test-ci-evidence-contract.ps1",
   ".\.batch\check-memory-key-parity.ps1",
   ".\.batch\generate-feature-parity-report.ps1",

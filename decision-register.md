@@ -2146,6 +2146,90 @@ and maintenance cost can be justified independently.
 
 ---
 
+## DR-039 — Block supported-runtime dependency audits with bounded exceptions
+
+**Date:** 2026-07-28
+**Status:** Accepted — recommended SUD-31 policy authorised by the project owner 2026-07-28
+
+### Context
+
+Review finding R5 identified that the three CI Stacks restored repeatably but did not run comparable
+known-vulnerability checks. SUD-31 also found a new high-severity transitive Node advisory after the
+earlier point-in-time audit had passed. Making audits blocking while retaining an outage and
+temporary-risk path creates a durable assurance rule, so the threshold and exception constraints
+must be authoritative before BACKLOG-070 closes.
+
+### Decision
+
+Run lock-aware `npm audit` under Node 24, governed `pip-audit` against the constraint-resolved Python
+3.13 environment, and `dotnet package list --vulnerable --include-transitive --format json
+--no-restore` after .NET 10 locked restore. Normalise each result into the same retained evidence
+schema and block its Stack for every unexcepted high/critical finding; a finding without severity
+fails closed as unknown.
+
+Permit a vulnerability or audit-tool/registry-outage exception only through the committed policy
+registry. Every exception must identify the exact Stack and vulnerability package/ID or audit tool,
+plus owner, reason, approver, introduction date and expiry; no exception may span more than 14
+calendar days. Expired, overlong, malformed or unmatched exceptions fail the Stack.
+
+### Status
+
+`Accepted` — 2026-07-28, when the project owner instructed the loop to continue with SUD-31.
+
+### Consequences
+
+**Outcomes:**
+
+- Every Stack publishes a native audit result and comparable normalised summary in its existing
+  seven-day CI evidence artefact.
+- The aggregate gate cannot pass when a Stack has an unexcepted high, critical or unknown-severity
+  finding, an unexcepted audit outage, or invalid exception metadata.
+- Explicit, reviewable risk acceptance remains possible for a short remediation or registry-outage
+  window without silently changing the workflow to report-only mode.
+- The current `brace-expansion` advisory is remediated at patched version 5.0.8 and does not consume
+  an exception.
+
+**Trade-offs:**
+
+- Python advisory data may omit severity; treating it as unknown deliberately blocks rather than
+  guessing a lower classification.
+- Live registries remain an availability dependency. A genuine outage needs an approved policy PR
+  and automatically expires instead of being bypassed in workflow YAML.
+- Low and moderate findings remain visible in evidence but do not block until this decision is
+  superseded by a stricter threshold.
+
+**Compliance note:**
+
+- Read-only workflow permissions, disabled persisted checkout credentials, locked restores,
+  fail-closed evidence uploads and the existing all-Stack fan-in gate remain unchanged.
+
+### Alternatives Considered
+
+**Alternative: Keep every audit report-only**
+
+- Description: Publish the results but never fail a Stack.
+- Rejected because: a known high-severity finding could coexist indefinitely with a green aggregate
+  gate, which does not meet Plan E's exit criteria.
+
+**Alternative: Store exceptions directly in workflow conditions**
+
+- Description: Add ad hoc YAML conditions or continue-on-error flags for individual incidents.
+- Rejected because: metadata, review history and expiry would be inconsistent and difficult to test.
+
+**Alternative: Block every reported severity**
+
+- Description: Fail CI for informational, low and moderate findings as well as high/critical ones.
+- Rejected because: SUD-31 has evidence for a high-severity boundary; tightening further should
+  follow separate evidence rather than create avoidable registry churn now.
+
+### Related Decisions
+
+- DR-022 — CI/CD pipeline requirements.
+- DR-036 — Reqnroll and .NET 10 support boundary.
+- DR-038 — Blocking component-coverage floors.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -2164,5 +2248,5 @@ and maintenance cost can be justified independently.
 
 ---
 
-*Last entry: DR-038 (Accepted). Next ID: DR-039.*
+*Last entry: DR-039 (Accepted). Next ID: DR-040.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

@@ -241,15 +241,23 @@ and DR-038 for scope, exclusions and threshold governance.
 
 CI retains equivalent diagnostic evidence for seven days, even when a Stack fails:
 
-| Artefact | Test results | Component coverage |
-|---|---|---|
-| `demoapp001-ci-evidence` | Cucumber JSON + JUnit | LCOV + text summary |
-| `demoapp002-ci-evidence` | pytest JUnit | Cobertura XML + text summary |
-| `demoapp003-ci-evidence` | NUnit component + Reqnroll TRX | Cobertura XML + text summary |
+| Artefact | Test results | Component coverage | Dependency audit |
+|---|---|---|---|
+| `demoapp001-ci-evidence` | Cucumber JSON + JUnit | LCOV + text summary | Node 24 lock-aware npm native output + common summary |
+| `demoapp002-ci-evidence` | pytest JUnit | Cobertura XML + text summary | Python 3.13 governed `pip-audit` native output + common summary |
+| `demoapp003-ci-evidence` | NUnit component + Reqnroll TRX | Cobertura XML + text summary | .NET 10 locked NuGet native output + common summary |
 
 Each job verifies its required files before upload, and `if-no-files-found: error` prevents an
 empty evidence publication from appearing successful. `.batch/test-ci-evidence-contract.ps1`
-proves every required-file omission is rejected without relying on a live Actions run.
+proves all 17 required-file omissions are rejected without relying on a live Actions run.
+
+DR-039 blocks each Stack for unexcepted high/critical findings, findings whose severity is unknown,
+and audit-tool or registry outages. Temporary vulnerability/outage exceptions live only in
+`.github/dependency-audit-policy.json`; exact scope, owner, reason, approver and dates are mandatory,
+the maximum window is 14 days, and stale/expired policy fails closed. The current
+`brace-expansion` GHSA-mh99-v99m-4gvg finding was remediated at patched version 5.0.8 rather than
+excepted. See [orchestration-design.md](DOCS/.architecture/orchestration-design.md) for commands and
+policy details.
 
 **Code Quality:**
 - **Minimal Comments** - Code should be self-documenting through clear naming

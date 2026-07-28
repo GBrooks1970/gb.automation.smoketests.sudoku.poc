@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "blockAtOrAbove": "high",
+  "maximumExceptionDays": 14,
+  "exceptions": []
+}

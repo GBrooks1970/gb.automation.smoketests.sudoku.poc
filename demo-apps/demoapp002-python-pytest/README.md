@@ -13,6 +13,7 @@ pytest, and pytest-bdd.
 ```powershell
 cd demo-apps/demoapp002-python-pytest
 python -m pip install -c requirements-test.lock -e ".[test]"
+python -m pip_audit --local --skip-editable --format=json
 python -m pytest
 ```
 
@@ -25,9 +26,11 @@ python -m coverage run -m pytest tests/component
 python -m coverage report
 ```
 
-CI adds `--junitxml` to the complete pytest run and `coverage xml` to the component lane. The
-JUnit, Cobertura XML and human-readable coverage summary are retained together as
-`demoapp002-ci-evidence` for seven days, including failed runs where the files were produced.
+`pip-audit` is part of the governed test extra and constraints lock; it audits the resolved Python
+3.13 environment rather than an independently installed tool. CI adds `--junitxml` to the complete
+pytest run and `coverage xml` to the component lane. JUnit, Cobertura XML, the coverage summary and
+DR-039 dependency-audit evidence are retained together as `demoapp002-ci-evidence` for seven days,
+including failed runs where the files were produced.
 
 ## Structure
 

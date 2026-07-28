@@ -11,6 +11,7 @@ $fixtures = @{
     'coverage.cobertura.xml' = '<coverage line-rate="1" branch-rate="1" />'
     'lcov.info' = "TN:`nSF:app_src/fixture.ts`nDA:1,1`nend_of_record`n"
     'component-coverage.txt' = 'fixture coverage summary'
+    'dependency-audit-native.txt' = '{"fixture":"native audit output"}'
 }
 
 $mutationCount = 0
@@ -21,7 +22,22 @@ foreach ($stack in @('demoapp001', 'demoapp002', 'demoapp003')) {
         foreach ($relativePath in $required) {
             $path = Join-Path $root ($relativePath -replace '/', [IO.Path]::DirectorySeparatorChar)
             New-Item -ItemType Directory -Path (Split-Path -Parent $path) -Force | Out-Null
-            [IO.File]::WriteAllText($path, $fixtures[[IO.Path]::GetFileName($path)])
+            if ([IO.Path]::GetFileName($path) -eq 'dependency-audit-summary.json') {
+                $auditSummary = [ordered]@{
+                    schemaVersion = 1
+                    generatedAt = '2026-07-28T12:00:00Z'
+                    stack = $stack
+                    tool = "fixture-$stack"
+                    status = 'pass'
+                    toolStatus = 'success'
+                    threshold = 'high'
+                    findingCount = 0
+                    unexceptedFindingCount = 0
+                } | ConvertTo-Json
+                [IO.File]::WriteAllText($path, $auditSummary)
+            } else {
+                [IO.File]::WriteAllText($path, $fixtures[[IO.Path]::GetFileName($path)])
+            }
         }
 
         $baselineOutput = & $checker -Stack $stack -EvidenceRoot $root *>&1
