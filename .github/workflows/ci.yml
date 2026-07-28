@@ -86,6 +86,15 @@ jobs:
         shell: pwsh
         run: ./.batch/test-ci-evidence-contract.ps1
 
+      - name: Dependency audit policy controls
+        shell: pwsh
+        run: ./.batch/test-dependency-audit-policy.ps1
+
+      - name: Dependency audit
+        if: always()
+        shell: pwsh
+        run: ./.batch/invoke-dependency-audit.ps1 -Stack demoapp001 -EvidenceRoot .results/demoapp001
+
       - name: Verify DEMOAPP001 evidence
         if: always()
         shell: pwsh
@@ -138,6 +147,11 @@ jobs:
         working-directory: demo-apps/demoapp002-python-pytest
         run: python -m pytest --junitxml=../../.results/demoapp002/test-results/pytest-junit.xml
 
+      - name: Dependency audit
+        if: always()
+        shell: pwsh
+        run: ./.batch/invoke-dependency-audit.ps1 -Stack demoapp002 -EvidenceRoot .results/demoapp002
+
       - name: Verify DEMOAPP002 evidence
         if: always()
         shell: pwsh
@@ -187,6 +201,11 @@ jobs:
       - name: Reqnroll test
         working-directory: demo-apps/demoapp003-csharp-specflow
         run: dotnet test tests/DemoApp003.Specs.csproj --no-restore --logger "trx;LogFileName=reqnroll.trx" --results-directory ../../.results/demoapp003/test-results
+
+      - name: Dependency audit
+        if: always()
+        shell: pwsh
+        run: ./.batch/invoke-dependency-audit.ps1 -Stack demoapp003 -EvidenceRoot .results/demoapp003
 
       - name: Verify DEMOAPP003 evidence
         if: always()

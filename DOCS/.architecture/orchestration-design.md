@@ -1,7 +1,7 @@
 # Orchestration Design
 
-**Last updated:** 2026-05-16
-**Scope:** DEMOAPP001 @util execution lifecycle (build → test → metrics → parity)
+**Last updated:** 2026-07-28
+**Scope:** Three-Stack build, test, evidence, dependency assurance and parity lifecycle
 
 ---
 
@@ -124,9 +124,51 @@ When additional Stacks are onboarded, each MUST be assigned a distinct short ide
 
 ---
 
-## 9. Traceability
+## 9. Dependency Audit and Exception Policy
 
-- Governing architecture: `DOCS/reference-architecture.md` v1.3
+DR-039 makes supported-runtime dependency audits part of each Stack's blocking CI contract:
+
+| Stack | Supported audit | Restore/audit boundary | Retained output |
+|---|---|---|---|
+| DEMOAPP001 | `npm audit --audit-level=high --json` under Node 24 | committed `package-lock.json` after `npm ci` | native output + normalised summary |
+| DEMOAPP002 | `python -m pip_audit --local --skip-editable --format=json` under Python 3.13 | `.[test]` resolved through `requirements-test.lock`, which governs `pip-audit` itself | native output + normalised summary |
+| DEMOAPP003 | `dotnet package list --vulnerable --include-transitive --format json --no-restore` under .NET 10 | `dotnet restore --locked-mode` and committed NuGet locks | native output + normalised summary |
+
+`.batch/invoke-dependency-audit.ps1` writes each result beneath
+`.results/<stack>/audit/`; `.batch/evaluate-dependency-audit.ps1` applies the common policy in
+`.github/dependency-audit-policy.json`. High, critical and unknown-severity findings are blocking.
+Unknown fails closed because `pip-audit` can report an advisory without a portable severity. Low
+and moderate findings remain visible in the summary but are not blocking under DR-039.
+
+The evaluator also treats an invalid report, non-vulnerability tool failure or registry failure as
+an outage. A Stack passes only when the audit succeeds without unexcepted blocking findings, or a
+matching active exception exists. The aggregate `gate` depends on all three Stack jobs, so it cannot
+pass around a failed audit.
+
+### 9.1 Exception registry
+
+Exceptions are changes to `.github/dependency-audit-policy.json` and therefore receive normal PR
+review. An exception record MUST contain:
+
+- `kind`: `vulnerability` or `outage`;
+- exact `stack`, plus exact `id` and `package` for a vulnerability or exact `tool` for an outage;
+- non-empty `owner`, `reason` and `approvedBy` fields;
+- `introducedOn` and `expiresOn` dates in `yyyy-MM-dd` format.
+
+The maximum inclusive window is 14 calendar days. Future, expired, overlong, malformed or unmatched
+records fail closed. A valid exception produces `status: excepted` in the retained summary; it does
+not hide the native output. Remove an exception as soon as remediation or registry recovery lands.
+Do not add `continue-on-error`, edit the evaluator threshold, or weaken a restore lock as a shortcut.
+
+`.batch/test-dependency-audit-policy.ps1` supplies 13 controls covering the three native schemas,
+unexcepted findings, exact matching, unknown severity, expiry, maximum duration, metadata and outage
+handling. `.batch/test-ci-evidence-contract.ps1` separately proves every required audit evidence
+file fails closed when absent.
+
+## 10. Traceability
+
+- Governing architecture: `DOCS/reference-architecture.md` v1.15
 - Alignment report: `DOCS/.analysis/ref-arch-alignment_2026-05-15.md`
 - Stack identifier decision: DR-016
 - Feature parity process decision: MIG-10 (accepted 2026-05-16)
+- Dependency audit and exception policy: DR-039

@@ -9,6 +9,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Added
+- BACKLOG-070 (SUD-31, review `CODE_REVIEW_CODEX_v1_20260723T2351Z` Risk 5 / Plan E,
+  LOW): added blocking supported-runtime npm, `pip-audit` and NuGet checks with common retained
+  summaries. DR-039 governs a high/critical plus unknown-severity threshold and exact, reviewable,
+  maximum-14-day vulnerability/outage exceptions; 13 controls prove the policy fails closed.
+  Remediated GHSA-mh99-v99m-4gvg by locking transitive `brace-expansion` 5.0.8 instead of adding an
+  exception.
 - BACKLOG-069 (SUD-30, review `CODE_REVIEW_CODEX_v1_20260723T2351Z` Risk 5 / Plan E,
   LOW): added native structured test evidence for every CI Stack (Cucumber JSON/JUnit, pytest
   JUnit, and component/Reqnroll TRX) plus retained LCOV/Cobertura component-coverage evidence.

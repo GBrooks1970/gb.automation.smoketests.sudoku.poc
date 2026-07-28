@@ -20,6 +20,7 @@ The test manifest currently pins:
 
 ```powershell
 dotnet restore --locked-mode
+dotnet package list --vulnerable --include-transitive --format json --no-restore
 dotnet test --no-restore
 dotnet test tests/component/DemoApp003.ComponentTests.csproj --no-restore --collect:"XPlat Code Coverage" --settings tests/component/coverage.runsettings --results-directory .results/component-coverage
 ./tooling/coverage/Write-CoverageSummary.ps1 -CoverageDirectory .results/component-coverage -MinimumLinePercent 80 -MinimumBranchPercent 80
@@ -41,8 +42,10 @@ dotnet run --project tooling/performance/DemoApp003.Performance.csproj --configu
 Feature files are owned by `features-shared/`; only stack-local tags belong in `tests/features/`.
 The solution test command runs 48 Reqnroll tests plus 24 focused component tests (72 total). The
 selected production scope must retain at least 80% line and 80% branch coverage under DR-038.
-CI emits separate component and Reqnroll TRX files plus the component Cobertura report and summary;
-the four required files are retained as `demoapp003-ci-evidence` for seven days.
+CI emits separate component and Reqnroll TRX files plus the component Cobertura report and summary.
+It also runs the supported NuGet vulnerability command after locked restore; native output and
+DR-039's common summary are retained with the four test/coverage files as
+`demoapp003-ci-evidence` for seven days.
 
 ## Grid Access
 

@@ -41,7 +41,10 @@ cd demo-apps/demoapp001-typescript-cypress
 # 2. Install dependencies
 npm ci
 
-# 3. Run the solver
+# 3. Audit the committed dependency graph
+npm audit --audit-level=high --json
+
+# 4. Run the solver
 npm start
 ```
 
@@ -333,7 +336,9 @@ loader/orchestrator trial. Run `npm test`, `npm run test:coverage`, `npm run ver
 `npm run test:mutation-trial` for those layers.
 
 CI uses `npm run test:ci` to add Cucumber JSON/JUnit results and `npm run test:coverage:ci` to add
-LCOV without changing the local default commands. Both are retained in `demoapp001-ci-evidence`.
+LCOV without changing the local default commands. It also runs the lock-aware audit under Node 24;
+native output and DR-039's normalised summary are retained in `demoapp001-ci-evidence`. The exact
+`brace-expansion` 5.0.8 override remediates GHSA-mh99-v99m-4gvg.
 
 **Example Scenario:**
 ```gherkin

@@ -1,10 +1,10 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-07-28 (resolved BACKLOG-069 / SUD-30 from the 2026-07-23 Codex review:
-every CI Stack now publishes native structured test results plus retained component-coverage
-evidence under aligned fail-closed upload rules; 11 controlled missing-file checks protect the
-evidence contract, and the three Open backlog items remain parked future product/solver work)
+**Last Updated:** 2026-07-28 (resolved BACKLOG-070 / SUD-31 from the 2026-07-23 Codex review:
+supported-runtime dependency audits now block every Stack under DR-039's tested high/critical plus
+unknown-severity and maximum-14-day exception policy; the new Node advisory was remediated at
+`brace-expansion` 5.0.8, and the three Open backlog items remain parked future product/solver work)
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -30,8 +30,8 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 3 |
 | In Progress | 0 |
-| Resolved | 88 |
-| **Total** | **91** |
+| Resolved | 89 |
+| **Total** | **92** |
 
 | Area | Current state |
 |------|---------------|
@@ -39,7 +39,7 @@ Per v1.15 Section 10.1:
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | Codex review remediation worklist SUD-21..31 (SUD-21..30 and BACKLOG-060..069 resolved), plus parked future product/solver work BACKLOG-014/015/016 |
+| Current sprint focus | Codex review remediation worklist SUD-21..31 and BACKLOG-060..070 resolved; parked future product/solver work BACKLOG-014/015/016 remains Open |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -271,6 +271,7 @@ against the free range after BACKLOG-059 and must still be checked immediately b
 | BACKLOG-067 | SUD-28 | Convert measured component baselines into coverage policy and run a focused mutation trial | All (tests + CI + docs) | R4 | Medium | Resolved | DR-038 |
 | BACKLOG-068 | SUD-29 | Restore current documentation authority and extend stable currency checks | All (docs + tooling) | R3 | Medium | Resolved | None required |
 | BACKLOG-069 | SUD-30 | Publish equivalent structured test and coverage evidence for every CI Stack | All (CI + tooling + docs) | R5 | Low | Resolved | None required |
+| BACKLOG-070 | SUD-31 | Add blocking supported-runtime dependency audits and a bounded exception policy | All (CI + tooling + docs) | R5 | Low | Resolved | DR-039 |
 
 Resolution evidence:
 
@@ -400,6 +401,20 @@ Resolution evidence:
   tests plus 48 Cucumber scenarios / 267 steps; Python 3.13 dependency check, 26 component coverage
   tests plus 74 total tests; .NET 10 locked restore, 24 component coverage tests plus 48 Reqnroll
   tests; all 11 real evidence files; 11/11 missing-file controls; and host/container parity PASS.
+- BACKLOG-070: DR-039 now runs lock-aware `npm audit` under Node 24, governed `pip-audit` 2.10.1
+  against the Python 3.13 constraint-resolved environment, and the supported NuGet vulnerability
+  command after .NET 10 locked restore. Each Stack retains native output plus the same normalised
+  summary in its existing seven-day evidence artefact. High/critical and unknown-severity findings,
+  invalid reports, unexcepted outages, expired/overlong/malformed/unmatched exceptions and missing
+  evidence fail closed; exact exceptions require Stack plus advisory/package or tool, owner, reason,
+  approver and introduction/expiry dates, with a maximum 14-day inclusive window. Thirteen policy
+  controls and 17 required-file omissions protect those rules. The 2026-07-23 high-severity
+  GHSA-mh99-v99m-4gvg finding was re-tested and remediated by constraining transitive
+  `brace-expansion` to patched 5.0.8, leaving the registry empty. Verification: zero findings from
+  Node 24 npm, Python 3.13 `pip-audit` and .NET 10 NuGet; TypeScript build/lint/format/API/OpenAPI,
+  16 component tests, coverage and 48 scenarios / 267 steps; Python dependency check, 26 component
+  / 74 total tests and coverage; .NET locked restore, 24 component / 48 Reqnroll tests and coverage;
+  PowerShell parse, actionlint, Compose config, documentation, evidence and all parity gates PASS.
 
 ---
 
@@ -1329,6 +1344,7 @@ Acceptance criteria:
 | BACKLOG-067 | Coverage floors and focused mutation policy (SUD-28) | All | 2026-07-28 | Conservative Stack-specific CI floors enforced; 10/10 focused loader/orchestrator mutants killed; all negative controls fail closed; DR-038. |
 | BACKLOG-068 | Documentation currency and stable drift guard (SUD-29) | All | 2026-07-28 | Active docs reconciled to public/current runtime, count, manifest, authority and review facts; derived guard plus six isolated stale mutations pass; no DR required. |
 | BACKLOG-069 | Symmetric structured CI evidence (SUD-30) | All | 2026-07-28 | Native test and coverage evidence retained for all Stacks under aligned fail-closed uploads; 11/11 required-file negative controls pass; no DR required. |
+| BACKLOG-070 | Supported-runtime dependency audits and bounded exceptions (SUD-31) | All | 2026-07-28 | Node 24 npm, Python 3.13 `pip-audit` and .NET 10 NuGet audits block under DR-039; common retained summaries, 13 policy controls and 17/17 evidence omissions pass; current findings zero. |
 
 ---
 
@@ -1340,7 +1356,7 @@ Acceptance criteria:
 | 3 | 2026-05-19 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Completed 2026-05-19 |
 | 4 | 2026-05-20 | API foundation and Web UI completion | BACKLOG-009, BACKLOG-018 | Completed 2026-05-20 |
 | 5 | 2026-05-28 onward | C# Stack, local Compose, and benchmarking | BACKLOG-021, BACKLOG-013, BACKLOG-010, BACKLOG-011 | Completed 2026-05-29 |
-| 6+ | After P-07 remediation | Codex review remediation followed by future product ideas | SUD-21..31 worklist; BACKLOG-014, BACKLOG-015, BACKLOG-016 | In Progress (SUD-21..30 complete) |
+| 6+ | After P-07 remediation | Codex review remediation followed by future product ideas | SUD-21..31 worklist; BACKLOG-014, BACKLOG-015, BACKLOG-016 | Review remediation completed 2026-07-28; future items parked |
 
 ---
 

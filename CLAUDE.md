@@ -12,7 +12,7 @@ When documents conflict, use this order:
 4. Stack-level docs under `demo-apps/demoapp001-typescript-cypress/docs/`
 5. This guide
 
-`decision-register.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-038 (excluding superseded/deprecated entries).
+`decision-register.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-039 (excluding superseded/deprecated entries).
 
 ## Current Architecture Baseline
 
@@ -131,6 +131,7 @@ Run DEMOAPP001 commands from `demo-apps/demoapp001-typescript-cypress/`.
 | `npm run test:mutation-trial` | Run the isolated 10-mutant loader/orchestrator trial |
 | `npm run test:api` | Run REST API integration checks |
 | `npm run verify:openapi` | Lint OpenAPI and validate representative real responses |
+| `npm audit --audit-level=high --json` | Run the DR-039 lock-aware dependency audit (normally orchestrated from the repository root) |
 | `npm run start:api` | Start Express REST API on `PORT` or 3000 |
 | `npm run start:web` | Start the combined Express API and Web UI server |
 | `npm start -- --help` | Show CLI options |
@@ -141,6 +142,7 @@ Run DEMOAPP002 commands from `demo-apps/demoapp002-python-pytest/`.
 |---------|---------|
 | `python -m pip install -c requirements-test.lock -e ".[test]"` | Install constrained Python Stack test dependencies |
 | `python -m pytest` | Run 26 component tests plus 48 pytest-bdd scenarios (74 total) |
+| `python -m pip_audit --local --skip-editable --format=json` | Audit the resolved Python environment with the governed tool |
 
 Run DEMOAPP003 commands from `demo-apps/demoapp003-csharp-specflow/`.
 
@@ -148,6 +150,7 @@ Run DEMOAPP003 commands from `demo-apps/demoapp003-csharp-specflow/`.
 |---------|---------|
 | `dotnet restore --locked-mode` | Restore locked C# Stack dependencies |
 | `dotnet test --no-restore` | Run 24 component tests plus 48 Reqnroll tests (72 total) |
+| `dotnet package list --vulnerable --include-transitive --format json --no-restore` | Audit the locked .NET 10 dependency graph |
 | `dotnet run --project tooling/performance/DemoApp003.Performance.csproj --configuration Release` | Run C# reporting-only benchmarks |
 
 Repository-level orchestration:
@@ -156,6 +159,8 @@ Repository-level orchestration:
 .\.batch\run-demoapp001.ps1
 .\.batch\run-parity-checks.ps1
 .\.batch\test-ci-evidence-contract.ps1
+.\.batch\test-dependency-audit-policy.ps1
+.\.batch\invoke-dependency-audit.ps1 -Stack demoapp001
 .\.batch\check-ci-evidence.ps1 -Stack demoapp001
 .\.batch\run-performance-benchmarks.ps1
 docker compose config
@@ -272,6 +277,7 @@ the Authority Order above.
 | `DOCS/.architecture/validation-boundaries.md` | Validation layer responsibilities: loader = structure, solver/API = constraints (DR-035) |
 | `DOCS/.architecture/orchestration-design.md` | Build, test, metrics, and retention design |
 | `DOCS/.architecture/logging-design.md` | Logging and reporting strategy |
+| `DOCS/.architecture/orchestration-design.md` | CI evidence, dependency-audit threshold and bounded-exception policy (DR-039) |
 | `DOCS/.planning/backlog.md` | Authoritative backlog content |
 | `DOCS/.design/naming-conventions.md` | Authoritative naming conventions (DR-020: kebab-case for all authored docs) |
 | `DOCS/.analysis/analysis-document-naming-kebab-case-20260516.md` | Document naming impact assessment and migration log (Phases 0–4) |
