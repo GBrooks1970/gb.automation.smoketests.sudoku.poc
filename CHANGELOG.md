@@ -9,6 +9,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Added
+- BACKLOG-069 (SUD-30, review `CODE_REVIEW_CODEX_v1_20260723T2351Z` Risk 5 / Plan E,
+  LOW): added native structured test evidence for every CI Stack (Cucumber JSON/JUnit, pytest
+  JUnit, and component/Reqnroll TRX) plus retained LCOV/Cobertura component-coverage evidence.
+  A shared evidence contract and 11 controlled missing-file checks prove publication fails closed.
 - BACKLOG-068 (SUD-29, review `CODE_REVIEW_CODEX_v1_20260723T2351Z` Risk 3, MEDIUM):
   extended the documentation-currency guard to derive the canonical execution and runtime baseline,
   verify exact manifest claims and require every merged review bundle in both active review indexes.
@@ -87,6 +91,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - SUD-04 (review Refactor 5, DR-035): authored OpenAPI 3.0 contract for the DEMOAPP001 REST API at `demo-apps/demoapp001-typescript-cypress/docs/openapi.yaml` covering all nine endpoints, request/response schemas, and the structured error codes; must be updated in the same change as any endpoint or schema change.
 
 ### Changed
+- BACKLOG-069: every Stack now uploads a clearly named `*-ci-evidence` artefact under `if: always()`
+  with seven-day retention and `if-no-files-found: error`. The existing least-privilege workflow,
+  supported runtimes, coverage floors, OpenAPI gate and aggregate fan-in remain unchanged; native
+  dependency audits and their exception policy remain scoped to SUD-31.
 - BACKLOG-068: reconciled active root, Stack, QA-strategy, backlog and review-index documentation to
   the public repository, Node 24, Python 3.13, Reqnroll/.NET 10, 48 scenarios / 267 steps, current
   manifests and the complete merged review inventory. The REST wrapper design is now explicitly

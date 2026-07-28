@@ -41,6 +41,8 @@ dotnet run --project tooling/performance/DemoApp003.Performance.csproj --configu
 Feature files are owned by `features-shared/`; only stack-local tags belong in `tests/features/`.
 The solution test command runs 48 Reqnroll tests plus 24 focused component tests (72 total). The
 selected production scope must retain at least 80% line and 80% branch coverage under DR-038.
+CI emits separate component and Reqnroll TRX files plus the component Cobertura report and summary;
+the four required files are retained as `demoapp003-ci-evidence` for seven days.
 
 ## Grid Access
 

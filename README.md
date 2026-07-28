@@ -239,6 +239,18 @@ reordering of each basic technique call. See
 [coverage-and-mutation-policy-20260728.md](DOCS/.analysis/coverage-and-mutation-policy-20260728.md)
 and DR-038 for scope, exclusions and threshold governance.
 
+CI retains equivalent diagnostic evidence for seven days, even when a Stack fails:
+
+| Artefact | Test results | Component coverage |
+|---|---|---|
+| `demoapp001-ci-evidence` | Cucumber JSON + JUnit | LCOV + text summary |
+| `demoapp002-ci-evidence` | pytest JUnit | Cobertura XML + text summary |
+| `demoapp003-ci-evidence` | NUnit component + Reqnroll TRX | Cobertura XML + text summary |
+
+Each job verifies its required files before upload, and `if-no-files-found: error` prevents an
+empty evidence publication from appearing successful. `.batch/test-ci-evidence-contract.ps1`
+proves every required-file omission is rejected without relying on a live Actions run.
+
 **Code Quality:**
 - **Minimal Comments** - Code should be self-documenting through clear naming
 - **Pedagogical Comments** - Concise explanations only where algorithms or logic need clarity

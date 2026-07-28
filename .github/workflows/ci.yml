@@ -57,12 +57,14 @@ jobs:
         working-directory: demo-apps/demoapp001-typescript-cypress
         run: |
           set -o pipefail
-          mkdir -p ../../.results/coverage
-          npm run test:coverage 2>&1 | tee ../../.results/coverage/demoapp001-component-coverage.txt
+          mkdir -p ../../.results/demoapp001/coverage
+          npm run test:coverage:ci 2>&1 | tee ../../.results/demoapp001/coverage/component-coverage.txt
 
       - name: Test
         working-directory: demo-apps/demoapp001-typescript-cypress
-        run: npm test
+        run: |
+          mkdir -p ../../.results/demoapp001/test-results
+          npm run test:ci
 
       - name: RA header currency
         shell: pwsh
@@ -80,13 +82,24 @@ jobs:
         shell: pwsh
         run: ./.batch/check-step-text-parity.ps1
 
-      - name: Upload validation artifacts
+      - name: CI evidence negative controls
+        shell: pwsh
+        run: ./.batch/test-ci-evidence-contract.ps1
+
+      - name: Verify DEMOAPP001 evidence
+        if: always()
+        shell: pwsh
+        run: ./.batch/check-ci-evidence.ps1 -Stack demoapp001 -EvidenceRoot .results/demoapp001
+
+      - name: Upload DEMOAPP001 CI evidence
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: demoapp001-validation-results
-          path: .results/
-          if-no-files-found: ignore
+          name: demoapp001-ci-evidence
+          path: |
+            .results/demoapp001/
+            .results/feature-parity/
+          if-no-files-found: error
           retention-days: 7
 
   demoapp002-python-pytest:
@@ -115,12 +128,29 @@ jobs:
       - name: Component coverage floor
         working-directory: demo-apps/demoapp002-python-pytest
         run: |
+          set -o pipefail
+          mkdir -p ../../.results/demoapp002/coverage ../../.results/demoapp002/test-results
           python -m coverage run -m pytest tests/component
-          python -m coverage report
+          python -m coverage report 2>&1 | tee ../../.results/demoapp002/coverage/component-coverage.txt
+          python -m coverage xml -o ../../.results/demoapp002/coverage/coverage.xml
 
       - name: Test
         working-directory: demo-apps/demoapp002-python-pytest
-        run: python -m pytest
+        run: python -m pytest --junitxml=../../.results/demoapp002/test-results/pytest-junit.xml
+
+      - name: Verify DEMOAPP002 evidence
+        if: always()
+        shell: pwsh
+        run: ./.batch/check-ci-evidence.ps1 -Stack demoapp002 -EvidenceRoot .results/demoapp002
+
+      - name: Upload DEMOAPP002 CI evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: demoapp002-ci-evidence
+          path: .results/demoapp002/
+          if-no-files-found: error
+          retention-days: 7
 
   demoapp003-csharp-specflow:
     name: DEMOAPP003 C# Reqnroll
@@ -145,12 +175,32 @@ jobs:
         working-directory: demo-apps/demoapp003-csharp-specflow
         shell: pwsh
         run: |
-          dotnet test tests/component/DemoApp003.ComponentTests.csproj --no-restore --collect:"XPlat Code Coverage" --settings tests/component/coverage.runsettings --results-directory .results/component-coverage
-          ./tooling/coverage/Write-CoverageSummary.ps1 -CoverageDirectory .results/component-coverage -MinimumLinePercent 80 -MinimumBranchPercent 80
+          $evidenceRoot = '../../.results/demoapp003'
+          New-Item -ItemType Directory -Path "$evidenceRoot/coverage/raw", "$evidenceRoot/test-results" -Force | Out-Null
+          dotnet test tests/component/DemoApp003.ComponentTests.csproj --no-restore --collect:"XPlat Code Coverage" --settings tests/component/coverage.runsettings --logger "trx;LogFileName=component.trx" --results-directory "$evidenceRoot/coverage/raw"
+          ./tooling/coverage/Write-CoverageSummary.ps1 -CoverageDirectory "$evidenceRoot/coverage/raw" -MinimumLinePercent 80 -MinimumBranchPercent 80 2>&1 | Tee-Object -FilePath "$evidenceRoot/coverage/component-coverage.txt"
+          $coverage = Get-ChildItem -Path "$evidenceRoot/coverage/raw" -Recurse -Filter 'coverage.cobertura.xml' | Select-Object -First 1
+          $componentTrx = Get-ChildItem -Path "$evidenceRoot/coverage/raw" -Recurse -Filter 'component.trx' | Select-Object -First 1
+          Copy-Item -LiteralPath $coverage.FullName -Destination "$evidenceRoot/coverage/coverage.cobertura.xml"
+          Copy-Item -LiteralPath $componentTrx.FullName -Destination "$evidenceRoot/test-results/component.trx"
 
       - name: Reqnroll test
         working-directory: demo-apps/demoapp003-csharp-specflow
-        run: dotnet test tests/DemoApp003.Specs.csproj --no-restore
+        run: dotnet test tests/DemoApp003.Specs.csproj --no-restore --logger "trx;LogFileName=reqnroll.trx" --results-directory ../../.results/demoapp003/test-results
+
+      - name: Verify DEMOAPP003 evidence
+        if: always()
+        shell: pwsh
+        run: ./.batch/check-ci-evidence.ps1 -Stack demoapp003 -EvidenceRoot .results/demoapp003
+
+      - name: Upload DEMOAPP003 CI evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: demoapp003-ci-evidence
+          path: .results/demoapp003/
+          if-no-files-found: error
+          retention-days: 7
 
   gate:
     name: Gate (all stacks green)
