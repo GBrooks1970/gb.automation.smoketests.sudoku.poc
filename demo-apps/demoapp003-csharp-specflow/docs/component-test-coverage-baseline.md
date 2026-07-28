@@ -6,7 +6,7 @@
 
 **Runtime:** .NET SDK 10.0.302; coverlet.collector 10.0.1
 
-**Status:** Diagnostic, report-only baseline; no coverage threshold is configured
+**Status:** Baseline retained; SUD-28 enforces 80% lines / 80% branches
 
 ## Purpose
 
@@ -32,12 +32,12 @@ The Stack-local commands are:
 ```powershell
 dotnet test tests/component/DemoApp003.ComponentTests.csproj --no-restore
 dotnet test tests/component/DemoApp003.ComponentTests.csproj --no-restore --collect:"XPlat Code Coverage" --settings tests/component/coverage.runsettings --results-directory .results/component-coverage
-./tooling/coverage/Write-CoverageSummary.ps1 -CoverageDirectory .results/component-coverage
+./tooling/coverage/Write-CoverageSummary.ps1 -CoverageDirectory .results/component-coverage -MinimumLinePercent 80 -MinimumBranchPercent 80
 ```
 
 The default `dotnet test --no-restore` command retains both the 24-test component lane and the
-48-test Reqnroll lane. CI collects and prints coverage as a named report-only step before running
-Reqnroll separately.
+48-test Reqnroll lane. CI collects and checks coverage as a blocking coverage-floor step before
+running Reqnroll separately.
 
 ## Baseline
 
@@ -51,8 +51,10 @@ the three production types named by SUD-26:
 | `SudokuSolver` | 256 / 296 | 86.49% | 128 / 146 | 87.67% |
 | **Selected-type total** | **388 / 451** | **86.03%** | **180 / 212** | **84.91%** |
 
-These numbers are a starting observation, not a quality target. SUD-28 owns review of uncovered
-branches, mutation evidence and any justified incremental floor.
+These numbers remain the starting observation, not a quality target. SUD-28 reviewed the selected
+scope and adopted floors of 80% lines and 80% branches. The floors sit below the measured baseline
+and are enforced by the committed Cobertura summary helper. See
+`DOCS/.analysis/coverage-and-mutation-policy-20260728.md` and DR-038.
 
 ## Exclusions and interpretation
 
@@ -64,8 +66,8 @@ branches, mutation evidence and any justified incremental floor.
   omitted test obligations for this Stack.
 - Puzzle catalogue data, generated output, performance tooling and third-party code are outside
   this focused baseline.
-- A lower percentage is not a failure in this report-only phase. Cobertura's uncovered lines and
-  partial branches guide SUD-28 rather than being hidden by an arbitrary threshold.
+- Coverage below either floor fails the helper. Cobertura's uncovered lines and partial branches
+  remain available so future work improves meaningful paths instead of hiding them through filters.
 
 ## Reproduction
 
@@ -74,8 +76,8 @@ From `demo-apps/demoapp003-csharp-specflow/` under the supported .NET 10 runtime
 ```powershell
 dotnet restore --locked-mode
 dotnet test tests/component/DemoApp003.ComponentTests.csproj --no-restore --collect:"XPlat Code Coverage" --settings tests/component/coverage.runsettings --results-directory .results/component-coverage
-./tooling/coverage/Write-CoverageSummary.ps1 -CoverageDirectory .results/component-coverage
+./tooling/coverage/Write-CoverageSummary.ps1 -CoverageDirectory .results/component-coverage -MinimumLinePercent 80 -MinimumBranchPercent 80
 ```
 
-`coverage.runsettings` uses include filters only. It intentionally configures no line or branch
-threshold.
+`coverage.runsettings` retains the SUD-26 include filters. The summary helper enforces the line and
+branch floors supplied explicitly by CI and the reproduction command.

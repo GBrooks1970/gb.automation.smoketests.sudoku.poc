@@ -44,7 +44,7 @@ assembly and are included in the solution test command.
 - Benchmarking is reporting-only; no timing thresholds are enforced.
 - Feature content must remain aligned with `features-shared/`.
 - Reqnroll code-behind is generated under ignored `obj/`; it is not source-controlled.
-- Component coverage is report-only; SUD-28 owns any future threshold decision.
+- Component coverage enforces the DR-038 floors of 80% lines and 80% branches.
 
 ## 6. Directory Structure
 
@@ -68,7 +68,7 @@ demoapp003-csharp-specflow/
 | Reqnroll.NUnit | 3.3.4 | Gherkin-to-NUnit execution and code generation |
 | NUnit | 4.6.1 | Assertions and test runtime |
 | Microsoft.NET.Test.Sdk | 18.8.1 | .NET test host integration |
-| coverlet.collector | 10.0.1 | Report-only line and branch coverage collection |
+| coverlet.collector | 10.0.1 | Line and branch coverage collection for the blocking component floor |
 
 ## 8. Related Documents
 

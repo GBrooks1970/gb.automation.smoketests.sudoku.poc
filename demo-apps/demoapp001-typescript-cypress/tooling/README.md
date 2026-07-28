@@ -27,6 +27,7 @@ This separation ensures that:
 | File | Purpose | Format | Ownership |
 |------|---------|--------|-----------|
 | `cucumber.js` | Cucumber configuration and test runner entry point | JavaScript (Node.js) | Cucumber.js + SerenityJS configuration |
+| `mutation/coverage-mutation-trial.ts` | Reproducible SUD-28 loader/orchestrator mutation trial; mutates temporary copies only | TypeScript | Project test-evidence tooling |
 
 ## Configuration Files at Stack Root
 

@@ -107,7 +107,8 @@ demoapp001-typescript-cypress/
 | `npm run build` | Compile TypeScript to JavaScript |
 | `npm test` | Run the component lane and the full BDD suite |
 | `npm run test:component` | Run all focused lower-level component tests |
-| `npm run test:coverage` | Run component tests with report-only native Node coverage |
+| `npm run test:coverage` | Run component tests with DR-038 native Node coverage floors |
+| `npm run test:mutation-trial` | Challenge loader/orchestrator contracts in isolated temporary copies |
 | `npm run test:orchestration` | Run the focused attempt-observer contract tests |
 | `npm run test:api` | Run REST API integration checks |
 | `npm run openapi:lint` | Lint the implemented OpenAPI document with the committed Redocly rules |

@@ -11,7 +11,7 @@ python -m pip install -c requirements-test.lock -e ".[test]"
 python -m pytest
 ```
 
-The focused component lane and its report-only branch/line baseline are separate from the BDD
+The focused component lane and its branch-aware 85% coverage floor are separate from the BDD
 contract:
 
 ```powershell
