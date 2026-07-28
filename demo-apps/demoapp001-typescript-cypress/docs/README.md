@@ -3,7 +3,7 @@
 **Language:** TypeScript 5.x
 **Framework:** Cucumber.js 12 + Serenity/JS 3.43.2
 **Surface types:** @util, @api
-**Last updated:** 2026-07-27
+**Last updated:** 2026-07-28
 
 ---
 
@@ -31,6 +31,7 @@ npm test
 npm run test:component
 npm run test:coverage
 npm run test:api
+npm run verify:openapi
 ```
 
 Expected output (current baseline):
@@ -40,6 +41,7 @@ Expected output (current baseline):
 48 scenarios (48 passed)
 267 steps (267 passed)
 API integration tests: PASS
+4 OpenAPI contract tests (4 passed)
 ```
 
 Run by tag:
@@ -108,6 +110,9 @@ demoapp001-typescript-cypress/
 | `npm run test:coverage` | Run component tests with report-only native Node coverage |
 | `npm run test:orchestration` | Run the focused attempt-observer contract tests |
 | `npm run test:api` | Run REST API integration checks |
+| `npm run openapi:lint` | Lint the implemented OpenAPI document with the committed Redocly rules |
+| `npm run test:openapi` | Validate real success/error responses and the intentional drift control against OpenAPI |
+| `npm run verify:openapi` | Run the blocking OpenAPI lint and response-contract gate |
 | `npm start` | Run CLI demo app with ts-node |
 | `npm run start:api` | Start Express REST API on `PORT` or 3000 |
 | `npm run lint` | Lint TypeScript source |
@@ -126,6 +131,7 @@ See canonical update process in `../../CLAUDE.md`.
 ## Deeper Reading
 
 - `docs/architecture.md` — layer model and dependency boundaries
+- `docs/openapi.yaml` — implemented REST API authority, linted and response-validated in CI
 - [component-test-coverage-baseline.md](component-test-coverage-baseline.md) — SUD-24 component inventory, baseline and exclusions
 - `docs/screenplay-guide.md` — Actor/Ability/Task/Question implementation details
 - `docs/qa-strategy.md` — scope and coverage posture

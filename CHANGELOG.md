@@ -9,6 +9,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Added
+- BACKLOG-066 (SUD-27, review `CODE_REVIEW_CODEX_v1_20260723T2351Z` Risk 4, MEDIUM):
+  added committed Redocly linting and four OpenAPI response-contract tests for representative real
+  success, client-error and server-error paths. The focused negative control proves a missing
+  required response field is rejected.
 - BACKLOG-065 (SUD-26, review `CODE_REVIEW_CODEX_v1_20260723T2351Z` Risk 4, MEDIUM):
   added a separate 24-test DEMOAPP003 NUnit component project for loader boundaries, minimal solver
   techniques, orchestration termination/attempt evidence, and in-process validation mapping. Added
@@ -73,6 +77,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - SUD-04 (review Refactor 5, DR-035): authored OpenAPI 3.0 contract for the DEMOAPP001 REST API at `demo-apps/demoapp001-typescript-cypress/docs/openapi.yaml` covering all nine endpoints, request/response schemas, and the structured error codes; must be updated in the same change as any endpoint or schema change.
 
 ### Changed
+- BACKLOG-066: Node 24 CI now blocks on `npm run verify:openapi` after API integration. The
+  implemented contract explicitly records its ISC licence and unauthenticated demo surface;
+  endpoints and response behaviour are unchanged under existing DR-035 authority.
 - BACKLOG-065: the C# solution and CI now run the 24-test component project independently from the
   48-test Reqnroll project. The first baseline is 86.03% lines / 84.91% branches across
   `PuzzleLoader`, `SudokuSolver` and `SudokuOrchestrator`; SUD-28 still owns mutation review and any
