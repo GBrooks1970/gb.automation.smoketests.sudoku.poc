@@ -15,6 +15,9 @@ info:
     solve endpoints accept structurally valid but logically contradictory grids, for which
     solving behaviour is undefined by specification v1.0.
   version: 1.0.0
+  license:
+    name: ISC
+    url: https://spdx.org/licenses/ISC.html
 servers:
   - url: http://localhost:3000
     description: Local development server (`npm run start:api`; port from PORT, default 3000)
@@ -32,6 +35,9 @@ tags:
     description: Bundled puzzle fixtures
   - name: visualise
     description: Step-tracked solve of a bundled puzzle for visualisation
+
+# The demo API is deliberately public and does not authenticate requests.
+security: []
 
 paths:
   /health:

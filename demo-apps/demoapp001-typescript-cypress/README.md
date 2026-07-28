@@ -224,6 +224,7 @@ Return "SOLVED" or "STUCK_ON_ADVANCED_LOGIC"
 | `npm run build` | Compile TypeScript to JavaScript | Prepare for production |
 | `npm run run` | Run compiled JavaScript | Production execution |
 | `npm run test:api` | Run REST API integration checks | API validation |
+| `npm run verify:openapi` | Lint OpenAPI and validate real API responses | Contract drift gate |
 
 ---
 

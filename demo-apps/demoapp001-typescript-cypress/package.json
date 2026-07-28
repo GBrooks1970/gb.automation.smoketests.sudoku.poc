@@ -21,6 +21,9 @@
     "test:coverage": "node --test --experimental-test-coverage --test-coverage-include=app_src/PuzzleLoader.ts --test-coverage-include=app_src/SudokuSolver.ts --test-coverage-include=app_src/SudokuOrchestrator.ts --test-coverage-include=app_src/server/SudokuApiService.ts --test-coverage-include=app_src/server/validation.ts -r ts-node/register tests/component/*.test.ts",
     "test:orchestration": "node --test -r ts-node/register tests/component/orchestration.contract.test.ts",
     "test:api": "ts-node tests/api/api.integration.ts",
+    "openapi:lint": "redocly lint --config redocly.yaml docs/openapi.yaml",
+    "test:openapi": "node --test -r ts-node/register tests/api/openapi.contract.test.ts",
+    "verify:openapi": "npm run openapi:lint && npm run test:openapi",
     "benchmark": "ts-node tooling/performance/benchmark.ts"
   },
   "keywords": [
@@ -33,6 +36,7 @@
   "devDependencies": {
     "@cucumber/cucumber": "^12.8.3",
     "@cucumber/pretty-formatter": "^3.3.0",
+    "@redocly/cli": "2.41.0",
     "@serenity-js/assertions": "^3.43.2",
     "@serenity-js/core": "^3.43.2",
     "@serenity-js/cucumber": "^3.43.2",
@@ -42,8 +46,10 @@
     "@types/supertest": "^7.2.0",
     "@typescript-eslint/eslint-plugin": "^8.59.3",
     "@typescript-eslint/parser": "^8.59.3",
+    "ajv-formats": "3.0.1",
     "eslint": "^10.3.0",
     "eslint-config-prettier": "^10.1.8",
+    "openapi-backend": "5.19.0",
     "prettier": "^3.8.3",
     "supertest": "^7.2.2",
     "ts-node": "^10.9.0",

@@ -40,6 +40,7 @@ The following configuration files are stored at the Stack root (not in `tooling/
 | `cucumber.js` at root | Legacy entry point (now moved to `tooling/cucumber.js`) | JavaScript | Cucumber.js |
 | `eslint.config.js` | Code linting configuration | JavaScript | ESLint |
 | `.prettierrc` | Code formatting configuration | JSON | Prettier |
+| `redocly.yaml` | Implemented OpenAPI lint policy | YAML | Redocly CLI |
 
 ## Extending Tooling Configuration
 

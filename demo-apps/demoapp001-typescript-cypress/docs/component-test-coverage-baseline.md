@@ -56,8 +56,8 @@ branches, mutation evidence and any justified incremental floor.
 
 - Cucumber, Serenity/JS and Screenplay bindings remain covered by the BDD/parity gates and are not
   counted as production component coverage.
-- Express routing/middleware and OpenAPI response conformance remain in the API integration lane;
-  SUD-27 owns executable OpenAPI validation.
+- Express routing/middleware and OpenAPI response conformance remain outside this selected-module
+  coverage total; SUD-27 now validates real success and error responses in the API contract lane.
 - Browser UI assets, CLI process behaviour, performance tooling, generated output and third-party
   code are outside this focused baseline.
 - Audit helpers and other production modules may execute indirectly, but they are not included in
