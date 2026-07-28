@@ -2,6 +2,13 @@
 
 **Version:** v1.0
 **Date:** 2026-01-30T20:00:00Z
+**Status:** Historical design proposal — retained for provenance, not implementation authority
+**Implemented authority:** `demo-apps/demoapp001-typescript-cypress/docs/openapi.yaml` (DR-035)
+
+> This document captures the original aspirational design, including alternatives and unchecked
+> plans that were not all adopted. Use the committed OpenAPI document and executable response
+> contract for current endpoints, schemas and status codes. Current server code is authoritative
+> only where OpenAPI deliberately defers to implementation detail.
 
 ## Overview
 

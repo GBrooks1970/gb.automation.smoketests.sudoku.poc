@@ -3,6 +3,11 @@
 This Stack implements the shared Sudoku `@util` Gherkin contract with Python,
 pytest, and pytest-bdd.
 
+## Prerequisites
+
+- Python 3.13 (supported CI/parity runtime)
+- `pyproject.toml` defines package requirements; `requirements-test.lock` constrains the test environment
+
 ## Quick Start
 
 ```powershell

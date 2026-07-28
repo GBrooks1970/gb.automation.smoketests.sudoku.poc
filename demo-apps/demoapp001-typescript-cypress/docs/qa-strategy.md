@@ -2,13 +2,14 @@
 
 **Stack:** DEMOAPP001_TYPESCRIPT_CYPRESS
 **Surface type:** @util
-**Last updated:** 2026-05-15
+**Last updated:** 2026-07-28
 
 ---
 
 ## 1. What Is Tested
 
-This Stack tests behavioral correctness of Sudoku solving logic through the util surface by exercising solver APIs in-process via Screenplay Abilities. It validates algorithm behavior, orchestration flow, puzzle loading, and guarded error paths at the business behavior level.
+This Stack tests behavioural correctness through the `@util` surface and adds focused component,
+REST integration, executable OpenAPI and coverage/mutation evidence beneath the shared BDD contract.
 
 | Category | Scenarios | Coverage goal |
 |----------|-----------|---------------|
@@ -17,10 +18,11 @@ This Stack tests behavioral correctness of Sudoku solving logic through the util
 | Naked Singles | 4 | 100% of defined scenarios |
 | Constraint validation | 3 | 100% of defined scenarios |
 | Orchestration loop | 7 | 100% of defined scenarios |
-| Puzzle loading | 5 | 100% of defined scenarios |
+| Puzzle loading | 7 | 100% of defined scenarios |
 | Grid initialization and invariants | 5 | 100% of defined scenarios |
 | Integration flow | 4 | 100% of defined scenarios |
 | Edge cases and error handling | 5 | 100% of defined scenarios |
+| Audit trail | 3 | 100% of defined scenarios |
 
 ---
 
@@ -57,8 +59,12 @@ This Stack tests behavioral correctness of Sudoku solving logic through the util
 
 | Metric | Value | Target |
 |--------|-------|--------|
-| Scenarios | 43 | 43 |
-| Steps | 241 | — |
+| Scenarios | 48 | 48 |
+| Steps | 267 | — |
+| Focused component tests | 16 | All passing |
+| OpenAPI contract tests | 4 | All passing |
+| Selected-scope coverage | 73.23% lines / 87.67% branches / 79.59% functions | 70% / 85% / 75% floors |
+| Focused mutation trial | 10/10 killed | No material survivor |
 | Pass rate | 100% | 100% |
 | Scenarios tagged @pending | 0 | 0 |
 
@@ -68,7 +74,7 @@ This Stack tests behavioral correctness of Sudoku solving logic through the util
 
 | Risk | Likelihood | Impact | Mitigation |
 |------|------------|--------|------------|
-| Over-specified Gherkin text limits reuse in future Stacks | Medium | Medium | Track as backlog item and refactor incrementally with parity checks |
+| Documentation counts drift after canonical feature changes | Medium | Medium | Derive counts from the canonical feature in the currency guard |
 | Hidden Singles behavior regression in row/column loops | Medium | High | Keep dedicated hidden-singles scenarios and protect method internals with step-level checks |
 | Direct step-to-production coupling reintroduced in future edits | Low | High | Enforce code review rule: steps must only call Tasks/Questions |
 
@@ -78,5 +84,7 @@ This Stack tests behavioral correctness of Sudoku solving logic through the util
 
 - `docs/architecture.md` — five-layer model and dependencies
 - `docs/screenplay-guide.md` — Screenplay implementation details
+- `docs/component-test-coverage-baseline.md` — selected scope, exclusions, baseline and floors
+- `../../DOCS/.analysis/coverage-and-mutation-policy-20260728.md` — cross-Stack coverage/mutation policy
 - `../../DOCS/.planning/backlog.md` — migration backlog and deferred work
 - `../../DOCS/.templates/qa-strategy.template.md` — source template used

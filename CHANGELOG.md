@@ -9,6 +9,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Added
+- BACKLOG-068 (SUD-29, review `CODE_REVIEW_CODEX_v1_20260723T2351Z` Risk 3, MEDIUM):
+  extended the documentation-currency guard to derive the canonical execution and runtime baseline,
+  verify exact manifest claims and require every merged review bundle in both active review indexes.
+  Added six isolated stale-mutation controls proving visibility, counts, runtime, REST authority,
+  review inventory and dependency-version drift all fail closed.
 - BACKLOG-067 (SUD-28, review `CODE_REVIEW_CODEX_v1_20260723T2351Z` Risk 4, MEDIUM):
   added a reproducible Node 24 mutation trial that mutates isolated temporary copies only. All 10
   loader/orchestrator mutants are killed, including removal and reordering of each basic technique
@@ -82,6 +87,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - SUD-04 (review Refactor 5, DR-035): authored OpenAPI 3.0 contract for the DEMOAPP001 REST API at `demo-apps/demoapp001-typescript-cypress/docs/openapi.yaml` covering all nine endpoints, request/response schemas, and the structured error codes; must be updated in the same change as any endpoint or schema change.
 
 ### Changed
+- BACKLOG-068: reconciled active root, Stack, QA-strategy, backlog and review-index documentation to
+  the public repository, Node 24, Python 3.13, Reqnroll/.NET 10, 48 scenarios / 267 steps, current
+  manifests and the complete merged review inventory. The REST wrapper design is now explicitly
+  historical and redirects readers to the implemented OpenAPI authority governed by DR-035;
+  BACKLOG-021's migration history and BACKLOG-058/059 discoverability are preserved.
 - BACKLOG-067: the TypeScript, Python and C# component-coverage lanes now block CI below their
   selected-scope floors (70/85/75, 85 combined, and 80/80 respectively). Deliberate 99% negative
   controls prove each enforcement path fails closed; production behaviour is unchanged.

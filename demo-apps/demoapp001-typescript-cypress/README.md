@@ -18,7 +18,9 @@ This demo application implements the [Sudoku Solver Design Specification](../../
 | **Compiler** | TypeScript Compiler (tsc) | 5.x | Transpiles TypeScript to JavaScript |
 | **Dev Runner** | ts-node | 10.x | Direct TypeScript execution for development |
 | **Module System** | CommonJS | ES2020 | Node.js module compatibility |
-| **Testing** | Gherkin/BDD | - | Behavior-driven test specifications |
+| **Testing** | Cucumber.js + Serenity/JS | 12.x / 3.43.x | Executable BDD/Screenplay contract |
+| **API** | Express | 5.2.x | REST API and Web UI host |
+| **API Contract** | Redocly + OpenAPI Backend | 2.41.x / 5.19.x | Lint and real-response validation |
 | **Package Manager** | npm | - | Dependency management |
 
 ---
@@ -230,37 +232,24 @@ Return "SOLVED" or "STUCK_ON_ADVANCED_LOGIC"
 
 ## Configuration Files
 
-### `tsconfig.json` - TypeScript Compiler Configuration
+### TypeScript configuration
 
-```json
-{
-  "compilerOptions": {
-    "target": "ES2020",           // Modern JavaScript features
-    "module": "commonjs",          // Node.js compatibility
-    "outDir": "./dist",            // Compiled output directory
-    "rootDir": "./app_src",        // Source directory
-    "strict": true,                // Strict type checking
-    "esModuleInterop": true,       // Better CommonJS/ES module interop
-    "skipLibCheck": true,          // Skip type checking of .d.ts files
-    "forceConsistentCasingInFileNames": true
-  },
-  "include": ["app_src/**/*", "tests"],
-  "exclude": ["node_modules", "dist"]
-}
-```
+`tsconfig.json` is the production build authority and compiles `app_src/` to `dist/` as CommonJS
+targeting ES2020. `tsconfig.cucumber.json` extends the compiler scope for tests and tooling.
 
 ### `package.json` - Dependencies
 
-```json
-{
-  "dependencies": {},
-  "devDependencies": {
-    "@types/node": "^20.0.0",     // Node.js type definitions
-    "ts-node": "^10.9.0",         // TypeScript execution
-    "typescript": "^5.0.0"        // TypeScript compiler
-  }
-}
-```
+`package.json` and `package-lock.json` are authoritative. The current key manifest entries are:
+
+| Package | Declared version |
+|---|---|
+| `@cucumber/cucumber` | `^12.8.3` |
+| `@serenity-js/core` | `^3.43.2` |
+| `express` | `^5.2.1` |
+| `@redocly/cli` | `2.41.0` |
+| `openapi-backend` | `5.19.0` |
+| `typescript` | `^5.0.0` |
+| `ts-node` | `^10.9.0` |
 
 ---
 
@@ -336,7 +325,12 @@ Test scenarios are defined in [BasicSudokuSolverLogic.feature](tests/features/Ba
 - ✅ Integration tests
 - ✅ Edge cases
 
-**Total Scenarios:** 35+ comprehensive test cases
+**Total Scenarios:** 48 scenarios / 267 steps
+
+The acceptance contract is complemented by 16 focused component tests, REST API integration, four
+OpenAPI response-contract tests, selected-scope coverage floors, and a reproducible 10-mutant
+loader/orchestrator trial. Run `npm test`, `npm run test:coverage`, `npm run verify:openapi`, and
+`npm run test:mutation-trial` for those layers.
 
 **Example Scenario:**
 ```gherkin
@@ -395,51 +389,29 @@ if (!puzzle.grid || puzzle.grid.length !== 9) {
 
 ---
 
-## Known Limitations
+## Current Limitations
 
 As per the design specification:
 
-1. **Hidden Singles**: Current implementation only checks 3×3 blocks, not rows or columns
-   - **Impact:** May miss some hidden singles in rows/columns
-   - **Status:** Documented in [sudoku-basic-solver.md](../../DOCS/.algorithm/sudoku-basic-solver.md)
-
-2. **No Advanced Techniques**: Cannot solve puzzles requiring Naked Pairs, X-Wing, etc.
+1. **No Advanced Techniques**: Cannot solve puzzles requiring Naked Pairs, X-Wing, etc.
    - **By Design:** This is intentional to keep the solver simple and educational
 
-3. **No Test Runner**: Feature file exists but Cucumber/Jest integration not configured
-   - **Status:** Planned enhancement
+2. **No Backtracking**: The solver uses deterministic logic only and returns
+   `STUCK_ON_ADVANCED_LOGIC` when the basic techniques make no further progress.
 
 ---
 
-## Future Enhancements
+## Implemented Extensions
 
 Based on the design documents in `/DOCS`:
 
 ### 1. Audit Trail Feature ([audit-trail-feature.md](../../DOCS/.design/audit-trail-feature.md))
 
-**Status:** Design complete, implementation pending
+**Status:** Implemented
 
 **Features:**
 - Log every cell change with algorithm attribution
-- Export to JSON file
-- Console output (summary and detailed modes)
-- Performance statistics
-
-**Example Output:**
-```json
-{
-  "puzzleName": "Easy Scan Grid",
-  "status": "SOLVED",
-  "totalChanges": 51,
-  "events": [
-    {
-      "eventId": 1,
-      "algorithm": "UnitCompletion",
-      "cellChanges": [{"row": 0, "col": 2, "oldValue": 0, "newValue": 4}]
-    }
-  ]
-}
-```
+- Expose immutable orchestration-attempt evidence separately from change-only audit events
 
 ### 2. REST API Wrapper ([rest-api-wrapper.md](../../DOCS/.design/rest-api-wrapper.md))
 
@@ -453,14 +425,15 @@ Based on the design documents in `/DOCS`:
 - Puzzle list/get endpoints
 - Grid validation endpoint
 
-**Endpoints:**
-- `POST /api/techniques/unit-completion`
-- `POST /api/techniques/hidden-singles`
-- `POST /api/techniques/naked-singles`
-- `POST /api/solve`
-- `GET /api/puzzles`
-- `GET /api/puzzles/:name`
-- `POST /api/validate`
+The historical design document is retained for provenance. The implemented endpoint, schema and
+status-code authority is [`docs/openapi.yaml`](docs/openapi.yaml) under DR-035.
+
+### 3. Web UI Solver Visualisation
+
+**Status:** Implemented
+
+The Express host serves the browser player and exposes the visualisation endpoint. See
+[web-ui-solver-visualisation.md](../../DOCS/.design/web-ui-solver-visualisation.md).
 
 ---
 
