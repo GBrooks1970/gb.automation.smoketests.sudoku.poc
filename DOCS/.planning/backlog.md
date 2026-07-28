@@ -1,11 +1,10 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-07-28 (resolved BACKLOG-068 / SUD-29 from the 2026-07-23 Codex review:
-active documentation now reports the public repository, current runtimes, manifests, execution
-counts and complete review inventory; the REST wrapper proposal is explicitly historical under
-the implemented OpenAPI authority; a derived currency guard and six controlled stale mutations
-protect those stable facts, and the three Open backlog items remain parked future product/solver work)
+**Last Updated:** 2026-07-28 (resolved BACKLOG-069 / SUD-30 from the 2026-07-23 Codex review:
+every CI Stack now publishes native structured test results plus retained component-coverage
+evidence under aligned fail-closed upload rules; 11 controlled missing-file checks protect the
+evidence contract, and the three Open backlog items remain parked future product/solver work)
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -31,8 +30,8 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 3 |
 | In Progress | 0 |
-| Resolved | 87 |
-| **Total** | **90** |
+| Resolved | 88 |
+| **Total** | **91** |
 
 | Area | Current state |
 |------|---------------|
@@ -40,7 +39,7 @@ Per v1.15 Section 10.1:
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | Codex review remediation worklist SUD-21..31 (SUD-21..29 and BACKLOG-060..068 resolved), plus parked future product/solver work BACKLOG-014/015/016 |
+| Current sprint focus | Codex review remediation worklist SUD-21..31 (SUD-21..30 and BACKLOG-060..069 resolved), plus parked future product/solver work BACKLOG-014/015/016 |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -271,6 +270,7 @@ against the free range after BACKLOG-059 and must still be checked immediately b
 | BACKLOG-066 | SUD-27 | Make the implemented OpenAPI contract executable through linting and response validation | DEMOAPP001 (tests + CI + docs) | R4 | Medium | Resolved | None required |
 | BACKLOG-067 | SUD-28 | Convert measured component baselines into coverage policy and run a focused mutation trial | All (tests + CI + docs) | R4 | Medium | Resolved | DR-038 |
 | BACKLOG-068 | SUD-29 | Restore current documentation authority and extend stable currency checks | All (docs + tooling) | R3 | Medium | Resolved | None required |
+| BACKLOG-069 | SUD-30 | Publish equivalent structured test and coverage evidence for every CI Stack | All (CI + tooling + docs) | R5 | Low | Resolved | None required |
 
 Resolution evidence:
 
@@ -386,6 +386,20 @@ Resolution evidence:
   documentation guard plus all six negative controls, Node 24 build/lint/format/API/OpenAPI/
   component/coverage/BDD gates, Python 3.13 dependency/coverage/full-suite gates, .NET 10 locked
   restore/component/coverage/Reqnroll gates, and host/container parity all PASS.
+- BACKLOG-069: DEMOAPP001 emits Cucumber JSON/JUnit plus LCOV and its component summary;
+  DEMOAPP002 emits pytest JUnit plus Cobertura XML and its component summary; DEMOAPP003 emits
+  separate component/Reqnroll TRX plus fixed-name Cobertura XML and its component summary. Each
+  Stack verifies its required non-empty native files and uploads a clearly named `*-ci-evidence`
+  artefact under `if: always()`, seven-day retention and `if-no-files-found: error`. The TypeScript
+  artefact continues to retain feature-parity output. A shared checker parses JSON/XML/LCOV, and 11
+  isolated missing-file controls prove every required path fails closed. Existing read-only
+  permissions, disabled persisted credentials, supported runtimes, coverage/OpenAPI gates and the
+  aggregate fan-in are unchanged; SUD-31 retains dependency-audit and exception-policy scope. No DR
+  was required because evidence formats and retention are CI implementation details, not a new
+  normative assurance policy. Verification: Node 24 build/lint/format/API/OpenAPI, 16 component
+  tests plus 48 Cucumber scenarios / 267 steps; Python 3.13 dependency check, 26 component coverage
+  tests plus 74 total tests; .NET 10 locked restore, 24 component coverage tests plus 48 Reqnroll
+  tests; all 11 real evidence files; 11/11 missing-file controls; and host/container parity PASS.
 
 ---
 
@@ -1314,6 +1328,7 @@ Acceptance criteria:
 | BACKLOG-066 | Executable OpenAPI contract gate (SUD-27) | DEMOAPP001 | 2026-07-28 | Redocly lint plus 4 real-response schema checks cover representative 2xx/4xx/5xx paths and an intentional drift control under Node 24 CI; DR-035 authority retained. |
 | BACKLOG-067 | Coverage floors and focused mutation policy (SUD-28) | All | 2026-07-28 | Conservative Stack-specific CI floors enforced; 10/10 focused loader/orchestrator mutants killed; all negative controls fail closed; DR-038. |
 | BACKLOG-068 | Documentation currency and stable drift guard (SUD-29) | All | 2026-07-28 | Active docs reconciled to public/current runtime, count, manifest, authority and review facts; derived guard plus six isolated stale mutations pass; no DR required. |
+| BACKLOG-069 | Symmetric structured CI evidence (SUD-30) | All | 2026-07-28 | Native test and coverage evidence retained for all Stacks under aligned fail-closed uploads; 11/11 required-file negative controls pass; no DR required. |
 
 ---
 
@@ -1325,7 +1340,7 @@ Acceptance criteria:
 | 3 | 2026-05-19 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Completed 2026-05-19 |
 | 4 | 2026-05-20 | API foundation and Web UI completion | BACKLOG-009, BACKLOG-018 | Completed 2026-05-20 |
 | 5 | 2026-05-28 onward | C# Stack, local Compose, and benchmarking | BACKLOG-021, BACKLOG-013, BACKLOG-010, BACKLOG-011 | Completed 2026-05-29 |
-| 6+ | After P-07 remediation | Codex review remediation followed by future product ideas | SUD-21..31 worklist; BACKLOG-014, BACKLOG-015, BACKLOG-016 | In Progress (SUD-21..29 complete) |
+| 6+ | After P-07 remediation | Codex review remediation followed by future product ideas | SUD-21..31 worklist; BACKLOG-014, BACKLOG-015, BACKLOG-016 | In Progress (SUD-21..30 complete) |
 
 ---
 

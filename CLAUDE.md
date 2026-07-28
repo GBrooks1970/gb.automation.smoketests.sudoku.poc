@@ -125,7 +125,9 @@ Run DEMOAPP001 commands from `demo-apps/demoapp001-typescript-cypress/`.
 | `npm run lint` | Run ESLint over app source |
 | `npm run format:check` | Check Prettier formatting for app source |
 | `npm test` | Run 16 component tests, then 48 Cucumber/Serenity Screenplay scenarios |
+| `npm run test:ci` | Run the same tests while emitting Cucumber JSON and JUnit evidence |
 | `npm run test:coverage` | Enforce the DR-038 component-coverage floors |
+| `npm run test:coverage:ci` | Enforce the same floors and emit LCOV evidence |
 | `npm run test:mutation-trial` | Run the isolated 10-mutant loader/orchestrator trial |
 | `npm run test:api` | Run REST API integration checks |
 | `npm run verify:openapi` | Lint OpenAPI and validate representative real responses |
@@ -153,6 +155,8 @@ Repository-level orchestration:
 ```powershell
 .\.batch\run-demoapp001.ps1
 .\.batch\run-parity-checks.ps1
+.\.batch\test-ci-evidence-contract.ps1
+.\.batch\check-ci-evidence.ps1 -Stack demoapp001
 .\.batch\run-performance-benchmarks.ps1
 docker compose config
 docker compose run --rm demoapp001-tests

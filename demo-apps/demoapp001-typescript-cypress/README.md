@@ -332,6 +332,9 @@ OpenAPI response-contract tests, selected-scope coverage floors, and a reproduci
 loader/orchestrator trial. Run `npm test`, `npm run test:coverage`, `npm run verify:openapi`, and
 `npm run test:mutation-trial` for those layers.
 
+CI uses `npm run test:ci` to add Cucumber JSON/JUnit results and `npm run test:coverage:ci` to add
+LCOV without changing the local default commands. Both are retained in `demoapp001-ci-evidence`.
+
 **Example Scenario:**
 ```gherkin
 Scenario: Complete a row with only one missing value

@@ -25,6 +25,10 @@ python -m coverage run -m pytest tests/component
 python -m coverage report
 ```
 
+CI adds `--junitxml` to the complete pytest run and `coverage xml` to the component lane. The
+JUnit, Cobertura XML and human-readable coverage summary are retained together as
+`demoapp002-ci-evidence` for seven days, including failed runs where the files were produced.
+
 ## Structure
 
 ```text
