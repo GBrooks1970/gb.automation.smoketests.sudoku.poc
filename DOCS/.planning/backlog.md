@@ -1,11 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-07-27 (resolved BACKLOG-064 / SUD-25 from the 2026-07-23 Codex review:
-DEMOAPP002 now has a distinct 26-test component lane covering loader, technique, orchestration and
-validation seams, plus a report-only Python 3.13 coverage.py baseline. The selected-module baseline
-is 87.54% lines / 88.31% branches; thresholds remain deferred to SUD-28, and the three Open backlog
-items remain parked future product/solver work)
+**Last Updated:** 2026-07-28 (resolved BACKLOG-065 / SUD-26 from the 2026-07-23 Codex review:
+DEMOAPP003 now has a separate 24-test NUnit component project covering loader, technique,
+orchestration and in-process validation seams, plus a report-only .NET 10 coverlet baseline. The
+selected-type baseline is 86.03% lines / 84.91% branches; thresholds remain deferred to SUD-28,
+and the three Open backlog items remain parked future product/solver work)
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -31,16 +31,16 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 3 |
 | In Progress | 0 |
-| Resolved | 83 |
-| **Total** | **86** |
+| Resolved | 84 |
+| **Total** | **87** |
 
 | Area | Current state |
 |------|---------------|
-| Current execution baseline | DEMOAPP001: Node 24, 16 component tests plus 48 scenarios / 267 steps passing, REST API integration PASS; report-only selected-module coverage 73.23% lines / 87.67% branches; DEMOAPP002: Python 3.13, 74 tests (48 pytest-bdd + 26 component) passing; report-only selected-module coverage 87.54% lines / 88.31% branches; DEMOAPP003: .NET 10, 50 tests (48 Reqnroll + 2 component) passing; 3-Stack parity PASS |
+| Current execution baseline | DEMOAPP001: Node 24, 16 component tests plus 48 scenarios / 267 steps passing, REST API integration PASS; report-only selected-module coverage 73.23% lines / 87.67% branches; DEMOAPP002: Python 3.13, 74 tests (48 pytest-bdd + 26 component) passing; report-only selected-module coverage 87.54% lines / 88.31% branches; DEMOAPP003: .NET 10, 72 tests (48 Reqnroll + 24 component) passing; report-only selected-type coverage 86.03% lines / 84.91% branches; 3-Stack parity PASS |
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | Codex review remediation worklist SUD-21..31 (SUD-21..25 and BACKLOG-060..064 resolved), plus parked future product/solver work BACKLOG-014/015/016 |
+| Current sprint focus | Codex review remediation worklist SUD-21..31 (SUD-21..26 and BACKLOG-060..065 resolved), plus parked future product/solver work BACKLOG-014/015/016 |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -267,6 +267,7 @@ against the free range after BACKLOG-059 and must still be checked immediately b
 | BACKLOG-062 | SUD-23 | Reject JSON boolean cells consistently at loader and REST boundaries | All (code + tests) | R2 | Medium | Resolved | None required |
 | BACKLOG-063 | SUD-24 | Add a focused TypeScript component lane and first coverage baseline | DEMOAPP001 (tests + CI + docs) | R4 | Medium | Resolved | None required |
 | BACKLOG-064 | SUD-25 | Add a focused Python component lane and first coverage baseline | DEMOAPP002 (tests + CI + docs) | R4 | Medium | Resolved | None required |
+| BACKLOG-065 | SUD-26 | Add a focused C# component lane and first coverage baseline | DEMOAPP003 (tests + CI + docs) | R4 | Medium | Resolved | None required |
 
 Resolution evidence:
 
@@ -328,6 +329,21 @@ Resolution evidence:
   Verification: clean Python 3.13 install and dependency check, 26 component / 74 total tests,
   Node 24 build/lint/format/API/coverage plus 48 scenarios / 267 steps, .NET 10 50 tests, and all
   host/container repository parity gates PASS.
+- BACKLOG-065: DEMOAPP003 now has a separate `DemoApp003.ComponentTests` NUnit project with 24
+  focused tests, while `DemoApp003.Specs` remains a 48-test Reqnroll project. Direct tests exercise
+  loader type/range/dimension/query and true missing-file boundaries; minimal Unit Completion,
+  Hidden Singles and Naked Singles grids; SUD-22 exact attempt order, immutable change evidence,
+  fixpoint/no-progress and early-complete seams; and placement/constraint/solution validation. The
+  C# Stack has no service/API surface, so direct solver validation covers the equivalent in-process
+  contract. coverlet.collector 10.0.1 selects `PuzzleLoader`, `SudokuSolver` and
+  `SudokuOrchestrator` under .NET 10, and a PowerShell helper prints the latest Cobertura totals.
+  The first diagnostic baseline is 388/451 lines (86.03%) and 180/212 branches (84.91%);
+  reproduction, per-type values and exclusions are recorded in
+  `demo-apps/demoapp003-csharp-specflow/docs/component-test-coverage-baseline.md`. CI collects the
+  report before running Reqnroll. No DR was required because production behaviour and the canonical
+  contract are unchanged; SUD-28 owns mutation review and any justified threshold. Verification:
+  .NET 10 locked restore, 24 component / 72 solution tests, Node 24 and Python 3.13 regression
+  suites, and all host/container repository parity gates PASS.
 
 ---
 
@@ -1246,6 +1262,7 @@ Acceptance criteria:
 | BACKLOG-062 | Cross-Stack JSON boolean-cell rejection (SUD-23) | All | 2026-07-27 | Exact Python integer validation, canonical `true`/`false` real-loader coverage in all Stacks, and all DEMOAPP001 grid POST boundaries reject booleans; public contract unchanged. |
 | BACKLOG-063 | TypeScript component lane and coverage baseline (SUD-24) | DEMOAPP001 | 2026-07-27 | 16 focused component tests; Node 24 report-only baseline of 73.23% lines / 87.67% branches across five selected production modules; no threshold before SUD-28. |
 | BACKLOG-064 | Python component lane and coverage baseline (SUD-25) | DEMOAPP002 | 2026-07-27 | 26 focused component tests; Python 3.13 report-only baseline of 87.54% lines / 88.31% branches across three selected production modules; no threshold before SUD-28. |
+| BACKLOG-065 | C# component lane and coverage baseline (SUD-26) | DEMOAPP003 | 2026-07-28 | 24 focused component tests in a separate NUnit project; .NET 10 report-only baseline of 86.03% lines / 84.91% branches across three selected production types; no threshold before SUD-28. |
 
 ---
 
@@ -1257,7 +1274,7 @@ Acceptance criteria:
 | 3 | 2026-05-19 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Completed 2026-05-19 |
 | 4 | 2026-05-20 | API foundation and Web UI completion | BACKLOG-009, BACKLOG-018 | Completed 2026-05-20 |
 | 5 | 2026-05-28 onward | C# Stack, local Compose, and benchmarking | BACKLOG-021, BACKLOG-013, BACKLOG-010, BACKLOG-011 | Completed 2026-05-29 |
-| 6+ | After P-07 remediation | Codex review remediation followed by future product ideas | SUD-21..31 worklist; BACKLOG-014, BACKLOG-015, BACKLOG-016 | In Progress (SUD-21..25 complete) |
+| 6+ | After P-07 remediation | Codex review remediation followed by future product ideas | SUD-21..31 worklist; BACKLOG-014, BACKLOG-015, BACKLOG-016 | In Progress (SUD-21..26 complete) |
 
 ---
 

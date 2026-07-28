@@ -137,9 +137,16 @@ jobs:
         working-directory: demo-apps/demoapp003-csharp-specflow
         run: dotnet restore --locked-mode
 
-      - name: Test
+      - name: Component coverage baseline (report-only)
         working-directory: demo-apps/demoapp003-csharp-specflow
-        run: dotnet test --no-restore
+        shell: pwsh
+        run: |
+          dotnet test tests/component/DemoApp003.ComponentTests.csproj --no-restore --collect:"XPlat Code Coverage" --settings tests/component/coverage.runsettings --results-directory .results/component-coverage
+          ./tooling/coverage/Write-CoverageSummary.ps1 -CoverageDirectory .results/component-coverage
+
+      - name: Reqnroll test
+        working-directory: demo-apps/demoapp003-csharp-specflow
+        run: dotnet test tests/DemoApp003.Specs.csproj --no-restore
 
   gate:
     name: Gate (all stacks green)
