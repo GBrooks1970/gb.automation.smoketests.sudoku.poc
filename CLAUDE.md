@@ -124,8 +124,11 @@ Run DEMOAPP001 commands from `demo-apps/demoapp001-typescript-cypress/`.
 | `npm run build` | Compile TypeScript |
 | `npm run lint` | Run ESLint over app source |
 | `npm run format:check` | Check Prettier formatting for app source |
-| `npm test` | Run Cucumber/Serenity Screenplay scenarios |
+| `npm test` | Run 16 component tests, then 48 Cucumber/Serenity Screenplay scenarios |
+| `npm run test:coverage` | Enforce the DR-038 component-coverage floors |
+| `npm run test:mutation-trial` | Run the isolated 10-mutant loader/orchestrator trial |
 | `npm run test:api` | Run REST API integration checks |
+| `npm run verify:openapi` | Lint OpenAPI and validate representative real responses |
 | `npm run start:api` | Start Express REST API on `PORT` or 3000 |
 | `npm run start:web` | Start the combined Express API and Web UI server |
 | `npm start -- --help` | Show CLI options |
@@ -135,14 +138,14 @@ Run DEMOAPP002 commands from `demo-apps/demoapp002-python-pytest/`.
 | Command | Purpose |
 |---------|---------|
 | `python -m pip install -c requirements-test.lock -e ".[test]"` | Install constrained Python Stack test dependencies |
-| `python -m pytest` | Run pytest-bdd Screenplay scenarios |
+| `python -m pytest` | Run 26 component tests plus 48 pytest-bdd scenarios (74 total) |
 
 Run DEMOAPP003 commands from `demo-apps/demoapp003-csharp-specflow/`.
 
 | Command | Purpose |
 |---------|---------|
 | `dotnet restore --locked-mode` | Restore locked C# Stack dependencies |
-| `dotnet test --no-restore` | Run Reqnroll/NUnit Screenplay scenarios |
+| `dotnet test --no-restore` | Run 24 component tests plus 48 Reqnroll tests (72 total) |
 | `dotnet run --project tooling/performance/DemoApp003.Performance.csproj --configuration Release` | Run C# reporting-only benchmarks |
 
 Repository-level orchestration:
@@ -165,9 +168,9 @@ Docker runtime commands require Docker Desktop or another Docker Engine with Com
 Expected current baseline:
 
 ```text
-DEMOAPP001: 46 scenarios passed / 259 steps passed
-DEMOAPP002: 46 pytest-bdd scenarios passed
-DEMOAPP003: 46 Reqnroll scenarios passed
+DEMOAPP001: 48 scenarios passed / 267 steps passed
+DEMOAPP002: 48 pytest-bdd scenarios passed
+DEMOAPP003: 48 Reqnroll tests passed
 OverallExitCode=0
 ```
 

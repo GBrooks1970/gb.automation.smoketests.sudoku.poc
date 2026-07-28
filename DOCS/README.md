@@ -1,6 +1,6 @@
 # DOCS — Documentation Index
 
-**Last Updated:** 2026-06-13
+**Last Updated:** 2026-07-28
 **Maintainer:** Project Lead / Development Team
 
 > This is the master index for project documentation. Active governed docs and canonical templates are
@@ -74,11 +74,7 @@ DOCS/
 └── .review/                                <- Code review outputs and template
     ├── README.md
     ├── code-review-template.md
-    ├── CODE_REVIEW_CLAUDE_Sonnet_4_5__20260130T2040Z/
-    ├── CODE_REVIEW_CLAUDE_Opus_4_6__20260330T1630Z/
-    ├── CODE_REVIEW_CLAUDE_Sonnet_4_6__20260513T2217Z/
-    ├── CODE_REVIEW_CLAUDE_v1_20260519T1948Z/
-    ├── CODE_REVIEW_GPT_5_3_Codex__20260330T0000Z/
+    ├── CODE_REVIEW_*/                         <- Every bundle is indexed below
     ├── 2026-05-18_reference-architecture-structural-review.md
     └── 2026-05-18_repository-structural-review.md
 ```
@@ -144,7 +140,8 @@ Stored in [.algorithm/](.algorithm/) — language-agnostic pseudocode for every 
 | [sudoku-solver-platform-specification.md](.design/sudoku-solver-platform-specification.md) | Platform spec — core contract, deliberate extensions, parity rules, staged surfaces | Accepted (DR-034; merged via PR #18) | v1.1 |
 | [audit-trail-feature.md](.design/audit-trail-feature.md) | Audit logging system | Implemented | v1.1 |
 | [orchestration-attempt-events.md](.design/orchestration-attempt-events.md) | Cross-stack attempt-event contract and SUD-22 implementation plan | Approved (DR-037) | v1.0 |
-| [rest-api-wrapper.md](.design/rest-api-wrapper.md) | Express REST API | Implemented | v1.0 |
+| [rest-api-wrapper.md](.design/rest-api-wrapper.md) | Original REST API design | Historical proposal; implemented authority is OpenAPI | v1.0 |
+| [openapi.yaml](../demo-apps/demoapp001-typescript-cypress/docs/openapi.yaml) | DEMOAPP001 endpoints, schemas and status codes | Implemented and executable (DR-035) | OpenAPI 3.0.3 |
 | [web-ui-solver-visualisation.md](.design/web-ui-solver-visualisation.md) | Browser step-by-step visualisation | Implemented | v1.2 |
 | [naming-conventions-design.md](.design/naming-conventions-design.md) | TypeScript naming standards | Adopted | v1.0 |
 | [screenplay-migration.md](.design/screenplay-migration.md) | Screenplay pattern migration for tests | Approved | v1.0 |
@@ -157,7 +154,7 @@ Stored in [.algorithm/](.algorithm/) — language-agnostic pseudocode for every 
 |----------|---------|
 | [backlog.md](.planning/backlog.md) | Product backlog, sprint tracking |
 | [todo-csharp-screenplay-stack.md](.planning/todo-csharp-screenplay-stack.md) | C# Screenplay Stack implementation task list (COMPLETED) |
-| [todo-docker-compose-local-development.md](.planning/todo-docker-compose-local-development.md) | Docker Compose local development task list (IN PROGRESS) |
+| [todo-docker-compose-local-development.md](.planning/todo-docker-compose-local-development.md) | Docker Compose local development task list (COMPLETED) |
 | [todo-performance-benchmarking-suite.md](.planning/todo-performance-benchmarking-suite.md) | Performance benchmarking suite task list (COMPLETED) |
 | [todo-advanced-solving-techniques.md](.planning/todo-advanced-solving-techniques.md) | Advanced solving techniques task list |
 | [todo-puzzle-generator.md](.planning/todo-puzzle-generator.md) | Puzzle generator task list |
@@ -207,6 +204,12 @@ review directory is `DOCS/.review/`; repository-root `.review/` is not used.
 | [2026-05-18_reference-architecture-structural-review.md](.review/2026-05-18_reference-architecture-structural-review.md) | Codex | 2026-05-18 | — |
 | [2026-05-18_repository-structural-review.md](.review/2026-05-18_repository-structural-review.md) | Codex | 2026-05-18 | — |
 | [CODE_REVIEW_CLAUDE_v1_20260519T1948Z](.review/CODE_REVIEW_CLAUDE_v1_20260519T1948Z/) | CLAUDE | 2026-05-19 | A- |
+| [CODE_REVIEW_COPILOT_v1_20260529T1610Z](.review/CODE_REVIEW_COPILOT_v1_20260529T1610Z/) | GitHub Copilot | 2026-05-29 | A+ |
+| [CODE_REVIEW_GPT_5_3_Codex_v1_20260530T0823Z](.review/CODE_REVIEW_GPT_5_3_Codex_v1_20260530T0823Z/) | GPT-5.3 Codex | 2026-05-30 | — |
+| [CODE_REVIEW_CLAUDE_Opus_4_8_v1_20260616T1546Z](.review/CODE_REVIEW_CLAUDE_Opus_4_8_v1_20260616T1546Z/) | CLAUDE Opus 4.8 | 2026-06-16 | — |
+| [CODE_REVIEW_CLAUDE_Fable_5_v1_20260706T1048Z](.review/CODE_REVIEW_CLAUDE_Fable_5_v1_20260706T1048Z/) | CLAUDE Fable 5 | 2026-07-06 | A- |
+| [CODE_REVIEW_CLAUDE_Fable_5_v2_20260718T0609Z](.review/CODE_REVIEW_CLAUDE_Fable_5_v2_20260718T0609Z/) | CLAUDE Fable 5 | 2026-07-18 | A |
+| [CODE_REVIEW_CODEX_v1_20260723T2351Z](.review/CODE_REVIEW_CODEX_v1_20260723T2351Z/) | Codex | 2026-07-23 | B+ |
 
 ---
 

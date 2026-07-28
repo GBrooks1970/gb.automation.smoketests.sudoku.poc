@@ -1,11 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-07-28 (resolved BACKLOG-067 / SUD-28 from the 2026-07-23 Codex review:
-conservative selected-scope coverage floors now block each Stack's CI lane; an isolated Node 24
-trial killed all 10 loader/orchestrator mutations, including removal and reordering of each basic
-technique call; DR-038 governs threshold changes, and the three Open backlog items remain parked
-future product/solver work)
+**Last Updated:** 2026-07-28 (resolved BACKLOG-068 / SUD-29 from the 2026-07-23 Codex review:
+active documentation now reports the public repository, current runtimes, manifests, execution
+counts and complete review inventory; the REST wrapper proposal is explicitly historical under
+the implemented OpenAPI authority; a derived currency guard and six controlled stale mutations
+protect those stable facts, and the three Open backlog items remain parked future product/solver work)
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -31,8 +31,8 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 3 |
 | In Progress | 0 |
-| Resolved | 86 |
-| **Total** | **89** |
+| Resolved | 87 |
+| **Total** | **90** |
 
 | Area | Current state |
 |------|---------------|
@@ -40,7 +40,7 @@ Per v1.15 Section 10.1:
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | Codex review remediation worklist SUD-21..31 (SUD-21..28 and BACKLOG-060..067 resolved), plus parked future product/solver work BACKLOG-014/015/016 |
+| Current sprint focus | Codex review remediation worklist SUD-21..31 (SUD-21..29 and BACKLOG-060..068 resolved), plus parked future product/solver work BACKLOG-014/015/016 |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -270,6 +270,7 @@ against the free range after BACKLOG-059 and must still be checked immediately b
 | BACKLOG-065 | SUD-26 | Add a focused C# component lane and first coverage baseline | DEMOAPP003 (tests + CI + docs) | R4 | Medium | Resolved | None required |
 | BACKLOG-066 | SUD-27 | Make the implemented OpenAPI contract executable through linting and response validation | DEMOAPP001 (tests + CI + docs) | R4 | Medium | Resolved | None required |
 | BACKLOG-067 | SUD-28 | Convert measured component baselines into coverage policy and run a focused mutation trial | All (tests + CI + docs) | R4 | Medium | Resolved | DR-038 |
+| BACKLOG-068 | SUD-29 | Restore current documentation authority and extend stable currency checks | All (docs + tooling) | R3 | Medium | Resolved | None required |
 
 Resolution evidence:
 
@@ -373,6 +374,18 @@ Resolution evidence:
   `DOCS/.analysis/coverage-and-mutation-policy-20260728.md`. Verification: Node 24 trial 10/10 and
   16-test coverage lane PASS; Python 3.13 26-test coverage lane PASS; .NET 10 24-test coverage lane
   PASS; full Stack and host/container parity gates PASS.
+- BACKLOG-068: active root and Stack documentation now records public repository visibility,
+  Node 24, Python 3.13, Reqnroll/.NET 10, the derived 48-scenario / 267-step baseline, exact manifest
+  versions and the complete merged review inventory. The REST API wrapper proposal is marked as
+  historical and points to the implemented OpenAPI contract governed by DR-035. BACKLOG-021's
+  migration history is retained while its current state is explicit, and BACKLOG-058/059 are again
+  discoverable in the resolved index. The extended currency guard derives execution/runtime facts,
+  checks manifest and review-index claims, and rejects six isolated stale mutations covering
+  visibility, counts, runtime, authority, review inventory and dependency versions. No DR was
+  required because existing authorities and implementation remained unchanged. Verification:
+  documentation guard plus all six negative controls, Node 24 build/lint/format/API/OpenAPI/
+  component/coverage/BDD gates, Python 3.13 dependency/coverage/full-suite gates, .NET 10 locked
+  restore/component/coverage/Reqnroll gates, and host/container parity all PASS.
 
 ---
 
@@ -755,11 +768,15 @@ Acceptance criteria:
 - [x] Screenplay-style `IAbility`, `ITask`, and `IQuestion<T>` interfaces defined
 - [x] `UseSudokuSolver` and `LoadPuzzles` abilities implemented
 - [x] All canonical Gherkin scenarios pass
-- [x] `dotnet test` runs with SpecFlow
+- [x] `dotnet test` runs the C# BDD Stack (originally SpecFlow; current runtime Reqnroll)
 
 Resolution:
 
-- DEMOAPP003 now implements the canonical @util feature contract with .NET 8, SpecFlow, NUnit, a C# solver/orchestrator/puzzle-loader/audit model, Screenplay-style Actor/Ability/Task/Question components, Stack-local docs, benchmark runner, and parity-script integration. `dotnet test` passes 46/46 scenarios. DR-032 records the Stack decision.
+- DEMOAPP003 originally delivered the canonical `@util` contract with .NET 8, SpecFlow and NUnit,
+  as recorded by DR-032. It has since migrated to .NET 10, Reqnroll 3.3.4 and NUnit 4 while
+  retaining the stable `DEMOAPP003_CSHARP_SPECFLOW` identifier/path (DR-036). The current Stack has
+  48 passing Reqnroll tests plus 24 focused component tests; solver behaviour and parity are
+  unchanged by the framework/runtime migration.
 
 ### BACKLOG-022: Implement step-text parity checker (Section 8.4 criterion 3)
 
@@ -1286,6 +1303,8 @@ Acceptance criteria:
 | BACKLOG-051 | Orchestration ordering/no-execution assertions (SUD-20) | All | 2026-07-17 | Tracked-order solve path in all three Stacks; real audit-event assertions replace SOLVED-status inference; 46×3 green, all parity gates PASS; no DR (Gherkin unchanged). |
 | BACKLOG-056 | DEMOAPP001 test/tooling static-analysis coverage (TRIAGE-01) | DEMOAPP001 + CI | 2026-07-20 | ESLint/Prettier cover app, tests, and tooling; CI runs format checking; 46 scenarios / 257 steps and parity gates PASS. |
 | BACKLOG-057 | CLAUDE.md governance-currency guard (TRIAGE-02) | All (docs/tooling) | 2026-07-20 | Removed the stale duplicate DR range; guard now checks CLAUDE.md's RA citation and DR-001..latest range against the decision register. |
+| BACKLOG-058 | Parity container PowerShell/Ubuntu alignment (TRIAGE-03) | All (tooling) | 2026-07-20 | Compose parity image aligned with CI on PowerShell 7.5 / Ubuntu 24.04; host/container parity PASS. |
+| BACKLOG-059 | Node 24 engine enforcement (TRIAGE-04) | DEMOAPP001 | 2026-07-20 | `engine-strict=true` now rejects unsupported npm installs; clean Node 24 install and gates PASS. |
 | BACKLOG-060 | Orchestration characterisation and attempt-event contract (SUD-21) | All | 2026-07-27 | Cross-stack baseline captured; DR-037 approved immutable attempt events; `Logic Squeeze Grid` claim narrowed without changing solve behaviour. |
 | BACKLOG-061 | Immutable orchestration attempt instrumentation (SUD-22) | All | 2026-07-27 | Optional attempt observers, exact-order/progress contract tests and canonical three-Stack assertions implemented; change-only audit compatibility retained. |
 | BACKLOG-062 | Cross-Stack JSON boolean-cell rejection (SUD-23) | All | 2026-07-27 | Exact Python integer validation, canonical `true`/`false` real-loader coverage in all Stacks, and all DEMOAPP001 grid POST boundaries reject booleans; public contract unchanged. |
@@ -1294,6 +1313,7 @@ Acceptance criteria:
 | BACKLOG-065 | C# component lane and coverage baseline (SUD-26) | DEMOAPP003 | 2026-07-28 | 24 focused component tests in a separate NUnit project; .NET 10 report-only baseline of 86.03% lines / 84.91% branches across three selected production types; no threshold before SUD-28. |
 | BACKLOG-066 | Executable OpenAPI contract gate (SUD-27) | DEMOAPP001 | 2026-07-28 | Redocly lint plus 4 real-response schema checks cover representative 2xx/4xx/5xx paths and an intentional drift control under Node 24 CI; DR-035 authority retained. |
 | BACKLOG-067 | Coverage floors and focused mutation policy (SUD-28) | All | 2026-07-28 | Conservative Stack-specific CI floors enforced; 10/10 focused loader/orchestrator mutants killed; all negative controls fail closed; DR-038. |
+| BACKLOG-068 | Documentation currency and stable drift guard (SUD-29) | All | 2026-07-28 | Active docs reconciled to public/current runtime, count, manifest, authority and review facts; derived guard plus six isolated stale mutations pass; no DR required. |
 
 ---
 
@@ -1305,7 +1325,7 @@ Acceptance criteria:
 | 3 | 2026-05-19 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Completed 2026-05-19 |
 | 4 | 2026-05-20 | API foundation and Web UI completion | BACKLOG-009, BACKLOG-018 | Completed 2026-05-20 |
 | 5 | 2026-05-28 onward | C# Stack, local Compose, and benchmarking | BACKLOG-021, BACKLOG-013, BACKLOG-010, BACKLOG-011 | Completed 2026-05-29 |
-| 6+ | After P-07 remediation | Codex review remediation followed by future product ideas | SUD-21..31 worklist; BACKLOG-014, BACKLOG-015, BACKLOG-016 | In Progress (SUD-21..28 complete) |
+| 6+ | After P-07 remediation | Codex review remediation followed by future product ideas | SUD-21..31 worklist; BACKLOG-014, BACKLOG-015, BACKLOG-016 | In Progress (SUD-21..29 complete) |
 
 ---
 

@@ -1,7 +1,7 @@
 # Code Review Outputs
 
 **Status:** Authoritative location for all project review outputs
-**Governed by:** `reference-architecture.md` v1.14 Section 10.7
+**Governed by:** `reference-architecture.md` v1.15 Section 10.7
 **Decision:** `DR-029`
 
 This directory contains historical and current code review outputs for comprehensive assessment of the Sudoku Solver project and related test automation codebases.
@@ -101,6 +101,11 @@ DOCS/.review/
 | [2026-05-18_repository-structural-review.md](2026-05-18_repository-structural-review.md) | Codex | 2026-05-18 | — | Repository structural review |
 | [CODE_REVIEW_CLAUDE_v1_20260519T1948Z](CODE_REVIEW_CLAUDE_v1_20260519T1948Z/00_CODE_REVIEW_CLAUDE_v1_20260519T1948Z.md) | CLAUDE | 2026-05-19 | A- | Full current-shape code review bundle |
 | [CODE_REVIEW_GPT_5_3_Codex_v1_20260530T0823Z](CODE_REVIEW_GPT_5_3_Codex_v1_20260530T0823Z/00_CODE_REVIEW_GPT_5_3_Codex_v1_20260530T0823Z.md) | GPT-5.3 Codex | 2026-05-30 | -- | Sudoku solver v1.0 specification structural design review |
+| [CODE_REVIEW_COPILOT_v1_20260529T1610Z](CODE_REVIEW_COPILOT_v1_20260529T1610Z/00_CODE_REVIEW_COPILOT_v1_20260529T1610Z.md) | GitHub Copilot | 2026-05-29 | A+ | Full code review bundle |
+| [CODE_REVIEW_CLAUDE_Opus_4_8_v1_20260616T1546Z](CODE_REVIEW_CLAUDE_Opus_4_8_v1_20260616T1546Z/00_CODE_REVIEW_CLAUDE_Opus_4_8_v1_20260616T1546Z.md) | CLAUDE Opus 4.8 | 2026-06-16 | — | Documentation and implementation review |
+| [CODE_REVIEW_CLAUDE_Fable_5_v1_20260706T1048Z](CODE_REVIEW_CLAUDE_Fable_5_v1_20260706T1048Z/00_CODE_REVIEW_CLAUDE_Fable_5_v1_20260706T1048Z.md) | CLAUDE Fable 5 | 2026-07-06 | A- | Public-readiness review |
+| [CODE_REVIEW_CLAUDE_Fable_5_v2_20260718T0609Z](CODE_REVIEW_CLAUDE_Fable_5_v2_20260718T0609Z/00_CODE_REVIEW_CLAUDE_Fable_5_v2_20260718T0609Z.md) | CLAUDE Fable 5 | 2026-07-18 | A | Follow-up review |
+| [CODE_REVIEW_CODEX_v1_20260723T2351Z](CODE_REVIEW_CODEX_v1_20260723T2351Z/00_CODE_REVIEW_CODEX_v1_20260723T2351Z.md) | Codex | 2026-07-23 | B+ | Current comprehensive review; SUD-21..31 remediation source |
 
 ---
 

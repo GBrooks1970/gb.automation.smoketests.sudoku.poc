@@ -8,13 +8,12 @@
 **Core solver baseline:** v1.0 — see [sudoku-solver-specification.md](DOCS/.design/sudoku-solver-specification.md)
 **Date:** 2026-01-30T20:00Z (core baseline); platform v1.1 accepted 2026-06-12 (DR-034)
 
-## Public-readiness status
+## Repository status
 
-This repository remains private. The
+This repository is public. The
 [2026-07-14 public-readiness audit](DOCS/.implementation-logs/2026-07-14_p07-public-readiness-audit.md)
-records the technical evidence and owner decisions required before any visibility change.
-Publication is a separate, explicit action; merging audit/remediation changes does not authorise
-it.
+records the technical evidence and owner decisions that preceded publication. Repository visibility
+remains an owner-controlled GitHub setting; documentation changes do not change it.
 
 ## Overview
 
@@ -95,7 +94,7 @@ gb.automation.smoketests.sudoku.poc/
 |----------|---------|--------|
 | [audit-trail-feature.md](DOCS/.design/audit-trail-feature.md) | Audit trail logging system | Design complete |
 | [orchestration-attempt-events.md](DOCS/.design/orchestration-attempt-events.md) | Cross-stack attempt-event evidence contract (DR-037) | Implemented by SUD-22 |
-| [rest-api-wrapper.md](DOCS/.design/rest-api-wrapper.md) | REST API wrapper specification | Implemented for DEMOAPP001 |
+| [rest-api-wrapper.md](DOCS/.design/rest-api-wrapper.md) | Historical REST API design proposal | Superseded as implementation authority by [OpenAPI](demo-apps/demoapp001-typescript-cypress/docs/openapi.yaml) (DR-035) |
 
 ## Demo Applications
 
@@ -171,7 +170,7 @@ is a staging decision, not a parity failure. See the authoritative matrix in the
 | Capability | DEMOAPP001 (TS) | DEMOAPP002 (Py) | DEMOAPP003 (C#) | Parity status |
 |------------|:---------------:|:---------------:|:---------------:|---------------|
 | Core solver | ✅ | ✅ | ✅ | Required |
-| BDD/Screenplay parity (46 scenarios) | ✅ | ✅ | ✅ | Required |
+| BDD/Screenplay parity (48 scenarios) | ✅ | ✅ | ✅ | Required |
 | Audit trail | ✅ | ✅ | ✅ | Extension (all stacks) |
 | CLI / grid display | ✅ | ➖ | ➖ | Staged (DEMOAPP001) |
 | REST API | ✅ | 🛣️ | 🛣️ | Staged; roadmap for Py/C# |

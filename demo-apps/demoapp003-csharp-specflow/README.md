@@ -8,6 +8,14 @@ retained as stable legacy integration points; DR-036 records the framework/runti
 
 - .NET SDK 10.0
 
+The test manifest currently pins:
+
+| Package | Version |
+|---|---|
+| `Reqnroll.NUnit` | `3.3.4` |
+| `NUnit` | `4.6.1` |
+| `coverlet.collector` | `10.0.1` |
+
 ## Commands
 
 ```powershell
@@ -31,8 +39,8 @@ dotnet run --project tooling/performance/DemoApp003.Performance.csproj --configu
 | `docs/` | Stack-level architecture, Screenplay, and QA documentation |
 
 Feature files are owned by `features-shared/`; only stack-local tags belong in `tests/features/`.
-The solution test command runs 48 Reqnroll tests plus 24 focused component tests (72 total). Coverage
-is diagnostic and intentionally has no failure threshold before SUD-28.
+The solution test command runs 48 Reqnroll tests plus 24 focused component tests (72 total). The
+selected production scope must retain at least 80% line and 80% branch coverage under DR-038.
 
 ## Grid Access
 
@@ -55,7 +63,7 @@ the already-typed integers.
 
 This is a **mechanism difference, not a responsibility difference** from
 DEMOAPP001 (TypeScript, explicit `Number.isInteger`) and DEMOAPP002 (Python,
-explicit `isinstance(cell, int)`): in C# a malformed numeric shape surfaces as a
+exact `type(cell) is int`): in C# a malformed numeric shape surfaces as a
 `System.Text.Json.JsonException` at load time rather than as the v1.0 §7.1
 `has invalid value at [r][c]: v` message. The loader's responsibility — reject
 non-integer and out-of-range cells before solving — is identical across all
