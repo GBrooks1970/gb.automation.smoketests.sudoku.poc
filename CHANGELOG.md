@@ -9,6 +9,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Added
+- BACKLOG-064 (SUD-25, review `CODE_REVIEW_CODEX_v1_20260723T2351Z` Risk 4, MEDIUM):
+  added a distinct 26-test DEMOAPP002 component lane for loader boundaries, minimal solver
+  techniques, orchestration termination/guards, and validation mapping. Added governed
+  coverage.py branch collection under Python 3.13 CI and documented its selected-module baseline
+  and exclusions.
 - BACKLOG-063 (SUD-24, review `CODE_REVIEW_CODEX_v1_20260723T2351Z` Risk 4, MEDIUM):
   added a distinct 16-test DEMOAPP001 component lane for loader boundaries, minimal solver
   techniques, orchestration guards, and API validation/status mapping. Added Node 24 native
@@ -63,6 +68,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 - SUD-04 (review Refactor 5, DR-035): authored OpenAPI 3.0 contract for the DEMOAPP001 REST API at `demo-apps/demoapp001-typescript-cypress/docs/openapi.yaml` covering all nine endpoints, request/response schemas, and the structured error codes; must be updated in the same change as any endpoint or schema change.
 
 ### Changed
+- BACKLOG-064: the Python 3.13 test lock now includes coverage.py 7.15.2; CI emits a report-only
+  component baseline before the full 74-test suite. The first baseline is 87.54% lines / 88.31%
+  branches (87.81% combined) across three selected production modules. Coverage remains diagnostic
+  with no threshold until SUD-28 reviews exclusions and mutation evidence.
 - BACKLOG-063: `npm test` now runs the complete component lane before Cucumber; CI records
   `npm run test:coverage` output in the existing validation artefact. The first baseline is 73.23%
   lines / 87.67% branches / 79.59% functions across five selected production modules. Coverage
