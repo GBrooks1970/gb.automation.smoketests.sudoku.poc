@@ -1,6 +1,6 @@
 using DemoApp003.Sudoku;
 
-namespace DemoApp003.Specs.Component;
+namespace DemoApp003.ComponentTests;
 
 [TestFixture]
 public sealed class OrchestrationAttemptContractTests
@@ -22,6 +22,9 @@ public sealed class OrchestrationAttemptContractTests
         [2, 8, 7, 4, 1, 9, 6, 3, 5],
         [3, 4, 5, 2, 8, 6, 1, 7, 9],
     ];
+
+    private static readonly int[][] SolvedGrid =
+        SolvedExceptOne.Select(row => row.ToArray()).ToArray();
 
     [Test]
     public void ObserverRecordsEveryUnchangedAttemptInExactOrder()
@@ -60,6 +63,19 @@ public sealed class OrchestrationAttemptContractTests
         Assert.That(
             () => changesCollection.Add(new CellChange(new CellPosition(8, 8), 0, 1)),
             Throws.TypeOf<NotSupportedException>());
+    }
+
+    [Test]
+    public void CompletedGridExitsBeforeAnySolvingAttempt()
+    {
+        SolvedGrid[0][8] = 2;
+        var events = new List<AttemptEvent>();
+        var solver = new SudokuSolver("complete", SolvedGrid);
+
+        var result = new SudokuOrchestrator(solver, attemptObserver: events.Add).Solve();
+
+        Assert.That(result, Is.EqualTo("SOLVED"));
+        Assert.That(events, Is.Empty);
     }
 
     private static IReadOnlyList<(string Technique, int? Parameter)> ExpectedIteration() =>

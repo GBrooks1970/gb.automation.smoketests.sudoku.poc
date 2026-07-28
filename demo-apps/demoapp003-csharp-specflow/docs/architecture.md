@@ -4,7 +4,7 @@
 **Language:** C# / .NET 10 LTS
 **Framework:** Reqnroll 3.3 + NUnit 4
 **Surface type:** @util
-**Last updated:** 2026-07-14
+**Last updated:** 2026-07-28
 
 ## 1. Purpose
 
@@ -24,6 +24,11 @@ This Stack proves the shared Sudoku Gherkin contract can be implemented in C# wi
 
 Reqnroll binding methods call `actor.AttemptsTo(...)` or `actor.Answer(...)`; Tasks and Questions retrieve `UseSudokuSolver` or `LoadPuzzles`; Abilities are the only Screenplay components that directly hold subject-application objects.
 
+The separate `DemoApp003.ComponentTests` project bypasses the Screenplay layer intentionally. It
+targets loader, solver, orchestrator and validation seams directly, while the Reqnroll project
+remains the canonical cross-Stack behaviour contract. Both projects reference the same production
+assembly and are included in the solution test command.
+
 ## 4. Key Design Decisions
 
 | Decision | Rationale | DR Reference |
@@ -39,6 +44,7 @@ Reqnroll binding methods call `actor.AttemptsTo(...)` or `actor.Answer(...)`; Ta
 - Benchmarking is reporting-only; no timing thresholds are enforced.
 - Feature content must remain aligned with `features-shared/`.
 - Reqnroll code-behind is generated under ignored `obj/`; it is not source-controlled.
+- Component coverage is report-only; SUD-28 owns any future threshold decision.
 
 ## 6. Directory Structure
 
@@ -46,9 +52,12 @@ Reqnroll binding methods call `actor.AttemptsTo(...)` or `actor.Answer(...)`; Ta
 demoapp003-csharp-specflow/
 ├── app_src/
 ├── tests/
+│   ├── component/
 │   ├── features/
 │   └── screenplay/
-├── tooling/performance/
+├── tooling/
+│   ├── coverage/
+│   └── performance/
 └── docs/
 ```
 
@@ -59,6 +68,7 @@ demoapp003-csharp-specflow/
 | Reqnroll.NUnit | 3.3.4 | Gherkin-to-NUnit execution and code generation |
 | NUnit | 4.6.1 | Assertions and test runtime |
 | Microsoft.NET.Test.Sdk | 18.8.1 | .NET test host integration |
+| coverlet.collector | 10.0.1 | Report-only line and branch coverage collection |
 
 ## 8. Related Documents
 

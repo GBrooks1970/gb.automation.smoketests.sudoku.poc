@@ -13,6 +13,8 @@ retained as stable legacy integration points; DR-036 records the framework/runti
 ```powershell
 dotnet restore --locked-mode
 dotnet test --no-restore
+dotnet test tests/component/DemoApp003.ComponentTests.csproj --no-restore --collect:"XPlat Code Coverage" --settings tests/component/coverage.runsettings --results-directory .results/component-coverage
+./tooling/coverage/Write-CoverageSummary.ps1 -CoverageDirectory .results/component-coverage
 dotnet run --project tooling/performance/DemoApp003.Performance.csproj --configuration Release
 ```
 
@@ -21,12 +23,16 @@ dotnet run --project tooling/performance/DemoApp003.Performance.csproj --configu
 | Path | Purpose |
 |------|---------|
 | `app_src/` | C# Sudoku solver, orchestrator, puzzle loader, and audit models |
+| `tests/component/` | Distinct NUnit component-test project and report-only coverage settings |
 | `tests/features/` | Stack-local copy of canonical Gherkin |
 | `tests/screenplay/` | Actor, abilities, tasks, questions, fixtures, and Reqnroll bindings |
+| `tooling/coverage/` | Report-only Cobertura baseline summariser |
 | `tooling/performance/` | Reporting-only benchmark runner |
 | `docs/` | Stack-level architecture, Screenplay, and QA documentation |
 
 Feature files are owned by `features-shared/`; only stack-local tags belong in `tests/features/`.
+The solution test command runs 48 Reqnroll tests plus 24 focused component tests (72 total). Coverage
+is diagnostic and intentionally has no failure threshold before SUD-28.
 
 ## Grid Access
 
