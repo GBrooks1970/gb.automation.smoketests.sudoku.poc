@@ -1,7 +1,10 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-07-28 (resolved BACKLOG-070 / SUD-31 from the 2026-07-23 Codex review:
+**Last Updated:** 2026-08-04 — resolved BACKLOG-071 / DR-040: static browser-only DEMOAPP001
+visualisation evidence published to Pages and linked from the portfolio landing page, closing
+LAND-09D; a dev/test-tooling audit advisory surfaced during CI was cleared under DR-039. Prior:
+2026-07-28 (resolved BACKLOG-070 / SUD-31 from the 2026-07-23 Codex review:
 supported-runtime dependency audits now block every Stack under DR-039's tested high/critical plus
 unknown-severity and maximum-14-day exception policy; the new Node advisory was remediated at
 `brace-expansion` 5.0.8, and the three Open backlog items remain parked future product/solver work)
@@ -28,9 +31,9 @@ Per v1.15 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 4 |
+| Open | 3 |
 | In Progress | 0 |
-| Resolved | 89 |
+| Resolved | 90 |
 | **Total** | **93** |
 
 | Area | Current state |
@@ -39,7 +42,7 @@ Per v1.15 Section 10.1:
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-071 (static browser-only visualisation evidence for portfolio LAND-09D, DR-040) Open — planning approved, viability gate passed; parked future product/solver work BACKLOG-014/015/016 remains Open |
+| Current sprint focus | BACKLOG-071 (static browser-only visualisation evidence for portfolio LAND-09D, DR-040) Resolved 2026-08-04 — live on Pages and linked from the portfolio landing page; parked future product/solver work BACKLOG-014/015/016 remains Open |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -432,7 +435,7 @@ Resolution evidence:
 | BACKLOG-014 | Advanced Solving Techniques | DEMOAPP001 and future Stacks | Solver capability | Future | Open |
 | BACKLOG-015 | Interactive Sudoku Tutor | Future product surface | Product idea | Future | Open |
 | BACKLOG-016 | Puzzle Generator | Future product surface | Product idea | Future | Open |
-| BACKLOG-071 | Static browser-only visualisation evidence on Pages (LAND-09C→D) | DEMOAPP001 evidence surface | Public evidence publication | Low | Open |
+| BACKLOG-071 | Static browser-only visualisation evidence on Pages (LAND-09D) | DEMOAPP001 evidence surface | Public evidence publication | Low | Resolved |
 | BACKLOG-051 | Strengthen orchestration ordering/no-execution assertions | All | Test assertion fidelity | Low | Resolved |
 | BACKLOG-032 | Refactor Python Questions to read from Actor memory | DEMOAPP002 | Screenplay parity (Risk 1) | High | Resolved |
 | BACKLOG-033 | Extract side effects from MultipleSolvers.isolation_verified() | DEMOAPP002 | Screenplay anti-pattern (Risk 2) | High | Resolved |
@@ -1269,7 +1272,10 @@ Acceptance criteria:
 ### BACKLOG-071: Static browser-only visualisation evidence on Pages (LAND-09D)
 
 **Priority:** Low
-**Status:** Open
+**Status:** Resolved 2026-08-04 — delivered via PRs #52 (planning, `619016f`) + #53 (impl, `4e504b3`);
+Pages [run 30926946232](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/actions/runs/30926946232)
+green; live at <https://gbrooks1970.github.io/gb.automation.smoketests.sudoku.poc/> and linked from
+the portfolio landing page (portfolio PR #27, `19a8797`), closing LAND-09D and the LAND-09 programme.
 **Stack(s):** DEMOAPP001 only (an evidence surface, not a parity capability)
 **Nature of Gap:** Public evidence publication — the DEMOAPP001 Web UI Solver Visualisation
 (BACKLOG-018) runs only against the live Express REST API (`/api/puzzles`, `/api/visualise/:name`),
@@ -1396,6 +1402,7 @@ Acceptance criteria (for the implementation, not this planning item):
 | BACKLOG-068 | Documentation currency and stable drift guard (SUD-29) | All | 2026-07-28 | Active docs reconciled to public/current runtime, count, manifest, authority and review facts; derived guard plus six isolated stale mutations pass; no DR required. |
 | BACKLOG-069 | Symmetric structured CI evidence (SUD-30) | All | 2026-07-28 | Native test and coverage evidence retained for all Stacks under aligned fail-closed uploads; 11/11 required-file negative controls pass; no DR required. |
 | BACKLOG-070 | Supported-runtime dependency audits and bounded exceptions (SUD-31) | All | 2026-07-28 | Node 24 npm, Python 3.13 `pip-audit` and .NET 10 NuGet audits block under DR-039; common retained summaries, 13 policy controls and 17/17 evidence omissions pass; current findings zero. |
+| BACKLOG-071 | Static browser-only visualisation evidence on Pages (LAND-09D, DR-040) | DEMOAPP001 | 2026-08-04 | Viability gate passed; static viewer reuses `grid.js`/`player.js` verbatim over precomputed payloads (`build:pages`/`check:pages`, `pages.yml`); live at <https://gbrooks1970.github.io/gb.automation.smoketests.sudoku.poc/> (PRs #52 `619016f` + #53 `4e504b3`, Pages run 30926946232) and linked from the portfolio landing page. A dev/test-tooling audit advisory that surfaced during CI (brace-expansion override `5.0.8`→`^5.0.9`, fast-uri `3.1.5`) was cleared under DR-039; `npm audit` = 0, 48/48 scenarios pass. |
 
 ---
 
