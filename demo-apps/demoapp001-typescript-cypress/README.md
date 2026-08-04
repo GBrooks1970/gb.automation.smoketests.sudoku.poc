@@ -230,6 +230,24 @@ Return "SOLVED" or "STUCK_ON_ADVANCED_LOGIC"
 | `npm run run` | Run compiled JavaScript | Production execution |
 | `npm run test:api` | Run REST API integration checks | API validation |
 | `npm run verify:openapi` | Lint OpenAPI and validate real API responses | Contract drift gate |
+| `npm run build:pages` | Assemble the static evidence site into `pages-dist/` | Static evidence build |
+| `npm run check:pages` | Drift + self-containment gate for the static evidence site | Static evidence gate |
+
+---
+
+## Static evidence site (GitHub Pages)
+
+A published, static rendering of this visualisation is at
+**<https://gbrooks1970.github.io/gb.automation.smoketests.sudoku.poc/>** (BACKLOG-071 / DR-040).
+
+It is a **browser-only static snapshot**: it replays **precomputed** solve payloads from static files
+and is **not** an interactive tutor, a hosted solver, a live API, or a three-stack parity demonstration
+— no server is involved, and the Python and C# stacks are not represented. The payloads are produced
+deterministically by reusing the maintained solve/visualise logic (`SolveStepTracker` /
+`SudokuApiService` — the same code behind `/api/visualise`), and the viewer reuses the maintained
+`grid.js` / `player.js` unchanged. `npm run build:pages` assembles `pages-dist/`; `npm run check:pages`
+fails if the payloads drift or are non-deterministic, or if the viewer references a server/API or an
+external asset. The `Pages` workflow publishes it on pushes to `main` after that check passes.
 
 ---
 

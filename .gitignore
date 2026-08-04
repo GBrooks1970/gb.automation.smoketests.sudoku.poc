@@ -29,3 +29,6 @@ obj/
 # Serenity BDD living documentation artifacts
 .results/serenity/
 **/.results/serenity/
+
+# Generated static evidence site (BACKLOG-071) — produced in CI for Pages, never committed
+pages-dist/

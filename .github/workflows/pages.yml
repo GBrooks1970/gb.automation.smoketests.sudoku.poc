@@ -1,0 +1,69 @@
+name: Pages
+
+# Publishes the DEMOAPP001 static evidence visualisation (BACKLOG-071 / DR-040)
+# to GitHub Pages. Runs only on push to main (and manual dispatch), never on
+# pull requests, so no pull request can deploy. It builds DEMOAPP001, runs the
+# drift/self-containment check, assembles the static site from precomputed
+# payloads, then deploys. Only the deploy job holds Pages write/id-token.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build static evidence site
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: demo-apps/demoapp001-typescript-cypress
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node 24
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: demo-apps/demoapp001-typescript-cypress/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Check the static evidence site (drift + self-containment)
+        run: node scripts/check-pages.cjs
+
+      - name: Assemble the static evidence site
+        run: node scripts/build-pages.cjs
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: demo-apps/demoapp001-typescript-cypress/pages-dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
