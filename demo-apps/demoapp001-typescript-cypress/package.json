@@ -12,6 +12,8 @@
     "start:api": "ts-node app_src/server/index.ts",
     "start:web": "ts-node app_src/server/index.ts",
     "build": "tsc",
+    "build:pages": "npm run build && node scripts/build-pages.cjs",
+    "check:pages": "npm run build && node scripts/check-pages.cjs",
     "run": "node dist/index.js",
     "lint": "eslint \"app_src/**/*.ts\" \"tests/**/*.ts\" \"tooling/**/*.ts\"",
     "format": "prettier --write \"app_src/**/*.ts\" \"tests/**/*.ts\" \"tooling/**/*.ts\"",
