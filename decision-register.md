@@ -1,7 +1,7 @@
 # Decision Register
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-07-28
+**Last Updated:** 2026-08-04
 **Governed by:** `reference-architecture.md` v1.15 §10.6
 **Template:** `DOCS/.templates/decision-record.template.md`
 
@@ -2230,6 +2230,66 @@ calendar days. Expired, overlong, malformed or unmatched exceptions fail the Sta
 
 ---
 
+## DR-040 — Publish a static, browser-only DEMOAPP001 visualisation as public evidence, bounded away from future product work
+
+**Date:** 2026-08-04
+**Status:** Accepted — LAND-09D scope authorised by the project owner 2026-08-04
+
+### Context
+
+The portfolio landing page's public-evidence programme (LAND-09) reached its final slice, **LAND-09D**,
+which asks for a static, browser-only rendering of the existing DEMOAPP001 Web UI Solver Visualisation
+(BACKLOG-018) so a visitor can view it on GitHub Pages without cloning or running the Express server.
+The current viewer only works against the live REST API (`/api/puzzles`, `/api/visualise/:name`), so it
+cannot be hosted statically as-is. This is an evidence-publication concern, deliberately narrow, and it
+sits next to three Open future ideas — BACKLOG-014 (advanced solving techniques), BACKLOG-015 (the
+interactive tutor) and BACKLOG-016 (the puzzle generator) — that it must not silently absorb or imply.
+A mandated viability gate (precompute payloads offline, serve the existing `grid.js`/`player.js` from
+static files with no server) **passed** on 2026-08-04.
+
+### Decision
+
+Authorise **BACKLOG-071**: publish a static, browser-only DEMOAPP001 visualisation to GitHub Pages,
+backed by precomputed `VisualiseResult` payloads emitted by reusing the maintained solve/visualise
+logic (`SolveStepTracker` / `SudokuApiService`). Bound the work as follows:
+
+- It is a **single-Stack (DEMOAPP001 TypeScript) evidence surface**, not a parity capability; it must
+  not claim or imply three-stack parity.
+- It **must not** change the solver, orchestrator, `puzzles.json`, the REST API, or any Stack's
+  behaviour; it reuses existing outputs.
+- It **must not** absorb or advance BACKLOG-014, BACKLOG-015 or BACKLOG-016, which remain Open and
+  independently scoped. In particular it is **not** the interactive tutor (BACKLOG-015).
+- The published page introduces **no running service, backend or live API** on Pages; it loads
+  precomputed payloads from relative static assets only, and must label itself accordingly.
+- A fixture check validates provenance and schema and prevents drift from the current visualisation
+  contract; publication is gated on that check passing on `main`, with deploy-only Pages permissions.
+
+### Status
+
+`Accepted` — 2026-08-04, when the project owner authorised the LAND-09D scope.
+
+### Consequences
+
+**Outcomes:**
+
+- The DEMOAPP001 visualisation becomes viewable as static public evidence, linked from the portfolio
+  landing page as a `demo` action, closing the LAND-09 programme.
+- The three future product/solver ideas keep a clean, explicit boundary and are not conflated with an
+  evidence artefact.
+
+**Trade-offs:**
+
+- The static page shows precomputed snapshots of the current solver output, not a live solve; it is
+  regenerated deterministically from the committed logic, and the fixture check fails on drift.
+
+### Related Decisions
+
+- DR-035 — Validation-layer boundaries (loader = structure; solver/API = constraints).
+- BACKLOG-018 — Web UI Solver Visualisation (the live viewer this evidence surface is derived from).
+- BACKLOG-071 — the authorised implementation item.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -2248,5 +2308,5 @@ calendar days. Expired, overlong, malformed or unmatched exceptions fail the Sta
 
 ---
 
-*Last entry: DR-039 (Accepted). Next ID: DR-040.*
+*Last entry: DR-040 (Accepted). Next ID: DR-041.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

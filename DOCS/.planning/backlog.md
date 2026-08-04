@@ -28,10 +28,10 @@ Per v1.15 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 3 |
+| Open | 4 |
 | In Progress | 0 |
 | Resolved | 89 |
-| **Total** | **92** |
+| **Total** | **93** |
 
 | Area | Current state |
 |------|---------------|
@@ -39,7 +39,7 @@ Per v1.15 Section 10.1:
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | Codex review remediation worklist SUD-21..31 and BACKLOG-060..070 resolved; parked future product/solver work BACKLOG-014/015/016 remains Open |
+| Current sprint focus | BACKLOG-071 (static browser-only visualisation evidence for portfolio LAND-09D, DR-040) Open — planning approved, viability gate passed; parked future product/solver work BACKLOG-014/015/016 remains Open |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -432,6 +432,7 @@ Resolution evidence:
 | BACKLOG-014 | Advanced Solving Techniques | DEMOAPP001 and future Stacks | Solver capability | Future | Open |
 | BACKLOG-015 | Interactive Sudoku Tutor | Future product surface | Product idea | Future | Open |
 | BACKLOG-016 | Puzzle Generator | Future product surface | Product idea | Future | Open |
+| BACKLOG-071 | Static browser-only visualisation evidence on Pages (LAND-09C→D) | DEMOAPP001 evidence surface | Public evidence publication | Low | Open |
 | BACKLOG-051 | Strengthen orchestration ordering/no-execution assertions | All | Test assertion fidelity | Low | Resolved |
 | BACKLOG-032 | Refactor Python Questions to read from Actor memory | DEMOAPP002 | Screenplay parity (Risk 1) | High | Resolved |
 | BACKLOG-033 | Extract side effects from MultipleSolvers.isolation_verified() | DEMOAPP002 | Screenplay anti-pattern (Risk 2) | High | Resolved |
@@ -1262,6 +1263,56 @@ Acceptance criteria:
 - [ ] Behavioural coverage added per the design doc (canonical-feature-first where applicable)
 - [ ] A decision-register entry recorded for the new capability before the item is closed
 - [ ] Capability matrix (platform spec §6.1) updated to record generator support per Stack
+
+---
+
+### BACKLOG-071: Static browser-only visualisation evidence on Pages (LAND-09D)
+
+**Priority:** Low
+**Status:** Open
+**Stack(s):** DEMOAPP001 only (an evidence surface, not a parity capability)
+**Nature of Gap:** Public evidence publication — the DEMOAPP001 Web UI Solver Visualisation
+(BACKLOG-018) runs only against the live Express REST API (`/api/puzzles`, `/api/visualise/:name`),
+so it cannot be hosted on GitHub Pages as-is. The portfolio landing page's **LAND-09D** slice asks
+for a static, browser-only rendering of the existing visualisation, backed by precomputed solve
+payloads, so a visitor can see it without cloning or running the server.
+
+**Origin and authority:** Portfolio landing **LAND-09D** (the final public-evidence slice, READY once
+LAND-09C closed 2026-08-04). Per the LAND-09 cross-repository delivery contract the landing item does
+not by itself authorise implementation here — this backlog entry plus **DR-040** are that
+authorisation, and DR-040 records the decision boundary below.
+
+**Decision boundary (see DR-040) — this item does NOT:**
+- absorb **BACKLOG-014** (advanced solving techniques), **BACKLOG-015** (the interactive tutor) or
+  **BACKLOG-016** (the puzzle generator); those remain Open and independently scoped;
+- change the solver, orchestrator, `puzzles.json`, the REST API or any Stack's behaviour;
+- claim three-stack parity — it is explicitly a single-Stack (DEMOAPP001 TypeScript) evidence surface;
+- introduce a running service, backend or live API on Pages.
+
+**Viability gate (DR-040 precondition) — PASSED 2026-08-04:** a throwaway proof precomputed all five
+`VisualiseResult` payloads offline by reusing `SolveStepTracker.trackSolve()` /
+`SudokuApiService.listPuzzles()`, then served the existing `grid.js` / `player.js` with a relative-fetch
+client from static files only (no server). The viewer populated the dropdown, rendered the 9×9 grid
+(30 clues at step 0 → 81 filled at step 51/51, SOLVED) and the 51-step event log, with no console
+errors. Static browser-only publication is therefore viable.
+
+Acceptance criteria (for the implementation, not this planning item):
+
+- [ ] A deterministic in-repo precompute step reuses the maintained solve/visualise logic to emit a
+      static `puzzles.json` list and one `VisualiseResult` payload per puzzle; a check validates the
+      fixture provenance and schema and prevents drift from the current visualisation contract.
+- [ ] A static viewer reuses the maintained grid/player/presentation behaviour, loading payloads from
+      relative static assets on the Pages base path with no API/server; the page labels itself a
+      browser-only DEMOAPP001 TypeScript visualisation, not an interactive tutor, hosted solver, live
+      API or three-stack parity demonstration.
+- [ ] Accessibility, keyboard playback, error handling, desktop/390px layout and a clean browser
+      console are covered by automated and/or rendered checks before target Pages publication.
+- [ ] A `pages.yml` workflow deploys the static viewer on push to `main` after the checks pass, with
+      deploy-only Pages permissions and no deployment on pull requests.
+- [ ] Repository Pages configured for GitHub Actions publication; the canonical public URL documented.
+- [ ] A separate portfolio landing PR adds the verified URL as a `demo` action; exact target and
+      landing merge CI/Pages evidence and the verified public URL are recorded before this item is
+      Resolved and LAND-09D (and the LAND-09 programme) are marked DONE.
 
 ---
 
