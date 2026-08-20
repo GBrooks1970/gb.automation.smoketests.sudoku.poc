@@ -51,7 +51,9 @@ Use the [TEMPLATE_Algorithm.md](TEMPLATE_Algorithm.md) to start a new document.
 | Document | Algorithms Covered | Status |
 |----------|--------------------|--------|
 | [sudoku-basic-solver.md](sudoku-basic-solver.md) | Unit Completion, Hidden Singles, Naked Singles, Main Loop | v1.0 |
-| [sudoku-advanced-solver.md](sudoku-advanced-solver.md) | Naked/Hidden Pairs & Triples, X-Wing, Swordfish, Jellyfish, XY-Wing, Simple Coloring, Forcing Chains | Draft |
+| [naked-pairs.md](naked-pairs.md) | Naked Pairs (Row, Column, Block subset elimination) | v1.0 (Approved, DR-041) |
+| [x-wing.md](x-wing.md) | X-Wing (Row-based & Column-based 2D fish elimination) | v1.0 (Approved, DR-041) |
+| [sudoku-advanced-solver.md](sudoku-advanced-solver.md) | Advanced techniques overview and higher-order reference | Reference |
 
 ---
 

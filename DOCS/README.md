@@ -40,13 +40,17 @@ DOCS/
 ├── .algorithm/                             <- Language-agnostic algorithm pseudocode
 │   ├── README.md                           <- Algorithm directory guide
 │   ├── sudoku-basic-solver.md    <- Core algorithm pseudocode + complexity
+│   ├── naked-pairs.md            <- Naked Pairs algorithm spec (DR-041)
+│   ├── x-wing.md                 <- X-Wing algorithm spec (DR-041)
 │   └── sudoku-advanced-solver.md <- Advanced techniques reference
 │
 ├── .design/                                <- Design & specification documents
 │   ├── README.md                           <- Design directory guide
+│   ├── advanced-solving-techniques.md <- Advanced techniques design & roadmap (DR-041)
 │   ├── sudoku-solver-specification.md
 │   ├── sudoku-solver-platform-specification.md
 │   ├── audit-trail-feature.md
+│   ├── orchestration-attempt-events.md
 │   ├── rest-api-wrapper.md
 │   ├── web-ui-solver-visualisation.md
 │   ├── naming-conventions-design.md
@@ -128,7 +132,9 @@ Stored in [.algorithm/](.algorithm/) — language-agnostic pseudocode for every 
 | File | Purpose | Version |
 |------|---------|---------|
 | [sudoku-basic-solver.md](.algorithm/sudoku-basic-solver.md) | Unit Completion, Hidden Singles, Naked Singles pseudocode | v1.0 |
-| [sudoku-advanced-solver.md](.algorithm/sudoku-advanced-solver.md) | Naked/Hidden Pairs, X-Wing, chain techniques | Draft |
+| [naked-pairs.md](.algorithm/naked-pairs.md) | Naked Pairs (Row, Column, Block subset elimination) | v1.0 (Approved, DR-041) |
+| [x-wing.md](.algorithm/x-wing.md) | X-Wing (Row-based & Column-based 2D fish elimination) | v1.0 (Approved, DR-041) |
+| [sudoku-advanced-solver.md](.algorithm/sudoku-advanced-solver.md) | Advanced techniques overview and higher-order reference | Reference |
 
 ---
 
@@ -136,6 +142,7 @@ Stored in [.algorithm/](.algorithm/) — language-agnostic pseudocode for every 
 
 | Document | Purpose | Status | Version |
 |----------|---------|--------|---------|
+| [advanced-solving-techniques.md](.design/advanced-solving-techniques.md) | Advanced solving techniques design, ordering, and rollout | Approved (DR-041) | v1.0 |
 | [sudoku-solver-specification.md](.design/sudoku-solver-specification.md) | Tech-agnostic solver spec (original core baseline) | Implemented | v1.0 |
 | [sudoku-solver-platform-specification.md](.design/sudoku-solver-platform-specification.md) | Platform spec — core contract, deliberate extensions, parity rules, staged surfaces | Accepted (DR-034; merged via PR #18) | v1.1 |
 | [audit-trail-feature.md](.design/audit-trail-feature.md) | Audit logging system | Implemented | v1.1 |

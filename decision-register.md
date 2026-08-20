@@ -2290,6 +2290,73 @@ logic (`SolveStepTracker` / `SudokuApiService`). Bound the work as follows:
 
 ---
 
+## DR-041 — Adopt deterministic candidate-elimination solving pipeline for Naked Pairs and X-Wing without backtracking
+
+**Date:** 2026-08-20
+**Status:** Accepted — recommended SUD-32 advanced solving architecture authorised 2026-08-20
+
+### Context
+
+The solver pipeline across all three Stacks currently implements three basic techniques: Unit Completion,
+Hidden Singles, and Naked Singles. When basic singles are exhausted on medium-to-hard puzzles, the solver
+returns `STUCK_ON_ADVANCED_LOGIC`. BACKLOG-014 (SUD-32..34) introduces the first advanced solving capability.
+Introducing advanced solving requires defining the candidate model, technique ordering, attempt/audit
+event semantics, and setting a firm boundary regarding backtracking or trial-and-error search.
+
+### Decision
+
+Adopt the deterministic candidate-elimination architecture specified in
+`DOCS/.design/advanced-solving-techniques.md`:
+
+- **Scope & Technique Order:** Implement **Naked Pairs** (subset elimination in rows, columns, and blocks)
+  and **X-Wing** (2D fish pattern elimination across rows and columns) as the minimum initial scope.
+  The orchestrator executes techniques in strict priority order:
+  $$\text{UnitCompletion} \longrightarrow \text{HiddenSingles}(1..9) \longrightarrow \text{NakedSingles} \longrightarrow \text{NakedPairs} \longrightarrow \text{XWing}$$
+- **Strict No-Guessing Guarantee:** Backtracking, recursive guessing, and non-deterministic search are
+  strictly prohibited under the solver API. Puzzles that cannot be solved by deterministic deduction
+  continue to return `STUCK_ON_ADVANCED_LOGIC`.
+- **Event & Assurance Semantics:** Each advanced technique invocation emits an immutable `AttemptEvent`
+  conforming to DR-037. Component coverage floors and focused mutation testing conform to DR-038.
+- **Canonical-Feature-First Multi-Stack Parity:** Scenarios are authored in `features-shared/` first,
+  and propagated identically to TypeScript, Python, and C# Stacks with zero behavioral drift.
+
+### Status
+
+`Accepted` — 2026-08-20, when the project owner authorised the SUD-32 design increment.
+
+### Consequences
+
+**Outcomes:**
+- SUD-33 (Naked Pairs) and SUD-34 (X-Wing) have an authoritative, implementation-neutral specification.
+- Advanced candidate eliminations unlock basic singles without corrupting cell placement values or
+  the existing `AuditTrail` contract.
+- Pure human-deductive solving properties are preserved.
+
+**Trade-offs:**
+- Hard puzzles requiring techniques beyond X-Wing (e.g. Swordfish, XY-Wing, Forcing Chains) will still
+  terminate with `STUCK_ON_ADVANCED_LOGIC`.
+- Candidate computation introduces minor in-memory tracking overhead during advanced technique passes.
+
+### Alternatives Considered
+
+**Alternative: Implement backtracking solver**
+- Rejected because: recursive trial-and-error solves without explainable human deduction and destroys the
+  pedagogical and audit value of the Screenplay test suite.
+
+**Alternative: Implement Single-Stack first without canonical feature specification**
+- Rejected because: violates Reference Architecture §5.5 and DR-024 (Feature Change Governance).
+
+### Related Decisions
+
+- DR-015 — Screenplay runtime state and thin step definitions.
+- DR-024 — Canonical feature change governance.
+- DR-034 — v1.1 platform specification and parity contract.
+- DR-037 — Immutable orchestration attempt events.
+- DR-038 — Blocking component-coverage floors and focused mutation policy.
+- BACKLOG-014 — the authorised advanced solving techniques increment.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -2308,5 +2375,5 @@ logic (`SolveStepTracker` / `SudokuApiService`). Bound the work as follows:
 
 ---
 
-*Last entry: DR-040 (Accepted). Next ID: DR-041.*
+*Last entry: DR-041 (Accepted). Next ID: DR-042.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

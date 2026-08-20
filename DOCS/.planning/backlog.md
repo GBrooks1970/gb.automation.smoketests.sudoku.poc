@@ -1,13 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-08-04 — resolved BACKLOG-071 / DR-040: static browser-only DEMOAPP001
-visualisation evidence published to Pages and linked from the portfolio landing page, closing
-LAND-09D; a dev/test-tooling audit advisory surfaced during CI was cleared under DR-039. Prior:
-2026-07-28 (resolved BACKLOG-070 / SUD-31 from the 2026-07-23 Codex review:
-supported-runtime dependency audits now block every Stack under DR-039's tested high/critical plus
-unknown-severity and maximum-14-day exception policy; the new Node advisory was remediated at
-`brace-expansion` 5.0.8, and the three Open backlog items remain parked future product/solver work)
+**Last Updated:** 2026-08-20 — progressed BACKLOG-014 / SUD-32 (advanced solving techniques design, Naked Pairs / X-Wing algorithm specs, DR-041). Prior: 2026-08-04 (resolved BACKLOG-071 / DR-040: static browser-only DEMOAPP001 visualisation evidence published to Pages and linked from the portfolio landing page, closing LAND-09D; dev/test audit advisory cleared under DR-039).
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -31,8 +25,8 @@ Per v1.15 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 3 |
-| In Progress | 0 |
+| Open | 2 |
+| In Progress | 1 |
 | Resolved | 90 |
 | **Total** | **93** |
 
@@ -42,7 +36,7 @@ Per v1.15 Section 10.1:
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-071 (static browser-only visualisation evidence for portfolio LAND-09D, DR-040) Resolved 2026-08-04 — live on Pages and linked from the portfolio landing page; parked future product/solver work BACKLOG-014/015/016 remains Open |
+| Current sprint focus | BACKLOG-014 / SUD-32 (advanced solving techniques design, algorithm specs, and DR-041) In Progress; SUD-33 (Naked Pairs) and SUD-34 (X-Wing) follow; parked future product work BACKLOG-015/016 remains Open |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -432,7 +426,7 @@ Resolution evidence:
 | BACKLOG-011 | Performance Benchmarking Suite | All | Performance regression detection | Low | Resolved |
 | BACKLOG-012 | Implement Python Version | DEMOAPP002 | Future Stack implementation | Future | Resolved |
 | BACKLOG-013 | Implement C# Version | DEMOAPP003 | Future Stack implementation | Future | Resolved |
-| BACKLOG-014 | Advanced Solving Techniques | DEMOAPP001 and future Stacks | Solver capability | Future | Open |
+| BACKLOG-014 | Advanced Solving Techniques | DEMOAPP001 and future Stacks | Solver capability | Future | In Progress |
 | BACKLOG-015 | Interactive Sudoku Tutor | Future product surface | Product idea | Future | Open |
 | BACKLOG-016 | Puzzle Generator | Future product surface | Product idea | Future | Open |
 | BACKLOG-071 | Static browser-only visualisation evidence on Pages (LAND-09D) | DEMOAPP001 evidence surface | Public evidence publication | Low | Resolved |
@@ -1175,7 +1169,7 @@ Resolution:
 ### BACKLOG-014: Advanced Solving Techniques
 
 **Priority:** Future
-**Status:** Open
+**Status:** In Progress (SUD-32 design & governance delivered; SUD-33/34 implementation follows)
 **Stack(s):** DEMOAPP001 and future Stacks (parity required)
 **Nature of Gap:** Solver capability — the solver implements only three deterministic techniques
 (Unit Completion, Hidden Singles, Naked Singles) and returns `STUCK_ON_ADVANCED_LOGIC` once they are
@@ -1183,8 +1177,8 @@ exhausted. There is no support for the harder human-style strategies (Naked/Hidd
 Pairs, X-Wing, Swordfish) and no backtracking/trial-and-error mode (see `CLAUDE.md` "Current
 Limitations").
 
-Design reference: `DOCS/.design/advanced-solving-techniques.md` (to be authored)
-Algorithm reference: `DOCS/.algorithm/` — one specification per technique (to be authored)
+Design reference: `DOCS/.design/advanced-solving-techniques.md` (authored in SUD-32, DR-041)
+Algorithm reference: `DOCS/.algorithm/naked-pairs.md` and `DOCS/.algorithm/x-wing.md` (authored in SUD-32, DR-041)
 
 This is the only one of the three future ideas that changes solver behaviour, so it is bound by the
 canonical-feature-first procedure (`CLAUDE.md`) and full three-stack parity. It is also a
@@ -1192,9 +1186,9 @@ prerequisite for difficulty grading in BACKLOG-016 and for technique explanation
 
 Acceptance criteria:
 
-- [ ] Design doc authored at `DOCS/.design/advanced-solving-techniques.md` listing the techniques in
+- [x] Design doc authored at `DOCS/.design/advanced-solving-techniques.md` listing the techniques in
       scope, their ordering relative to the existing three, and the deterministic (no-guessing) boundary
-- [ ] An algorithm specification added under `DOCS/.algorithm/` for each new technique
+- [x] An algorithm specification added under `DOCS/.algorithm/` for each new technique (`naked-pairs.md`, `x-wing.md`)
 - [ ] New `SudokuSolver` methods implement at least Naked Pairs and X-Wing (further techniques optional
       per the design doc), with no trial-and-error/backtracking unless explicitly decided in a DR
 - [ ] `SudokuOrchestrator.solve()` integrates the new techniques after the existing three; an
@@ -1203,8 +1197,8 @@ Acceptance criteria:
       copies; new step definitions / Screenplay components added per Stack
 - [ ] Algorithm attribution for each cell change recorded through the existing `AuditLogger`
 - [ ] `npm test`, `python -m pytest`, and `dotnet test` green; memory-key, feature, and step-text parity PASS
-- [ ] A decision-register entry recorded if any structural choice (e.g. enabling backtracking, a new
-      result string) is made before the item is closed
+- [x] A decision-register entry recorded if any structural choice (e.g. enabling backtracking, a new
+      result string) is made before the item is closed (DR-041)
 
 ---
 
