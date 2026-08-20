@@ -81,6 +81,8 @@ When('the {string} algorithm is executed', async (algorithm: string) => {
     await actor.attemptsTo(ApplyAlgorithm.nakedSingles());
   } else if (algorithm === 'Naked Pairs') {
     await actor.attemptsTo(ApplyAlgorithm.nakedPairs());
+  } else if (algorithm === 'X-Wing') {
+    await actor.attemptsTo(ApplyAlgorithm.xWing());
   }
 });
 

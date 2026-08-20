@@ -159,8 +159,8 @@ Then('the execution order should be maintained in every iteration', async () => 
     const iterEvents = eventsInIteration(events, iteration);
     assert.strictEqual(
       iterEvents.length,
-      12,
-      `Iteration ${iteration}: expected exactly 12 attempt events`
+      13,
+      `Iteration ${iteration}: expected exactly 13 attempt events`
     );
     for (const event of iterEvents) {
       assert.strictEqual(

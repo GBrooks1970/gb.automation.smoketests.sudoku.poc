@@ -137,6 +137,30 @@ Feature: Basic Sudoku Solver Logic
     And no cells should be modified
 
   # =============================================================================
+  # X-Wing Algorithm Tests
+  # =============================================================================
+
+  Scenario: Detect X-Wing in rows and eliminate candidate from columns to place a single
+    Given rows 1 and 4 have candidate 7 only in columns 1 and 5
+    And another cell at row 7, column 1 has candidates "3, 7"
+    When the "X-Wing" algorithm is executed
+    Then the cell at row 7, column 1 should be updated to 3
+    And the algorithm should return true
+
+  Scenario: Detect X-Wing in columns and eliminate candidate from rows to place a single
+    Given columns 1 and 5 have candidate 7 only in rows 1 and 4
+    And another cell at row 1, column 7 has candidates "3, 7"
+    When the "X-Wing" algorithm is executed
+    Then the cell at row 1, column 7 should be updated to 3
+    And the algorithm should return true
+
+  Scenario: X-Wing returns false when no X-Wing patterns exist
+    Given a grid state where no X-Wing pattern exists
+    When the "X-Wing" algorithm is executed
+    Then the algorithm should return false
+    And no cells should be modified
+
+  # =============================================================================
   # Sudoku Constraint Validation Tests
   # =============================================================================
 
@@ -333,6 +357,7 @@ Feature: Basic Sudoku Solver Logic
     And "Hidden Singles" should return false for all digits 1-9
     And "Naked Singles" should return false
     And "Naked Pairs" should return false
+    And "X-Wing" should return false
     And the main loop should exit
 
   Scenario: Test multiple solvers with different puzzles concurrently

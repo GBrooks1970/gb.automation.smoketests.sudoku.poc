@@ -78,6 +78,14 @@ public static class ApplyAlgorithm
             ability.ApplyNakedPairs();
             actor.Remember(MemoryKeys.ALGORITHM_PROGRESS, ability.AlgorithmMadeProgress);
         });
+
+    public static ITask XWing() =>
+        new DelegateTask(actor =>
+        {
+            var ability = actor.AbilityTo<UseSudokuSolver>();
+            ability.ApplyXWing();
+            actor.Remember(MemoryKeys.ALGORITHM_PROGRESS, ability.AlgorithmMadeProgress);
+        });
 }
 
 public static class SetupGridState
@@ -279,6 +287,33 @@ public static class SetupGridState
             ability.TakeSnapshot();
         });
 
+    public static ITask XWingRow() =>
+        new DelegateTask(actor =>
+        {
+            var ability = actor.AbilityTo<UseSudokuSolver>();
+            ability.Initialise("test");
+            GridFixtures.SetupXWingRow(ability.GetSolver());
+            ability.TakeSnapshot();
+        });
+
+    public static ITask XWingColumn() =>
+        new DelegateTask(actor =>
+        {
+            var ability = actor.AbilityTo<UseSudokuSolver>();
+            ability.Initialise("test");
+            GridFixtures.SetupXWingColumn(ability.GetSolver());
+            ability.TakeSnapshot();
+        });
+
+    public static ITask NoXWing() =>
+        new DelegateTask(actor =>
+        {
+            var ability = actor.AbilityTo<UseSudokuSolver>();
+            ability.Initialise("test");
+            GridFixtures.SetupNoXWing(ability.GetSolver());
+            ability.TakeSnapshot();
+        });
+
     public static ITask RunAllAlgorithmsIndividually() =>
         new DelegateTask(actor =>
         {
@@ -291,6 +326,7 @@ public static class SetupGridState
             }
             ability.ApplyNakedSingles();
             ability.ApplyNakedPairs();
+            ability.ApplyXWing();
         });
 }
 
@@ -444,6 +480,15 @@ public static class CheckAlgorithmProgress
             var ability = actor.AbilityTo<UseSudokuSolver>();
             ability.ReinitialiseFromSnapshot();
             ability.ApplyNakedPairs();
+            actor.Remember(MemoryKeys.ALGORITHM_PROGRESS, ability.AlgorithmMadeProgress);
+        });
+
+    public static ITask XWingOnSnapshot() =>
+        new DelegateTask(actor =>
+        {
+            var ability = actor.AbilityTo<UseSudokuSolver>();
+            ability.ReinitialiseFromSnapshot();
+            ability.ApplyXWing();
             actor.Remember(MemoryKeys.ALGORITHM_PROGRESS, ability.AlgorithmMadeProgress);
         });
 

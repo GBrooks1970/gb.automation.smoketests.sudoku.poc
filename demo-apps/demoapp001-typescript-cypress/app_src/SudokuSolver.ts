@@ -351,6 +351,153 @@ export class SudokuSolver {
     return this.nakedPairs();
   }
 
+  /**
+   * X-Wing Algorithm
+   * Goal: Eliminate candidate digit d from parallel lines (rows or columns) using a 2x2
+   *       rectangular grid intersection pattern.
+   * Technique:
+   * 1. Row-based: If digit d appears as a candidate in exactly two columns (c1, c2) in row r1
+   *    and row r2, eliminate candidate d from all other cells in columns c1 and c2.
+   * 2. Column-based: If digit d appears as a candidate in exactly two rows (r1, r2) in column c1
+   *    and column c2, eliminate candidate d from all other cells in rows r1 and r2.
+   * If candidate elimination reduces any peer cell to exactly 1 candidate, place that candidate.
+   */
+  public xWing(): boolean {
+    let changed = false;
+    const changes: CellChange[] = [];
+
+    const cellCandidates = new Map<string, Set<number>>();
+    for (let r = 0; r < GRID_SIZE; r++) {
+      for (let c = 0; c < GRID_SIZE; c++) {
+        if (this.grid[r][c] === EMPTY_CELL) {
+          cellCandidates.set(`${r},${c}`, this.getCellCandidates(r, c));
+        }
+      }
+    }
+
+    const eliminateAndPlace = (r: number, c: number, digit: number, patternDesc: string): void => {
+      const key = `${r},${c}`;
+      const cands = cellCandidates.get(key);
+      if (!cands || !cands.has(digit)) return;
+
+      cands.delete(digit);
+      if (cands.size === 1 && this.grid[r][c] === EMPTY_CELL) {
+        const val = Array.from(cands)[0];
+        changes.push({
+          cell: { row: r, col: c },
+          oldValue: 0,
+          newValue: val,
+          reason: `X-Wing ${patternDesc} eliminated ${digit}, leaving ${val}`,
+        });
+        this.grid[r][c] = val;
+        changed = true;
+      }
+    };
+
+    for (let digit = 1; digit <= 9; digit++) {
+      // 1. Row-based X-Wing
+      const rowCandidates = new Map<number, number[]>();
+      for (let r = 0; r < GRID_SIZE; r++) {
+        const cols: number[] = [];
+        for (let c = 0; c < GRID_SIZE; c++) {
+          if (this.grid[r][c] === EMPTY_CELL && cellCandidates.get(`${r},${c}`)?.has(digit)) {
+            cols.push(c);
+          }
+        }
+        if (cols.length === 2) {
+          rowCandidates.set(r, cols);
+        }
+      }
+
+      const rowKeys = Array.from(rowCandidates.keys());
+      for (let i = 0; i < rowKeys.length; i++) {
+        const r1 = rowKeys[i];
+        const [c1a, c2a] = rowCandidates.get(r1)!;
+        for (let j = i + 1; j < rowKeys.length; j++) {
+          const r2 = rowKeys[j];
+          const [c1b, c2b] = rowCandidates.get(r2)!;
+          if (c1a === c1b && c2a === c2b) {
+            const c1 = c1a;
+            const c2 = c2a;
+            for (let r = 0; r < GRID_SIZE; r++) {
+              if (r !== r1 && r !== r2 && this.grid[r][c1] === EMPTY_CELL) {
+                eliminateAndPlace(
+                  r,
+                  c1,
+                  digit,
+                  `for digit ${digit} in rows ${r1},${r2} columns ${c1},${c2}`
+                );
+              }
+              if (r !== r1 && r !== r2 && this.grid[r][c2] === EMPTY_CELL) {
+                eliminateAndPlace(
+                  r,
+                  c2,
+                  digit,
+                  `for digit ${digit} in rows ${r1},${r2} columns ${c1},${c2}`
+                );
+              }
+            }
+          }
+        }
+      }
+
+      // 2. Column-based X-Wing
+      const colCandidates = new Map<number, number[]>();
+      for (let c = 0; c < GRID_SIZE; c++) {
+        const rows: number[] = [];
+        for (let r = 0; r < GRID_SIZE; r++) {
+          if (this.grid[r][c] === EMPTY_CELL && cellCandidates.get(`${r},${c}`)?.has(digit)) {
+            rows.push(r);
+          }
+        }
+        if (rows.length === 2) {
+          colCandidates.set(c, rows);
+        }
+      }
+
+      const colKeys = Array.from(colCandidates.keys());
+      for (let i = 0; i < colKeys.length; i++) {
+        const c1 = colKeys[i];
+        const [r1a, r2a] = colCandidates.get(c1)!;
+        for (let j = i + 1; j < colKeys.length; j++) {
+          const c2 = colKeys[j];
+          const [r1b, r2b] = colCandidates.get(c2)!;
+          if (r1a === r1b && r2a === r2b) {
+            const r1 = r1a;
+            const r2 = r2a;
+            for (let c = 0; c < GRID_SIZE; c++) {
+              if (c !== c1 && c !== c2 && this.grid[r1][c] === EMPTY_CELL) {
+                eliminateAndPlace(
+                  r1,
+                  c,
+                  digit,
+                  `for digit ${digit} in columns ${c1},${c2} rows ${r1},${r2}`
+                );
+              }
+              if (c !== c1 && c !== c2 && this.grid[r2][c] === EMPTY_CELL) {
+                eliminateAndPlace(
+                  r2,
+                  c,
+                  digit,
+                  `for digit ${digit} in columns ${c1},${c2} rows ${r1},${r2}`
+                );
+              }
+            }
+          }
+        }
+      }
+    }
+
+    if (this.auditLogger?.isEnabled() && changes.length > 0) {
+      this.auditLogger.logChange('XWing', changes);
+    }
+    return changed;
+  }
+
+  public applyXWing(): boolean {
+    return this.xWing();
+  }
+
   public isValidPlacement(row: number, col: number, value: number): boolean {
     for (let c = 0; c < GRID_SIZE; c++) {
       if (c !== col && this.grid[row][c] === value) return false;

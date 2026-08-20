@@ -23,10 +23,12 @@ This repository contains:
 3. **Design documents** for extended features (audit trails, REST APIs)
 4. **Test specifications** using Gherkin/BDD for behavior verification
 
-The solver implements three fundamental Sudoku solving techniques:
+The solver implements five deterministic Sudoku solving techniques:
 - **Unit Completion** - Fills cells in rows/columns/blocks with only one empty space
 - **Hidden Singles** - Finds where a digit must go within a unit
 - **Naked Singles** - Finds cells that can only contain one digit
+- **Naked Pairs** - Eliminates pair candidates in rows/columns/blocks
+- **X-Wing** - Eliminates parallel line candidates in rows/columns
 
 ## Design-First Approach
 
@@ -170,7 +172,7 @@ is a staging decision, not a parity failure. See the authoritative matrix in the
 | Capability | DEMOAPP001 (TS) | DEMOAPP002 (Py) | DEMOAPP003 (C#) | Parity status |
 |------------|:---------------:|:---------------:|:---------------:|---------------|
 | Core solver | ✅ | ✅ | ✅ | Required |
-| BDD/Screenplay parity (52 scenarios) | ✅ | ✅ | ✅ | Required |
+| BDD/Screenplay parity (55 scenarios) | ✅ | ✅ | ✅ | Required |
 | Audit trail | ✅ | ✅ | ✅ | Extension (all stacks) |
 | CLI / grid display | ✅ | ➖ | ➖ | Staged (DEMOAPP001) |
 | REST API | ✅ | 🛣️ | 🛣️ | Staged; roadmap for Py/C# |
@@ -223,9 +225,9 @@ All implementations follow established software engineering principles:
 - **BDD (Gherkin)** - Behavior-driven test scenarios for acceptance criteria
 - **Unit Testability** - Each algorithm callable independently with deterministic results
 
-The current lower-level evidence is measured rather than inferred: DEMOAPP001 has 16 component
-tests plus executable API/OpenAPI contracts, DEMOAPP002 has 26 component tests, and DEMOAPP003 has
-24 component tests. Each Stack also runs the canonical 52-scenario behaviour contract. Component
+The current lower-level evidence is measured rather than inferred: DEMOAPP001 has 20 component
+tests plus executable API/OpenAPI contracts, DEMOAPP002 has 30 component tests, and DEMOAPP003 has
+28 component tests. Each Stack also runs the canonical 55-scenario behaviour contract. Component
 coverage is enforced against deliberately selected production scope using conservative floors:
 
 | Stack | Measured baseline | CI floor |
@@ -285,7 +287,7 @@ policy details.
 **Testing Patterns:**
 - **AAA Pattern Consistency** - All tests follow Arrange-Act-Assert structure
 - **BDD Scenarios** - Given-When-Then format for clear behavior specification
-- **Gherkin Examples** - 52 scenarios per Stack (156 across all three; DEMOAPP001 = 52 scenarios / 291 steps) demonstrating comprehensive coverage
+- **Gherkin Examples** - 55 scenarios per Stack (165 across all three; DEMOAPP001 = 55 scenarios / 309 steps) demonstrating comprehensive coverage
 - **Test Pyramid** - Measured component contracts (fast), API/OpenAPI integration (medium), and
   cross-Stack BDD acceptance tests (broad behaviour evidence)
 

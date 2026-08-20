@@ -48,4 +48,13 @@ export const ApplyAlgorithm = {
         .set(ALGORITHM_PROGRESS, ability.algorithmMadeProgress)
         .performAs(actor);
     }),
+
+  xWing: () =>
+    Interaction.where('#actor applies the X-Wing algorithm', async (actor) => {
+      const ability = UseSudokuSolver.as(actor);
+      ability.applyXWing();
+      await notes<SudokuNotes>()
+        .set(ALGORITHM_PROGRESS, ability.algorithmMadeProgress)
+        .performAs(actor);
+    }),
 };

@@ -309,3 +309,43 @@ export function setupNoNakedPairs(solver: SudokuSolver): void {
     }
   }
 }
+
+export function setupXWingRow(solver: SudokuSolver): void {
+  const digits = [1, 2, 3, 4, 5, 6, 8];
+  const cols = [0, 2, 3, 4, 6, 7, 8];
+  for (let i = 0; i < digits.length; i++) {
+    solver.grid[1][cols[i]] = digits[i];
+    solver.grid[4][cols[i]] = digits[i];
+  }
+  // Target cell (7, 1) setup with candidates {3, 7}
+  const r7Digits = [1, 2, 4, 5, 6, 8];
+  const r7Cols = [0, 2, 3, 4, 5, 6];
+  for (let i = 0; i < r7Digits.length; i++) {
+    solver.grid[7][r7Cols[i]] = r7Digits[i];
+  }
+  solver.grid[8][1] = 9;
+}
+
+export function setupXWingColumn(solver: SudokuSolver): void {
+  const digits = [1, 2, 3, 4, 5, 6, 8];
+  const rows = [0, 2, 3, 5, 6, 7, 8];
+  for (let i = 0; i < digits.length; i++) {
+    solver.grid[rows[i]][1] = digits[i];
+    solver.grid[rows[i]][5] = digits[i];
+  }
+  // Target cell (1, 7) setup with candidates {3, 7}
+  const c7Digits = [1, 2, 4, 5, 6, 8];
+  const c7Rows = [0, 2, 3, 4, 5, 6];
+  for (let i = 0; i < c7Digits.length; i++) {
+    solver.grid[c7Rows[i]][7] = c7Digits[i];
+  }
+  solver.grid[1][8] = 9;
+}
+
+export function setupNoXWing(solver: SudokuSolver): void {
+  for (let r = 0; r < GRID_SIZE; r++) {
+    for (let c = 0; c < GRID_SIZE; c++) {
+      solver.grid[r][c] = EMPTY_CELL;
+    }
+  }
+}

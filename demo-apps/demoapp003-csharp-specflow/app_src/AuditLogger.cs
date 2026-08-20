@@ -36,7 +36,8 @@ public sealed class AuditLogger
             UnitCompletion: CountChanges("UnitCompletion"),
             HiddenSingles: CountChanges("HiddenSingles"),
             NakedSingles: CountChanges("NakedSingles"),
-            NakedPairs: CountChanges("NakedPairs"));
+            NakedPairs: CountChanges("NakedPairs"),
+            XWing: CountChanges("XWing"));
 
         return new AuditTrail(
             _puzzleName,

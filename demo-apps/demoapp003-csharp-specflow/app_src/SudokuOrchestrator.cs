@@ -64,6 +64,11 @@ public sealed class SudokuOrchestrator
                 changedThisPass = true;
             }
 
+            if (RunAttempt(iteration, "XWing", _solver.XWing))
+            {
+                changedThisPass = true;
+            }
+
             isProgressing = changedThisPass;
         }
 

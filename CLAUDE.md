@@ -124,7 +124,7 @@ Run DEMOAPP001 commands from `demo-apps/demoapp001-typescript-cypress/`.
 | `npm run build` | Compile TypeScript |
 | `npm run lint` | Run ESLint over app source |
 | `npm run format:check` | Check Prettier formatting for app source |
-| `npm test` | Run 16 component tests, then 48 Cucumber/Serenity Screenplay scenarios |
+| `npm test` | Run 20 component tests, then 55 Cucumber/Serenity Screenplay scenarios |
 | `npm run test:ci` | Run the same tests while emitting Cucumber JSON and JUnit evidence |
 | `npm run test:coverage` | Enforce the DR-038 component-coverage floors |
 | `npm run test:coverage:ci` | Enforce the same floors and emit LCOV evidence |
@@ -141,7 +141,7 @@ Run DEMOAPP002 commands from `demo-apps/demoapp002-python-pytest/`.
 | Command | Purpose |
 |---------|---------|
 | `python -m pip install -c requirements-test.lock -e ".[test]"` | Install constrained Python Stack test dependencies |
-| `python -m pytest` | Run 28 component tests plus 52 pytest-bdd scenarios (80 total) |
+| `python -m pytest` | Run 30 component tests plus 55 pytest-bdd scenarios (85 total) |
 | `python -m pip_audit --local --skip-editable --format=json` | Audit the resolved Python environment with the governed tool |
 
 Run DEMOAPP003 commands from `demo-apps/demoapp003-csharp-specflow/`.
@@ -149,7 +149,7 @@ Run DEMOAPP003 commands from `demo-apps/demoapp003-csharp-specflow/`.
 | Command | Purpose |
 |---------|---------|
 | `dotnet restore --locked-mode` | Restore locked C# Stack dependencies |
-| `dotnet test --no-restore` | Run 26 component tests plus 52 Reqnroll tests (78 total) |
+| `dotnet test --no-restore` | Run 28 component tests plus 55 Reqnroll tests (83 total) |
 | `dotnet package list --vulnerable --include-transitive --format json --no-restore` | Audit the locked .NET 10 dependency graph |
 | `dotnet run --project tooling/performance/DemoApp003.Performance.csproj --configuration Release` | Run C# reporting-only benchmarks |
 
@@ -177,15 +177,15 @@ Docker runtime commands require Docker Desktop or another Docker Engine with Com
 Expected current baseline:
 
 ```text
-DEMOAPP001: 52 scenarios passed / 291 steps passed
-DEMOAPP002: 52 pytest-bdd scenarios passed
-DEMOAPP003: 52 Reqnroll tests passed
+DEMOAPP001: 55 scenarios passed / 309 steps passed
+DEMOAPP002: 55 pytest-bdd scenarios passed
+DEMOAPP003: 55 Reqnroll tests passed
 OverallExitCode=0
 ```
 
 ## Subject Application
 
-The Sudoku solver implements four deterministic techniques:
+The Sudoku solver implements five deterministic techniques:
 
 | Technique | Method | Current behavior |
 |-----------|--------|------------------|
@@ -193,6 +193,7 @@ The Sudoku solver implements four deterministic techniques:
 | Hidden Singles | `SudokuSolver.hiddenSingles(target)` | Checks rows, columns, and blocks |
 | Naked Singles | `SudokuSolver.nakedSingles()` | Eliminates row, column, and block candidates |
 | Naked Pairs | `SudokuSolver.nakedPairs()` | Eliminates pair candidates in rows, columns, and blocks |
+| X-Wing | `SudokuSolver.xWing()` | Eliminates parallel line candidates in rows and columns |
 
 Solver result strings:
 
@@ -286,7 +287,7 @@ the Authority Order above.
 
 ## Current Limitations
 
-1. No advanced Sudoku techniques such as Naked Pairs, X-Wing, or Swordfish.
+1. Basic and intermediate techniques supported (Unit Completion, Hidden Singles, Naked Singles, Naked Pairs, X-Wing). No Swordfish or advanced chains.
 2. No backtracking or trial-and-error solver mode.
 
 ## Common Tasks

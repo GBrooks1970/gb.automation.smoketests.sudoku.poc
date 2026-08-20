@@ -49,6 +49,7 @@ export class SolveStepTracker {
           hiddenSingles: auditTrail.statistics.changesByAlgorithm.hiddenSingles,
           nakedSingles: auditTrail.statistics.changesByAlgorithm.nakedSingles,
           nakedPairs: auditTrail.statistics.changesByAlgorithm.nakedPairs ?? 0,
+          xWing: auditTrail.statistics.changesByAlgorithm.xWing ?? 0,
         },
       },
     };

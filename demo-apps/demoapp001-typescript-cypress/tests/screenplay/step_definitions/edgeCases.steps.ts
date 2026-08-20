@@ -110,6 +110,12 @@ Then('"Naked Pairs" should return false', async () => {
   assert.strictEqual(made, false);
 });
 
+Then('"X-Wing" should return false', async () => {
+  await actorCalled(SOLVER_ACTOR).attemptsTo(CheckAlgorithmProgress.xWingOnSnapshot());
+  const made = await actorCalled(SOLVER_ACTOR).answer(AlgorithmMadeProgress.afterLastCall());
+  assert.strictEqual(made, false);
+});
+
 Then('the main loop should exit', () => {
   // Verified by algorithm returning false above — loop condition exits
 });

@@ -55,7 +55,7 @@ if ($LASTEXITCODE -ne 0) {
 
 $mutations = @(
     @{ Name = 'private visibility'; File = 'README.md'; Before = 'This repository is public.'; After = 'This repository remains private.' }
-    @{ Name = 'stale scenario count'; File = 'demo-apps/demoapp001-typescript-cypress/docs/qa-strategy.md'; Before = '| Scenarios | 52 | 52 |'; After = '| Scenarios | 43 | 43 |' }
+    @{ Name = 'stale scenario count'; File = 'demo-apps/demoapp001-typescript-cypress/docs/qa-strategy.md'; Before = '| Scenarios | 55 | 55 |'; After = '| Scenarios | 43 | 43 |' }
     @{ Name = 'stale C# runtime'; File = 'demo-apps/demoapp003-csharp-specflow/README.md'; Before = '.NET SDK 10.0'; After = '.NET SDK 8.0' }
     @{ Name = 'active historical REST proposal'; File = 'DOCS/.design/rest-api-wrapper.md'; Before = '**Status:** Historical design proposal'; After = '**Status:** Active implementation authority' }
     @{ Name = 'missing review index entry'; File = 'DOCS/README.md'; Before = 'CODE_REVIEW_CODEX_v1_20260723T2351Z'; After = 'OMITTED_REVIEW_20260723' }

@@ -230,6 +230,31 @@ export const SetupGridState = {
     }),
 
   // ---------------------------------------------------------------------------
+  // X-Wing scenarios
+  // ---------------------------------------------------------------------------
+
+  xWingRow: () =>
+    Interaction.where('#actor sets up rows with an X-Wing pattern', async (actor) => {
+      const ability = UseSudokuSolver.as(actor);
+      GridFixtures.setupXWingRow(ability.getSolver());
+      ability.takeSnapshot();
+    }),
+
+  xWingColumn: () =>
+    Interaction.where('#actor sets up columns with an X-Wing pattern', async (actor) => {
+      const ability = UseSudokuSolver.as(actor);
+      GridFixtures.setupXWingColumn(ability.getSolver());
+      ability.takeSnapshot();
+    }),
+
+  noXWing: () =>
+    Interaction.where('#actor sets up a grid with no X-Wing patterns', async (actor) => {
+      const ability = UseSudokuSolver.as(actor);
+      GridFixtures.setupNoXWing(ability.getSolver());
+      ability.takeSnapshot();
+    }),
+
+  // ---------------------------------------------------------------------------
   // Edge Case tests
   // ---------------------------------------------------------------------------
 
@@ -258,5 +283,6 @@ export const SetupGridState = {
       for (let d = 1; d <= GRID_SIZE; d++) ability.applyHiddenSingles(d);
       ability.applyNakedSingles();
       ability.applyNakedPairs();
+      ability.applyXWing();
     }),
 };

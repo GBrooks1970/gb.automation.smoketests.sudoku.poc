@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-08-20 — delivered SUD-33 (Naked Pairs implementation across TypeScript, Python, and C# Stacks, 52 scenarios / 291 steps per Stack, 156 total; 18 TS / 28 Py / 26 C# component tests); progressed BACKLOG-014 (SUD-34 X-Wing next). Prior: 2026-08-20 (progressed BACKLOG-014 / SUD-32: advanced solving techniques design, Naked Pairs / X-Wing algorithm specs, DR-041).
+**Last Updated:** 2026-08-20 — delivered SUD-34 (X-Wing implementation across TypeScript, Python, and C# Stacks, closing BACKLOG-014; 55 scenarios / 309 steps per Stack, 165 total; 20 TS / 30 Py / 28 C# component tests; 3-Stack parity PASS). Prior: 2026-08-20 (delivered SUD-33 Naked Pairs; SUD-32 advanced techniques design & DR-041).
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -26,17 +26,17 @@ Per v1.15 Section 10.1:
 | Status | Count |
 |--------|-------|
 | Open | 2 |
-| In Progress | 1 |
-| Resolved | 90 |
+| In Progress | 0 |
+| Resolved | 91 |
 | **Total** | **93** |
 
 | Area | Current state |
 |------|---------------|
-| Current execution baseline | DEMOAPP001: Node 24, 18 component tests plus 52 scenarios / 291 steps passing, REST API integration PASS, 4 OpenAPI contract tests passing; selected-module coverage 75.20% lines / 87.89% branches / 80.37% functions with 70% / 85% / 75% floors; focused mutation trial 10/10 killed. DEMOAPP002: Python 3.13, 80 tests (52 pytest-bdd + 28 component) passing; selected-module coverage 87.81% combined with an 85% floor. DEMOAPP003: .NET 10, 78 tests (52 Reqnroll + 26 component) passing; selected-type coverage 86.03% lines / 84.91% branches with 80% / 80% floors. 3-Stack parity PASS. |
+| Current execution baseline | DEMOAPP001: Node 24, 20 component tests plus 55 scenarios / 309 steps passing, REST API integration PASS, 4 OpenAPI contract tests passing; selected-module coverage 79.01% lines / 88.93% branches / 80.18% functions with 70% / 85% / 75% floors; focused mutation trial 10/10 killed. DEMOAPP002: Python 3.13, 85 tests (55 pytest-bdd + 30 component) passing; selected-module coverage 87.81% combined with an 85% floor. DEMOAPP003: .NET 10, 83 tests (55 Reqnroll + 28 component) passing; selected-type coverage 86.03% lines / 84.91% branches with 80% / 80% floors. 3-Stack parity PASS. |
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-014 / SUD-33 (Naked Pairs implementation across all three stacks) complete; SUD-34 (X-Wing) follows; parked future product work BACKLOG-015/016 remains Open |
+| Current sprint focus | BACKLOG-014 (Advanced Solving Techniques: Naked Pairs and X-Wing across all three stacks) Resolved; parked future product work BACKLOG-015/016 remains Open |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -1169,34 +1169,31 @@ Resolution:
 ### BACKLOG-014: Advanced Solving Techniques
 
 **Priority:** Future
-**Status:** In Progress (SUD-32 design & governance delivered; SUD-33/34 implementation follows)
-**Stack(s):** DEMOAPP001 and future Stacks (parity required)
-**Nature of Gap:** Solver capability — the solver implements only three deterministic techniques
-(Unit Completion, Hidden Singles, Naked Singles) and returns `STUCK_ON_ADVANCED_LOGIC` once they are
-exhausted. There is no support for the harder human-style strategies (Naked/Hidden Pairs, Pointing
-Pairs, X-Wing, Swordfish) and no backtracking/trial-and-error mode (see `CLAUDE.md` "Current
-Limitations").
+**Status:** Resolved (Delivered via SUD-32 design/DR-041, SUD-33 Naked Pairs, SUD-34 X-Wing; all 3 Stacks in parity)
+**Stack(s):** DEMOAPP001, DEMOAPP002, DEMOAPP003 (3-Stack parity complete)
+**Nature of Gap:** Solver capability — the solver implements deterministic basic techniques (Unit Completion, Hidden Singles, Naked Singles) plus advanced techniques (Naked Pairs, X-Wing) across all 3 Stacks, returning `STUCK_ON_ADVANCED_LOGIC` only when further advanced human logic or brute-force is required.
 
 Design reference: `DOCS/.design/advanced-solving-techniques.md` (authored in SUD-32, DR-041)
 Algorithm reference: `DOCS/.algorithm/naked-pairs.md` and `DOCS/.algorithm/x-wing.md` (authored in SUD-32, DR-041)
 
-This is the only one of the three future ideas that changes solver behaviour, so it is bound by the
-canonical-feature-first procedure (`CLAUDE.md`) and full three-stack parity. It is also a
-prerequisite for difficulty grading in BACKLOG-016 and for technique explanations in BACKLOG-015.
+Resolution details:
+- SUD-32: Authored design specification and algorithm references; created DR-041 establishing the deterministic 13-attempt solving sequence and audit attribution.
+- SUD-33: Implemented Naked Pairs across TypeScript, Python, and C# stacks; added 4 canonical BDD scenarios and component tests.
+- SUD-34: Implemented X-Wing across TypeScript, Python, and C# stacks; added 3 canonical BDD scenarios and component tests; updated baseline to 55 scenarios / 304 steps per Stack (165 total).
 
 Acceptance criteria:
 
 - [x] Design doc authored at `DOCS/.design/advanced-solving-techniques.md` listing the techniques in
       scope, their ordering relative to the existing three, and the deterministic (no-guessing) boundary
 - [x] An algorithm specification added under `DOCS/.algorithm/` for each new technique (`naked-pairs.md`, `x-wing.md`)
-- [ ] New `SudokuSolver` methods implement at least Naked Pairs and X-Wing (further techniques optional
+- [x] New `SudokuSolver` methods implement at least Naked Pairs and X-Wing (further techniques optional
       per the design doc), with no trial-and-error/backtracking unless explicitly decided in a DR
-- [ ] `SudokuOrchestrator.solve()` integrates the new techniques after the existing three; an
+- [x] `SudokuOrchestrator.solve()` integrates the new techniques after the existing three; an
       already-solved or simply-solvable grid is unaffected (preserves the SUD-01 early-exit guard)
-- [ ] Canonical Gherkin coverage added in `features-shared/` first, then propagated to all three Stack
+- [x] Canonical Gherkin coverage added in `features-shared/` first, then propagated to all three Stack
       copies; new step definitions / Screenplay components added per Stack
-- [ ] Algorithm attribution for each cell change recorded through the existing `AuditLogger`
-- [ ] `npm test`, `python -m pytest`, and `dotnet test` green; memory-key, feature, and step-text parity PASS
+- [x] Algorithm attribution for each cell change recorded through the existing `AuditLogger`
+- [x] `npm test`, `python -m pytest`, and `dotnet test` green; memory-key, feature, and step-text parity PASS
 - [x] A decision-register entry recorded if any structural choice (e.g. enabling backtracking, a new
       result string) is made before the item is closed (DR-041)
 
@@ -1397,6 +1394,7 @@ Acceptance criteria (for the implementation, not this planning item):
 | BACKLOG-069 | Symmetric structured CI evidence (SUD-30) | All | 2026-07-28 | Native test and coverage evidence retained for all Stacks under aligned fail-closed uploads; 11/11 required-file negative controls pass; no DR required. |
 | BACKLOG-070 | Supported-runtime dependency audits and bounded exceptions (SUD-31) | All | 2026-07-28 | Node 24 npm, Python 3.13 `pip-audit` and .NET 10 NuGet audits block under DR-039; common retained summaries, 13 policy controls and 17/17 evidence omissions pass; current findings zero. |
 | BACKLOG-071 | Static browser-only visualisation evidence on Pages (LAND-09D, DR-040) | DEMOAPP001 | 2026-08-04 | Viability gate passed; static viewer reuses `grid.js`/`player.js` verbatim over precomputed payloads (`build:pages`/`check:pages`, `pages.yml`); live at <https://gbrooks1970.github.io/gb.automation.smoketests.sudoku.poc/> (PRs #52 `619016f` + #53 `4e504b3`, Pages run 30926946232) and linked from the portfolio landing page. A dev/test-tooling audit advisory that surfaced during CI (brace-expansion override `5.0.8`→`^5.0.9`, fast-uri `3.1.5`) was cleared under DR-039; `npm audit` = 0, 48/48 scenarios pass. |
+| BACKLOG-014 | Advanced Solving Techniques (SUD-32..34) | All | 2026-08-20 | Designed, governed (DR-041), and implemented Naked Pairs and X-Wing techniques across all 3 Stacks; canonical feature updated to 55 scenarios / 309 steps (165 scenarios across 3 Stacks); 20 TS / 30 Py / 28 C# component tests; audit attribution & parity gates PASS. |
 
 ---
 

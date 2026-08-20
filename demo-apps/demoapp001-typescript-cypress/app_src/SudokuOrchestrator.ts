@@ -89,6 +89,11 @@ export class SudokuOrchestrator {
         changedThisPass = true;
       }
 
+      // Step 5: X-Wing (advanced 2D fish elimination across rows and columns)
+      if (this.runAttempt(iteration, 'XWing', () => this.solver.xWing())) {
+        changedThisPass = true;
+      }
+
       // Exit loop if no technique made any progress (puzzle stuck or complete)
       isProgressing = changedThisPass;
     }
