@@ -12,7 +12,7 @@ When documents conflict, use this order:
 4. Stack-level docs under `demo-apps/demoapp001-typescript-cypress/docs/`
 5. This guide
 
-`decision-register.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-040 (excluding superseded/deprecated entries).
+`decision-register.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-041 (excluding superseded/deprecated entries).
 
 ## Current Architecture Baseline
 
