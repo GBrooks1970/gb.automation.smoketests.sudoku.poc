@@ -304,6 +304,53 @@ public static class GridFixtures
         }
     }
 
+    public static void SetupXWingRow(SudokuSolver solver)
+    {
+        var digits = new[] { 1, 2, 3, 4, 5, 6, 8 };
+        var cols = new[] { 0, 2, 3, 4, 6, 7, 8 };
+        for (var i = 0; i < digits.Length; i++)
+        {
+            solver.Grid[1][cols[i]] = digits[i];
+            solver.Grid[4][cols[i]] = digits[i];
+        }
+        var r7Digits = new[] { 1, 2, 4, 5, 6, 8 };
+        var r7Cols = new[] { 0, 2, 3, 4, 5, 6 };
+        for (var i = 0; i < r7Digits.Length; i++)
+        {
+            solver.Grid[7][r7Cols[i]] = r7Digits[i];
+        }
+        solver.Grid[8][1] = 9;
+    }
+
+    public static void SetupXWingColumn(SudokuSolver solver)
+    {
+        var digits = new[] { 1, 2, 3, 4, 5, 6, 8 };
+        var rows = new[] { 0, 2, 3, 5, 6, 7, 8 };
+        for (var i = 0; i < digits.Length; i++)
+        {
+            solver.Grid[rows[i]][1] = digits[i];
+            solver.Grid[rows[i]][5] = digits[i];
+        }
+        var c7Digits = new[] { 1, 2, 4, 5, 6, 8 };
+        var c7Rows = new[] { 0, 2, 3, 4, 5, 6 };
+        for (var i = 0; i < c7Digits.Length; i++)
+        {
+            solver.Grid[c7Rows[i]][7] = c7Digits[i];
+        }
+        solver.Grid[1][8] = 9;
+    }
+
+    public static void SetupNoXWing(SudokuSolver solver)
+    {
+        for (var r = 0; r < Constants.GridSize; r++)
+        {
+            for (var c = 0; c < Constants.GridSize; c++)
+            {
+                solver.Grid[r][c] = Constants.EmptyCell;
+            }
+        }
+    }
+
     private static int[] DigitsExcept(int missingDigit) =>
         Enumerable.Range(1, Constants.GridSize).Where(digit => digit != missingDigit).ToArray();
 

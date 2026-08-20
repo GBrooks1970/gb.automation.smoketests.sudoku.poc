@@ -64,6 +64,33 @@ test('Naked Pairs returns false when no naked pairs exist', () => {
   assert.equal(solver.nakedPairs(), false);
 });
 
+test('X-Wing eliminates candidates in columns to place a single', () => {
+  const grid = emptyGrid();
+  const digits = [1, 2, 3, 4, 5, 6, 8];
+  const cols = [0, 2, 3, 4, 6, 7, 8];
+  for (let i = 0; i < digits.length; i++) {
+    grid[1][cols[i]] = digits[i];
+    grid[4][cols[i]] = digits[i];
+  }
+  const r7Digits = [1, 2, 4, 5, 6, 8];
+  const r7Cols = [0, 2, 3, 4, 5, 6];
+  for (let i = 0; i < r7Digits.length; i++) {
+    grid[7][r7Cols[i]] = r7Digits[i];
+  }
+  grid[8][1] = 9;
+
+  const solver = new SudokuSolver('x-wing row', grid);
+  assert.equal(solver.xWing(), true);
+  assert.equal(solver.getGrid()[7][1], 3);
+});
+
+test('X-Wing returns false when no X-Wing patterns exist', () => {
+  const grid = emptyGrid();
+  const solver = new SudokuSolver('no x-wing', grid);
+
+  assert.equal(solver.xWing(), false);
+});
+
 function emptyGrid(): number[][] {
   return Array.from({ length: 9 }, () => Array(9).fill(0));
 }

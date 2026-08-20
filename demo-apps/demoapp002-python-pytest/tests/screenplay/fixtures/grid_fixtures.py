@@ -232,6 +232,38 @@ def setup_no_naked_pairs(solver: SudokuSolver) -> None:
             solver.grid[r][c] = EMPTY_CELL
 
 
+def setup_x_wing_row(solver: SudokuSolver) -> None:
+    digits = [1, 2, 3, 4, 5, 6, 8]
+    cols = [0, 2, 3, 4, 6, 7, 8]
+    for i in range(len(digits)):
+        solver.grid[1][cols[i]] = digits[i]
+        solver.grid[4][cols[i]] = digits[i]
+    r7_digits = [1, 2, 4, 5, 6, 8]
+    r7_cols = [0, 2, 3, 4, 5, 6]
+    for i in range(len(r7_digits)):
+        solver.grid[7][r7_cols[i]] = r7_digits[i]
+    solver.grid[8][1] = 9
+
+
+def setup_x_wing_column(solver: SudokuSolver) -> None:
+    digits = [1, 2, 3, 4, 5, 6, 8]
+    rows = [0, 2, 3, 5, 6, 7, 8]
+    for i in range(len(digits)):
+        solver.grid[rows[i]][1] = digits[i]
+        solver.grid[rows[i]][5] = digits[i]
+    c7_digits = [1, 2, 4, 5, 6, 8]
+    c7_rows = [0, 2, 3, 4, 5, 6]
+    for i in range(len(c7_digits)):
+        solver.grid[c7_rows[i]][7] = c7_digits[i]
+    solver.grid[1][8] = 9
+
+
+def setup_no_x_wing(solver: SudokuSolver) -> None:
+    for r in range(GRID_SIZE):
+        for c in range(GRID_SIZE):
+            solver.grid[r][c] = EMPTY_CELL
+
+
 def _blocking_row(col: int, candidate_row: int, candidate_col: int, used_rows: set[int]) -> int:
     candidate_block_row = candidate_row // BLOCK_SIZE
     candidate_block_col = candidate_col // BLOCK_SIZE

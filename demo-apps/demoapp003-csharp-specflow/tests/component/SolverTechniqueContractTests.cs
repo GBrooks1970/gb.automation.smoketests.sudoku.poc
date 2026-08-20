@@ -78,6 +78,39 @@ public sealed class SolverTechniqueContractTests
         Assert.That(solver.NakedPairs(), Is.False);
     }
 
+    [Test]
+    public void XWingEliminatesCandidatesInColumnsToPlaceASingle()
+    {
+        var grid = EmptyGrid();
+        var digits = new[] { 1, 2, 3, 4, 5, 6, 8 };
+        var cols = new[] { 0, 2, 3, 4, 6, 7, 8 };
+        for (var i = 0; i < digits.Length; i++)
+        {
+            grid[1][cols[i]] = digits[i];
+            grid[4][cols[i]] = digits[i];
+        }
+        var r7Digits = new[] { 1, 2, 4, 5, 6, 8 };
+        var r7Cols = new[] { 0, 2, 3, 4, 5, 6 };
+        for (var i = 0; i < r7Digits.Length; i++)
+        {
+            grid[7][r7Cols[i]] = r7Digits[i];
+        }
+        grid[8][1] = 9;
+
+        var solver = new SudokuSolver("x-wing row", grid);
+        Assert.That(solver.XWing(), Is.True);
+        Assert.That(solver.GetGrid()[7][1], Is.EqualTo(3));
+    }
+
+    [Test]
+    public void XWingReturnsFalseWhenNoXWingPatternsExist()
+    {
+        var grid = EmptyGrid();
+        var solver = new SudokuSolver("no x-wing", grid);
+
+        Assert.That(solver.XWing(), Is.False);
+    }
+
     private static int[][] EmptyGrid() =>
         Enumerable.Range(0, Constants.GridSize)
             .Select(_ => new int[Constants.GridSize])

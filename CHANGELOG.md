@@ -9,6 +9,19 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Added
+- BACKLOG-014 (SUD-34, Future product capability): implemented row- and column-oriented X-Wing
+  technique across TypeScript (DEMOAPP001), Python (DEMOAPP002), and C# (DEMOAPP003) Stacks; added
+  3 canonical BDD scenarios and no-progress assertion (55 scenarios / 309 steps per Stack, 165 total);
+  added focused component and orchestration contract tests (20 TS, 30 Py, 28 C#); updated documentation
+  and currency guards; closed BACKLOG-014 as Resolved.
+- BACKLOG-014 (SUD-33, Future product capability): implemented row, column, and block Naked Pairs
+  technique across TypeScript (DEMOAPP001), Python (DEMOAPP002), and C# (DEMOAPP003) Stacks; added
+  4 canonical BDD scenarios and no-progress assertion (52 scenarios / 291 steps per Stack, 156 total);
+  added focused component tests (18 TS, 28 Py, 26 C#); updated attempt and audit trail logging.
+- BACKLOG-014 (SUD-32, Future product capability): authored advanced solving techniques design
+  specification (`DOCS/.design/advanced-solving-techniques.md`) and algorithm references for Naked
+  Pairs (`DOCS/.algorithm/naked-pairs.md`) and X-Wing (`DOCS/.algorithm/x-wing.md`); established DR-041
+  governing the deterministic 13-attempt solving sequence and audit attribution.
 - BACKLOG-070 (SUD-31, review `CODE_REVIEW_CODEX_v1_20260723T2351Z` Risk 5 / Plan E,
   LOW): added blocking supported-runtime npm, `pip-audit` and NuGet checks with common retained
   summaries. DR-039 governs a high/critical plus unknown-severity threshold and exact, reviewable,

@@ -76,13 +76,17 @@ export class AuditLogger {
       } else if (event.algorithm === 'NakedPairs') {
         stats.changesByAlgorithm.nakedPairs = (stats.changesByAlgorithm.nakedPairs ?? 0) + changes;
         stats.iterationsByAlgorithm.nakedPairs = (stats.iterationsByAlgorithm.nakedPairs ?? 0) + 1;
+      } else if (event.algorithm === 'XWing') {
+        stats.changesByAlgorithm.xWing = (stats.changesByAlgorithm.xWing ?? 0) + changes;
+        stats.iterationsByAlgorithm.xWing = (stats.iterationsByAlgorithm.xWing ?? 0) + 1;
       }
     }
     const total =
       stats.changesByAlgorithm.unitCompletion +
       stats.changesByAlgorithm.hiddenSingles +
       stats.changesByAlgorithm.nakedSingles +
-      (stats.changesByAlgorithm.nakedPairs ?? 0);
+      (stats.changesByAlgorithm.nakedPairs ?? 0) +
+      (stats.changesByAlgorithm.xWing ?? 0);
     stats.averageChangesPerIteration =
       this.currentIteration > 0 ? total / this.currentIteration : 0;
     return stats;

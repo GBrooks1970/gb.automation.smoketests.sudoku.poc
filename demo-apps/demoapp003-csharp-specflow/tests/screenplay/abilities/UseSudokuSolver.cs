@@ -40,6 +40,8 @@ public sealed class UseSudokuSolver : IAbility
 
     public void ApplyNakedPairs() => AlgorithmMadeProgress = _solver.NakedPairs();
 
+    public void ApplyXWing() => AlgorithmMadeProgress = _solver.XWing();
+
     public void SolvePuzzle()
     {
         var events = new List<AttemptEvent>();

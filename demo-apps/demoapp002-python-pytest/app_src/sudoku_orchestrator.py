@@ -59,6 +59,9 @@ class SudokuOrchestrator:
             if self._run_attempt(iteration, "NakedPairs", self._solver.naked_pairs):
                 changed_this_pass = True
 
+            if self._run_attempt(iteration, "XWing", self._solver.x_wing):
+                changed_this_pass = True
+
             is_progressing = changed_this_pass
 
         return "SOLVED" if self.is_grid_full() else "STUCK_ON_ADVANCED_LOGIC"

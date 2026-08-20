@@ -74,6 +74,10 @@ export class UseSudokuSolver extends Ability {
     this.lastAlgorithmChanged = this.getSolver().nakedPairs();
   }
 
+  applyXWing(): void {
+    this.lastAlgorithmChanged = this.getSolver().xWing();
+  }
+
   solvePuzzle(): void {
     const events: AttemptEvent[] = [];
     const orchestrator = new SudokuOrchestrator(this.getSolver(), undefined, (event) =>

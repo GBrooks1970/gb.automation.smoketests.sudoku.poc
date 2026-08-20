@@ -78,6 +78,10 @@ public sealed class BasicSudokuSolverLogicSteps
         {
             _actor.AttemptsTo(ApplyAlgorithm.NakedPairs());
         }
+        else if (algorithm == "X-Wing")
+        {
+            _actor.AttemptsTo(ApplyAlgorithm.XWing());
+        }
         else
         {
             Assert.Fail($"Unsupported algorithm: {algorithm}");
@@ -378,8 +382,8 @@ public sealed class BasicSudokuSolverLogicSteps
         foreach (var iteration in IterationNumbers(events))
         {
             var iterEvents = EventsInIteration(events, iteration);
-            Assert.That(iterEvents, Has.Count.EqualTo(12),
-                $"Iteration {iteration}: expected exactly 12 attempt events");
+            Assert.That(iterEvents, Has.Count.EqualTo(13),
+                $"Iteration {iteration}: expected exactly 13 attempt events");
             foreach (var attempt in iterEvents)
             {
                 Assert.That(attempt.Sequence, Is.EqualTo(expectedSequence),
@@ -758,6 +762,13 @@ public sealed class BasicSudokuSolverLogicSteps
         Assert.That(_actor.Answer(AlgorithmMadeProgress.AfterLastCall()), Is.False);
     }
 
+    [Then(@"""X-Wing"" should return false")]
+    public void XWingFalse()
+    {
+        _actor.AttemptsTo(CheckAlgorithmProgress.XWingOnSnapshot());
+        Assert.That(_actor.Answer(AlgorithmMadeProgress.AfterLastCall()), Is.False);
+    }
+
     [Given(@"row (\d+) contains exactly two cells sharing candidate pair ""([^""]*)""")]
     public void RowContainsNakedPair(int row, string candidates) =>
         _actor.AttemptsTo(SetupGridState.NakedPairRow());
@@ -788,6 +799,23 @@ public sealed class BasicSudokuSolverLogicSteps
     [Given(@"a grid state where no unit contains a naked pair")]
     public void GridStateNoNakedPairs() =>
         _actor.AttemptsTo(SetupGridState.NoNakedPairs());
+
+    [Given(@"rows (\d+) and (\d+) have candidate (\d+) only in columns (\d+) and (\d+)")]
+    public void RowsHaveXWing(int r1, int r2, int digit, int c1, int c2) =>
+        _actor.AttemptsTo(SetupGridState.XWingRow());
+
+    [Given(@"columns (\d+) and (\d+) have candidate (\d+) only in rows (\d+) and (\d+)")]
+    public void ColsHaveXWing(int c1, int c2, int digit, int r1, int r2) =>
+        _actor.AttemptsTo(SetupGridState.XWingColumn());
+
+    [Given(@"another cell at row (\d+), column (\d+) has candidates ""([^""]*)""")]
+    public void AnotherCellAtRowColCandidates(int row, int col, string candidates)
+    {
+    }
+
+    [Given(@"a grid state where no X-Wing pattern exists")]
+    public void GridStateNoXWing() =>
+        _actor.AttemptsTo(SetupGridState.NoXWing());
 
     [Then(@"the cell in row (\d+) with candidates ""([^""]*)"" should be updated to (\d+)")]
     public void CellInRowUpdatedTo(int row, string candidates, int val) =>
@@ -854,7 +882,7 @@ public sealed class BasicSudokuSolverLogicSteps
         var trail = _actor.Answer(AuditTrailQuestion.Current());
         Assert.That(trail, Is.Not.Null);
         var stats = trail!.Statistics;
-        Assert.That(stats.UnitCompletion + stats.HiddenSingles + stats.NakedSingles + stats.NakedPairs, Is.EqualTo(trail.TotalChanges));
+        Assert.That(stats.UnitCompletion + stats.HiddenSingles + stats.NakedSingles + stats.NakedPairs + stats.XWing, Is.EqualTo(trail.TotalChanges));
     }
 
     [Then(@"no audit trail should be present")]

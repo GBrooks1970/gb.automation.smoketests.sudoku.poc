@@ -250,6 +250,118 @@ class SudokuSolver:
     def apply_naked_pairs(self) -> bool:
         return self.naked_pairs()
 
+    def x_wing(self) -> bool:
+        """X-Wing Algorithm.
+
+        Eliminates candidate digit d from parallel lines using a 2x2 rectangular intersection pattern.
+        """
+        changed = False
+        changes: list[dict[str, Any]] = []
+
+        cell_candidates: dict[tuple[int, int], set[int]] = {}
+        for r in range(GRID_SIZE):
+            for c in range(GRID_SIZE):
+                if self.grid[r][c] == EMPTY_CELL:
+                    cell_candidates[(r, c)] = self._get_cell_candidates(r, c)
+
+        def eliminate_and_place(r: int, c: int, digit: int, pattern_desc: str) -> None:
+            nonlocal changed
+            cands = cell_candidates.get((r, c))
+            if not cands or digit not in cands:
+                return
+
+            cands.remove(digit)
+            if len(cands) == 1 and self.grid[r][c] == EMPTY_CELL:
+                val = next(iter(cands))
+                changes.append({
+                    "cell": {"row": r, "col": c},
+                    "oldValue": EMPTY_CELL,
+                    "newValue": val,
+                    "reason": f"X-Wing {pattern_desc} eliminated {digit}, leaving {val}",
+                })
+                self.grid[r][c] = val
+                changed = True
+
+        for digit in range(1, GRID_SIZE + 1):
+            # 1. Row-based X-Wing
+            row_candidates: dict[int, list[int]] = {}
+            for r in range(GRID_SIZE):
+                cols = [
+                    c
+                    for c in range(GRID_SIZE)
+                    if self.grid[r][c] == EMPTY_CELL and digit in cell_candidates.get((r, c), set())
+                ]
+                if len(cols) == 2:
+                    row_candidates[r] = cols
+
+            row_keys = list(row_candidates.keys())
+            for i in range(len(row_keys)):
+                r1 = row_keys[i]
+                c1a, c2a = row_candidates[r1]
+                for j in range(i + 1, len(row_keys)):
+                    r2 = row_keys[j]
+                    c1b, c2b = row_candidates[r2]
+                    if c1a == c1b and c2a == c2b:
+                        c1, c2 = c1a, c2a
+                        for r in range(GRID_SIZE):
+                            if r != r1 and r != r2 and self.grid[r][c1] == EMPTY_CELL:
+                                eliminate_and_place(
+                                    r,
+                                    c1,
+                                    digit,
+                                    f"for digit {digit} in rows {r1},{r2} columns {c1},{c2}",
+                                )
+                            if r != r1 and r != r2 and self.grid[r][c2] == EMPTY_CELL:
+                                eliminate_and_place(
+                                    r,
+                                    c2,
+                                    digit,
+                                    f"for digit {digit} in rows {r1},{r2} columns {c1},{c2}",
+                                )
+
+            # 2. Column-based X-Wing
+            col_candidates: dict[int, list[int]] = {}
+            for c in range(GRID_SIZE):
+                rows = [
+                    r
+                    for r in range(GRID_SIZE)
+                    if self.grid[r][c] == EMPTY_CELL and digit in cell_candidates.get((r, c), set())
+                ]
+                if len(rows) == 2:
+                    col_candidates[c] = rows
+
+            col_keys = list(col_candidates.keys())
+            for i in range(len(col_keys)):
+                c1 = col_keys[i]
+                r1a, r2a = col_candidates[c1]
+                for j in range(i + 1, len(col_keys)):
+                    c2 = col_keys[j]
+                    r1b, r2b = col_candidates[c2]
+                    if r1a == r1b and r2a == r2b:
+                        r1, r2 = r1a, r2a
+                        for c in range(GRID_SIZE):
+                            if c != c1 and c != c2 and self.grid[r1][c] == EMPTY_CELL:
+                                eliminate_and_place(
+                                    r1,
+                                    c,
+                                    digit,
+                                    f"for digit {digit} in columns {c1},{c2} rows {r1},{r2}",
+                                )
+                            if c != c1 and c != c2 and self.grid[r2][c] == EMPTY_CELL:
+                                eliminate_and_place(
+                                    r2,
+                                    c,
+                                    digit,
+                                    f"for digit {digit} in columns {c1},{c2} rows {r1},{r2}",
+                                )
+
+        if self._audit_logger and self._audit_logger.is_enabled() and changes:
+            self._audit_logger.log_change("XWing", changes)
+        return changed
+
+    def apply_x_wing(self) -> bool:
+        return self.x_wing()
+
     def is_valid_placement(self, row: int, col: int, value: int) -> bool:
         for c in range(GRID_SIZE):
             if c != col and self.grid[row][c] == value:

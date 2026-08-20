@@ -337,6 +337,153 @@ public sealed class SudokuSolver
 
     public bool ApplyNakedPairs() => NakedPairs();
 
+    public bool XWing()
+    {
+        var changed = false;
+        var changes = new List<CellChange>();
+
+        var cellCandidates = new Dictionary<(int Row, int Col), HashSet<int>>();
+        for (var r = 0; r < Constants.GridSize; r++)
+        {
+            for (var c = 0; c < Constants.GridSize; c++)
+            {
+                if (Grid[r][c] == Constants.EmptyCell)
+                {
+                    cellCandidates[(r, c)] = GetCellCandidates(r, c);
+                }
+            }
+        }
+
+        void EliminateAndPlace(int r, int c, int digit, string patternDesc)
+        {
+            if (!cellCandidates.TryGetValue((r, c), out var cands) || !cands.Contains(digit))
+            {
+                return;
+            }
+
+            cands.Remove(digit);
+            if (cands.Count == 1 && Grid[r][c] == Constants.EmptyCell)
+            {
+                var val = cands.Single();
+                changes.Add(new CellChange(
+                    new CellPosition(r, c),
+                    Constants.EmptyCell,
+                    val,
+                    $"X-Wing {patternDesc} eliminated {digit}, leaving {val}"));
+                Grid[r][c] = val;
+                changed = true;
+            }
+        }
+
+        for (var digit = 1; digit <= Constants.GridSize; digit++)
+        {
+            // 1. Row-based X-Wing
+            var rowCandidates = new Dictionary<int, List<int>>();
+            for (var r = 0; r < Constants.GridSize; r++)
+            {
+                var cols = new List<int>();
+                for (var c = 0; c < Constants.GridSize; c++)
+                {
+                    if (Grid[r][c] == Constants.EmptyCell && cellCandidates.TryGetValue((r, c), out var cands) && cands.Contains(digit))
+                    {
+                        cols.Add(c);
+                    }
+                }
+                if (cols.Count == 2)
+                {
+                    rowCandidates[r] = cols;
+                }
+            }
+
+            var rowKeys = rowCandidates.Keys.ToList();
+            for (var i = 0; i < rowKeys.Count; i++)
+            {
+                var r1 = rowKeys[i];
+                var c1a = rowCandidates[r1][0];
+                var c2a = rowCandidates[r1][1];
+                for (var j = i + 1; j < rowKeys.Count; j++)
+                {
+                    var r2 = rowKeys[j];
+                    var c1b = rowCandidates[r2][0];
+                    var c2b = rowCandidates[r2][1];
+                    if (c1a == c1b && c2a == c2b)
+                    {
+                        var c1 = c1a;
+                        var c2 = c2a;
+                        for (var r = 0; r < Constants.GridSize; r++)
+                        {
+                            if (r != r1 && r != r2 && Grid[r][c1] == Constants.EmptyCell)
+                            {
+                                EliminateAndPlace(r, c1, digit, $"for digit {digit} in rows {r1},{r2} columns {c1},{c2}");
+                            }
+                            if (r != r1 && r != r2 && Grid[r][c2] == Constants.EmptyCell)
+                            {
+                                EliminateAndPlace(r, c2, digit, $"for digit {digit} in rows {r1},{r2} columns {c1},{c2}");
+                            }
+                        }
+                    }
+                }
+            }
+
+            // 2. Column-based X-Wing
+            var colCandidates = new Dictionary<int, List<int>>();
+            for (var c = 0; c < Constants.GridSize; c++)
+            {
+                var rows = new List<int>();
+                for (var r = 0; r < Constants.GridSize; r++)
+                {
+                    if (Grid[r][c] == Constants.EmptyCell && cellCandidates.TryGetValue((r, c), out var cands) && cands.Contains(digit))
+                    {
+                        rows.Add(r);
+                    }
+                }
+                if (rows.Count == 2)
+                {
+                    colCandidates[c] = rows;
+                }
+            }
+
+            var colKeys = colCandidates.Keys.ToList();
+            for (var i = 0; i < colKeys.Count; i++)
+            {
+                var c1 = colKeys[i];
+                var r1a = colCandidates[c1][0];
+                var r2a = colCandidates[c1][1];
+                for (var j = i + 1; j < colKeys.Count; j++)
+                {
+                    var c2 = colKeys[j];
+                    var r1b = colCandidates[c2][0];
+                    var r2b = colCandidates[c2][1];
+                    if (r1a == r1b && r2a == r2b)
+                    {
+                        var r1 = r1a;
+                        var r2 = r2a;
+                        for (var c = 0; c < Constants.GridSize; c++)
+                        {
+                            if (c != c1 && c != c2 && Grid[r1][c] == Constants.EmptyCell)
+                            {
+                                EliminateAndPlace(r1, c, digit, $"for digit {digit} in columns {c1},{c2} rows {r1},{r2}");
+                            }
+                            if (c != c1 && c != c2 && Grid[r2][c] == Constants.EmptyCell)
+                            {
+                                EliminateAndPlace(r2, c, digit, $"for digit {digit} in columns {c1},{c2} rows {r1},{r2}");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (_auditLogger?.IsEnabled() == true && changes.Count > 0)
+        {
+            _auditLogger.LogChange("XWing", changes);
+        }
+
+        return changed;
+    }
+
+    public bool ApplyXWing() => XWing();
+
     public bool IsValidPlacement(int row, int col, int value)
     {
         for (var c = 0; c < Constants.GridSize; c++)

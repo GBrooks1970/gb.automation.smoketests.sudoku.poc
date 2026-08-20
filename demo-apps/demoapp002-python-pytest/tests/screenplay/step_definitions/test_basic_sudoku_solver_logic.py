@@ -102,6 +102,8 @@ def algorithm_is_executed(actor: Actor, algorithm: str) -> None:
         actor.attempts_to(ApplyAlgorithm.naked_singles())
     elif algorithm == "Naked Pairs":
         actor.attempts_to(ApplyAlgorithm.naked_pairs())
+    elif algorithm == "X-Wing":
+        actor.attempts_to(ApplyAlgorithm.x_wing())
     else:
         raise AssertionError(f"Unsupported algorithm: {algorithm}")
 
@@ -434,8 +436,8 @@ def execution_order_maintained(actor: Actor) -> None:
     expected_sequence = 1
     for iteration in _iteration_numbers(events):
         iter_events = _events_in_iteration(events, iteration)
-        assert len(iter_events) == 12, (
-            f"Iteration {iteration}: expected exactly 12 attempt events"
+        assert len(iter_events) == 13, (
+            f"Iteration {iteration}: expected exactly 13 attempt events"
         )
         for event in iter_events:
             assert event.sequence == expected_sequence, (
@@ -835,6 +837,12 @@ def naked_pairs_false(actor: Actor) -> None:
     assert actor.answer(AlgorithmMadeProgress.after_last_call()) is False
 
 
+@then('"X-Wing" should return false')
+def x_wing_false(actor: Actor) -> None:
+    actor.attempts_to(CheckAlgorithmProgress.x_wing_on_snapshot())
+    assert actor.answer(AlgorithmMadeProgress.after_last_call()) is False
+
+
 @given(parsers.parse('row {row:d} contains exactly two cells sharing candidate pair "{candidates}"'))
 def row_contains_naked_pair(actor: Actor, row: int, candidates: str) -> None:
     actor.attempts_to(SetupGridState.naked_pair_row())
@@ -868,6 +876,26 @@ def another_cell_in_block_candidates(actor: Actor, candidates: str) -> None:
 @given("a grid state where no unit contains a naked pair")
 def grid_state_no_naked_pairs(actor: Actor) -> None:
     actor.attempts_to(SetupGridState.no_naked_pairs())
+
+
+@given(parsers.parse("rows {r1:d} and {r2:d} have candidate {digit:d} only in columns {c1:d} and {c2:d}"))
+def rows_have_x_wing(actor: Actor, r1: int, r2: int, digit: int, c1: int, c2: int) -> None:
+    actor.attempts_to(SetupGridState.x_wing_row())
+
+
+@given(parsers.parse("columns {c1:d} and {c2:d} have candidate {digit:d} only in rows {r1:d} and {r2:d}"))
+def cols_have_x_wing(actor: Actor, c1: int, c2: int, digit: int, r1: int, r2: int) -> None:
+    actor.attempts_to(SetupGridState.x_wing_column())
+
+
+@given(parsers.parse('another cell at row {row:d}, column {col:d} has candidates "{candidates}"'))
+def another_cell_at_row_col_candidates(actor: Actor, row: int, col: int, candidates: str) -> None:
+    pass
+
+
+@given("a grid state where no X-Wing pattern exists")
+def grid_state_no_x_wing(actor: Actor) -> None:
+    actor.attempts_to(SetupGridState.no_x_wing())
 
 
 @then(parsers.parse('the cell in row {row:d} with candidates "{candidates}" should be updated to {val:d}'))

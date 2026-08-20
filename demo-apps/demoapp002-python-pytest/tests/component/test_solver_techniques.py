@@ -62,5 +62,30 @@ def test_naked_pairs_returns_false_when_no_naked_pairs_exist() -> None:
     assert not solver.naked_pairs()
 
 
+def test_x_wing_eliminates_candidates_in_columns_to_place_a_single() -> None:
+    grid = empty_grid()
+    digits = [1, 2, 3, 4, 5, 6, 8]
+    cols = [0, 2, 3, 4, 6, 7, 8]
+    for i in range(len(digits)):
+        grid[1][cols[i]] = digits[i]
+        grid[4][cols[i]] = digits[i]
+    r7_digits = [1, 2, 4, 5, 6, 8]
+    r7_cols = [0, 2, 3, 4, 5, 6]
+    for i in range(len(r7_digits)):
+        grid[7][r7_cols[i]] = r7_digits[i]
+    grid[8][1] = 9
+
+    solver = SudokuSolver("x-wing row", grid)
+    assert solver.x_wing()
+    assert solver.get_grid()[7][1] == 3
+
+
+def test_x_wing_returns_false_when_no_x_wing_patterns_exist() -> None:
+    grid = empty_grid()
+    solver = SudokuSolver("no x-wing", grid)
+
+    assert not solver.x_wing()
+
+
 def empty_grid() -> list[list[int]]:
     return [[0 for _ in range(9)] for _ in range(9)]

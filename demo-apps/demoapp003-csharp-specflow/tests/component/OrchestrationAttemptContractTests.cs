@@ -36,8 +36,8 @@ public sealed class OrchestrationAttemptContractTests
 
         Assert.That(result, Is.EqualTo("STUCK_ON_ADVANCED_LOGIC"));
         Assert.That(events.Select(e => (e.Technique, e.Parameter)), Is.EqualTo(ExpectedIteration()));
-        Assert.That(events.Select(e => e.Iteration), Is.EqualTo(Enumerable.Repeat(1, 12)));
-        Assert.That(events.Select(e => e.Sequence), Is.EqualTo(Enumerable.Range(1, 12)));
+        Assert.That(events.Select(e => e.Iteration), Is.EqualTo(Enumerable.Repeat(1, 13)));
+        Assert.That(events.Select(e => e.Sequence), Is.EqualTo(Enumerable.Range(1, 13)));
         Assert.That(events, Has.All.Matches<AttemptEvent>(e => !e.Changed && e.Changes.Count == 0));
     }
 
@@ -84,5 +84,6 @@ public sealed class OrchestrationAttemptContractTests
         .. Enumerable.Range(1, 9).Select(digit => ("HiddenSingles", (int?)digit)),
         ("NakedSingles", null),
         ("NakedPairs", null),
+        ("XWing", null),
     ];
 }

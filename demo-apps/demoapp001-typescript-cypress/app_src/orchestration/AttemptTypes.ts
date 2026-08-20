@@ -1,4 +1,5 @@
-export type AttemptTechnique = 'UnitCompletion' | 'HiddenSingles' | 'NakedSingles' | 'NakedPairs';
+export type AttemptTechnique =
+  'UnitCompletion' | 'HiddenSingles' | 'NakedSingles' | 'NakedPairs' | 'XWing';
 
 export type AttemptUnit = 'row' | 'column' | 'box';
 

@@ -108,6 +108,15 @@ class ApplyAlgorithm:
 
         return Task(action)
 
+    @staticmethod
+    def x_wing() -> Task:
+        def action(actor: Actor) -> None:
+            ability = actor.ability_to(UseSudokuSolver)
+            ability.apply_x_wing()
+            actor.remember(ALGORITHM_PROGRESS, ability.algorithm_made_progress)
+
+        return Task(action)
+
 
 class SetupGridState:
     @staticmethod
@@ -349,6 +358,36 @@ class SetupGridState:
         return Task(action)
 
     @staticmethod
+    def x_wing_row() -> Task:
+        def action(actor: Actor) -> None:
+            ability = actor.ability_to(UseSudokuSolver)
+            ability.initialise("test")
+            grid_fixtures.setup_x_wing_row(ability.get_solver())
+            ability.take_snapshot()
+
+        return Task(action)
+
+    @staticmethod
+    def x_wing_column() -> Task:
+        def action(actor: Actor) -> None:
+            ability = actor.ability_to(UseSudokuSolver)
+            ability.initialise("test")
+            grid_fixtures.setup_x_wing_column(ability.get_solver())
+            ability.take_snapshot()
+
+        return Task(action)
+
+    @staticmethod
+    def no_x_wing() -> Task:
+        def action(actor: Actor) -> None:
+            ability = actor.ability_to(UseSudokuSolver)
+            ability.initialise("test")
+            grid_fixtures.setup_no_x_wing(ability.get_solver())
+            ability.take_snapshot()
+
+        return Task(action)
+
+    @staticmethod
     def run_all_algorithms_individually() -> Task:
         def action(actor: Actor) -> None:
             ability = actor.ability_to(UseSudokuSolver)
@@ -358,6 +397,7 @@ class SetupGridState:
                 ability.apply_hidden_singles(digit)
             ability.apply_naked_singles()
             ability.apply_naked_pairs()
+            ability.apply_x_wing()
 
         return Task(action)
 
@@ -528,6 +568,16 @@ class CheckAlgorithmProgress:
             ability = actor.ability_to(UseSudokuSolver)
             ability.reinitialise_from_snapshot()
             ability.apply_naked_pairs()
+            actor.remember(ALGORITHM_PROGRESS, ability.algorithm_made_progress)
+
+        return Task(action)
+
+    @staticmethod
+    def x_wing_on_snapshot() -> Task:
+        def action(actor: Actor) -> None:
+            ability = actor.ability_to(UseSudokuSolver)
+            ability.reinitialise_from_snapshot()
+            ability.apply_x_wing()
             actor.remember(ALGORITHM_PROGRESS, ability.algorithm_made_progress)
 
         return Task(action)

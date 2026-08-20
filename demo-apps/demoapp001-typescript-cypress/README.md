@@ -346,9 +346,9 @@ Test scenarios are defined in [BasicSudokuSolverLogic.feature](tests/features/Ba
 - ✅ Integration tests
 - ✅ Edge cases
 
-**Total Scenarios:** 52 scenarios / 291 steps
+**Total Scenarios:** 55 scenarios / 309 steps
 
-The acceptance contract is complemented by 16 focused component tests, REST API integration, four
+The acceptance contract is complemented by 20 focused component tests, REST API integration, four
 OpenAPI response-contract tests, selected-scope coverage floors, and a reproducible 10-mutant
 loader/orchestrator trial. Run `npm test`, `npm run test:coverage`, `npm run verify:openapi`, and
 `npm run test:mutation-trial` for those layers.
@@ -419,8 +419,8 @@ if (!puzzle.grid || puzzle.grid.length !== 9) {
 
 As per the design specification:
 
-1. **No Advanced Techniques**: Cannot solve puzzles requiring Naked Pairs, X-Wing, etc.
-   - **By Design:** This is intentional to keep the solver simple and educational
+1. **No Complex Chain Techniques**: Cannot solve puzzles requiring Swordfish, XY-Wing, forcing chains, etc.
+   - **By Design:** This is intentional to keep the solver deterministic and educational
 
 2. **No Backtracking**: The solver uses deterministic logic only and returns
    `STUCK_ON_ADVANCED_LOGIC` when the basic techniques make no further progress.
