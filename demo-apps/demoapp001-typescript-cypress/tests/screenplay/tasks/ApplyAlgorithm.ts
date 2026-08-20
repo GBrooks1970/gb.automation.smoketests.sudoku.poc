@@ -39,4 +39,13 @@ export const ApplyAlgorithm = {
         .set(ALGORITHM_PROGRESS, ability.algorithmMadeProgress)
         .performAs(actor);
     }),
+
+  nakedPairs: () =>
+    Interaction.where('#actor applies the Naked Pairs algorithm', async (actor) => {
+      const ability = UseSudokuSolver.as(actor);
+      ability.applyNakedPairs();
+      await notes<SudokuNotes>()
+        .set(ALGORITHM_PROGRESS, ability.algorithmMadeProgress)
+        .performAs(actor);
+    }),
 };

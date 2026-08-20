@@ -56,6 +56,28 @@ public sealed class SolverTechniqueContractTests
         Assert.That(solver.GetGrid()[4][4], Is.EqualTo(9));
     }
 
+    [Test]
+    public void NakedPairsEliminatesCandidatesInARowToPlaceASingle()
+    {
+        var grid = EmptyGrid();
+        grid[0] = [0, 0, 0, 1, 3, 5, 6, 8, 9];
+        grid[4][0] = 4;
+        grid[5][1] = 4;
+        var solver = new SudokuSolver("naked pair row", grid);
+
+        Assert.That(solver.NakedPairs(), Is.True);
+        Assert.That(solver.GetGrid()[0][2], Is.EqualTo(4));
+    }
+
+    [Test]
+    public void NakedPairsReturnsFalseWhenNoNakedPairsExist()
+    {
+        var grid = EmptyGrid();
+        var solver = new SudokuSolver("no naked pairs", grid);
+
+        Assert.That(solver.NakedPairs(), Is.False);
+    }
+
     private static int[][] EmptyGrid() =>
         Enumerable.Range(0, Constants.GridSize)
             .Select(_ => new int[Constants.GridSize])

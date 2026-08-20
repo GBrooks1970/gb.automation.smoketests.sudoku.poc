@@ -175,6 +175,81 @@ class SudokuSolver:
             self._audit_logger.log_change("NakedSingles", changes)
         return changed
 
+    def naked_pairs(self) -> bool:
+        changed = False
+        changes: list[dict[str, Any]] = []
+
+        def process_unit(unit_cells: list[tuple[int, int]], unit_desc: str) -> None:
+            nonlocal changed
+            empty_cells = [(r, c) for r, c in unit_cells if self.grid[r][c] == EMPTY_CELL]
+            if len(empty_cells) < 2:
+                return
+
+            cell_candidates = {(r, c): self._get_cell_candidates(r, c) for r, c in empty_cells}
+            pair_cells = [(r, c) for (r, c), cands in cell_candidates.items() if len(cands) == 2]
+
+            found_pairs = []
+            for i in range(len(pair_cells)):
+                c1 = pair_cells[i]
+                s1 = cell_candidates[c1]
+                for j in range(i + 1, len(pair_cells)):
+                    c2 = pair_cells[j]
+                    s2 = cell_candidates[c2]
+                    if s1 == s2:
+                        found_pairs.append((c1, c2, s1))
+
+            for (r1, c1), (r2, c2), pair_set in found_pairs:
+                d1, d2 = sorted(pair_set)
+                for r, c in empty_cells:
+                    if (r == r1 and c == c1) or (r == r2 and c == c2):
+                        continue
+                    cands = cell_candidates.get((r, c))
+                    if not cands:
+                        continue
+
+                    eliminated = False
+                    if d1 in cands:
+                        cands.remove(d1)
+                        eliminated = True
+                    if d2 in cands:
+                        cands.remove(d2)
+                        eliminated = True
+
+                    if eliminated and len(cands) == 1 and self.grid[r][c] == EMPTY_CELL:
+                        val = next(iter(cands))
+                        changes.append({
+                            "cell": {"row": r, "col": c},
+                            "oldValue": EMPTY_CELL,
+                            "newValue": val,
+                            "reason": f"Naked Pair [{d1},{d2}] in {unit_desc} eliminated candidates, leaving {val}",
+                        })
+                        self.grid[r][c] = val
+                        changed = True
+
+        for row in range(GRID_SIZE):
+            unit = [(row, col) for col in range(GRID_SIZE)]
+            process_unit(unit, f"row {row}")
+
+        for col in range(GRID_SIZE):
+            unit = [(row, col) for row in range(GRID_SIZE)]
+            process_unit(unit, f"column {col}")
+
+        for br in range(BLOCK_SIZE):
+            for bc in range(BLOCK_SIZE):
+                unit = [
+                    (r, c)
+                    for r in range(br * BLOCK_SIZE, (br + 1) * BLOCK_SIZE)
+                    for c in range(bc * BLOCK_SIZE, (bc + 1) * BLOCK_SIZE)
+                ]
+                process_unit(unit, f"block ({br},{bc})")
+
+        if self._audit_logger and self._audit_logger.is_enabled() and changes:
+            self._audit_logger.log_change("NakedPairs", changes)
+        return changed
+
+    def apply_naked_pairs(self) -> bool:
+        return self.naked_pairs()
+
     def is_valid_placement(self, row: int, col: int, value: int) -> bool:
         for c in range(GRID_SIZE):
             if c != col and self.grid[row][c] == value:

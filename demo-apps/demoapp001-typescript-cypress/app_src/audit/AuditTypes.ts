@@ -17,7 +17,7 @@ export interface AuditEvent {
   eventId: number;
   timestamp: string;
   iteration: number;
-  algorithm: 'UnitCompletion' | 'HiddenSingles' | 'NakedSingles';
+  algorithm: 'UnitCompletion' | 'HiddenSingles' | 'NakedSingles' | 'NakedPairs';
   algorithmParameter?: number;
   cellChanges: CellChange[];
   gridSnapshotAfter?: number[][];
@@ -28,11 +28,13 @@ export interface AuditStatistics {
     unitCompletion: number;
     hiddenSingles: number;
     nakedSingles: number;
+    nakedPairs?: number;
   };
   iterationsByAlgorithm: {
     unitCompletion: number;
     hiddenSingles: number;
     nakedSingles: number;
+    nakedPairs?: number;
   };
   averageChangesPerIteration: number;
 }

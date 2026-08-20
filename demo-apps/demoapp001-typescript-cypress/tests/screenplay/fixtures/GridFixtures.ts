@@ -271,3 +271,41 @@ function findBlockingCol(
     );
   return allowedCols.find((col) => !usedCols.has(col)) ?? allowedCols[0];
 }
+
+export function setupNakedPairRow(solver: SudokuSolver): void {
+  const rowDigits = [1, 3, 5, 6, 8, 9];
+  for (let c = 3; c < GRID_SIZE; c++) {
+    solver.grid[0][c] = rowDigits[c - 3];
+  }
+  solver.grid[4][0] = 4;
+  solver.grid[5][1] = 4;
+}
+
+export function setupNakedPairColumn(solver: SudokuSolver): void {
+  const colDigits = [1, 2, 4, 6, 7, 9];
+  for (let r = 3; r < GRID_SIZE; r++) {
+    solver.grid[r][0] = colDigits[r - 3];
+  }
+  solver.grid[0][4] = 5;
+  solver.grid[1][5] = 5;
+}
+
+export function setupNakedPairBlock(solver: SudokuSolver): void {
+  const blockDigits = [2, 3, 4, 5, 7, 8];
+  let idx = 0;
+  for (let r = 1; r < 3; r++) {
+    for (let c = 0; c < 3; c++) {
+      solver.grid[r][c] = blockDigits[idx++];
+    }
+  }
+  solver.grid[4][0] = 9;
+  solver.grid[5][1] = 9;
+}
+
+export function setupNoNakedPairs(solver: SudokuSolver): void {
+  for (let r = 0; r < GRID_SIZE; r++) {
+    for (let c = 0; c < GRID_SIZE; c++) {
+      solver.grid[r][c] = EMPTY_CELL;
+    }
+  }
+}

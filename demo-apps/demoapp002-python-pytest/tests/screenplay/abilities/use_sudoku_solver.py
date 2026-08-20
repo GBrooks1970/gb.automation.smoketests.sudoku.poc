@@ -44,6 +44,9 @@ class UseSudokuSolver:
     def apply_naked_singles(self) -> None:
         self._last_algorithm_changed = self.get_solver().naked_singles()
 
+    def apply_naked_pairs(self) -> None:
+        self._last_algorithm_changed = self.get_solver().naked_pairs()
+
     def solve_puzzle(self) -> None:
         events: list[AttemptEvent] = []
         orchestrator = SudokuOrchestrator(self.get_solver(), attempt_observer=events.append)

@@ -235,6 +235,122 @@ export class SudokuSolver {
     return changed;
   }
 
+  /**
+   * Naked Pairs Algorithm
+   * Goal: Find two cells in the same unit (row, column, block) that share the exact
+   *       same two candidates, and eliminate those candidates from all other cells in that unit.
+   * Technique: If candidate elimination reduces any peer cell to exactly 1 candidate,
+   *            place that candidate in the cell.
+   */
+  public nakedPairs(): boolean {
+    let changed = false;
+    const changes: CellChange[] = [];
+
+    const processUnit = (unitCells: { row: number; col: number }[], unitDesc: string): void => {
+      const emptyCells = unitCells.filter(({ row, col }) => this.grid[row][col] === EMPTY_CELL);
+      if (emptyCells.length < 2) return;
+
+      const cellCandidates = new Map<{ row: number; col: number }, Set<number>>();
+      for (const cell of emptyCells) {
+        cellCandidates.set(cell, this.getCellCandidates(cell.row, cell.col));
+      }
+
+      const pairCells = emptyCells.filter((cell) => cellCandidates.get(cell)?.size === 2);
+      const setEquals = (a: Set<number>, b: Set<number>): boolean => {
+        if (a.size !== b.size) return false;
+        for (const val of a) if (!b.has(val)) return false;
+        return true;
+      };
+
+      const foundPairs: [
+        { row: number; col: number },
+        { row: number; col: number },
+        Set<number>,
+      ][] = [];
+      for (let i = 0; i < pairCells.length; i++) {
+        const c1 = pairCells[i];
+        const s1 = cellCandidates.get(c1)!;
+        for (let j = i + 1; j < pairCells.length; j++) {
+          const c2 = pairCells[j];
+          const s2 = cellCandidates.get(c2)!;
+          if (setEquals(s1, s2)) {
+            foundPairs.push([c1, c2, s1]);
+          }
+        }
+      }
+
+      for (const [c1, c2, pairSet] of foundPairs) {
+        const [d1, d2] = Array.from(pairSet);
+        for (const cell of emptyCells) {
+          if (
+            (cell.row === c1.row && cell.col === c1.col) ||
+            (cell.row === c2.row && cell.col === c2.col)
+          ) {
+            continue;
+          }
+          const cands = cellCandidates.get(cell);
+          if (!cands) continue;
+
+          let eliminated = false;
+          if (cands.has(d1)) {
+            cands.delete(d1);
+            eliminated = true;
+          }
+          if (cands.has(d2)) {
+            cands.delete(d2);
+            eliminated = true;
+          }
+
+          if (eliminated && cands.size === 1 && this.grid[cell.row][cell.col] === EMPTY_CELL) {
+            const val = Array.from(cands)[0];
+            changes.push({
+              cell: { row: cell.row, col: cell.col },
+              oldValue: 0,
+              newValue: val,
+              reason: `Naked Pair [${d1},${d2}] in ${unitDesc} eliminated candidates, leaving ${val}`,
+            });
+            this.grid[cell.row][cell.col] = val;
+            changed = true;
+          }
+        }
+      }
+    };
+
+    // Check all rows
+    for (let row = 0; row < GRID_SIZE; row++) {
+      const unit = Array.from({ length: GRID_SIZE }, (_, col) => ({ row, col }));
+      processUnit(unit, `row ${row}`);
+    }
+
+    // Check all columns
+    for (let col = 0; col < GRID_SIZE; col++) {
+      const unit = Array.from({ length: GRID_SIZE }, (_, row) => ({ row, col }));
+      processUnit(unit, `column ${col}`);
+    }
+
+    // Check all 3x3 blocks
+    for (let br = 0; br < BLOCK_SIZE; br++) {
+      for (let bc = 0; bc < BLOCK_SIZE; bc++) {
+        const unit: { row: number; col: number }[] = [];
+        for (let r = br * BLOCK_SIZE; r < (br + 1) * BLOCK_SIZE; r++) {
+          for (let c = bc * BLOCK_SIZE; c < (bc + 1) * BLOCK_SIZE; c++) {
+            unit.push({ row: r, col: c });
+          }
+        }
+        processUnit(unit, `block (${br},${bc})`);
+      }
+    }
+
+    if (this.auditLogger?.isEnabled() && changes.length > 0) {
+      this.auditLogger.logChange('NakedPairs', changes);
+    }
+    return changed;
+  }
+
+  public applyNakedPairs(): boolean {
+    return this.nakedPairs();
+  }
+
   public isValidPlacement(row: number, col: number, value: number): boolean {
     for (let c = 0; c < GRID_SIZE; c++) {
       if (c !== col && this.grid[row][c] === value) return false;

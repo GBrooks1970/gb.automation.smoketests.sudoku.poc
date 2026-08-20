@@ -31,6 +31,7 @@ function expectedIteration(): Array<{ technique: AttemptTechnique; parameter?: n
       parameter: index + 1,
     })),
     { technique: 'NakedSingles', parameter: undefined },
+    { technique: 'NakedPairs', parameter: undefined },
   ];
 }
 
@@ -41,18 +42,18 @@ test('observer records every unchanged attempt in exact orchestration order', ()
   const result = new SudokuOrchestrator(solver, undefined, (event) => events.push(event)).solve();
 
   assert.equal(result, 'STUCK_ON_ADVANCED_LOGIC');
-  assert.equal(events.length, 11);
+  assert.equal(events.length, 12);
   assert.deepEqual(
     events.map(({ technique, parameter }) => ({ technique, parameter })),
     expectedIteration()
   );
   assert.deepEqual(
     events.map(({ iteration }) => iteration),
-    Array(11).fill(1)
+    Array(12).fill(1)
   );
   assert.deepEqual(
     events.map(({ sequence }) => sequence),
-    Array.from({ length: 11 }, (_, index) => index + 1)
+    Array.from({ length: 12 }, (_, index) => index + 1)
   );
   assert.ok(events.every((event) => !event.changed && event.changes.length === 0));
 });

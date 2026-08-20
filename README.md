@@ -170,7 +170,7 @@ is a staging decision, not a parity failure. See the authoritative matrix in the
 | Capability | DEMOAPP001 (TS) | DEMOAPP002 (Py) | DEMOAPP003 (C#) | Parity status |
 |------------|:---------------:|:---------------:|:---------------:|---------------|
 | Core solver | ✅ | ✅ | ✅ | Required |
-| BDD/Screenplay parity (48 scenarios) | ✅ | ✅ | ✅ | Required |
+| BDD/Screenplay parity (52 scenarios) | ✅ | ✅ | ✅ | Required |
 | Audit trail | ✅ | ✅ | ✅ | Extension (all stacks) |
 | CLI / grid display | ✅ | ➖ | ➖ | Staged (DEMOAPP001) |
 | REST API | ✅ | 🛣️ | 🛣️ | Staged; roadmap for Py/C# |
@@ -225,7 +225,7 @@ All implementations follow established software engineering principles:
 
 The current lower-level evidence is measured rather than inferred: DEMOAPP001 has 16 component
 tests plus executable API/OpenAPI contracts, DEMOAPP002 has 26 component tests, and DEMOAPP003 has
-24 component tests. Each Stack also runs the canonical 48-scenario behaviour contract. Component
+24 component tests. Each Stack also runs the canonical 52-scenario behaviour contract. Component
 coverage is enforced against deliberately selected production scope using conservative floors:
 
 | Stack | Measured baseline | CI floor |
@@ -285,7 +285,7 @@ policy details.
 **Testing Patterns:**
 - **AAA Pattern Consistency** - All tests follow Arrange-Act-Assert structure
 - **BDD Scenarios** - Given-When-Then format for clear behavior specification
-- **Gherkin Examples** - 48 scenarios per Stack (144 across all three; DEMOAPP001 = 48 scenarios / 267 steps) demonstrating comprehensive coverage
+- **Gherkin Examples** - 52 scenarios per Stack (156 across all three; DEMOAPP001 = 52 scenarios / 291 steps) demonstrating comprehensive coverage
 - **Test Pyramid** - Measured component contracts (fast), API/OpenAPI integration (medium), and
   cross-Stack BDD acceptance tests (broad behaviour evidence)
 

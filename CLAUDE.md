@@ -141,7 +141,7 @@ Run DEMOAPP002 commands from `demo-apps/demoapp002-python-pytest/`.
 | Command | Purpose |
 |---------|---------|
 | `python -m pip install -c requirements-test.lock -e ".[test]"` | Install constrained Python Stack test dependencies |
-| `python -m pytest` | Run 26 component tests plus 48 pytest-bdd scenarios (74 total) |
+| `python -m pytest` | Run 28 component tests plus 52 pytest-bdd scenarios (80 total) |
 | `python -m pip_audit --local --skip-editable --format=json` | Audit the resolved Python environment with the governed tool |
 
 Run DEMOAPP003 commands from `demo-apps/demoapp003-csharp-specflow/`.
@@ -149,7 +149,7 @@ Run DEMOAPP003 commands from `demo-apps/demoapp003-csharp-specflow/`.
 | Command | Purpose |
 |---------|---------|
 | `dotnet restore --locked-mode` | Restore locked C# Stack dependencies |
-| `dotnet test --no-restore` | Run 24 component tests plus 48 Reqnroll tests (72 total) |
+| `dotnet test --no-restore` | Run 26 component tests plus 52 Reqnroll tests (78 total) |
 | `dotnet package list --vulnerable --include-transitive --format json --no-restore` | Audit the locked .NET 10 dependency graph |
 | `dotnet run --project tooling/performance/DemoApp003.Performance.csproj --configuration Release` | Run C# reporting-only benchmarks |
 
@@ -177,21 +177,22 @@ Docker runtime commands require Docker Desktop or another Docker Engine with Com
 Expected current baseline:
 
 ```text
-DEMOAPP001: 48 scenarios passed / 267 steps passed
-DEMOAPP002: 48 pytest-bdd scenarios passed
-DEMOAPP003: 48 Reqnroll tests passed
+DEMOAPP001: 52 scenarios passed / 291 steps passed
+DEMOAPP002: 52 pytest-bdd scenarios passed
+DEMOAPP003: 52 Reqnroll tests passed
 OverallExitCode=0
 ```
 
 ## Subject Application
 
-The Sudoku solver implements three deterministic techniques:
+The Sudoku solver implements four deterministic techniques:
 
 | Technique | Method | Current behavior |
 |-----------|--------|------------------|
 | Unit Completion | `SudokuSolver.unitCompletion()` | Checks rows, columns, and blocks |
 | Hidden Singles | `SudokuSolver.hiddenSingles(target)` | Checks rows, columns, and blocks |
 | Naked Singles | `SudokuSolver.nakedSingles()` | Eliminates row, column, and block candidates |
+| Naked Pairs | `SudokuSolver.nakedPairs()` | Eliminates pair candidates in rows, columns, and blocks |
 
 Solver result strings:
 

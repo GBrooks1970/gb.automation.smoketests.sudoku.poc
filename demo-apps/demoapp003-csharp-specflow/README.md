@@ -40,7 +40,7 @@ dotnet run --project tooling/performance/DemoApp003.Performance.csproj --configu
 | `docs/` | Stack-level architecture, Screenplay, and QA documentation |
 
 Feature files are owned by `features-shared/`; only stack-local tags belong in `tests/features/`.
-The solution test command runs 48 Reqnroll tests plus 24 focused component tests (72 total). The
+The solution test command runs 52 Reqnroll tests plus 26 focused component tests (78 total). The
 selected production scope must retain at least 80% line and 80% branch coverage under DR-038.
 CI emits separate component and Reqnroll TRX files plus the component Cobertura report and summary.
 It also runs the supported NuGet vulnerability command after locked restore; native output and

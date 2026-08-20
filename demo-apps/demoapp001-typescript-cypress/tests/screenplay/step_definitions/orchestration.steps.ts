@@ -114,7 +114,7 @@ Then(
     const events = attemptEvents();
     for (const iteration of iterationNumbers(events)) {
       const iterEvents = eventsInIteration(events, iteration);
-      const hsEvents = iterEvents.slice(1, -1);
+      const hsEvents = iterEvents.slice(1, 10);
       assert.strictEqual(
         hsEvents.length,
         to - from + 1,
@@ -141,9 +141,9 @@ Then('"Naked Singles" should be attempted third', () => {
   for (const iteration of iterationNumbers(events)) {
     const iterEvents = eventsInIteration(events, iteration);
     assert.strictEqual(
-      iterEvents[iterEvents.length - 1]?.technique,
+      iterEvents[10]?.technique,
       'NakedSingles',
-      `Iteration ${iteration}: Naked Singles was not the final recorded attempt`
+      `Iteration ${iteration}: Naked Singles was not recorded at index 10`
     );
   }
 });
@@ -159,8 +159,8 @@ Then('the execution order should be maintained in every iteration', async () => 
     const iterEvents = eventsInIteration(events, iteration);
     assert.strictEqual(
       iterEvents.length,
-      11,
-      `Iteration ${iteration}: expected exactly 11 attempt events`
+      12,
+      `Iteration ${iteration}: expected exactly 12 attempt events`
     );
     for (const event of iterEvents) {
       assert.strictEqual(

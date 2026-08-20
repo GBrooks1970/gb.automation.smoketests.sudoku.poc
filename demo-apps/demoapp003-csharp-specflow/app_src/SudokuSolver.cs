@@ -221,6 +221,122 @@ public sealed class SudokuSolver
         return changed;
     }
 
+    public bool NakedPairs()
+    {
+        var changed = false;
+        var changes = new List<CellChange>();
+
+        void ProcessUnit(IReadOnlyList<(int Row, int Col)> unitCells, string unitDesc)
+        {
+            var emptyCells = unitCells.Where(c => Grid[c.Row][c.Col] == Constants.EmptyCell).ToList();
+            if (emptyCells.Count < 2)
+            {
+                return;
+            }
+
+            var cellCandidates = emptyCells.ToDictionary(
+                c => c,
+                c => GetCellCandidates(c.Row, c.Col));
+
+            var pairCells = cellCandidates
+                .Where(kvp => kvp.Value.Count == 2)
+                .Select(kvp => kvp.Key)
+                .ToList();
+
+            var foundPairs = new List<((int Row, int Col) C1, (int Row, int Col) C2, HashSet<int> Candidates)>();
+            for (var i = 0; i < pairCells.Count; i++)
+            {
+                var c1 = pairCells[i];
+                var s1 = cellCandidates[c1];
+                for (var j = i + 1; j < pairCells.Count; j++)
+                {
+                    var c2 = pairCells[j];
+                    var s2 = cellCandidates[c2];
+                    if (s1.SetEquals(s2))
+                    {
+                        foundPairs.Add((c1, c2, s1));
+                    }
+                }
+            }
+
+            foreach (var (c1, c2, pairSet) in foundPairs)
+            {
+                var pairList = pairSet.OrderBy(x => x).ToList();
+                var d1 = pairList[0];
+                var d2 = pairList[1];
+
+                foreach (var cell in emptyCells)
+                {
+                    if (cell == c1 || cell == c2)
+                    {
+                        continue;
+                    }
+
+                    if (!cellCandidates.TryGetValue(cell, out var cands))
+                    {
+                        continue;
+                    }
+
+                    var eliminated = false;
+                    if (cands.Remove(d1))
+                    {
+                        eliminated = true;
+                    }
+                    if (cands.Remove(d2))
+                    {
+                        eliminated = true;
+                    }
+
+                    if (eliminated && cands.Count == 1 && Grid[cell.Row][cell.Col] == Constants.EmptyCell)
+                    {
+                        var val = cands.Single();
+                        changes.Add(new CellChange(
+                            new CellPosition(cell.Row, cell.Col),
+                            Constants.EmptyCell,
+                            val,
+                            $"Naked Pair [{d1},{d2}] in {unitDesc} eliminated candidates, leaving {val}"));
+                        Grid[cell.Row][cell.Col] = val;
+                        changed = true;
+                    }
+                }
+            }
+        }
+
+        for (var row = 0; row < Constants.GridSize; row++)
+        {
+            var unit = Enumerable.Range(0, Constants.GridSize).Select(col => (row, col)).ToList();
+            ProcessUnit(unit, $"row {row}");
+        }
+
+        for (var col = 0; col < Constants.GridSize; col++)
+        {
+            var unit = Enumerable.Range(0, Constants.GridSize).Select(row => (row, col)).ToList();
+            ProcessUnit(unit, $"column {col}");
+        }
+
+        for (var br = 0; br < Constants.BlockSize; br++)
+        {
+            for (var bc = 0; bc < Constants.BlockSize; bc++)
+            {
+                var unit = (
+                    from r in Enumerable.Range(br * Constants.BlockSize, Constants.BlockSize)
+                    from c in Enumerable.Range(bc * Constants.BlockSize, Constants.BlockSize)
+                    select (r, c)
+                ).ToList();
+                ProcessUnit(unit, $"block ({br},{bc})");
+            }
+        }
+
+        if (_auditLogger?.IsEnabled() == true && changes.Count > 0)
+        {
+            _auditLogger.LogChange("NakedPairs", changes);
+        }
+
+        return changed;
+    }
+
+    public bool ApplyNakedPairs() => NakedPairs();
+
     public bool IsValidPlacement(int row, int col, int value)
     {
         for (var c = 0; c < Constants.GridSize; c++)

@@ -74,6 +74,10 @@ public sealed class BasicSudokuSolverLogicSteps
         {
             _actor.AttemptsTo(ApplyAlgorithm.NakedSingles());
         }
+        else if (algorithm == "Naked Pairs")
+        {
+            _actor.AttemptsTo(ApplyAlgorithm.NakedPairs());
+        }
         else
         {
             Assert.Fail($"Unsupported algorithm: {algorithm}");
@@ -337,7 +341,7 @@ public sealed class BasicSudokuSolverLogicSteps
         var events = _actor.AbilityTo<UseSudokuSolver>().LastAttemptEvents;
         foreach (var iteration in IterationNumbers(events))
         {
-            var hiddenSingles = EventsInIteration(events, iteration).Skip(1).SkipLast(1).ToArray();
+            var hiddenSingles = EventsInIteration(events, iteration).Skip(1).Take(end - start + 1).ToArray();
             Assert.That(hiddenSingles, Has.Length.EqualTo(end - start + 1),
                 $"Iteration {iteration}: unexpected Hidden Singles attempt count");
             for (var index = 0; index < hiddenSingles.Length; index++)
@@ -357,8 +361,8 @@ public sealed class BasicSudokuSolverLogicSteps
         foreach (var iteration in IterationNumbers(events))
         {
             var iterEvents = EventsInIteration(events, iteration);
-            Assert.That(iterEvents[^1].Technique, Is.EqualTo("NakedSingles"),
-                $"Iteration {iteration}: Naked Singles was not the final recorded attempt");
+            Assert.That(iterEvents[10].Technique, Is.EqualTo("NakedSingles"),
+                $"Iteration {iteration}: Naked Singles was not recorded at index 10");
         }
     }
 
@@ -374,8 +378,8 @@ public sealed class BasicSudokuSolverLogicSteps
         foreach (var iteration in IterationNumbers(events))
         {
             var iterEvents = EventsInIteration(events, iteration);
-            Assert.That(iterEvents, Has.Count.EqualTo(11),
-                $"Iteration {iteration}: expected exactly 11 attempt events");
+            Assert.That(iterEvents, Has.Count.EqualTo(12),
+                $"Iteration {iteration}: expected exactly 12 attempt events");
             foreach (var attempt in iterEvents)
             {
                 Assert.That(attempt.Sequence, Is.EqualTo(expectedSequence),
@@ -747,6 +751,56 @@ public sealed class BasicSudokuSolverLogicSteps
         Assert.That(_actor.Answer(AlgorithmMadeProgress.AfterLastCall()), Is.False);
     }
 
+    [Then(@"""Naked Pairs"" should return false")]
+    public void NakedPairsFalse()
+    {
+        _actor.AttemptsTo(CheckAlgorithmProgress.NakedPairsOnSnapshot());
+        Assert.That(_actor.Answer(AlgorithmMadeProgress.AfterLastCall()), Is.False);
+    }
+
+    [Given(@"row (\d+) contains exactly two cells sharing candidate pair ""([^""]*)""")]
+    public void RowContainsNakedPair(int row, string candidates) =>
+        _actor.AttemptsTo(SetupGridState.NakedPairRow());
+
+    [Given(@"another cell in row (\d+) has candidates ""([^""]*)""")]
+    public void AnotherCellInRowCandidates(int row, string candidates)
+    {
+    }
+
+    [Given(@"column (\d+) contains exactly two cells sharing candidate pair ""([^""]*)""")]
+    public void ColumnContainsNakedPair(int col, string candidates) =>
+        _actor.AttemptsTo(SetupGridState.NakedPairColumn());
+
+    [Given(@"another cell in column (\d+) has candidates ""([^""]*)""")]
+    public void AnotherCellInColumnCandidates(int col, string candidates)
+    {
+    }
+
+    [Given(@"a 3x3 block at position \((\d+), (\d+)\) contains exactly two cells sharing candidate pair ""([^""]*)""")]
+    public void BlockContainsNakedPair(int br, int bc, string candidates) =>
+        _actor.AttemptsTo(SetupGridState.NakedPairBlock());
+
+    [Given(@"another cell in that block has candidates ""([^""]*)""")]
+    public void AnotherCellInBlockCandidates(string candidates)
+    {
+    }
+
+    [Given(@"a grid state where no unit contains a naked pair")]
+    public void GridStateNoNakedPairs() =>
+        _actor.AttemptsTo(SetupGridState.NoNakedPairs());
+
+    [Then(@"the cell in row (\d+) with candidates ""([^""]*)"" should be updated to (\d+)")]
+    public void CellInRowUpdatedTo(int row, string candidates, int val) =>
+        Assert.That(_actor.Answer(GridCell.At(row, 2)), Is.EqualTo(val));
+
+    [Then(@"the cell in column (\d+) with candidates ""([^""]*)"" should be updated to (\d+)")]
+    public void CellInColumnUpdatedTo(int col, string candidates, int val) =>
+        Assert.That(_actor.Answer(GridCell.At(2, col)), Is.EqualTo(val));
+
+    [Then(@"the cell in block \((\d+), (\d+)\) with candidates ""([^""]*)"" should be updated to (\d+)")]
+    public void CellInBlockUpdatedTo(int br, int bc, string candidates, int val) =>
+        Assert.That(_actor.Answer(GridCell.At(0, 2)), Is.EqualTo(val));
+
     [Then(@"the main loop should exit")]
     public void MainLoopExits()
     {
@@ -800,7 +854,7 @@ public sealed class BasicSudokuSolverLogicSteps
         var trail = _actor.Answer(AuditTrailQuestion.Current());
         Assert.That(trail, Is.Not.Null);
         var stats = trail!.Statistics;
-        Assert.That(stats.UnitCompletion + stats.HiddenSingles + stats.NakedSingles, Is.EqualTo(trail.TotalChanges));
+        Assert.That(stats.UnitCompletion + stats.HiddenSingles + stats.NakedSingles + stats.NakedPairs, Is.EqualTo(trail.TotalChanges));
     }
 
     [Then(@"no audit trail should be present")]

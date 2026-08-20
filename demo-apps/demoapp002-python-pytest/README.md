@@ -44,7 +44,7 @@ puzzles.json             Stack-local puzzle data used by PuzzleLoader
 
 The feature body must stay in parity with
 `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature`.
-The current suite contains 74 tests: 48 canonical BDD scenarios plus 26 focused component tests.
+The current suite contains 80 tests: 52 canonical BDD scenarios plus 28 focused component tests.
 The measured component scope and exclusions are recorded in
 [the component-test coverage baseline](docs/component-test-coverage-baseline.md).
 

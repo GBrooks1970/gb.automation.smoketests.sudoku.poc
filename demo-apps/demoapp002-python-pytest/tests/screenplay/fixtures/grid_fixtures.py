@@ -199,6 +199,39 @@ def create_solvers_from_puzzles(count: int, puzzles: list[Puzzle]) -> list[Sudok
     return [SudokuSolver(puzzle.name, puzzle.grid) for puzzle in puzzles[:count]]
 
 
+def setup_naked_pair_row(solver: SudokuSolver) -> None:
+    row_digits = [1, 3, 5, 6, 8, 9]
+    for c in range(3, GRID_SIZE):
+        solver.grid[0][c] = row_digits[c - 3]
+    solver.grid[4][0] = 4
+    solver.grid[5][1] = 4
+
+
+def setup_naked_pair_column(solver: SudokuSolver) -> None:
+    col_digits = [1, 2, 4, 6, 7, 9]
+    for r in range(3, GRID_SIZE):
+        solver.grid[r][0] = col_digits[r - 3]
+    solver.grid[0][4] = 5
+    solver.grid[1][5] = 5
+
+
+def setup_naked_pair_block(solver: SudokuSolver) -> None:
+    block_digits = [2, 3, 4, 5, 7, 8]
+    idx = 0
+    for r in range(1, 3):
+        for c in range(3):
+            solver.grid[r][c] = block_digits[idx]
+            idx += 1
+    solver.grid[4][0] = 9
+    solver.grid[5][1] = 9
+
+
+def setup_no_naked_pairs(solver: SudokuSolver) -> None:
+    for r in range(GRID_SIZE):
+        for c in range(GRID_SIZE):
+            solver.grid[r][c] = EMPTY_CELL
+
+
 def _blocking_row(col: int, candidate_row: int, candidate_col: int, used_rows: set[int]) -> int:
     candidate_block_row = candidate_row // BLOCK_SIZE
     candidate_block_col = candidate_col // BLOCK_SIZE

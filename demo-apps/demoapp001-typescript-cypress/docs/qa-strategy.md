@@ -16,6 +16,7 @@ REST integration, executable OpenAPI and coverage/mutation evidence beneath the 
 | Unit Completion | 5 | 100% of defined scenarios |
 | Hidden Singles | 5 | 100% of defined scenarios |
 | Naked Singles | 4 | 100% of defined scenarios |
+| Naked Pairs | 4 | 100% of defined scenarios |
 | Constraint validation | 3 | 100% of defined scenarios |
 | Orchestration loop | 7 | 100% of defined scenarios |
 | Puzzle loading | 7 | 100% of defined scenarios |
@@ -40,7 +41,7 @@ REST integration, executable OpenAPI and coverage/mutation evidence beneath the 
 
 ## 3. Explicitly Out of Scope
 
-- Advanced Sudoku techniques (for example naked pairs, X-Wing, backtracking) — intentionally excluded from current basic solver scope.
+- Advanced Sudoku techniques (for example X-Wing, Swordfish, backtracking) — intentionally excluded from current basic solver scope.
 - CLI process contract assertions (exit code, stdout/stderr formatting) — this Stack is @util, not @cli.
 - Performance benchmarking under large puzzle volumes — functional behavior has priority in this pedagogical stack.
 
@@ -59,8 +60,8 @@ REST integration, executable OpenAPI and coverage/mutation evidence beneath the 
 
 | Metric | Value | Target |
 |--------|-------|--------|
-| Scenarios | 48 | 48 |
-| Steps | 267 | — |
+| Scenarios | 52 | 52 |
+| Steps | 291 | — |
 | Focused component tests | 16 | All passing |
 | OpenAPI contract tests | 4 | All passing |
 | Selected-scope coverage | 73.23% lines / 87.67% branches / 79.59% functions | 70% / 85% / 75% floors |

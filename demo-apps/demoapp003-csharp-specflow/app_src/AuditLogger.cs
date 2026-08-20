@@ -35,7 +35,8 @@ public sealed class AuditLogger
         var statistics = new AuditStatistics(
             UnitCompletion: CountChanges("UnitCompletion"),
             HiddenSingles: CountChanges("HiddenSingles"),
-            NakedSingles: CountChanges("NakedSingles"));
+            NakedSingles: CountChanges("NakedSingles"),
+            NakedPairs: CountChanges("NakedPairs"));
 
         return new AuditTrail(
             _puzzleName,

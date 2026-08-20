@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Callable, Literal
 
-AttemptTechnique = Literal["UnitCompletion", "HiddenSingles", "NakedSingles"]
+AttemptTechnique = Literal["UnitCompletion", "HiddenSingles", "NakedSingles", "NakedPairs"]
 AttemptUnit = Literal["row", "column", "box"]
 
 

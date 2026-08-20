@@ -106,6 +106,37 @@ Feature: Basic Sudoku Solver Logic
     And the algorithm should return true
 
   # =============================================================================
+  # Naked Pairs Algorithm Tests
+  # =============================================================================
+
+  Scenario: Identify a Naked Pair in a row and eliminate candidates to place a single
+    Given row 0 contains exactly two cells sharing candidate pair "2, 7"
+    And another cell in row 0 has candidates "2, 7, 4"
+    When the "Naked Pairs" algorithm is executed
+    Then the cell in row 0 with candidates "2, 7, 4" should be updated to 4
+    And the algorithm should return true
+
+  Scenario: Identify a Naked Pair in a column and eliminate candidates to place a single
+    Given column 0 contains exactly two cells sharing candidate pair "3, 8"
+    And another cell in column 0 has candidates "3, 8, 5"
+    When the "Naked Pairs" algorithm is executed
+    Then the cell in column 0 with candidates "3, 8, 5" should be updated to 5
+    And the algorithm should return true
+
+  Scenario: Identify a Naked Pair in a 3x3 block and eliminate candidates to place a single
+    Given a 3x3 block at position (0, 0) contains exactly two cells sharing candidate pair "1, 6"
+    And another cell in that block has candidates "1, 6, 9"
+    When the "Naked Pairs" algorithm is executed
+    Then the cell in block (0, 0) with candidates "1, 6, 9" should be updated to 9
+    And the algorithm should return true
+
+  Scenario: Naked Pairs returns false when no naked pairs exist
+    Given a grid state where no unit contains a naked pair
+    When the "Naked Pairs" algorithm is executed
+    Then the algorithm should return false
+    And no cells should be modified
+
+  # =============================================================================
   # Sudoku Constraint Validation Tests
   # =============================================================================
 
@@ -301,6 +332,7 @@ Feature: Basic Sudoku Solver Logic
     Then "Unit Completion" should return false
     And "Hidden Singles" should return false for all digits 1-9
     And "Naked Singles" should return false
+    And "Naked Pairs" should return false
     And the main loop should exit
 
   Scenario: Test multiple solvers with different puzzles concurrently

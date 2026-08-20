@@ -26,6 +26,7 @@ def expected_iteration() -> list[tuple[str, int | None]]:
         ("UnitCompletion", None),
         *(("HiddenSingles", digit) for digit in range(1, 10)),
         ("NakedSingles", None),
+        ("NakedPairs", None),
     ]
 
 
@@ -37,8 +38,8 @@ def test_observer_records_every_unchanged_attempt_in_exact_order() -> None:
 
     assert result == "STUCK_ON_ADVANCED_LOGIC"
     assert [(event.technique, event.parameter) for event in events] == expected_iteration()
-    assert [event.iteration for event in events] == [1] * 11
-    assert [event.sequence for event in events] == list(range(1, 12))
+    assert [event.iteration for event in events] == [1] * 12
+    assert [event.sequence for event in events] == list(range(1, 13))
     assert all(not event.changed and not event.changes for event in events)
 
 

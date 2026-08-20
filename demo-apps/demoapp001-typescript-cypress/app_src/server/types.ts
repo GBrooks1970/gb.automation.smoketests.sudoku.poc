@@ -1,7 +1,7 @@
 import { AuditEvent, AuditStatistics, CellChange } from '../audit/AuditTypes';
 
 export type Grid = number[][];
-export type TechniqueName = 'UnitCompletion' | 'HiddenSingles' | 'NakedSingles';
+export type TechniqueName = 'UnitCompletion' | 'HiddenSingles' | 'NakedSingles' | 'NakedPairs';
 export type SolverStatus = 'SOLVED' | 'STUCK_ON_ADVANCED_LOGIC';
 
 export interface RequestOptions {
@@ -101,7 +101,7 @@ export interface ErrorResponse {
 export interface SolveStep extends CellChange {
   stepNumber: number;
   iteration: number;
-  algorithm: 'UnitCompletion' | 'HiddenSingles' | 'NakedSingles';
+  algorithm: 'UnitCompletion' | 'HiddenSingles' | 'NakedSingles' | 'NakedPairs';
   algorithmParam?: number;
 }
 
@@ -112,6 +112,7 @@ export interface VisualiseStatistics {
     unitCompletion: number;
     hiddenSingles: number;
     nakedSingles: number;
+    nakedPairs?: number;
   };
 }
 

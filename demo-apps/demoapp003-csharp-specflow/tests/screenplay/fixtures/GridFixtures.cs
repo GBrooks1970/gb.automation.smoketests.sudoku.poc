@@ -256,6 +256,54 @@ public static class GridFixtures
     public static IReadOnlyList<SudokuSolver> CreateSolversFromPuzzles(int count, IReadOnlyList<Puzzle> puzzles) =>
         puzzles.Take(count).Select(puzzle => new SudokuSolver(puzzle.Name, puzzle.Grid)).ToArray();
 
+    public static void SetupNakedPairRow(SudokuSolver solver)
+    {
+        var rowDigits = new[] { 1, 3, 5, 6, 8, 9 };
+        for (var c = 3; c < Constants.GridSize; c++)
+        {
+            solver.Grid[0][c] = rowDigits[c - 3];
+        }
+        solver.Grid[4][0] = 4;
+        solver.Grid[5][1] = 4;
+    }
+
+    public static void SetupNakedPairColumn(SudokuSolver solver)
+    {
+        var colDigits = new[] { 1, 2, 4, 6, 7, 9 };
+        for (var r = 3; r < Constants.GridSize; r++)
+        {
+            solver.Grid[r][0] = colDigits[r - 3];
+        }
+        solver.Grid[0][4] = 5;
+        solver.Grid[1][5] = 5;
+    }
+
+    public static void SetupNakedPairBlock(SudokuSolver solver)
+    {
+        var blockDigits = new[] { 2, 3, 4, 5, 7, 8 };
+        var idx = 0;
+        for (var r = 1; r < 3; r++)
+        {
+            for (var c = 0; c < 3; c++)
+            {
+                solver.Grid[r][c] = blockDigits[idx++];
+            }
+        }
+        solver.Grid[4][0] = 9;
+        solver.Grid[5][1] = 9;
+    }
+
+    public static void SetupNoNakedPairs(SudokuSolver solver)
+    {
+        for (var r = 0; r < Constants.GridSize; r++)
+        {
+            for (var c = 0; c < Constants.GridSize; c++)
+            {
+                solver.Grid[r][c] = Constants.EmptyCell;
+            }
+        }
+    }
+
     private static int[] DigitsExcept(int missingDigit) =>
         Enumerable.Range(1, Constants.GridSize).Where(digit => digit != missingDigit).ToArray();
 

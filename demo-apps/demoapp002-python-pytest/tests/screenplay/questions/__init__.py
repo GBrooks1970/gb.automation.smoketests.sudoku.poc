@@ -3,7 +3,6 @@ from __future__ import annotations
 from copy import deepcopy
 from typing import Any, Callable
 
-from app_src import SudokuSolver
 from app_src.constants import EMPTY_CELL, GRID_SIZE
 from tests.screenplay.abilities import LoadPuzzles, UseSudokuSolver
 from tests.screenplay.support.actor import Actor

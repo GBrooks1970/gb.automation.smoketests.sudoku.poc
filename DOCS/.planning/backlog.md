@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-08-20 — progressed BACKLOG-014 / SUD-32 (advanced solving techniques design, Naked Pairs / X-Wing algorithm specs, DR-041). Prior: 2026-08-04 (resolved BACKLOG-071 / DR-040: static browser-only DEMOAPP001 visualisation evidence published to Pages and linked from the portfolio landing page, closing LAND-09D; dev/test audit advisory cleared under DR-039).
+**Last Updated:** 2026-08-20 — delivered SUD-33 (Naked Pairs implementation across TypeScript, Python, and C# Stacks, 52 scenarios / 291 steps per Stack, 156 total; 18 TS / 28 Py / 26 C# component tests); progressed BACKLOG-014 (SUD-34 X-Wing next). Prior: 2026-08-20 (progressed BACKLOG-014 / SUD-32: advanced solving techniques design, Naked Pairs / X-Wing algorithm specs, DR-041).
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -32,11 +32,11 @@ Per v1.15 Section 10.1:
 
 | Area | Current state |
 |------|---------------|
-| Current execution baseline | DEMOAPP001: Node 24, 16 component tests plus 48 scenarios / 267 steps passing, REST API integration PASS, 4 OpenAPI contract tests passing; selected-module coverage 73.23% lines / 87.67% branches / 79.59% functions with 70% / 85% / 75% floors; focused mutation trial 10/10 killed. DEMOAPP002: Python 3.13, 74 tests (48 pytest-bdd + 26 component) passing; selected-module coverage 87.81% combined with an 85% floor. DEMOAPP003: .NET 10, 72 tests (48 Reqnroll + 24 component) passing; selected-type coverage 86.03% lines / 84.91% branches with 80% / 80% floors. 3-Stack parity PASS. |
+| Current execution baseline | DEMOAPP001: Node 24, 18 component tests plus 52 scenarios / 291 steps passing, REST API integration PASS, 4 OpenAPI contract tests passing; selected-module coverage 75.20% lines / 87.89% branches / 80.37% functions with 70% / 85% / 75% floors; focused mutation trial 10/10 killed. DEMOAPP002: Python 3.13, 80 tests (52 pytest-bdd + 28 component) passing; selected-module coverage 87.81% combined with an 85% floor. DEMOAPP003: .NET 10, 78 tests (52 Reqnroll + 26 component) passing; selected-type coverage 86.03% lines / 84.91% branches with 80% / 80% floors. 3-Stack parity PASS. |
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-014 / SUD-32 (advanced solving techniques design, algorithm specs, and DR-041) In Progress; SUD-33 (Naked Pairs) and SUD-34 (X-Wing) follow; parked future product work BACKLOG-015/016 remains Open |
+| Current sprint focus | BACKLOG-014 / SUD-33 (Naked Pairs implementation across all three stacks) complete; SUD-34 (X-Wing) follows; parked future product work BACKLOG-015/016 remains Open |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
