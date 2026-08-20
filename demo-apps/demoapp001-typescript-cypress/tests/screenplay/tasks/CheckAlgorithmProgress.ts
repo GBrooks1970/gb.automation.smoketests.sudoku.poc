@@ -37,6 +37,19 @@ export const CheckAlgorithmProgress = {
       }
     ),
 
+  nakedPairsOnSnapshot: () =>
+    Interaction.where(
+      '#actor re-initialises from snapshot and applies Naked Pairs',
+      async (actor) => {
+        const ability = UseSudokuSolver.as(actor);
+        ability.reinitialiseFromSnapshot();
+        ability.applyNakedPairs();
+        await notes<SudokuNotes>()
+          .set(ALGORITHM_PROGRESS, ability.algorithmMadeProgress)
+          .performAs(actor);
+      }
+    ),
+
   reinitFromSnapshot: () =>
     Interaction.where(
       '#actor re-initialises solver from the stored grid snapshot',

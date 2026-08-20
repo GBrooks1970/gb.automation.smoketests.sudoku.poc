@@ -100,6 +100,8 @@ def algorithm_is_executed(actor: Actor, algorithm: str) -> None:
         actor.attempts_to(ApplyAlgorithm.unit_completion())
     elif algorithm == "Naked Singles":
         actor.attempts_to(ApplyAlgorithm.naked_singles())
+    elif algorithm == "Naked Pairs":
+        actor.attempts_to(ApplyAlgorithm.naked_pairs())
     else:
         raise AssertionError(f"Unsupported algorithm: {algorithm}")
 
@@ -400,7 +402,7 @@ def hidden_singles_attempted_second(actor: Actor, start: int, end: int) -> None:
     events = _attempt_events(actor)
     for iteration in _iteration_numbers(events):
         iter_events = _events_in_iteration(events, iteration)
-        hs_events = iter_events[1:-1]
+        hs_events = iter_events[1:10]
         assert len(hs_events) == end - start + 1, (
             f"Iteration {iteration}: expected {end - start + 1} Hidden Singles attempts"
         )
@@ -418,8 +420,8 @@ def naked_singles_attempted_third(actor: Actor) -> None:
     events = _attempt_events(actor)
     for iteration in _iteration_numbers(events):
         iter_events = _events_in_iteration(events, iteration)
-        assert iter_events[-1].technique == "NakedSingles", (
-            f"Iteration {iteration}: Naked Singles was not the final recorded attempt"
+        assert iter_events[10].technique == "NakedSingles", (
+            f"Iteration {iteration}: Naked Singles was not recorded at index 10"
         )
 
 
@@ -432,8 +434,8 @@ def execution_order_maintained(actor: Actor) -> None:
     expected_sequence = 1
     for iteration in _iteration_numbers(events):
         iter_events = _events_in_iteration(events, iteration)
-        assert len(iter_events) == 11, (
-            f"Iteration {iteration}: expected exactly 11 attempt events"
+        assert len(iter_events) == 12, (
+            f"Iteration {iteration}: expected exactly 12 attempt events"
         )
         for event in iter_events:
             assert event.sequence == expected_sequence, (
@@ -827,6 +829,62 @@ def naked_singles_false(actor: Actor) -> None:
     assert actor.answer(AlgorithmMadeProgress.after_last_call()) is False
 
 
+@then('"Naked Pairs" should return false')
+def naked_pairs_false(actor: Actor) -> None:
+    actor.attempts_to(CheckAlgorithmProgress.naked_pairs_on_snapshot())
+    assert actor.answer(AlgorithmMadeProgress.after_last_call()) is False
+
+
+@given(parsers.parse('row {row:d} contains exactly two cells sharing candidate pair "{candidates}"'))
+def row_contains_naked_pair(actor: Actor, row: int, candidates: str) -> None:
+    actor.attempts_to(SetupGridState.naked_pair_row())
+
+
+@given(parsers.parse('another cell in row {row:d} has candidates "{candidates}"'))
+def another_cell_in_row_candidates(actor: Actor, row: int, candidates: str) -> None:
+    pass
+
+
+@given(parsers.parse('column {col:d} contains exactly two cells sharing candidate pair "{candidates}"'))
+def column_contains_naked_pair(actor: Actor, col: int, candidates: str) -> None:
+    actor.attempts_to(SetupGridState.naked_pair_column())
+
+
+@given(parsers.parse('another cell in column {col:d} has candidates "{candidates}"'))
+def another_cell_in_column_candidates(actor: Actor, col: int, candidates: str) -> None:
+    pass
+
+
+@given(parsers.parse('a 3x3 block at position ({br:d}, {bc:d}) contains exactly two cells sharing candidate pair "{candidates}"'))
+def block_contains_naked_pair(actor: Actor, br: int, bc: int, candidates: str) -> None:
+    actor.attempts_to(SetupGridState.naked_pair_block())
+
+
+@given(parsers.parse('another cell in that block has candidates "{candidates}"'))
+def another_cell_in_block_candidates(actor: Actor, candidates: str) -> None:
+    pass
+
+
+@given("a grid state where no unit contains a naked pair")
+def grid_state_no_naked_pairs(actor: Actor) -> None:
+    actor.attempts_to(SetupGridState.no_naked_pairs())
+
+
+@then(parsers.parse('the cell in row {row:d} with candidates "{candidates}" should be updated to {val:d}'))
+def cell_in_row_updated_to(actor: Actor, row: int, candidates: str, val: int) -> None:
+    assert actor.answer(GridCell.at(row, 2)) == val
+
+
+@then(parsers.parse('the cell in column {col:d} with candidates "{candidates}" should be updated to {val:d}'))
+def cell_in_column_updated_to(actor: Actor, col: int, candidates: str, val: int) -> None:
+    assert actor.answer(GridCell.at(2, col)) == val
+
+
+@then(parsers.parse('the cell in block ({br:d}, {bc:d}) with candidates "{candidates}" should be updated to {val:d}'))
+def cell_in_block_updated_to(actor: Actor, br: int, bc: int, candidates: str, val: int) -> None:
+    assert actor.answer(GridCell.at(0, 2)) == val
+
+
 @then("the main loop should exit")
 def main_loop_exits() -> None:
     pass
@@ -878,7 +936,7 @@ def audit_stats_match_changes(actor: Actor) -> None:
     trail = actor.answer(AuditTrail.current())
     assert trail is not None
     stats = trail["statistics"]["changesByAlgorithm"]
-    assert stats["unitCompletion"] + stats["hiddenSingles"] + stats["nakedSingles"] == trail["totalChanges"]
+    assert sum(stats.values()) == trail["totalChanges"]
 
 
 @then("no audit trail should be present")

@@ -17,7 +17,8 @@ public sealed record AuditEvent(
 public sealed record AuditStatistics(
     int UnitCompletion,
     int HiddenSingles,
-    int NakedSingles);
+    int NakedSingles,
+    int NakedPairs = 0);
 
 public sealed record AuditTrail(
     string PuzzleName,

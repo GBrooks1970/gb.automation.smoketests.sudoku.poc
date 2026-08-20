@@ -3,7 +3,6 @@ from __future__ import annotations
 from copy import deepcopy
 from typing import Callable
 
-from app_src import SudokuSolver
 from app_src.constants import EMPTY_CELL, GRID_SIZE
 from tests.screenplay.abilities import LoadPuzzles, UseSudokuSolver
 from tests.screenplay.fixtures import grid_fixtures
@@ -96,6 +95,15 @@ class ApplyAlgorithm:
         def action(actor: Actor) -> None:
             ability = actor.ability_to(UseSudokuSolver)
             ability.apply_naked_singles()
+            actor.remember(ALGORITHM_PROGRESS, ability.algorithm_made_progress)
+
+        return Task(action)
+
+    @staticmethod
+    def naked_pairs() -> Task:
+        def action(actor: Actor) -> None:
+            ability = actor.ability_to(UseSudokuSolver)
+            ability.apply_naked_pairs()
             actor.remember(ALGORITHM_PROGRESS, ability.algorithm_made_progress)
 
         return Task(action)
@@ -301,6 +309,46 @@ class SetupGridState:
         return Task(action)
 
     @staticmethod
+    def naked_pair_row() -> Task:
+        def action(actor: Actor) -> None:
+            ability = actor.ability_to(UseSudokuSolver)
+            ability.initialise("test")
+            grid_fixtures.setup_naked_pair_row(ability.get_solver())
+            ability.take_snapshot()
+
+        return Task(action)
+
+    @staticmethod
+    def naked_pair_column() -> Task:
+        def action(actor: Actor) -> None:
+            ability = actor.ability_to(UseSudokuSolver)
+            ability.initialise("test")
+            grid_fixtures.setup_naked_pair_column(ability.get_solver())
+            ability.take_snapshot()
+
+        return Task(action)
+
+    @staticmethod
+    def naked_pair_block() -> Task:
+        def action(actor: Actor) -> None:
+            ability = actor.ability_to(UseSudokuSolver)
+            ability.initialise("test")
+            grid_fixtures.setup_naked_pair_block(ability.get_solver())
+            ability.take_snapshot()
+
+        return Task(action)
+
+    @staticmethod
+    def no_naked_pairs() -> Task:
+        def action(actor: Actor) -> None:
+            ability = actor.ability_to(UseSudokuSolver)
+            ability.initialise("test")
+            grid_fixtures.setup_no_naked_pairs(ability.get_solver())
+            ability.take_snapshot()
+
+        return Task(action)
+
+    @staticmethod
     def run_all_algorithms_individually() -> Task:
         def action(actor: Actor) -> None:
             ability = actor.ability_to(UseSudokuSolver)
@@ -309,6 +357,7 @@ class SetupGridState:
             for digit in range(1, GRID_SIZE + 1):
                 ability.apply_hidden_singles(digit)
             ability.apply_naked_singles()
+            ability.apply_naked_pairs()
 
         return Task(action)
 
@@ -427,7 +476,7 @@ class SimulateError:
     @staticmethod
     def for_invalid_row_count(rows: int) -> Task:
         def action(actor: Actor) -> None:
-            error = ValueError(f'Puzzle "test" (index 0) must have exactly 9 rows')
+            error = ValueError('Puzzle "test" (index 0) must have exactly 9 rows')
             actor.ability_to(UseSudokuSolver).set_solver_error(error)
             actor.remember(LAST_ERROR, error)
 
@@ -469,6 +518,16 @@ class CheckAlgorithmProgress:
             ability = actor.ability_to(UseSudokuSolver)
             ability.reinitialise_from_snapshot()
             ability.apply_naked_singles()
+            actor.remember(ALGORITHM_PROGRESS, ability.algorithm_made_progress)
+
+        return Task(action)
+
+    @staticmethod
+    def naked_pairs_on_snapshot() -> Task:
+        def action(actor: Actor) -> None:
+            ability = actor.ability_to(UseSudokuSolver)
+            ability.reinitialise_from_snapshot()
+            ability.apply_naked_pairs()
             actor.remember(ALGORITHM_PROGRESS, ability.algorithm_made_progress)
 
         return Task(action)

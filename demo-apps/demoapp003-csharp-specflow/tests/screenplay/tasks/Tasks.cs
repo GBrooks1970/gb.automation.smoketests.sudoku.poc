@@ -70,6 +70,14 @@ public static class ApplyAlgorithm
             ability.ApplyNakedSingles();
             actor.Remember(MemoryKeys.ALGORITHM_PROGRESS, ability.AlgorithmMadeProgress);
         });
+
+    public static ITask NakedPairs() =>
+        new DelegateTask(actor =>
+        {
+            var ability = actor.AbilityTo<UseSudokuSolver>();
+            ability.ApplyNakedPairs();
+            actor.Remember(MemoryKeys.ALGORITHM_PROGRESS, ability.AlgorithmMadeProgress);
+        });
 }
 
 public static class SetupGridState
@@ -235,6 +243,42 @@ public static class SetupGridState
             ability.TakeSnapshot();
         });
 
+    public static ITask NakedPairRow() =>
+        new DelegateTask(actor =>
+        {
+            var ability = actor.AbilityTo<UseSudokuSolver>();
+            ability.Initialise("test");
+            GridFixtures.SetupNakedPairRow(ability.GetSolver());
+            ability.TakeSnapshot();
+        });
+
+    public static ITask NakedPairColumn() =>
+        new DelegateTask(actor =>
+        {
+            var ability = actor.AbilityTo<UseSudokuSolver>();
+            ability.Initialise("test");
+            GridFixtures.SetupNakedPairColumn(ability.GetSolver());
+            ability.TakeSnapshot();
+        });
+
+    public static ITask NakedPairBlock() =>
+        new DelegateTask(actor =>
+        {
+            var ability = actor.AbilityTo<UseSudokuSolver>();
+            ability.Initialise("test");
+            GridFixtures.SetupNakedPairBlock(ability.GetSolver());
+            ability.TakeSnapshot();
+        });
+
+    public static ITask NoNakedPairs() =>
+        new DelegateTask(actor =>
+        {
+            var ability = actor.AbilityTo<UseSudokuSolver>();
+            ability.Initialise("test");
+            GridFixtures.SetupNoNakedPairs(ability.GetSolver());
+            ability.TakeSnapshot();
+        });
+
     public static ITask RunAllAlgorithmsIndividually() =>
         new DelegateTask(actor =>
         {
@@ -246,6 +290,7 @@ public static class SetupGridState
                 ability.ApplyHiddenSingles(digit);
             }
             ability.ApplyNakedSingles();
+            ability.ApplyNakedPairs();
         });
 }
 
@@ -390,6 +435,15 @@ public static class CheckAlgorithmProgress
             var ability = actor.AbilityTo<UseSudokuSolver>();
             ability.ReinitialiseFromSnapshot();
             ability.ApplyNakedSingles();
+            actor.Remember(MemoryKeys.ALGORITHM_PROGRESS, ability.AlgorithmMadeProgress);
+        });
+
+    public static ITask NakedPairsOnSnapshot() =>
+        new DelegateTask(actor =>
+        {
+            var ability = actor.AbilityTo<UseSudokuSolver>();
+            ability.ReinitialiseFromSnapshot();
+            ability.ApplyNakedPairs();
             actor.Remember(MemoryKeys.ALGORITHM_PROGRESS, ability.AlgorithmMadeProgress);
         });
 

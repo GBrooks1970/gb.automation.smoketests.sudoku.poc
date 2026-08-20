@@ -38,6 +38,8 @@ public sealed class UseSudokuSolver : IAbility
 
     public void ApplyNakedSingles() => AlgorithmMadeProgress = _solver.NakedSingles();
 
+    public void ApplyNakedPairs() => AlgorithmMadeProgress = _solver.NakedPairs();
+
     public void SolvePuzzle()
     {
         var events = new List<AttemptEvent>();

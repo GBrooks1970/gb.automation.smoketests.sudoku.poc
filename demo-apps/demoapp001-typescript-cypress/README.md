@@ -346,7 +346,7 @@ Test scenarios are defined in [BasicSudokuSolverLogic.feature](tests/features/Ba
 - ✅ Integration tests
 - ✅ Edge cases
 
-**Total Scenarios:** 48 scenarios / 267 steps
+**Total Scenarios:** 52 scenarios / 291 steps
 
 The acceptance contract is complemented by 16 focused component tests, REST API integration, four
 OpenAPI response-contract tests, selected-scope coverage floors, and a reproducible 10-mutant

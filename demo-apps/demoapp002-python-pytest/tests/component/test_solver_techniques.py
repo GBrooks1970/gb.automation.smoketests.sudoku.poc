@@ -44,5 +44,23 @@ def test_naked_singles_fills_a_cell_with_one_remaining_candidate() -> None:
     assert solver.get_grid()[4][4] == 9
 
 
+def test_naked_pairs_eliminates_candidates_in_a_row_to_place_a_single() -> None:
+    grid = empty_grid()
+    grid[0] = [0, 0, 0, 1, 3, 5, 6, 8, 9]
+    grid[4][0] = 4
+    grid[5][1] = 4
+    solver = SudokuSolver("naked pair row", grid)
+
+    assert solver.naked_pairs()
+    assert solver.get_grid()[0][2] == 4
+
+
+def test_naked_pairs_returns_false_when_no_naked_pairs_exist() -> None:
+    grid = empty_grid()
+    solver = SudokuSolver("no naked pairs", grid)
+
+    assert not solver.naked_pairs()
+
+
 def empty_grid() -> list[list[int]]:
     return [[0 for _ in range(9)] for _ in range(9)]

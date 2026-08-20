@@ -52,8 +52,8 @@ class AuditLogger:
 
     def get_statistics(self) -> dict[str, Any]:
         stats = {
-            "changesByAlgorithm": {"unitCompletion": 0, "hiddenSingles": 0, "nakedSingles": 0},
-            "iterationsByAlgorithm": {"unitCompletion": 0, "hiddenSingles": 0, "nakedSingles": 0},
+            "changesByAlgorithm": {"unitCompletion": 0, "hiddenSingles": 0, "nakedSingles": 0, "nakedPairs": 0},
+            "iterationsByAlgorithm": {"unitCompletion": 0, "hiddenSingles": 0, "nakedSingles": 0, "nakedPairs": 0},
             "averageChangesPerIteration": 0,
         }
         for event in self._events:
@@ -61,6 +61,7 @@ class AuditLogger:
                 "UnitCompletion": "unitCompletion",
                 "HiddenSingles": "hiddenSingles",
                 "NakedSingles": "nakedSingles",
+                "NakedPairs": "nakedPairs",
             }[event["algorithm"]]
             stats["changesByAlgorithm"][key] += len(event["cellChanges"])
             stats["iterationsByAlgorithm"][key] += 1

@@ -46,6 +46,24 @@ test('Naked Singles fills a cell with one remaining candidate', () => {
   assert.equal(solver.getGrid()[4][4], 9);
 });
 
+test('Naked Pairs eliminates candidates in a row to place a single', () => {
+  const grid = emptyGrid();
+  grid[0] = [0, 0, 0, 1, 3, 5, 6, 8, 9];
+  grid[4][0] = 4;
+  grid[5][1] = 4;
+  const solver = new SudokuSolver('naked pair row', grid);
+
+  assert.equal(solver.nakedPairs(), true);
+  assert.equal(solver.getGrid()[0][2], 4);
+});
+
+test('Naked Pairs returns false when no naked pairs exist', () => {
+  const grid = emptyGrid();
+  const solver = new SudokuSolver('no naked pairs', grid);
+
+  assert.equal(solver.nakedPairs(), false);
+});
+
 function emptyGrid(): number[][] {
   return Array.from({ length: 9 }, () => Array(9).fill(0));
 }

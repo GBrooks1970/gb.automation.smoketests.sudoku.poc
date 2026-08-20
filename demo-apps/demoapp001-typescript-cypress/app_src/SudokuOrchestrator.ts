@@ -84,6 +84,11 @@ export class SudokuOrchestrator {
         changedThisPass = true;
       }
 
+      // Step 4: Naked Pairs (advanced subset elimination across rows, columns, blocks)
+      if (this.runAttempt(iteration, 'NakedPairs', () => this.solver.nakedPairs())) {
+        changedThisPass = true;
+      }
+
       // Exit loop if no technique made any progress (puzzle stuck or complete)
       isProgressing = changedThisPass;
     }

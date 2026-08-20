@@ -59,6 +59,11 @@ public sealed class SudokuOrchestrator
                 changedThisPass = true;
             }
 
+            if (RunAttempt(iteration, "NakedPairs", _solver.NakedPairs))
+            {
+                changedThisPass = true;
+            }
+
             isProgressing = changedThisPass;
         }
 

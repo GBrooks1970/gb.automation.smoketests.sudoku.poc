@@ -70,15 +70,19 @@ export class AuditLogger {
       } else if (event.algorithm === 'HiddenSingles') {
         stats.changesByAlgorithm.hiddenSingles += changes;
         stats.iterationsByAlgorithm.hiddenSingles++;
-      } else {
+      } else if (event.algorithm === 'NakedSingles') {
         stats.changesByAlgorithm.nakedSingles += changes;
         stats.iterationsByAlgorithm.nakedSingles++;
+      } else if (event.algorithm === 'NakedPairs') {
+        stats.changesByAlgorithm.nakedPairs = (stats.changesByAlgorithm.nakedPairs ?? 0) + changes;
+        stats.iterationsByAlgorithm.nakedPairs = (stats.iterationsByAlgorithm.nakedPairs ?? 0) + 1;
       }
     }
     const total =
       stats.changesByAlgorithm.unitCompletion +
       stats.changesByAlgorithm.hiddenSingles +
-      stats.changesByAlgorithm.nakedSingles;
+      stats.changesByAlgorithm.nakedSingles +
+      (stats.changesByAlgorithm.nakedPairs ?? 0);
     stats.averageChangesPerIteration =
       this.currentIteration > 0 ? total / this.currentIteration : 0;
     return stats;

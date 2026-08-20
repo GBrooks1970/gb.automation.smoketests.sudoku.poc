@@ -198,6 +198,38 @@ export const SetupGridState = {
     }),
 
   // ---------------------------------------------------------------------------
+  // Naked Pairs scenarios
+  // ---------------------------------------------------------------------------
+
+  nakedPairRow: () =>
+    Interaction.where('#actor sets up a row with a naked pair', async (actor) => {
+      const ability = UseSudokuSolver.as(actor);
+      GridFixtures.setupNakedPairRow(ability.getSolver());
+      ability.takeSnapshot();
+    }),
+
+  nakedPairColumn: () =>
+    Interaction.where('#actor sets up a column with a naked pair', async (actor) => {
+      const ability = UseSudokuSolver.as(actor);
+      GridFixtures.setupNakedPairColumn(ability.getSolver());
+      ability.takeSnapshot();
+    }),
+
+  nakedPairBlock: () =>
+    Interaction.where('#actor sets up a 3x3 block with a naked pair', async (actor) => {
+      const ability = UseSudokuSolver.as(actor);
+      GridFixtures.setupNakedPairBlock(ability.getSolver());
+      ability.takeSnapshot();
+    }),
+
+  noNakedPairs: () =>
+    Interaction.where('#actor sets up a grid with no naked pairs', async (actor) => {
+      const ability = UseSudokuSolver.as(actor);
+      GridFixtures.setupNoNakedPairs(ability.getSolver());
+      ability.takeSnapshot();
+    }),
+
+  // ---------------------------------------------------------------------------
   // Edge Case tests
   // ---------------------------------------------------------------------------
 
@@ -219,14 +251,12 @@ export const SetupGridState = {
     ),
 
   runAllAlgorithmsIndividually: () =>
-    Interaction.where(
-      '#actor runs all three algorithms individually on the grid',
-      async (actor) => {
-        const ability = UseSudokuSolver.as(actor);
-        ability.takeSnapshot();
-        ability.applyUnitCompletion();
-        for (let d = 1; d <= GRID_SIZE; d++) ability.applyHiddenSingles(d);
-        ability.applyNakedSingles();
-      }
-    ),
+    Interaction.where('#actor runs all algorithms individually on the grid', async (actor) => {
+      const ability = UseSudokuSolver.as(actor);
+      ability.takeSnapshot();
+      ability.applyUnitCompletion();
+      for (let d = 1; d <= GRID_SIZE; d++) ability.applyHiddenSingles(d);
+      ability.applyNakedSingles();
+      ability.applyNakedPairs();
+    }),
 };
