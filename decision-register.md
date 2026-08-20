@@ -2357,6 +2357,75 @@ Adopt the deterministic candidate-elimination architecture specified in
 
 ---
 
+## DR-042 — Interactive Sudoku Tutor Surface and Next-Move Hint Contract (BACKLOG-015 / SUD-35)
+
+**Date:** 2026-08-20
+**Status:** Accepted — 2026-08-20
+
+### Context
+
+The Sudoku solver platform across DEMOAPP001 (TypeScript), DEMOAPP002 (Python), and DEMOAPP003 (C#)
+provides deterministic solving for five techniques (Unit Completion, Hidden Singles, Naked Singles,
+Naked Pairs, X-Wing). While DEMOAPP001 provides a Web UI visualisation (BACKLOG-018), it only replays
+completed full solve payloads. Users currently cannot interact with custom partial grids, receive step-by-step
+guidance, or understand the pedagogical reasons for specific deductions. BACKLOG-015 introduces the
+Interactive Sudoku Tutor. Designing this capability requires establishing the single-source-of-truth
+architecture for hint generation, side-effect-free evaluation, pedagogical rationale synthesis, and
+the HTTP REST API boundary.
+
+### Decision
+
+Adopt the interactive tutor architecture and hint contract defined in
+`DOCS/.design/interactive-sudoku-tutor.md`:
+
+- **Single-Source-of-Truth Hint Engine:** The next-move hint service MUST directly consume the existing
+  governed `SudokuSolver` and its deterministic single-step technique hierarchy (DR-041). It MUST NOT
+  implement an independent or duplicate solving algorithm.
+- **Side-Effect-Free & Isolated Evaluation:** Hint computation operates on an isolated deep copy of the
+  target grid, evaluating the immediate next move without mutating caller state or advancing the solver
+  further.
+- **Structured Hint Contract & Rationale Engine:** Responses include explicit status classification
+  (`HINT_AVAILABLE`, `SOLVED`, `STUCK_ON_ADVANCED_LOGIC`, `INVALID_GRID`), move recommendations, candidate
+  eliminations, coordinate highlights, and human-readable natural-language rationales for all supported
+  techniques.
+- **REST API Boundary:** Expose `POST /api/tutor/hint` under the DEMOAPP001 Express server with OpenAPI 3.0
+  conformance, request schema validation, and strict error handling (`400` malformed, `422` invalid values).
+- **Staged Multi-Stack Capability:** DEMOAPP001 acts as the pioneer stack for the tutor API and guided UI
+  per platform specification §6.1; Python and C# remain on the roadmap without breaking `@util` parity.
+
+### Status
+
+`Accepted` — 2026-08-20, when the project owner authorised the SUD-35 design increment.
+
+### Consequences
+
+**Outcomes:**
+- SUD-36 (Hint Engine Implementation) and SUD-37 (Guided UI & Closure) have an authoritative, governed design.
+- Users gain interactive pedagogical guidance without compromising solver integrity or duplicate logic.
+- Pure deterministic solving semantics are preserved.
+
+**Trade-offs:**
+- Pedagogical rationale generation introduces string-formatting logic in the tutor service layer.
+- Guided UI interactions require client-side state handling for interactive grid cell editing.
+
+### Alternatives Considered
+
+**Alternative: Replay entire solve payload from step 0 to step N+1**
+- Rejected because: computationally wasteful for large grids and cannot evaluate user-edited or deviant partial states.
+
+**Alternative: Client-side JavaScript hint generation in browser**
+- Rejected because: creates duplicate solving logic that drifts from the governed TypeScript/Python/C# solver contracts.
+
+### Related Decisions
+
+- DR-034 — Platform specification v1.1 and capability matrix.
+- DR-035 — Validation boundaries and OpenAPI authority.
+- DR-037 — Immutable orchestration attempt events.
+- DR-041 — Deterministic advanced solving techniques.
+- BACKLOG-015 — Interactive Sudoku Tutor product capability.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -2375,5 +2444,5 @@ Adopt the deterministic candidate-elimination architecture specified in
 
 ---
 
-*Last entry: DR-041 (Accepted). Next ID: DR-042.*
+*Last entry: DR-042 (Accepted). Next ID: DR-043.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

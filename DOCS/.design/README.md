@@ -375,11 +375,13 @@ Provide feedback in structured format with specific references to sections.
 | [sudoku-solver-specification.md](sudoku-solver-specification.md) | Core solver design (tech-agnostic) | v1.0 |
 | [naming-conventions-design.md](naming-conventions-design.md) | TypeScript naming standards — adopted and enforced via ESLint | v1.0 |
 | [naming-conventions.md](naming-conventions.md) | **Authoritative naming conventions** (RA §10.9 required document — supersedes naming-conventions-design.md as the reference standard) | v1.0 |
+| [advanced-solving-techniques.md](advanced-solving-techniques.md) | Advanced solving techniques design (Naked Pairs, X-Wing; DR-041) | v1.0 |
 
-### Approved — Not Yet Implemented
+### Approved — In Progress / Staged
 
 | Document | Purpose | Version |
 |----------|---------|---------|
+| [interactive-sudoku-tutor.md](interactive-sudoku-tutor.md) | Interactive Sudoku Tutor surface and next-move hint contract (DR-042, BACKLOG-015 / SUD-35) | v1.0 |
 | [audit-trail-feature.md](audit-trail-feature.md) | Audit logging system | v1.1 |
 | [orchestration-attempt-events.md](orchestration-attempt-events.md) | Implemented cross-stack attempt-event contract (DR-037) | v1.1 |
 | [rest-api-wrapper.md](rest-api-wrapper.md) | Express REST API wrapper | v1.0 |
