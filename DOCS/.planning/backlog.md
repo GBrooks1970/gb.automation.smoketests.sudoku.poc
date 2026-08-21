@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-08-20 — delivered SUD-34 (X-Wing implementation across TypeScript, Python, and C# Stacks, closing BACKLOG-014; 55 scenarios / 309 steps per Stack, 165 total; 20 TS / 30 Py / 28 C# component tests; 3-Stack parity PASS). Prior: 2026-08-20 (delivered SUD-33 Naked Pairs; SUD-32 advanced techniques design & DR-041).
+**Last Updated:** 2026-08-20 — progressed BACKLOG-015 / SUD-35 (Interactive Sudoku Tutor design & DR-042). Prior: 2026-08-20 (delivered SUD-34 X-Wing closing BACKLOG-014; SUD-33 Naked Pairs; SUD-32 advanced techniques design & DR-041).
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,8 +25,8 @@ Per v1.15 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 2 |
-| In Progress | 0 |
+| Open | 1 |
+| In Progress | 1 |
 | Resolved | 91 |
 | **Total** | **93** |
 
@@ -36,7 +36,7 @@ Per v1.15 Section 10.1:
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-014 (Advanced Solving Techniques: Naked Pairs and X-Wing across all three stacks) Resolved; parked future product work BACKLOG-015/016 remains Open |
+| Current sprint focus | BACKLOG-015 / SUD-35 (Interactive Sudoku Tutor design & DR-042) complete; SUD-36 (Hint Engine) and SUD-37 (Guided UI) follow; parked future product work BACKLOG-016 remains Open |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -1202,21 +1202,22 @@ Acceptance criteria:
 ### BACKLOG-015: Interactive Sudoku Tutor
 
 **Priority:** Future
-**Status:** Open
+**Status:** In Progress (SUD-35 design & governance delivered; SUD-36 hint engine & SUD-37 UI implementation follow)
 **Stack(s):** DEMOAPP001 first (future-Stack parity per the SUD-05 capability matrix)
 **Nature of Gap:** Product idea — the existing Web UI (BACKLOG-018, Resolved) *replays* a completed
 solve read-only. There is no interactive mode that guides a user through their own grid, suggests the
 next deterministic move, and explains which technique applies and why.
 
-Design reference: `DOCS/.design/interactive-sudoku-tutor.md` (to be authored)
+Design reference: `DOCS/.design/interactive-sudoku-tutor.md` (authored in SUD-35, DR-042)
 
 Builds on the resolved audit trail (BACKLOG-008), `SolveStepTracker` / Web UI (BACKLOG-018), and the
-REST API (BACKLOG-009). Richer explanations depend on BACKLOG-014 (advanced techniques). Per the
-SUD-05 capability matrix this is a DEMOAPP001 surface first; Python/C# remain roadmap.
+REST API (BACKLOG-009). Consumes the deterministic technique hierarchy and audit stream from
+BACKLOG-014 (advanced techniques). Per the SUD-05 capability matrix this is a DEMOAPP001 surface first;
+Python/C# remain roadmap.
 
 Acceptance criteria:
 
-- [ ] Design doc authored at `DOCS/.design/interactive-sudoku-tutor.md` defining the tutor surface,
+- [x] Design doc authored at `DOCS/.design/interactive-sudoku-tutor.md` defining the tutor surface,
       its tag (e.g. an extension of the existing `@web` / API surface), and the user interaction model
 - [ ] A "next move" hint engine that, given a partial grid, returns the next deterministic step, the
       technique name, and a human-readable rationale — sourced from the existing solver + `AuditLogger`,
@@ -1225,7 +1226,7 @@ Acceptance criteria:
       reusing the grid / event-log / statistics components where possible
 - [ ] Behavioural coverage added (canonical-feature-first if the tutor logic is testable at the `@util`
       surface; otherwise API/UI-level tests as the design doc specifies)
-- [ ] A decision-register entry recorded for the new surface contract before the item is closed
+- [x] A decision-register entry recorded for the new surface contract before the item is closed (DR-042)
 - [ ] Capability matrix (platform spec §6.1) updated to record tutor support per Stack
 
 ---
