@@ -128,3 +128,42 @@ export interface VisualiseResult {
   steps: SolveStep[];
   statistics: VisualiseStatistics;
 }
+
+export type HintStatus = 'HINT_AVAILABLE' | 'SOLVED' | 'STUCK_ON_ADVANCED_LOGIC' | 'INVALID_GRID';
+
+export interface CellCoordinate {
+  row: number;
+  col: number;
+}
+
+export interface CandidateElimination {
+  row: number;
+  col: number;
+  eliminatedDigits: number[];
+}
+
+export interface MoveRecommendation {
+  cell: CellCoordinate;
+  digit: number;
+  previousValue: number;
+}
+
+export interface HighlightUnit {
+  type: 'row' | 'col' | 'block';
+  index: number;
+}
+
+export interface TutorHintResponse {
+  success: true;
+  status: HintStatus;
+  technique: TechniqueName | 'None';
+  move: MoveRecommendation | null;
+  eliminations: CandidateElimination[];
+  rationale: string;
+  highlightCells: CellCoordinate[];
+  highlightUnits?: HighlightUnit[];
+}
+
+export interface TutorHintRequest {
+  grid: Grid;
+}

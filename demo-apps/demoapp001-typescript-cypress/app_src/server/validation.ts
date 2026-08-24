@@ -7,6 +7,7 @@ import {
   RequestOptions,
   SolveOptions,
   SolveRequest,
+  TutorHintRequest,
   ValidationConflict,
   ValidationResponse,
 } from './types';
@@ -47,6 +48,13 @@ export function parseSolveRequest(body: unknown): SolveRequest {
   return {
     grid,
     options: parseSolveOptions(body),
+  };
+}
+
+export function parseTutorHintRequest(body: unknown): TutorHintRequest {
+  const grid = parseGrid(body);
+  return {
+    grid,
   };
 }
 
