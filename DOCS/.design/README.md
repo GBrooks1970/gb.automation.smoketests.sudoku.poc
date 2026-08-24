@@ -381,6 +381,7 @@ Provide feedback in structured format with specific references to sections.
 
 | Document | Purpose | Version |
 |----------|---------|---------|
+| [puzzle-generator.md](puzzle-generator.md) | Sudoku puzzle generator, uniqueness oracle, difficulty grading, and API contract (DR-043, BACKLOG-016 / SUD-38) | v1.0 |
 | [interactive-sudoku-tutor.md](interactive-sudoku-tutor.md) | Interactive Sudoku Tutor surface and next-move hint contract (DR-042, BACKLOG-015 / SUD-35) | v1.0 |
 | [audit-trail-feature.md](audit-trail-feature.md) | Audit logging system | v1.1 |
 | [orchestration-attempt-events.md](orchestration-attempt-events.md) | Implemented cross-stack attempt-event contract (DR-037) | v1.1 |
