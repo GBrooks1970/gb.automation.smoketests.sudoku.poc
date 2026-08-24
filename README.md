@@ -114,12 +114,13 @@ npm start
 ```
 
 **Features:**
-- ✅ Three core solving algorithms
+- ✅ Five deterministic solving algorithms (Unit Completion, Hidden Singles, Naked Singles, Naked Pairs, X-Wing)
 - ✅ CLI interface with grid visualization
 - ✅ JSON-based puzzle loading
 - ✅ Comprehensive test scenarios (Gherkin)
 - ✅ Audit trail feature
-- ✅ REST API wrapper
+- ✅ REST API wrapper with OpenAPI 3.0 contract
+- ✅ Interactive Sudoku Tutor & Solve Visualiser Web UI
 
 See [DEMOAPP001 README](demo-apps/demoapp001-typescript-cypress/README.md) for implementation details.
 
@@ -177,6 +178,7 @@ is a staging decision, not a parity failure. See the authoritative matrix in the
 | CLI / grid display | ✅ | ➖ | ➖ | Staged (DEMOAPP001) |
 | REST API | ✅ | 🛣️ | 🛣️ | Staged; roadmap for Py/C# |
 | Web UI visualisation | ✅ | 🛣️ | 🛣️ | Staged; roadmap for Py/C# |
+| Interactive Tutor | ✅ | 🛣️ | 🛣️ | Staged; roadmap for Py/C# |
 | Performance tooling | ✅ | ✅ | ✅ | Extension (all stacks) |
 
 Legend: ✅ present · 🛣️ roadmap · ➖ not carried (no roadmap commitment).
