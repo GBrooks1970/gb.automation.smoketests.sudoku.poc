@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-08-20 — progressed BACKLOG-015 / SUD-35 (Interactive Sudoku Tutor design & DR-042). Prior: 2026-08-20 (delivered SUD-34 X-Wing closing BACKLOG-014; SUD-33 Naked Pairs; SUD-32 advanced techniques design & DR-041).
+**Last Updated:** 2026-08-24 — resolved BACKLOG-015 / SUD-35..37 (Interactive Sudoku Tutor design, DR-042, hint engine, REST API, guided Web UI & smoke checks). Prior: 2026-08-20 (delivered SUD-34 X-Wing closing BACKLOG-014; SUD-33 Naked Pairs; SUD-32 advanced techniques design & DR-041).
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -26,17 +26,17 @@ Per v1.15 Section 10.1:
 | Status | Count |
 |--------|-------|
 | Open | 1 |
-| In Progress | 1 |
-| Resolved | 91 |
+| In Progress | 0 |
+| Resolved | 92 |
 | **Total** | **93** |
 
 | Area | Current state |
 |------|---------------|
-| Current execution baseline | DEMOAPP001: Node 24, 20 component tests plus 55 scenarios / 309 steps passing, REST API integration PASS, 4 OpenAPI contract tests passing; selected-module coverage 79.01% lines / 88.93% branches / 80.18% functions with 70% / 85% / 75% floors; focused mutation trial 10/10 killed. DEMOAPP002: Python 3.13, 85 tests (55 pytest-bdd + 30 component) passing; selected-module coverage 87.81% combined with an 85% floor. DEMOAPP003: .NET 10, 83 tests (55 Reqnroll + 28 component) passing; selected-type coverage 86.03% lines / 84.91% branches with 80% / 80% floors. 3-Stack parity PASS. |
+| Current execution baseline | DEMOAPP001: Node 24, 30 component tests plus 55 scenarios / 309 steps passing, REST API integration PASS, 4 OpenAPI contract tests passing, Web UI smoke check PASS; selected-module coverage 81.33% lines / 90.09% branches / 81.58% functions with 70% / 85% / 75% floors; focused mutation trial 10/10 killed. DEMOAPP002: Python 3.13, 85 tests (55 pytest-bdd + 30 component) passing; selected-module coverage 87.81% combined with an 85% floor. DEMOAPP003: .NET 10, 83 tests (55 Reqnroll + 28 component) passing; selected-type coverage 86.03% lines / 84.91% branches with 80% / 80% floors. 3-Stack parity PASS. |
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-015 / SUD-35 (Interactive Sudoku Tutor design & DR-042) complete; SUD-36 (Hint Engine) and SUD-37 (Guided UI) follow; parked future product work BACKLOG-016 remains Open |
+| Current sprint focus | BACKLOG-015 / SUD-35..37 (Interactive Sudoku Tutor design, DR-042, hint engine & guided UI) complete; parked future product work BACKLOG-016 (Puzzle Generator) remains Open |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -1202,7 +1202,7 @@ Acceptance criteria:
 ### BACKLOG-015: Interactive Sudoku Tutor
 
 **Priority:** Future
-**Status:** In Progress (SUD-35 design & governance delivered; SUD-36 hint engine & SUD-37 UI implementation follow)
+**Status:** Resolved 2026-08-24 — delivered via SUD-35 (design & DR-042), SUD-36 (hint engine & REST API contract), and SUD-37 (guided tutor Web UI & smoke checks)
 **Stack(s):** DEMOAPP001 first (future-Stack parity per the SUD-05 capability matrix)
 **Nature of Gap:** Product idea — the existing Web UI (BACKLOG-018, Resolved) *replays* a completed
 solve read-only. There is no interactive mode that guides a user through their own grid, suggests the
@@ -1219,15 +1219,15 @@ Acceptance criteria:
 
 - [x] Design doc authored at `DOCS/.design/interactive-sudoku-tutor.md` defining the tutor surface,
       its tag (e.g. an extension of the existing `@web` / API surface), and the user interaction model
-- [ ] A "next move" hint engine that, given a partial grid, returns the next deterministic step, the
+- [x] A "next move" hint engine that, given a partial grid, returns the next deterministic step, the
       technique name, and a human-readable rationale — sourced from the existing solver + `AuditLogger`,
       not a second solving implementation
-- [ ] Interactive guided-mode UI served from the existing Express server (`npm run start:web`),
+- [x] Interactive guided-mode UI served from the existing Express server (`npm run start:web`),
       reusing the grid / event-log / statistics components where possible
-- [ ] Behavioural coverage added (canonical-feature-first if the tutor logic is testable at the `@util`
+- [x] Behavioural coverage added (canonical-feature-first if the tutor logic is testable at the `@util`
       surface; otherwise API/UI-level tests as the design doc specifies)
 - [x] A decision-register entry recorded for the new surface contract before the item is closed (DR-042)
-- [ ] Capability matrix (platform spec §6.1) updated to record tutor support per Stack
+- [x] Capability matrix (platform spec §6.1) updated to record tutor support per Stack
 
 ---
 
@@ -1396,6 +1396,7 @@ Acceptance criteria (for the implementation, not this planning item):
 | BACKLOG-070 | Supported-runtime dependency audits and bounded exceptions (SUD-31) | All | 2026-07-28 | Node 24 npm, Python 3.13 `pip-audit` and .NET 10 NuGet audits block under DR-039; common retained summaries, 13 policy controls and 17/17 evidence omissions pass; current findings zero. |
 | BACKLOG-071 | Static browser-only visualisation evidence on Pages (LAND-09D, DR-040) | DEMOAPP001 | 2026-08-04 | Viability gate passed; static viewer reuses `grid.js`/`player.js` verbatim over precomputed payloads (`build:pages`/`check:pages`, `pages.yml`); live at <https://gbrooks1970.github.io/gb.automation.smoketests.sudoku.poc/> (PRs #52 `619016f` + #53 `4e504b3`, Pages run 30926946232) and linked from the portfolio landing page. A dev/test-tooling audit advisory that surfaced during CI (brace-expansion override `5.0.8`→`^5.0.9`, fast-uri `3.1.5`) was cleared under DR-039; `npm audit` = 0, 48/48 scenarios pass. |
 | BACKLOG-014 | Advanced Solving Techniques (SUD-32..34) | All | 2026-08-20 | Designed, governed (DR-041), and implemented Naked Pairs and X-Wing techniques across all 3 Stacks; canonical feature updated to 55 scenarios / 309 steps (165 scenarios across 3 Stacks); 20 TS / 30 Py / 28 C# component tests; audit attribution & parity gates PASS. |
+| BACKLOG-015 | Interactive Sudoku Tutor (SUD-35..37) | DEMOAPP001 | 2026-08-24 | Designed (DR-042), governed, implemented next-move hint engine, POST /api/tutor/hint endpoint with OpenAPI contract, guided interactive tutor Web UI, and smoke test coverage; 3-Stack parity maintained. |
 
 ---
 

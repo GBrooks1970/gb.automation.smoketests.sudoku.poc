@@ -3,12 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sudoku Solver Visualisation</title>
+  <title>Sudoku Solver Visualisation &amp; Interactive Tutor</title>
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
   <header>
-    <h1>Sudoku Solver Visualisation</h1>
+    <div class="header-top">
+      <h1>Sudoku Solver &amp; Interactive Tutor</h1>
+      <nav class="nav-tabs" aria-label="Mode Selection">
+        <button id="tab-visualiser" class="nav-tab active" type="button">Solve Visualiser</button>
+        <button id="tab-tutor" class="nav-tab" type="button">Interactive Tutor</button>
+      </nav>
+    </div>
+
     <div id="puzzle-selector">
       <label for="puzzle-dropdown">Puzzle:</label>
       <select id="puzzle-dropdown">
@@ -20,44 +27,102 @@
   </header>
 
   <main>
+    <!-- Left column: Sudoku Grid + Controls -->
     <section id="grid-panel">
-      <div id="loading" class="hidden">Solving&hellip;</div>
-      <div id="error-banner" class="hidden"></div>
+      <div id="loading" class="hidden">Analyzing&hellip;</div>
+      <div id="error-banner" class="hidden" role="alert"></div>
+      <div id="success-banner" class="hidden" role="status"></div>
+      
       <div id="sudoku-grid"></div>
 
-      <div id="playback-controls">
-        <button id="btn-first" title="Jump to start" disabled>&#x23EE;</button>
-        <button id="btn-prev"  title="Previous step" disabled>&#x23EA;</button>
-        <button id="btn-play"  title="Play / Pause"  disabled>&#x25B6;</button>
-        <button id="btn-next"  title="Next step"     disabled>&#x23E9;</button>
-        <button id="btn-last"  title="Jump to end"   disabled>&#x23ED;</button>
-        <span id="step-counter">Step 0 of 0</span>
+      <!-- Mode 1: Visualiser Replay Controls -->
+      <div id="visualiser-controls">
+        <div id="playback-controls">
+          <button id="btn-first" type="button" title="Jump to start" disabled>&#x23EE;</button>
+          <button id="btn-prev"  type="button" title="Previous step" disabled>&#x23EA;</button>
+          <button id="btn-play"  type="button" title="Play / Pause"  disabled>&#x25B6;</button>
+          <button id="btn-next"  type="button" title="Next step"     disabled>&#x23E9;</button>
+          <button id="btn-last"  type="button" title="Jump to end"   disabled>&#x23ED;</button>
+          <span id="step-counter">Step 0 of 0</span>
+        </div>
+
+        <div id="speed-control" style="margin-top: 10px;">
+          <label for="speed-slider">Speed:
+            <span id="speed-label">500 ms</span>
+          </label>
+          <input type="range" id="speed-slider" min="100" max="2000" value="500" step="100">
+        </div>
+
+        <div id="legend">
+          <span class="legend-item original">Original</span>
+          <span class="legend-item unit-completion">Unit Completion</span>
+          <span class="legend-item hidden-singles">Hidden Singles</span>
+          <span class="legend-item naked-singles">Naked Singles</span>
+          <span class="legend-item naked-pairs">Naked Pairs</span>
+          <span class="legend-item x-wing">X-Wing</span>
+        </div>
       </div>
 
-      <div id="speed-control">
-        <label for="speed-slider">Speed:
-          <span id="speed-label">500 ms</span>
-        </label>
-        <input type="range" id="speed-slider" min="100" max="2000" value="500" step="100">
-      </div>
+      <!-- Mode 2: Interactive Tutor Controls (Default Hidden) -->
+      <div id="tutor-controls" class="hidden">
+        <div class="btn-group">
+          <button id="btn-get-hint" type="button" class="primary-btn">Get Hint / Next Move</button>
+          <button id="btn-apply-hint" type="button" class="accent-btn" disabled>Apply Move</button>
+          <button id="btn-auto-step" type="button" class="secondary-btn">Auto-Play Hints</button>
+          <button id="btn-reset-puzzle" type="button" class="secondary-btn">Reset Clues</button>
+          <button id="btn-clear-grid" type="button" class="danger-btn">Clear Grid</button>
+        </div>
 
-      <div id="legend">
-        <span class="legend-item original">Original</span>
-        <span class="legend-item unit-completion">Unit Completion</span>
-        <span class="legend-item hidden-singles">Hidden Singles</span>
-        <span class="legend-item naked-singles">Naked Singles</span>
+        <div id="digit-keypad" class="keypad-container" style="margin-top: 6px;">
+          <button type="button" class="keypad-btn" data-digit="1">1</button>
+          <button type="button" class="keypad-btn" data-digit="2">2</button>
+          <button type="button" class="keypad-btn" data-digit="3">3</button>
+          <button type="button" class="keypad-btn" data-digit="4">4</button>
+          <button type="button" class="keypad-btn" data-digit="5">5</button>
+          <button type="button" class="keypad-btn" data-digit="6">6</button>
+          <button type="button" class="keypad-btn" data-digit="7">7</button>
+          <button type="button" class="keypad-btn" data-digit="8">8</button>
+          <button type="button" class="keypad-btn" data-digit="9">9</button>
+          <button type="button" class="keypad-btn" data-digit="0" title="Clear cell">⌫</button>
+        </div>
+
+        <p class="tutor-guide-text">
+          💡 Click any cell to select. Use keyboard (1–9, Backspace, Arrow keys) or keypad to edit clues, then click <strong>Get Hint</strong> for step-by-step logical deductions.
+        </p>
       </div>
     </section>
 
+    <!-- Right column: Information / Logs / Tutor Cards -->
     <section id="info-panel">
-      <div id="event-log">
-        <h3>Event Log</h3>
-        <ol id="event-list"><li class="placeholder">Select a puzzle to begin.</li></ol>
+      <!-- Mode 1: Visualiser Info -->
+      <div id="visualiser-info">
+        <div id="event-log" class="card">
+          <h3>Event Log</h3>
+          <ol id="event-list"><li class="placeholder">Select a puzzle to begin.</li></ol>
+        </div>
+        <div id="statistics" class="card" style="margin-top: 16px;">
+          <h3>Statistics</h3>
+          <div id="stats-content">
+            <p class="placeholder">No solve data yet.</p>
+          </div>
+        </div>
       </div>
-      <div id="statistics">
-        <h3>Statistics</h3>
-        <div id="stats-content">
-          <p class="placeholder">No solve data yet.</p>
+
+      <!-- Mode 2: Interactive Tutor Info (Default Hidden) -->
+      <div id="tutor-info" class="hidden">
+        <div id="tutor-panel">
+          <div id="tutor-card" class="card">
+            <h3>Tutor Deduction &amp; Rationale</h3>
+            <div class="tutor-header-badges">
+              <span id="tutor-status-badge" class="badge badge-hint-available">READY</span>
+              <span id="tutor-technique-badge" class="badge badge-technique">Awaiting Hint</span>
+            </div>
+            <div id="tutor-target-summary" class="move-summary">Click "Get Hint" for next logical move</div>
+            <div id="tutor-rationale" class="rationale-box">
+              Select a cell or click "Get Hint / Next Move" to receive step-by-step pedagogical deductions based on deterministic Sudoku techniques.
+            </div>
+            <div id="tutor-eliminations" class="eliminations-box hidden"></div>
+          </div>
         </div>
       </div>
     </section>

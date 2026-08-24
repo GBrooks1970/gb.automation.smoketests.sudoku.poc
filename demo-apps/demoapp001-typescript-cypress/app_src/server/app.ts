@@ -1,4 +1,5 @@
 import express, { NextFunction, Request, RequestHandler, Response } from 'express';
+import fs from 'fs';
 import path from 'path';
 import { ApiError } from './errors';
 import { SolveStepTracker } from './SolveStepTracker';
@@ -12,6 +13,14 @@ import {
   parseTutorHintRequest,
 } from './validation';
 
+function resolvePublicDir(): string {
+  const localPublic = path.join(__dirname, 'public');
+  if (fs.existsSync(localPublic)) {
+    return localPublic;
+  }
+  return path.resolve(__dirname, '../../app_src/server/public');
+}
+
 export function createApp(
   service: SudokuApiService = new SudokuApiService(),
   tracker: SolveStepTracker = new SolveStepTracker(),
@@ -21,7 +30,7 @@ export function createApp(
 
   app.use(corsHeaders);
   app.use(express.json({ limit: '100kb' }));
-  app.use(express.static(path.join(__dirname, 'public')));
+  app.use(express.static(resolvePublicDir()));
 
   app.get('/health', (_req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });

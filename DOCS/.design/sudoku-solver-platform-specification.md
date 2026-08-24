@@ -146,12 +146,13 @@ SUD-05, review Risk 5). It separates **required parity** (Section 5) from **stag
 
 | Capability | DEMOAPP001 (TypeScript) | DEMOAPP002 (Python) | DEMOAPP003 (C#) | Parity status |
 |------------|:-----------------------:|:-------------------:|:---------------:|---------------|
-| Core solver (Unit Completion, Hidden Singles, Naked Singles) | Yes | Yes | Yes | **Required** for all stacks |
-| BDD/Screenplay parity (46 canonical scenarios) | Yes | Yes | Yes | **Required** for all stacks |
+| Core solver (Unit Completion, Hidden Singles, Naked Singles, Naked Pairs, X-Wing) | Yes | Yes | Yes | **Required** for all stacks |
+| BDD/Screenplay parity (55 canonical scenarios) | Yes | Yes | Yes | **Required** for all stacks |
 | Audit trail (iteration tracking, algorithm attribution, statistics) | Yes | Yes | Yes | Extension; present in all stacks |
 | CLI / grid display | Yes | No | No | Staged capability (DEMOAPP001 pioneer) |
 | REST API | Yes | Roadmap | Roadmap | Staged capability; roadmap for DEMOAPP002/003 |
 | Web UI visualisation | Yes | Roadmap | Roadmap | Staged capability; roadmap for DEMOAPP002/003 |
+| Interactive Tutor (next-move hint engine & guided Web UI) | Yes | Roadmap | Roadmap | Staged capability; roadmap for DEMOAPP002/003 |
 | Performance tooling (reporting-only benchmark harness) | Yes | Yes | Yes | Extension; present in all stacks |
 
 Reading the matrix:

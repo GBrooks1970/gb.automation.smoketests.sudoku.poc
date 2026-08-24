@@ -226,12 +226,32 @@ Return "SOLVED" or "STUCK_ON_ADVANCED_LOGIC"
 |---------|-------------|----------|
 | `npm start` | Run solver with ts-node | Development (fastest) |
 | `npm run start:api` | Run Express REST API with ts-node | API development |
+| `npm run start:web` | Run Express REST API & Web UI (Visualiser + Tutor) | Interactive Web application |
 | `npm run build` | Compile TypeScript to JavaScript | Prepare for production |
 | `npm run run` | Run compiled JavaScript | Production execution |
 | `npm run test:api` | Run REST API integration checks | API validation |
 | `npm run verify:openapi` | Lint OpenAPI and validate real API responses | Contract drift gate |
+| `npm run check:web` | Smoke validation for Express web UI and interactive tutor | Web UI smoke check |
 | `npm run build:pages` | Assemble the static evidence site into `pages-dist/` | Static evidence build |
 | `npm run check:pages` | Drift + self-containment gate for the static evidence site | Static evidence gate |
+
+---
+
+## Interactive Sudoku Tutor & Solve Visualiser (`npm run start:web`)
+
+The hosted Web application at `http://localhost:3000` provides two operational modes:
+
+1. **Solve Visualiser (Replay Mode)**:
+   - Loads puzzle solve traces via `GET /api/visualise/:name`.
+   - Step-by-step playback controls (first, prev, play/pause, next, last) with adjustable speed.
+   - Comprehensive event log and algorithm breakdown statistics (Unit Completion, Hidden Singles, Naked Singles, Naked Pairs, X-Wing).
+
+2. **Interactive Tutor (Guided Mode)**:
+   - Interactive 9×9 grid accepting preset puzzle clues or custom keyboard/keypad entry (1–9, Backspace, Arrow navigation).
+   - **"Get Hint / Next Move"** calls `POST /api/tutor/hint` to evaluate the next deterministic step via `SudokuTutorService` in DR-041 priority order without solving mutation.
+   - **Visual Highlighting**: Distinctly highlights target cell, peer units (row, column, block), secondary pair/fish cells, and candidate eliminations.
+   - **Pedagogical Rationale**: Displays human-readable, educational explanations explaining why the move is logically forced.
+   - **"Apply Move"** & **"Auto-Play Hints"**: Allows applying one move at a time or automated stepping through deductions.
 
 ---
 

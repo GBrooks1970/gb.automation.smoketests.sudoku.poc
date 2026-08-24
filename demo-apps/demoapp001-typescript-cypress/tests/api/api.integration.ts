@@ -7,6 +7,7 @@ const app = createApp();
 
 async function run(): Promise<void> {
   await healthCheck();
+  await webUiEndpoints();
   await puzzleEndpoints();
   await validateEndpoint();
   await rejectBooleanCellsAtEveryGridEndpoint();
@@ -21,6 +22,22 @@ async function run(): Promise<void> {
 async function healthCheck(): Promise<void> {
   const response = await request(app).get('/health').expect(200);
   assert.strictEqual(response.body.status, 'ok');
+}
+
+async function webUiEndpoints(): Promise<void> {
+  const htmlResponse = await request(app).get('/').expect(200);
+  assert.ok(htmlResponse.text.includes('id="tab-visualiser"'));
+  assert.ok(htmlResponse.text.includes('id="tab-tutor"'));
+  assert.ok(htmlResponse.text.includes('id="btn-get-hint"'));
+  assert.ok(htmlResponse.text.includes('id="btn-apply-hint"'));
+  assert.ok(htmlResponse.text.includes('id="tutor-controls"'));
+  assert.ok(htmlResponse.text.includes('id="tutor-panel"'));
+
+  await request(app).get('/js/app.js').expect(200);
+  await request(app).get('/js/grid.js').expect(200);
+  await request(app).get('/js/player.js').expect(200);
+  await request(app).get('/js/tutor.js').expect(200);
+  await request(app).get('/css/styles.css').expect(200);
 }
 
 async function puzzleEndpoints(): Promise<void> {
