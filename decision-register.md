@@ -2422,7 +2422,63 @@ Adopt the interactive tutor architecture and hint contract defined in
 - DR-035 — Validation boundaries and OpenAPI authority.
 - DR-037 — Immutable orchestration attempt events.
 - DR-041 — Deterministic advanced solving techniques.
+- DR-043 — Sudoku Puzzle Generator, solution uniqueness, and difficulty grading contracts.
 - BACKLOG-015 — Interactive Sudoku Tutor product capability.
+- BACKLOG-016 — the authorised puzzle generator product capability.
+
+---
+
+## DR-043 — Sudoku Puzzle Generator, Solution Uniqueness, and Difficulty Grading Contracts (BACKLOG-016 / SUD-38)
+
+**Date:** 2026-08-24
+**Status:** Accepted — 2026-08-24
+
+### Context
+
+The Sudoku solver platform across DEMOAPP001 (TypeScript), DEMOAPP002 (Python), and DEMOAPP003 (C#) provides deterministic solving capabilities across five techniques (Unit Completion, Hidden Singles, Naked Singles, Naked Pairs, X-Wing) and interactive guidance (`BACKLOG-015`). However, puzzles are statically loaded from `puzzles.json` fixtures. BACKLOG-016 introduces dynamic puzzle generation, solution uniqueness verification, technique-based difficulty grading, seed-based PRNG repeatability, and Express REST API surface contracts (`POST /api/generator/generate`). Designing this capability requires establishing the single-source-of-truth architecture for construction, uniqueness counting, difficulty grading, and absolute isolation from the deterministic public `SudokuSolver` contract.
+
+### Decision
+
+Adopt the puzzle generator architecture, uniqueness oracle, difficulty grading contract, and REST API specification defined in `DOCS/.design/puzzle-generator.md`:
+
+- **Strict Search Isolation:** Solution construction and solution-uniqueness counting search logic MUST operate in an isolated domain module. The public `SudokuSolver` MUST remain 100% deterministic with zero guessing or backtracking.
+- **Seeded PRNG & Repeatability:** Puzzle construction and clue removal MUST consume a seed-governed PRNG (`LinearCongruentialGenerator` or `Mulberry32`), ensuring 100% deterministic puzzle output given identical seed input.
+- **Solution-Uniqueness Oracle:** Clue removal MUST verify that exactly 1 solution exists using an isolated dual-search solution counter (`limit = 2`). Non-unique grids (count > 1) or zero-solution grids are strictly rejected.
+- **Technique-Based Difficulty Grading:** Puzzles MUST be graded by passing the generated grid to `SudokuSolver` and evaluating the highest-order governed technique required to solve it (`Easy` = Unit Completion / Hidden Singles; `Medium` = Naked Singles; `Hard` = Naked Pairs; `Expert` = X-Wing).
+- **REST API Boundary:** Expose `POST /api/generator/generate` under DEMOAPP001 Express server with OpenAPI 3.0 conformance, request schema validation, and strict error handling (`400` malformed, `422` unprocessable parameters).
+- **Staged Multi-Stack Capability:** DEMOAPP001 acts as the pioneer stack for the generator API and service per platform specification §6.1; Python and C# remain on the roadmap without breaking `@util` parity.
+
+### Status
+
+`Accepted` — 2026-08-24, when the project owner authorised the SUD-38 design increment.
+
+### Consequences
+
+**Outcomes:**
+- SUD-39 (Solution Construction), SUD-40 (Clue Removal & Uniqueness Oracle), and SUD-41 (Difficulty Grading & Closure) have an authoritative, governed design.
+- Platform gains dynamic, repeatable puzzle generation capability without compromising solver integrity or introducing solver backtracking.
+- Puzzles carry objective, technique-based difficulty classifications.
+
+**Trade-offs:**
+- Solution-uniqueness verification requires isolated dual-search backtracking during clue elimination.
+- Construction and clue removal must operate within bounded iteration limits (< 250ms budget).
+
+### Alternatives Considered
+
+**Alternative: Allow backtracking search inside `SudokuSolver`**
+- Rejected because: violates DR-001 and DR-041 core invariants that `SudokuSolver` is strictly deterministic and no-guessing.
+
+**Alternative: Grade difficulty by clue count alone**
+- Rejected because: clue count does not correlate reliably with cognitive difficulty; technique-based grading provides a true pedagogical metric.
+
+### Related Decisions
+
+- DR-034 — Platform specification v1.1 and capability matrix.
+- DR-035 — Validation boundaries and OpenAPI authority.
+- DR-037 — Immutable orchestration attempt events.
+- DR-041 — Deterministic advanced solving techniques.
+- DR-042 — Interactive Sudoku Tutor surface and hint contract.
+- BACKLOG-016 — Sudoku Puzzle Generator product capability.
 
 ---
 
@@ -2444,5 +2500,5 @@ Adopt the interactive tutor architecture and hint contract defined in
 
 ---
 
-*Last entry: DR-042 (Accepted). Next ID: DR-043.*
+*Last entry: DR-043 (Accepted). Next ID: DR-044.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

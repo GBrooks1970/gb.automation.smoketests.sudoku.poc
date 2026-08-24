@@ -25,8 +25,8 @@ Per v1.15 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 1 |
-| In Progress | 0 |
+| Open | 0 |
+| In Progress | 1 |
 | Resolved | 92 |
 | **Total** | **93** |
 
@@ -36,7 +36,7 @@ Per v1.15 Section 10.1:
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-015 / SUD-35..37 (Interactive Sudoku Tutor design, DR-042, hint engine & guided UI) complete; parked future product work BACKLOG-016 (Puzzle Generator) remains Open |
+| Current sprint focus | BACKLOG-016 / SUD-38..41 (Sudoku Puzzle Generator design, DR-043, uniqueness oracle & difficulty grading) in progress; BACKLOG-015 / SUD-35..37 complete |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -48,6 +48,13 @@ Per v1.15 Section 10.1:
 | MIG-01 | Adopt Reference Architecture v1.3 and create DR-012 | All | Governance baseline | High | Resolved | DR-012 |
 | MIG-02 | Add RA-literal DOCS path bridges | All | Documentation path compatibility | High | Resolved | DR-013 |
 | MIG-03 | Align code review output location and naming | All | Review output compliance | High | Resolved | DR-014, DR-029 |
+| BACKLOG-010 | Docker Compose for Local Development | All | Local development infrastructure | Low | Resolved | |
+| BACKLOG-011 | Performance Benchmarking Suite | All | Performance regression detection | Low | Resolved | |
+| BACKLOG-012 | Implement Python Version | DEMOAPP002 | Future Stack implementation | Future | Resolved | |
+| BACKLOG-013 | Implement C# Version | DEMOAPP003 | Future Stack implementation | Future | Resolved | |
+| BACKLOG-014 | Advanced Solving Techniques | DEMOAPP001 and future Stacks | Solver capability | Future | Resolved | |
+| BACKLOG-015 | Interactive Sudoku Tutor | Future product surface | Product idea | Future | Resolved | |
+| BACKLOG-016 | Puzzle Generator | Future product surface | Product idea | Future | In Progress | |
 | MIG-04 | Wire Screenplay runtime state through Actor Memory | DEMOAPP001 and future Stacks | Screenplay parity contract | High | Resolved | DR-015 |
 | MIG-05 | Remove direct Ability calls from step definitions | DEMOAPP001 and future Stacks | Layer 2 thinness | High | Resolved | DR-015 |
 | MIG-06 | Refresh AI agent guide for v1.3 | All | Agent guidance currency | Medium | Resolved | DR-012, DR-013, DR-014, DR-029 |
@@ -1234,13 +1241,13 @@ Acceptance criteria:
 ### BACKLOG-016: Puzzle Generator
 
 **Priority:** Future
-**Status:** Open
+**Status:** In Progress — 2026-08-24 (SUD-38 design doc `DOCS/.design/puzzle-generator.md` authored, `DR-043` recorded in `decision-register.md`)
 **Stack(s):** DEMOAPP001 first (future-Stack parity per the SUD-05 capability matrix)
 **Nature of Gap:** Product idea — the project only *consumes* fixed puzzles from `puzzles.json`. There
 is no capability to generate new valid puzzles (a complete solution reduced to a uniquely-solvable
 clue set) with a target difficulty.
 
-Design reference: `DOCS/.design/puzzle-generator.md` (to be authored)
+Design reference: `DOCS/.design/puzzle-generator.md` (Approved, DR-043)
 
 Difficulty grading is naturally expressed in terms of which techniques a puzzle requires, so the
 difficulty dimension depends on BACKLOG-014. Generated puzzles must satisfy the existing loader and
@@ -1248,8 +1255,8 @@ validation-boundary rules (DR-035) and the `puzzles.json` schema.
 
 Acceptance criteria:
 
-- [ ] Design doc authored at `DOCS/.design/puzzle-generator.md` covering the generation strategy
-      (full-solution construction then clue removal), the uniqueness guarantee, and the difficulty model
+- [x] Design doc authored at `DOCS/.design/puzzle-generator.md` covering the generation strategy
+      (full-solution construction then clue removal), the uniqueness guarantee, and the difficulty model (DR-043)
 - [ ] Generator produces a complete valid solution and removes cells while preserving a unique solution
 - [ ] Difficulty rating derived from the solving techniques a puzzle requires (links to BACKLOG-014);
       puzzles tagged with a difficulty consistent with the existing `puzzles.json` `difficulty` field

@@ -142,6 +142,8 @@ Stored in [.algorithm/](.algorithm/) — language-agnostic pseudocode for every 
 
 | Document | Purpose | Status | Version |
 |----------|---------|--------|---------|
+| [puzzle-generator.md](.design/puzzle-generator.md) | Sudoku puzzle generator, uniqueness oracle, difficulty grading, and API contract | Approved (DR-043) | v1.0 |
+| [interactive-sudoku-tutor.md](.design/interactive-sudoku-tutor.md) | Interactive Sudoku Tutor surface and hint contract | Approved (DR-042) | v1.0 |
 | [advanced-solving-techniques.md](.design/advanced-solving-techniques.md) | Advanced solving techniques design, ordering, and rollout | Approved (DR-041) | v1.0 |
 | [sudoku-solver-specification.md](.design/sudoku-solver-specification.md) | Tech-agnostic solver spec (original core baseline) | Implemented | v1.0 |
 | [sudoku-solver-platform-specification.md](.design/sudoku-solver-platform-specification.md) | Platform spec — core contract, deliberate extensions, parity rules, staged surfaces | Accepted (DR-034; merged via PR #18) | v1.1 |
