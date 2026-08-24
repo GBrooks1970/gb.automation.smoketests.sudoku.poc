@@ -13,6 +13,7 @@ async function run(): Promise<void> {
   await techniqueEndpoints();
   await solveEndpoint();
   await visualiseEndpoint();
+  await tutorEndpoint();
 
   console.log('API integration tests: PASS');
 }
@@ -81,6 +82,7 @@ async function rejectBooleanCellsAtEveryGridEndpoint(): Promise<void> {
     { path: '/api/techniques/hidden-singles', body: { targetNumber: 1 } },
     { path: '/api/techniques/naked-singles', body: {} },
     { path: '/api/solve', body: {} },
+    { path: '/api/tutor/hint', body: {} },
     { path: '/api/validate', body: {} },
   ];
 
@@ -183,6 +185,29 @@ async function visualiseEndpoint(): Promise<void> {
 
   const missingResponse = await request(app).get('/api/visualise/Unknown').expect(404);
   assert.strictEqual(missingResponse.body.error, 'PUZZLE_NOT_FOUND');
+}
+
+async function tutorEndpoint(): Promise<void> {
+  const hintResponse = await request(app)
+    .post('/api/tutor/hint')
+    .send({ grid: rowCompletionGrid() })
+    .expect(200);
+  assert.strictEqual(hintResponse.body.success, true);
+  assert.strictEqual(hintResponse.body.status, 'HINT_AVAILABLE');
+  assert.strictEqual(hintResponse.body.technique, 'UnitCompletion');
+  assert.strictEqual(hintResponse.body.move.cell.row, 0);
+  assert.strictEqual(hintResponse.body.move.cell.col, 2);
+  assert.strictEqual(hintResponse.body.move.digit, 3);
+  assert.ok(typeof hintResponse.body.rationale === 'string');
+
+  const invalidResponse = await request(app)
+    .post('/api/tutor/hint')
+    .send({ grid: [[1, 2, 3]] })
+    .expect(400);
+  assert.strictEqual(invalidResponse.body.error, 'INVALID_GRID_FORMAT');
+
+  const missingResponse = await request(app).post('/api/tutor/hint').send({}).expect(400);
+  assert.strictEqual(missingResponse.body.error, 'MISSING_GRID');
 }
 
 function emptyGrid(): number[][] {

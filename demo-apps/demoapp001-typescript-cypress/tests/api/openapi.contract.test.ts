@@ -31,6 +31,12 @@ test('OpenAPI accepts representative success responses from the Express app', as
 
   const solve = await request(app).post('/api/solve').send({ grid: solvedGrid() }).expect(200);
   await assertContractResponse('postSolve', solve);
+
+  const hint = await request(app)
+    .post('/api/tutor/hint')
+    .send({ grid: rowCompletionGrid() })
+    .expect(200);
+  await assertContractResponse('postTutorHint', hint);
 });
 
 test('OpenAPI accepts representative client-error responses from the Express app', async () => {

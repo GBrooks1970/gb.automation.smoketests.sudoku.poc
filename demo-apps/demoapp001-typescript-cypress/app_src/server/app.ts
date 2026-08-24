@@ -3,12 +3,19 @@ import path from 'path';
 import { ApiError } from './errors';
 import { SolveStepTracker } from './SolveStepTracker';
 import { SudokuApiService } from './SudokuApiService';
+import { SudokuTutorService } from './SudokuTutorService';
 import { ErrorResponse } from './types';
-import { parseGridRequest, parseHiddenSinglesRequest, parseSolveRequest } from './validation';
+import {
+  parseGridRequest,
+  parseHiddenSinglesRequest,
+  parseSolveRequest,
+  parseTutorHintRequest,
+} from './validation';
 
 export function createApp(
   service: SudokuApiService = new SudokuApiService(),
-  tracker: SolveStepTracker = new SolveStepTracker()
+  tracker: SolveStepTracker = new SolveStepTracker(),
+  tutorService: SudokuTutorService = new SudokuTutorService()
 ): express.Express {
   const app = express();
 
@@ -49,6 +56,14 @@ export function createApp(
     route((req, res) => {
       const request = parseSolveRequest(req.body);
       res.json(service.executeSolve(request.grid, request.options));
+    })
+  );
+
+  app.post(
+    '/api/tutor/hint',
+    route((req, res) => {
+      const request = parseTutorHintRequest(req.body);
+      res.json(tutorService.getHint(request.grid));
     })
   );
 
