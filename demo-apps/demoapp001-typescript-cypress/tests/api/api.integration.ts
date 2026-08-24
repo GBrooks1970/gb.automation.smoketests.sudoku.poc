@@ -15,8 +15,36 @@ async function run(): Promise<void> {
   await solveEndpoint();
   await visualiseEndpoint();
   await tutorEndpoint();
+  await generatorEndpoint();
 
   console.log('API integration tests: PASS');
+}
+
+async function generatorEndpoint(): Promise<void> {
+  const response = await request(app)
+    .post('/api/generator/generate')
+    .send({ seed: 'api-test-123', symmetrical: true })
+    .expect(200);
+
+  assert.strictEqual(response.body.seed, 'api-test-123');
+  assert.strictEqual(response.body.symmetrical, true);
+  assert.ok(response.body.clueCount >= 17 && response.body.clueCount <= 81);
+  assert.ok(Array.isArray(response.body.grid));
+  assert.ok(Array.isArray(response.body.solution));
+
+  const badDifficulty = await request(app)
+    .post('/api/generator/generate')
+    .send({ difficulty: 'SuperHard' })
+    .expect(400);
+
+  assert.strictEqual(badDifficulty.body.error, 'INVALID_DIFFICULTY');
+
+  const badClueCount = await request(app)
+    .post('/api/generator/generate')
+    .send({ clueCount: 5 })
+    .expect(400);
+
+  assert.strictEqual(badClueCount.body.error, 'INVALID_CLUE_COUNT');
 }
 
 async function healthCheck(): Promise<void> {

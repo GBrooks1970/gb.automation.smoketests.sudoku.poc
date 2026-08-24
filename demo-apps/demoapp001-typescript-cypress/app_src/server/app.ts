@@ -105,6 +105,13 @@ export function createApp(
     })
   );
 
+  app.post(
+    '/api/generator/generate',
+    route((req, res) => {
+      res.json(service.generatePuzzle(req.body));
+    })
+  );
+
   app.use((_req, _res, next) => {
     next(new ApiError(404, 'ROUTE_NOT_FOUND', 'Route not found'));
   });

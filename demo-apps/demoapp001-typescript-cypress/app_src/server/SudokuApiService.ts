@@ -4,8 +4,14 @@ import { GRID_SIZE } from '../constants';
 import { Puzzle, PuzzleLoader } from '../PuzzleLoader';
 import { SudokuOrchestrator } from '../SudokuOrchestrator';
 import { SudokuSolver } from '../SudokuSolver';
+import { GeneratedPuzzle, PuzzleGeneratorService } from '../generator';
 import { ApiError } from './errors';
-import { buildValidationResponse, cloneGrid, countEmptyCells } from './validation';
+import {
+  buildValidationResponse,
+  cloneGrid,
+  countEmptyCells,
+  parseGeneratePuzzleOptions,
+} from './validation';
 import {
   Grid,
   PuzzleListResponse,
@@ -189,6 +195,12 @@ export class SudokuApiService {
 
   private resolveStatus(grid: Grid): SolverStatus {
     return countEmptyCells(grid) === 0 ? 'SOLVED' : 'STUCK_ON_ADVANCED_LOGIC';
+  }
+
+  generatePuzzle(body: unknown): GeneratedPuzzle {
+    const generator = new PuzzleGeneratorService();
+    const options = parseGeneratePuzzleOptions(body);
+    return generator.generatePuzzle(options);
   }
 
   private toPuzzleResponse(puzzle: Puzzle): PuzzleResponse {
