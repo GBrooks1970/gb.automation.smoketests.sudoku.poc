@@ -277,3 +277,71 @@ function getBlockCells(
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
+
+export function parseGeneratePuzzleOptions(body: unknown): {
+  difficulty?: 'Easy' | 'Medium' | 'Hard' | 'Expert';
+  seed?: number | string;
+  symmetrical?: boolean;
+  clueCount?: number;
+} {
+  if (body === undefined || body === null || (isRecord(body) && Object.keys(body).length === 0)) {
+    return {};
+  }
+
+  if (!isRecord(body)) {
+    throw new ApiError(400, 'INVALID_JSON', 'Request body must be a JSON object');
+  }
+
+  const options: {
+    difficulty?: 'Easy' | 'Medium' | 'Hard' | 'Expert';
+    seed?: number | string;
+    symmetrical?: boolean;
+    clueCount?: number;
+  } = {};
+
+  if (body.difficulty !== undefined) {
+    if (
+      typeof body.difficulty !== 'string' ||
+      !['Easy', 'Medium', 'Hard', 'Expert'].includes(body.difficulty)
+    ) {
+      throw new ApiError(
+        400,
+        'INVALID_DIFFICULTY',
+        'Difficulty must be one of: Easy, Medium, Hard, Expert'
+      );
+    }
+    options.difficulty = body.difficulty as 'Easy' | 'Medium' | 'Hard' | 'Expert';
+  }
+
+  if (body.clueCount !== undefined) {
+    if (
+      typeof body.clueCount !== 'number' ||
+      !Number.isInteger(body.clueCount) ||
+      body.clueCount < 17 ||
+      body.clueCount > 81
+    ) {
+      throw new ApiError(
+        400,
+        'INVALID_CLUE_COUNT',
+        'clueCount must be an integer between 17 and 81'
+      );
+    }
+    options.clueCount = body.clueCount;
+  }
+
+  if (body.symmetrical !== undefined) {
+    if (typeof body.symmetrical !== 'boolean') {
+      throw new ApiError(400, 'INVALID_SYMMETRICAL_OPTION', 'symmetrical option must be a boolean');
+    }
+    options.symmetrical = body.symmetrical;
+  }
+
+  if (body.seed !== undefined) {
+    if (typeof body.seed !== 'string' && typeof body.seed !== 'number') {
+      throw new ApiError(400, 'INVALID_SEED', 'seed must be a string or number');
+    }
+    options.seed = body.seed;
+  }
+
+  return options;
+}

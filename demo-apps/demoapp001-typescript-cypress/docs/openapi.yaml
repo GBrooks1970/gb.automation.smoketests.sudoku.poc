@@ -264,6 +264,29 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
+  /api/generator/generate:
+    post:
+      tags: [generator]
+      summary: Generate a complete governed Sudoku puzzle
+      description: |
+        Generates a 100% valid uniquely solvable Sudoku puzzle matching requested parameters using seed-driven PRNG.
+      operationId: postGeneratePuzzle
+      requestBody:
+        $ref: '#/components/requestBodies/GeneratePuzzleRequest'
+      responses:
+        '200':
+          description: Generated puzzle result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneratedPuzzleResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
 components:
   parameters:
     PuzzleName:
@@ -287,6 +310,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/TutorHintRequestBody'
+    GeneratePuzzleRequest:
+      required: false
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GeneratePuzzleRequestBody'
 
   responses:
     BadRequest:
@@ -294,6 +323,12 @@ components:
         Malformed request: `MISSING_GRID` (no grid field), `INVALID_GRID_FORMAT`
         (structure validation failed; details carry the offending field), or
         `INVALID_JSON` (unparseable body).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    UnprocessableEntity:
+      description: Domain or parameter validation error
       content:
         application/json:
           schema:
@@ -771,5 +806,47 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/HighlightUnit'
+
+    GeneratePuzzleRequestBody:
+      type: object
+      properties:
+        difficulty:
+          type: string
+          enum: [Easy, Medium, Hard, Expert]
+        seed:
+          type: string
+          description: Seed string or number for 100% reproducible puzzle generation
+        symmetrical:
+          type: boolean
+          default: true
+          description: Whether to enforce 180-degree rotational symmetry
+        clueCount:
+          type: integer
+          minimum: 17
+          maximum: 81
+          description: Target number of clues to retain
+
+    GeneratedPuzzleResponse:
+      type: object
+      required: [seed, difficulty, clueCount, symmetrical, highestTechnique, solveSteps, grid, solution]
+      properties:
+        seed:
+          type: string
+        difficulty:
+          type: string
+          enum: [Easy, Medium, Hard, Expert]
+        clueCount:
+          type: integer
+        symmetrical:
+          type: boolean
+        highestTechnique:
+          type: string
+        solveSteps:
+          type: integer
+        grid:
+          $ref: '#/components/schemas/Grid'
+        solution:
+          $ref: '#/components/schemas/Grid'
+
 
 
