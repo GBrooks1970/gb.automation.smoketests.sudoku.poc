@@ -1,11 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-08-24 — resolved BACKLOG-016 / SUD-38..41 (Sudoku Puzzle Generator design, DR-043, solution construction, uniqueness oracle, difficulty grading, REST API POST /api/generator/generate, and product evidence). Prior: 2026-08-24 (resolved BACKLOG-015 interactive tutor).
+**Last Updated:** 2026-09-07 — lifecycle and control reconciliation after confirming all 93 items resolved, clean `main` at `7af3dca`, green CI and Pages, and zero open pull requests. Prior: 2026-08-24 (resolved BACKLOG-016 / SUD-38..41).
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
-**Status:** Active Development
+**Status:** Resting — the authoritative backlog has zero outstanding items; any new product cycle requires an explicitly approved backlog item.
 
 ---
 
@@ -30,13 +30,19 @@ Per v1.15 Section 10.1:
 | Resolved | 93 |
 | **Total** | **93** |
 
+**Update (2026-09-07):** Reconciled stale roll-up rows for BACKLOG-014, BACKLOG-015,
+BACKLOG-016 and BACKLOG-071 against their resolved detail records and delivery evidence. The latest
+default-branch [CI run 33996955690](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/actions/runs/33996955690)
+and [Pages run 33996955729](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/actions/runs/33996955729)
+both passed at `7af3dca`; this was a documentation reconciliation, not an implementation status change.
+
 | Area | Current state |
 |------|---------------|
-| Current execution baseline | DEMOAPP001: Node 24, 49 component tests plus 55 scenarios / 309 steps passing, REST API integration PASS, 4 OpenAPI contract tests passing, Web UI smoke check PASS; selected-module coverage 81.33% lines / 90.09% branches / 81.58% functions with 70% / 85% / 75% floors; focused mutation trial 10/10 killed. DEMOAPP002: Python 3.13, 85 tests (55 pytest-bdd + 30 component) passing; selected-module coverage 87.81% combined with an 85% floor. DEMOAPP003: .NET 10, 83 tests (55 Reqnroll + 28 component) passing; selected-type coverage 86.03% lines / 84.91% branches with 80% / 80% floors. 3-Stack parity PASS. |
+| Current execution baseline | DEMOAPP001: Node 24, 49 component tests plus 55 scenarios / 309 steps passing, REST API integration PASS, 4 OpenAPI contract tests passing, Web UI smoke check PASS; selected-module coverage 81.46% lines / 91.74% branches / 80.17% functions with 70% / 85% / 75% floors; focused mutation trial 10/10 killed. DEMOAPP002: Python 3.13, 85 tests (55 pytest-bdd + 30 component) passing; selected-module coverage 88.98% combined with an 85% floor. DEMOAPP003: .NET 10, 83 tests (55 Reqnroll + 28 component) passing; selected-type coverage 87.62% lines / 85.94% branches with 80% / 80% floors. 3-Stack parity PASS. |
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-016 / SUD-38..41 complete (Resolved 2026-08-24); all backlog items complete |
+| Current sprint focus | None — BACKLOG-016 / SUD-38..41 completed on 2026-08-24 and all backlog items are resolved; project resting pending an explicitly approved new cycle |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -54,7 +60,7 @@ Per v1.15 Section 10.1:
 | BACKLOG-013 | Implement C# Version | DEMOAPP003 | Future Stack implementation | Future | Resolved | |
 | BACKLOG-014 | Advanced Solving Techniques | DEMOAPP001 and future Stacks | Solver capability | Future | Resolved | |
 | BACKLOG-015 | Interactive Sudoku Tutor | Future product surface | Product idea | Future | Resolved | |
-| BACKLOG-016 | Puzzle Generator | Future product surface | Product idea | Future | In Progress | |
+| BACKLOG-016 | Puzzle Generator | Future product surface | Product idea | Future | Resolved | DR-043 |
 | MIG-04 | Wire Screenplay runtime state through Actor Memory | DEMOAPP001 and future Stacks | Screenplay parity contract | High | Resolved | DR-015 |
 | MIG-05 | Remove direct Ability calls from step definitions | DEMOAPP001 and future Stacks | Layer 2 thinness | High | Resolved | DR-015 |
 | MIG-06 | Refresh AI agent guide for v1.3 | All | Agent guidance currency | Medium | Resolved | DR-012, DR-013, DR-014, DR-029 |
@@ -422,7 +428,7 @@ Resolution evidence:
 
 ---
 
-## Active Product and Technical Work
+## Product and Technical Work
 
 | ID | Title | Stack(s) | Nature of Gap | Priority | Status |
 |----|-------|----------|---------------|----------|--------|
@@ -433,9 +439,9 @@ Resolution evidence:
 | BACKLOG-011 | Performance Benchmarking Suite | All | Performance regression detection | Low | Resolved |
 | BACKLOG-012 | Implement Python Version | DEMOAPP002 | Future Stack implementation | Future | Resolved |
 | BACKLOG-013 | Implement C# Version | DEMOAPP003 | Future Stack implementation | Future | Resolved |
-| BACKLOG-014 | Advanced Solving Techniques | DEMOAPP001 and future Stacks | Solver capability | Future | In Progress |
-| BACKLOG-015 | Interactive Sudoku Tutor | Future product surface | Product idea | Future | Open |
-| BACKLOG-016 | Puzzle Generator | Future product surface | Product idea | Future | Open |
+| BACKLOG-014 | Advanced Solving Techniques | DEMOAPP001 and future Stacks | Solver capability | Future | Resolved |
+| BACKLOG-015 | Interactive Sudoku Tutor | Future product surface | Product idea | Future | Resolved |
+| BACKLOG-016 | Puzzle Generator | Future product surface | Product idea | Future | Resolved |
 | BACKLOG-071 | Static browser-only visualisation evidence on Pages (LAND-09D) | DEMOAPP001 evidence surface | Public evidence publication | Low | Resolved |
 | BACKLOG-051 | Strengthen orchestration ordering/no-execution assertions | All | Test assertion fidelity | Low | Resolved |
 | BACKLOG-032 | Refactor Python Questions to read from Actor memory | DEMOAPP002 | Screenplay parity (Risk 1) | High | Resolved |
@@ -1303,21 +1309,25 @@ errors. Static browser-only publication is therefore viable.
 
 Acceptance criteria (for the implementation, not this planning item):
 
-- [ ] A deterministic in-repo precompute step reuses the maintained solve/visualise logic to emit a
+- [x] A deterministic in-repo precompute step reuses the maintained solve/visualise logic to emit a
       static `puzzles.json` list and one `VisualiseResult` payload per puzzle; a check validates the
       fixture provenance and schema and prevents drift from the current visualisation contract.
-- [ ] A static viewer reuses the maintained grid/player/presentation behaviour, loading payloads from
+- [x] A static viewer reuses the maintained grid/player/presentation behaviour, loading payloads from
       relative static assets on the Pages base path with no API/server; the page labels itself a
       browser-only DEMOAPP001 TypeScript visualisation, not an interactive tutor, hosted solver, live
       API or three-stack parity demonstration.
-- [ ] Accessibility, keyboard playback, error handling, desktop/390px layout and a clean browser
+- [x] Accessibility, keyboard playback, error handling, desktop/390px layout and a clean browser
       console are covered by automated and/or rendered checks before target Pages publication.
-- [ ] A `pages.yml` workflow deploys the static viewer on push to `main` after the checks pass, with
+- [x] A `pages.yml` workflow deploys the static viewer on push to `main` after the checks pass, with
       deploy-only Pages permissions and no deployment on pull requests.
-- [ ] Repository Pages configured for GitHub Actions publication; the canonical public URL documented.
-- [ ] A separate portfolio landing PR adds the verified URL as a `demo` action; exact target and
+- [x] Repository Pages configured for GitHub Actions publication; the canonical public URL documented.
+- [x] A separate portfolio landing PR adds the verified URL as a `demo` action; exact target and
       landing merge CI/Pages evidence and the verified public URL are recorded before this item is
       Resolved and LAND-09D (and the LAND-09 programme) are marked DONE.
+
+**Update (2026-09-07):** Checked the acceptance criteria that were delivered by project PRs #52/#53
+and portfolio landing PR #27 but left unchecked when BACKLOG-071 was marked Resolved. The public
+viewer returned HTTP 200 and Pages run 33996955729 passed at current `main`.
 
 ---
 
@@ -1417,7 +1427,7 @@ Acceptance criteria (for the implementation, not this planning item):
 | 3 | 2026-05-19 | Directory rename and output decoupling | MIG-13, BACKLOG-007, BACKLOG-017 | Completed 2026-05-19 |
 | 4 | 2026-05-20 | API foundation and Web UI completion | BACKLOG-009, BACKLOG-018 | Completed 2026-05-20 |
 | 5 | 2026-05-28 onward | C# Stack, local Compose, and benchmarking | BACKLOG-021, BACKLOG-013, BACKLOG-010, BACKLOG-011 | Completed 2026-05-29 |
-| 6+ | After P-07 remediation | Codex review remediation followed by future product ideas | SUD-21..31 worklist; BACKLOG-014, BACKLOG-015, BACKLOG-016 | Review remediation completed 2026-07-28; future items parked |
+| 6+ | 2026-07-28 to 2026-08-24 | Codex review remediation followed by approved product increments | SUD-21..41 worklist; BACKLOG-014, BACKLOG-015, BACKLOG-016 | Completed 2026-08-24; project resting |
 
 ---
 
