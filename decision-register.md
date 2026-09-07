@@ -1,7 +1,7 @@
 # Decision Register
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-08-04
+**Last Updated:** 2026-09-07 — control metadata reconciled after DR-041 through DR-043 and the completed SUD-32..41 product cycle; no new decision recorded.
 **Governed by:** `reference-architecture.md` v1.15 §10.6
 **Template:** `DOCS/.templates/decision-record.template.md`
 
