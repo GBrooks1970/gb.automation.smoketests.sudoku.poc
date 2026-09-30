@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-09-30 — resolved BACKLOG-077 / TRIAGE-11 on local validation and native browser checks. Prior: BACKLOG-075 build plan, approved mock-up and results spike; BACKLOG-076 dependency-audit restoration; BACKLOG-074 tutor request ownership; 2026-09-07 resting lifecycle reconciliation.
+**Last Updated:** 2026-09-30 — opened BACKLOG-078 (weak Then-step assertions; unscheduled). Prior: 2026-09-30 — resolved BACKLOG-077 / TRIAGE-11 on local validation and native browser checks. Prior: BACKLOG-075 build plan, approved mock-up and results spike; BACKLOG-076 dependency-audit restoration; BACKLOG-074 tutor request ownership; 2026-09-07 resting lifecycle reconciliation.
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,10 +25,10 @@ Per v1.15 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 1 |
+| Open | 2 |
 | In Progress | 0 |
 | Resolved | 99 |
-| **Total** | **100** |
+| **Total** | **101** |
 
 **Update (2026-09-30, TRIAGE-11):** Added the separately authorised BACKLOG-077 browser
 pause-contract repair as Resolved. BACKLOG-075 remains Open: 1 Open / 0 In Progress /
@@ -460,6 +460,7 @@ BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iter
 | ID | Title | Stack(s) | Priority | Status | Decision Record |
 |----|-------|----------|----------|--------|-----------------|
 | BACKLOG-075 | Publish a three-stack parity evidence page at `/parity/` | All | Medium | Open | DR-047 |
+| BACKLOG-078 | Strengthen weak Then-step assertions in all three Stacks | All | Medium | Open | None yet |
 
 ## Supported-runtime CI Restoration (2026-09-30)
 
@@ -581,6 +582,31 @@ calls `onStep(0)` while the paused counter/index remains 1, clearing the first m
 event highlight until playback resumes. This is TRIAGE-13, awaiting owner selection.
 Python/C# native suites and the optional mutation trial were not rerun locally for this
 DEMOAPP001 repair; supported-runtime all-Stack CI remains the publication check.
+
+### BACKLOG-078: Strengthen weak Then-step assertions in all three Stacks
+
+**Status:** Open — recorded 2026-09-30 at the owner's request; not scheduled.
+**Stack:** All (DEMOAPP001, DEMOAPP002, DEMOAPP003)
+**Priority:** Medium
+**Decision:** None yet. Record a decision first if the fix changes the Screenplay question contract (`GridCell`, `AlgorithmMadeProgress`).
+**Source:** the genuine failing-run check for BACKLOG-075, recorded on [PR #83](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/83#issuecomment-5918686933).
+
+Evidence (local mutation runs on 2026-09-30, reverted, nothing committed). In each run all three Stacks stayed green:
+
+- Changing the expected missing value in `Complete a row with only one missing value` from 3 to 4. The steps `the system should identify the missing value as {int}` and `the value {int} should be placed in the empty cell` cannot fail on it: the first only checks that the algorithm made progress (and, in Python and C#, that the value is greater than 0), and the second uses `GridCell.containsValue`, which a digit already in the row satisfies.
+- Changing `the system should place 6 in the only valid cell in row 3` to row 4 in `Identify a Hidden Single in a row`. `GridCell.inRow` was satisfied.
+
+A step whose bound assertion fails on a clearly impossible value (10) does fail in all three Stacks, so the harness itself reports failures correctly.
+
+Acceptance criteria:
+
+- [ ] List every Then step whose assertion cannot fail on a wrong digit, row or column, with the Stack bindings for each.
+- [ ] Strengthen those assertions so the stated digit and position are checked, in all three Stacks in the same change set.
+- [ ] A mutation check (changing one expected digit or position in the canonical feature) fails in every Stack. Record the mutations used.
+- [ ] Step text, scenario counts and the parity gates are unchanged (55 scenarios, 309 steps per Stack), and existing gates and coverage floors pass.
+- [ ] A decision record exists first if the Screenplay question contract changes.
+
+---
 
 ### BACKLOG-076: Restore supported-runtime dependency audits
 
