@@ -145,7 +145,7 @@ jobs:
 
       - name: Test
         working-directory: demo-apps/demoapp002-python-pytest
-        run: python -m pytest --junitxml=../../.results/demoapp002/test-results/pytest-junit.xml
+        run: python -m pytest --junitxml=../../.results/demoapp002/test-results/pytest-junit.xml --cucumberjson=../../.results/demoapp002/test-results/pytest-cucumber.json
 
       - name: Dependency audit
         if: always()
@@ -201,6 +201,16 @@ jobs:
       - name: Reqnroll test
         working-directory: demo-apps/demoapp003-csharp-specflow
         run: dotnet test tests/DemoApp003.Specs.csproj --no-restore --logger "trx;LogFileName=reqnroll.trx" --results-directory ../../.results/demoapp003/test-results
+
+      - name: Keep Reqnroll Cucumber Messages as evidence
+        if: always()
+        shell: pwsh
+        working-directory: demo-apps/demoapp003-csharp-specflow
+        run: |
+          # tests/reqnroll.json enables the message formatter; it writes under the test output folder.
+          $messages = Get-ChildItem -Path tests/bin -Recurse -Filter 'reqnroll.ndjson' | Select-Object -First 1
+          if ($null -eq $messages) { Write-Error 'Reqnroll did not write reqnroll.ndjson'; exit 1 }
+          Copy-Item -LiteralPath $messages.FullName -Destination '../../.results/demoapp003/test-results/reqnroll.ndjson'
 
       - name: Dependency audit
         if: always()
