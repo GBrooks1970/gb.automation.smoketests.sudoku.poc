@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-09-30 — resolved the supported-runtime audit repair under BACKLOG-076 / TRIAGE-12 on local validation. BACKLOG-075's Reqnroll-results spike is complete and its parity evidence page remains Open under DR-047. Prior: BACKLOG-074 resolved; 2026-09-07 resting lifecycle reconciliation.
+**Last Updated:** 2026-09-30 — ticked BACKLOG-075 mock-up criterion (owner approved the design) and recorded the C# execution-order requirement. Prior: 2026-09-30 — resolved the supported-runtime audit repair under BACKLOG-076 / TRIAGE-12 on local validation. BACKLOG-075's Reqnroll-results spike is complete and its parity evidence page remains Open under DR-047. Prior: BACKLOG-074 resolved; 2026-09-07 resting lifecycle reconciliation.
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -497,8 +497,8 @@ BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iter
 Acceptance criteria:
 
 - [x] Spike: decide whether Reqnroll 3.3.4 emits Cucumber-compatible results or the C# Stack falls back to matching TRX results by scenario title; record the outcome before any CI change. **Done 2026-09-30:** direct Cucumber Messages output chosen, TRX fallback rejected because 12 outline rows share names; 55 scenarios / 309 steps agree across all three Stacks after normalisation. See `DOCS/.implementation-logs/2026-09-30_backlog-075-reqnroll-results-spike.md`.
-- [ ] Clickable mock-up built from a real local run of all three Stacks, reviewed by the owner before CI changes.
-- [ ] A results-level gate verifies that each Stack executed the same scenarios with the same step text and all passed.
+- [x] Clickable mock-up built from a real local run of all three Stacks, reviewed by the owner before CI changes. **Done 2026-09-30:** built from real results of all three Stacks (55 scenarios / 309 steps each) with a prototype gate run clean and against four planted changes; the owner approved the design, adding a light/dark toggle as in Markdown Renderer. See `DOCS/.implementation-logs/2026-09-30_backlog-075-mockup-and-ordering-finding.md`.
+- [ ] A results-level gate verifies that each Stack executed the same scenarios with the same step text and all passed. Adapters must order results by feature-file order (for C#, pickle order): NUnit runs Reqnroll scenarios alphabetically, so execution order differs from feature order.
 - [ ] A fan-in report job runs after the Stack jobs and the gate, publishes from `main` only with deploy-only Pages permissions, and ships the visualisation and `/parity/` in one Pages artefact.
 - [ ] The build fails unless the gate is shown to fail against a planted one-word step-text change in a temporary copy of one Stack's results.
 - [ ] Every result, snippet and timing is read from run artefacts or step-definition sources; nothing is typed by hand.
