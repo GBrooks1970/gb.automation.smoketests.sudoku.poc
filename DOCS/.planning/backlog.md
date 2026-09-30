@@ -1,11 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-09-30 — opened BACKLOG-078 (weak Then-step assertions; unscheduled). Prior: 2026-09-30 — resolved BACKLOG-077 / TRIAGE-11 on local validation and native browser checks. Prior: BACKLOG-075 build plan, approved mock-up and results spike; BACKLOG-076 dependency-audit restoration; BACKLOG-074 tutor request ownership; 2026-09-07 resting lifecycle reconciliation.
+**Last Updated:** 2026-09-30 — resolved BACKLOG-075 (three-stack parity evidence page live at `/parity/`). Prior: 2026-09-30 — opened BACKLOG-078 (weak Then-step assertions; unscheduled). Prior: 2026-09-30 — resolved BACKLOG-077 / TRIAGE-11 on local validation and native browser checks. Prior: BACKLOG-075 build plan, approved mock-up and results spike; BACKLOG-076 dependency-audit restoration; BACKLOG-074 tutor request ownership; 2026-09-07 resting lifecycle reconciliation.
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
-**Status:** Owner-selected browser pause-contract repair (BACKLOG-077 / TRIAGE-11) is resolved on local Node validation and native browser checks; all-Stack CI remains its publication check. BACKLOG-076 was published through PR #80 with green merge CI and Pages. BACKLOG-075 remains Open with its results spike and approved mock-up complete. Approved September TRIAGE-05/06/07 are resolved; TRIAGE-08 remains separate. Historical product closures remain intact.
+**Status:** Owner-selected browser pause-contract repair (BACKLOG-077 / TRIAGE-11) is resolved on local Node validation and native browser checks; all-Stack CI remains its publication check. BACKLOG-076 was published through PR #80 with green merge CI and Pages. BACKLOG-075 (parity evidence page) is resolved and live at `/parity/`. Approved September TRIAGE-05/06/07 are resolved; TRIAGE-08 remains separate. Historical product closures remain intact.
 
 ---
 
@@ -25,9 +25,9 @@ Per v1.15 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 2 |
+| Open | 1 |
 | In Progress | 0 |
-| Resolved | 99 |
+| Resolved | 100 |
 | **Total** | **101** |
 
 **Update (2026-09-30, TRIAGE-11):** Added the separately authorised BACKLOG-077 browser
@@ -57,7 +57,7 @@ both passed at `7af3dca`; this was a documentation reconciliation, not an implem
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-075 (DR-047) remains Open with its spike and mock-up complete; BACKLOG-077 repairs browser startup and awaits all-Stack publication CI; BACKLOG-076 is published; approved TRIAGE-08 remains separate |
+| Current sprint focus | BACKLOG-075 (DR-047) is resolved and live; BACKLOG-078 is the one open item, unscheduled; BACKLOG-077 repairs browser startup and awaits all-Stack publication CI; BACKLOG-076 is published; approved TRIAGE-08 remains separate |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -459,7 +459,7 @@ BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iter
 
 | ID | Title | Stack(s) | Priority | Status | Decision Record |
 |----|-------|----------|----------|--------|-----------------|
-| BACKLOG-075 | Publish a three-stack parity evidence page at `/parity/` | All | Medium | Open | DR-047 |
+| BACKLOG-075 | Publish a three-stack parity evidence page at `/parity/` | All | Medium | Resolved | DR-047 |
 | BACKLOG-078 | Strengthen weak Then-step assertions in all three Stacks | All | Medium | Open | None yet |
 
 ## Supported-runtime CI Restoration (2026-09-30)
@@ -500,27 +500,29 @@ BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iter
 
 ### BACKLOG-075: Three-stack parity evidence page
 
-**Status:** Open — opened 2026-09-30 at the owner's direction; scope and boundary set by DR-047.
+**Status:** Resolved 2026-09-30 — the page is live at `/parity/`; scope and boundary set by DR-047.
 **Stack:** All (DEMOAPP001, DEMOAPP002, DEMOAPP003)
 **Priority:** Medium
 **Decision:** DR-047. DR-040 stays in force for the visualisation and is not superseded.
-**Plan:** [`todo-parity-evidence-page.md`](todo-parity-evidence-page.md) (slices S1 to S5; decisions D1 to D4 need the owner before any workflow change).
+**Plan:** [`todo-parity-evidence-page.md`](todo-parity-evidence-page.md) (slices S1 to S5; decisions D1 to D4 answered by the owner on 2026-09-30).
 **Source:** `portfolio-docs/PORTFOLIO_SUDOKU_PARITY_EVIDENCE_PAGE_FEASIBILITY_2026-09-30.md` in `GBrooks1970/test-automation-portfolio` (gaps G3-G6; its 'DR-044' is DR-047 here).
 
 Acceptance criteria:
 
 - [x] Spike: decide whether Reqnroll 3.3.4 emits Cucumber-compatible results or the C# Stack falls back to matching TRX results by scenario title; record the outcome before any CI change. **Done 2026-09-30:** direct Cucumber Messages output chosen, TRX fallback rejected because 12 outline rows share names; 55 scenarios / 309 steps agree across all three Stacks after normalisation. See `DOCS/.implementation-logs/2026-09-30_backlog-075-reqnroll-results-spike.md`.
 - [x] Clickable mock-up built from a real local run of all three Stacks, reviewed by the owner before CI changes. **Done 2026-09-30:** built from real results of all three Stacks (55 scenarios / 309 steps each) with a prototype gate run clean and against four planted changes; the owner approved the design, adding a light/dark toggle as in Markdown Renderer. See `DOCS/.implementation-logs/2026-09-30_backlog-075-mockup-and-ordering-finding.md`.
-- [ ] A results-level gate verifies that each Stack executed the same scenarios with the same step text and all passed. Adapters must order results by feature-file order (for C#, pickle order): NUnit runs Reqnroll scenarios alphabetically, so execution order differs from feature order.
-- [ ] A fan-in report job runs after the Stack jobs and the gate, publishes from `main` only with deploy-only Pages permissions, and ships the visualisation and `/parity/` in one Pages artefact.
-- [ ] The build fails unless the gate is shown to fail against a planted one-word step-text change in a temporary copy of one Stack's results.
-- [ ] Every result, snippet and timing is read from run artefacts or step-definition sources; nothing is typed by hand.
-- [ ] No change to the solver, feature files, puzzle data, REST API or any Stack's behaviour; `scripts/check-pages.cjs` and the visualisation are untouched.
+- [x] A results-level gate verifies that each Stack executed the same scenarios with the same step text and all passed. Adapters must order results by feature-file order (for C#, pickle order): NUnit runs Reqnroll scenarios alphabetically, so execution order differs from feature order.
+- [x] A fan-in report job runs after the Stack jobs and the gate, publishes from `main` only with deploy-only Pages permissions, and ships the visualisation and `/parity/` in one Pages artefact.
+- [x] The build fails unless the gate is shown to fail against a planted one-word step-text change in a temporary copy of one Stack's results.
+- [x] Every result, snippet and timing is read from run artefacts or step-definition sources; nothing is typed by hand.
+- [x] No change to the solver, feature files, puzzle data, REST API or any Stack's behaviour; `scripts/check-pages.cjs` and the visualisation are untouched.
 
 Pre-restoration constraint (2026-09-30, before BACKLOG-076): default-branch CI was red because the dependency audit blocked new advisories
 (DEMOAPP001 axios, five high; DEMOAPP002 urllib3, three), so the `gate` job was skipped. Resolve or
 except them under DR-039 before the fan-in job can be verified green.
 The separate BACKLOG-076 repair supplies local restoration evidence and requires all-Stack CI before publication.
+
+**Resolution (2026-09-30):** Slices S1 to S4 merged as PRs #83, #86, #87 and #88. The results-level gate reads each Stack's own results and compares them with the feature file's expansion (55 executions, 309 steps per Stack); the `parity` job in `ci.yml` runs the tool tests, the gate and the page builder, whose negative check runs the real gate on copies carrying a planted step-text change and a failed step in each of the three formats; `gate` waits for `parity`; and `pages-build` and `pages-deploy` publish one Pages artefact from `main` only, with deploy-only permissions, replacing `pages.yml`. `main` run `36786863220` at `ab92c23` passed all seven jobs, including deploy. The live `/parity/` returns 200 and carries that run and commit; the site root is byte-identical to before (md5 `83469e225423e8c43cd9e1abc6f4acf3`). No solver, feature, puzzle, REST API or Stack behaviour changed; the only file added under a Stack's `tests/` folder is DEMOAPP003's `reqnroll.json`, which enables a results formatter. `scripts/check-pages.cjs` and the visualisation are untouched. See `DOCS/.implementation-logs/2026-09-30_backlog-075-parity-page-build-and-publication.md`.
 
 ---
 
@@ -1661,6 +1663,7 @@ viewer returned HTTP 200 and Pages run 33996955729 passed at current `main`.
 
 | ID | Title | Stack(s) | Resolved | Notes |
 |----|-------|----------|----------|-------|
+| BACKLOG-075 | Three-stack parity evidence page at `/parity/` | All | 2026-09-30 | DR-047; PRs #83, #86, #87, #88; results-level gate, parity job, one Pages artefact; `main` run 36786863220 green incl. deploy; live page verified |
 | BACKLOG-076 | Restore supported-runtime dependency audits (TRIAGE-12) | DEMOAPP001 / DEMOAPP002 | 2026-09-30 | urllib3 2.8.0 and Serenity 3.48.0 / Axios 1.20.0; Python 85 tests, 88.98% coverage, zero audit findings, 5/5 evidence; Node 102 component + 55 BDD, existing floors, zero blocking findings, 6/6 evidence; DR-039 retained; all-Stack CI is the publication check |
 | BACKLOG-074 | Tutor request ownership and stale hint rejection (TRIAGE-07) | DEMOAPP001 | 2026-09-30 | DR-046; 36 controlled controller cases; 102 component + 55 BDD scenarios and 8 OpenAPI tests green; native browser startup blocked separately by TRIAGE-11 |
 | BACKLOG-073 | Exact target generation and bounded exhaustion (TRIAGE-06) | DEMOAPP001 | 2026-09-30 | DR-045; real exact-tier and Expert/81-clue failure regressions, typed 422 mapping, 66 component + 55 BDD scenarios and 8 OpenAPI tests green |

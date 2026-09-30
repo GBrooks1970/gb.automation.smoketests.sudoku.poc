@@ -52,6 +52,7 @@ YYYY-MM-DD_short-session-topic.md
 | [2026-08-24_sudoku-puzzle-generator-backlog-016.md](2026-08-24_sudoku-puzzle-generator-backlog-016.md) | 2026-08-24 | Sudoku Puzzle Generator engine, REST API & BACKLOG-016 closure (SUD-38..41) |
 | [2026-09-30_backlog-075-reqnroll-results-spike.md](2026-09-30_backlog-075-reqnroll-results-spike.md) | 2026-09-30 | BACKLOG-075 Reqnroll results spike and three-Stack result comparison |
 | [2026-09-30_backlog-075-mockup-and-ordering-finding.md](2026-09-30_backlog-075-mockup-and-ordering-finding.md) | 2026-09-30 | BACKLOG-075 parity page mock-up, prototype gate and execution-order finding |
+| [2026-09-30_backlog-075-parity-page-build-and-publication.md](2026-09-30_backlog-075-parity-page-build-and-publication.md) | 2026-09-30 | BACKLOG-075 parity page build, CI wiring and publication |
 
 
 ---

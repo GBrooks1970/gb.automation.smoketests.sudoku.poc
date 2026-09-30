@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Added
+- BACKLOG-075 resolved: the three-stack parity evidence page is live at `/parity/` of the project's Pages site, built by CI from the Stacks' own results (run 36786863220, commit ab92c23). The visualisation at the site root is unchanged.
 - BACKLOG-075 slice S4: CI gains a `parity` job (tool tests, results-level gate, parity page build with its negative check) that `Gate (all stacks green)` now waits for. The Pages workflow is merged into `ci.yml` as `pages-build` and `pages-deploy`, so the DEMOAPP001 visualisation (DR-040) and the parity page at `/parity/` publish as one artefact, only from `main`, only after the gate passes, with deploy-only Pages permissions. `.github/workflows/pages.yml` is removed; previously Pages deployed on every push to `main` whether or not CI passed.
 - BACKLOG-075 slice S3: `tools/parity-page/build-page.mjs` builds the three-Stack parity evidence page from the Stacks' own results, the feature file and the step-definition sources, running the real gate and four planted-change negative checks; 9 builder tests. Not yet wired into CI.
 - BACKLOG-075 slice S1: `tools/parity-page/` holds result adapters (Cucumber JSON and Cucumber Messages) and a results-level parity gate with 12 unit tests. Not yet wired into CI.

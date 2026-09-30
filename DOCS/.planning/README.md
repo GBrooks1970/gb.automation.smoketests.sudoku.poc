@@ -27,7 +27,7 @@ Planning documents serve as:
   - [todo-advanced-solving-techniques.md](todo-advanced-solving-techniques.md) - BACKLOG-014, future
   - [todo-puzzle-generator.md](todo-puzzle-generator.md) - BACKLOG-016, future
   - [todo-interactive-sudoku-tutor.md](todo-interactive-sudoku-tutor.md) - BACKLOG-015, future
-  - [todo-parity-evidence-page.md](todo-parity-evidence-page.md) - BACKLOG-075, in progress (build plan awaiting owner decisions D1 to D4)
+  - [todo-parity-evidence-page.md](todo-parity-evidence-page.md) - BACKLOG-075, complete
   - Archived resolved todos: [todo-hidden-singles-implementation.md](todo-hidden-singles-implementation.md), [todo-audit-trail-feature.md](todo-audit-trail-feature.md), [todo-rest-api-wrapper.md](todo-rest-api-wrapper.md), [todo-web-ui-solver-visualisation.md](todo-web-ui-solver-visualisation.md)
 
 ### Document Types (Future)
