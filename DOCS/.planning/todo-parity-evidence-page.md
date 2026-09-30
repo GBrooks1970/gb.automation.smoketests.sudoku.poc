@@ -1,7 +1,7 @@
 # TODO: Three-Stack Parity Evidence Page
 
 **Created:** 2026-09-30T18:33:09Z
-**Last Updated:** 2026-09-30T19:10:00Z
+**Last Updated:** 2026-09-30T18:44:53Z
 **Backlog Reference:** BACKLOG-075 (Three-stack parity evidence page)
 **Stack(s):** All (DEMOAPP001, DEMOAPP002, DEMOAPP003)
 **Decision:** DR-047 (accepted 2026-09-30). DR-040 stays in force for the visualisation.
