@@ -1,7 +1,7 @@
 # Decision Register
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-09-07 — control metadata reconciled after DR-041 through DR-043 and the completed SUD-32..41 product cycle; no new decision recorded.
+**Last Updated:** 2026-09-30 — DR-044 records the shared technique vocabulary and exhaustive DR-043 grading map for TRIAGE-05.
 **Governed by:** `reference-architecture.md` v1.15 §10.6
 **Template:** `DOCS/.templates/decision-record.template.md`
 
@@ -2482,6 +2482,53 @@ Adopt the puzzle generator architecture, uniqueness oracle, difficulty grading c
 
 ---
 
+## DR-044 — Shared Technique Vocabulary and Exhaustive Difficulty Mapping (TRIAGE-05 / BACKLOG-072)
+
+**Date:** 2026-09-30
+**Status:** Accepted — 2026-09-30, implementing the owner-approved September review worklist.
+
+### Context
+
+Review R3 found that the tutor emits `XWing` while the grader looks for `X-Wing`. The grader also
+reverses DR-043's Hidden Singles and Naked Singles tiers. The approved TRIAGE-05 item requires
+one production vocabulary, exhaustive classification and real X-Wing completion evidence.
+
+### Decision
+
+- Define the five existing production tokens in DEMOAPP001 `app_src/techniques.ts`; derive
+  `TechniqueName` from those constants and retain the `server/types.ts` type re-export.
+- The tutor emits those constants. The grader consumes the same type through a complete
+  `Record<TechniqueName, ...>` map, so adding a token requires adding its grade before compilation.
+- Apply the existing DR-043 tiers exactly: Unit Completion and Hidden Singles are Easy, Naked
+  Singles is Medium, Naked Pairs is Hard, and X-Wing is Expert. Select the highest technique in
+  governed priority order regardless of encounter order.
+- Preserve tutor/API and `usedTechniques` token `XWing`; preserve the generator's intended
+  `highestTechnique` display label `X-Wing`. `None` remains a terminal tutor marker, outside the
+  solving vocabulary. Existing solved-without-moves and unsolved grading outcomes are retained.
+- Verify every tier with labelled classification seams and independently solve a real unique
+  fixture through the unmodified tutor/solver. Construction and uniqueness search stay isolated.
+
+### Consequences
+
+The producer/consumer mismatch becomes a compile-time error. Generated difficulty labels change
+where the previous implementation contradicted DR-043; the public schema and response field names
+remain compatible. Generator target exhaustion (TRIAGE-06), asynchronous tutor state (TRIAGE-07)
+and broader documentation currency (TRIAGE-08) remain separate approved worklist items.
+
+### Alternatives Considered
+
+Keeping independent string comparisons was rejected because it permits vocabulary drift. Changing
+the tutor token to `X-Wing` was rejected because it would change the established HTTP contract.
+
+### Related Decisions
+
+- DR-041 — Deterministic technique priority and audit attribution.
+- DR-042 — Tutor hint contract.
+- DR-043 — Existing difficulty tiers and generator isolation.
+- BACKLOG-072 — September review R3 remediation; historical BACKLOG-015/016 remain resolved.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -2500,5 +2547,5 @@ Adopt the puzzle generator architecture, uniqueness oracle, difficulty grading c
 
 ---
 
-*Last entry: DR-043 (Accepted). Next ID: DR-044.*
+*Last entry: DR-044 (Accepted). Next ID: DR-045.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

@@ -1,13 +1,44 @@
 import { SudokuTutorService } from '../server/SudokuTutorService';
+import { Technique, TechniqueName } from '../techniques';
 
 export type DifficultyLevel = 'Easy' | 'Medium' | 'Hard' | 'Expert';
+export type HighestTechnique =
+  Exclude<TechniqueName, 'XWing'> | 'X-Wing' | 'AdvancedTechniquesRequired';
+
+// DR-043 tiers. XWing remains the API/tutor token; X-Wing remains the generator's display label.
+const TECHNIQUE_GRADES = {
+  [Technique.UnitCompletion]: {
+    difficulty: 'Easy',
+    highestTechnique: 'UnitCompletion',
+    rank: 0,
+  },
+  [Technique.HiddenSingles]: {
+    difficulty: 'Easy',
+    highestTechnique: 'HiddenSingles',
+    rank: 1,
+  },
+  [Technique.NakedSingles]: {
+    difficulty: 'Medium',
+    highestTechnique: 'NakedSingles',
+    rank: 2,
+  },
+  [Technique.NakedPairs]: {
+    difficulty: 'Hard',
+    highestTechnique: 'NakedPairs',
+    rank: 3,
+  },
+  [Technique.XWing]: { difficulty: 'Expert', highestTechnique: 'X-Wing', rank: 4 },
+} satisfies Record<
+  TechniqueName,
+  { difficulty: DifficultyLevel; highestTechnique: HighestTechnique; rank: number }
+>;
 
 export interface DifficultyGradeResult {
   difficulty: DifficultyLevel;
-  highestTechnique: string;
+  highestTechnique: HighestTechnique;
   solveSteps: number;
   isSolvable: boolean;
-  usedTechniques: string[];
+  usedTechniques: TechniqueName[];
 }
 
 /**
@@ -20,7 +51,7 @@ export function gradePuzzle(grid: number[][]): DifficultyGradeResult {
   const tutorService = new SudokuTutorService();
   const board = grid.map((row) => [...row]);
 
-  const usedTechniques: string[] = [];
+  const usedTechniques: TechniqueName[] = [];
   let solveSteps = 0;
   let isSolvable = false;
   let stepLimit = 81;
@@ -34,7 +65,7 @@ export function gradePuzzle(grid: number[][]): DifficultyGradeResult {
       break;
     }
 
-    if (hint.status !== 'HINT_AVAILABLE' || !hint.move || !hint.technique) {
+    if (hint.status !== 'HINT_AVAILABLE' || !hint.move || hint.technique === 'None') {
       break;
     }
 
@@ -61,28 +92,21 @@ export function gradePuzzle(grid: number[][]): DifficultyGradeResult {
  * Classifies the difficulty level based on the highest technique tier used.
  */
 function classifyDifficulty(
-  usedTechniques: string[],
+  usedTechniques: TechniqueName[],
   isSolvable: boolean
-): { difficulty: DifficultyLevel; highestTechnique: string } {
+): { difficulty: DifficultyLevel; highestTechnique: HighestTechnique } {
   if (!isSolvable) {
     return { difficulty: 'Expert', highestTechnique: 'AdvancedTechniquesRequired' };
   }
 
-  if (usedTechniques.includes('X-Wing')) {
-    return { difficulty: 'Expert', highestTechnique: 'X-Wing' };
-  }
-  if (usedTechniques.includes('NakedPairs')) {
-    return { difficulty: 'Hard', highestTechnique: 'NakedPairs' };
-  }
-  if (usedTechniques.includes('HiddenSingles')) {
-    return { difficulty: 'Medium', highestTechnique: 'HiddenSingles' };
-  }
-  if (usedTechniques.includes('NakedSingles')) {
-    return { difficulty: 'Easy', highestTechnique: 'NakedSingles' };
-  }
-  if (usedTechniques.includes('UnitCompletion')) {
-    return { difficulty: 'Easy', highestTechnique: 'UnitCompletion' };
+  let highestGrade: (typeof TECHNIQUE_GRADES)[TechniqueName] =
+    TECHNIQUE_GRADES[Technique.UnitCompletion];
+  for (const technique of usedTechniques) {
+    const grade = TECHNIQUE_GRADES[technique];
+    if (grade.rank > highestGrade.rank) {
+      highestGrade = grade;
+    }
   }
 
-  return { difficulty: 'Easy', highestTechnique: 'UnitCompletion' };
+  return { difficulty: highestGrade.difficulty, highestTechnique: highestGrade.highestTechnique };
 }

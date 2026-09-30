@@ -1,6 +1,7 @@
 import { AuditLogger } from '../audit/AuditLogger';
 import { BLOCK_SIZE, EMPTY_CELL, GRID_SIZE } from '../constants';
 import { SudokuSolver } from '../SudokuSolver';
+import { Technique } from '../techniques';
 import { RationaleGenerator } from './RationaleGenerator';
 import {
   CandidateElimination,
@@ -129,7 +130,7 @@ export class SudokuTutorService {
         return {
           success: true,
           status: 'HINT_AVAILABLE',
-          technique: 'UnitCompletion',
+          technique: Technique.UnitCompletion,
           move: {
             cell: { row: cell.row, col: cell.col },
             digit,
@@ -168,7 +169,7 @@ export class SudokuTutorService {
           return {
             success: true,
             status: 'HINT_AVAILABLE',
-            technique: 'HiddenSingles',
+            technique: Technique.HiddenSingles,
             move: {
               cell: { row: cell.row, col: cell.col },
               digit,
@@ -202,7 +203,7 @@ export class SudokuTutorService {
         return {
           success: true,
           status: 'HINT_AVAILABLE',
-          technique: 'NakedSingles',
+          technique: Technique.NakedSingles,
           move: {
             cell: { row: cell.row, col: cell.col },
             digit,
@@ -235,7 +236,7 @@ export class SudokuTutorService {
         return {
           success: true,
           status: 'HINT_AVAILABLE',
-          technique: 'NakedPairs',
+          technique: Technique.NakedPairs,
           move: {
             cell: { row: cell.row, col: cell.col },
             digit,
@@ -268,7 +269,7 @@ export class SudokuTutorService {
         return {
           success: true,
           status: 'HINT_AVAILABLE',
-          technique: 'XWing',
+          technique: Technique.XWing,
           move: {
             cell: { row: cell.row, col: cell.col },
             digit,
