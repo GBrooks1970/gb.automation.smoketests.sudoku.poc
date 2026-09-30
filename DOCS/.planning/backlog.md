@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-09-30 — ticked BACKLOG-075 mock-up criterion (owner approved the design) and recorded the C# execution-order requirement. Prior: 2026-09-30 — resolved the supported-runtime audit repair under BACKLOG-076 / TRIAGE-12 on local validation. BACKLOG-075's Reqnroll-results spike is complete and its parity evidence page remains Open under DR-047. Prior: BACKLOG-074 resolved; 2026-09-07 resting lifecycle reconciliation.
+**Last Updated:** 2026-09-30 — added the BACKLOG-075 build plan (`todo-parity-evidence-page.md`). Prior: 2026-09-30 — ticked BACKLOG-075 mock-up criterion (owner approved the design) and recorded the C# execution-order requirement. Prior: 2026-09-30 — resolved the supported-runtime audit repair under BACKLOG-076 / TRIAGE-12 on local validation. BACKLOG-075's Reqnroll-results spike is complete and its parity evidence page remains Open under DR-047. Prior: BACKLOG-074 resolved; 2026-09-07 resting lifecycle reconciliation.
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -492,6 +492,7 @@ BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iter
 **Stack:** All (DEMOAPP001, DEMOAPP002, DEMOAPP003)
 **Priority:** Medium
 **Decision:** DR-047. DR-040 stays in force for the visualisation and is not superseded.
+**Plan:** [`todo-parity-evidence-page.md`](todo-parity-evidence-page.md) (slices S1 to S5; decisions D1 to D4 need the owner before any workflow change).
 **Source:** `portfolio-docs/PORTFOLIO_SUDOKU_PARITY_EVIDENCE_PAGE_FEASIBILITY_2026-09-30.md` in `GBrooks1970/test-automation-portfolio` (gaps G3-G6; its 'DR-044' is DR-047 here).
 
 Acceptance criteria:
