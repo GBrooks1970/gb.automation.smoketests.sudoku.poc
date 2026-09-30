@@ -2,7 +2,7 @@
 
 Tools for the three-Stack parity evidence page (BACKLOG-075, DR-047). See `DOCS/.planning/todo-parity-evidence-page.md` for the plan and slices.
 
-S1 holds the result adapters and the results-level gate. S3 adds the page builder. Neither is wired into CI yet (S4).
+S1 holds the result adapters and the results-level gate. S3 adds the page builder. S4 runs the tests, the gate and the builder in the `parity` job of `.github/workflows/ci.yml`, and publishes the page under `/parity/` from `main`.
 
 | File | Purpose |
 |------|---------|
