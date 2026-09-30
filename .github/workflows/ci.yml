@@ -231,6 +231,65 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
+  parity:
+    # Results-level parity (DR-047): reads what each Stack actually executed, runs the gate on it, and builds the
+    # parity evidence page with its negative check. Runs on pull requests too, so a PR proves the page still builds;
+    # only the pages-* jobs below publish, and only from main.
+    name: Parity gate and evidence page
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs:
+      - demoapp001-typescript-cypress
+      - demoapp002-python-pytest
+      - demoapp003-csharp-specflow
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      # The DEMOAPP001 artefact uploads two paths, so it unpacks as demoapp001/ and feature-parity/ under .results.
+      - name: Download DEMOAPP001 evidence
+        uses: actions/download-artifact@v7
+        with:
+          name: demoapp001-ci-evidence
+          path: .results
+
+      - name: Download DEMOAPP002 evidence
+        uses: actions/download-artifact@v7
+        with:
+          name: demoapp002-ci-evidence
+          path: .results/demoapp002
+
+      - name: Download DEMOAPP003 evidence
+        uses: actions/download-artifact@v7
+        with:
+          name: demoapp003-ci-evidence
+          path: .results/demoapp003
+
+      - name: Parity tool tests
+        run: node --test tools/parity-page/tests/*.test.mjs
+
+      - name: Results-level parity gate
+        run: node tools/parity-page/check-parity.mjs
+
+      - name: Build the parity evidence page (includes the negative check)
+        run: node tools/parity-page/build-page.mjs --out parity-page-dist
+
+      - name: Upload parity evidence page
+        uses: actions/upload-artifact@v7
+        with:
+          name: parity-page
+          path: parity-page-dist/
+          if-no-files-found: error
+          retention-days: 7
+
   gate:
     name: Gate (all stacks green)
     runs-on: ubuntu-latest
@@ -238,7 +297,87 @@ jobs:
       - demoapp001-typescript-cypress
       - demoapp002-python-pytest
       - demoapp003-csharp-specflow
+      - parity
 
     steps:
-      - name: All stacks green
-        run: echo "all stacks green"
+      - name: All stacks green and parity verified
+        run: echo "all stacks green and parity verified"
+
+  pages-build:
+    # Assembles one Pages artefact: the DEMOAPP001 static visualisation (BACKLOG-071 / DR-040, built exactly as the
+    # former pages.yml did, drift check included) with the parity page under /parity/. Runs after the gate, never on
+    # pull requests, and holds no Pages permissions. Runs on manual dispatch from any ref so it can be dry-run
+    # without deploying; only pages-deploy publishes.
+    name: Build static evidence site
+    needs: gate
+    if: ${{ github.event_name != 'pull_request' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: demo-apps/demoapp001-typescript-cypress
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Node 24
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: demo-apps/demoapp001-typescript-cypress/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Check the static evidence site (drift + self-containment)
+        run: node scripts/check-pages.cjs
+
+      - name: Assemble the static evidence site
+        run: node scripts/build-pages.cjs
+
+      - name: Add the parity evidence page under /parity/
+        uses: actions/download-artifact@v7
+        with:
+          name: parity-page
+          path: demo-apps/demoapp001-typescript-cypress/pages-dist/parity
+
+      - name: Check both pages are present
+        run: |
+          test -f pages-dist/index.html
+          test -f pages-dist/parity/index.html
+          ls -la pages-dist pages-dist/parity
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: demo-apps/demoapp001-typescript-cypress/pages-dist
+
+  pages-deploy:
+    # Only the deploy job holds Pages write and id-token. Publishes only from main, and only after the gate and the
+    # site build both succeeded, so the public pages never show a red build as the project's evidence.
+    name: Deploy to GitHub Pages
+    needs: pages-build
+    if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v5

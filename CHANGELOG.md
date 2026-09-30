@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Added
+- BACKLOG-075 slice S4: CI gains a `parity` job (tool tests, results-level gate, parity page build with its negative check) that `Gate (all stacks green)` now waits for. The Pages workflow is merged into `ci.yml` as `pages-build` and `pages-deploy`, so the DEMOAPP001 visualisation (DR-040) and the parity page at `/parity/` publish as one artefact, only from `main`, only after the gate passes, with deploy-only Pages permissions. `.github/workflows/pages.yml` is removed; previously Pages deployed on every push to `main` whether or not CI passed.
 - BACKLOG-075 slice S3: `tools/parity-page/build-page.mjs` builds the three-Stack parity evidence page from the Stacks' own results, the feature file and the step-definition sources, running the real gate and four planted-change negative checks; 9 builder tests. Not yet wired into CI.
 - BACKLOG-075 slice S1: `tools/parity-page/` holds result adapters (Cucumber JSON and Cucumber Messages) and a results-level parity gate with 12 unit tests. Not yet wired into CI.
 - BACKLOG-075 slice S2: CI evidence now includes per-scenario results in Cucumber form for the parity page: DEMOAPP002 writes `test-results/pytest-cucumber.json` (`--cucumberjson`) and DEMOAPP003 writes `test-results/reqnroll.ndjson` (Reqnroll `message` formatter via `tests/reqnroll.json`). `.batch/check-ci-evidence.ps1` requires both, with negative controls (21 mutations).
