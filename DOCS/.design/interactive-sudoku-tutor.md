@@ -270,6 +270,19 @@ behaviour, including cancellation and loading ownership. This is controller evid
 not verify native module linking, layout or the full browser flow. The served-asset/API
 `check:web` script and native browser checks are separate evidence surfaces.
 
+### 9.5 Browser Module and Playback Contract Verification
+
+`tests/component/player-module.contract.test.ts` links the real `app.js`, `grid.js`,
+`player.js` and `tutor.js` sources with Node's ES-module linker, without rewriting their
+imports or exports. This rejects a missing named export before application startup. The
+experimental VM flag is confined to the test subprocess; existing suite commands are unchanged.
+
+Separate probes evaluate the real player module with a controlled interval clock and minimal
+DOM. They verify that its public `pause()` stops playback, preserves the current index and
+controls, allows one timer to resume at the selected speed, and is safe when already stopped
+or complete. These are module and playback checks; native browser checks separately verify
+startup, switching to tutor during playback and live hint application.
+
 ---
 
 ## 10. Multi-Stack Staging Roadmap

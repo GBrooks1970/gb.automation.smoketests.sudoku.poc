@@ -13,6 +13,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
   DR-040 visualisation. Docs only; no code or behaviour change.
 
 ### Fixed
+- BACKLOG-077 (TRIAGE-11): the visualiser now exports its intended `pause()` API, allowing
+  the native application module graph to load and switching to tutor to stop playback while
+  preserving the playhead. New component checks cover real module linking and pause/restart
+  behaviour; native browser startup, playback and live tutor hint application were verified.
 - BACKLOG-076 (TRIAGE-12): restored the supported-runtime dependency audits with urllib3 2.8.0
   in DEMOAPP002 and a targeted DEMOAPP001 Serenity lock refresh to 3.48.0, which supplies its
   patched Axios 1.20.0 dependency. Existing manifest ranges, Requests, audit policy, CI workflow

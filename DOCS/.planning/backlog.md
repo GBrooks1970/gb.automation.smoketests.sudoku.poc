@@ -1,11 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-09-30 — added the BACKLOG-075 build plan (`todo-parity-evidence-page.md`). Prior: 2026-09-30 — ticked BACKLOG-075 mock-up criterion (owner approved the design) and recorded the C# execution-order requirement. Prior: 2026-09-30 — resolved the supported-runtime audit repair under BACKLOG-076 / TRIAGE-12 on local validation. BACKLOG-075's Reqnroll-results spike is complete and its parity evidence page remains Open under DR-047. Prior: BACKLOG-074 resolved; 2026-09-07 resting lifecycle reconciliation.
+**Last Updated:** 2026-09-30 — resolved BACKLOG-077 / TRIAGE-11 on local validation and native browser checks. Prior: BACKLOG-075 build plan, approved mock-up and results spike; BACKLOG-076 dependency-audit restoration; BACKLOG-074 tutor request ownership; 2026-09-07 resting lifecycle reconciliation.
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
-**Status:** Owner-authorised dependency-audit repair (BACKLOG-076 / TRIAGE-12) is resolved on local Node/Python supported-runtime validation; all-Stack CI remains the publication check. BACKLOG-075 remains Open with its results spike complete. Approved September TRIAGE-05/06/07 are resolved; TRIAGE-08 remains separate. Historical product closures remain intact.
+**Status:** Owner-selected browser pause-contract repair (BACKLOG-077 / TRIAGE-11) is resolved on local Node validation and native browser checks; all-Stack CI remains its publication check. BACKLOG-076 was published through PR #80 with green merge CI and Pages. BACKLOG-075 remains Open with its results spike and approved mock-up complete. Approved September TRIAGE-05/06/07 are resolved; TRIAGE-08 remains separate. Historical product closures remain intact.
 
 ---
 
@@ -27,8 +27,13 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 1 |
 | In Progress | 0 |
-| Resolved | 98 |
-| **Total** | **99** |
+| Resolved | 99 |
+| **Total** | **100** |
+
+**Update (2026-09-30, TRIAGE-11):** Added the separately authorised BACKLOG-077 browser
+pause-contract repair as Resolved. BACKLOG-075 remains Open: 1 Open / 0 In Progress /
+99 Resolved / 100 Total. The adjacent visualiser redraw inconsistency is an unapproved
+portfolio worklist candidate (TRIAGE-13), not an additional resolved project item.
 
 **Update (2026-09-30, TRIAGE-12):** Recomputed unique tracked IDs from canonical status tables,
 dated resolved rows and status-bearing detail records, including detail-only BACKLOG-007,
@@ -52,7 +57,7 @@ both passed at `7af3dca`; this was a documentation reconciliation, not an implem
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-075 (DR-047) remains Open with its spike complete; BACKLOG-076 restores supported-runtime audits and awaits all-Stack publication CI; approved TRIAGE-08 remains separate |
+| Current sprint focus | BACKLOG-075 (DR-047) remains Open with its spike and mock-up complete; BACKLOG-077 repairs browser startup and awaits all-Stack publication CI; BACKLOG-076 is published; approved TRIAGE-08 remains separate |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -462,6 +467,12 @@ BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iter
 |----|----------|-------|----------|----------|--------|-----------------|
 | BACKLOG-076 | TRIAGE-12 | Restore supported-runtime dependency audits with patched locks | DEMOAPP001 / DEMOAPP002 | High | Resolved | DR-039 (existing policy) |
 
+## Owner-Selected Browser Contract Repair (2026-09-30)
+
+| ID | Worklist | Title | Stack(s) | Priority | Status | Decision Record |
+|----|----------|-------|----------|----------|--------|-----------------|
+| BACKLOG-077 | TRIAGE-11 | Restore native browser startup through the visualiser pause export | DEMOAPP001 | Medium | Resolved | DR-042 (existing UI contract; no new structural choice) |
+
 ## Product and Technical Work
 
 | ID | Title | Stack(s) | Nature of Gap | Priority | Status |
@@ -511,6 +522,65 @@ except them under DR-039 before the fan-in job can be verified green.
 The separate BACKLOG-076 repair supplies local restoration evidence and requires all-Stack CI before publication.
 
 ---
+
+### BACKLOG-077: Browser module linking and visualiser pause contract
+
+**Status:** Resolved 2026-09-30 on local validation and native browser acceptance checks;
+supported-runtime all-Stack PR CI remains the publication check.
+**Stack:** DEMOAPP001
+**Priority:** Medium
+**Nature of Gap:** Browser module contract defect, discovered during TRIAGE-07 verification.
+**Authority:** Owner selected TRIAGE-11 ahead of TRIAGE-08 on 2026-09-30.
+**Decision:** Existing DR-042 guided UI contract; restoring the intended pause API is not a
+new structural choice or a change to the HTTP, solver or cross-Stack contracts.
+
+The production app imported and called `pause`, while the player exposed only private `_pause`.
+The initial Node ES-module-link regression failed (0/1 tests, 4675.122 ms) with
+`The requested module './player.js' does not provide an export named 'pause'`.
+The repair exports `pause()` as a delegate to the existing implementation; it stops the
+interval and updates controls without moving the playhead.
+
+Acceptance criteria:
+
+- [x] The real app/grid/player/tutor ES-module graph links without rewriting imports or exports.
+- [x] Controlled player probes verify interval cancellation, index/control preservation,
+      restart at the selected speed, idempotent stopped/empty use and completion safety.
+- [x] Native browser startup, puzzle loading, mode-switch pause, resumed playback and a live
+      tutor hint/application pass without browser errors.
+- [x] Applicable locked restore, static, component/BDD, API/OpenAPI, coverage, parity,
+      dependency audit and evidence gates pass without policy or workflow changes.
+- [x] Preserve historical closures and separate the newly observed redraw inconsistency
+      as portfolio TRIAGE-13; do not implement that candidate here.
+
+Local Node 24.18.0: focused regression 5/5 (3132.5342 ms). The new test file uses a tightly
+scoped Node subprocess for native ES-module linking/evaluation; its VM flag does not change
+suite or CI commands. Player behaviour probes use a minimal DOM and controlled interval
+clock. This evidence is distinct from native browser verification and does not claim browser
+controller line coverage.
+
+Clean `npm ci`, build/lint/format, changed-player syntax, API integration and eight OpenAPI
+tests (7139.4206 ms) passed. `npm run test:ci` passed 107 component tests (22320.801 ms),
+55 BDD scenarios / 309 steps (5.308 s). Existing selected-module coverage passed at
+80.11% lines / 91.94% branches / 80.17% functions (107 tests, 74012.2612 ms) with one
+local worker to avoid the previously observed Windows contention. Scopes, floors, timing
+assertions and default CI concurrency are unchanged. All seven repository parity/governance
+checks, `check:web` served-asset/API checks and `check:pages` five-puzzle drift checks passed.
+The governed audit passed with zero blocking findings and the existing one moderate fast-uri
+finding (TRIAGE-09); the six-file CI evidence contract passed.
+
+Native in-app browser checks used the actual Express app at `http://127.0.0.1:3111/`.
+Easy Scan Grid loaded 51 replay steps. Switching to tutor changed the play control from
+pause to play at Step 1 of 51; that index stayed fixed for 2200 ms against a 2000 ms
+playback interval. Resuming advanced to Step 2, and manual pause again held for 2200 ms.
+The live HiddenSingles hint for row 1, column 8 applied digit 1 and disabled Apply Move.
+No browser errors were recorded. Ignored evidence is `.results/triage-11/browser-verification.json`
+and `tutor-working.png` (completed 2026-09-30T19:25:08.440Z), with gate logs in the same directory.
+
+The browser also exposed a separate, pre-existing redraw mismatch: returning to visualiser
+calls `onStep(0)` while the paused counter/index remains 1, clearing the first move and current
+event highlight until playback resumes. This is TRIAGE-13, awaiting owner selection.
+Python/C# native suites and the optional mutation trial were not rerun locally for this
+DEMOAPP001 repair; supported-runtime all-Stack CI remains the publication check.
 
 ### BACKLOG-076: Restore supported-runtime dependency audits
 
@@ -582,6 +652,13 @@ evidence is under `.results/demoapp001/` and `.results/triage-12/`.
 C# native suites, browser interaction and the optional mutation trial were not rerun locally
 for these dependency changes. Supported-runtime all-Stack CI remains the publication check.
 No audit exception, policy change, workflow change or coverage relaxation was introduced.
+
+Publication update (2026-09-30): [PR #80](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/80)
+merged as `1170508ad9cebfd16fb60e85dd1d9166f3cf1d6e`. Exact-merge
+[CI 36755560842](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/actions/runs/36755560842)
+passed all three Stack jobs and the aggregate gate;
+[Pages 36755560902](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/actions/runs/36755560902)
+passed at the same merge SHA. The earlier local-only validation record above is retained.
 
 ### BACKLOG-074: Tutor request ownership and stale hint rejection
 
