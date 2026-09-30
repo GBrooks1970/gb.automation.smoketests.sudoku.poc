@@ -8,6 +8,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 
 ## [Unreleased]
 
+### Added
+- DR-047 (Proposed): bounds a three-stack parity evidence page at `/parity/`, separate from the
+  DR-040 visualisation. Docs only; no code or behaviour change.
+
 ### Fixed
 - BACKLOG-074 (TRIAGE-07, September review R4): tutor requests now own a grid snapshot, revision
   and request sequence; state changes abort pending work and discard stale completions.
