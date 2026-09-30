@@ -1,11 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-09-07 — lifecycle and control reconciliation after confirming all 93 items resolved, clean `main` at `7af3dca`, green CI and Pages, and zero open pull requests. Prior: 2026-08-24 (resolved BACKLOG-016 / SUD-38..41).
+**Last Updated:** 2026-09-30 — resolved BACKLOG-072 / TRIAGE-05 / September review R3 with supported-runtime validation. Prior: 2026-09-07 (resting lifecycle reconciliation).
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
-**Status:** Resting — the authoritative backlog has zero outstanding items; any new product cycle requires an explicitly approved backlog item.
+**Status:** Approved September review remediation — TRIAGE-05 is allocated below; TRIAGE-06..08 remain approved portfolio worklist candidates for allocation in their own iterations. Historical product closures remain intact.
 
 ---
 
@@ -27,8 +27,8 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 0 |
 | In Progress | 0 |
-| Resolved | 93 |
-| **Total** | **93** |
+| Resolved | 94 |
+| **Total** | **94** |
 
 **Update (2026-09-07):** Reconciled stale roll-up rows for BACKLOG-014, BACKLOG-015,
 BACKLOG-016 and BACKLOG-071 against their resolved detail records and delivery evidence. The latest
@@ -38,11 +38,12 @@ both passed at `7af3dca`; this was a documentation reconciliation, not an implem
 
 | Area | Current state |
 |------|---------------|
-| Current execution baseline | DEMOAPP001: Node 24, 49 component tests plus 55 scenarios / 309 steps passing, REST API integration PASS, 4 OpenAPI contract tests passing, Web UI smoke check PASS; selected-module coverage 81.46% lines / 91.74% branches / 80.17% functions with 70% / 85% / 75% floors; focused mutation trial 10/10 killed. DEMOAPP002: Python 3.13, 85 tests (55 pytest-bdd + 30 component) passing; selected-module coverage 88.98% combined with an 85% floor. DEMOAPP003: .NET 10, 83 tests (55 Reqnroll + 28 component) passing; selected-type coverage 87.62% lines / 85.94% branches with 80% / 80% floors. 3-Stack parity PASS. |
+| Recorded execution baseline (2026-08-24) | DEMOAPP001: Node 24, 49 component tests plus 55 scenarios / 309 steps passing, REST API integration PASS, 4 OpenAPI contract tests passing, Web UI smoke check PASS; selected-module coverage 81.46% lines / 91.74% branches / 80.17% functions with 70% / 85% / 75% floors; focused mutation trial 10/10 killed. DEMOAPP002: Python 3.13, 85 tests (55 pytest-bdd + 30 component) passing; selected-module coverage 88.98% combined with an 85% floor. DEMOAPP003: .NET 10, 83 tests (55 Reqnroll + 28 component) passing; selected-type coverage 87.62% lines / 85.94% branches with 80% / 80% floors. 3-Stack parity PASS. |
+| TRIAGE-05 execution evidence (2026-09-30) | Node 24.18.0: 57 component tests passing; 55 BDD scenarios / 309 steps passing; REST API integration PASS; 4 OpenAPI contract tests passing; build/lint/format PASS. Existing selected-module coverage: 81.46% lines / 91.94% branches / 80.17% functions, all floors passed with one local test worker. Seven repository parity/governance checks PASS. Dependency audit PASS under DR-039 with zero blocking findings and one moderate fast-uri finding, recorded as portfolio TRIAGE-09. Python/C# suites, browser smoke and mutation trial were not rerun for this DEMOAPP001 classification change. |
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | None — BACKLOG-016 / SUD-38..41 completed on 2026-08-24 and all backlog items are resolved; project resting pending an explicitly approved new cycle |
+| Current sprint focus | BACKLOG-072 / TRIAGE-05 resolved; approved TRIAGE-06..08 remain ordered portfolio worklist candidates |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -428,6 +429,16 @@ Resolution evidence:
 
 ---
 
+## September 2026 Review Remediation
+
+The owner-approved portfolio worklist extension dated 2026-09-30 governs the new residual defects
+from `DOCS/.review/CODE_REVIEW_CODEX_v2_20260929T0633Z/`. These are new records, not reopened
+BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iteration.
+
+| ID | Worklist | Title | Stack(s) | Review risk | Priority | Status | Decision Record |
+|----|----------|-------|----------|-------------|----------|--------|-----------------|
+| BACKLOG-072 | TRIAGE-05 | Share technique vocabulary and exhaustively grade every supported technique | DEMOAPP001 | R3 | Medium | Resolved | DR-044 |
+
 ## Product and Technical Work
 
 | ID | Title | Stack(s) | Nature of Gap | Priority | Status |
@@ -451,6 +462,32 @@ Resolution evidence:
 ---
 
 ## Active Item Details
+
+### BACKLOG-072: Shared technique vocabulary and exact difficulty grading
+
+**Status:** Resolved 2026-09-30 — TRIAGE-05 / September review R3.
+**Stack:** DEMOAPP001
+**Priority:** Medium
+**Decision:** DR-044, preserving DR-043's accepted tier contract.
+
+Acceptance criteria:
+
+- [x] Tutor and grader consume one production technique vocabulary and type, with exhaustive mapping.
+- [x] Exact grade assertions cover Unit Completion, Hidden Singles, Naked Singles, Naked Pairs and XWing.
+- [x] A real unique X-Wing fixture reaches completion and is classified Expert, alongside labelled seam tests.
+- [x] Preserve the tutor `XWing` token and generator `X-Wing` display label; document DR-043 tier corrections.
+- [x] All applicable DEMOAPP001 supported-runtime gates and repository parity checks pass.
+
+Evidence: `difficulty-grader.contract.test.ts` contains seven labelled classification seams;
+`difficulty-grader.real-grid.test.ts` independently proves one solution, 57 real tutor placements,
+XWing at zero-based step 34 and exact Expert grading. `npm run test:ci` passed 57 component tests
+(15153.887 ms) and 55 BDD scenarios / 309 steps (5.208 s). Selected-module coverage passed all
+unchanged floors (57/57, 61310.1507 ms) with `--test-concurrency=1` before the file arguments;
+default concurrent coverage had exceeded the existing clue-removal 150 ms timing assertion on
+this Windows host. No assertion or budget was weakened. Build, lint, formatting, API/OpenAPI,
+parity and audit passed. Locked `brace-expansion` 5.0.9 -> 5.0.12 to clear the blocking audit;
+the remaining moderate fast-uri advisory is a separate worklist candidate. The historical review
+bundle is immutable; this backlog record supplies R3's remediation status.
 
 ### BACKLOG-051: Strengthen orchestration ordering and no-execution assertions
 
@@ -1335,6 +1372,7 @@ viewer returned HTTP 200 and Pages run 33996955729 passed at current `main`.
 
 | ID | Title | Stack(s) | Resolved | Notes |
 |----|-------|----------|----------|-------|
+| BACKLOG-072 | Shared technique vocabulary and exact difficulty grading (TRIAGE-05) | DEMOAPP001 | 2026-09-30 | DR-044; all five DR-043 tiers, real unique 57-move XWing completion regression, 57 component + 55 BDD scenarios green; compatible brace-expansion lock repair cleared blocking audit |
 | BACKLOG-001 | Complete Hidden Singles Implementation | DEMOAPP001 | 2026-05-14 | Rows, columns, and blocks now checked |
 | BACKLOG-002 | Implement Automated Test Runner | DEMOAPP001 | 2026-05-14 | Cucumber test runner established |
 | BACKLOG-003 | Create Implementation Logs | All | 2026-05-14 | Initial implementation logs created |

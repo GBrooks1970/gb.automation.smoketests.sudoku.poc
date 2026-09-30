@@ -1,8 +1,9 @@
 import { AuditEvent, AuditStatistics, CellChange } from '../audit/AuditTypes';
+import { TechniqueName } from '../techniques';
+
+export type { TechniqueName } from '../techniques';
 
 export type Grid = number[][];
-export type TechniqueName =
-  'UnitCompletion' | 'HiddenSingles' | 'NakedSingles' | 'NakedPairs' | 'XWing';
 export type SolverStatus = 'SOLVED' | 'STUCK_ON_ADVANCED_LOGIC';
 
 export interface RequestOptions {
@@ -102,7 +103,7 @@ export interface ErrorResponse {
 export interface SolveStep extends CellChange {
   stepNumber: number;
   iteration: number;
-  algorithm: 'UnitCompletion' | 'HiddenSingles' | 'NakedSingles' | 'NakedPairs' | 'XWing';
+  algorithm: TechniqueName;
   algorithmParam?: number;
 }
 

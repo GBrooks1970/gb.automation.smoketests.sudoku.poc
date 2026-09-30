@@ -8,6 +8,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 
 ## [Unreleased]
 
+### Fixed
+- BACKLOG-072 (TRIAGE-05, September review R3): shared the tutor/grader technique vocabulary and
+  exhaustively mapped all five techniques to DR-043's accepted tiers. XWing now grades as Expert;
+  Hidden Singles grades as Easy and Naked Singles as Medium. Preserved the tutor's `XWing` token
+  and generator's `X-Wing` display label; added exact classification seams and a real unique
+  24-clue X-Wing completion regression. DR-044 records the compatibility boundary.
+- Refreshed the locked `brace-expansion` dependency from 5.0.9 to 5.0.12 within its existing
+  override range after the required TRIAGE-05 audit found blocking high-severity advisories.
+
 ### Added
 - BACKLOG-014 (SUD-34, Future product capability): implemented row- and column-oriented X-Wing
   technique across TypeScript (DEMOAPP001), Python (DEMOAPP002), and C# (DEMOAPP003) Stacks; added
