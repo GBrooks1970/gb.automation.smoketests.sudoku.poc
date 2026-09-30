@@ -1,7 +1,7 @@
 # Decision Register
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-09-30 — DR-046 records tutor request ownership and auto-play cancellation for TRIAGE-07; DR-044/045 govern technique grading and generator exhaustion.
+**Last Updated:** 2026-09-30 — DR-046 records tutor request ownership and auto-play cancellation for TRIAGE-07; DR-044/045 govern technique grading and generator exhaustion; DR-047 (Proposed) bounds the three-stack parity evidence page.
 **Governed by:** `reference-architecture.md` v1.15 §10.6
 **Template:** `DOCS/.templates/decision-record.template.md`
 
@@ -2642,7 +2642,60 @@ true and can revive an old continuation. A separate generation token identifies 
 
 ## Proposed Decisions
 
-*None at this time.*
+## DR-047 — Publish a three-stack parity evidence page, separate from the DEMOAPP001 visualisation
+
+**Date:** 2026-09-30
+**Status:** Proposed — awaiting owner acceptance. The owner reopened the project on 2026-09-30 for one scoped item (portfolio-prompts#107); this record defines that item's boundary.
+
+### Context
+
+DR-040 authorised a static, browser-only DEMOAPP001 visualisation and bound it away from any claim of three-stack parity, so the existing Pages site cannot show that the TypeScript, Python and C# Stacks satisfy one shared contract. The parity evidence exists only as CI job logs and the file-level scripts under `.batch/` (`check-step-text-parity.ps1`, `generate-feature-parity-report.ps1`), which compare feature files before execution and not the results of a run. `loan-origination-parity` publishes a page of this kind, built from each CI run's own results (loan-origination-parity#15), and a feasibility report (test-automation-portfolio `portfolio-docs/PORTFOLIO_SUDOKU_PARITY_EVIDENCE_PAGE_FEASIBILITY_2026-09-30.md`) found the same page feasible here. Without a new decision, either the page would breach DR-040 or the parity claim would stay unpublished.
+
+### Decision
+
+Authorise one scoped backlog item that publishes a three-stack parity evidence page at `/parity/` on the project's Pages site, built in CI from the three Stacks' own execution results. DR-040 is not superseded: it continues to govern the visualisation, which stays at the site root with its own banner and drift check (`scripts/check-pages.cjs`). The page is bound as follows:
+
+- **Claim.** It may claim only what a results-level gate has verified in that run: each Stack executed the same scenarios from the shared feature file, with the same step text, and all passed. It makes no claim about solver quality or performance beyond measured timings labelled as this run's.
+- **Real data only.** Every result, step-binding snippet and timing is read from the run's artefacts and the step-definition sources at build time; nothing is typed by hand. The build fails if a source is missing.
+- **Negative check.** The build fails unless the gate is shown to fail against a planted one-word step-text change in a temporary copy of one Stack's results.
+- **No behaviour change.** It must not change the solver, feature files, puzzle data, the REST API or any Stack's behaviour, and must not absorb any Open or future backlog item.
+- **Static and gated.** The page runs no service and loads only relative static assets. It is published from `main` only, after every Stack job and the gate succeed, with deploy-only Pages permissions. The visualisation and the parity page ship in one Pages artefact, so neither deployment removes the other.
+- **Results format.** The results-level comparison needs a common per-scenario format. Whether the C# Stack emits Cucumber-compatible output directly or falls back to matching TRX results by scenario title is decided by a short Reqnroll 3.3.4 spike, and that outcome is recorded before any CI change is committed.
+- **Order of work.** Spike, then a clickable mock-up built from a real local run of all three Stacks and reviewed by the owner, then the CI build.
+
+### Status
+
+`Proposed` — 2026-09-30. Becomes `Accepted` when the owner approves the boundary above.
+
+### Consequences
+
+**Outcomes:**
+- The cross-Stack parity claim becomes publicly checkable from a run's own evidence, without weakening DR-040's bound on the visualisation.
+- The results-level gate closes the gap that file-level scripts leave, where a Stack could drift at run time without a feature-file change.
+- The report generator is a candidate for reuse across the portfolio's multi-stack projects once a second adopter exists.
+
+**Trade-offs:**
+- The page build moves into `ci.yml` after the `gate` job, and `pages.yml` must be reconciled so one workflow owns the Pages artefact. That is a CI restructure, not a config tweak.
+- If the Reqnroll spike finds no usable Cucumber output, the C# column relies on title matching, which is weaker because a renamed scenario breaks the match.
+- Two Stacks each gain one extra results file, and CI gains one job of a few minutes.
+- No committed timing baseline exists, so timings are shown as this run's values only unless a baseline is added later.
+
+### Alternatives Considered
+
+**Alternative: Extend the DEMOAPP001 visualisation to carry the parity claim** — rejected because DR-040 explicitly forbids it and the visualisation is a single-Stack surface.
+
+**Alternative: Extend the file-level `.batch/` reports** — rejected because they compare files before execution and cannot show that each Stack ran and passed the same scenarios.
+
+**Alternative: Take no action** — rejected by the owner's reopening of the project for this item.
+
+### Related Decisions
+
+- DR-040 — Static DEMOAPP001 visualisation; remains in force and is bounded away from parity claims.
+- DR-036 — Reqnroll and .NET 10 migration of the C# Stack; source of the results-format question.
+- loan-origination-parity#15 — Reference implementation of a results-built parity evidence page.
+- Backlog item — to be recorded when the owner accepts this decision.
+
+---
 
 ---
 
@@ -2658,5 +2711,5 @@ true and can revive an old continuation. A separate generation token identifies 
 
 ---
 
-*Last entry: DR-046 (Accepted). Next ID: DR-047.*
+*Last entry: DR-047 (Proposed). Next ID: DR-048.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*
