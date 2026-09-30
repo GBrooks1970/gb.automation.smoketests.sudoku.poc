@@ -13,9 +13,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
   DR-040 visualisation. Docs only; no code or behaviour change.
 
 ### Fixed
-- BACKLOG-076 (TRIAGE-12): updated the constrained DEMOAPP002 urllib3 dependency from 2.7.0
-  to 2.8.0 to remediate the blocking supported-runtime audit findings. Requests, the audit
-  policy, CI workflow and coverage floors are unchanged.
+- BACKLOG-076 (TRIAGE-12): restored the supported-runtime dependency audits with urllib3 2.8.0
+  in DEMOAPP002 and a targeted DEMOAPP001 Serenity lock refresh to 3.48.0, which supplies its
+  patched Axios 1.20.0 dependency. Existing manifest ranges, Requests, audit policy, CI workflow
+  and coverage floors are unchanged. The refreshed Serenity packages require Node 24.15.0+
+  on the Node 24 line; validation used Node 24.18.0 and CI selects the latest Node 24.
 - BACKLOG-074 (TRIAGE-07, September review R4): tutor requests now own a grid snapshot, revision
   and request sequence; state changes abort pending work and discard stale completions.
   Hint application rechecks the submitted target and original clues. Auto-play guards await

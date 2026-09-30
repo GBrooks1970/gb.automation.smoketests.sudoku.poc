@@ -1,11 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-09-30 — resolved the Python audit repair under BACKLOG-076 / TRIAGE-12; Node audit restoration is being validated. BACKLOG-075's Reqnroll-results spike is complete and its parity evidence page remains Open under DR-047. Prior: BACKLOG-074 resolved; 2026-09-07 resting lifecycle reconciliation.
+**Last Updated:** 2026-09-30 — resolved the supported-runtime audit repair under BACKLOG-076 / TRIAGE-12 on local validation. BACKLOG-075's Reqnroll-results spike is complete and its parity evidence page remains Open under DR-047. Prior: BACKLOG-074 resolved; 2026-09-07 resting lifecycle reconciliation.
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
-**Status:** Owner-authorised Python audit repair (BACKLOG-076 / TRIAGE-12) is resolved on local supported-runtime validation; all-Stack CI remains the publication check. Approved September TRIAGE-05/06/07 are resolved; TRIAGE-08 remains a separate approved portfolio worklist candidate. Historical product closures remain intact.
+**Status:** Owner-authorised dependency-audit repair (BACKLOG-076 / TRIAGE-12) is resolved on local Node/Python supported-runtime validation; all-Stack CI remains the publication check. BACKLOG-075 remains Open with its results spike complete. Approved September TRIAGE-05/06/07 are resolved; TRIAGE-08 remains separate. Historical product closures remain intact.
 
 ---
 
@@ -460,7 +460,7 @@ BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iter
 
 | ID | Worklist | Title | Stack(s) | Priority | Status | Decision Record |
 |----|----------|-------|----------|----------|--------|-----------------|
-| BACKLOG-076 | TRIAGE-12 | Restore the Python dependency audit with patched urllib3 constraints | DEMOAPP002 | High | Resolved | DR-039 (existing policy) |
+| BACKLOG-076 | TRIAGE-12 | Restore supported-runtime dependency audits with patched locks | DEMOAPP001 / DEMOAPP002 | High | Resolved | DR-039 (existing policy) |
 
 ## Product and Technical Work
 
@@ -504,16 +504,17 @@ Acceptance criteria:
 - [ ] Every result, snippet and timing is read from run artefacts or step-definition sources; nothing is typed by hand.
 - [ ] No change to the solver, feature files, puzzle data, REST API or any Stack's behaviour; `scripts/check-pages.cjs` and the visualisation are untouched.
 
-Known constraint (2026-09-30): default-branch CI is red because the dependency audit blocks new advisories
-(DEMOAPP001 axios, five high; DEMOAPP002 urllib3, three), so the `gate` job is skipped. Resolve or
+Pre-restoration constraint (2026-09-30, before BACKLOG-076): default-branch CI was red because the dependency audit blocked new advisories
+(DEMOAPP001 axios, five high; DEMOAPP002 urllib3, three), so the `gate` job was skipped. Resolve or
 except them under DR-039 before the fan-in job can be verified green.
+The separate BACKLOG-076 repair supplies local restoration evidence and requires all-Stack CI before publication.
 
 ---
 
-### BACKLOG-076: Restore the Python supported-runtime dependency audit
+### BACKLOG-076: Restore supported-runtime dependency audits
 
 **Status:** Resolved 2026-09-30 — TRIAGE-12; owner instructed restoration of Sudoku's `main`.
-**Stack:** DEMOAPP002
+**Stack:** DEMOAPP001 / DEMOAPP002
 **Priority:** High (blocking supported-runtime audit)
 **Decision:** DR-039 remains unchanged; this compatible lock repair introduces no structural rule.
 
@@ -527,11 +528,17 @@ at `e85e62c756c8ebcf3f0ec5fe244edfc34ca276c6` failed on urllib3 2.7.0 findings
 aggregate gate. The original audit reports patched version 2.8.0 for both findings.
 This record is separate from the unimplemented browser, schema and documentation candidates.
 
+Subsequent [main CI 36743999304](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/actions/runs/36743999304)
+at `76c87a0984b200f871e1951796ec9cf82b17fdc8` also failed DEMOAPP001's audit on five high
+Axios advisories. Restoring `main` therefore requires both supported-runtime audit repairs.
+
 Acceptance criteria:
 
 - [x] Constrained Python 3.13 restoration resolves urllib3 2.8.0 with Requests unchanged and passes `pip check`.
 - [x] Native and governed Python audits pass without exceptions or policy/workflow changes.
 - [x] Python component coverage, the full pytest suite and the five-file CI evidence contract pass.
+- [x] Compatible Node 24 locked restoration, static/API/OpenAPI/component/BDD/coverage gates,
+      governed audit and six-file evidence contract pass without changing manifest ranges or floors.
 - [x] Existing repository parity/governance checks pass; retain all-Stack CI as the required publication check.
 - [x] Record exact commands, counts and runtime evidence; retain historical reports and product closures.
 
@@ -554,9 +561,26 @@ passed, including the existing policy and evidence negative controls.
 The isolated venv's bootstrap pip was updated from 24.3.1 to 26.2.1 to match the original CI
 audit inventory; this is local environment setup, not a tracked dependency or global change.
 Captured ignored evidence is under `.results/triage-12/` and `.results/demoapp002/`.
-TypeScript/C# native suites were not rerun locally for this Python constraint change; supported
-Node 24, Python 3.13 and .NET 10 CI remains required before publishing to `main`. No audit
-exception, policy change, workflow change or coverage relaxation was introduced.
+Serenity 3.44.1 pins Axios 1.18.1 exactly. A targeted lock-only refresh of assertions, core,
+cucumber and serenity-bdd to 3.48.0 within their existing `^3.43.2` ranges supplies the upstream
+parents' Axios 1.20.0 pin. [Axios 1.20.0](https://github.com/axios/axios/releases/tag/v1.20.0)
+contains the fixes; no override or manifest change is needed. Changed transitive entries belong
+to that Serenity dependency graph. Its Node 24 engine floor is now 24.15.0; local 24.18.0
+satisfies it and the CI/Pages setup-node steps select the latest Node 24.
+
+Node 24.18.0 locked restore and dependency-tree checks, build/lint/format, API integration and
+eight OpenAPI tests (7976.3095 ms) passed. `npm run test:ci` passed 102 component tests
+(16530.224 ms) and 55 BDD scenarios / 309 steps (5.803 s). Existing selected-module coverage
+passed at 80.11% / 91.94% / 80.17% (lines/branches/functions; 102 tests, 55107.3232 ms) with
+one local worker to avoid the previously observed Windows contention; assertions, floors and
+default CI concurrency are unchanged. The governed audit passed with zero blocking findings
+and the existing one moderate fast-uri finding (TRIAGE-09). The six-file evidence contract
+passed; the combined coverage/suite/audit/evidence gates took 97.2353661 s. Ignored native
+evidence is under `.results/demoapp001/` and `.results/triage-12/`.
+
+C# native suites, browser interaction and the optional mutation trial were not rerun locally
+for these dependency changes. Supported-runtime all-Stack CI remains the publication check.
+No audit exception, policy change, workflow change or coverage relaxation was introduced.
 
 ### BACKLOG-074: Tutor request ownership and stale hint rejection
 
@@ -1533,7 +1557,7 @@ viewer returned HTTP 200 and Pages run 33996955729 passed at current `main`.
 
 | ID | Title | Stack(s) | Resolved | Notes |
 |----|-------|----------|----------|-------|
-| BACKLOG-076 | Restore Python supported-runtime dependency audit (TRIAGE-12) | DEMOAPP002 | 2026-09-30 | urllib3 2.8.0 constrained restoration; 30 component / 85 total tests, 88.98% coverage, zero audit findings and 5/5 evidence files; DR-039 retained; all-Stack CI is the publication check |
+| BACKLOG-076 | Restore supported-runtime dependency audits (TRIAGE-12) | DEMOAPP001 / DEMOAPP002 | 2026-09-30 | urllib3 2.8.0 and Serenity 3.48.0 / Axios 1.20.0; Python 85 tests, 88.98% coverage, zero audit findings, 5/5 evidence; Node 102 component + 55 BDD, existing floors, zero blocking findings, 6/6 evidence; DR-039 retained; all-Stack CI is the publication check |
 | BACKLOG-074 | Tutor request ownership and stale hint rejection (TRIAGE-07) | DEMOAPP001 | 2026-09-30 | DR-046; 36 controlled controller cases; 102 component + 55 BDD scenarios and 8 OpenAPI tests green; native browser startup blocked separately by TRIAGE-11 |
 | BACKLOG-073 | Exact target generation and bounded exhaustion (TRIAGE-06) | DEMOAPP001 | 2026-09-30 | DR-045; real exact-tier and Expert/81-clue failure regressions, typed 422 mapping, 66 component + 55 BDD scenarios and 8 OpenAPI tests green |
 | BACKLOG-072 | Shared technique vocabulary and exact difficulty grading (TRIAGE-05) | DEMOAPP001 | 2026-09-30 | DR-044; all five DR-043 tiers, real unique 57-move XWing completion regression, 57 component + 55 BDD scenarios green; compatible brace-expansion lock repair cleared blocking audit |
