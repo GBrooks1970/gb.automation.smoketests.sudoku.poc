@@ -1,7 +1,7 @@
 # TODO: Three-Stack Parity Evidence Page
 
 **Created:** 2026-09-30T18:33:09Z
-**Last Updated:** 2026-09-30T18:33:09Z
+**Last Updated:** 2026-09-30T18:44:53Z
 **Backlog Reference:** BACKLOG-075 (Three-stack parity evidence page)
 **Stack(s):** All (DEMOAPP001, DEMOAPP002, DEMOAPP003)
 **Decision:** DR-047 (accepted 2026-09-30). DR-040 stays in force for the visualisation.
@@ -13,7 +13,7 @@
 
 Build plan for the parity page at `/parity/` that the owner approved as a mock-up on 2026-09-30. It covers the remaining criteria of BACKLOG-075: a results-level gate, a fan-in report job, one Pages artefact, a negative check, and a page built only from run artefacts.
 
-This plan restructures CI, which DR-047 says to agree with the owner first. Section 3 lists the decisions needed. No workflow file changes until those are answered.
+This plan restructures CI, which DR-047 says to agree with the owner first. The four decisions in section 3 were answered on 2026-09-30, so S1 to S4 can proceed.
 
 The approach follows `loan-origination-parity` (LOP), whose `tools/check-parity.mjs` and `tools/build-reports.mjs` already do this for four surfaces: a Node gate over each surface's Cucumber results, and a builder that writes one self-contained HTML page and fails unless the gate is shown to fail on a planted change.
 
@@ -71,9 +71,9 @@ The approach follows `loan-origination-parity` (LOP), whose `tools/check-parity.
 
 ---
 
-## 3. Decisions Needed From the Owner
+## 3. Decisions (all answered by the owner on 2026-09-30, as recommended)
 
-| # | Decision | Recommendation | Why |
+| # | Decision | Answer | Why |
 |---|----------|----------------|-----|
 | D1 | How to get one Pages artefact: (a) move the visualisation build and deploy into `ci.yml` and delete `pages.yml`, or (b) keep `pages.yml` and have it fetch the `parity-page` artefact from the CI run | (a) | It mirrors LOP and gates publication on CI, which today's Pages workflow does not. (b) keeps two workflows and needs cross-workflow artefact access |
 | D2 | Where the new tools live: a new root `tools/parity-page/`, or under `tooling/` | `tools/parity-page/` | `tooling/` holds only the performance Dockerfile; a Node toolset fits better beside LOP's layout. Either is cheap to change now |
@@ -86,7 +86,7 @@ The approach follows `loan-origination-parity` (LOP), whose `tools/check-parity.
 
 | Done | Status | Slice | Acceptance check |
 |------|--------|-------|------------------|
-| [ ] | Not Started | **S1. Adapters, gate and unit tests** (`tools/parity-page/`, not wired into CI) | `node --test` passes on fixtures trimmed from real results. Cases: clean pass; one-word step-text change fails; a failed step fails in each of the three formats; C# results in execution order still pass (pickle order); outline rows stay distinct; hidden hook steps ignored; count mismatch fails. The gate exits 0 on the real local results and 1 on the planted copies |
+| [x] | Complete | **S1. Adapters, gate and unit tests** (`tools/parity-page/`, not wired into CI) | `node --test` passes on fixtures trimmed from real results. Cases: clean pass; one-word step-text change fails; a failed step fails in each of the three formats; C# results in execution order still pass (pickle order); outline rows stay distinct; hidden hook steps ignored; count mismatch fails. The gate exits 0 on the real local results and 1 on the planted copies |
 | [ ] | In Progress | **S2. Emit and require the result files** (`ci.yml` Stack jobs, evidence contract) | DEMOAPP002 writes `test-results/pytest-cucumber.json`. DEMOAPP003 enables the `message` formatter through `tests/reqnroll.json` and a copy step puts `reqnroll.ndjson` into evidence, following the existing `component.trx` copy step. `check-ci-evidence.ps1` requires both new files and `test-ci-evidence-contract.ps1` has a negative control for each. All three evidence artefacts contain their result file in PR CI |
 | [ ] | Not Started | **S3. Page builder and template** | `node tools/parity-page/build-page.mjs` builds `parity/index.html` from the S2 artefacts. It fails with a clear message when a result file, the feature file or a step-definition snippet is missing. The negative check runs inside the build and fails the build if the gate does not fail on the planted change. The output has no hand-typed results. Also checked at phone width and in both themes, with the approved toggle |
 | [ ] | Not Started | **S4. CI wiring and Pages consolidation** (depends on D1 to D3) | On the PR: `parity` passes and `gate` needs it. After the owner merges: `pages-build` and `pages-deploy` succeed on `main`, `/parity/` serves the page, and the site root still serves the unchanged visualisation. `pages.yml` is gone. Docs that mention it (`decision-register.md` DR-040 text is immutable, so only current-state docs: README, CLAUDE.md, backlog notes) are updated |

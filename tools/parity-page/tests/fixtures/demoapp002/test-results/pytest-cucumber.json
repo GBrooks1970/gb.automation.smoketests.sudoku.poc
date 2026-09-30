@@ -1,0 +1,1026 @@
+[
+ {
+  "keyword": "Feature",
+  "uri": "features\\BasicSudokuSolverLogic.feature",
+  "name": "Basic Sudoku Solver Logic",
+  "id": "features\\basicsudokusolverlogic.feature",
+  "line": 2,
+  "description": "As an automated Sudoku solver\nI want to apply three fundamental solving techniques systematically\nSo that I can solve Sudoku puzzles using Unit Completion, Hidden Singles, and Naked Singles",
+  "language": "en",
+  "tags": [
+   {
+    "name": "util",
+    "line": 1
+   }
+  ],
+  "elements": [
+   {
+    "keyword": "Scenario Outline",
+    "id": "test_complete_a_row_with_only_one_missing_value[1, 2, 0, 4, 5, 6, 7, 8, 9-3]",
+    "name": "Complete a row with only one missing value",
+    "line": 14,
+    "description": "",
+    "tags": [],
+    "type": "scenario",
+    "steps": [
+     {
+      "keyword": "Given",
+      "name": "a standard 9x9 Sudoku grid is initialized",
+      "line": 8,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 2886800
+      }
+     },
+     {
+      "keyword": "Given",
+      "name": "a row contains the values \"1, 2, 0, 4, 5, 6, 7, 8, 9\"",
+      "line": 15,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 456099
+      }
+     },
+     {
+      "keyword": "When",
+      "name": "the \"Unit Completion\" algorithm scans the row",
+      "line": 16,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 220300
+      }
+     },
+     {
+      "keyword": "Then",
+      "name": "the system should identify the missing value as 3",
+      "line": 17,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 166500
+      }
+     },
+     {
+      "keyword": "And",
+      "name": "the value 3 should be placed in the empty cell",
+      "line": 18,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 107399
+      }
+     }
+    ]
+   },
+   {
+    "keyword": "Scenario",
+    "id": "test_identify_a_hidden_single_in_a_row",
+    "name": "Identify a Hidden Single in a row",
+    "line": 46,
+    "description": "",
+    "tags": [],
+    "type": "scenario",
+    "steps": [
+     {
+      "keyword": "Given",
+      "name": "a standard 9x9 Sudoku grid is initialized",
+      "line": 8,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 2225899
+      }
+     },
+     {
+      "keyword": "Given",
+      "name": "row 3 is missing the number 6",
+      "line": 47,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 162699
+      }
+     },
+     {
+      "keyword": "And",
+      "name": "8 cells in row 3 cannot contain 6 due to column or block constraints",
+      "line": 48,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 287900
+      }
+     },
+     {
+      "keyword": "When",
+      "name": "the \"Hidden Singles\" algorithm is executed for value 6",
+      "line": 49,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 236600
+      }
+     },
+     {
+      "keyword": "Then",
+      "name": "the system should place 6 in the only valid cell in row 3",
+      "line": 50,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 144800
+      }
+     },
+     {
+      "keyword": "And",
+      "name": "the grid should reflect the new value",
+      "line": 51,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 82400
+      }
+     }
+    ]
+   },
+   {
+    "keyword": "Scenario Outline",
+    "id": "test_validate_moves_against_sudoku_constraints[0-0-5-emptyGrid-VALID]",
+    "name": "Validate moves against Sudoku constraints",
+    "line": 167,
+    "description": "",
+    "tags": [],
+    "type": "scenario",
+    "steps": [
+     {
+      "keyword": "Given",
+      "name": "a standard 9x9 Sudoku grid is initialized",
+      "line": 8,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 2065099
+      }
+     },
+     {
+      "keyword": "Given",
+      "name": "a cell at 0, 0 is empty",
+      "line": 168,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 86799
+      }
+     },
+     {
+      "keyword": "And",
+      "name": "the grid state is emptyGrid",
+      "line": 169,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 153299
+      }
+     },
+     {
+      "keyword": "When",
+      "name": "attempting to place 5 at that position",
+      "line": 170,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 77200
+      }
+     },
+     {
+      "keyword": "Then",
+      "name": "the move should be validated against row, column, and block constraints",
+      "line": 171,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 33100
+      }
+     },
+     {
+      "keyword": "And",
+      "name": "the validation result should be VALID",
+      "line": 172,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 60800
+      }
+     }
+    ]
+   },
+   {
+    "keyword": "Scenario Outline",
+    "id": "test_validate_moves_against_sudoku_constraints[0-1-5-has5InSameRow-INVALID]",
+    "name": "Validate moves against Sudoku constraints",
+    "line": 167,
+    "description": "",
+    "tags": [],
+    "type": "scenario",
+    "steps": [
+     {
+      "keyword": "Given",
+      "name": "a standard 9x9 Sudoku grid is initialized",
+      "line": 8,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 1506900
+      }
+     },
+     {
+      "keyword": "Given",
+      "name": "a cell at 0, 1 is empty",
+      "line": 168,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 88800
+      }
+     },
+     {
+      "keyword": "And",
+      "name": "the grid state is has5InSameRow",
+      "line": 169,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 153499
+      }
+     },
+     {
+      "keyword": "When",
+      "name": "attempting to place 5 at that position",
+      "line": 170,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 75899
+      }
+     },
+     {
+      "keyword": "Then",
+      "name": "the move should be validated against row, column, and block constraints",
+      "line": 171,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 33200
+      }
+     },
+     {
+      "keyword": "And",
+      "name": "the validation result should be INVALID",
+      "line": 172,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 60599
+      }
+     }
+    ]
+   },
+   {
+    "keyword": "Scenario Outline",
+    "id": "test_validate_moves_against_sudoku_constraints[2-0-3-has3InSameCol-INVALID]",
+    "name": "Validate moves against Sudoku constraints",
+    "line": 167,
+    "description": "",
+    "tags": [],
+    "type": "scenario",
+    "steps": [
+     {
+      "keyword": "Given",
+      "name": "a standard 9x9 Sudoku grid is initialized",
+      "line": 8,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 1722600
+      }
+     },
+     {
+      "keyword": "Given",
+      "name": "a cell at 2, 0 is empty",
+      "line": 168,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 89600
+      }
+     },
+     {
+      "keyword": "And",
+      "name": "the grid state is has3InSameCol",
+      "line": 169,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 153900
+      }
+     },
+     {
+      "keyword": "When",
+      "name": "attempting to place 3 at that position",
+      "line": 170,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 72499
+      }
+     },
+     {
+      "keyword": "Then",
+      "name": "the move should be validated against row, column, and block constraints",
+      "line": 171,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 32500
+      }
+     },
+     {
+      "keyword": "And",
+      "name": "the validation result should be INVALID",
+      "line": 172,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 60000
+      }
+     }
+    ]
+   },
+   {
+    "keyword": "Scenario Outline",
+    "id": "test_validate_moves_against_sudoku_constraints[1-1-7-has7InSameBlock-INVALID]",
+    "name": "Validate moves against Sudoku constraints",
+    "line": 167,
+    "description": "",
+    "tags": [],
+    "type": "scenario",
+    "steps": [
+     {
+      "keyword": "Given",
+      "name": "a standard 9x9 Sudoku grid is initialized",
+      "line": 8,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 1548199
+      }
+     },
+     {
+      "keyword": "Given",
+      "name": "a cell at 1, 1 is empty",
+      "line": 168,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 88499
+      }
+     },
+     {
+      "keyword": "And",
+      "name": "the grid state is has7InSameBlock",
+      "line": 169,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 151699
+      }
+     },
+     {
+      "keyword": "When",
+      "name": "attempting to place 7 at that position",
+      "line": 170,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 75799
+      }
+     },
+     {
+      "keyword": "Then",
+      "name": "the move should be validated against row, column, and block constraints",
+      "line": 171,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 33500
+      }
+     },
+     {
+      "keyword": "And",
+      "name": "the validation result should be INVALID",
+      "line": 172,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 60800
+      }
+     }
+    ]
+   },
+   {
+    "keyword": "Scenario Outline",
+    "id": "test_validate_moves_against_sudoku_constraints[4-4-9-noConflicts-VALID]",
+    "name": "Validate moves against Sudoku constraints",
+    "line": 167,
+    "description": "",
+    "tags": [],
+    "type": "scenario",
+    "steps": [
+     {
+      "keyword": "Given",
+      "name": "a standard 9x9 Sudoku grid is initialized",
+      "line": 8,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 1350799
+      }
+     },
+     {
+      "keyword": "Given",
+      "name": "a cell at 4, 4 is empty",
+      "line": 168,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 81700
+      }
+     },
+     {
+      "keyword": "And",
+      "name": "the grid state is noConflicts",
+      "line": 169,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 149399
+      }
+     },
+     {
+      "keyword": "When",
+      "name": "attempting to place 9 at that position",
+      "line": 170,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 133200
+      }
+     },
+     {
+      "keyword": "Then",
+      "name": "the move should be validated against row, column, and block constraints",
+      "line": 171,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 37500
+      }
+     },
+     {
+      "keyword": "And",
+      "name": "the validation result should be VALID",
+      "line": 172,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 111900
+      }
+     }
+    ]
+   },
+   {
+    "keyword": "Scenario Outline",
+    "id": "test_validate_moves_against_sudoku_constraints[8-8-1-has1InRowAndCol-INVALID]",
+    "name": "Validate moves against Sudoku constraints",
+    "line": 167,
+    "description": "",
+    "tags": [],
+    "type": "scenario",
+    "steps": [
+     {
+      "keyword": "Given",
+      "name": "a standard 9x9 Sudoku grid is initialized",
+      "line": 8,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 1478100
+      }
+     },
+     {
+      "keyword": "Given",
+      "name": "a cell at 8, 8 is empty",
+      "line": 168,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 89100
+      }
+     },
+     {
+      "keyword": "And",
+      "name": "the grid state is has1InRowAndCol",
+      "line": 169,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 157799
+      }
+     },
+     {
+      "keyword": "When",
+      "name": "attempting to place 1 at that position",
+      "line": 170,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 96700
+      }
+     },
+     {
+      "keyword": "Then",
+      "name": "the move should be validated against row, column, and block constraints",
+      "line": 171,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 34199
+      }
+     },
+     {
+      "keyword": "And",
+      "name": "the validation result should be INVALID",
+      "line": 172,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 60600
+      }
+     }
+    ]
+   },
+   {
+    "keyword": "Scenario Outline",
+    "id": "test_validate_moves_against_sudoku_constraints[3-6-8-fullyConstrained-INVALID]",
+    "name": "Validate moves against Sudoku constraints",
+    "line": 167,
+    "description": "",
+    "tags": [],
+    "type": "scenario",
+    "steps": [
+     {
+      "keyword": "Given",
+      "name": "a standard 9x9 Sudoku grid is initialized",
+      "line": 8,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 1622299
+      }
+     },
+     {
+      "keyword": "Given",
+      "name": "a cell at 3, 6 is empty",
+      "line": 168,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 88799
+      }
+     },
+     {
+      "keyword": "And",
+      "name": "the grid state is fullyConstrained",
+      "line": 169,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 150800
+      }
+     },
+     {
+      "keyword": "When",
+      "name": "attempting to place 8 at that position",
+      "line": 170,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 71900
+      }
+     },
+     {
+      "keyword": "Then",
+      "name": "the move should be validated against row, column, and block constraints",
+      "line": 171,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 32899
+      }
+     },
+     {
+      "keyword": "And",
+      "name": "the validation result should be INVALID",
+      "line": 172,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 61099
+      }
+     }
+    ]
+   },
+   {
+    "keyword": "Scenario Outline",
+    "id": "test_validate_moves_against_sudoku_constraints[5-3-4-noConstraints-VALID]",
+    "name": "Validate moves against Sudoku constraints",
+    "line": 167,
+    "description": "",
+    "tags": [],
+    "type": "scenario",
+    "steps": [
+     {
+      "keyword": "Given",
+      "name": "a standard 9x9 Sudoku grid is initialized",
+      "line": 8,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 2179099
+      }
+     },
+     {
+      "keyword": "Given",
+      "name": "a cell at 5, 3 is empty",
+      "line": 168,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 131299
+      }
+     },
+     {
+      "keyword": "And",
+      "name": "the grid state is noConstraints",
+      "line": 169,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 166300
+      }
+     },
+     {
+      "keyword": "When",
+      "name": "attempting to place 4 at that position",
+      "line": 170,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 85100
+      }
+     },
+     {
+      "keyword": "Then",
+      "name": "the move should be validated against row, column, and block constraints",
+      "line": 171,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 33600
+      }
+     },
+     {
+      "keyword": "And",
+      "name": "the validation result should be VALID",
+      "line": 172,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 65799
+      }
+     }
+    ]
+   },
+   {
+    "keyword": "Scenario Outline",
+    "id": "test_reject_json_boolean_puzzle_cell_values_on_load[true]",
+    "name": "Reject JSON boolean puzzle cell values on load",
+    "line": 248,
+    "description": "",
+    "tags": [],
+    "type": "scenario",
+    "steps": [
+     {
+      "keyword": "Given",
+      "name": "a standard 9x9 Sudoku grid is initialized",
+      "line": 8,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 1645299
+      }
+     },
+     {
+      "keyword": "Given",
+      "name": "a puzzle with a JSON boolean cell value of \"true\"",
+      "line": 249,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 6503699
+      }
+     },
+     {
+      "keyword": "When",
+      "name": "the PuzzleLoader attempts to load the file",
+      "line": 250,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 39599
+      }
+     },
+     {
+      "keyword": "Then",
+      "name": "a validation error should be thrown",
+      "line": 251,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 45400
+      }
+     }
+    ]
+   },
+   {
+    "keyword": "Scenario Outline",
+    "id": "test_reject_json_boolean_puzzle_cell_values_on_load[false]",
+    "name": "Reject JSON boolean puzzle cell values on load",
+    "line": 248,
+    "description": "",
+    "tags": [],
+    "type": "scenario",
+    "steps": [
+     {
+      "keyword": "Given",
+      "name": "a standard 9x9 Sudoku grid is initialized",
+      "line": 8,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 1329099
+      }
+     },
+     {
+      "keyword": "Given",
+      "name": "a puzzle with a JSON boolean cell value of \"false\"",
+      "line": 249,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 7788899
+      }
+     },
+     {
+      "keyword": "When",
+      "name": "the PuzzleLoader attempts to load the file",
+      "line": 250,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 40099
+      }
+     },
+     {
+      "keyword": "Then",
+      "name": "a validation error should be thrown",
+      "line": 251,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 45199
+      }
+     }
+    ]
+   },
+   {
+    "keyword": "Scenario",
+    "id": "test_audit_trail_attributes_changes_to_the_correct_algorithm",
+    "name": "Audit trail attributes changes to the correct algorithm",
+    "line": 381,
+    "description": "",
+    "tags": [],
+    "type": "scenario",
+    "steps": [
+     {
+      "keyword": "Given",
+      "name": "a standard 9x9 Sudoku grid is initialized",
+      "line": 8,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 1333000
+      }
+     },
+     {
+      "keyword": "Given",
+      "name": "the puzzle \"Easy Scan Grid\" is loaded from JSON",
+      "line": 382,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 142799
+      }
+     },
+     {
+      "keyword": "And",
+      "name": "audit logging is enabled",
+      "line": 383,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 44699
+      }
+     },
+     {
+      "keyword": "When",
+      "name": "the solver attempts to solve it with audit",
+      "line": 384,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 8202200
+      }
+     },
+     {
+      "keyword": "Then",
+      "name": "the audit trail statistics should account for all changes",
+      "line": 385,
+      "match": {
+       "location": ""
+      },
+      "result": {
+       "status": "passed",
+       "duration": 54399
+      }
+     }
+    ]
+   }
+  ]
+ }
+]
