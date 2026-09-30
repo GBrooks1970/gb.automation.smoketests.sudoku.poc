@@ -15,11 +15,11 @@
       "line": 8,
       "name": "a standard 9x9 Sudoku grid is initialized",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\background.steps.ts:6"
+       "location": "tests/screenplay/step_definitions/background.steps.ts:6"
       },
       "result": {
        "status": "passed",
-       "duration": 47618700
+       "duration": 17621200
       }
      },
      {
@@ -28,11 +28,11 @@
       "line": 15,
       "name": "a row contains the values \"1, 2, 0, 4, 5, 6, 7, 8, 9\"",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\unitCompletion.steps.ts:20"
+       "location": "tests/screenplay/step_definitions/unitCompletion.steps.ts:20"
       },
       "result": {
        "status": "passed",
-       "duration": 13713599
+       "duration": 11779606
       }
      },
      {
@@ -41,11 +41,11 @@
       "line": 16,
       "name": "the \"Unit Completion\" algorithm scans the row",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\unitCompletion.steps.ts:64"
+       "location": "tests/screenplay/step_definitions/unitCompletion.steps.ts:64"
       },
       "result": {
        "status": "passed",
-       "duration": 29453199
+       "duration": 13537006
       }
      },
      {
@@ -54,11 +54,11 @@
       "line": 17,
       "name": "the system should identify the missing value as 3",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\unitCompletion.steps.ts:93"
+       "location": "tests/screenplay/step_definitions/unitCompletion.steps.ts:93"
       },
       "result": {
        "status": "passed",
-       "duration": 6891200
+       "duration": 3704799
       }
      },
      {
@@ -67,11 +67,11 @@
       "line": 18,
       "name": "the value 3 should be placed in the empty cell",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\unitCompletion.steps.ts:98"
+       "location": "tests/screenplay/step_definitions/unitCompletion.steps.ts:98"
       },
       "result": {
        "status": "passed",
-       "duration": 1339600
+       "duration": 1231534
       }
      },
      {
@@ -79,7 +79,7 @@
       "hidden": true,
       "result": {
        "status": "passed",
-       "duration": 20656799
+       "duration": 11719284
       }
      }
     ],
@@ -104,11 +104,11 @@
       "line": 8,
       "name": "a standard 9x9 Sudoku grid is initialized",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\background.steps.ts:6"
+       "location": "tests/screenplay/step_definitions/background.steps.ts:6"
       },
       "result": {
        "status": "passed",
-       "duration": 12407300
+       "duration": 11540680
       }
      },
      {
@@ -117,11 +117,11 @@
       "line": 47,
       "name": "row 3 is missing the number 6",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\hiddenSingles.steps.ts:14"
+       "location": "tests/screenplay/step_definitions/hiddenSingles.steps.ts:14"
       },
       "result": {
        "status": "passed",
-       "duration": 14883400
+       "duration": 11411290
       }
      },
      {
@@ -130,11 +130,11 @@
       "line": 48,
       "name": "8 cells in row 3 cannot contain 6 due to column or block constraints",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\hiddenSingles.steps.ts:18"
+       "location": "tests/screenplay/step_definitions/hiddenSingles.steps.ts:18"
       },
       "result": {
        "status": "passed",
-       "duration": 15417900
+       "duration": 11402354
       }
      },
      {
@@ -143,11 +143,11 @@
       "line": 49,
       "name": "the \"Hidden Singles\" algorithm is executed for value 6",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\hiddenSingles.steps.ts:66"
+       "location": "tests/screenplay/step_definitions/hiddenSingles.steps.ts:66"
       },
       "result": {
        "status": "passed",
-       "duration": 14314199
+       "duration": 12046759
       }
      },
      {
@@ -156,11 +156,11 @@
       "line": 50,
       "name": "the system should place 6 in the only valid cell in row 3",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\hiddenSingles.steps.ts:77"
+       "location": "tests/screenplay/step_definitions/hiddenSingles.steps.ts:77"
       },
       "result": {
        "status": "passed",
-       "duration": 943799
+       "duration": 911668
       }
      },
      {
@@ -169,11 +169,11 @@
       "line": 51,
       "name": "the grid should reflect the new value",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\hiddenSingles.steps.ts:85"
+       "location": "tests/screenplay/step_definitions/hiddenSingles.steps.ts:85"
       },
       "result": {
        "status": "passed",
-       "duration": 1342000
+       "duration": 1284870
       }
      },
      {
@@ -181,7 +181,7 @@
       "hidden": true,
       "result": {
        "status": "passed",
-       "duration": 12358299
+       "duration": 10532394
       }
      }
     ],
@@ -206,11 +206,11 @@
       "line": 8,
       "name": "a standard 9x9 Sudoku grid is initialized",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\background.steps.ts:6"
+       "location": "tests/screenplay/step_definitions/background.steps.ts:6"
       },
       "result": {
        "status": "passed",
-       "duration": 19480499
+       "duration": 11522304
       }
      },
      {
@@ -219,11 +219,11 @@
       "line": 168,
       "name": "a cell at 0, 0 is empty",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:14"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:14"
       },
       "result": {
        "status": "passed",
-       "duration": 15305400
+       "duration": 11938070
       }
      },
      {
@@ -232,11 +232,11 @@
       "line": 169,
       "name": "the grid state is emptyGrid",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:18"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:18"
       },
       "result": {
        "status": "passed",
-       "duration": 15280199
+       "duration": 11616719
       }
      },
      {
@@ -245,11 +245,11 @@
       "line": 170,
       "name": "attempting to place 5 at that position",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:22"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:22"
       },
       "result": {
        "status": "passed",
-       "duration": 14288300
+       "duration": 12237277
       }
      },
      {
@@ -258,11 +258,11 @@
       "line": 171,
       "name": "the move should be validated against row, column, and block constraints",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:26"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:26"
       },
       "result": {
        "status": "passed",
-       "duration": 88200
+       "duration": 114287
       }
      },
      {
@@ -271,11 +271,11 @@
       "line": 172,
       "name": "the validation result should be VALID",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:30"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:30"
       },
       "result": {
        "status": "passed",
-       "duration": 1531500
+       "duration": 1601835
       }
      },
      {
@@ -283,7 +283,7 @@
       "hidden": true,
       "result": {
        "status": "passed",
-       "duration": 13077900
+       "duration": 10706603
       }
      }
     ],
@@ -308,11 +308,11 @@
       "line": 8,
       "name": "a standard 9x9 Sudoku grid is initialized",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\background.steps.ts:6"
+       "location": "tests/screenplay/step_definitions/background.steps.ts:6"
       },
       "result": {
        "status": "passed",
-       "duration": 13163099
+       "duration": 11383702
       }
      },
      {
@@ -321,11 +321,11 @@
       "line": 168,
       "name": "a cell at 0, 1 is empty",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:14"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:14"
       },
       "result": {
        "status": "passed",
-       "duration": 13675800
+       "duration": 11459982
       }
      },
      {
@@ -334,11 +334,11 @@
       "line": 169,
       "name": "the grid state is has5InSameRow",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:18"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:18"
       },
       "result": {
        "status": "passed",
-       "duration": 15062200
+       "duration": 11185996
       }
      },
      {
@@ -347,11 +347,11 @@
       "line": 170,
       "name": "attempting to place 5 at that position",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:22"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:22"
       },
       "result": {
        "status": "passed",
-       "duration": 15628700
+       "duration": 11725262
       }
      },
      {
@@ -360,11 +360,11 @@
       "line": 171,
       "name": "the move should be validated against row, column, and block constraints",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:26"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:26"
       },
       "result": {
        "status": "passed",
-       "duration": 40500
+       "duration": 60166
       }
      },
      {
@@ -373,11 +373,11 @@
       "line": 172,
       "name": "the validation result should be INVALID",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:30"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:30"
       },
       "result": {
        "status": "passed",
-       "duration": 1179500
+       "duration": 1266895
       }
      },
      {
@@ -385,7 +385,7 @@
       "hidden": true,
       "result": {
        "status": "passed",
-       "duration": 12670299
+       "duration": 10580053
       }
      }
     ],
@@ -410,11 +410,11 @@
       "line": 8,
       "name": "a standard 9x9 Sudoku grid is initialized",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\background.steps.ts:6"
+       "location": "tests/screenplay/step_definitions/background.steps.ts:6"
       },
       "result": {
        "status": "passed",
-       "duration": 12293400
+       "duration": 11377964
       }
      },
      {
@@ -423,11 +423,11 @@
       "line": 168,
       "name": "a cell at 2, 0 is empty",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:14"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:14"
       },
       "result": {
        "status": "passed",
-       "duration": 14265799
+       "duration": 11428581
       }
      },
      {
@@ -436,11 +436,11 @@
       "line": 169,
       "name": "the grid state is has3InSameCol",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:18"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:18"
       },
       "result": {
        "status": "passed",
-       "duration": 14541900
+       "duration": 11166164
       }
      },
      {
@@ -449,11 +449,11 @@
       "line": 170,
       "name": "attempting to place 3 at that position",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:22"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:22"
       },
       "result": {
        "status": "passed",
-       "duration": 14628600
+       "duration": 11559393
       }
      },
      {
@@ -462,11 +462,11 @@
       "line": 171,
       "name": "the move should be validated against row, column, and block constraints",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:26"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:26"
       },
       "result": {
        "status": "passed",
-       "duration": 40399
+       "duration": 58906
       }
      },
      {
@@ -475,11 +475,11 @@
       "line": 172,
       "name": "the validation result should be INVALID",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:30"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:30"
       },
       "result": {
        "status": "passed",
-       "duration": 1375100
+       "duration": 1312571
       }
      },
      {
@@ -487,7 +487,7 @@
       "hidden": true,
       "result": {
        "status": "passed",
-       "duration": 12875300
+       "duration": 10592057
       }
      }
     ],
@@ -512,11 +512,11 @@
       "line": 8,
       "name": "a standard 9x9 Sudoku grid is initialized",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\background.steps.ts:6"
+       "location": "tests/screenplay/step_definitions/background.steps.ts:6"
       },
       "result": {
        "status": "passed",
-       "duration": 13341500
+       "duration": 11420548
       }
      },
      {
@@ -525,11 +525,11 @@
       "line": 168,
       "name": "a cell at 1, 1 is empty",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:14"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:14"
       },
       "result": {
        "status": "passed",
-       "duration": 14704499
+       "duration": 11519003
       }
      },
      {
@@ -538,11 +538,11 @@
       "line": 169,
       "name": "the grid state is has7InSameBlock",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:18"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:18"
       },
       "result": {
        "status": "passed",
-       "duration": 14894500
+       "duration": 11300760
       }
      },
      {
@@ -551,11 +551,11 @@
       "line": 170,
       "name": "attempting to place 7 at that position",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:22"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:22"
       },
       "result": {
        "status": "passed",
-       "duration": 14391299
+       "duration": 11572255
       }
      },
      {
@@ -564,11 +564,11 @@
       "line": 171,
       "name": "the move should be validated against row, column, and block constraints",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:26"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:26"
       },
       "result": {
        "status": "passed",
-       "duration": 37099
+       "duration": 65979
       }
      },
      {
@@ -577,11 +577,11 @@
       "line": 172,
       "name": "the validation result should be INVALID",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:30"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:30"
       },
       "result": {
        "status": "passed",
-       "duration": 1178400
+       "duration": 1307625
       }
      },
      {
@@ -589,7 +589,7 @@
       "hidden": true,
       "result": {
        "status": "passed",
-       "duration": 12266799
+       "duration": 10525848
       }
      }
     ],
@@ -614,11 +614,11 @@
       "line": 8,
       "name": "a standard 9x9 Sudoku grid is initialized",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\background.steps.ts:6"
+       "location": "tests/screenplay/step_definitions/background.steps.ts:6"
       },
       "result": {
        "status": "passed",
-       "duration": 13663999
+       "duration": 11396209
       }
      },
      {
@@ -627,11 +627,11 @@
       "line": 168,
       "name": "a cell at 4, 4 is empty",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:14"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:14"
       },
       "result": {
        "status": "passed",
-       "duration": 14673500
+       "duration": 11434499
       }
      },
      {
@@ -640,11 +640,11 @@
       "line": 169,
       "name": "the grid state is noConflicts",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:18"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:18"
       },
       "result": {
        "status": "passed",
-       "duration": 14911000
+       "duration": 11409617
       }
      },
      {
@@ -653,11 +653,11 @@
       "line": 170,
       "name": "attempting to place 9 at that position",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:22"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:22"
       },
       "result": {
        "status": "passed",
-       "duration": 13722100
+       "duration": 11574987
       }
      },
      {
@@ -666,11 +666,11 @@
       "line": 171,
       "name": "the move should be validated against row, column, and block constraints",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:26"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:26"
       },
       "result": {
        "status": "passed",
-       "duration": 69799
+       "duration": 71410
       }
      },
      {
@@ -679,11 +679,11 @@
       "line": 172,
       "name": "the validation result should be VALID",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:30"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:30"
       },
       "result": {
        "status": "passed",
-       "duration": 1690500
+       "duration": 1285861
       }
      },
      {
@@ -691,7 +691,7 @@
       "hidden": true,
       "result": {
        "status": "passed",
-       "duration": 11405699
+       "duration": 10617965
       }
      }
     ],
@@ -716,11 +716,11 @@
       "line": 8,
       "name": "a standard 9x9 Sudoku grid is initialized",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\background.steps.ts:6"
+       "location": "tests/screenplay/step_definitions/background.steps.ts:6"
       },
       "result": {
        "status": "passed",
-       "duration": 12135500
+       "duration": 11244868
       }
      },
      {
@@ -729,11 +729,11 @@
       "line": 168,
       "name": "a cell at 8, 8 is empty",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:14"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:14"
       },
       "result": {
        "status": "passed",
-       "duration": 14978999
+       "duration": 11715906
       }
      },
      {
@@ -742,11 +742,11 @@
       "line": 169,
       "name": "the grid state is has1InRowAndCol",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:18"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:18"
       },
       "result": {
        "status": "passed",
-       "duration": 14465399
+       "duration": 11703607
       }
      },
      {
@@ -755,11 +755,11 @@
       "line": 170,
       "name": "attempting to place 1 at that position",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:22"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:22"
       },
       "result": {
        "status": "passed",
-       "duration": 14555100
+       "duration": 11830018
       }
      },
      {
@@ -768,11 +768,11 @@
       "line": 171,
       "name": "the move should be validated against row, column, and block constraints",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:26"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:26"
       },
       "result": {
        "status": "passed",
-       "duration": 37299
+       "duration": 71738
       }
      },
      {
@@ -781,11 +781,11 @@
       "line": 172,
       "name": "the validation result should be INVALID",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:30"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:30"
       },
       "result": {
        "status": "passed",
-       "duration": 1367199
+       "duration": 2293910
       }
      },
      {
@@ -793,7 +793,7 @@
       "hidden": true,
       "result": {
        "status": "passed",
-       "duration": 12743500
+       "duration": 14710299
       }
      }
     ],
@@ -818,11 +818,11 @@
       "line": 8,
       "name": "a standard 9x9 Sudoku grid is initialized",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\background.steps.ts:6"
+       "location": "tests/screenplay/step_definitions/background.steps.ts:6"
       },
       "result": {
        "status": "passed",
-       "duration": 13600500
+       "duration": 11836001
       }
      },
      {
@@ -831,11 +831,11 @@
       "line": 168,
       "name": "a cell at 3, 6 is empty",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:14"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:14"
       },
       "result": {
        "status": "passed",
-       "duration": 14101099
+       "duration": 11763272
       }
      },
      {
@@ -844,11 +844,11 @@
       "line": 169,
       "name": "the grid state is fullyConstrained",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:18"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:18"
       },
       "result": {
        "status": "passed",
-       "duration": 15321799
+       "duration": 11040728
       }
      },
      {
@@ -857,11 +857,11 @@
       "line": 170,
       "name": "attempting to place 8 at that position",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:22"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:22"
       },
       "result": {
        "status": "passed",
-       "duration": 14986700
+       "duration": 11407753
       }
      },
      {
@@ -870,11 +870,11 @@
       "line": 171,
       "name": "the move should be validated against row, column, and block constraints",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:26"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:26"
       },
       "result": {
        "status": "passed",
-       "duration": 37000
+       "duration": 68704
       }
      },
      {
@@ -883,11 +883,11 @@
       "line": 172,
       "name": "the validation result should be INVALID",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:30"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:30"
       },
       "result": {
        "status": "passed",
-       "duration": 1168900
+       "duration": 1349629
       }
      },
      {
@@ -895,7 +895,7 @@
       "hidden": true,
       "result": {
        "status": "passed",
-       "duration": 13517200
+       "duration": 10637563
       }
      }
     ],
@@ -920,11 +920,11 @@
       "line": 8,
       "name": "a standard 9x9 Sudoku grid is initialized",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\background.steps.ts:6"
+       "location": "tests/screenplay/step_definitions/background.steps.ts:6"
       },
       "result": {
        "status": "passed",
-       "duration": 13492100
+       "duration": 11535018
       }
      },
      {
@@ -933,11 +933,11 @@
       "line": 168,
       "name": "a cell at 5, 3 is empty",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:14"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:14"
       },
       "result": {
        "status": "passed",
-       "duration": 14895900
+       "duration": 11453470
       }
      },
      {
@@ -946,11 +946,11 @@
       "line": 169,
       "name": "the grid state is noConstraints",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:18"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:18"
       },
       "result": {
        "status": "passed",
-       "duration": 15058200
+       "duration": 11032167
       }
      },
      {
@@ -959,11 +959,11 @@
       "line": 170,
       "name": "attempting to place 4 at that position",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:22"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:22"
       },
       "result": {
        "status": "passed",
-       "duration": 13480299
+       "duration": 11532118
       }
      },
      {
@@ -972,11 +972,11 @@
       "line": 171,
       "name": "the move should be validated against row, column, and block constraints",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:26"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:26"
       },
       "result": {
        "status": "passed",
-       "duration": 88999
+       "duration": 55140
       }
      },
      {
@@ -985,11 +985,11 @@
       "line": 172,
       "name": "the validation result should be VALID",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\constraintValidation.steps.ts:30"
+       "location": "tests/screenplay/step_definitions/constraintValidation.steps.ts:30"
       },
       "result": {
        "status": "passed",
-       "duration": 1474599
+       "duration": 1211703
       }
      },
      {
@@ -997,7 +997,7 @@
       "hidden": true,
       "result": {
        "status": "passed",
-       "duration": 11047299
+       "duration": 10813318
       }
      }
     ],
@@ -1022,11 +1022,11 @@
       "line": 8,
       "name": "a standard 9x9 Sudoku grid is initialized",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\background.steps.ts:6"
+       "location": "tests/screenplay/step_definitions/background.steps.ts:6"
       },
       "result": {
        "status": "passed",
-       "duration": 26420200
+       "duration": 11501447
       }
      },
      {
@@ -1035,11 +1035,11 @@
       "line": 249,
       "name": "a puzzle with a JSON boolean cell value of \"true\"",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\puzzleLoader.steps.ts:37"
+       "location": "tests/screenplay/step_definitions/puzzleLoader.steps.ts:37"
       },
       "result": {
        "status": "passed",
-       "duration": 13516599
+       "duration": 1630377
       }
      },
      {
@@ -1048,11 +1048,11 @@
       "line": 250,
       "name": "the PuzzleLoader attempts to load the file",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\puzzleLoader.steps.ts:87"
+       "location": "tests/screenplay/step_definitions/puzzleLoader.steps.ts:87"
       },
       "result": {
        "status": "passed",
-       "duration": 88299
+       "duration": 41592
       }
      },
      {
@@ -1061,11 +1061,11 @@
       "line": 251,
       "name": "a validation error should be thrown",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\puzzleLoader.steps.ts:127"
+       "location": "tests/screenplay/step_definitions/puzzleLoader.steps.ts:127"
       },
       "result": {
        "status": "passed",
-       "duration": 2809699
+       "duration": 1168260
       }
      },
      {
@@ -1073,7 +1073,7 @@
       "hidden": true,
       "result": {
        "status": "passed",
-       "duration": 25023900
+       "duration": 11092437
       }
      }
     ],
@@ -1098,11 +1098,11 @@
       "line": 8,
       "name": "a standard 9x9 Sudoku grid is initialized",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\background.steps.ts:6"
+       "location": "tests/screenplay/step_definitions/background.steps.ts:6"
       },
       "result": {
        "status": "passed",
-       "duration": 13498700
+       "duration": 11422017
       }
      },
      {
@@ -1111,11 +1111,11 @@
       "line": 249,
       "name": "a puzzle with a JSON boolean cell value of \"false\"",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\puzzleLoader.steps.ts:37"
+       "location": "tests/screenplay/step_definitions/puzzleLoader.steps.ts:37"
       },
       "result": {
        "status": "passed",
-       "duration": 6648500
+       "duration": 1356751
       }
      },
      {
@@ -1124,11 +1124,11 @@
       "line": 250,
       "name": "the PuzzleLoader attempts to load the file",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\puzzleLoader.steps.ts:87"
+       "location": "tests/screenplay/step_definitions/puzzleLoader.steps.ts:87"
       },
       "result": {
        "status": "passed",
-       "duration": 45500
+       "duration": 41349
       }
      },
      {
@@ -1137,11 +1137,11 @@
       "line": 251,
       "name": "a validation error should be thrown",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\puzzleLoader.steps.ts:127"
+       "location": "tests/screenplay/step_definitions/puzzleLoader.steps.ts:127"
       },
       "result": {
        "status": "passed",
-       "duration": 1403500
+       "duration": 1171943
       }
      },
      {
@@ -1149,7 +1149,7 @@
       "hidden": true,
       "result": {
        "status": "passed",
-       "duration": 20782000
+       "duration": 10695420
       }
      }
     ],
@@ -1174,11 +1174,11 @@
       "line": 8,
       "name": "a standard 9x9 Sudoku grid is initialized",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\background.steps.ts:6"
+       "location": "tests/screenplay/step_definitions/background.steps.ts:6"
       },
       "result": {
        "status": "passed",
-       "duration": 14983599
+       "duration": 11646901
       }
      },
      {
@@ -1187,11 +1187,11 @@
       "line": 382,
       "name": "the puzzle \"Easy Scan Grid\" is loaded from JSON",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\integration.steps.ts:15"
+       "location": "tests/screenplay/step_definitions/integration.steps.ts:15"
       },
       "result": {
        "status": "passed",
-       "duration": 14674399
+       "duration": 11623612
       }
      },
      {
@@ -1200,11 +1200,11 @@
       "line": 383,
       "name": "audit logging is enabled",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\audit.steps.ts:11"
+       "location": "tests/screenplay/step_definitions/audit.steps.ts:11"
       },
       "result": {
        "status": "passed",
-       "duration": 74700
+       "duration": 109159
       }
      },
      {
@@ -1213,11 +1213,11 @@
       "line": 384,
       "name": "the solver attempts to solve it with audit",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\audit.steps.ts:20"
+       "location": "tests/screenplay/step_definitions/audit.steps.ts:20"
       },
       "result": {
        "status": "passed",
-       "duration": 1750399
+       "duration": 1239539
       }
      },
      {
@@ -1226,11 +1226,11 @@
       "line": 385,
       "name": "the audit trail statistics should account for all changes",
       "match": {
-       "location": "tests\\screenplay\\step_definitions\\audit.steps.ts:49"
+       "location": "tests/screenplay/step_definitions/audit.steps.ts:49"
       },
       "result": {
        "status": "passed",
-       "duration": 123700
+       "duration": 196334
       }
      },
      {
@@ -1238,7 +1238,7 @@
       "hidden": true,
       "result": {
        "status": "passed",
-       "duration": 11729500
+       "duration": 10998532
       }
      }
     ],
@@ -1261,6 +1261,6 @@
     "line": 1
    }
   ],
-  "uri": "tests\\features\\BasicSudokuSolverLogic.feature"
+  "uri": "tests/features/BasicSudokuSolverLogic.feature"
  }
 ]
