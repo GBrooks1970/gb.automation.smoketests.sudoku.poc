@@ -1,11 +1,13 @@
 # Sudoku Puzzle Generator, Uniqueness, and Difficulty Contracts — Design Document
 
-**Version:** v1.0  
-**Date:** 2026-08-24T20:12:00Z  
+**Version:** v1.1
+
+**Date:** 2026-09-30 (bounded exhaustion clarification; original design 2026-08-24)
+
 **Author:** Portfolio worklist SUD-38 (BACKLOG-016)  
 **Reviewer:** Antigravity / DeepMind  
 **Status:** Approved  
-**Decision:** DR-043  
+**Decision:** DR-043; bounded failure implementation clarified by DR-045 (TRIAGE-06 / BACKLOG-073)
 
 ---
 
@@ -179,7 +181,24 @@ If `SudokuSolver` returns `status: "STUCK"`, the puzzle requires techniques beyo
 ## 8. Bounded Runtime & Failure Boundaries
 
 - **Max Search Attempts**: Solution construction backtracking is capped at 10,000 iterations per attempt.
-- **Max Grid Retries**: If clue removal fails to achieve the target difficulty within 5 grid generation attempts, the generator throws a `GeneratorTimeoutError`.
+- **Max Generation Attempts**: `GENERATOR_MAX_ATTEMPTS = 5` in DEMOAPP001 is the single
+  service/API default and hard ceiling. The internal `maxAttempts` service option may reduce
+  that limit to an integer from 1 to 5; invalid limits fail before construction. HTTP does not
+  expose an attempt override.
+- **Successful Candidate**: Return only a candidate that the deterministic grader completes.
+  When a difficulty is requested, its grade must equal that exact tier. An unsolved grid's
+  `Expert` marker is not a successful Expert puzzle. Untargeted requests use the same solvability
+  rule and return the first qualifying candidate.
+- **Exhaustion**: After unsuccessful attempts, throw `GeneratorExhaustedError` with the original
+  request seed, optional target difficulty and attempted count. Return HTTP `422` with error code
+  `GENERATOR_EXHAUSTED`, an explanatory message and those details; no candidate is returned.
+- **Construction Bound**: The existing `GeneratorTimeoutError` retains the per-construction
+  iteration limit and maps to HTTP `422` with error code `GENERATOR_TIMEOUT`. Unexpected errors
+  retain the API's `500` response.
+- **Retry Seeds**: The first candidate uses the supplied base seed; later candidates use
+  `<base-seed>-<attempt-index>` (indices 1 to 4). Successful responses retain the actual candidate
+  seed, preserving deterministic replay. Generation and uniqueness search remain isolated from
+  the public solver.
 - **Time Budget**: API endpoint response time target is $< 250\text{ ms}$.
 
 ---
@@ -217,6 +236,9 @@ If `SudokuSolver` returns `status: "STUCK"`, the puzzle requires techniques beyo
 #### Error Responses
 - `400 Bad Request`: Invalid difficulty tier or malformed JSON body.
 - `422 Unprocessable Entity`: Request parameters cannot yield a valid puzzle within bounds.
+  `GENERATOR_EXHAUSTED` identifies failed target/solvability attempts;
+  `GENERATOR_TIMEOUT` identifies the bounded construction error. The active DEMOAPP001
+  `docs/openapi.yaml` defines the error response envelope.
 
 ---
 

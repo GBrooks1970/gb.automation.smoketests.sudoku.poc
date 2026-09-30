@@ -1,11 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-09-30 — resolved BACKLOG-072 / TRIAGE-05 / September review R3 with supported-runtime validation. Prior: 2026-09-07 (resting lifecycle reconciliation).
+**Last Updated:** 2026-09-30 — resolved BACKLOG-073 / TRIAGE-06 / September review R2 after BACKLOG-072's verified merge. Prior: 2026-09-07 (resting lifecycle reconciliation).
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
-**Status:** Approved September review remediation — TRIAGE-05 is allocated below; TRIAGE-06..08 remain approved portfolio worklist candidates for allocation in their own iterations. Historical product closures remain intact.
+**Status:** Approved September review remediation — TRIAGE-05/06 are resolved; TRIAGE-07/08 remain approved portfolio worklist candidates for their own iterations. Historical product closures remain intact.
 
 ---
 
@@ -27,8 +27,8 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 0 |
 | In Progress | 0 |
-| Resolved | 94 |
-| **Total** | **94** |
+| Resolved | 95 |
+| **Total** | **95** |
 
 **Update (2026-09-07):** Reconciled stale roll-up rows for BACKLOG-014, BACKLOG-015,
 BACKLOG-016 and BACKLOG-071 against their resolved detail records and delivery evidence. The latest
@@ -40,10 +40,11 @@ both passed at `7af3dca`; this was a documentation reconciliation, not an implem
 |------|---------------|
 | Recorded execution baseline (2026-08-24) | DEMOAPP001: Node 24, 49 component tests plus 55 scenarios / 309 steps passing, REST API integration PASS, 4 OpenAPI contract tests passing, Web UI smoke check PASS; selected-module coverage 81.46% lines / 91.74% branches / 80.17% functions with 70% / 85% / 75% floors; focused mutation trial 10/10 killed. DEMOAPP002: Python 3.13, 85 tests (55 pytest-bdd + 30 component) passing; selected-module coverage 88.98% combined with an 85% floor. DEMOAPP003: .NET 10, 83 tests (55 Reqnroll + 28 component) passing; selected-type coverage 87.62% lines / 85.94% branches with 80% / 80% floors. 3-Stack parity PASS. |
 | TRIAGE-05 execution evidence (2026-09-30) | Node 24.18.0: 57 component tests passing; 55 BDD scenarios / 309 steps passing; REST API integration PASS; 4 OpenAPI contract tests passing; build/lint/format PASS. Existing selected-module coverage: 81.46% lines / 91.94% branches / 80.17% functions, all floors passed with one local test worker. Seven repository parity/governance checks PASS. Dependency audit PASS under DR-039 with zero blocking findings and one moderate fast-uri finding, recorded as portfolio TRIAGE-09. Python/C# suites, browser smoke and mutation trial were not rerun for this DEMOAPP001 classification change. |
+| TRIAGE-06 execution evidence (2026-09-30) | Node 24.18.0: 66 component tests passing; 55 BDD scenarios / 309 steps passing; REST API integration PASS; 8 OpenAPI contract tests passing; build/lint/format and check:pages/check:web scripts PASS. Existing selected-module coverage: 80.11% lines / 91.94% branches / 80.17% functions, unchanged floors passed with one local test worker. Seven repository parity/governance checks and six-file CI evidence contract PASS. Dependency audit PASS under DR-039 with zero blocking findings and the same moderate fast-uri finding (TRIAGE-09). Python/C# suites, real-browser smoke and mutation trial were not rerun locally; all-Stack CI remains the publication check. |
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-072 / TRIAGE-05 resolved; approved TRIAGE-06..08 remain ordered portfolio worklist candidates |
+| Current sprint focus | BACKLOG-072/073 resolved; approved TRIAGE-07/08 remain ordered portfolio worklist candidates |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -438,6 +439,7 @@ BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iter
 | ID | Worklist | Title | Stack(s) | Review risk | Priority | Status | Decision Record |
 |----|----------|-------|----------|-------------|----------|--------|-----------------|
 | BACKLOG-072 | TRIAGE-05 | Share technique vocabulary and exhaustively grade every supported technique | DEMOAPP001 | R3 | Medium | Resolved | DR-044 |
+| BACKLOG-073 | TRIAGE-06 | Reject exhausted target-difficulty generation with an explicit bounded failure | DEMOAPP001 | R2 | Medium | Resolved | DR-045 |
 
 ## Product and Technical Work
 
@@ -462,6 +464,36 @@ BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iter
 ---
 
 ## Active Item Details
+
+### BACKLOG-073: Exact target generation and bounded exhaustion
+
+**Status:** Resolved 2026-09-30 — TRIAGE-06 / September review R2.
+**Stack:** DEMOAPP001
+**Priority:** Medium
+**Decision:** DR-045, implementing DR-043's exact-tier and bounded 422 contract.
+
+Acceptance criteria:
+
+- [x] One five-attempt policy returns success only for solvable candidates at the exact requested tier.
+- [x] Exhaustion throws a typed domain failure mapped to the documented HTTP 422 response.
+- [x] Real service/API tests cover exact tiers, retry success and exhaustion, including Expert with 81 clues.
+- [x] Preserve valid untargeted generation, seed repeatability and uniqueness.
+- [x] Static, component, API/OpenAPI, BDD, coverage, parity and supported-runtime audit gates pass.
+
+Evidence: nine new `generator-exhaustion.contract.test.ts` cases include real seeded exact
+Easy/Medium/Hard/Expert targets, an impossible Expert/81-clue target, fourth-attempt success,
+and an untargeted retry after an unsolved candidate; separate labelled seams verify that an
+unsolved Expert marker never qualifies and invalid budgets fail before construction. API
+integration proves all exact tiers, uniqueness and native exhaustion. Eight OpenAPI tests pass
+(9339.7592 ms), including native exhaustion plus labelled construction/untargeted/unexpected
+error mappings. `npm run test:ci` passed 66 component tests and 55 scenarios / 309 steps
+(5.800 s). Coverage passed 66/66 (77264.7056 ms) with the existing selected modules, thresholds
+and assertions unchanged; `--test-concurrency=1` precedes file arguments to avoid the Windows
+timing contention observed during TRIAGE-05. Seven parity/governance checks and the six-file
+CI evidence contract pass. The required audit reports one moderate fast-uri finding and no
+blocking findings; no dependency change is folded into this item. The immutable September
+review is retained, and this record supplies R2's remediation status. Newly noticed existing
+generator request/400-error schema drift is recorded separately as portfolio TRIAGE-10.
 
 ### BACKLOG-072: Shared technique vocabulary and exact difficulty grading
 
@@ -1372,6 +1404,7 @@ viewer returned HTTP 200 and Pages run 33996955729 passed at current `main`.
 
 | ID | Title | Stack(s) | Resolved | Notes |
 |----|-------|----------|----------|-------|
+| BACKLOG-073 | Exact target generation and bounded exhaustion (TRIAGE-06) | DEMOAPP001 | 2026-09-30 | DR-045; real exact-tier and Expert/81-clue failure regressions, typed 422 mapping, 66 component + 55 BDD scenarios and 8 OpenAPI tests green |
 | BACKLOG-072 | Shared technique vocabulary and exact difficulty grading (TRIAGE-05) | DEMOAPP001 | 2026-09-30 | DR-044; all five DR-043 tiers, real unique 57-move XWing completion regression, 57 component + 55 BDD scenarios green; compatible brace-expansion lock repair cleared blocking audit |
 | BACKLOG-001 | Complete Hidden Singles Implementation | DEMOAPP001 | 2026-05-14 | Rows, columns, and blocks now checked |
 | BACKLOG-002 | Implement Automated Test Runner | DEMOAPP001 | 2026-05-14 | Cucumber test runner established |

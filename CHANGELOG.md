@@ -9,6 +9,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Fixed
+- BACKLOG-073 (TRIAGE-06, September review R2): generation now succeeds only for a deterministically
+  solvable candidate matching the requested difficulty. Enforced DR-043's five-attempt maximum,
+  added typed exhaustion with HTTP 422 `GENERATOR_EXHAUSTED`, and mapped bounded construction
+  failure to HTTP 422 `GENERATOR_TIMEOUT`. Untargeted solvable generation, successful retry seeds
+  and uniqueness remain supported; exact-tier, exhaustion and API/OpenAPI boundaries are tested.
 - BACKLOG-072 (TRIAGE-05, September review R3): shared the tutor/grader technique vocabulary and
   exhaustively mapped all five techniques to DR-043's accepted tiers. XWing now grades as Expert;
   Hidden Singles grades as Easy and Naked Singles as Medium. Preserved the tutor's `XWing` token

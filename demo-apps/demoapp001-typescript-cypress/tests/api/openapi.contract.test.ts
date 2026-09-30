@@ -6,6 +6,11 @@ import OpenAPIBackend from 'openapi-backend';
 import request, { Response } from 'supertest';
 import { createApp } from '../../app_src/server/app';
 import { SudokuApiService } from '../../app_src/server/SudokuApiService';
+import {
+  GeneratorExhaustedError,
+  GeneratorTimeoutError,
+  PuzzleGeneratorService,
+} from '../../app_src/generator';
 
 const app = createApp();
 const contract = new OpenAPIBackend({
@@ -64,6 +69,75 @@ test('OpenAPI accepts the implemented unexpected-error response', async () => {
   const response = await request(failingApp).get('/api/puzzles').expect(500);
 
   await assertContractResponse('getPuzzles', response);
+});
+
+test('OpenAPI accepts a real exhausted-generator response with no puzzle payload', async () => {
+  const response = await request(app)
+    .post('/api/generator/generate')
+    .send({ difficulty: 'Expert', clueCount: 81, seed: 'review-proof' })
+    .expect(422);
+  const { requestId, ...body } = response.body;
+  assert.equal(typeof requestId, 'string');
+  assert.deepEqual(body, {
+    success: false,
+    error: 'GENERATOR_EXHAUSTED',
+    message:
+      "Could not generate a solvable Expert Sudoku puzzle within 5 attempts for seed 'review-proof'.",
+    details: { seed: 'review-proof', targetDifficulty: 'Expert', attempts: 5 },
+  });
+  await assertContractResponse('postGeneratePuzzle', response);
+});
+
+test('error-mapping seam: untargeted exhaustion omits targetDifficulty from API details', async (context) => {
+  // Controlled domain-error seam; native bounded exhaustion is covered above.
+  context.mock.method(PuzzleGeneratorService.prototype, 'generatePuzzle', (): never => {
+    throw new GeneratorExhaustedError('untargeted-error-seam', undefined, 5);
+  });
+  const response = await request(app)
+    .post('/api/generator/generate')
+    .send({ seed: 'untargeted-error-seam' })
+    .expect(422);
+
+  assert.equal(response.body.success, false);
+  assert.equal(response.body.error, 'GENERATOR_EXHAUSTED');
+  assert.deepEqual(response.body.details, { seed: 'untargeted-error-seam', attempts: 5 });
+  assert.equal('grid' in response.body, false);
+  assert.equal('solution' in response.body, false);
+  await assertContractResponse('postGeneratePuzzle', response);
+});
+
+test('error-mapping seam: construction timeout remains a separate documented 422 failure', async (context) => {
+  context.mock.method(PuzzleGeneratorService.prototype, 'generatePuzzle', (): never => {
+    throw new GeneratorTimeoutError(10001, 10000);
+  });
+  const response = await request(app)
+    .post('/api/generator/generate')
+    .send({ seed: 'construction-timeout-seam' })
+    .expect(422);
+
+  assert.equal(response.body.success, false);
+  assert.equal(response.body.error, 'GENERATOR_TIMEOUT');
+  assert.equal('details' in response.body, false);
+  assert.equal('grid' in response.body, false);
+  await assertContractResponse('postGeneratePuzzle', response);
+});
+
+test('error-mapping seam: unexpected generator failures retain the documented 500 response', async (context) => {
+  context.mock.method(PuzzleGeneratorService.prototype, 'generatePuzzle', (): never => {
+    throw new Error('controlled unexpected generator failure');
+  });
+  const response = await request(app)
+    .post('/api/generator/generate')
+    .send({ seed: 'unexpected-error-seam' })
+    .expect(500);
+  const { requestId, ...body } = response.body;
+  assert.equal(typeof requestId, 'string');
+  assert.deepEqual(body, {
+    success: false,
+    error: 'INTERNAL_SERVER_ERROR',
+    message: 'An unexpected error occurred',
+  });
+  await assertContractResponse('postGeneratePuzzle', response);
 });
 
 test('OpenAPI rejects an intentionally drifted response', async () => {

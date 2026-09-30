@@ -2,6 +2,7 @@ import * as assert from 'assert';
 import request from 'supertest';
 import { createApp } from '../../app_src/server/app';
 import { EMPTY_CELL, GRID_SIZE } from '../../app_src/constants';
+import { DifficultyLevel, gradePuzzle, UniquenessOracle } from '../../app_src/generator';
 
 const app = createApp();
 
@@ -31,6 +32,38 @@ async function generatorEndpoint(): Promise<void> {
   assert.ok(response.body.clueCount >= 17 && response.body.clueCount <= 81);
   assert.ok(Array.isArray(response.body.grid));
   assert.ok(Array.isArray(response.body.solution));
+  assert.strictEqual(gradePuzzle(response.body.grid).isSolvable, true);
+
+  const targets: { difficulty: DifficultyLevel; seed: string; highestTechnique: string }[] = [
+    { difficulty: 'Easy', seed: 'tier-regression-0', highestTechnique: 'HiddenSingles' },
+    { difficulty: 'Medium', seed: 'tier-regression-14', highestTechnique: 'NakedSingles' },
+    { difficulty: 'Hard', seed: 'tier-regression-65', highestTechnique: 'NakedPairs' },
+    { difficulty: 'Expert', seed: 'xwing-regression-242', highestTechnique: 'X-Wing' },
+  ];
+  for (const target of targets) {
+    const exactTarget = await request(app)
+      .post('/api/generator/generate')
+      .send({ difficulty: target.difficulty, seed: target.seed, symmetrical: false })
+      .expect(200);
+    assert.strictEqual(exactTarget.body.difficulty, target.difficulty);
+    assert.strictEqual(exactTarget.body.highestTechnique, target.highestTechnique);
+    assert.strictEqual(gradePuzzle(exactTarget.body.grid).isSolvable, true);
+    assert.strictEqual(UniquenessOracle.countSolutions(exactTarget.body.grid, 2), 1);
+  }
+
+  const exhausted = await request(app)
+    .post('/api/generator/generate')
+    .send({ difficulty: 'Expert', clueCount: 81, seed: 'review-proof' })
+    .expect(422);
+  const { requestId, ...exhaustedBody } = exhausted.body;
+  assert.strictEqual(typeof requestId, 'string');
+  assert.deepStrictEqual(exhaustedBody, {
+    success: false,
+    error: 'GENERATOR_EXHAUSTED',
+    message:
+      "Could not generate a solvable Expert Sudoku puzzle within 5 attempts for seed 'review-proof'.",
+    details: { seed: 'review-proof', targetDifficulty: 'Expert', attempts: 5 },
+  });
 
   const badDifficulty = await request(app)
     .post('/api/generator/generate')

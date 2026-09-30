@@ -4,7 +4,12 @@ import { GRID_SIZE } from '../constants';
 import { Puzzle, PuzzleLoader } from '../PuzzleLoader';
 import { SudokuOrchestrator } from '../SudokuOrchestrator';
 import { SudokuSolver } from '../SudokuSolver';
-import { GeneratedPuzzle, PuzzleGeneratorService } from '../generator';
+import {
+  GeneratedPuzzle,
+  GeneratorExhaustedError,
+  GeneratorTimeoutError,
+  PuzzleGeneratorService,
+} from '../generator';
 import { ApiError } from './errors';
 import {
   buildValidationResponse,
@@ -200,7 +205,21 @@ export class SudokuApiService {
   generatePuzzle(body: unknown): GeneratedPuzzle {
     const generator = new PuzzleGeneratorService();
     const options = parseGeneratePuzzleOptions(body);
-    return generator.generatePuzzle(options);
+    try {
+      return generator.generatePuzzle(options);
+    } catch (error) {
+      if (error instanceof GeneratorExhaustedError) {
+        throw new ApiError(422, 'GENERATOR_EXHAUSTED', error.message, {
+          seed: error.seed,
+          ...(error.targetDifficulty !== undefined && { targetDifficulty: error.targetDifficulty }),
+          attempts: error.attempts,
+        });
+      }
+      if (error instanceof GeneratorTimeoutError) {
+        throw new ApiError(422, 'GENERATOR_TIMEOUT', error.message);
+      }
+      throw error;
+    }
   }
 
   private toPuzzleResponse(puzzle: Puzzle): PuzzleResponse {
