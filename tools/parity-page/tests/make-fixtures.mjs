@@ -1,0 +1,43 @@
+// Regenerates tests/fixtures from REAL result files, keeping a few scenarios (including outlines whose rows
+// share a name). Fixtures are trimmed, never written by hand.
+//   node tools/parity-page/tests/make-fixtures.mjs <results-root>
+// where <results-root> holds demoapp001/test-results/cucumber.json, demoapp002/test-results/pytest-cucumber.json
+// and demoapp003/test-results/reqnroll.ndjson, as produced by CI evidence.
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { STACKS } from '../adapters.mjs';
+import { KEEP } from './keep.mjs';
+
+const here = dirname(fileURLToPath(import.meta.url));
+const out = join(here, 'fixtures');
+const src = process.argv[2];
+if (!src) throw new Error('usage: node make-fixtures.mjs <results-root>');
+
+for (const stack of STACKS) {
+  const from = join(src, stack.dir, stack.file);
+  const to = join(out, stack.dir, stack.file);
+  mkdirSync(dirname(to), { recursive: true });
+  if (stack.format === 'cucumber-json') {
+    const features = JSON.parse(readFileSync(from, 'utf8'));
+    for (const f of features) f.elements = f.elements.filter((e) => e.type === 'background' || KEEP.includes(e.name));
+    writeFileSync(to, `${JSON.stringify(features, null, 1)}\n`);
+  } else {
+    const all = readFileSync(from, 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l));
+    const pickleIds = new Set(all.filter((m) => m.pickle && KEEP.includes(m.pickle.name)).map((m) => m.pickle.id));
+    const caseIds = new Set(all.filter((m) => m.testCase && pickleIds.has(m.testCase.pickleId)).map((m) => m.testCase.id));
+    const startedIds = new Set(all.filter((m) => m.testCaseStarted && caseIds.has(m.testCaseStarted.testCaseId)).map((m) => m.testCaseStarted.id));
+    const keep = all.filter((m) => {
+      if (m.meta || m.testRunStarted || m.testRunFinished || m.hook) return true;
+      if (m.pickle) return pickleIds.has(m.pickle.id);
+      if (m.testCase) return caseIds.has(m.testCase.id);
+      if (m.testCaseStarted) return startedIds.has(m.testCaseStarted.id);
+      if (m.testStepStarted) return startedIds.has(m.testStepStarted.testCaseStartedId);
+      if (m.testStepFinished) return startedIds.has(m.testStepFinished.testCaseStartedId);
+      if (m.testCaseFinished) return startedIds.has(m.testCaseFinished.testCaseStartedId);
+      return false; // source, gherkinDocument and stepDefinition are not read by the adapters
+    });
+    writeFileSync(to, `${keep.map((m) => JSON.stringify(m)).join('\n')}\n`);
+  }
+}
+console.log(`fixtures written to ${out}`);
