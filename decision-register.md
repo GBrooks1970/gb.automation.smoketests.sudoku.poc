@@ -1,7 +1,7 @@
 # Decision Register
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-09-30 — DR-045 records exact target generation and typed bounded exhaustion for TRIAGE-06; DR-044 governs the technique vocabulary.
+**Last Updated:** 2026-09-30 — DR-046 records tutor request ownership and auto-play cancellation for TRIAGE-07; DR-044/045 govern technique grading and generator exhaustion.
 **Governed by:** `reference-architecture.md` v1.15 §10.6
 **Template:** `DOCS/.templates/decision-record.template.md`
 
@@ -2589,6 +2589,57 @@ weaken the governed bound and make exhaustion tests ambiguous.
 
 ---
 
+## DR-046 — Tutor Hint Ownership and Auto-Play Cancellation (TRIAGE-07 / BACKLOG-074)
+
+**Date:** 2026-09-30
+**Status:** Accepted — 2026-09-30 within the owner-approved September review worklist after independent source and contract review.
+
+### Context
+
+September review R4 reproduced an old hint overwriting a cleared grid. A response could become
+active without checking its submitted board, and an awaited auto-play loop could survive a
+pause/restart. TRIAGE-07 authorises controller guards while preserving the tutor's HTTP contract
+and historical BACKLOG-015 closure.
+
+### Decision
+
+Use a grid revision, request sequence, cloned snapshot and abort controller to bind receipt and
+application to the current board; invalidate pending and displayed hints on state changes,
+newer requests and mode exit. Validate the submitted empty target, previous value, original clue,
+coordinates and digit before placement, and clear tutor state at puzzle-load start. Use a separate
+auto-play generation token across awaits and both timers, pause auto-play for manual actions,
+and compose hint/puzzle loading ownership so stale cleanup cannot hide another operation.
+
+### Status
+
+`Accepted` — 2026-09-30 after independent review of R4 scope, implementation and controller contracts.
+
+### Consequences
+
+**Outcomes:**
+- Delayed or superseded hints cannot update the board, hint feedback or a newer loading state.
+- Paused auto-play continuations and timers cannot revive under a later run.
+- HTTP/schema, deterministic solving and cross-Stack contracts remain unchanged.
+
+**Trade-offs:**
+- Editing, clearing or manual hint requests pause auto-play and require a fresh hint.
+- Controller tests use a DOM/clock/transport harness; native browser evidence remains separate.
+
+### Alternatives Considered
+
+**Alternative: Abort only** — rejected because a completed transport or delayed JSON decoding can
+still deliver a stale result; ownership checks are needed after awaits and at application.
+
+**Alternative: Use only the auto-play boolean** — rejected because pause/restart returns it to
+true and can revive an old continuation. A separate generation token identifies the owning run.
+
+### Related Decisions
+
+- DR-042 — Tutor hint contract and guided application flow.
+- BACKLOG-074 — New September R4 remediation record; historical product closure retained.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -2607,5 +2658,5 @@ weaken the governed bound and make exhaustion tests ambiguous.
 
 ---
 
-*Last entry: DR-045 (Accepted). Next ID: DR-046.*
+*Last entry: DR-046 (Accepted). Next ID: DR-047.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

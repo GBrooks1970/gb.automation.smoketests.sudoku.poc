@@ -9,6 +9,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Fixed
+- BACKLOG-074 (TRIAGE-07, September review R4): tutor requests now own a grid snapshot, revision
+  and request sequence; state changes abort pending work and discard stale completions.
+  Hint application rechecks the submitted target and original clues. Auto-play guards await
+  and timer continuations against pause/restart; puzzle-load start clears tutor state and
+  shared loading feedback retains independent hint/puzzle ownership. DR-046 records the policy.
 - BACKLOG-073 (TRIAGE-06, September review R2): generation now succeeds only for a deterministically
   solvable candidate matching the requested difficulty. Enforced DR-043's five-attempt maximum,
   added typed exhaustion with HTTP 422 `GENERATOR_EXHAUSTED`, and mapped bounded construction

@@ -1,11 +1,13 @@
 # Interactive Sudoku Tutor — Design Document
 
-**Version:** v1.0  
-**Date:** 2026-08-20T23:55:00Z  
+**Version:** v1.1
+
+**Date:** 2026-09-30 (asynchronous state clarification; original design 2026-08-20)
+
 **Author:** Portfolio worklist SUD-35 (BACKLOG-015)  
 **Reviewer:** Antigravity / DeepMind  
 **Status:** Approved  
-**Decision:** DR-042  
+**Decision:** DR-042; browser-controller ownership clarified by DR-046 (TRIAGE-07 / BACKLOG-074)
 
 ---
 
@@ -223,6 +225,20 @@ The `RationaleGenerator` translates solver actions and audit events into pedagog
 4. **Pedagogical Explanation**: The rationale box displays the technique badge, target coordinate, suggested value, and the detailed natural-language explanation.
 5. **Apply Move**: User can click **"Apply Hint"** to update the grid with the single recommended move, or manually type their answer.
 
+### 8.2 Asynchronous Hint Ownership
+
+The DEMOAPP001 controller captures a cloned grid, grid revision, request sequence and abort
+controller for each hint. A response may update selection, feedback or the active hint only while
+that context is current, including after JSON decoding. Clear, accepted edits, clue loads, reset,
+mode exit and newer requests invalidate pending work; application also verifies the whole
+snapshot, target bounds, empty submitted target, `previousValue`, digit and original-clue guard.
+
+Auto-play owns a separate generation token checked after the hint await and in both timers.
+Pausing, editing or requesting a manual hint cancels the older run; a pause/restart cannot revive
+its continuation or apply a newer run's hint. Puzzle-load start clears tutor state before awaiting
+the puzzle response. Hint and puzzle loading flags compose the shared indicator so one operation's
+cleanup cannot hide the other. These controls retain the existing HTTP hint schema and solver.
+
 ---
 
 ## 9. Testing Strategy
@@ -244,6 +260,15 @@ The `RationaleGenerator` translates solver actions and audit events into pedagog
 
 ### 9.3 Browser & Smoke Verification
 - Verify interactive guided mode in the web UI using the development server (`npm run start:web`).
+
+### 9.4 Controller Contract Verification
+
+`tests/component/tutor-controller.contract.test.ts` executes the production controller and
+focused application functions in a Node VM with deferred HTTP/JSON responses, a minimal DOM,
+an injected renderer and a controlled clock. It verifies asynchronous state and application
+behaviour, including cancellation and loading ownership. This is controller evidence; it does
+not verify native module linking, layout or the full browser flow. The served-asset/API
+`check:web` script and native browser checks are separate evidence surfaces.
 
 ---
 

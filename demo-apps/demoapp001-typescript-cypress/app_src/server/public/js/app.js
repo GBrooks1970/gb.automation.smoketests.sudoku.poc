@@ -170,12 +170,7 @@ async function loadPuzzleData(puzzleName) {
 function onStep(stepIndex) {
   if (!solveData || currentMode !== 'visualiser') return;
 
-  renderGridAtStep(
-    solveData.initialGrid,
-    solveData.steps,
-    stepIndex,
-    originalClues
-  );
+  renderGridAtStep(solveData.initialGrid, solveData.steps, stepIndex, originalClues);
   highlightLogEntry(stepIndex);
   updateStatsProgress(stepIndex);
 }
@@ -209,19 +204,14 @@ function buildEventLog(steps) {
 }
 
 function formatStep(s) {
-  const algo =
-    s.algorithmParam !== undefined
-      ? `${s.algorithm}(${s.algorithmParam})`
-      : s.algorithm;
+  const algo = s.algorithmParam !== undefined ? `${s.algorithm}(${s.algorithmParam})` : s.algorithm;
   return `${s.stepNumber} [${algo}] (${s.cell.row + 1},${s.cell.col + 1}): · → ${s.newValue}`;
 }
 
 function highlightLogEntry(stepIndex) {
   const list = document.getElementById('event-list');
   if (!list) return;
-  list
-    .querySelectorAll('li')
-    .forEach((li) => li.classList.remove('current-step'));
+  list.querySelectorAll('li').forEach((li) => li.classList.remove('current-step'));
 
   if (stepIndex > 0) {
     const target = list.querySelector(`[data-step-index="${stepIndex}"]`);
@@ -235,11 +225,7 @@ function highlightLogEntry(stepIndex) {
 // ── Statistics panel (Visualiser Mode) ───────────────────────
 function renderStats(data) {
   const { statistics, status } = data;
-  const {
-    totalSteps: total,
-    totalIterations,
-    stepsByAlgorithm: byAlgo,
-  } = statistics;
+  const { totalSteps: total, totalIterations, stepsByAlgorithm: byAlgo } = statistics;
 
   const content = document.getElementById('stats-content');
   if (!content) return;
@@ -247,8 +233,7 @@ function renderStats(data) {
   const statusBanner = document.createElement('div');
   statusBanner.id = 'status-banner';
   statusBanner.className = status === 'SOLVED' ? 'solved' : 'stuck';
-  statusBanner.textContent =
-    status === 'SOLVED' ? '✓ SOLVED' : '⚠ STUCK ON ADVANCED LOGIC';
+  statusBanner.textContent = status === 'SOLVED' ? '✓ SOLVED' : '⚠ STUCK ON ADVANCED LOGIC';
 
   const summary = document.createElement('p');
   summary.innerHTML = `<strong>Total Steps:</strong> ${total}<br><strong>Iterations:</strong> ${totalIterations}`;
@@ -325,6 +310,7 @@ function updateStatsProgress(stepIndex) {
 
 // ── Helpers ──────────────────────────────────────────────────
 function resetUI() {
+  tutor?.clearGrid();
   solveData = null;
   originalClues = null;
   const blank = Array.from({ length: 9 }, () => Array(9).fill(0));
@@ -334,10 +320,8 @@ function resetUI() {
   const diffEl = document.getElementById('puzzle-difficulty');
   const descEl = document.getElementById('puzzle-description');
 
-  if (eventList)
-    eventList.innerHTML = '<li class="placeholder">Loading&hellip;</li>';
-  if (statsContent)
-    statsContent.innerHTML = '<p class="placeholder">Loading&hellip;</p>';
+  if (eventList) eventList.innerHTML = '<li class="placeholder">Loading&hellip;</li>';
+  if (statsContent) statsContent.innerHTML = '<p class="placeholder">Loading&hellip;</p>';
   if (diffEl) diffEl.textContent = '';
   if (descEl) descEl.textContent = '';
   hideError();
@@ -345,7 +329,16 @@ function resetUI() {
 
 function showLoading(visible) {
   const loading = document.getElementById('loading');
-  if (loading) loading.classList.toggle('hidden', !visible);
+  if (loading) {
+    loading.dataset.puzzleLoading = String(visible);
+    const tutorLoading = loading.dataset.tutorLoading === 'true';
+    loading.classList.toggle('hidden', !visible && !tutorLoading);
+    loading.textContent = visible
+      ? 'Loading puzzle...'
+      : tutorLoading
+        ? 'Evaluating next hint...'
+        : '';
+  }
 }
 
 function showError(msg) {
