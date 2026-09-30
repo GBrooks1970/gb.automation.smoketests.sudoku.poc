@@ -21,6 +21,7 @@ $contracts = @{
     )
     demoapp002 = @(
         @{ Path = 'test-results/pytest-junit.xml'; Kind = 'xml'; Root = 'testsuites' }
+        @{ Path = 'test-results/pytest-cucumber.json'; Kind = 'json' }
         @{ Path = 'coverage/coverage.xml'; Kind = 'xml'; Root = 'coverage' }
         @{ Path = 'coverage/component-coverage.txt'; Kind = 'text' }
         @{ Path = 'audit/dependency-audit-native.txt'; Kind = 'text' }
@@ -29,6 +30,7 @@ $contracts = @{
     demoapp003 = @(
         @{ Path = 'test-results/component.trx'; Kind = 'xml'; Root = 'TestRun' }
         @{ Path = 'test-results/reqnroll.trx'; Kind = 'xml'; Root = 'TestRun' }
+        @{ Path = 'test-results/reqnroll.ndjson'; Kind = 'ndjson' }
         @{ Path = 'coverage/coverage.cobertura.xml'; Kind = 'xml'; Root = 'coverage' }
         @{ Path = 'coverage/component-coverage.txt'; Kind = 'text' }
         @{ Path = 'audit/dependency-audit-native.txt'; Kind = 'text' }
@@ -76,6 +78,16 @@ foreach ($entry in $contract) {
                 }
                 if ($entry.Root -and $xmlDocument.DocumentElement.LocalName -ne $entry.Root) {
                     throw "expected root '$($entry.Root)', found '$($xmlDocument.DocumentElement.LocalName)'"
+                }
+            }
+            'ndjson' {
+                # Cucumber Messages: one JSON object per line, starting with a 'meta' message.
+                $records = @($content -split "`r?`n" | Where-Object { $_.Trim() } | ForEach-Object { $_ | ConvertFrom-Json })
+                if ($records.Count -eq 0) {
+                    throw 'NDJSON document has no records'
+                }
+                if (-not ($records | Where-Object { $null -ne $_.meta })) {
+                    throw "NDJSON document has no Cucumber Messages 'meta' record"
                 }
             }
             'lcov' {

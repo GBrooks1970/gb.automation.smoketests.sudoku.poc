@@ -1,0 +1,5 @@
+{
+  "formatters": {
+    "message": { "outputFilePath": "cucumber-messages/reqnroll.ndjson" }
+  }
+}

@@ -3,11 +3,13 @@ $ErrorActionPreference = 'Stop'
 $checker = Join-Path $PSScriptRoot 'check-ci-evidence.ps1'
 $fixtures = @{
     'cucumber.json' = '[{"name":"fixture"}]'
+    'pytest-cucumber.json' = '[{"name":"fixture"}]'
     'cucumber-junit.xml' = '<testsuite name="fixture" tests="1" />'
     'pytest-junit.xml' = '<testsuites><testsuite name="fixture" tests="1" /></testsuites>'
     'coverage.xml' = '<coverage line-rate="1" branch-rate="1" />'
     'component.trx' = '<TestRun name="component" />'
     'reqnroll.trx' = '<TestRun name="reqnroll" />'
+    'reqnroll.ndjson' = "{`"meta`":{`"protocolVersion`":`"30.1.0`"}}`n{`"testRunStarted`":{}}`n"
     'coverage.cobertura.xml' = '<coverage line-rate="1" branch-rate="1" />'
     'lcov.info' = "TN:`nSF:app_src/fixture.ts`nDA:1,1`nend_of_record`n"
     'component-coverage.txt' = 'fixture coverage summary'
@@ -68,5 +70,37 @@ foreach ($stack in @('demoapp001', 'demoapp002', 'demoapp003')) {
     }
 }
 
-Write-Host "CI evidence negative controls: PASS ($mutationCount/$mutationCount missing files rejected)"
+# Content mutations for the Cucumber Messages file: invalid JSON, and no 'meta' message.
+$ndjsonRoot = Join-Path ([IO.Path]::GetTempPath()) "sudoku-ci-evidence-ndjson-$([guid]::NewGuid())"
+try {
+    $ndjsonStack = 'demoapp003'
+    foreach ($relativePath in @(& $checker -Stack $ndjsonStack -ListRequired)) {
+        $path = Join-Path $ndjsonRoot ($relativePath -replace '/', [IO.Path]::DirectorySeparatorChar)
+        New-Item -ItemType Directory -Path (Split-Path -Parent $path) -Force | Out-Null
+        if ([IO.Path]::GetFileName($path) -eq 'dependency-audit-summary.json') {
+            [IO.File]::WriteAllText($path, ([ordered]@{ schemaVersion = 1; generatedAt = '2026-07-28T12:00:00Z'; stack = $ndjsonStack; tool = 'fixture'; status = 'pass'; toolStatus = 'success'; threshold = 'high'; findingCount = 0; unexceptedFindingCount = 0 } | ConvertTo-Json))
+        } else {
+            [IO.File]::WriteAllText($path, $fixtures[[IO.Path]::GetFileName($path)])
+        }
+    }
+    $messages = Join-Path $ndjsonRoot 'test-results/reqnroll.ndjson'
+    $good = Get-Content -LiteralPath $messages -Raw -Encoding UTF8
+    foreach ($bad in @("{`"meta`":{}}`nnot json`n", "{`"testRunStarted`":{}}`n")) {
+        [IO.File]::WriteAllText($messages, $bad)
+        $output = & $checker -Stack $ndjsonStack -EvidenceRoot $ndjsonRoot *>&1
+        if ($LASTEXITCODE -eq 0) {
+            $output | Write-Host
+            throw 'evidence contract accepted a malformed reqnroll.ndjson'
+        }
+        $mutationCount += 1
+        Write-Host '  OK    demoapp003 rejected a malformed reqnroll.ndjson'
+    }
+    [IO.File]::WriteAllText($messages, $good)
+} finally {
+    if (Test-Path -LiteralPath $ndjsonRoot) {
+        Remove-Item -LiteralPath $ndjsonRoot -Recurse -Force
+    }
+}
+
+Write-Host "CI evidence negative controls: PASS ($mutationCount/$mutationCount mutations rejected)"
 exit 0
