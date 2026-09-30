@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-09-30 — resolved the supported-runtime Python audit repair under BACKLOG-076 / TRIAGE-12. Prior: BACKLOG-074 / TRIAGE-07 resolved after BACKLOG-073's verified merge; 2026-09-07 resting lifecycle reconciliation.
+**Last Updated:** 2026-09-30 — resolved the Python audit repair under BACKLOG-076 / TRIAGE-12; Node audit restoration is being validated. BACKLOG-075's Reqnroll-results spike is complete and its parity evidence page remains Open under DR-047. Prior: BACKLOG-074 resolved; 2026-09-07 resting lifecycle reconciliation.
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,15 +25,16 @@ Per v1.15 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 0 |
+| Open | 1 |
 | In Progress | 0 |
 | Resolved | 98 |
-| **Total** | **98** |
+| **Total** | **99** |
 
 **Update (2026-09-30, TRIAGE-12):** Recomputed unique tracked IDs from canonical status tables,
 dated resolved rows and status-bearing detail records, including detail-only BACKLOG-007,
 BACKLOG-008, BACKLOG-017 and BACKLOG-023. The inherited 96-item roll-up understated the
-pre-repair inventory of 97 resolved items; adding BACKLOG-076 makes 98 resolved items.
+pre-repair inventory of 97 resolved items; adding BACKLOG-076 makes 98 resolved items. The separate accepted BACKLOG-075 remains
+Open, making 99 total items.
 Historical closure evidence is retained; this corrects the summary rather than reopening work.
 
 **Update (2026-09-07):** Reconciled stale roll-up rows for BACKLOG-014, BACKLOG-015,
@@ -51,7 +52,7 @@ both passed at `7af3dca`; this was a documentation reconciliation, not an implem
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-076's Python audit repair passed local gates and awaits all-Stack publication CI; BACKLOG-072/073/074 are resolved and approved TRIAGE-08 remains separate |
+| Current sprint focus | BACKLOG-075 (DR-047) remains Open with its spike complete; BACKLOG-076 restores supported-runtime audits and awaits all-Stack publication CI; approved TRIAGE-08 remains separate |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -449,6 +450,12 @@ BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iter
 | BACKLOG-073 | TRIAGE-06 | Reject exhausted target-difficulty generation with an explicit bounded failure | DEMOAPP001 | R2 | Medium | Resolved | DR-045 |
 | BACKLOG-074 | TRIAGE-07 | Reject stale asynchronous tutor hints after grid or request changes | DEMOAPP001 | R4 | Medium | Resolved | DR-046 |
 
+## Owner-Authorised Work
+
+| ID | Title | Stack(s) | Priority | Status | Decision Record |
+|----|-------|----------|----------|--------|-----------------|
+| BACKLOG-075 | Publish a three-stack parity evidence page at `/parity/` | All | Medium | Open | DR-047 |
+
 ## Supported-runtime CI Restoration (2026-09-30)
 
 | ID | Worklist | Title | Stack(s) | Priority | Status | Decision Record |
@@ -479,6 +486,30 @@ BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iter
 
 ## Active Item Details
 
+### BACKLOG-075: Three-stack parity evidence page
+
+**Status:** Open — opened 2026-09-30 at the owner's direction; scope and boundary set by DR-047.
+**Stack:** All (DEMOAPP001, DEMOAPP002, DEMOAPP003)
+**Priority:** Medium
+**Decision:** DR-047. DR-040 stays in force for the visualisation and is not superseded.
+**Source:** `portfolio-docs/PORTFOLIO_SUDOKU_PARITY_EVIDENCE_PAGE_FEASIBILITY_2026-09-30.md` in `GBrooks1970/test-automation-portfolio` (gaps G3-G6; its 'DR-044' is DR-047 here).
+
+Acceptance criteria:
+
+- [x] Spike: decide whether Reqnroll 3.3.4 emits Cucumber-compatible results or the C# Stack falls back to matching TRX results by scenario title; record the outcome before any CI change. **Done 2026-09-30:** direct Cucumber Messages output chosen, TRX fallback rejected because 12 outline rows share names; 55 scenarios / 309 steps agree across all three Stacks after normalisation. See `DOCS/.implementation-logs/2026-09-30_backlog-075-reqnroll-results-spike.md`.
+- [ ] Clickable mock-up built from a real local run of all three Stacks, reviewed by the owner before CI changes.
+- [ ] A results-level gate verifies that each Stack executed the same scenarios with the same step text and all passed.
+- [ ] A fan-in report job runs after the Stack jobs and the gate, publishes from `main` only with deploy-only Pages permissions, and ships the visualisation and `/parity/` in one Pages artefact.
+- [ ] The build fails unless the gate is shown to fail against a planted one-word step-text change in a temporary copy of one Stack's results.
+- [ ] Every result, snippet and timing is read from run artefacts or step-definition sources; nothing is typed by hand.
+- [ ] No change to the solver, feature files, puzzle data, REST API or any Stack's behaviour; `scripts/check-pages.cjs` and the visualisation are untouched.
+
+Known constraint (2026-09-30): default-branch CI is red because the dependency audit blocks new advisories
+(DEMOAPP001 axios, five high; DEMOAPP002 urllib3, three), so the `gate` job is skipped. Resolve or
+except them under DR-039 before the fan-in job can be verified green.
+
+---
+
 ### BACKLOG-076: Restore the Python supported-runtime dependency audit
 
 **Status:** Resolved 2026-09-30 — TRIAGE-12; owner instructed restoration of Sudoku's `main`.
@@ -486,9 +517,9 @@ BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iter
 **Priority:** High (blocking supported-runtime audit)
 **Decision:** DR-039 remains unchanged; this compatible lock repair introduces no structural rule.
 
-BACKLOG-075 is reserved by the separate parity evidence-page proposal in
-[PR #78](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/78).
-This restoration uses BACKLOG-076; the unmerged proposal is outside this closure inventory.
+BACKLOG-075 is the separate accepted parity evidence-page item from
+[PR #78](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/78), still Open
+with its results spike complete. This restoration uses BACKLOG-076 and preserves that scope.
 
 Source: [merge CI 36735157683](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/actions/runs/36735157683)
 at `e85e62c756c8ebcf3f0ec5fe244edfc34ca276c6` failed on urllib3 2.7.0 findings

@@ -1,7 +1,7 @@
 # Decision Register
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-09-30 — DR-046 records tutor request ownership and auto-play cancellation for TRIAGE-07; DR-044/045 govern technique grading and generator exhaustion; DR-047 (Proposed) bounds the three-stack parity evidence page.
+**Last Updated:** 2026-09-30 — DR-046 records tutor request ownership and auto-play cancellation for TRIAGE-07; DR-044/045 govern technique grading and generator exhaustion; DR-047 bounds the three-stack parity evidence page (BACKLOG-075).
 **Governed by:** `reference-architecture.md` v1.15 §10.6
 **Template:** `DOCS/.templates/decision-record.template.md`
 
@@ -2640,12 +2640,10 @@ true and can revive an old continuation. A separate generation token identifies 
 
 ---
 
-## Proposed Decisions
-
 ## DR-047 — Publish a three-stack parity evidence page, separate from the DEMOAPP001 visualisation
 
 **Date:** 2026-09-30
-**Status:** Proposed — awaiting owner acceptance. The owner reopened the project on 2026-09-30 for one scoped item (portfolio-prompts#107); this record defines that item's boundary.
+**Status:** Accepted — 2026-09-30 by the project owner. The owner reopened the project for one scoped item (portfolio-prompts#107); this record defines that item's boundary.
 
 ### Context
 
@@ -2665,7 +2663,7 @@ Authorise one scoped backlog item that publishes a three-stack parity evidence p
 
 ### Status
 
-`Proposed` — 2026-09-30. Becomes `Accepted` when the owner approves the boundary above.
+`Accepted` — 2026-09-30, when the project owner approved the boundary above. Proposed as drafted in PR #77.
 
 ### Consequences
 
@@ -2693,9 +2691,13 @@ Authorise one scoped backlog item that publishes a three-stack parity evidence p
 - DR-040 — Static DEMOAPP001 visualisation; remains in force and is bounded away from parity claims.
 - DR-036 — Reqnroll and .NET 10 migration of the C# Stack; source of the results-format question.
 - loan-origination-parity#15 — Reference implementation of a results-built parity evidence page.
-- Backlog item — to be recorded when the owner accepts this decision.
+- BACKLOG-075 — the authorised implementation item.
 
 ---
+## Proposed Decisions
+
+*None at this time.*
+
 
 ---
 
@@ -2711,5 +2713,5 @@ Authorise one scoped backlog item that publishes a three-stack parity evidence p
 
 ---
 
-*Last entry: DR-047 (Proposed). Next ID: DR-048.*
+*Last entry: DR-047 (Accepted). Next ID: DR-048.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*
