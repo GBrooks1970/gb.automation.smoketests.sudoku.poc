@@ -8,9 +8,14 @@ export class SudokuTutorController {
     this.originalClues = Array.from({ length: 9 }, () => Array(9).fill(0));
     this.appliedHints = new Map(); // key: 'r-c' -> { value, technique }
     this.activeHint = null;
+    this.activeHintContext = null;
+    this.gridRevision = 0;
+    this.requestSequence = 0;
+    this.pendingHintRequest = null;
     this.selectedCell = null;
     this.isAutoPlaying = false;
     this.autoPlayTimer = null;
+    this.autoPlaySequence = 0;
   }
 
   /**
@@ -22,21 +27,15 @@ export class SudokuTutorController {
   }
 
   wireEvents() {
-    document
-      .getElementById('btn-get-hint')
-      ?.addEventListener('click', () => this.requestHint());
-    document
-      .getElementById('btn-apply-hint')
-      ?.addEventListener('click', () => this.applyHint());
+    document.getElementById('btn-get-hint')?.addEventListener('click', () => this.requestHint());
+    document.getElementById('btn-apply-hint')?.addEventListener('click', () => this.applyHint());
     document
       .getElementById('btn-auto-step')
       ?.addEventListener('click', () => this.toggleAutoStep());
     document
       .getElementById('btn-reset-puzzle')
       ?.addEventListener('click', () => this.resetToClues());
-    document
-      .getElementById('btn-clear-grid')
-      ?.addEventListener('click', () => this.clearGrid());
+    document.getElementById('btn-clear-grid')?.addEventListener('click', () => this.clearGrid());
 
     // Wire Keypad buttons
     const keypad = document.getElementById('digit-keypad');
@@ -56,8 +55,7 @@ export class SudokuTutorController {
       if (!tutorContainer || tutorContainer.classList.contains('hidden')) return;
       if (
         document.activeElement &&
-        (document.activeElement.tagName === 'INPUT' ||
-          document.activeElement.tagName === 'SELECT')
+        (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT')
       ) {
         return;
       }
@@ -65,11 +63,7 @@ export class SudokuTutorController {
       if (e.key >= '1' && e.key <= '9') {
         this.inputDigit(Number(e.key));
         e.preventDefault();
-      } else if (
-        e.key === '0' ||
-        e.key === 'Backspace' ||
-        e.key === 'Delete'
-      ) {
+      } else if (e.key === '0' || e.key === 'Backspace' || e.key === 'Delete') {
         this.inputDigit(0);
         e.preventDefault();
       } else if (e.key === 'ArrowUp') {
@@ -97,6 +91,7 @@ export class SudokuTutorController {
 
   loadClues(clues) {
     this.stopAutoStep();
+    this.gridRevision++;
     this.originalClues = clues.map((row) => [...row]);
     this.grid = clues.map((row) => [...row]);
     this.appliedHints.clear();
@@ -108,6 +103,7 @@ export class SudokuTutorController {
 
   clearGrid() {
     this.stopAutoStep();
+    this.gridRevision++;
     this.originalClues = Array.from({ length: 9 }, () => Array(9).fill(0));
     this.grid = Array.from({ length: 9 }, () => Array(9).fill(0));
     this.appliedHints.clear();
@@ -119,6 +115,7 @@ export class SudokuTutorController {
 
   resetToClues() {
     this.stopAutoStep();
+    this.gridRevision++;
     this.grid = this.originalClues.map((row) => [...row]);
     this.appliedHints.clear();
     this.activeHint = null;
@@ -151,6 +148,8 @@ export class SudokuTutorController {
       return;
     }
 
+    this.stopAutoStep();
+    this.gridRevision++;
     this.grid[row][col] = digit;
     this.appliedHints.delete(`${row}-${col}`);
     this.activeHint = null;
@@ -158,22 +157,61 @@ export class SudokuTutorController {
     this.renderTutorPanel(null);
   }
 
-  async requestHint() {
+  invalidateHintRequest() {
+    this.requestSequence++;
+    this.pendingHintRequest?.controller.abort();
+    this.pendingHintRequest = null;
+    this.activeHint = null;
+    this.activeHintContext = null;
+    this.setLoading(false);
+  }
+
+  isHintCurrent(context) {
+    return (
+      context &&
+      context.sequence === this.requestSequence &&
+      context.revision === this.gridRevision &&
+      !context.controller.signal.aborted &&
+      context.grid.every((row, r) => row.every((value, c) => this.grid[r][c] === value))
+    );
+  }
+
+  async requestHint(autoPlaySequence = null) {
+    if (autoPlaySequence === null) {
+      this.stopAutoStep();
+    } else if (!this.isAutoPlayCurrent(autoPlaySequence)) {
+      return null;
+    }
+    this.invalidateHintRequest();
+    const context = {
+      sequence: this.requestSequence,
+      revision: this.gridRevision,
+      grid: this.grid.map((row) => [...row]),
+      controller: new AbortController(),
+    };
+    this.pendingHintRequest = context;
+    this.render();
+    this.renderTutorPanel(null);
     try {
       this.setLoading(true);
       const res = await fetch('/api/tutor/hint', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ grid: this.grid }),
+        body: JSON.stringify({ grid: context.grid }),
+        signal: context.controller.signal,
       });
+      if (!this.isHintCurrent(context)) return null;
 
       if (!res.ok) {
         const err = await res.json().catch(() => ({ message: res.statusText }));
+        if (!this.isHintCurrent(context)) return null;
         throw new Error(err.message || `HTTP ${res.status}`);
       }
 
       const hint = await res.json();
+      if (!this.isHintCurrent(context)) return null;
       this.activeHint = hint;
+      this.activeHintContext = context;
 
       if (hint.move) {
         this.selectedCell = {
@@ -186,18 +224,46 @@ export class SudokuTutorController {
       this.renderTutorPanel(hint);
       return hint;
     } catch (err) {
-      this.renderError(err.message);
+      if (this.isHintCurrent(context) && err.name !== 'AbortError') {
+        this.renderError(err.message);
+      }
       return null;
     } finally {
-      this.setLoading(false);
+      if (this.pendingHintRequest === context) {
+        this.pendingHintRequest = null;
+        this.setLoading(false);
+      }
     }
   }
 
   applyHint() {
-    if (!this.activeHint || !this.activeHint.move) return;
+    if (!this.activeHint || !this.activeHint.move) return false;
 
     const { cell } = this.activeHint.move;
     const digit = this.activeHint.move.digit ?? this.activeHint.move.value;
+    if (
+      !this.isHintCurrent(this.activeHintContext) ||
+      this.activeHint.status !== 'HINT_AVAILABLE' ||
+      !cell ||
+      !Number.isInteger(cell.row) ||
+      cell.row < 0 ||
+      cell.row > 8 ||
+      !Number.isInteger(cell.col) ||
+      cell.col < 0 ||
+      cell.col > 8 ||
+      !Number.isInteger(digit) ||
+      digit < 1 ||
+      digit > 9 ||
+      this.originalClues[cell.row][cell.col] !== 0 ||
+      this.activeHintContext.grid[cell.row][cell.col] !== 0 ||
+      this.activeHint.move.previousValue !== this.activeHintContext.grid[cell.row][cell.col] ||
+      this.grid[cell.row][cell.col] !== this.activeHintContext.grid[cell.row][cell.col]
+    ) {
+      this.invalidateHintRequest();
+      this.render();
+      this.renderTutorPanel(null);
+      return false;
+    }
     this.grid[cell.row][cell.col] = digit;
     this.appliedHints.set(`${cell.row}-${cell.col}`, {
       value: digit,
@@ -205,7 +271,8 @@ export class SudokuTutorController {
     });
 
     const previousTechnique = this.activeHint.technique;
-    this.activeHint = null;
+    this.gridRevision++;
+    this.invalidateHintRequest();
     this.render();
 
     // Show applied feedback
@@ -216,28 +283,35 @@ export class SudokuTutorController {
 
     const applyBtn = document.getElementById('btn-apply-hint');
     if (applyBtn) applyBtn.disabled = true;
+    return true;
   }
 
   async toggleAutoStep() {
     if (this.isAutoPlaying) {
       this.stopAutoStep();
     } else {
+      this.stopAutoStep();
       this.isAutoPlaying = true;
+      const sequence = ++this.autoPlaySequence;
       const autoBtn = document.getElementById('btn-auto-step');
       if (autoBtn) {
         autoBtn.textContent = 'Pause Auto-Play';
         autoBtn.classList.add('accent-btn');
       }
-      this.runAutoStepLoop();
+      return this.runAutoStepLoop(sequence);
     }
   }
 
   stopAutoStep() {
     this.isAutoPlaying = false;
+    this.autoPlaySequence++;
     if (this.autoPlayTimer) {
       clearTimeout(this.autoPlayTimer);
       this.autoPlayTimer = null;
     }
+    this.invalidateHintRequest();
+    this.render();
+    this.renderTutorPanel(null);
     const autoBtn = document.getElementById('btn-auto-step');
     if (autoBtn) {
       autoBtn.textContent = 'Auto-Play Hints';
@@ -245,19 +319,33 @@ export class SudokuTutorController {
     }
   }
 
-  async runAutoStepLoop() {
-    if (!this.isAutoPlaying) return;
+  isAutoPlayCurrent(sequence) {
+    return this.isAutoPlaying && sequence === this.autoPlaySequence;
+  }
 
-    const hint = await this.requestHint();
+  async runAutoStepLoop(sequence = this.autoPlaySequence) {
+    if (!this.isAutoPlayCurrent(sequence)) return;
+
+    const hint = await this.requestHint(sequence);
+    if (!this.isAutoPlayCurrent(sequence)) return;
     if (!hint || hint.status !== 'HINT_AVAILABLE' || !hint.move) {
       this.stopAutoStep();
+      if (hint) this.renderTutorPanel(hint);
       return;
     }
 
     this.autoPlayTimer = setTimeout(() => {
-      if (!this.isAutoPlaying) return;
-      this.applyHint();
-      this.autoPlayTimer = setTimeout(() => this.runAutoStepLoop(), 400);
+      if (!this.isAutoPlayCurrent(sequence)) return;
+      this.autoPlayTimer = null;
+      if (this.activeHint !== hint || !this.applyHint()) {
+        this.stopAutoStep();
+        return;
+      }
+      this.autoPlayTimer = setTimeout(() => {
+        if (!this.isAutoPlayCurrent(sequence)) return;
+        this.autoPlayTimer = null;
+        this.runAutoStepLoop(sequence);
+      }, 400);
     }, 600);
   }
 
@@ -360,8 +448,14 @@ export class SudokuTutorController {
   setLoading(visible) {
     const loadingEl = document.getElementById('loading');
     if (loadingEl) {
-      loadingEl.classList.toggle('hidden', !visible);
-      loadingEl.textContent = visible ? 'Evaluating next hint...' : '';
+      loadingEl.dataset.tutorLoading = String(visible);
+      const puzzleLoading = loadingEl.dataset.puzzleLoading === 'true';
+      loadingEl.classList.toggle('hidden', !visible && !puzzleLoading);
+      loadingEl.textContent = puzzleLoading
+        ? 'Loading puzzle...'
+        : visible
+          ? 'Evaluating next hint...'
+          : '';
     }
   }
 
