@@ -8,6 +8,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 
 ## [Unreleased]
 
+### Added
+- DR-047 (Proposed): bounds a three-stack parity evidence page at `/parity/`, separate from the
+  DR-040 visualisation. Docs only; no code or behaviour change.
+
 ### Fixed
 - BACKLOG-075 (TRIAGE-12): updated the constrained DEMOAPP002 urllib3 dependency from 2.7.0
   to 2.8.0 to remediate the blocking supported-runtime audit findings. Requests, the audit
