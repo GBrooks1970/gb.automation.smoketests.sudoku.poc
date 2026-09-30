@@ -133,5 +133,6 @@ Real failing runs: during S1 and S2 I will also run each Stack locally with one 
 
 ## Notes
 
+- Artefact layout (checked on CI run `36783859964`): `demoapp001-ci-evidence` uploads two paths (`.results/demoapp001/` and `.results/feature-parity/`), so it unpacks with a `demoapp001/` folder and a `feature-parity/` folder. The other two artefacts unpack flat. In S4, download the DEMOAPP001 artefact into `.results/` and the other two into `.results/demoapp002/` and `.results/demoapp003/`, which is the layout the gate expects.
 - Approved mock-up: a private artifact built from real results on 2026-09-30. Its template file will be committed in S3.
 - Related logs: `DOCS/.implementation-logs/2026-09-30_backlog-075-reqnroll-results-spike.md` and `DOCS/.implementation-logs/2026-09-30_backlog-075-mockup-and-ordering-finding.md`.
