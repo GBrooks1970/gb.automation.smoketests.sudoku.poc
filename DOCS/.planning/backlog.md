@@ -1,11 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-09-30 — resolved the supported-runtime Python audit repair under BACKLOG-075 / TRIAGE-12. Prior: BACKLOG-074 / TRIAGE-07 resolved after BACKLOG-073's verified merge; 2026-09-07 resting lifecycle reconciliation.
+**Last Updated:** 2026-09-30 — resolved the supported-runtime Python audit repair under BACKLOG-076 / TRIAGE-12. Prior: BACKLOG-074 / TRIAGE-07 resolved after BACKLOG-073's verified merge; 2026-09-07 resting lifecycle reconciliation.
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
-**Status:** Owner-authorised Python audit repair (BACKLOG-075 / TRIAGE-12) is resolved on local supported-runtime validation; all-Stack CI remains the publication check. Approved September TRIAGE-05/06/07 are resolved; TRIAGE-08 remains a separate approved portfolio worklist candidate. Historical product closures remain intact.
+**Status:** Owner-authorised Python audit repair (BACKLOG-076 / TRIAGE-12) is resolved on local supported-runtime validation; all-Stack CI remains the publication check. Approved September TRIAGE-05/06/07 are resolved; TRIAGE-08 remains a separate approved portfolio worklist candidate. Historical product closures remain intact.
 
 ---
 
@@ -33,7 +33,7 @@ Per v1.15 Section 10.1:
 **Update (2026-09-30, TRIAGE-12):** Recomputed unique tracked IDs from canonical status tables,
 dated resolved rows and status-bearing detail records, including detail-only BACKLOG-007,
 BACKLOG-008, BACKLOG-017 and BACKLOG-023. The inherited 96-item roll-up understated the
-pre-repair inventory of 97 resolved items; adding BACKLOG-075 makes 98 resolved items.
+pre-repair inventory of 97 resolved items; adding BACKLOG-076 makes 98 resolved items.
 Historical closure evidence is retained; this corrects the summary rather than reopening work.
 
 **Update (2026-09-07):** Reconciled stale roll-up rows for BACKLOG-014, BACKLOG-015,
@@ -51,7 +51,7 @@ both passed at `7af3dca`; this was a documentation reconciliation, not an implem
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-075's Python audit repair passed local gates and awaits all-Stack publication CI; BACKLOG-072/073/074 are resolved and approved TRIAGE-08 remains separate |
+| Current sprint focus | BACKLOG-076's Python audit repair passed local gates and awaits all-Stack publication CI; BACKLOG-072/073/074 are resolved and approved TRIAGE-08 remains separate |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -453,7 +453,7 @@ BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iter
 
 | ID | Worklist | Title | Stack(s) | Priority | Status | Decision Record |
 |----|----------|-------|----------|----------|--------|-----------------|
-| BACKLOG-075 | TRIAGE-12 | Restore the Python dependency audit with patched urllib3 constraints | DEMOAPP002 | High | Resolved | DR-039 (existing policy) |
+| BACKLOG-076 | TRIAGE-12 | Restore the Python dependency audit with patched urllib3 constraints | DEMOAPP002 | High | Resolved | DR-039 (existing policy) |
 
 ## Product and Technical Work
 
@@ -479,12 +479,16 @@ BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iter
 
 ## Active Item Details
 
-### BACKLOG-075: Restore the Python supported-runtime dependency audit
+### BACKLOG-076: Restore the Python supported-runtime dependency audit
 
 **Status:** Resolved 2026-09-30 — TRIAGE-12; owner instructed restoration of Sudoku's `main`.
 **Stack:** DEMOAPP002
 **Priority:** High (blocking supported-runtime audit)
 **Decision:** DR-039 remains unchanged; this compatible lock repair introduces no structural rule.
+
+BACKLOG-075 is reserved by the separate parity evidence-page proposal in
+[PR #78](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/78).
+This restoration uses BACKLOG-076; the unmerged proposal is outside this closure inventory.
 
 Source: [merge CI 36735157683](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/actions/runs/36735157683)
 at `e85e62c756c8ebcf3f0ec5fe244edfc34ca276c6` failed on urllib3 2.7.0 findings
@@ -1498,7 +1502,7 @@ viewer returned HTTP 200 and Pages run 33996955729 passed at current `main`.
 
 | ID | Title | Stack(s) | Resolved | Notes |
 |----|-------|----------|----------|-------|
-| BACKLOG-075 | Restore Python supported-runtime dependency audit (TRIAGE-12) | DEMOAPP002 | 2026-09-30 | urllib3 2.8.0 constrained restoration; 30 component / 85 total tests, 88.98% coverage, zero audit findings and 5/5 evidence files; DR-039 retained; all-Stack CI is the publication check |
+| BACKLOG-076 | Restore Python supported-runtime dependency audit (TRIAGE-12) | DEMOAPP002 | 2026-09-30 | urllib3 2.8.0 constrained restoration; 30 component / 85 total tests, 88.98% coverage, zero audit findings and 5/5 evidence files; DR-039 retained; all-Stack CI is the publication check |
 | BACKLOG-074 | Tutor request ownership and stale hint rejection (TRIAGE-07) | DEMOAPP001 | 2026-09-30 | DR-046; 36 controlled controller cases; 102 component + 55 BDD scenarios and 8 OpenAPI tests green; native browser startup blocked separately by TRIAGE-11 |
 | BACKLOG-073 | Exact target generation and bounded exhaustion (TRIAGE-06) | DEMOAPP001 | 2026-09-30 | DR-045; real exact-tier and Expert/81-clue failure regressions, typed 422 mapping, 66 component + 55 BDD scenarios and 8 OpenAPI tests green |
 | BACKLOG-072 | Shared technique vocabulary and exact difficulty grading (TRIAGE-05) | DEMOAPP001 | 2026-09-30 | DR-044; all five DR-043 tiers, real unique 57-move XWing completion regression, 57 component + 55 BDD scenarios green; compatible brace-expansion lock repair cleared blocking audit |
