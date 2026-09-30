@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-09-30 — opened BACKLOG-075 (three-stack parity evidence page, DR-047) at the owner's direction. Prior: 2026-09-30 — resolved BACKLOG-074 / TRIAGE-07 / September review R4 after BACKLOG-073's verified merge. Prior: 2026-09-07 (resting lifecycle reconciliation).
+**Last Updated:** 2026-09-30 — ticked BACKLOG-075 spike criterion (Reqnroll results format decided). Prior: 2026-09-30 — opened BACKLOG-075 (three-stack parity evidence page, DR-047) at the owner's direction. Prior: 2026-09-30 — resolved BACKLOG-074 / TRIAGE-07 / September review R4 after BACKLOG-073's verified merge. Prior: 2026-09-07 (resting lifecycle reconciliation).
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -483,7 +483,7 @@ BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iter
 
 Acceptance criteria:
 
-- [ ] Spike: decide whether Reqnroll 3.3.4 emits Cucumber-compatible results or the C# Stack falls back to matching TRX results by scenario title; record the outcome before any CI change.
+- [x] Spike: decide whether Reqnroll 3.3.4 emits Cucumber-compatible results or the C# Stack falls back to matching TRX results by scenario title; record the outcome before any CI change. **Done 2026-09-30:** direct Cucumber Messages output chosen, TRX fallback rejected because 12 outline rows share names; 55 scenarios / 309 steps agree across all three Stacks after normalisation. See `DOCS/.implementation-logs/2026-09-30_backlog-075-reqnroll-results-spike.md`.
 - [ ] Clickable mock-up built from a real local run of all three Stacks, reviewed by the owner before CI changes.
 - [ ] A results-level gate verifies that each Stack executed the same scenarios with the same step text and all passed.
 - [ ] A fan-in report job runs after the Stack jobs and the gate, publishes from `main` only with deploy-only Pages permissions, and ships the visualisation and `/parity/` in one Pages artefact.

@@ -50,6 +50,7 @@ YYYY-MM-DD_short-session-topic.md
 | [2026-07-14_p07-public-readiness-audit.md](2026-07-14_p07-public-readiness-audit.md) | 2026-07-14 | P-07 publication-readiness audit and runtime/dependency hardening |
 | [2026-07-28_backlog-070-supported-runtime-dependency-audits.md](2026-07-28_backlog-070-supported-runtime-dependency-audits.md) | 2026-07-28 | BACKLOG-070 supported-runtime dependency audits |
 | [2026-08-24_sudoku-puzzle-generator-backlog-016.md](2026-08-24_sudoku-puzzle-generator-backlog-016.md) | 2026-08-24 | Sudoku Puzzle Generator engine, REST API & BACKLOG-016 closure (SUD-38..41) |
+| [2026-09-30_backlog-075-reqnroll-results-spike.md](2026-09-30_backlog-075-reqnroll-results-spike.md) | 2026-09-30 | BACKLOG-075 Reqnroll results spike and three-Stack result comparison |
 
 
 ---
