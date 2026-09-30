@@ -27,6 +27,9 @@ export function goNext()   { _goTo(Math.min(_steps.length, _stepIndex + 1)); }
 export function goLast()   { _goTo(_steps.length); }
 export function goTo(i)    { _goTo(i); }
 
+/** Pause playback without changing the current step. */
+export function pause() { _pause(); }
+
 export function togglePlay() {
   if (_isPlaying) {
     _pause();
