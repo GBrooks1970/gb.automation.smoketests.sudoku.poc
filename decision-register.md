@@ -1,7 +1,7 @@
 # Decision Register
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-09-30 — DR-044 records the shared technique vocabulary and exhaustive DR-043 grading map for TRIAGE-05.
+**Last Updated:** 2026-09-30 — DR-045 records exact target generation and typed bounded exhaustion for TRIAGE-06; DR-044 governs the technique vocabulary.
 **Governed by:** `reference-architecture.md` v1.15 §10.6
 **Template:** `DOCS/.templates/decision-record.template.md`
 
@@ -2529,6 +2529,66 @@ the tutor token to `X-Wing` was rejected because it would change the established
 
 ---
 
+## DR-045 — Exact Target Generation and Typed Bounded Exhaustion (TRIAGE-06 / BACKLOG-073)
+
+**Date:** 2026-09-30
+**Status:** Accepted — 2026-09-30, implementing the owner-approved September review worklist after source review.
+
+### Context
+
+Review R2 reproduced an Expert request with 81 clues returning an Easy puzzle as HTTP 200. The
+service retained a mismatched fallback and defaulted to ten attempts, while DR-043's accepted
+design requires a five-attempt bound and HTTP 422 for unattainable parameters. TRIAGE-06 authorises
+restoring that contract after TRIAGE-05's exact grading correction.
+
+### Decision
+
+Use `GENERATOR_MAX_ATTEMPTS = 5` as DEMOAPP001's shared service/API default and hard ceiling.
+The existing internal service option may lower the budget to a positive integer, and invalid
+budgets fail before construction; HTTP exposes no attempt override. Return only deterministically
+solvable candidates whose difficulty exactly matches a supplied target; untargeted requests return
+the first solvable candidate. Preserve the existing base seed and retry suffix sequence.
+
+Use `GeneratorExhaustedError` for exhausted candidate attempts, carrying the original request
+seed, optional target difficulty and attempted count. The API maps it to HTTP 422
+`GENERATOR_EXHAUSTED` with those details and no candidate payload. The existing construction
+iteration error remains `GeneratorTimeoutError`, mapped to HTTP 422 `GENERATOR_TIMEOUT`;
+unexpected errors retain HTTP 500. The v1.1 generator design documents this implementation of
+DR-043 without changing historical BACKLOG-016's closure or the deterministic solver.
+
+### Status
+
+`Accepted` — 2026-09-30 within the approved TRIAGE-06 scope; independently reviewed against R2,
+the accepted five-attempt policy and exact-target boundary before closure.
+
+### Consequences
+
+**Outcomes:**
+- A 200 response fulfils the requested tier, and stuck grids cannot qualify as Expert successes.
+- Failure is explicit and bounded; native service, API and OpenAPI tests cover the same policy.
+- Valid untargeted generation, successful retry seeds and unique puzzles remain reproducible.
+
+**Trade-offs:**
+- Targets that are not achieved within five attempts now return 422 rather than a fallback.
+- Candidate counting bounds retries; the separate uniqueness-search runtime observation remains
+  outside this remediation and is not claimed resolved.
+
+### Alternatives Considered
+
+**Alternative: Best-effort generation** — rejected because the approved worklist expressly requires
+exact target completion and DR-043's 422 failure contract.
+
+**Alternative: Keep separate service/API attempt defaults** — rejected because divergent limits
+weaken the governed bound and make exhaustion tests ambiguous.
+
+### Related Decisions
+
+- DR-043 — Existing generator isolation, exact technique tiers and bounded failure contract.
+- DR-044 — Shared vocabulary and corrected classification prerequisite.
+- BACKLOG-073 — New R2 remediation record; historical product closures remain intact.
+
+---
+
 ## Proposed Decisions
 
 *None at this time.*
@@ -2547,5 +2607,5 @@ the tutor token to `X-Wing` was rejected because it would change the established
 
 ---
 
-*Last entry: DR-044 (Accepted). Next ID: DR-045.*
+*Last entry: DR-045 (Accepted). Next ID: DR-046.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

@@ -2,6 +2,22 @@ import { reduceToClues } from './clue-removal';
 import { DifficultyGradeResult, DifficultyLevel, gradePuzzle } from './difficulty-grader';
 import { generateCompleteSolution } from './solution-construction';
 
+/** DR-043's maximum number of complete generation attempts per request. */
+export const GENERATOR_MAX_ATTEMPTS = 5;
+
+export class GeneratorExhaustedError extends Error {
+  constructor(
+    public readonly seed: string,
+    public readonly targetDifficulty: DifficultyLevel | undefined,
+    public readonly attempts: number
+  ) {
+    super(
+      `Could not generate a solvable ${targetDifficulty ? `${targetDifficulty} ` : ''}Sudoku puzzle within ${attempts} attempts for seed '${seed}'.`
+    );
+    this.name = 'GeneratorExhaustedError';
+  }
+}
+
 export interface GeneratePuzzleOptions {
   difficulty?: DifficultyLevel;
   seed?: number | string;
@@ -15,7 +31,7 @@ export interface GeneratedPuzzle {
   difficulty: DifficultyLevel;
   clueCount: number;
   symmetrical: boolean;
-  highestTechnique: string;
+  highestTechnique: DifficultyGradeResult['highestTechnique'];
   solveSteps: number;
   grid: number[][];
   solution: number[][];
@@ -33,20 +49,17 @@ export class PuzzleGeneratorService {
     const baseSeed = options.seed !== undefined ? String(options.seed) : String(Date.now());
     const symmetrical = options.symmetrical !== false;
     const targetDifficulty = options.difficulty;
-    const maxAttempts = options.maxAttempts ?? 10;
+    const maxAttempts = options.maxAttempts ?? GENERATOR_MAX_ATTEMPTS;
+    if (!Number.isInteger(maxAttempts) || maxAttempts < 1 || maxAttempts > GENERATOR_MAX_ATTEMPTS) {
+      throw new RangeError(
+        `maxAttempts must be an integer between 1 and ${GENERATOR_MAX_ATTEMPTS}.`
+      );
+    }
 
     let targetClues = options.clueCount;
     if (targetClues === undefined) {
       targetClues = targetDifficulty ? getDefaultCluesForDifficulty(targetDifficulty) : 32;
     }
-
-    let bestCandidate: {
-      solution: number[][];
-      grid: number[][];
-      clueCount: number;
-      grade: DifficultyGradeResult;
-      seedUsed: string;
-    } | null = null;
 
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
       const currentSeed = attempt === 0 ? baseSeed : `${baseSeed}-${attempt}`;
@@ -54,38 +67,21 @@ export class PuzzleGeneratorService {
       const reduced = reduceToClues(solution, targetClues, currentSeed, symmetrical);
       const grade = gradePuzzle(reduced.grid);
 
-      const candidate = {
-        solution,
-        grid: reduced.grid,
-        clueCount: reduced.clueCount,
-        grade,
-        seedUsed: currentSeed,
-      };
-
-      if (!bestCandidate) {
-        bestCandidate = candidate;
-      }
-
-      if (!targetDifficulty || grade.difficulty === targetDifficulty) {
-        bestCandidate = candidate;
-        break;
+      if (grade.isSolvable && (!targetDifficulty || grade.difficulty === targetDifficulty)) {
+        return {
+          seed: currentSeed,
+          difficulty: grade.difficulty,
+          clueCount: reduced.clueCount,
+          symmetrical,
+          highestTechnique: grade.highestTechnique,
+          solveSteps: grade.solveSteps,
+          grid: reduced.grid,
+          solution,
+        };
       }
     }
 
-    if (!bestCandidate) {
-      throw new Error(`Failed to generate Sudoku puzzle for seed '${baseSeed}'.`);
-    }
-
-    return {
-      seed: bestCandidate.seedUsed,
-      difficulty: bestCandidate.grade.difficulty,
-      clueCount: bestCandidate.clueCount,
-      symmetrical,
-      highestTechnique: bestCandidate.grade.highestTechnique,
-      solveSteps: bestCandidate.grade.solveSteps,
-      grid: bestCandidate.grid,
-      solution: bestCandidate.solution,
-    };
+    throw new GeneratorExhaustedError(baseSeed, targetDifficulty, maxAttempts);
   }
 }
 

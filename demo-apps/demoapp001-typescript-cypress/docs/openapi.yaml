@@ -270,12 +270,15 @@ paths:
       summary: Generate a complete governed Sudoku puzzle
       description: |
         Generates a 100% valid uniquely solvable Sudoku puzzle matching requested parameters using seed-driven PRNG.
+        Success requires a complete deterministic solve and, when supplied, an exact difficulty match.
+        At most five candidates are attempted. Exhaustion returns 422 with error GENERATOR_EXHAUSTED;
+        bounded solution-construction failure returns 422 with error GENERATOR_TIMEOUT.
       operationId: postGeneratePuzzle
       requestBody:
         $ref: '#/components/requestBodies/GeneratePuzzleRequest'
       responses:
         '200':
-          description: Generated puzzle result
+          description: Solvable generated puzzle matching the requested difficulty, when supplied
           content:
             application/json:
               schema:
@@ -688,6 +691,8 @@ components:
             - ROUTE_NOT_FOUND
             - AUDIT_TRAIL_UNAVAILABLE
             - INTERNAL_SERVER_ERROR
+            - GENERATOR_EXHAUSTED
+            - GENERATOR_TIMEOUT
         message:
           type: string
         details:
@@ -835,6 +840,7 @@ components:
         difficulty:
           type: string
           enum: [Easy, Medium, Hard, Expert]
+          description: Actual deterministic technique tier; equals the requested tier when supplied
         clueCount:
           type: integer
         symmetrical:
