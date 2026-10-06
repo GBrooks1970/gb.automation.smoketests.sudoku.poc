@@ -18,6 +18,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
   DR-040 visualisation. Docs only; no code or behaviour change.
 
 ### Fixed
+- BACKLOG-079 (TRIAGE-13): returning from tutor redraws the visualiser at its preserved
+  paused playhead, keeping the grid, current event, technique statistics and step counter
+  aligned. Focused real-module regressions cover initial, middle and final playheads,
+  no-data/repeated switches and coherent playback resumption.
+- Patched the critical proxy-addr GHSA-jqcg-44mw-7w3h advisory by locking version 2.0.8
+  within Express's existing dependency range. Under unchanged DR-039, the owner approved
+  one exact DEMOAPP001 braces GHSA-vfj7-8cjw-p6xm exception for 2026-10-06 through
+  2026-10-12 inclusive while no patched release is available; the high audit threshold,
+  fourteen-day maximum and all other findings remain governed normally.
 - BACKLOG-077 (TRIAGE-11): the visualiser now exports its intended `pause()` API, allowing
   the native application module graph to load and switching to tutor to stop playback while
   preserving the playhead. New component checks cover real module linking and pause/restart
