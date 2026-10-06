@@ -1,11 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-09-30 — resolved BACKLOG-075 (three-stack parity evidence page live at `/parity/`). Prior: 2026-09-30 — opened BACKLOG-078 (weak Then-step assertions; unscheduled). Prior: 2026-09-30 — resolved BACKLOG-077 / TRIAGE-11 on local validation and native browser checks. Prior: BACKLOG-075 build plan, approved mock-up and results spike; BACKLOG-076 dependency-audit restoration; BACKLOG-074 tutor request ownership; 2026-09-07 resting lifecycle reconciliation.
+**Last Updated:** 2026-10-06 — resolved BACKLOG-079 / TRIAGE-13 on local validation and native browser acceptance; exact DR-039 dependency exception approved through 2026-10-12. Prior: resolved BACKLOG-075 and BACKLOG-077, opened unscheduled BACKLOG-078 on 2026-09-30.
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
-**Status:** Owner-selected browser pause-contract repair (BACKLOG-077 / TRIAGE-11) is resolved on local Node validation and native browser checks; all-Stack CI remains its publication check. BACKLOG-076 was published through PR #80 with green merge CI and Pages. BACKLOG-075 (parity evidence page) is resolved and live at `/parity/`. Approved September TRIAGE-05/06/07 are resolved; TRIAGE-08 remains separate. Historical product closures remain intact.
+**Status:** Owner-selected BACKLOG-079 / TRIAGE-13 is Resolved on local validation and native browser acceptance; all-Stack PR CI remains the publication check. BACKLOG-078 remains Open and unscheduled. BACKLOG-075 is resolved and live at `/parity/`; BACKLOG-076/077 and historical product closures remain intact. TRIAGE-08/09/10 remain separate worklist items.
 
 ---
 
@@ -27,8 +27,13 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 1 |
 | In Progress | 0 |
-| Resolved | 100 |
-| **Total** | **101** |
+| Resolved | 101 |
+| **Total** | **102** |
+
+**Update (2026-10-06, TRIAGE-13):** Owner selected BACKLOG-079 to preserve the visualiser
+playhead on a tutor round-trip and approved the exact DR-039 braces exception through
+2026-10-12 inclusive. Local implementation and native acceptance checks passed. BACKLOG-078
+remains Open and unscheduled; the existing item history is preserved.
 
 **Update (2026-09-30, TRIAGE-11):** Added the separately authorised BACKLOG-077 browser
 pause-contract repair as Resolved. BACKLOG-075 remains Open: 1 Open / 0 In Progress /
@@ -476,6 +481,12 @@ BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iter
 
 ## Product and Technical Work
 
+### Owner-selected visualiser consistency repair (2026-10-06)
+
+| ID | Worklist item | Title | Stack(s) | Priority | Status | Decision Record |
+|----|---------------|-------|----------|----------|--------|-----------------|
+| BACKLOG-079 | TRIAGE-13 | Preserve the paused visualiser playhead after leaving tutor | DEMOAPP001 | Medium | Resolved | DR-042 (existing UI contract), DR-039 (approved bounded audit exception) |
+
 | ID | Title | Stack(s) | Nature of Gap | Priority | Status |
 |----|-------|----------|---------------|----------|--------|
 | BACKLOG-009 | Implement REST API Wrapper | DEMOAPP001 API surface | Feature implementation | Medium | Resolved |
@@ -497,6 +508,64 @@ BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iter
 ---
 
 ## Active Item Details
+
+### BACKLOG-079: Preserve the paused visualiser playhead after leaving tutor
+
+**Status:** Resolved 2026-10-06 on local validation and native browser acceptance;
+all-Stack PR CI remains the publication check.
+**Stack:** DEMOAPP001
+**Priority:** Medium
+**Authority:** Owner selected TRIAGE-13 on 2026-10-06 and approved its dependency-exception decision the same day.
+**Decision:** Reuse the existing player index under DR-042; no solver, API or cross-Stack contract changes.
+
+The app redraws `onStep(0)` when returning from tutor although playback retains its paused
+index. TRIAGE-11 native evidence observed step 1 of 51 with an empty first-move cell and
+no highlighted event; resuming then advanced from the retained index. The focused repair
+redraws `onStep(currentIndex())`.
+
+The required supported-runtime audit discovered critical proxy-addr GHSA-jqcg-44mw-7w3h
+and unpatched high-severity braces GHSA-vfj7-8cjw-p6xm. The approved prerequisite is the
+compatible proxy-addr 2.0.8 lock and one exact demoapp001/braces exception, owned and
+approved by GBrooks1970, introduced 2026-10-06 and expiring 2026-10-12 inclusive.
+The high threshold and fourteen-day maximum stay unchanged; remove the exception on
+upstream remediation. The existing moderate fast-uri finding remains TRIAGE-09.
+
+Acceptance criteria:
+
+- [x] First, middle and final visualiser/tutor round-trips preserve the grid, current event,
+      statistics, counter and paused index consistently.
+- [x] Playback resumes coherently from that index, with no duplicate interval; no-data and
+      repeated round-trips remain safe.
+- [x] Focused real-module regressions reject the original redraw behaviour.
+- [x] Native browser verification confirms the user flow and records browser errors.
+- [x] Applicable Node, API/OpenAPI, coverage, web/Pages, repository parity, audit and CI
+      evidence gates pass; all-Stack PR CI is the publication check.
+
+Implementation plan: [TRIAGE-13](../.implementation-plans/2026-10-06-triage-13-visualiser-playhead.md).
+
+Node 24.18.0 / npm 11.16.0 locked restore passed (410 packages, 145544 ms). The focused
+player/app file passed 11 tests (10717.0229 ms), including six new cases and the original-redraw
+negative control. Full component tests passed 113/113 (74560.2244 ms); BDD passed 55 scenarios /
+309 steps (8.213 s wall-clock in Cucumber). API integration, eight OpenAPI contract checks,
+build/lint/format, explicit app syntax/format and `check:web`/`check:pages` passed. App formatting
+initially rejected line endings; Prettier normalised them and its recheck passed without a
+semantic change beyond the planned import/redraw.
+
+Selected-module coverage passed at 80.11% lines / 91.94% branches / 80.17% functions, with
+unchanged 70% / 85% / 75% floors and one local test worker (113 tests; 162886.1023 ms).
+This floor does not claim browser-controller line coverage. Governed audit passed as
+`excepted`: two unique findings, one blocking braces finding covered by the approved exception,
+zero unexcepted findings; fast-uri remains moderate. Native browser checks on the real Express
+app used Easy Scan Grid (51 placements): initial, playing/paused middle, repeated, final and
+no-data round-trips, then coherent resumption from step 1 to step 2. All 81 cell values/classes,
+event selection, technique counts/bar widths and counter were compared; no browser console
+errors were captured. Evidence is retained under `.results/triage-13/resumed-20261006/`.
+All seven repository parity/governance checks passed (23020 ms), including policy/evidence
+negative controls; the DEMOAPP001 CI evidence contract passed 6/6 files (2628 ms).
+Python/C# local suites and the unrelated mutation trial were not rerun; all-Stack PR CI remains
+required, and Pages deployment follows the owner's merge.
+
+---
 
 ### BACKLOG-075: Three-stack parity evidence page
 

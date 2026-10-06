@@ -11,6 +11,7 @@ import {
   goTo,
   setSpeed,
   pause,
+  currentIndex,
 } from './player.js';
 import { SudokuTutorController } from './tutor.js';
 
@@ -98,7 +99,7 @@ function switchMode(mode) {
     if (tutor) tutor.stopAutoStep();
 
     if (solveData) {
-      onStep(0);
+      onStep(currentIndex());
     }
   } else {
     tabTutor?.classList.add('active');

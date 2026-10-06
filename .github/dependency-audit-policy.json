@@ -2,5 +2,17 @@
   "schemaVersion": 1,
   "blockAtOrAbove": "high",
   "maximumExceptionDays": 14,
-  "exceptions": []
+  "exceptions": [
+    {
+      "kind": "vulnerability",
+      "stack": "demoapp001",
+      "id": "GHSA-vfj7-8cjw-p6xm",
+      "package": "braces",
+      "owner": "GBrooks1970",
+      "reason": "Owner approved this exact demoapp001 exception on 2026-10-06 because no patched braces release is available. Expires 2026-10-12 inclusive; remove on upstream remediation. All other findings remain governed by DR-039.",
+      "approvedBy": "GBrooks1970",
+      "introducedOn": "2026-10-06",
+      "expiresOn": "2026-10-12"
+    }
+  ]
 }
