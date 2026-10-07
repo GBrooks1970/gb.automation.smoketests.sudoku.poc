@@ -1,7 +1,7 @@
 import { Interaction, notes } from '@serenity-js/core';
 import { UseSudokuSolver } from '../abilities/UseSudokuSolver';
 import { LoadPuzzles } from '../abilities/LoadPuzzles';
-import { GRID_SNAPSHOT, SudokuNotes } from '../support/memory-keys';
+import { GRID_SNAPSHOT, TARGET_CELL, SudokuNotes } from '../support/memory-keys';
 import { GRID_SIZE, EMPTY_CELL } from '../../../app_src/constants';
 import * as GridFixtures from '../fixtures/GridFixtures';
 
@@ -28,7 +28,18 @@ export const InitialiseGrid = {
     return Interaction.where(
       `#actor initialises a grid with row ${options.row} set`,
       async (actor) => {
-        UseSudokuSolver.as(actor).initialise('test', grid);
+        const ability = UseSudokuSolver.as(actor);
+        ability.initialise('test', grid);
+        ability.takeSnapshot();
+        const target = { row: options.row, col: options.values.indexOf(EMPTY_CELL) };
+        ability.setTargetCell(target.row, target.col);
+        await notes<SudokuNotes>().set(TARGET_CELL, target).performAs(actor);
+        await notes<SudokuNotes>()
+          .set(
+            GRID_SNAPSHOT,
+            ability.gridSnapshot.map((row) => [...row])
+          )
+          .performAs(actor);
       }
     );
   },

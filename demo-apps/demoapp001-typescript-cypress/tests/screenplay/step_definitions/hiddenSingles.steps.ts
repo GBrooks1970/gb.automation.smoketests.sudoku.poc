@@ -5,7 +5,7 @@ import * as assert from 'assert';
 import { ApplyAlgorithm } from '../tasks/ApplyAlgorithm';
 import { SetupGridState } from '../tasks/SetupGridState';
 import { AlgorithmMadeProgress } from '../questions/AlgorithmMadeProgress';
-import { GridCell } from '../questions/GridCell';
+import { assertPreparedPlacement, assertPreparedRowUnchanged } from '../support/grid-assertions';
 
 // ---------------------------------------------------------------------------
 // Hidden Singles - Given steps
@@ -77,8 +77,7 @@ When(
 Then(
   'the system should place {int} in the only valid cell in row {int}',
   async (value: number, rowIndex: number) => {
-    const placed = await actorCalled(SOLVER_ACTOR).answer(GridCell.inRow(rowIndex, value));
-    assert.ok(placed, `Expected ${value} to be placed in row ${rowIndex}`);
+    await assertPreparedPlacement(actorCalled(SOLVER_ACTOR), value, { row: rowIndex });
   }
 );
 
@@ -90,25 +89,24 @@ Then('the grid should reflect the new value', async () => {
 Then(
   'the system should place {int} in the only valid cell in column {int}',
   async (value: number, colIndex: number) => {
-    const placed = await actorCalled(SOLVER_ACTOR).answer(GridCell.inColumn(colIndex, value));
-    assert.ok(placed, `Expected ${value} to be placed in column ${colIndex}`);
+    await assertPreparedPlacement(actorCalled(SOLVER_ACTOR), value, { col: colIndex });
   }
 );
 
 Then(
   'the system should place {int} in the one remaining valid cell of that block',
   async (value: number) => {
-    const found = await actorCalled(SOLVER_ACTOR).answer(GridCell.containsValue(value));
-    assert.ok(found, `Expected ${value} to be placed in the block`);
+    await assertPreparedPlacement(actorCalled(SOLVER_ACTOR), value);
   }
 );
 
-Then('the algorithm should skip row {int}', async (_rowIndex: number) => {
-  const made = await actorCalled(SOLVER_ACTOR).answer(AlgorithmMadeProgress.afterLastCall());
+Then('the algorithm should skip row {int}', async (rowIndex: number) => {
+  const actor = actorCalled(SOLVER_ACTOR);
+  await assertPreparedRowUnchanged(actor, rowIndex);
+  const made = await actor.answer(AlgorithmMadeProgress.afterLastCall());
   assert.strictEqual(made, false, 'Expected hiddenSingles to return false');
 });
 
-Then('no cells in row {int} should be modified', async (_rowIndex: number) => {
-  const matches = await actorCalled(SOLVER_ACTOR).answer(GridCell.matchesSnapshot());
-  assert.ok(matches, 'Expected no cells in row to be modified');
+Then('no cells in row {int} should be modified', async (rowIndex: number) => {
+  await assertPreparedRowUnchanged(actorCalled(SOLVER_ACTOR), rowIndex);
 });

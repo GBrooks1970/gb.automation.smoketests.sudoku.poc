@@ -9,6 +9,7 @@ import { SolveStatus } from '../questions/SolveStatus';
 import { GridCell } from '../questions/GridCell';
 import { UseSudokuSolver } from '../abilities/UseSudokuSolver';
 import { AttemptEvent } from '../../../app_src/orchestration/AttemptTypes';
+import { GRID_SIZE } from '../../../app_src/constants';
 
 // ---------------------------------------------------------------------------
 // Orchestration - attempt helpers (SUD-22 / BACKLOG-061)
@@ -272,7 +273,8 @@ Then('the puzzle should be completely solved', async () => {
   assert.strictEqual(status, 'SOLVED');
 });
 
-Then('all {int} cells should contain valid digits', async (_count: number) => {
-  const allFilled = await actorCalled(SOLVER_ACTOR).answer(GridCell.allFilled());
-  assert.ok(allFilled);
+Then('all {int} cells should contain valid digits', async (count: number) => {
+  assert.strictEqual(count, GRID_SIZE * GRID_SIZE, 'Expected the stated number of Sudoku cells');
+  const valid = await actorCalled(SOLVER_ACTOR).answer(GridCell.isValidSolution());
+  assert.ok(valid, 'Expected every cell to contain a valid Sudoku solution digit');
 });

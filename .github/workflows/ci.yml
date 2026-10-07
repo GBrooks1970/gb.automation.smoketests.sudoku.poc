@@ -60,6 +60,10 @@ jobs:
           mkdir -p ../../.results/demoapp001/coverage
           npm run test:coverage:ci 2>&1 | tee ../../.results/demoapp001/coverage/component-coverage.txt
 
+      - name: Then assertion mutation controls
+        shell: pwsh
+        run: ./.batch/test-then-assertion-mutations.ps1 -Stack demoapp001 -EvidenceRoot .results/demoapp001/then-assertion-mutations
+
       - name: Test
         working-directory: demo-apps/demoapp001-typescript-cypress
         run: |
@@ -143,6 +147,10 @@ jobs:
           python -m coverage report 2>&1 | tee ../../.results/demoapp002/coverage/component-coverage.txt
           python -m coverage xml -o ../../.results/demoapp002/coverage/coverage.xml
 
+      - name: Then assertion mutation controls
+        shell: pwsh
+        run: ./.batch/test-then-assertion-mutations.ps1 -Stack demoapp002 -EvidenceRoot .results/demoapp002/then-assertion-mutations
+
       - name: Test
         working-directory: demo-apps/demoapp002-python-pytest
         run: python -m pytest --junitxml=../../.results/demoapp002/test-results/pytest-junit.xml --cucumberjson=../../.results/demoapp002/test-results/pytest-cucumber.json
@@ -197,6 +205,10 @@ jobs:
           $componentTrx = Get-ChildItem -Path "$evidenceRoot/coverage/raw" -Recurse -Filter 'component.trx' | Select-Object -First 1
           Copy-Item -LiteralPath $coverage.FullName -Destination "$evidenceRoot/coverage/coverage.cobertura.xml"
           Copy-Item -LiteralPath $componentTrx.FullName -Destination "$evidenceRoot/test-results/component.trx"
+
+      - name: Then assertion mutation controls
+        shell: pwsh
+        run: ./.batch/test-then-assertion-mutations.ps1 -Stack demoapp003 -EvidenceRoot .results/demoapp003/then-assertion-mutations
 
       - name: Reqnroll test
         working-directory: demo-apps/demoapp003-csharp-specflow

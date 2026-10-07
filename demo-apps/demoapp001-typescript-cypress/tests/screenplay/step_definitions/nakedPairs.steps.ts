@@ -1,9 +1,8 @@
 import { Given, Then } from '@cucumber/cucumber';
 import { actorCalled } from '@serenity-js/core';
 import { SOLVER_ACTOR } from '../support/actors';
-import * as assert from 'assert';
 import { SetupGridState } from '../tasks/SetupGridState';
-import { GridCell } from '../questions/GridCell';
+import { assertPreparedPlacement } from '../support/grid-assertions';
 
 // ---------------------------------------------------------------------------
 // Naked Pairs - Given steps
@@ -59,23 +58,20 @@ Given('a grid state where no unit contains a naked pair', async () => {
 Then(
   'the cell in row {int} with candidates {string} should be updated to {int}',
   async (row: number, _candidates: string, val: number) => {
-    const cellVal = await actorCalled(SOLVER_ACTOR).answer(GridCell.at(row, 2));
-    assert.strictEqual(cellVal, val);
+    await assertPreparedPlacement(actorCalled(SOLVER_ACTOR), val, { row });
   }
 );
 
 Then(
   'the cell in column {int} with candidates {string} should be updated to {int}',
   async (col: number, _candidates: string, val: number) => {
-    const cellVal = await actorCalled(SOLVER_ACTOR).answer(GridCell.at(2, col));
-    assert.strictEqual(cellVal, val);
+    await assertPreparedPlacement(actorCalled(SOLVER_ACTOR), val, { col });
   }
 );
 
 Then(
   'the cell in block \\({int}, {int}\\) with candidates {string} should be updated to {int}',
-  async (_br: number, _bc: number, _candidates: string, val: number) => {
-    const cellVal = await actorCalled(SOLVER_ACTOR).answer(GridCell.at(0, 2));
-    assert.strictEqual(cellVal, val);
+  async (br: number, bc: number, _candidates: string, val: number) => {
+    await assertPreparedPlacement(actorCalled(SOLVER_ACTOR), val, { block: [br, bc] });
   }
 );

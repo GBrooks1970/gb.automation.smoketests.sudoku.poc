@@ -7,6 +7,7 @@ import { ApplyAlgorithm } from '../tasks/ApplyAlgorithm';
 import { SetupGridState } from '../tasks/SetupGridState';
 import { AlgorithmMadeProgress } from '../questions/AlgorithmMadeProgress';
 import { GridCell } from '../questions/GridCell';
+import { assertPreparedPlacement } from '../support/grid-assertions';
 
 type MissingDigitContext =
   { kind: 'column'; colIndex: number } | { kind: 'block'; blockRow: number; blockCol: number };
@@ -90,27 +91,26 @@ When('the {string} algorithm is executed', async (algorithm: string) => {
 // Unit Completion - Then steps
 // ---------------------------------------------------------------------------
 
-Then('the system should identify the missing value as {int}', async (_value: number) => {
-  const made = await actorCalled(SOLVER_ACTOR).answer(AlgorithmMadeProgress.afterLastCall());
+Then('the system should identify the missing value as {int}', async (value: number) => {
+  const actor = actorCalled(SOLVER_ACTOR);
+  const made = await actor.answer(AlgorithmMadeProgress.afterLastCall());
   assert.ok(made, 'Expected unitCompletion to return true');
+  await assertPreparedPlacement(actor, value);
 });
 
 Then('the value {int} should be placed in the empty cell', async (value: number) => {
-  const found = await actorCalled(SOLVER_ACTOR).answer(GridCell.containsValue(value));
-  assert.ok(found, `Expected value ${value} to be placed in the grid`);
+  await assertPreparedPlacement(actorCalled(SOLVER_ACTOR), value);
 });
 
 Then(
   'the system should place {int} in the empty cell of column {int}',
   async (value: number, col: number) => {
-    const placed = await actorCalled(SOLVER_ACTOR).answer(GridCell.inColumn(col, value));
-    assert.ok(placed, `Expected ${value} to be placed in column ${col}`);
+    await assertPreparedPlacement(actorCalled(SOLVER_ACTOR), value, { col });
   }
 );
 
 Then('the system should place {int} in the empty cell of that block', async (value: number) => {
-  const found = await actorCalled(SOLVER_ACTOR).answer(GridCell.containsValue(value));
-  assert.ok(found, `Expected value ${value} to be placed in the block`);
+  await assertPreparedPlacement(actorCalled(SOLVER_ACTOR), value);
 });
 
 Then('the algorithm should return false', async () => {

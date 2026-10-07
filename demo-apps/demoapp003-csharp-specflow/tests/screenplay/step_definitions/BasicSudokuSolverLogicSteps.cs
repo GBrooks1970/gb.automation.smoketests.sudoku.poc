@@ -91,21 +91,21 @@ public sealed class BasicSudokuSolverLogicSteps
     [Then(@"the system should identify the missing value as (\d+)")]
     public void SystemIdentifiesMissingValue(int value)
     {
-        Assert.That(value, Is.GreaterThan(0));
         Assert.That(_actor.Answer(AlgorithmMadeProgress.AfterLastCall()), Is.True);
+        AssertPreparedPlacement(value);
     }
 
     [Then(@"the value (\d+) should be placed in the empty cell")]
     public void ValuePlacedInEmptyCell(int value) =>
-        Assert.That(_actor.Answer(GridCell.ContainsValue(value)), Is.True);
+        AssertPreparedPlacement(value);
 
     [Then(@"the system should place (\d+) in the empty cell of column (\d+)")]
     public void ValuePlacedInColumn(int value, int col) =>
-        Assert.That(_actor.Answer(GridCell.InColumn(col, value)), Is.True);
+        AssertPreparedPlacement(value, col: col);
 
     [Then(@"the system should place (\d+) in the empty cell of that block")]
     public void ValuePlacedInBlock(int value) =>
-        Assert.That(_actor.Answer(GridCell.ContainsValue(value)), Is.True);
+        AssertPreparedPlacement(value);
 
     [Then(@"the algorithm should return false")]
     public void AlgorithmReturnsFalse() =>
@@ -159,7 +159,7 @@ public sealed class BasicSudokuSolverLogicSteps
 
     [Then(@"the system should place (\d+) in the only valid cell in row (\d+)")]
     public void ValueInOnlyRowCell(int value, int rowIndex) =>
-        Assert.That(_actor.Answer(GridCell.InRow(rowIndex, value)), Is.True);
+        AssertPreparedPlacement(value, row: rowIndex);
 
     [Then(@"the grid should reflect the new value")]
     public void GridReflectsNewValue() =>
@@ -167,25 +167,21 @@ public sealed class BasicSudokuSolverLogicSteps
 
     [Then(@"the system should place (\d+) in the only valid cell in column (\d+)")]
     public void ValueInOnlyColumnCell(int value, int colIndex) =>
-        Assert.That(_actor.Answer(GridCell.InColumn(colIndex, value)), Is.True);
+        AssertPreparedPlacement(value, col: colIndex);
 
     [Then(@"the system should place (\d+) in the one remaining valid cell of that block")]
     public void ValueInRemainingBlockCell(int value) =>
-        Assert.That(_actor.Answer(GridCell.ContainsValue(value)), Is.True);
+        AssertPreparedPlacement(value);
 
     [Then(@"the algorithm should skip row (\d+)")]
     public void AlgorithmSkipsRow(int rowIndex)
     {
-        Assert.That(rowIndex, Is.GreaterThanOrEqualTo(0));
+        AssertPreparedRowUnchanged(rowIndex);
         Assert.That(_actor.Answer(AlgorithmMadeProgress.AfterLastCall()), Is.False);
     }
 
     [Then(@"no cells in row (\d+) should be modified")]
-    public void NoCellsInRowModified(int rowIndex)
-    {
-        Assert.That(rowIndex, Is.GreaterThanOrEqualTo(0));
-        Assert.That(_actor.Answer(GridCell.MatchesSnapshot()), Is.True);
-    }
+    public void NoCellsInRowModified(int rowIndex) => AssertPreparedRowUnchanged(rowIndex);
 
     [Given(@"an empty cell at row (\d+), column (\d+)")]
     public void EmptyCellAt(int row, int col) =>
@@ -221,13 +217,12 @@ public sealed class BasicSudokuSolverLogicSteps
     public void DeterminesOnlyPossibleValue(int value)
     {
         Assert.That(_actor.Answer(AlgorithmMadeProgress.AfterLastCall()), Is.True);
-        var target = _actor.Answer(TargetCell.Current());
-        Assert.That(_actor.Answer(GridCell.At(target.Row, target.Col)), Is.EqualTo(value));
+        AssertPreparedPlacement(value);
     }
 
     [Then(@"the cell at row (\d+), column (\d+) should be updated to (\d+)")]
     public void CellUpdated(int row, int col, int value) =>
-        Assert.That(_actor.Answer(GridCell.At(row, col)), Is.EqualTo(value));
+        AssertPreparedPlacement(value, row: row, col: col);
 
     [Then(@"the cell should not be filled")]
     public void CellNotFilled()
@@ -243,11 +238,15 @@ public sealed class BasicSudokuSolverLogicSteps
     [Then(@"all (\d+) cells should be filled with their respective values")]
     public void AllThreeCellsFilled(int count)
     {
-        Assert.That(count, Is.EqualTo(3));
+        var placements = new[] { (Row: 0, Col: 0, Value: 5), (Row: 4, Col: 4, Value: 5), (Row: 8, Col: 8, Value: 9) };
+        Assert.That(count, Is.EqualTo(placements.Length), "Expected the stated number of fixture placements");
+        var snapshot = _actor.Answer(GridSnapshot.Current());
+        Assert.That(snapshot.SelectMany(row => row).Count(value => value == Constants.EmptyCell), Is.EqualTo(count));
         Assert.That(_actor.Answer(AlgorithmMadeProgress.AfterLastCall()), Is.True);
-        Assert.That(_actor.Answer(GridCell.At(0, 0)), Is.EqualTo(5));
-        Assert.That(_actor.Answer(GridCell.At(4, 4)), Is.EqualTo(5));
-        Assert.That(_actor.Answer(GridCell.At(8, 8)), Is.EqualTo(9));
+        foreach (var placement in placements)
+        {
+            AssertCellTransition(placement.Row, placement.Col, placement.Value);
+        }
     }
 
     [Then(@"the algorithm should return true")]
@@ -455,8 +454,8 @@ public sealed class BasicSudokuSolverLogicSteps
     [Then(@"all (\d+) cells should contain valid digits")]
     public void AllCellsValid(int count)
     {
-        Assert.That(count, Is.EqualTo(81));
-        Assert.That(_actor.Answer(GridCell.AllFilled()), Is.True);
+        Assert.That(count, Is.EqualTo(Constants.GridSize * Constants.GridSize), "Expected the stated number of Sudoku cells");
+        Assert.That(_actor.Answer(GridCell.IsValidSolution()), Is.True, "Expected a valid Sudoku solution");
     }
 
     [Given(@"a puzzles.json file exists with (\d+) puzzles")]
@@ -819,15 +818,15 @@ public sealed class BasicSudokuSolverLogicSteps
 
     [Then(@"the cell in row (\d+) with candidates ""([^""]*)"" should be updated to (\d+)")]
     public void CellInRowUpdatedTo(int row, string candidates, int val) =>
-        Assert.That(_actor.Answer(GridCell.At(row, 2)), Is.EqualTo(val));
+        AssertPreparedPlacement(val, row: row);
 
     [Then(@"the cell in column (\d+) with candidates ""([^""]*)"" should be updated to (\d+)")]
     public void CellInColumnUpdatedTo(int col, string candidates, int val) =>
-        Assert.That(_actor.Answer(GridCell.At(2, col)), Is.EqualTo(val));
+        AssertPreparedPlacement(val, col: col);
 
     [Then(@"the cell in block \((\d+), (\d+)\) with candidates ""([^""]*)"" should be updated to (\d+)")]
     public void CellInBlockUpdatedTo(int br, int bc, string candidates, int val) =>
-        Assert.That(_actor.Answer(GridCell.At(0, 2)), Is.EqualTo(val));
+        AssertPreparedPlacement(val, blockRow: br, blockCol: bc);
 
     [Then(@"the main loop should exit")]
     public void MainLoopExits()
@@ -888,6 +887,43 @@ public sealed class BasicSudokuSolverLogicSteps
     [Then(@"no audit trail should be present")]
     public void NoAuditTrailPresent() =>
         Assert.That(_actor.Answer(AuditTrailQuestion.Current()), Is.Null);
+
+    private void AssertCellTransition(int row, int col, int value)
+    {
+        var snapshot = _actor.Answer(GridSnapshot.Current());
+        Assert.That(snapshot, Has.Length.EqualTo(Constants.GridSize), "Expected a pre-operation fixture snapshot");
+        Assert.That(snapshot[row][col], Is.EqualTo(Constants.EmptyCell), $"Cell [{row},{col}] was not originally empty");
+        Assert.That(_actor.Answer(GridCell.At(row, col)), Is.EqualTo(value), $"Expected newly placed {value} at [{row},{col}]");
+    }
+
+    private void AssertPreparedPlacement(int value, int? row = null, int? col = null, int? blockRow = null, int? blockCol = null)
+    {
+        var target = _actor.Answer(TargetCell.Current());
+        if (row is not null)
+        {
+            Assert.That(target.Row, Is.EqualTo(row.Value), "Expected row does not match the prepared target");
+        }
+        if (col is not null)
+        {
+            Assert.That(target.Col, Is.EqualTo(col.Value), "Expected column does not match the prepared target");
+        }
+        if (blockRow is not null && blockCol is not null)
+        {
+            Assert.That(target.Row / Constants.BlockSize, Is.EqualTo(blockRow.Value), "Expected block row does not contain the prepared target");
+            Assert.That(target.Col / Constants.BlockSize, Is.EqualTo(blockCol.Value), "Expected block column does not contain the prepared target");
+        }
+        AssertCellTransition(target.Row, target.Col, value);
+    }
+
+    private void AssertPreparedRowUnchanged(int row)
+    {
+        var target = _actor.Answer(TargetCell.Current());
+        Assert.That(target.Row, Is.EqualTo(row), "Expected row does not match the prepared row");
+        var snapshot = _actor.Answer(GridSnapshot.Current());
+        Assert.That(snapshot, Has.Length.EqualTo(Constants.GridSize), "Expected a pre-operation fixture snapshot");
+        var current = Enumerable.Range(0, Constants.GridSize).Select(col => _actor.Answer(GridCell.At(row, col))).ToArray();
+        Assert.That(current, Is.EqualTo(snapshot[row]), $"Expected row {row} to remain unchanged");
+    }
 
     private static List<int> ParseCsv(string values) =>
         values.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
