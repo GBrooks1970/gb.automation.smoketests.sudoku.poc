@@ -6,6 +6,7 @@ import pytest
 from pytest_bdd import given, parsers, scenarios, then, when
 
 from app_src import AttemptEvent
+from app_src.constants import BLOCK_SIZE, EMPTY_CELL, GRID_SIZE
 from tests.screenplay.abilities import LoadPuzzles, UseSudokuSolver
 from tests.screenplay.questions import (
     AlgorithmMadeProgress,
@@ -45,6 +46,43 @@ scenarios("../../features/BasicSudokuSolverLogic.feature")
 @pytest.fixture
 def actor() -> Actor:
     return make_solver_actor()
+
+
+def _assert_cell_transition(actor: Actor, row: int, col: int, value: int) -> None:
+    snapshot = actor.answer(GridSnapshot.current())
+    assert len(snapshot) == GRID_SIZE
+    assert snapshot[row][col] == EMPTY_CELL, f"Cell ({row}, {col}) was not empty before the algorithm"
+    actual = actor.answer(GridCell.at(row, col))
+    assert actual == value, f"Cell ({row}, {col}) contains {actual}, expected {value}"
+
+
+def _assert_target_placement(
+    actor: Actor,
+    value: int,
+    *,
+    row: int | None = None,
+    col: int | None = None,
+    block: tuple[int, int] | None = None,
+) -> None:
+    target = actor.answer(TargetCell.current())
+    target_row, target_col = target["row"], target["col"]
+    if row is not None:
+        assert target_row == row, f"Prepared target is in row {target_row}, expected row {row}"
+    if col is not None:
+        assert target_col == col, f"Prepared target is in column {target_col}, expected column {col}"
+    if block is not None:
+        actual_block = (target_row // BLOCK_SIZE, target_col // BLOCK_SIZE)
+        assert actual_block == block, f"Prepared target is in block {actual_block}, expected block {block}"
+    _assert_cell_transition(actor, target_row, target_col, value)
+
+
+def _assert_prepared_row_unchanged(actor: Actor, row: int) -> None:
+    target = actor.answer(TargetCell.current())
+    assert target["row"] == row, f"Prepared row is {target['row']}, expected row {row}"
+    snapshot = actor.answer(GridSnapshot.current())
+    assert len(snapshot) == GRID_SIZE
+    current_row = [actor.answer(GridCell.at(row, col)) for col in range(GRID_SIZE)]
+    assert current_row == snapshot[row], f"Row {row} changed during the algorithm"
 
 
 @given("a standard 9x9 Sudoku grid is initialized")
@@ -110,23 +148,23 @@ def algorithm_is_executed(actor: Actor, algorithm: str) -> None:
 
 @then(parsers.parse("the system should identify the missing value as {value:d}"))
 def system_identifies_missing_value(actor: Actor, value: int) -> None:
-    assert value > 0
     assert actor.answer(AlgorithmMadeProgress.after_last_call())
+    _assert_target_placement(actor, value)
 
 
 @then(parsers.parse("the value {value:d} should be placed in the empty cell"))
 def value_placed_in_empty_cell(actor: Actor, value: int) -> None:
-    assert actor.answer(GridCell.contains_value(value))
+    _assert_target_placement(actor, value)
 
 
 @then(parsers.parse("the system should place {value:d} in the empty cell of column {col:d}"))
 def value_placed_in_column(actor: Actor, value: int, col: int) -> None:
-    assert actor.answer(GridCell.in_column(col, value))
+    _assert_target_placement(actor, value, col=col)
 
 
 @then(parsers.parse("the system should place {value:d} in the empty cell of that block"))
 def value_placed_in_block(actor: Actor, value: int) -> None:
-    assert actor.answer(GridCell.contains_value(value))
+    _assert_target_placement(actor, value)
 
 
 @then("the algorithm should return false")
@@ -188,7 +226,7 @@ def algorithm_executed_for_value(actor: Actor, algorithm: str, value: int) -> No
 
 @then(parsers.parse("the system should place {value:d} in the only valid cell in row {row_index:d}"))
 def value_in_only_row_cell(actor: Actor, value: int, row_index: int) -> None:
-    assert actor.answer(GridCell.in_row(row_index, value))
+    _assert_target_placement(actor, value, row=row_index)
 
 
 @then("the grid should reflect the new value")
@@ -198,24 +236,23 @@ def grid_reflects_new_value(actor: Actor) -> None:
 
 @then(parsers.parse("the system should place {value:d} in the only valid cell in column {col_index:d}"))
 def value_in_only_column_cell(actor: Actor, value: int, col_index: int) -> None:
-    assert actor.answer(GridCell.in_column(col_index, value))
+    _assert_target_placement(actor, value, col=col_index)
 
 
 @then(parsers.parse("the system should place {value:d} in the one remaining valid cell of that block"))
 def value_in_remaining_block_cell(actor: Actor, value: int) -> None:
-    assert actor.answer(GridCell.contains_value(value))
+    _assert_target_placement(actor, value)
 
 
 @then(parsers.parse("the algorithm should skip row {row_index:d}"))
 def algorithm_skips_row(actor: Actor, row_index: int) -> None:
-    assert row_index >= 0
     assert actor.answer(AlgorithmMadeProgress.after_last_call()) is False
+    _assert_prepared_row_unchanged(actor, row_index)
 
 
 @then(parsers.parse("no cells in row {row_index:d} should be modified"))
 def no_cells_in_row_modified(actor: Actor, row_index: int) -> None:
-    assert row_index >= 0
-    assert actor.answer(GridCell.matches_snapshot())
+    _assert_prepared_row_unchanged(actor, row_index)
 
 
 @given(parsers.parse("an empty cell at row {row:d}, column {col:d}"))
@@ -253,13 +290,12 @@ def empty_cells_have_one_value(actor: Actor, count: int) -> None:
 @then(parsers.parse("the system should determine the only possible value is {value:d}"))
 def determines_only_possible_value(actor: Actor, value: int) -> None:
     assert actor.answer(AlgorithmMadeProgress.after_last_call())
-    target = actor.answer(TargetCell.current())
-    assert actor.answer(GridCell.at(target["row"], target["col"])) == value
+    _assert_target_placement(actor, value)
 
 
 @then(parsers.parse("the cell at row {row:d}, column {col:d} should be updated to {value:d}"))
 def cell_updated(actor: Actor, row: int, col: int, value: int) -> None:
-    assert actor.answer(GridCell.at(row, col)) == value
+    _assert_target_placement(actor, value, row=row, col=col)
 
 
 @then("the cell should not be filled")
@@ -275,11 +311,14 @@ def algorithm_continues(actor: Actor) -> None:
 
 @then(parsers.parse("all {count:d} cells should be filled with their respective values"))
 def all_three_cells_filled(actor: Actor, count: int) -> None:
-    assert count == 3
+    placements = [(0, 0, 5), (4, 4, 5), (8, 8, 9)]
+    assert count == len(placements)
+    snapshot = actor.answer(GridSnapshot.current())
+    assert len(snapshot) == GRID_SIZE
+    assert sum(cell == EMPTY_CELL for row in snapshot for cell in row) == count
     assert actor.answer(AlgorithmMadeProgress.after_last_call())
-    assert actor.answer(GridCell.at(0, 0)) == 5
-    assert actor.answer(GridCell.at(4, 4)) == 5
-    assert actor.answer(GridCell.at(8, 8)) == 9
+    for row, col, value in placements:
+        _assert_cell_transition(actor, row, col, value)
 
 
 @then("the algorithm should return true")
@@ -505,8 +544,8 @@ def system_exits_loop(actor: Actor) -> None:
 
 @then(parsers.parse("all {count:d} cells should contain valid digits"))
 def all_cells_valid(actor: Actor, count: int) -> None:
-    assert count == 81
-    assert actor.answer(GridCell.all_filled())
+    assert count == GRID_SIZE * GRID_SIZE
+    assert actor.answer(GridCell.is_valid_solution())
 
 
 @given(parsers.parse("a puzzles.json file exists with {count:d} puzzles"))
@@ -900,17 +939,17 @@ def grid_state_no_x_wing(actor: Actor) -> None:
 
 @then(parsers.parse('the cell in row {row:d} with candidates "{candidates}" should be updated to {val:d}'))
 def cell_in_row_updated_to(actor: Actor, row: int, candidates: str, val: int) -> None:
-    assert actor.answer(GridCell.at(row, 2)) == val
+    _assert_target_placement(actor, val, row=row)
 
 
 @then(parsers.parse('the cell in column {col:d} with candidates "{candidates}" should be updated to {val:d}'))
 def cell_in_column_updated_to(actor: Actor, col: int, candidates: str, val: int) -> None:
-    assert actor.answer(GridCell.at(2, col)) == val
+    _assert_target_placement(actor, val, col=col)
 
 
 @then(parsers.parse('the cell in block ({br:d}, {bc:d}) with candidates "{candidates}" should be updated to {val:d}'))
 def cell_in_block_updated_to(actor: Actor, br: int, bc: int, candidates: str, val: int) -> None:
-    assert actor.answer(GridCell.at(0, 2)) == val
+    _assert_target_placement(actor, val, block=(br, bc))
 
 
 @then("the main loop should exit")

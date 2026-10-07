@@ -18,6 +18,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
   DR-040 visualisation. Docs only; no code or behaviour change.
 
 ### Fixed
+- BACKLOG-078 (TRIAGE-14): digit and position Then assertions in all three Stacks check
+  the Given-owned originally empty target, its stated value and unit, negative-row identity,
+  and bound cell counts. Native positive/negative mutation controls run before each CI suite
+  and retain their results in the existing Stack artefact. Feature text, solver/API behaviour,
+  Question interfaces, dependency policy and coverage floors are unchanged.
 - BACKLOG-079 (TRIAGE-13): returning from tutor redraws the visualiser at its preserved
   paused playhead, keeping the grid, current event, technique statistics and step counter
   aligned. Focused real-module regressions cover initial, middle and final playheads,

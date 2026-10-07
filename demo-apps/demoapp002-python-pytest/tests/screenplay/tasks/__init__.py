@@ -3,7 +3,7 @@ from __future__ import annotations
 from copy import deepcopy
 from typing import Callable
 
-from app_src.constants import EMPTY_CELL, GRID_SIZE
+from app_src.constants import BLOCK_SIZE, EMPTY_CELL, GRID_SIZE
 from tests.screenplay.abilities import LoadPuzzles, UseSudokuSolver
 from tests.screenplay.fixtures import grid_fixtures
 from tests.screenplay.support.actor import Actor
@@ -25,6 +25,16 @@ class Task:
         self._action(actor)
 
 
+def _remember_fixture(actor: Actor, target: tuple[int, int] | None = None) -> None:
+    ability = actor.ability_to(UseSudokuSolver)
+    ability.take_snapshot()
+    actor.remember(GRID_SNAPSHOT, deepcopy(ability.grid_snapshot))
+    if target is not None:
+        row, col = target
+        ability.set_target_cell(row, col)
+        actor.remember(TARGET_CELL, {"row": row, "col": col})
+
+
 class InitialiseGrid:
     @staticmethod
     def empty() -> Task:
@@ -36,6 +46,7 @@ class InitialiseGrid:
             grid = [[EMPTY_CELL for _ in range(GRID_SIZE)] for _ in range(GRID_SIZE)]
             grid[row] = list(values)
             actor.ability_to(UseSudokuSolver).initialise("test", grid)
+            _remember_fixture(actor, (row, values.index(EMPTY_CELL)))
 
         return Task(action)
 
@@ -124,7 +135,7 @@ class SetupGridState:
         def action(actor: Actor) -> None:
             ability = actor.ability_to(UseSudokuSolver)
             grid_fixtures.setup_almost_complete_column(ability.get_solver(), col, missing_digit)
-            ability.take_snapshot()
+            _remember_fixture(actor, (0, col))
 
         return Task(action)
 
@@ -133,7 +144,7 @@ class SetupGridState:
         def action(actor: Actor) -> None:
             ability = actor.ability_to(UseSudokuSolver)
             grid_fixtures.setup_almost_complete_block(ability.get_solver(), block_row, block_col, missing_digit)
-            ability.take_snapshot()
+            _remember_fixture(actor, (block_row * BLOCK_SIZE + 2, block_col * BLOCK_SIZE + 2))
 
         return Task(action)
 
@@ -148,35 +159,39 @@ class SetupGridState:
 
     @staticmethod
     def row_missing_digit(row_index: int, target: int) -> Task:
-        return Task(
-            lambda actor: grid_fixtures.setup_row_missing_digit(
+        def action(actor: Actor) -> None:
+            grid_fixtures.setup_row_missing_digit(
                 actor.ability_to(UseSudokuSolver).get_solver(), row_index, target
             )
-        )
+            _remember_fixture(actor, (row_index, 4))
+
+        return Task(action)
 
     @staticmethod
     def row_column_constraints(count: int, row_index: int, target: int) -> Task:
         def action(actor: Actor) -> None:
             ability = actor.ability_to(UseSudokuSolver)
             grid_fixtures.setup_row_column_constraints(ability.get_solver(), count, row_index, target)
-            ability.take_snapshot()
+            _remember_fixture(actor, (row_index, 4))
 
         return Task(action)
 
     @staticmethod
     def column_missing_digit(col_index: int, target: int) -> Task:
-        return Task(
-            lambda actor: grid_fixtures.setup_column_missing_digit(
+        def action(actor: Actor) -> None:
+            grid_fixtures.setup_column_missing_digit(
                 actor.ability_to(UseSudokuSolver).get_solver(), col_index, target
             )
-        )
+            _remember_fixture(actor, (4, col_index))
+
+        return Task(action)
 
     @staticmethod
     def column_row_constraints(count: int, col_index: int, target: int) -> Task:
         def action(actor: Actor) -> None:
             ability = actor.ability_to(UseSudokuSolver)
             grid_fixtures.setup_column_row_constraints(ability.get_solver(), count, col_index, target)
-            ability.take_snapshot()
+            _remember_fixture(actor, (4, col_index))
 
         return Task(action)
 
@@ -191,7 +206,7 @@ class SetupGridState:
         def action(actor: Actor) -> None:
             ability = actor.ability_to(UseSudokuSolver)
             grid_fixtures.setup_hidden_single_in_block(ability.get_solver(), target)
-            ability.take_snapshot()
+            _remember_fixture(actor, (1, 2))
 
         return Task(action)
 
@@ -200,7 +215,7 @@ class SetupGridState:
         def action(actor: Actor) -> None:
             ability = actor.ability_to(UseSudokuSolver)
             grid_fixtures.setup_digit_in_row(ability.get_solver(), row_index, digit)
-            ability.take_snapshot()
+            _remember_fixture(actor, (row_index, 5))
 
         return Task(action)
 
@@ -218,8 +233,7 @@ class SetupGridState:
         def action(actor: Actor) -> None:
             ability = actor.ability_to(UseSudokuSolver)
             grid_fixtures.clear_cell(ability.get_solver(), row, col)
-            ability.set_target_cell(row, col)
-            actor.remember(TARGET_CELL, {"row": row, "col": col})
+            _remember_fixture(actor, (row, col))
 
         return Task(action)
 
@@ -230,6 +244,7 @@ class SetupGridState:
             grid_fixtures.add_values_to_row(
                 actor.ability_to(UseSudokuSolver).get_solver(), target["row"], target["col"], values
             )
+            _remember_fixture(actor)
 
         return Task(action)
 
@@ -240,6 +255,7 @@ class SetupGridState:
             grid_fixtures.add_values_to_column(
                 actor.ability_to(UseSudokuSolver).get_solver(), target["col"], target["row"], values
             )
+            _remember_fixture(actor)
 
         return Task(action)
 
@@ -255,6 +271,7 @@ class SetupGridState:
                 target["col"],
                 values,
             )
+            _remember_fixture(actor)
 
         return Task(action)
 
@@ -276,7 +293,7 @@ class SetupGridState:
             ability = actor.ability_to(UseSudokuSolver)
             ability.initialise("test")
             grid_fixtures.setup_three_naked_singles(ability.get_solver())
-            ability.take_snapshot()
+            _remember_fixture(actor)
 
         return Task(action)
 
@@ -323,7 +340,7 @@ class SetupGridState:
             ability = actor.ability_to(UseSudokuSolver)
             ability.initialise("test")
             grid_fixtures.setup_naked_pair_row(ability.get_solver())
-            ability.take_snapshot()
+            _remember_fixture(actor, (0, 2))
 
         return Task(action)
 
@@ -333,7 +350,7 @@ class SetupGridState:
             ability = actor.ability_to(UseSudokuSolver)
             ability.initialise("test")
             grid_fixtures.setup_naked_pair_column(ability.get_solver())
-            ability.take_snapshot()
+            _remember_fixture(actor, (2, 0))
 
         return Task(action)
 
@@ -343,7 +360,7 @@ class SetupGridState:
             ability = actor.ability_to(UseSudokuSolver)
             ability.initialise("test")
             grid_fixtures.setup_naked_pair_block(ability.get_solver())
-            ability.take_snapshot()
+            _remember_fixture(actor, (0, 2))
 
         return Task(action)
 
@@ -363,7 +380,7 @@ class SetupGridState:
             ability = actor.ability_to(UseSudokuSolver)
             ability.initialise("test")
             grid_fixtures.setup_x_wing_row(ability.get_solver())
-            ability.take_snapshot()
+            _remember_fixture(actor, (7, 1))
 
         return Task(action)
 
@@ -373,7 +390,7 @@ class SetupGridState:
             ability = actor.ability_to(UseSudokuSolver)
             ability.initialise("test")
             grid_fixtures.setup_x_wing_column(ability.get_solver())
-            ability.take_snapshot()
+            _remember_fixture(actor, (1, 7))
 
         return Task(action)
 

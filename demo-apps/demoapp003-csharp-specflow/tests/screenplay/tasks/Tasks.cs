@@ -15,7 +15,13 @@ public static class InitialiseGrid
         {
             var grid = GridHelpers.EmptyGrid();
             grid[row] = values.ToArray();
-            actor.AbilityTo<UseSudokuSolver>().Initialise("test", grid);
+            var ability = actor.AbilityTo<UseSudokuSolver>();
+            ability.Initialise("test", grid);
+            ability.TakeSnapshot();
+            var target = new CellPosition(row, Array.IndexOf(grid[row], Constants.EmptyCell));
+            ability.SetTargetCell(target.Row, target.Col);
+            actor.Remember(MemoryKeys.TARGET_CELL, target);
+            actor.Remember(MemoryKeys.GRID_SNAPSHOT, GridHelpers.DeepCopy(ability.GridSnapshot));
         });
 
     public static ITask FromPuzzleNamed(string name) =>
@@ -95,7 +101,7 @@ public static class SetupGridState
         {
             var ability = actor.AbilityTo<UseSudokuSolver>();
             GridFixtures.SetupAlmostCompleteColumn(ability.GetSolver(), col, missingDigit);
-            ability.TakeSnapshot();
+            RecordFixture(actor, new CellPosition(0, col));
         });
 
     public static ITask AlmostCompleteBlock(int blockRow, int blockCol, int missingDigit) =>
@@ -103,7 +109,9 @@ public static class SetupGridState
         {
             var ability = actor.AbilityTo<UseSudokuSolver>();
             GridFixtures.SetupAlmostCompleteBlock(ability.GetSolver(), blockRow, blockCol, missingDigit);
-            ability.TakeSnapshot();
+            RecordFixture(actor, new CellPosition(
+                blockRow * Constants.BlockSize + Constants.BlockSize - 1,
+                blockCol * Constants.BlockSize + Constants.BlockSize - 1));
         });
 
     public static ITask WithMultipleEmpties() =>
@@ -115,25 +123,33 @@ public static class SetupGridState
         });
 
     public static ITask RowMissingDigit(int rowIndex, int target) =>
-        new DelegateTask(actor => GridFixtures.SetupRowMissingDigit(actor.AbilityTo<UseSudokuSolver>().GetSolver(), rowIndex, target));
+        new DelegateTask(actor =>
+        {
+            GridFixtures.SetupRowMissingDigit(actor.AbilityTo<UseSudokuSolver>().GetSolver(), rowIndex, target);
+            RecordFixture(actor, new CellPosition(rowIndex, 4));
+        });
 
     public static ITask RowColumnConstraints(int count, int rowIndex, int target) =>
         new DelegateTask(actor =>
         {
             var ability = actor.AbilityTo<UseSudokuSolver>();
             GridFixtures.SetupRowColumnConstraints(ability.GetSolver(), count, rowIndex, target);
-            ability.TakeSnapshot();
+            RecordFixture(actor, new CellPosition(rowIndex, 4));
         });
 
     public static ITask ColumnMissingDigit(int colIndex, int target) =>
-        new DelegateTask(actor => GridFixtures.SetupColumnMissingDigit(actor.AbilityTo<UseSudokuSolver>().GetSolver(), colIndex, target));
+        new DelegateTask(actor =>
+        {
+            GridFixtures.SetupColumnMissingDigit(actor.AbilityTo<UseSudokuSolver>().GetSolver(), colIndex, target);
+            RecordFixture(actor, new CellPosition(4, colIndex));
+        });
 
     public static ITask ColumnRowConstraints(int count, int colIndex, int target) =>
         new DelegateTask(actor =>
         {
             var ability = actor.AbilityTo<UseSudokuSolver>();
             GridFixtures.SetupColumnRowConstraints(ability.GetSolver(), count, colIndex, target);
-            ability.TakeSnapshot();
+            RecordFixture(actor, new CellPosition(4, colIndex));
         });
 
     public static ITask BlockFourEmpties() =>
@@ -144,7 +160,7 @@ public static class SetupGridState
         {
             var ability = actor.AbilityTo<UseSudokuSolver>();
             GridFixtures.SetupHiddenSingleInBlock(ability.GetSolver(), target);
-            ability.TakeSnapshot();
+            RecordFixture(actor, new CellPosition(1, 2));
         });
 
     public static ITask DigitInRow(int rowIndex, int digit) =>
@@ -152,7 +168,7 @@ public static class SetupGridState
         {
             var ability = actor.AbilityTo<UseSudokuSolver>();
             GridFixtures.SetupDigitInRow(ability.GetSolver(), rowIndex, digit);
-            ability.TakeSnapshot();
+            RecordFixture(actor, new CellPosition(rowIndex, 5));
         });
 
     public static ITask WithMultipleCandidates() =>
@@ -168,8 +184,7 @@ public static class SetupGridState
         {
             var ability = actor.AbilityTo<UseSudokuSolver>();
             GridFixtures.ClearCell(ability.GetSolver(), row, col);
-            ability.SetTargetCell(row, col);
-            actor.Remember(MemoryKeys.TARGET_CELL, new CellPosition(row, col));
+            RecordFixture(actor, new CellPosition(row, col));
         });
 
     public static ITask ValuesInRow(IReadOnlyList<int> values) =>
@@ -177,6 +192,7 @@ public static class SetupGridState
         {
             var target = actor.Recall<CellPosition>(MemoryKeys.TARGET_CELL) ?? new CellPosition(0, 0);
             GridFixtures.AddValuesToRow(actor.AbilityTo<UseSudokuSolver>().GetSolver(), target.Row, target.Col, values);
+            RecordFixture(actor);
         });
 
     public static ITask ValuesInColumn(IReadOnlyList<int> values) =>
@@ -184,6 +200,7 @@ public static class SetupGridState
         {
             var target = actor.Recall<CellPosition>(MemoryKeys.TARGET_CELL) ?? new CellPosition(0, 0);
             GridFixtures.AddValuesToColumn(actor.AbilityTo<UseSudokuSolver>().GetSolver(), target.Col, target.Row, values);
+            RecordFixture(actor);
         });
 
     public static ITask ValuesInBlock(IReadOnlyList<int> values) =>
@@ -197,6 +214,7 @@ public static class SetupGridState
                 target.Row,
                 target.Col,
                 values);
+            RecordFixture(actor);
         });
 
     public static ITask ThreeCandidates() =>
@@ -216,7 +234,7 @@ public static class SetupGridState
             var ability = actor.AbilityTo<UseSudokuSolver>();
             ability.Initialise("test");
             GridFixtures.SetupThreeNakedSingles(ability.GetSolver());
-            ability.TakeSnapshot();
+            RecordFixture(actor);
         });
 
     public static ITask Named(string gridState) =>
@@ -257,7 +275,7 @@ public static class SetupGridState
             var ability = actor.AbilityTo<UseSudokuSolver>();
             ability.Initialise("test");
             GridFixtures.SetupNakedPairRow(ability.GetSolver());
-            ability.TakeSnapshot();
+            RecordFixture(actor, new CellPosition(0, 2));
         });
 
     public static ITask NakedPairColumn() =>
@@ -266,7 +284,7 @@ public static class SetupGridState
             var ability = actor.AbilityTo<UseSudokuSolver>();
             ability.Initialise("test");
             GridFixtures.SetupNakedPairColumn(ability.GetSolver());
-            ability.TakeSnapshot();
+            RecordFixture(actor, new CellPosition(2, 0));
         });
 
     public static ITask NakedPairBlock() =>
@@ -275,7 +293,7 @@ public static class SetupGridState
             var ability = actor.AbilityTo<UseSudokuSolver>();
             ability.Initialise("test");
             GridFixtures.SetupNakedPairBlock(ability.GetSolver());
-            ability.TakeSnapshot();
+            RecordFixture(actor, new CellPosition(0, 2));
         });
 
     public static ITask NoNakedPairs() =>
@@ -293,7 +311,7 @@ public static class SetupGridState
             var ability = actor.AbilityTo<UseSudokuSolver>();
             ability.Initialise("test");
             GridFixtures.SetupXWingRow(ability.GetSolver());
-            ability.TakeSnapshot();
+            RecordFixture(actor, new CellPosition(7, 1));
         });
 
     public static ITask XWingColumn() =>
@@ -302,7 +320,7 @@ public static class SetupGridState
             var ability = actor.AbilityTo<UseSudokuSolver>();
             ability.Initialise("test");
             GridFixtures.SetupXWingColumn(ability.GetSolver());
-            ability.TakeSnapshot();
+            RecordFixture(actor, new CellPosition(1, 7));
         });
 
     public static ITask NoXWing() =>
@@ -328,6 +346,18 @@ public static class SetupGridState
             ability.ApplyNakedPairs();
             ability.ApplyXWing();
         });
+
+    private static void RecordFixture(Actor actor, CellPosition? target = null)
+    {
+        var ability = actor.AbilityTo<UseSudokuSolver>();
+        ability.TakeSnapshot();
+        actor.Remember(MemoryKeys.GRID_SNAPSHOT, GridHelpers.DeepCopy(ability.GridSnapshot));
+        if (target is not null)
+        {
+            ability.SetTargetCell(target.Row, target.Col);
+            actor.Remember(MemoryKeys.TARGET_CELL, target);
+        }
+    }
 }
 
 public static class SetTargetCell

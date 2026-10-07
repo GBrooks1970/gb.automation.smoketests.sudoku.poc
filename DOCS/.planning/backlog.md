@@ -1,11 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-10-06 — resolved BACKLOG-079 / TRIAGE-13 on local validation and native browser acceptance; exact DR-039 dependency exception approved through 2026-10-12. Prior: resolved BACKLOG-075 and BACKLOG-077, opened unscheduled BACKLOG-078 on 2026-09-30.
+**Last Updated:** 2026-10-07 — resolved owner-selected BACKLOG-078 / TRIAGE-14 on native three-Stack mutation acceptance and existing gates. The exact DR-039 dependency exception remains approved through 2026-10-12.
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
-**Status:** Owner-selected BACKLOG-079 / TRIAGE-13 is Resolved on local validation and native browser acceptance; all-Stack PR CI remains the publication check. BACKLOG-078 remains Open and unscheduled. BACKLOG-075 is resolved and live at `/parity/`; BACKLOG-076/077 and historical product closures remain intact. TRIAGE-08/09/10 remain separate worklist items.
+**Status:** BACKLOG-078 / TRIAGE-14 is Resolved on native acceptance and local gates; all-Stack PR CI remains the publication check. BACKLOG-079 / TRIAGE-13 is published through merged PR #90; all seven exact-merge jobs passed. BACKLOG-075 is resolved and live at `/parity/`; BACKLOG-076/077 and historical product closures remain intact. TRIAGE-08/09/10 and the newly observed candidate-qualifier follow-on remain separate root worklist items.
 
 ---
 
@@ -25,10 +25,16 @@ Per v1.15 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 1 |
+| Open | 0 |
 | In Progress | 0 |
-| Resolved | 101 |
+| Resolved | 102 |
 | **Total** | **102** |
+
+**Update (2026-10-07, BACKLOG-078):** Owner instructed "action proposed sequence" to strengthen
+Then assertions across all three Stacks. The [filed plan](../.implementation-plans/2026-10-07-backlog-078-exact-assertions.md)
+uses existing observations. All three Stacks passed 15 positive scenarios and killed 22 planted
+wrong expectations each; byte-exact feature restoration, existing coverage floors and repository
+gates passed. BACKLOG-078 is Resolved on this local acceptance; PR CI is the publication check.
 
 **Update (2026-10-06, TRIAGE-13):** Owner selected BACKLOG-079 to preserve the visualiser
 playhead on a tutor round-trip and approved the exact DR-039 braces exception through
@@ -62,7 +68,7 @@ both passed at `7af3dca`; this was a documentation reconciliation, not an implem
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-075 (DR-047) is resolved and live; BACKLOG-078 is the one open item, unscheduled; BACKLOG-077 repairs browser startup and awaits all-Stack publication CI; BACKLOG-076 is published; approved TRIAGE-08 remains separate |
+| Current sprint focus | BACKLOG-078 / TRIAGE-14 is locally Resolved and ready for all-Stack PR CI; BACKLOG-075 is resolved and live; BACKLOG-079 is published; remaining root worklist candidates are separate |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -465,7 +471,7 @@ BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iter
 | ID | Title | Stack(s) | Priority | Status | Decision Record |
 |----|-------|----------|----------|--------|-----------------|
 | BACKLOG-075 | Publish a three-stack parity evidence page at `/parity/` | All | Medium | Resolved | DR-047 |
-| BACKLOG-078 | Strengthen weak Then-step assertions in all three Stacks | All | Medium | Open | None yet |
+| BACKLOG-078 | Strengthen weak Then-step assertions in all three Stacks | All | Medium | Resolved | None required (existing contracts) |
 
 ## Supported-runtime CI Restoration (2026-09-30)
 
@@ -656,10 +662,10 @@ DEMOAPP001 repair; supported-runtime all-Stack CI remains the publication check.
 
 ### BACKLOG-078: Strengthen weak Then-step assertions in all three Stacks
 
-**Status:** Open — recorded 2026-09-30 at the owner's request; not scheduled.
+**Status:** Resolved 2026-10-07 — owner selected the proposed sequence; all three native runners detect wrong digit/position/count expectations and existing gates pass. All-Stack PR CI remains the publication check. Originally recorded Open and unscheduled on 2026-09-30.
 **Stack:** All (DEMOAPP001, DEMOAPP002, DEMOAPP003)
 **Priority:** Medium
-**Decision:** None yet. Record a decision first if the fix changes the Screenplay question contract (`GridCell`, `AlgorithmMadeProgress`).
+**Decision:** None required: existing Question/Ability signatures and Memory keys/shapes are preserved. DR-015 and the Screenplay parity contract remain in force.
 **Source:** the genuine failing-run check for BACKLOG-075, recorded on [PR #83](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/83#issuecomment-5918686933).
 
 Evidence (local mutation runs on 2026-09-30, reverted, nothing committed). In each run all three Stacks stayed green:
@@ -671,11 +677,43 @@ A step whose bound assertion fails on a clearly impossible value (10) does fail 
 
 Acceptance criteria:
 
-- [ ] List every Then step whose assertion cannot fail on a wrong digit, row or column, with the Stack bindings for each.
-- [ ] Strengthen those assertions so the stated digit and position are checked, in all three Stacks in the same change set.
-- [ ] A mutation check (changing one expected digit or position in the canonical feature) fails in every Stack. Record the mutations used.
-- [ ] Step text, scenario counts and the parity gates are unchanged (55 scenarios, 309 steps per Stack), and existing gates and coverage floors pass.
-- [ ] A decision record exists first if the Screenplay question contract changes.
+- [x] List every Then step whose assertion cannot fail on a wrong digit, row or column, with the Stack bindings for each.
+- [x] Strengthen those assertions so the stated digit and position are checked, in all three Stacks in the same change set.
+- [x] A mutation check (changing one expected digit or position in the canonical feature) fails in every Stack. Record the mutations used.
+- [x] Step text, scenario counts and the parity gates are unchanged (55 scenarios, 309 steps per Stack), and existing gates and coverage floors pass.
+- [x] A decision record exists first if the Screenplay question contract changes — no contract signature/key change was needed.
+
+**Delivery evidence (2026-10-07, before PR publication):**
+
+- [Inventory](../.analysis/2026-10-07-backlog-078-then-assertion-inventory.md): 16 parameterised
+  patterns / 48 bindings, Given-owned targets, original-empty evidence, negative-row identity,
+  block membership and consumed counts. Questions, Abilities, fixtures and solver/API are unchanged.
+- Native controls: each Stack passed 15 positive scenarios and killed 22 mutations (45 positives /
+  66 killed total). The recorded 3 to 4 missing digit and row 3 to 4 fail everywhere. Controls also
+  cover generic/column/block digits, column identity, negative rows, explicit-cell/X-Wing positions,
+  Pair row/column/both block coordinates and three-/81-cell counts. Native results require the
+  intended executed scenario and an assertion failure; all feature hashes restore. Sum of native
+  command durations: TypeScript 224669 ms, Python 36637 ms, C# 149987 ms.
+- Node 24.18.0: locked restore, build/lint/format, API, 8 OpenAPI checks, web/Pages scripts PASS;
+  113 component tests (30969.8472 ms); 55 scenarios / 309 steps (6.306 s, command 20242 ms).
+  Selected-module coverage 80.11% lines / 91.94% branches / 80.17% functions, unchanged floors
+  70/85/75, 113 tests (58949.8103 ms), one local test worker; CI retains default concurrency.
+- Python 3.13.1: constrained isolated install and pip check PASS; 30 component tests (0.80 s),
+  full 85 tests (2.03 s); 88.98% coverage against the unchanged 85% floor.
+- .NET 10.0.401: locked restore PASS; 28 component tests (539 ms) plus 55 Reqnroll scenarios
+  (runner reports 1 s); coverage 545/622 lines (87.62%) and 275/320 branches (85.94%), unchanged
+  80/80 floors. Canonical TRX, Cucumber Messages and Cobertura evidence retained.
+- Fresh governed audits PASS: TypeScript `excepted`, 2 unique findings, 1 approved braces
+  exception, 0 unexcepted; Python/NuGet zero findings. The exact braces exception ends
+  2026-10-12 inclusive; fast-uri / TRIAGE-09 remains separate. No lock/policy change was made.
+- Seven repository governance/parity checks, all three evidence contracts, parity tool tests,
+  real-results gate and page build/negative controls PASS. CI runs the new native controls before
+  normal suite output and retains their evidence in the existing Stack artefacts.
+- Changing only the Pair Then candidate qualifier from `2, 7, 4` to `1, 7, 4` still passed one
+  selected Python scenario (native exit 0, 2762 ms), with features restored. Candidate-observation
+  APIs are outside this approved digit/position repair; the separate root TRIAGE-15 records it.
+- The plan's [Outcome](../.implementation-plans/2026-10-07-backlog-078-exact-assertions.md#outcome)
+  records execution and publication boundaries. Independent source/control review passed.
 
 ---
 
@@ -1732,6 +1770,7 @@ viewer returned HTTP 200 and Pages run 33996955729 passed at current `main`.
 
 | ID | Title | Stack(s) | Resolved | Notes |
 |----|-------|----------|----------|-------|
+| BACKLOG-078 | Exact digit and position Then assertions (TRIAGE-14) | All | 2026-10-07 | 16 patterns / 48 bindings; 45 native positives, 66 killed mutations, byte-exact restoration; 113 TS component + 55 BDD, 85 Python, 28 C# component + 55 Reqnroll; unchanged coverage floors and existing contracts; PR CI is the publication check |
 | BACKLOG-075 | Three-stack parity evidence page at `/parity/` | All | 2026-09-30 | DR-047; PRs #83, #86, #87, #88; results-level gate, parity job, one Pages artefact; `main` run 36786863220 green incl. deploy; live page verified |
 | BACKLOG-076 | Restore supported-runtime dependency audits (TRIAGE-12) | DEMOAPP001 / DEMOAPP002 | 2026-09-30 | urllib3 2.8.0 and Serenity 3.48.0 / Axios 1.20.0; Python 85 tests, 88.98% coverage, zero audit findings, 5/5 evidence; Node 102 component + 55 BDD, existing floors, zero blocking findings, 6/6 evidence; DR-039 retained; all-Stack CI is the publication check |
 | BACKLOG-074 | Tutor request ownership and stale hint rejection (TRIAGE-07) | DEMOAPP001 | 2026-09-30 | DR-046; 36 controlled controller cases; 102 component + 55 BDD scenarios and 8 OpenAPI tests green; native browser startup blocked separately by TRIAGE-11 |

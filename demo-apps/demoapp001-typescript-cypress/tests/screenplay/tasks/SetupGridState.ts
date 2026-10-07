@@ -1,9 +1,33 @@
-import { Interaction, notes } from '@serenity-js/core';
+import {
+  AnswersQuestions,
+  CollectsArtifacts,
+  Interaction,
+  UsesAbilities,
+  notes,
+} from '@serenity-js/core';
 import { UseSudokuSolver } from '../abilities/UseSudokuSolver';
 import { LoadPuzzles } from '../abilities/LoadPuzzles';
 import { TARGET_CELL, GRID_SNAPSHOT, SudokuNotes } from '../support/memory-keys';
-import { GRID_SIZE } from '../../../app_src/constants';
+import { BLOCK_SIZE, GRID_SIZE } from '../../../app_src/constants';
 import * as GridFixtures from '../fixtures/GridFixtures';
+
+async function recordFixture(
+  actor: UsesAbilities & AnswersQuestions & CollectsArtifacts,
+  target?: { row: number; col: number }
+): Promise<void> {
+  const ability = UseSudokuSolver.as(actor);
+  ability.takeSnapshot();
+  await notes<SudokuNotes>()
+    .set(
+      GRID_SNAPSHOT,
+      ability.gridSnapshot.map((row) => [...row])
+    )
+    .performAs(actor);
+  if (target) {
+    ability.setTargetCell(target.row, target.col);
+    await notes<SudokuNotes>().set(TARGET_CELL, target).performAs(actor);
+  }
+}
 
 /**
  * Task: SetupGridState
@@ -24,7 +48,7 @@ export const SetupGridState = {
       async (actor) => {
         const ability = UseSudokuSolver.as(actor);
         GridFixtures.setupAlmostCompleteColumn(ability.getSolver(), col, missingDigit);
-        ability.takeSnapshot();
+        await recordFixture(actor, { row: 0, col });
       }
     ),
 
@@ -39,7 +63,10 @@ export const SetupGridState = {
           blockCol,
           missingDigit
         );
-        ability.takeSnapshot();
+        await recordFixture(actor, {
+          row: blockRow * BLOCK_SIZE + BLOCK_SIZE - 1,
+          col: blockCol * BLOCK_SIZE + BLOCK_SIZE - 1,
+        });
       }
     ),
 
@@ -57,13 +84,14 @@ export const SetupGridState = {
   rowMissingDigit: (rowIndex: number, target: number) =>
     Interaction.where(`#actor sets up row ${rowIndex} missing digit ${target}`, async (actor) => {
       GridFixtures.setupRowMissingDigit(UseSudokuSolver.as(actor).getSolver(), rowIndex, target);
+      await recordFixture(actor, { row: rowIndex, col: 4 });
     }),
 
   rowColumnConstraints: (count: number, rowIndex: number, target: number) =>
     Interaction.where('#actor sets up row-column constraints', async (actor) => {
       const ability = UseSudokuSolver.as(actor);
       GridFixtures.setupRowColumnConstraints(ability.getSolver(), count, rowIndex, target);
-      ability.takeSnapshot();
+      await recordFixture(actor, { row: rowIndex, col: 4 });
     }),
 
   columnMissingDigit: (colIndex: number, target: number) =>
@@ -75,6 +103,7 @@ export const SetupGridState = {
           colIndex,
           target
         );
+        await recordFixture(actor, { row: 4, col: colIndex });
       }
     ),
 
@@ -82,7 +111,7 @@ export const SetupGridState = {
     Interaction.where('#actor sets up column-row constraints', async (actor) => {
       const ability = UseSudokuSolver.as(actor);
       GridFixtures.setupColumnRowConstraints(ability.getSolver(), count, colIndex, target);
-      ability.takeSnapshot();
+      await recordFixture(actor, { row: 4, col: colIndex });
     }),
 
   blockFourEmpties: () =>
@@ -94,14 +123,14 @@ export const SetupGridState = {
     Interaction.where(`#actor sets up a hidden single for digit ${target}`, async (actor) => {
       const ability = UseSudokuSolver.as(actor);
       GridFixtures.setupHiddenSingleInBlock(ability.getSolver(), target);
-      ability.takeSnapshot();
+      await recordFixture(actor, { row: 1, col: 2 });
     }),
 
   digitInRow: (rowIndex: number, digit: number) =>
     Interaction.where(`#actor places digit ${digit} in row ${rowIndex}`, async (actor) => {
       const ability = UseSudokuSolver.as(actor);
       GridFixtures.setupDigitInRow(ability.getSolver(), rowIndex, digit);
-      ability.takeSnapshot();
+      await recordFixture(actor, { row: rowIndex, col: 5 });
     }),
 
   withMultipleCandidates: () =>
@@ -122,8 +151,7 @@ export const SetupGridState = {
     Interaction.where(`#actor targets cell [${row},${col}]`, async (actor) => {
       const ability = UseSudokuSolver.as(actor);
       GridFixtures.clearCell(ability.getSolver(), row, col);
-      ability.setTargetCell(row, col);
-      await notes<SudokuNotes>().set(TARGET_CELL, { row, col }).performAs(actor);
+      await recordFixture(actor, { row, col });
     }),
 
   valuesInRow: (values: number[]) =>
@@ -131,6 +159,7 @@ export const SetupGridState = {
       const tc = await actor.answer(notes<SudokuNotes>().get(TARGET_CELL));
       const { row, col } = tc!;
       GridFixtures.addValuesToRow(UseSudokuSolver.as(actor).getSolver(), row, col, values);
+      await recordFixture(actor);
     }),
 
   valuesInColumn: (values: number[]) =>
@@ -138,6 +167,7 @@ export const SetupGridState = {
       const tc = await actor.answer(notes<SudokuNotes>().get(TARGET_CELL));
       const { row, col } = tc!;
       GridFixtures.addValuesToColumn(UseSudokuSolver.as(actor).getSolver(), col, row, values);
+      await recordFixture(actor);
     }),
 
   valuesInBlock: (values: number[]) =>
@@ -152,6 +182,7 @@ export const SetupGridState = {
         col,
         values
       );
+      await recordFixture(actor);
     }),
 
   threeCandidates: () =>
@@ -172,7 +203,7 @@ export const SetupGridState = {
       const ability = UseSudokuSolver.as(actor);
       ability.initialise('test');
       GridFixtures.setupThreeNakedSingles(ability.getSolver());
-      ability.takeSnapshot();
+      await recordFixture(actor);
     }),
 
   // ---------------------------------------------------------------------------
@@ -205,21 +236,21 @@ export const SetupGridState = {
     Interaction.where('#actor sets up a row with a naked pair', async (actor) => {
       const ability = UseSudokuSolver.as(actor);
       GridFixtures.setupNakedPairRow(ability.getSolver());
-      ability.takeSnapshot();
+      await recordFixture(actor, { row: 0, col: 2 });
     }),
 
   nakedPairColumn: () =>
     Interaction.where('#actor sets up a column with a naked pair', async (actor) => {
       const ability = UseSudokuSolver.as(actor);
       GridFixtures.setupNakedPairColumn(ability.getSolver());
-      ability.takeSnapshot();
+      await recordFixture(actor, { row: 2, col: 0 });
     }),
 
   nakedPairBlock: () =>
     Interaction.where('#actor sets up a 3x3 block with a naked pair', async (actor) => {
       const ability = UseSudokuSolver.as(actor);
       GridFixtures.setupNakedPairBlock(ability.getSolver());
-      ability.takeSnapshot();
+      await recordFixture(actor, { row: 0, col: 2 });
     }),
 
   noNakedPairs: () =>
@@ -237,14 +268,14 @@ export const SetupGridState = {
     Interaction.where('#actor sets up rows with an X-Wing pattern', async (actor) => {
       const ability = UseSudokuSolver.as(actor);
       GridFixtures.setupXWingRow(ability.getSolver());
-      ability.takeSnapshot();
+      await recordFixture(actor, { row: 7, col: 1 });
     }),
 
   xWingColumn: () =>
     Interaction.where('#actor sets up columns with an X-Wing pattern', async (actor) => {
       const ability = UseSudokuSolver.as(actor);
       GridFixtures.setupXWingColumn(ability.getSolver());
-      ability.takeSnapshot();
+      await recordFixture(actor, { row: 1, col: 7 });
     }),
 
   noXWing: () =>
