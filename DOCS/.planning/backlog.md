@@ -471,7 +471,7 @@ BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iter
 | ID | Title | Stack(s) | Priority | Status | Decision Record |
 |----|-------|----------|----------|--------|-----------------|
 | BACKLOG-075 | Publish a three-stack parity evidence page at `/parity/` | All | Medium | Resolved | DR-047 |
-| BACKLOG-078 | Strengthen weak Then-step assertions in all three Stacks | All | Medium | Open | None yet |
+| BACKLOG-078 | Strengthen weak Then-step assertions in all three Stacks | All | Medium | Resolved | None required (existing contracts) |
 
 ## Supported-runtime CI Restoration (2026-09-30)
 
