@@ -18,6 +18,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
   DR-040 visualisation. Docs only; no code or behaviour change.
 
 ### Fixed
+- BACKLOG-080 (TRIAGE-09): cleared the moderate fast-uri GHSA-hrr3-gc8f-f4qj advisory
+  by locking 3.1.8 within all three Ajv parents' existing ranges. The lock changes only
+  the version, tarball URL and integrity. The manifest and DR-039 policy remain unchanged;
+  the separate approved braces exception still expires 2026-10-12 inclusive.
 - BACKLOG-078 (TRIAGE-14): digit and position Then assertions in all three Stacks check
   the Given-owned originally empty target, its stated value and unit, negative-row identity,
   and bound cell counts. Native positive/negative mutation controls run before each CI suite

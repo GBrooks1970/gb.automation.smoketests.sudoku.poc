@@ -1,11 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-10-07 — resolved owner-selected BACKLOG-078 / TRIAGE-14 on native three-Stack mutation acceptance and existing gates. The exact DR-039 dependency exception remains approved through 2026-10-12.
+**Last Updated:** 2026-10-07 — resolved owner-selected BACKLOG-080 / TRIAGE-09 after a compatible fast-uri lock repair, advisory-specific controls and DEMOAPP001 gates. The exact DR-039 braces exception remains approved through 2026-10-12 inclusive.
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
-**Status:** BACKLOG-078 / TRIAGE-14 is Resolved on native acceptance and local gates; all-Stack PR CI remains the publication check. BACKLOG-079 / TRIAGE-13 is published through merged PR #90; all seven exact-merge jobs passed. BACKLOG-075 is resolved and live at `/parity/`; BACKLOG-076/077 and historical product closures remain intact. TRIAGE-08/09/10 and the newly observed candidate-qualifier follow-on remain separate root worklist items.
+**Status:** BACKLOG-080 / TRIAGE-09 is Resolved on local acceptance; all-Stack PR CI remains its publication check. BACKLOG-078 / TRIAGE-14 and BACKLOG-079 / TRIAGE-13 are published through merged PRs #91/#90 with all seven exact-merge jobs passing. BACKLOG-075 is resolved and live at `/parity/`; historical closures remain intact. TRIAGE-08/10/15 remain separate root worklist items.
 
 ---
 
@@ -27,8 +27,15 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 0 |
 | In Progress | 0 |
-| Resolved | 102 |
-| **Total** | **102** |
+| Resolved | 103 |
+| **Total** | **103** |
+
+**Update (2026-10-07, TRIAGE-09):** The owner selected a compatible fast-uri repair.
+The [filed plan](../.implementation-plans/2026-10-07-triage-09-fast-uri.md) preceded the
+lock update from 3.1.7 to 3.1.8. Only version, tarball URL and integrity changed; all parent
+ranges and policy stayed identical. Fresh audit removes GHSA-hrr3-gc8f-f4qj and retains only
+the existing braces exception. Native before/after controls, 113 component tests, 55 BDD
+scenarios / 309 steps, eight OpenAPI tests, coverage and existing gates passed.
 
 **Update (2026-10-07, BACKLOG-078):** Owner instructed "action proposed sequence" to strengthen
 Then assertions across all three Stacks. The [filed plan](../.implementation-plans/2026-10-07-backlog-078-exact-assertions.md)
@@ -68,7 +75,7 @@ both passed at `7af3dca`; this was a documentation reconciliation, not an implem
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-078 / TRIAGE-14 is locally Resolved and ready for all-Stack PR CI; BACKLOG-075 is resolved and live; BACKLOG-079 is published; remaining root worklist candidates are separate |
+| Current sprint focus | BACKLOG-080 / TRIAGE-09 is locally Resolved and ready for all-Stack PR CI; BACKLOG-078/079 are published; remaining root worklist candidates are separate |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -1766,10 +1773,56 @@ viewer returned HTTP 200 and Pages run 33996955729 passed at current `main`.
 
 ---
 
+### BACKLOG-080: Compatible fast-uri advisory remediation (TRIAGE-09)
+
+**Priority:** Low
+**Status:** Resolved
+**Stack(s):** DEMOAPP001
+**Nature of Gap:** The fresh Node 24 audit reports moderate GHSA-hrr3-gc8f-f4qj in
+fast-uri 3.1.7, shared by three Ajv 8.20.0 parents with compatible `^3.0.1` ranges.
+**Owner authority:** "proceed as recommended", 2026-10-07, selecting TRIAGE-09 ahead of
+TRIAGE-08. [Filed implementation plan](../.implementation-plans/2026-10-07-triage-09-fast-uri.md).
+**Decision Record:** Existing DR-039; no structural change or new exception.
+
+Acceptance criteria:
+
+- [x] Lock fast-uri 3.1.8 within existing parent ranges; no other dependency graph change.
+- [x] Reproducible Node 24 `npm ci` and installed resolution verified.
+- [x] Upstream host-normalisation control fails on 3.1.7 and passes on 3.1.8.
+- [x] DEMOAPP001 static, API/OpenAPI, component/BDD, existing coverage and publication checks pass.
+- [x] Fresh governed audit removes the fast-uri finding with zero unexcepted blockers.
+- [x] Preserve the exact braces exception through 2026-10-12 inclusive and all separate items.
+
+**Local delivery evidence (2026-10-07):** Node 24.18.0 / npm 11.16.0 locked restore passed
+in 84,516 ms and left the lock's SHA-256 unchanged. Complete parsed graph comparison proves
+only fast-uri's three metadata fields changed; `npm ls fast-uri --all` shows 3.1.8 through all
+three Ajv 8.20.0 parents. The intended URI assertion failed on 3.1.7 (`A.com` versus `a.com`,
+native exit 1, 350 ms) and all five assertions passed on 3.1.8 (256 ms). The fast-uri advisory
+absence check separately fails on the captured before audit and passes afterwards. Fresh
+governed audit reports one finding, one approved braces exception and zero unexcepted blockers.
+
+The normal suite passed 113 component tests (20,171.4968 ms) plus 55 scenarios / 309 steps
+(6.206 s). Coverage passed 113 tests (101,395.955 ms) with 80.11% lines / 91.94% branches /
+80.17% functions under unchanged 70/85/75 floors and one local worker. API integration, eight
+OpenAPI tests (7,588.5197 ms), build/lint/format, web/Pages scripts and all seven repository
+parity/governance checks passed. Results are retained under `.results/triage-09/20261007/`.
+Unchanged Python/C# suites and native Then mutation controls are left to all-Stack PR CI;
+Docker, live browser flows and the optional older loader/orchestrator mutation trial were not
+rerun. No solver, feature, API/schema, manifest, CI, policy or coverage-floor change was made.
+
+The first URI-control tool invocation failed to load its module due to external argument
+forwarding; it is retained and explicitly excluded from acceptance. The corrected native
+assertion failure and final positive run above are the accepted controls. The manifest-selected
+v6 handover and registry's unscheduled BACKLOG-078 note are historical/non-current;
+their separate lifecycle refresh is outside TRIAGE-09.
+
+---
+
 ## Resolved Items
 
 | ID | Title | Stack(s) | Resolved | Notes |
 |----|-------|----------|----------|-------|
+| BACKLOG-080 | Compatible fast-uri advisory remediation (TRIAGE-09) | DEMOAPP001 | 2026-10-07 | fast-uri 3.1.7 to 3.1.8, three-field lock-only change; reproducible restore, native URI/advisory controls, 113 component + 55 BDD / 309 steps, eight OpenAPI tests, existing coverage and gates; only approved braces exception remains; PR CI is the publication check |
 | BACKLOG-078 | Exact digit and position Then assertions (TRIAGE-14) | All | 2026-10-07 | 16 patterns / 48 bindings; 45 native positives, 66 killed mutations, byte-exact restoration; 113 TS component + 55 BDD, 85 Python, 28 C# component + 55 Reqnroll; unchanged coverage floors and existing contracts; PR CI is the publication check |
 | BACKLOG-075 | Three-stack parity evidence page at `/parity/` | All | 2026-09-30 | DR-047; PRs #83, #86, #87, #88; results-level gate, parity job, one Pages artefact; `main` run 36786863220 green incl. deploy; live page verified |
 | BACKLOG-076 | Restore supported-runtime dependency audits (TRIAGE-12) | DEMOAPP001 / DEMOAPP002 | 2026-09-30 | urllib3 2.8.0 and Serenity 3.48.0 / Axios 1.20.0; Python 85 tests, 88.98% coverage, zero audit findings, 5/5 evidence; Node 102 component + 55 BDD, existing floors, zero blocking findings, 6/6 evidence; DR-039 retained; all-Stack CI is the publication check |
