@@ -4,7 +4,7 @@
 **Language:** TypeScript 5.x
 **Framework:** Cucumber.js 12 + Serenity/JS 3.43.2
 **Surface type:** @util
-**Last updated:** 2026-05-15
+**Last updated:** 2026-10-07
 
 ---
 
@@ -55,7 +55,8 @@ This Stack enforces downward-only dependency flow: step definitions do not insta
 ## 5. Known Constraints
 
 - No @cli execution in this Stack: tests validate logic by direct class interaction through Abilities.
-- Advanced Sudoku techniques (backtracking, X-Wing, naked pairs) are intentionally out of scope.
+- The deterministic core implements Unit Completion, Hidden Singles, Naked Singles, Naked Pairs and
+  X-Wing. Swordfish, XY-Wing, forcing chains and backtracking are outside that solver scope.
 - Feature text includes some over-specified literal values; this is currently preserved by DR-005.
 
 ---

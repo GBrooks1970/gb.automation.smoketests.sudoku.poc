@@ -227,19 +227,22 @@ All implementations follow established software engineering principles:
 - **BDD (Gherkin)** - Behavior-driven test scenarios for acceptance criteria
 - **Unit Testability** - Each algorithm callable independently with deterministic results
 
-The current lower-level evidence is measured rather than inferred: DEMOAPP001 has 20 component
-tests plus executable API/OpenAPI contracts, DEMOAPP002 has 30 component tests, and DEMOAPP003 has
-28 component tests. Each Stack also runs the canonical 55-scenario behaviour contract. Component
-coverage is enforced against deliberately selected production scope using conservative floors:
+The [current execution inventory (2026-10-07)](DOCS/.analysis/2026-10-07-component-execution-inventory.json)
+records native test results: DEMOAPP001 has 113 component tests and 8 OpenAPI contract tests,
+DEMOAPP002 has 30 component tests, and DEMOAPP003 has 28 component tests. Each Stack also runs the
+canonical 55-scenario behaviour contract. Component coverage is enforced against deliberately
+selected production scope using conservative floors. The retained percentages below are
+historical measured baselines, with their capture dates beside each observation:
 
-| Stack | Measured baseline | CI floor |
+| Stack | Historical measured baseline | CI floor |
 |---|---:|---:|
-| TypeScript / Node 24 | 73.23% lines / 87.67% branches / 79.59% functions | 70% / 85% / 75% |
-| Python 3.13 | 87.81% combined with branch collection | 85% combined |
-| C# / .NET 10 | 86.03% lines / 84.91% branches | 80% / 80% |
+| TypeScript / Node 24 | 2026-07-27: 73.23% lines / 87.67% branches / 79.59% functions | 70% / 85% / 75% |
+| Python 3.13 | 2026-07-27: 87.81% combined with branch collection | 85% combined |
+| C# / .NET 10 | 2026-07-28: 86.03% lines / 84.91% branches | 80% / 80% |
 
-A focused Node 24 mutation trial kills all 10 loader/orchestrator mutations, including removal and
-reordering of each basic technique call. See
+Historical mutation observation (2026-07-28): the focused Node 24 trial killed all 10
+loader/orchestrator mutations, including removal and reordering of the three original technique
+calls. This is dated evidence, not a fresh mutation result. See
 [coverage-and-mutation-policy-20260728.md](DOCS/.analysis/coverage-and-mutation-policy-20260728.md)
 and DR-038 for scope, exclusions and threshold governance.
 
@@ -248,20 +251,22 @@ CI retains equivalent diagnostic evidence for seven days, even when a Stack fail
 | Artefact | Test results | Component coverage | Dependency audit |
 |---|---|---|---|
 | `demoapp001-ci-evidence` | Cucumber JSON + JUnit | LCOV + text summary | Node 24 lock-aware npm native output + common summary |
-| `demoapp002-ci-evidence` | pytest JUnit | Cobertura XML + text summary | Python 3.13 governed `pip-audit` native output + common summary |
-| `demoapp003-ci-evidence` | NUnit component + Reqnroll TRX | Cobertura XML + text summary | .NET 10 locked NuGet native output + common summary |
+| `demoapp002-ci-evidence` | pytest JUnit + Cucumber JSON | Cobertura XML + text summary | Python 3.13 governed `pip-audit` native output + common summary |
+| `demoapp003-ci-evidence` | NUnit component + Reqnroll TRX + Cucumber Messages NDJSON | Cobertura XML + text summary | .NET 10 locked NuGet native output + common summary |
 
 Each job verifies its required files before upload, and `if-no-files-found: error` prevents an
-empty evidence publication from appearing successful. `.batch/test-ci-evidence-contract.ps1`
-proves all 17 required-file omissions are rejected without relying on a live Actions run.
+empty evidence publication from appearing successful. The checker requires 19 evidence paths across
+the three Stacks (6 TypeScript, 6 Python and 7 C#). `.batch/test-ci-evidence-contract.ps1` rejects
+all 19 required-file omissions and two malformed Cucumber Messages controls: 21 distinct negative
+controls, without relying on a live Actions run.
 
 DR-039 blocks each Stack for unexcepted high/critical findings, findings whose severity is unknown,
 and audit-tool or registry outages. Temporary vulnerability/outage exceptions live only in
 `.github/dependency-audit-policy.json`; exact scope, owner, reason, approver and dates are mandatory,
-the maximum window is 14 days, and stale/expired policy fails closed. The current
-`brace-expansion` GHSA-mh99-v99m-4gvg finding was remediated at patched version 5.0.8 rather than
-excepted. See [orchestration-design.md](DOCS/.architecture/orchestration-design.md) for commands and
-policy details.
+the maximum window is 14 days, and stale/expired policy fails closed. Historical remediation
+(2026-07-28): `brace-expansion` GHSA-mh99-v99m-4gvg was patched at version 5.0.8 rather than excepted.
+Current findings and exceptions are reported by the governed audit and its policy. See
+[orchestration-design.md](DOCS/.architecture/orchestration-design.md) for commands and policy details.
 
 **Code Quality:**
 - **Minimal Comments** - Code should be self-documenting through clear naming
@@ -284,7 +289,7 @@ policy details.
 - **Comprehensive Design Specs** - Tech-agnostic specifications serve as learning blueprints
 - **Pedagogical Code Comments** - Inline documentation explains *why*, not just *what*
 - **Visual Diagrams** - Architecture diagrams, data flows, and algorithm examples
-- **Incremental Complexity** - Techniques ordered from simplest (Unit Completion) to most complex (Naked Singles)
+- **Technique Progression** - The orchestration order is Unit Completion, Hidden Singles, Naked Singles, Naked Pairs, then X-Wing
 
 **Testing Patterns:**
 - **AAA Pattern Consistency** - All tests follow Arrange-Act-Assert structure
@@ -306,14 +311,14 @@ policy details.
 
 ## Solving Capabilities
 
-| Puzzle Difficulty | Typical Outcome | Techniques Required |
-|-------------------|-----------------|---------------------|
-| Easy | ✅ Solved | Mostly Unit Completion |
-| Medium | ✅ Often solved | All three basic techniques |
-| Hard | ⚠️ Usually stuck | Requires advanced techniques |
-| Expert | ❌ Stuck | Requires advanced techniques |
+The core solver applies Unit Completion, Hidden Singles, Naked Singles, Naked Pairs and X-Wing
+in a repeatable order until no technique makes further progress. It returns `SOLVED` when the
+grid is full. It returns `STUCK_ON_ADVANCED_LOGIC` when empty cells remain and none of the five
+techniques makes further progress. A puzzle's difficulty label does not guarantee either outcome.
 
-**By Design:** The solver does NOT use backtracking or brute-force methods. Puzzles requiring advanced techniques (Naked Pairs, X-Wing, etc.) will return `STUCK_ON_ADVANCED_LOGIC`.
+The core solver uses no backtracking or brute-force search. Techniques beyond those five, such as
+Swordfish, XY-Wing and forcing chains, are outside its implemented scope. The generator's separate
+solution-construction and uniqueness search do not extend the deterministic core solver.
 
 ## Contributing
 

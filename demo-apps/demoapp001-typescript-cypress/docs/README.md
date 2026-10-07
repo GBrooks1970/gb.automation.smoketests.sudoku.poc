@@ -3,7 +3,7 @@
 **Language:** TypeScript 5.x
 **Framework:** Cucumber.js 12 + Serenity/JS 3.43.2
 **Surface types:** @util, @api
-**Last updated:** 2026-07-28
+**Last updated:** 2026-10-07
 
 ---
 
@@ -34,14 +34,16 @@ npm run test:api
 npm run verify:openapi
 ```
 
-Expected output (current baseline):
+Expected output, backed by the
+[current native execution inventory (2026-10-07)](../../../DOCS/.analysis/2026-10-07-component-execution-inventory.json)
+and canonical feature contract:
 
 ```text
-16 component tests (16 passed)
-48 scenarios (48 passed)
-267 steps (267 passed)
+113 component tests (113 passed)
+55 scenarios (55 passed)
+309 steps (309 passed)
 API integration tests: PASS
-4 OpenAPI contract tests (4 passed)
+8 OpenAPI contract tests (8 passed)
 ```
 
 Run by tag:

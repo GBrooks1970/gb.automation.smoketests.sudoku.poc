@@ -1,11 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-10-07 — resolved owner-selected BACKLOG-080 / TRIAGE-09 after a compatible fast-uri lock repair, advisory-specific controls and DEMOAPP001 gates. The exact DR-039 braces exception remains approved through 2026-10-12 inclusive.
+**Last Updated:** 2026-10-07 — resolved BACKLOG-081 / TRIAGE-08 after active documentation reconciliation, native inventory, precise currency controls and repository checks. The exact DR-039 braces exception remains approved through 2026-10-12 inclusive.
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
-**Status:** BACKLOG-080 / TRIAGE-09 is Resolved on local acceptance; all-Stack PR CI remains its publication check. BACKLOG-078 / TRIAGE-14 and BACKLOG-079 / TRIAGE-13 are published through merged PRs #91/#90 with all seven exact-merge jobs passing. BACKLOG-075 is resolved and live at `/parity/`; historical closures remain intact. TRIAGE-08/10/15 remain separate root worklist items.
+**Status:** BACKLOG-081 / TRIAGE-08 is Resolved on local acceptance under its filed plan; all-Stack PR CI remains its publication check. BACKLOG-080 / TRIAGE-09 is published through merged PR #92 with all seven exact-merge jobs passing; BACKLOG-078 / TRIAGE-14 and BACKLOG-079 / TRIAGE-13 are published through merged PRs #91/#90. BACKLOG-075 is resolved and live at `/parity/`; historical closures remain intact. TRIAGE-10/15 remain separate root worklist items.
 
 ---
 
@@ -27,8 +27,16 @@ Per v1.15 Section 10.1:
 |--------|-------|
 | Open | 0 |
 | In Progress | 0 |
-| Resolved | 103 |
-| **Total** | **103** |
+| Resolved | 104 |
+| **Total** | **104** |
+
+**Update (2026-10-07, TRIAGE-08):** The owner selected active capability and assurance currency.
+The [filed plan](../.implementation-plans/2026-10-07-triage-08-documentation-currency.md)
+preceded implementation. Eight active documents now agree with the five-technique deterministic
+solver; the native inventory records 113/30/28 component tests and eight OpenAPI tests with
+source fingerprints. All three BDD lanes passed 55 scenarios; 37 precise currency mutations,
+the portable-source positive control and all seven governance/parity checks passed. Historical
+coverage/mutation observations, prior IDs and separately scoped TRIAGE-10/15 are preserved.
 
 **Update (2026-10-07, TRIAGE-09):** The owner selected a compatible fast-uri repair.
 The [filed plan](../.implementation-plans/2026-10-07-triage-09-fast-uri.md) preceded the
@@ -75,7 +83,7 @@ both passed at `7af3dca`; this was a documentation reconciliation, not an implem
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-080 / TRIAGE-09 is locally Resolved and ready for all-Stack PR CI; BACKLOG-078/079 are published; remaining root worklist candidates are separate |
+| Current sprint focus | BACKLOG-081 / TRIAGE-08 locally Resolved and ready for all-Stack PR CI; BACKLOG-078/079/080 are published; TRIAGE-10/15 are separate |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -1818,10 +1826,52 @@ their separate lifecycle refresh is outside TRIAGE-09.
 
 ---
 
+### BACKLOG-081: Active capability and assurance documentation currency (TRIAGE-08)
+
+**Status:** Resolved 2026-10-07 on local acceptance; all-Stack PR CI remains the publication check.
+**Priority:** Low
+**Stack(s):** All (active documentation and repository tooling)
+**Source:** September review R5; owner selected the next recommended item on 2026-10-07.
+**Plan:** [Filed implementation plan](../.implementation-plans/2026-10-07-triage-08-documentation-currency.md)
+
+**Acceptance:** Active documentation consistently states the five implemented techniques and
+the deterministic solver's supported no-progress boundary. Current component/OpenAPI counts
+come from native execution inventory with portable source fingerprints; dated coverage and
+mutation figures remain explicitly historical. Narrow currency guards and precise isolated
+negative controls reject the identified drift. Preserve immutable reports, product behaviour,
+coverage floors and separately scoped TRIAGE-10/15.
+
+**Local delivery evidence (2026-10-07):** Eight active documents describe all five techniques,
+the supported deterministic no-progress boundary, current native counts and the three individual
+technique API endpoints. The [execution inventory](../.analysis/2026-10-07-component-execution-inventory.json)
+records 113 TypeScript component tests, eight OpenAPI tests, 30 Python components and 28 C#
+components, all passing with zero failures/skips. Command durations were 33,109 / 43,206 /
+9,288 / 36,554 ms respectively. All three BDD lanes also passed: TypeScript 55 scenarios /
+309 steps (5.983 s runner, 25,199 ms command), Python 85 total tests (55 BDD + 30 component,
+2.26 s runner, 5,060 ms command), C# 55 Reqnroll tests (18,296 ms command). Python emits one
+pre-existing Gherkin deprecation warning; it is not a failure.
+
+The static guard rejects contradictory active claims, wrong counts and changed collection
+sources/configuration. The logged currency controls passed 37/37 intended mutations in
+48,276 ms, requiring each isolated baseline, a unique anchor, exit 1 and its named diagnostic;
+the LF-normalisation positive control passed. Temporary cleanup checks resolved containment.
+All seven governance/parity checks passed, including 13 dependency-policy and 21 CI-evidence
+controls. PowerShell parse, new links, source/output hashes and independent review passed.
+All 103 earlier canonical IDs/statuses remain unchanged; only BACKLOG-081 was added.
+
+Native evidence and timings are retained under `.results/triage-08/20261007/`; the committed
+inventory records commands, UTC starts, source SHA and hashes. Build/lint/format, full coverage,
+governed live audits and native Then mutation controls use unchanged all-Stack PR CI. Docker,
+native browser flows and the historical loader/orchestrator mutation trial were not rerun.
+Product/test sources, locks/policy, features, workflow, coverage floors, immutable reports and
+dated baseline documents match the base. The v6 handover and registry's older BACKLOG-078 note
+remain separately scoped lifecycle records. The root worklist is separate control state.
+
 ## Resolved Items
 
 | ID | Title | Stack(s) | Resolved | Notes |
 |----|-------|----------|----------|-------|
+| BACKLOG-081 | Active capability and assurance documentation currency (TRIAGE-08) | All | 2026-10-07 | Eight active guides reconciled; native 113/30/28 component and eight OpenAPI inventory, five-technique/no-progress claims, historical labels, 37 precise currency controls and seven repository gates; existing history preserved; PR CI is the publication check |
 | BACKLOG-080 | Compatible fast-uri advisory remediation (TRIAGE-09) | DEMOAPP001 | 2026-10-07 | fast-uri 3.1.7 to 3.1.8, three-field lock-only change; reproducible restore, native URI/advisory controls, 113 component + 55 BDD / 309 steps, eight OpenAPI tests, existing coverage and gates; only approved braces exception remains; PR CI is the publication check |
 | BACKLOG-078 | Exact digit and position Then assertions (TRIAGE-14) | All | 2026-10-07 | 16 patterns / 48 bindings; 45 native positives, 66 killed mutations, byte-exact restoration; 113 TS component + 55 BDD, 85 Python, 28 C# component + 55 Reqnroll; unchanged coverage floors and existing contracts; PR CI is the publication check |
 | BACKLOG-075 | Three-stack parity evidence page at `/parity/` | All | 2026-09-30 | DR-047; PRs #83, #86, #87, #88; results-level gate, parity job, one Pages artefact; `main` run 36786863220 green incl. deploy; live page verified |

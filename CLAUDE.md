@@ -116,6 +116,9 @@ gb.automation.smoketests.sudoku.poc/
 
 ## Development Commands
 
+Current component and OpenAPI counts are backed by the
+[2026-10-07 native execution inventory](DOCS/.analysis/2026-10-07-component-execution-inventory.json).
+
 Run DEMOAPP001 commands from `demo-apps/demoapp001-typescript-cypress/`.
 
 | Command | Purpose |
@@ -124,7 +127,7 @@ Run DEMOAPP001 commands from `demo-apps/demoapp001-typescript-cypress/`.
 | `npm run build` | Compile TypeScript |
 | `npm run lint` | Run ESLint over app source |
 | `npm run format:check` | Check Prettier formatting for app source |
-| `npm test` | Run 20 component tests, then 55 Cucumber/Serenity Screenplay scenarios |
+| `npm test` | Run 113 component tests, then 55 Cucumber/Serenity Screenplay scenarios |
 | `npm run test:ci` | Run the same tests while emitting Cucumber JSON and JUnit evidence |
 | `npm run test:coverage` | Enforce the DR-038 component-coverage floors |
 | `npm run test:coverage:ci` | Enforce the same floors and emit LCOV evidence |

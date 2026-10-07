@@ -1,0 +1,328 @@
+{
+  "schemaVersion": 1,
+  "recordedOn": "2026-10-07",
+  "notes": [
+    "Counts are measured native executions, not counts of test declarations.",
+    "The currency guard only checks recorded counts/provenance and portable source fingerprints; it does not execute tests.",
+    "Source SHA256 uses UTF-8 without BOM and LF-normalised line endings, with repository-relative paths sorted ordinally. Output SHA256 hashes exact retained bytes.",
+    "Native logs/XML/TRX remain ignored local evidence; their absence in a clean checkout is expected. Their hashes and commands preserve provenance.",
+    "Refresh after collection/source drift: rerun all four native commands, retain zero-failure/skip results and UTC timings, update output hashes and sorted source fingerprints, reconcile active count claims, then run the guard and isolated controls."
+  ],
+  "suites": [
+    {
+      "id": "demoapp001-component",
+      "tests": 113,
+      "passed": 113,
+      "failed": 0,
+      "skipped": 0,
+      "runtime": "Node 24.18.0 / npm 11.16.0",
+      "sourceSha": "eaaeb79a9ec7d9bb4c5eb6338a956e4308efceee",
+      "startedUtc": "2026-10-07T15:56:58.1278560Z",
+      "commandDurationMs": 33109,
+      "runnerDurationMs": 31638.1744,
+      "command": {
+        "executable": "node",
+        "arguments": [
+          "--test",
+          "-r",
+          "ts-node/register",
+          "tests/component/*.test.ts"
+        ],
+        "workingDirectory": "demo-apps/demoapp001-typescript-cypress"
+      },
+      "collection": {
+        "directory": "demo-apps/demoapp001-typescript-cypress/tests/component",
+        "pattern": "*.test.ts",
+        "recursive": false,
+        "excludedDirectories": [
+          "bin",
+          "obj"
+        ],
+        "configuration": [
+          "demo-apps/demoapp001-typescript-cypress/package.json",
+          "demo-apps/demoapp001-typescript-cypress/tsconfig.json"
+        ],
+        "optionalConfiguration": []
+      },
+      "sources": [
+        {
+          "path": "demo-apps/demoapp001-typescript-cypress/package.json",
+          "sha256": "d57c5b4bb0ef18ed82dad397b3e837ab90c2ea7ddb14375d2a6d90f9f55830f7"
+        },
+        {
+          "path": "demo-apps/demoapp001-typescript-cypress/tests/component/api-service.contract.test.ts",
+          "sha256": "fb4b309b54db4e25e0985804dea063d1b594c5bf33cfcb9db4055bac17086e04"
+        },
+        {
+          "path": "demo-apps/demoapp001-typescript-cypress/tests/component/clue-removal.contract.test.ts",
+          "sha256": "bd179297070d0d15eced73dbb3ba74496082aebebfc08c561045a248a6b71a44"
+        },
+        {
+          "path": "demo-apps/demoapp001-typescript-cypress/tests/component/difficulty-grader.contract.test.ts",
+          "sha256": "a7c4d5b7648376b1844790fb01a745333dbad3095912799a8c19061c93304f80"
+        },
+        {
+          "path": "demo-apps/demoapp001-typescript-cypress/tests/component/difficulty-grader.real-grid.test.ts",
+          "sha256": "335e0ef35328d24be8b748b0d6e6fd521fde2b1dd78bddaa82b12579abf5342c"
+        },
+        {
+          "path": "demo-apps/demoapp001-typescript-cypress/tests/component/generator-exhaustion.contract.test.ts",
+          "sha256": "2bb636fed43e9a585b144e6232e66f7d25f546199b5597e32bc7d99314be0110"
+        },
+        {
+          "path": "demo-apps/demoapp001-typescript-cypress/tests/component/generator-service.contract.test.ts",
+          "sha256": "1a3af41fc9c8460bd4ee49c1659d6b7c6c95f21f371d408798775fb6a7c242e2"
+        },
+        {
+          "path": "demo-apps/demoapp001-typescript-cypress/tests/component/orchestration.contract.test.ts",
+          "sha256": "72180f458289020dbe1fbb02ce31abc4299e0e362b5ca697f9389e16a82b1973"
+        },
+        {
+          "path": "demo-apps/demoapp001-typescript-cypress/tests/component/player-module.contract.test.ts",
+          "sha256": "1a526c77f23dde7b77fe21416765311b63a6b7655b9d61be0548e48010c4fcf7"
+        },
+        {
+          "path": "demo-apps/demoapp001-typescript-cypress/tests/component/puzzle-loader.contract.test.ts",
+          "sha256": "9707516a6462c0028f17720a9c41e97629ac629a8950c77993b1260d142a5ea6"
+        },
+        {
+          "path": "demo-apps/demoapp001-typescript-cypress/tests/component/solution-construction.contract.test.ts",
+          "sha256": "453883995f4d2720f37e637cd9ea1aa1696f9e732575ebb6e02ae4ab6184e6e3"
+        },
+        {
+          "path": "demo-apps/demoapp001-typescript-cypress/tests/component/solver-techniques.contract.test.ts",
+          "sha256": "4e7f3f31d0df13f1fefbaf79ebc5fa03fa9e50c34fd9f069e47313e80bf723c2"
+        },
+        {
+          "path": "demo-apps/demoapp001-typescript-cypress/tests/component/tutor-controller.contract.test.ts",
+          "sha256": "c985626cb7aa47de94c68dbc663d14e6aabe55221c4aab718bc37d8bd8a1ee23"
+        },
+        {
+          "path": "demo-apps/demoapp001-typescript-cypress/tests/component/tutor-service.contract.test.ts",
+          "sha256": "7d42f7490337d6c7a2bbdff8628d4844622c7377f5d71558a683354605bb879d"
+        },
+        {
+          "path": "demo-apps/demoapp001-typescript-cypress/tsconfig.json",
+          "sha256": "e4f9b08f186ec6bd6571fa74c3aa3f6166492eff043331b3b934d0663818fb45"
+        }
+      ],
+      "outputs": [
+        {
+          "path": ".results/triage-08/20261007/ts-component.log",
+          "sha256": "484d2f3a60fe3adb3238326714ba832750d1588a455dec8037a84f76663ef6d8"
+        }
+      ]
+    },
+    {
+      "id": "demoapp001-openapi",
+      "tests": 8,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "runtime": "Node 24.18.0 / npm 11.16.0",
+      "sourceSha": "eaaeb79a9ec7d9bb4c5eb6338a956e4308efceee",
+      "startedUtc": "2026-10-07T15:56:58.1701675Z",
+      "commandDurationMs": 43206,
+      "runnerDurationMs": 7595.1412,
+      "command": {
+        "executable": "npm.cmd",
+        "arguments": [
+          "run",
+          "verify:openapi"
+        ],
+        "workingDirectory": "demo-apps/demoapp001-typescript-cypress"
+      },
+      "collection": {
+        "directory": "demo-apps/demoapp001-typescript-cypress/tests/api",
+        "pattern": "openapi.contract.test.ts",
+        "recursive": false,
+        "excludedDirectories": [
+          "bin",
+          "obj"
+        ],
+        "configuration": [
+          "demo-apps/demoapp001-typescript-cypress/package.json",
+          "demo-apps/demoapp001-typescript-cypress/tsconfig.json",
+          "demo-apps/demoapp001-typescript-cypress/redocly.yaml"
+        ],
+        "optionalConfiguration": []
+      },
+      "sources": [
+        {
+          "path": "demo-apps/demoapp001-typescript-cypress/package.json",
+          "sha256": "d57c5b4bb0ef18ed82dad397b3e837ab90c2ea7ddb14375d2a6d90f9f55830f7"
+        },
+        {
+          "path": "demo-apps/demoapp001-typescript-cypress/redocly.yaml",
+          "sha256": "11506501cdc971b6fee05570c5003931f15fa2cf224b9abaebedb445b4a252cc"
+        },
+        {
+          "path": "demo-apps/demoapp001-typescript-cypress/tests/api/openapi.contract.test.ts",
+          "sha256": "83e3856a84476489d41db748db893cf48ec045bddf8b9aada0ed3fd7ad27c7ba"
+        },
+        {
+          "path": "demo-apps/demoapp001-typescript-cypress/tsconfig.json",
+          "sha256": "e4f9b08f186ec6bd6571fa74c3aa3f6166492eff043331b3b934d0663818fb45"
+        }
+      ],
+      "outputs": [
+        {
+          "path": ".results/triage-08/20261007/ts-openapi.log",
+          "sha256": "00e80a14b708ad9c3b5f84d11aa7d73aed5727e5b6f03b97ca4af8bc1ddaee4a"
+        }
+      ]
+    },
+    {
+      "id": "demoapp002-component",
+      "tests": 30,
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0,
+      "runtime": "Python 3.13.1",
+      "sourceSha": "eaaeb79a9ec7d9bb4c5eb6338a956e4308efceee",
+      "startedUtc": "2026-10-07T15:56:58.2059100Z",
+      "commandDurationMs": 9288,
+      "runnerDurationMs": 3490,
+      "command": {
+        "executable": "$REPOSITORY_ROOT/demo-apps/demoapp002-python-pytest/.venv/Scripts/python.exe",
+        "arguments": [
+          "-m",
+          "pytest",
+          "tests/component",
+          "--junitxml=$REPOSITORY_ROOT/.results/triage-08/20261007/python-component.xml"
+        ],
+        "workingDirectory": "demo-apps/demoapp002-python-pytest"
+      },
+      "collection": {
+        "directory": "demo-apps/demoapp002-python-pytest/tests/component",
+        "pattern": "*.py",
+        "recursive": true,
+        "excludedDirectories": [
+          "bin",
+          "obj"
+        ],
+        "configuration": [
+          "demo-apps/demoapp002-python-pytest/pyproject.toml"
+        ],
+        "optionalConfiguration": [
+          "demo-apps/demoapp002-python-pytest/conftest.py",
+          "demo-apps/demoapp002-python-pytest/tests/conftest.py",
+          "demo-apps/demoapp002-python-pytest/tests/component/conftest.py"
+        ]
+      },
+      "sources": [
+        {
+          "path": "demo-apps/demoapp002-python-pytest/pyproject.toml",
+          "sha256": "de2cf761f3151a47a19ac1c851aaede8714dc8d25168093340f5120a24a2543b"
+        },
+        {
+          "path": "demo-apps/demoapp002-python-pytest/tests/component/test_orchestration_attempts.py",
+          "sha256": "fe9ea214c834234ea4efe717e78f213495b6214d2ddaf5ccfd29a1d0a6e867e8"
+        },
+        {
+          "path": "demo-apps/demoapp002-python-pytest/tests/component/test_puzzle_loader_boundaries.py",
+          "sha256": "61858dbe1342671d8e51ce9f94d94baef97d2629d510b7c2d089afa200cae67f"
+        },
+        {
+          "path": "demo-apps/demoapp002-python-pytest/tests/component/test_solver_techniques.py",
+          "sha256": "5c383320ce1115c5cb4e1fca85f9195b8843bfc46e6c86491165ee28fa2430ec"
+        },
+        {
+          "path": "demo-apps/demoapp002-python-pytest/tests/component/test_validation_contract.py",
+          "sha256": "04999a29f272eaa58a39137b4a0af5f266544e0ba9296d5755502f6cf70ca7fd"
+        }
+      ],
+      "outputs": [
+        {
+          "path": ".results/triage-08/20261007/py-component.log",
+          "sha256": "52340792ac4655f71617d41deb811fccdc506e88dbb9e00dd5621403aaf4e2f6"
+        },
+        {
+          "path": ".results/triage-08/20261007/python-component.xml",
+          "sha256": "300f3e027f96dac6b1db6ce8bd1989b63e557d3029d633e006b73de88488802b"
+        }
+      ]
+    },
+    {
+      "id": "demoapp003-component",
+      "tests": 28,
+      "passed": 28,
+      "failed": 0,
+      "skipped": 0,
+      "runtime": ".NET SDK 10.0.401",
+      "sourceSha": "eaaeb79a9ec7d9bb4c5eb6338a956e4308efceee",
+      "startedUtc": "2026-10-07T15:56:58.2106809Z",
+      "commandDurationMs": 36554,
+      "runnerDurationMs": 356,
+      "command": {
+        "executable": "dotnet",
+        "arguments": [
+          "test",
+          "tests/component/DemoApp003.ComponentTests.csproj",
+          "--no-restore",
+          "--logger",
+          "trx;LogFileName=component.trx",
+          "--results-directory",
+          "$REPOSITORY_ROOT/.results/triage-08/20261007/csharp"
+        ],
+        "workingDirectory": "demo-apps/demoapp003-csharp-specflow"
+      },
+      "collection": {
+        "directory": "demo-apps/demoapp003-csharp-specflow/tests/component",
+        "pattern": "*.cs",
+        "recursive": true,
+        "excludedDirectories": [
+          "bin",
+          "obj"
+        ],
+        "configuration": [
+          "demo-apps/demoapp003-csharp-specflow/tests/component/DemoApp003.ComponentTests.csproj"
+        ],
+        "optionalConfiguration": [
+          "Directory.Build.props",
+          "Directory.Build.targets",
+          "demo-apps/Directory.Build.props",
+          "demo-apps/Directory.Build.targets",
+          "demo-apps/demoapp003-csharp-specflow/Directory.Build.props",
+          "demo-apps/demoapp003-csharp-specflow/Directory.Build.targets",
+          "demo-apps/demoapp003-csharp-specflow/tests/Directory.Build.props",
+          "demo-apps/demoapp003-csharp-specflow/tests/Directory.Build.targets",
+          "demo-apps/demoapp003-csharp-specflow/tests/component/Directory.Build.props",
+          "demo-apps/demoapp003-csharp-specflow/tests/component/Directory.Build.targets"
+        ]
+      },
+      "sources": [
+        {
+          "path": "demo-apps/demoapp003-csharp-specflow/tests/component/DemoApp003.ComponentTests.csproj",
+          "sha256": "6bb559f6e9f39a9a941fa0aabfa40d1a7ce6b0aa67a8734553ede39231e28a43"
+        },
+        {
+          "path": "demo-apps/demoapp003-csharp-specflow/tests/component/OrchestrationAttemptContractTests.cs",
+          "sha256": "6afa8d11caf374332b295ca8e1750c6fbcf441f2cf5ac90daad60e3d4e7a9bd7"
+        },
+        {
+          "path": "demo-apps/demoapp003-csharp-specflow/tests/component/PuzzleLoaderContractTests.cs",
+          "sha256": "62f31f3b15b742a9667e72e29a378428a56138ec6428f77672a0ce102b4907a6"
+        },
+        {
+          "path": "demo-apps/demoapp003-csharp-specflow/tests/component/SolverTechniqueContractTests.cs",
+          "sha256": "b2a8508ea90a73924a7246e41f694d9508abe8196507bfb9f9e07ccf2a48c50e"
+        },
+        {
+          "path": "demo-apps/demoapp003-csharp-specflow/tests/component/SudokuValidationContractTests.cs",
+          "sha256": "8560bdb61bbf2e36e293426cbed3e6157f54a2b3d53d7b1b2b1f56d301017e84"
+        }
+      ],
+      "outputs": [
+        {
+          "path": ".results/triage-08/20261007/cs-component.log",
+          "sha256": "9eb3053777861035f10b843f402fa2dc65c741aeeec62f270d8dd8fa7aff7c8c"
+        },
+        {
+          "path": ".results/triage-08/20261007/csharp/component.trx",
+          "sha256": "a28e588266b3dce4d7fbdf7fad7e3ad60f8a2ea13376669bdbb84ef0ea31edd7"
+        }
+      ]
+    }
+  ]
+}
