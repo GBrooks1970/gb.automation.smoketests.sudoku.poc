@@ -18,6 +18,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
   DR-040 visualisation. Docs only; no code or behaviour change.
 
 ### Fixed
+- BACKLOG-081 (TRIAGE-08): reconciled active capability and assurance documentation with
+  the five-technique deterministic solver and a native component/OpenAPI execution inventory.
+  Dated coverage and mutation observations remain historical. Narrow currency checks detect
+  stale active claims and test-collection drift; isolated controls require precise diagnostics.
 - BACKLOG-080 (TRIAGE-09): cleared the moderate fast-uri GHSA-hrr3-gc8f-f4qj advisory
   by locking 3.1.8 within all three Ajv parents' existing ranges. The lock changes only
   the version, tarball URL and integrity. The manifest and DR-039 policy remain unchanged;

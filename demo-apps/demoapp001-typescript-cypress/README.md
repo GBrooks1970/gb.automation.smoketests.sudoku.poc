@@ -90,7 +90,7 @@ Result: SOLVED
 demoapp001-typescript-cypress/
 ├── app_src/                          # TypeScript source code
 │   ├── index.ts                      # Entry point - orchestrates solving workflow
-│   ├── SudokuSolver.ts               # Core solving algorithms (3 techniques)
+│   ├── SudokuSolver.ts               # Core solving algorithms (5 techniques)
 │   ├── SudokuOrchestrator.ts         # Coordinates algorithm execution strategy
 │   ├── SudokuCLI.ts                  # Terminal display and user interface
 │   └── PuzzleLoader.ts               # Loads and validates puzzles from JSON
@@ -120,7 +120,7 @@ This implementation follows the **Single Responsibility Principle** with four ma
          │
          ▼
 ┌─────────────────┐
-│  SudokuSolver   │  Contains the 3 solving algorithms
+│  SudokuSolver   │  Contains the 5 solving algorithms
 └────────┬────────┘
          │
          ▼
@@ -153,7 +153,8 @@ This implementation follows the **Single Responsibility Principle** with four ma
 
 #### 2. SudokuSolver ([SudokuSolver.ts](app_src/SudokuSolver.ts))
 
-**Purpose:** Implement the three fundamental solving techniques.
+**Purpose:** Implement five deterministic solving techniques: Unit Completion, Hidden Singles,
+Naked Singles, Naked Pairs and X-Wing.
 
 **State:**
 - `origGrid` - Immutable copy of original puzzle
@@ -163,8 +164,10 @@ This implementation follows the **Single Responsibility Principle** with four ma
 | Method | Input | Output | Description |
 |--------|-------|--------|-------------|
 | `unitCompletion()` | None | boolean | Fills units with one empty cell |
-| `hiddenSingles(digit)` | number (1-9) | boolean | Places digit in blocks where it has one valid location |
+| `hiddenSingles(digit)` | number (1-9) | boolean | Places a digit where it has one valid location in a row, column or block |
 | `nakedSingles()` | None | boolean | Fills cells with only one candidate |
+| `nakedPairs()` | None | boolean | Eliminates pair candidates in rows, columns and blocks |
+| `xWing()` | None | boolean | Eliminates parallel line candidates in rows and columns |
 | `getGrid()` | None | number[][] | Deep-copy snapshot of the working grid (v1.0 `getGrid` operation) |
 
 **Returns:** `true` if at least one cell was modified, `false` otherwise (algorithm methods)
@@ -187,9 +190,11 @@ external mutation bypasses the solving algorithms and the audit trail.
 **Solving Strategy:**
 ```
 LOOP until no progress:
-  1. Try Unit Completion (fastest)
-  2. Try Hidden Singles for digits 1-9 (medium speed)
-  3. Try Naked Singles (slowest, most thorough)
+  1. Try Unit Completion
+  2. Try Hidden Singles for digits 1-9
+  3. Try Naked Singles
+  4. Try Naked Pairs
+  5. Try X-Wing
 
   If no algorithm made changes → EXIT
 
@@ -360,6 +365,8 @@ Test scenarios are defined in [BasicSudokuSolverLogic.feature](tests/features/Ba
 - ✅ Unit Completion (rows, columns, blocks)
 - ✅ Hidden Singles (rows, columns, blocks)
 - ✅ Naked Singles
+- ✅ Naked Pairs
+- ✅ X-Wing
 - ✅ Orchestration logic
 - ✅ PuzzleLoader functionality
 - ✅ Grid initialization
@@ -368,15 +375,18 @@ Test scenarios are defined in [BasicSudokuSolverLogic.feature](tests/features/Ba
 
 **Total Scenarios:** 55 scenarios / 309 steps
 
-The acceptance contract is complemented by 20 focused component tests, REST API integration, four
-OpenAPI response-contract tests, selected-scope coverage floors, and a reproducible 10-mutant
-loader/orchestrator trial. Run `npm test`, `npm run test:coverage`, `npm run verify:openapi`, and
-`npm run test:mutation-trial` for those layers.
+The [current native execution inventory (2026-10-07)](../../DOCS/.analysis/2026-10-07-component-execution-inventory.json)
+records 113 focused component tests and 8 OpenAPI response-contract tests. REST API integration and
+selected-scope coverage floors complement the canonical acceptance contract. Historical mutation
+observation (2026-07-28): the focused loader/orchestrator trial killed 10/10 mutations. Run
+`npm test`, `npm run test:coverage`, `npm run verify:openapi`, and `npm run test:mutation-trial`
+for those separate evidence layers.
 
 CI uses `npm run test:ci` to add Cucumber JSON/JUnit results and `npm run test:coverage:ci` to add
 LCOV without changing the local default commands. It also runs the lock-aware audit under Node 24;
-native output and DR-039's normalised summary are retained in `demoapp001-ci-evidence`. The exact
-`brace-expansion` 5.0.8 override remediates GHSA-mh99-v99m-4gvg.
+native output and DR-039's normalised summary are retained in `demoapp001-ci-evidence`.
+Historical remediation (2026-07-28): a `brace-expansion` 5.0.8 override remediated
+GHSA-mh99-v99m-4gvg. Current findings and exceptions come from the governed audit and its policy.
 
 **Example Scenario:**
 ```gherkin
@@ -443,7 +453,9 @@ As per the design specification:
    - **By Design:** This is intentional to keep the solver deterministic and educational
 
 2. **No Backtracking**: The solver uses deterministic logic only and returns
-   `STUCK_ON_ADVANCED_LOGIC` when the basic techniques make no further progress.
+   `STUCK_ON_ADVANCED_LOGIC` when empty cells remain and none of the five techniques makes further
+   progress. Puzzle difficulty labels do not guarantee completion. The generator's separate
+   solution-construction and uniqueness search do not change this core-solver boundary.
 
 ---
 
@@ -465,7 +477,7 @@ Based on the design documents in `/DOCS`:
 
 **Features:**
 - Express.js REST API
-- Individual endpoints for each technique
+- Individual endpoints for Unit Completion, Hidden Singles and Naked Singles
 - Full solve endpoint
 - JSON request/response with deltas
 - Puzzle list/get endpoints

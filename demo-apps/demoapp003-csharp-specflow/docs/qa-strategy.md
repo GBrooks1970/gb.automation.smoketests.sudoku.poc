@@ -2,7 +2,7 @@
 
 **Stack:** DEMOAPP003_CSHARP_SPECFLOW (stable legacy identifier)
 **Surface type:** @util
-**Last updated:** 2026-07-14
+**Last updated:** 2026-10-07
 
 ## 1. What Is Tested
 
@@ -10,7 +10,7 @@ The Stack runs the full canonical Sudoku solver feature contract against the C# 
 
 | Category | Scenarios | Coverage goal |
 |----------|-----------|---------------|
-| Solver algorithms | Unit Completion, Hidden Singles, Naked Singles | Parity with canonical behavior |
+| Solver algorithms | Unit Completion, Hidden Singles, Naked Singles, Naked Pairs, X-Wing | Parity with canonical behavior |
 | Orchestration | Solve loop and stuck status | Same statuses as TypeScript/Python |
 | Puzzle loading | JSON loading and validation | Same fixture contract |
 | Audit trail | Cell changes and statistics | Same observable audit behavior |
@@ -29,7 +29,7 @@ The Stack runs the full canonical Sudoku solver feature contract against the C# 
 
 - API/UI/CLI testing — covered by DEMOAPP001 or future backlog items.
 - Performance gating — benchmarks report timings only.
-- Advanced solving techniques — tracked by BACKLOG-014.
+- Swordfish, XY-Wing, forcing chains and backtracking — excluded from the deterministic solver scope.
 
 ## 4. Test Data Strategy
 
@@ -42,9 +42,13 @@ The Stack runs the full canonical Sudoku solver feature contract against the C# 
 
 | Metric | Value | Target |
 |--------|-------|--------|
-| Scenarios | 46 | 46 |
+| Scenarios | 55 | 55 |
+| Focused component tests | 28 | All passing |
 | Pass rate | 100% | 100% |
 | Scenarios tagged @pending | 0 | 0 |
+
+Counts are backed by the [7 October 2026 execution inventory](../../../DOCS/.analysis/2026-10-07-component-execution-inventory.json)
+and the [canonical feature](../../../features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature).
 
 ## 6. Risks and Mitigations
 

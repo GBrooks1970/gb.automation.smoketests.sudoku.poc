@@ -2,7 +2,7 @@
 
 **Stack:** DEMOAPP001_TYPESCRIPT_CYPRESS
 **Surface type:** @util
-**Last updated:** 2026-07-28
+**Last updated:** 2026-10-07
 
 ---
 
@@ -59,14 +59,19 @@ REST integration, executable OpenAPI and coverage/mutation evidence beneath the 
 
 ## 5. Coverage Metrics
 
+Current native counts are backed by the
+[2026-10-07 execution inventory](../../../DOCS/.analysis/2026-10-07-component-execution-inventory.json).
+The retained coverage baseline was captured on 2026-07-27; the mutation observation was captured
+on 2026-07-28. Both are historical evidence, not newly measured results.
+
 | Metric | Value | Target |
 |--------|-------|--------|
 | Scenarios | 55 | 55 |
 | Steps | 309 | — |
-| Focused component tests | 20 | All passing |
-| OpenAPI contract tests | 4 | All passing |
-| Selected-scope coverage | 73.23% lines / 87.67% branches / 79.59% functions | 70% / 85% / 75% floors |
-| Focused mutation trial | 10/10 killed | No material survivor |
+| Focused component tests | 113 | All passing |
+| OpenAPI contract tests | 8 | All passing |
+| Historical coverage baseline (2026-07-27) | 73.23% lines / 87.67% branches / 79.59% functions | 70% / 85% / 75% floors |
+| Historical mutation observation (2026-07-28) | 10/10 killed | No material survivor |
 | Pass rate | 100% | 100% |
 | Scenarios tagged @pending | 0 | 0 |
 
