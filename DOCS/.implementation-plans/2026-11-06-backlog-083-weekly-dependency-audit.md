@@ -4,8 +4,9 @@ created: 2026-11-06T14:37Z
 project: gb.automation.smoketests.sudoku.poc
 type: implementation-plan
 item: BACKLOG-083
-status: approved
+status: implemented
 approved: 2026-11-06 by GBrooks1970, "Approve as recommended"; every recommended option, agent merges only when every check is green
+delivered: PR #103, merge commit 99111e0c4041621969051d14c1c2d634c7070fd0
 language: en-GB
 ---
 
@@ -150,3 +151,28 @@ All work is in a git worktree on branch `claude/backlog-083-weekly-dependency-au
 | Failure alerting | GitHub's default failure email; or also open an issue (needs `issues: write`) | Default email only | As recommended, 2026-11-06 |
 | Per-Stack expiry scoping | Out of scope (separate item and DR if wanted); or include now | Out of scope | As recommended, 2026-11-06 |
 | Merge authority | Agent merges on all-green; or owner merges | Agent merges on all-green | As recommended, 2026-11-06 |
+
+## Outcome
+
+Delivered as planned in [PR #103](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/103),
+merged as `99111e0`.
+
+- **PR CI:** CI run 42237102597 passed all five required jobs (Pages jobs skipped on the PR, as
+  designed). Dependency audit run 42237102729, started by the paths-limited `pull_request` trigger,
+  passed all three legs: DEMOAPP001 `status=pass findings=2 blocking=0`, DEMOAPP002 `status=pass
+  findings=0`, DEMOAPP003 `status=pass findings=0`.
+- **Dispatch proof:** `workflow_dispatch` run 42237663052 on `main` at `99111e0` passed with exactly
+  three jobs (`Audit demoapp001/002/003`) and the same verdicts. The only `github-pages` deployment
+  created afterwards (7603072913, `99111e0`) links to CI push run 42237638303's deploy job, not to the
+  audit run.
+- **Live negative control:** throwaway branch `claude/tmp-backlog-083-expired-exception-control`
+  (`62a9de4`) held one exception with `expiresOn: 2026-10-30`. Dispatch run 42237715787 failed all
+  three legs with "Policy error: Exception 1 expired on 2026-10-30". The branch was then deleted and
+  never had a PR.
+- **Static no-deploy check:** a grep of the workflow for `pages:|id-token:|environment:|deploy-pages|upload-pages-artifact`
+  found no match.
+- **Main CI:** push run 42237638303 passed all seven jobs, including the Pages build and deploy.
+- **Schedule:** GitHub lists `Dependency audit` (ID 409436941) as `active`. The first scheduled run
+  is due on Monday 2026-11-09 at 06:00 UTC; the dispatch run above is the acceptance proof.
+
+No difference from the plan. Record: [implementation log](../.implementation-logs/2026-11-06_backlog-083-weekly-dependency-audit.md).
