@@ -4,9 +4,9 @@ created: 2026-11-06T13:27Z
 project: gb.automation.smoketests.sudoku.poc
 type: implementation-plan
 item: BACKLOG-082
-status: approved
+status: implemented
 approved: 2026-11-06 by GBrooks1970, "Approve as recommended"; option (b) in one PR, agent merges only when every check is green
-delivered: not yet
+delivered: PR #101, merge commit 624a4af945a9463c93b0060780c12e8a7ba459b9
 language: en-GB
 ---
 
@@ -105,4 +105,19 @@ All work is done in a git worktree on branch `claude/backlog-082-dependency-audi
 
 ## Outcome
 
-Not yet delivered.
+Delivered as planned in [PR #101](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/101),
+merged as `624a4af`.
+
+- **PR CI:** run 42232061531 passed all five required jobs. Audits: DEMOAPP001 `status=pass
+  findings=2 blocking=0`, DEMOAPP002 `status=pass findings=0`, DEMOAPP003 `status=pass findings=0`.
+- **Main CI:** run 42233130935 passed all seven jobs, including the Pages build and deploy.
+  `/parity/` returns HTTP 200.
+- **Negative control:** the new policy against the pre-fix audit still reports `blocking=4`.
+- **Dependabot:** #96, #97 and #98 were closed as superseded.
+
+One difference from the plan: DEMOAPP002 pytest and pip-audit were not run locally, because a fresh
+Python 3.13 environment install stalled twice on this machine. PR CI was the confirming check, as the
+plan allowed.
+
+Record: [implementation log](../.implementation-logs/2026-11-06_backlog-082-dependency-audit-green.md).
+The weekly scheduled audit run remains a separate follow-up for the owner.

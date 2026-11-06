@@ -1,11 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-11-06 - opened BACKLOG-082 (In Progress) to restore green CI. The DR-039 braces exception expired on 2026-10-12 and its advisory was withdrawn on 2026-10-23; every Stack audit has failed on the expiry since 2026-10-22. All 104 resolved items are preserved.
+**Last Updated:** 2026-11-06 - BACKLOG-082 Resolved: merged PR #101 / `624a4af`; PR run 42232061531 and main run 42233130935 (all seven jobs, Pages deployed) passed; every audit `status=pass blocking=0`. All 105 items are Resolved.
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
-**Status:** BACKLOG-082 is In Progress: all-Stack CI has been red since 2026-10-22 on the expired DR-039 exception, which also hides blocking DEMOAPP001 and DEMOAPP002 advisories. Earlier state: BACKLOG-081 / TRIAGE-08 is Resolved and published through merged PR #93 at `5e9595fbbe8d27ea89e3cca557bc3c43ebb2ef50`; all seven exact-merge CI jobs passed, including Pages build/deploy. BACKLOG-080 / TRIAGE-09 is published through merged PR #92 with all seven exact-merge jobs passing; BACKLOG-078 / TRIAGE-14 and BACKLOG-079 / TRIAGE-13 are published through merged PRs #91/#90. BACKLOG-075 is resolved and live at `/parity/`; historical closures remain intact. TRIAGE-10/15 remain separate root worklist items.
+**Status:** BACKLOG-082 is Resolved and CI is green again (merged PR #101 / `624a4af`; PR run 42232061531 and main run 42233130935 (all seven jobs, Pages deployed) passed; every audit `status=pass blocking=0`). Earlier state: BACKLOG-081 / TRIAGE-08 is Resolved and published through merged PR #93 at `5e9595fbbe8d27ea89e3cca557bc3c43ebb2ef50`; all seven exact-merge CI jobs passed, including Pages build/deploy. BACKLOG-080 / TRIAGE-09 is published through merged PR #92 with all seven exact-merge jobs passing; BACKLOG-078 / TRIAGE-14 and BACKLOG-079 / TRIAGE-13 are published through merged PRs #91/#90. BACKLOG-075 is resolved and live at `/parity/`; historical closures remain intact. TRIAGE-10/15 remain separate root worklist items.
 
 ---
 
@@ -26,8 +26,8 @@ Per v1.15 Section 10.1:
 | Status | Count |
 |--------|-------|
 | Open | 0 |
-| In Progress | 1 |
-| Resolved | 104 |
+| In Progress | 0 |
+| Resolved | 105 |
 | **Total** | **105** |
 
 **Update (2026-11-06, BACKLOG-082):** A read-only [CI diagnostic](../.analysis/2026-11-06-backlog-082-ci-diagnostic.md)
@@ -90,7 +90,7 @@ both passed at `7af3dca`; this was a documentation reconciliation, not an implem
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-082 (restore green CI under DR-039) is In Progress; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed; TRIAGE-10/15 remain separate, unselected root candidates |
+| Current sprint focus | BACKLOG-082 (restore green CI under DR-039) is Resolved; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed; TRIAGE-10/15 remain separate, unselected root candidates |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -505,7 +505,7 @@ BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iter
 
 | ID | Worklist | Title | Stack(s) | Priority | Status | Decision Record |
 |----|----------|-------|----------|----------|--------|-----------------|
-| BACKLOG-082 | None (owner-approved plan) | Restore green CI: remove the withdrawn braces exception and remediate hidden advisories | All (CI policy + DEMOAPP001/DEMOAPP002 locks) | High | In Progress | DR-039 (existing policy) |
+| BACKLOG-082 | None (owner-approved plan) | Restore green CI: remove the withdrawn braces exception and remediate hidden advisories | All (CI policy + DEMOAPP001/DEMOAPP002 locks) | High | Resolved | DR-039 (existing policy) |
 
 ## Owner-Selected Browser Contract Repair (2026-09-30)
 
@@ -1841,7 +1841,8 @@ their separate lifecycle refresh is outside TRIAGE-09.
 
 ### BACKLOG-082: Restore green CI under DR-039
 
-**Status:** In Progress (2026-11-06).
+**Status:** Resolved 2026-11-06; merged PR #101 / `624a4af`; PR run 42232061531 and main run 42233130935 (all seven jobs, Pages deployed) passed; every audit `status=pass blocking=0`.
+**Log:** [Implementation log](../.implementation-logs/2026-11-06_backlog-082-dependency-audit-green.md)
 **Priority:** High
 **Stack(s):** All (CI dependency policy; DEMOAPP001 npm lock; DEMOAPP002 test-tooling lock)
 **Source:** Claude v2 review Risks 1-2 and Codex v3 review (2026-11-05); [CI diagnostic](../.analysis/2026-11-06-backlog-082-ci-diagnostic.md); Dependabot PRs #96, #97 and #98.
@@ -1911,6 +1912,7 @@ separately unselected TRIAGE-10/15 remain unchanged.
 
 | ID | Title | Stack(s) | Resolved | Notes |
 |----|-------|----------|----------|-------|
+| BACKLOG-082 | Restore green CI under DR-039 | All | 2026-11-06 | Withdrawn braces exception removed; DEMOAPP001 body-parser/follow-redirects/fast-uri and DEMOAPP002 certifi/filelock/msgpack lock bumps; negative control still blocks 4; merged PR #101 / `624a4af`; PR run 42232061531 and main run 42233130935 (all seven jobs, Pages deployed) passed; every audit `status=pass blocking=0`; Dependabot #96-#98 closed |
 | BACKLOG-081 | Active capability and assurance documentation currency (TRIAGE-08) | All | 2026-10-07 | Eight active guides reconciled; native 113/30/28 component and eight OpenAPI inventory, five-technique/no-progress claims, historical labels, 37 precise currency controls and seven repository gates; merged PR #93 / `5e9595f`, exact-merge CI 37659303462 and Pages passed; existing history preserved |
 | BACKLOG-080 | Compatible fast-uri advisory remediation (TRIAGE-09) | DEMOAPP001 | 2026-10-07 | fast-uri 3.1.7 to 3.1.8, three-field lock-only change; reproducible restore, native URI/advisory controls, 113 component + 55 BDD / 309 steps, eight OpenAPI tests, existing coverage and gates; only approved braces exception remains; PR CI is the publication check |
 | BACKLOG-078 | Exact digit and position Then assertions (TRIAGE-14) | All | 2026-10-07 | 16 patterns / 48 bindings; 45 native positives, 66 killed mutations, byte-exact restoration; 113 TS component + 55 BDD, 85 Python, 28 C# component + 55 Reqnroll; unchanged coverage floors and existing contracts; PR CI is the publication check |
