@@ -246,7 +246,12 @@ try {
 } catch {
     $policyErrors.Add($_.Exception.Message)
     $threshold = 'unknown'
+    # An unreadable threshold fails closed for classification: every finding counts as blocking.
+    $classificationThreshold = 'info'
     $policy = [pscustomobject]@{ maximumExceptionDays = 0; exceptions = @() }
+}
+if (-not $classificationThreshold) {
+    $classificationThreshold = $threshold
 }
 
 try {
@@ -287,9 +292,11 @@ $exceptedFindings = [Collections.Generic.List[object]]::new()
 $unexceptedFindings = [Collections.Generic.List[object]]::new()
 $appliedExceptions = [Collections.Generic.List[object]]::new()
 
-if ($toolStatus -eq 'success' -and $policyErrors.Count -eq 0) {
+# Classify even when the policy has errors so the summary reports real counts. Only exceptions that
+# passed validation are in $activeExceptions; policy errors still force status=fail below.
+if ($toolStatus -eq 'success') {
     foreach ($finding in $findings) {
-        if ($severityRanks[$finding.severity] -lt $severityRanks[$threshold]) {
+        if ($severityRanks[$finding.severity] -lt $severityRanks[$classificationThreshold]) {
             continue
         }
         $blockingFindings.Add($finding)

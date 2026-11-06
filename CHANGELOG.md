@@ -8,6 +8,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 
 ## [Unreleased]
 
+### Fixed
+- BACKLOG-084 / TRIAGE-16: `.batch/evaluate-dependency-audit.ps1` now classifies findings even when the dependency-audit policy has errors, so an expired or invalid exception shows the high finding it was covering (`blockingFindingCount` and `unexceptedFindingCount` were 0). Only exceptions that pass validation apply, an unreadable threshold counts every finding as blocking, and the verdict is unchanged (`status=fail`). Two new controls bring the policy controls to 15. No DR.
+
 ### Added
 - BACKLOG-083 / DR-048: `.github/workflows/dependency-audit.yml` runs the DR-039 dependency audit for all three Stacks every Monday at 06:00 UTC, on manual dispatch, and on pull requests that change the workflow. Audit only: read-only permissions and no Pages job, so it cannot deploy Pages. `ci.yml`, the audit scripts and the policy are unchanged.
 

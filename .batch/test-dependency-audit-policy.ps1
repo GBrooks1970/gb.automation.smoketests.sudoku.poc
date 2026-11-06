@@ -31,7 +31,8 @@ function Invoke-Control {
         [int]$NativeExitCode,
         [object]$Policy,
         [int]$ExpectedExitCode,
-        [string]$ExpectedStatus
+        [string]$ExpectedStatus,
+        [int]$ExpectedMinimumBlocking = -1
     )
 
     $caseRoot = Join-Path $fixtureRoot $Name
@@ -53,6 +54,13 @@ function Invoke-Control {
     $summary = Get-Content -LiteralPath (Join-Path $evidenceRoot 'audit/dependency-audit-summary.json') -Raw | ConvertFrom-Json
     if ($summary.status -ne $ExpectedStatus) {
         throw "$Name expected status $ExpectedStatus, received $($summary.status)"
+    }
+    if ($ExpectedMinimumBlocking -ge 0) {
+        foreach ($countField in @('blockingFindingCount', 'unexceptedFindingCount')) {
+            if ([int]$summary.$countField -lt $ExpectedMinimumBlocking) {
+                throw "$Name expected $countField >= $ExpectedMinimumBlocking (blocking finding reported), received $($summary.$countField)"
+            }
+        }
     }
     $script:checkCount += 1
     Write-Host "  OK    $Name -> $ExpectedStatus"
@@ -115,6 +123,11 @@ try {
     $expired.introducedOn = '2026-07-01'
     $expired.expiresOn = '2026-07-10'
     Invoke-Control 'expired-exception' demoapp001 npm-audit $npmHigh 1 (New-Policy @($expired)) 1 fail
+    Invoke-Control 'policy-error-reports-blocking' demoapp001 npm-audit $npmHigh 1 (New-Policy @($expired)) 1 fail 1
+
+    $unreadableThreshold = New-Policy
+    $unreadableThreshold.blockAtOrAbove = 'severe'
+    Invoke-Control 'unreadable-policy-reports-blocking' demoapp001 npm-audit $npmHigh 1 $unreadableThreshold 1 fail 1
 
     $overlong = $activeVulnerabilityException.Clone()
     $overlong.expiresOn = '2026-08-31'
