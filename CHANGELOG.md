@@ -8,6 +8,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 
 ## [Unreleased]
 
+### Security
+- BACKLOG-082: restore green CI under DR-039. The expired braces exception (advisory GHSA-vfj7-8cjw-p6xm, withdrawn 2026-10-23) is removed from `.github/dependency-audit-policy.json`. DEMOAPP001 lock updates body-parser to 2.4.0, follow-redirects to 1.16.2 and fast-uri to 3.1.9 (Dependabot #97, #98, #96). DEMOAPP002 test-tooling lock updates certifi to 2026.10.18, filelock to 4.2.1 and msgpack to 1.2.3. No product, test or workflow change.
+
 ### Added
 - BACKLOG-075 resolved: the three-stack parity evidence page is live at `/parity/` of the project's Pages site, built by CI from the Stacks' own results (run 36786863220, commit ab92c23). The visualisation at the site root is unchanged.
 - BACKLOG-075 slice S4: CI gains a `parity` job (tool tests, results-level gate, parity page build with its negative check) that `Gate (all stacks green)` now waits for. The Pages workflow is merged into `ci.yml` as `pages-build` and `pages-deploy`, so the DEMOAPP001 visualisation (DR-040) and the parity page at `/parity/` publish as one artefact, only from `main`, only after the gate passes, with deploy-only Pages permissions. `.github/workflows/pages.yml` is removed; previously Pages deployed on every push to `main` whether or not CI passed.
