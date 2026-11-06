@@ -109,6 +109,7 @@ DOCS/.review/
 | [CODE_REVIEW_GEMINI_v1_20260807T1409Z](CODE_REVIEW_GEMINI_v1_20260807T1409Z/00_CODE_REVIEW_GEMINI_v1_20260807T1409Z.md) | Gemini | 2026-08-07 | A | Multi-stack parity and documentation audit |
 | [CODE_REVIEW_CODEX_v2_20260929T0633Z](CODE_REVIEW_CODEX_v2_20260929T0633Z/00_CODE_REVIEW_CODEX_v2_20260929T0633Z.md) | Codex GPT-6 | 2026-09-29 | B | Current comprehensive review; generator/tutor correctness and baseline dependency findings |
 | [CODE_REVIEW_CODEX_v3_20261105T0858Z](CODE_REVIEW_CODEX_v3_20261105T0858Z/00_CODE_REVIEW_CODEX_v3_20261105T0858Z.md) | Codex GPT-6 | 2026-11-05 | B | Comprehensive review; dependency policy, fixture resolution and parity evidence findings |
+| [CODE_REVIEW_Claude_v2_20261105T1425Z](CODE_REVIEW_Claude_v2_20261105T1425Z/00_CODE_REVIEW_Claude_v2_20261105T1425Z.md) | Claude Opus 5.5 | 2026-11-05 | Not graded | Comprehensive review; expired dependency-audit exception has kept CI red since 2026-10-13, hollow Then steps, visualise route double-decode |
 
 ---
 
