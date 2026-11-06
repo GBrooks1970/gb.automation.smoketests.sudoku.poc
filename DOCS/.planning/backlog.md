@@ -1,11 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-11-06 - BACKLOG-084 / TRIAGE-16 In Progress: the dependency-audit summary reports real blocking counts when the policy has errors ([filed plan](../.implementation-plans/2026-11-06-triage-16-audit-blocking-counts.md), owner approved as recommended). Earlier: BACKLOG-083 Resolved: weekly audit-only dependency audit workflow (DR-048); merged PR #103 / `99111e0`; PR runs 42237102597 (CI) and 42237102729 (audit) passed; `workflow_dispatch` run 42237663052 on `main` passed all three audits with no Pages deployment; expired-exception control run 42237715787 failed all three as required. Earlier: BACKLOG-082 Resolved: merged PR #101 / `624a4af`; PR run 42232061531 and main run 42233130935 (all seven jobs, Pages deployed) passed; every audit `status=pass blocking=0`. 1 item In Progress; the other 106 are Resolved.
+**Last Updated:** 2026-11-06 - BACKLOG-084 / TRIAGE-16 Resolved: the dependency-audit summary reports real blocking counts when the policy has errors; merged PR #105 / `ddc2540`; PR run 42280161693 (five required jobs, policy controls 15/15) and audit dispatch run 42280180274 passed; main run 42280718309 passed all seven jobs, Pages deployed; every audit `status=pass blocking=0`. Earlier: BACKLOG-083 Resolved: weekly audit-only dependency audit workflow (DR-048); merged PR #103 / `99111e0`; PR runs 42237102597 (CI) and 42237102729 (audit) passed; `workflow_dispatch` run 42237663052 on `main` passed all three audits with no Pages deployment; expired-exception control run 42237715787 failed all three as required. Earlier: BACKLOG-082 Resolved: merged PR #101 / `624a4af`; PR run 42232061531 and main run 42233130935 (all seven jobs, Pages deployed) passed; every audit `status=pass blocking=0`. All 107 items are Resolved.
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
-**Status:** BACKLOG-084 / TRIAGE-16 (real blocking counts under audit policy errors, no DR) is In Progress on branch `worklist/triage-16-audit-blocking-counts`. BACKLOG-083 (weekly audit-only scheduled workflow, DR-048) is Resolved (merged PR #103 / `99111e0`; PR runs 42237102597 (CI) and 42237102729 (audit) passed; `workflow_dispatch` run 42237663052 on `main` passed all three audits with no Pages deployment; expired-exception control run 42237715787 failed all three as required); the first scheduled run is due 2026-11-09 06:00 UTC. BACKLOG-082 is Resolved and CI is green again (merged PR #101 / `624a4af`; PR run 42232061531 and main run 42233130935 (all seven jobs, Pages deployed) passed; every audit `status=pass blocking=0`). Earlier state: BACKLOG-081 / TRIAGE-08 is Resolved and published through merged PR #93 at `5e9595fbbe8d27ea89e3cca557bc3c43ebb2ef50`; all seven exact-merge CI jobs passed, including Pages build/deploy. BACKLOG-080 / TRIAGE-09 is published through merged PR #92 with all seven exact-merge jobs passing; BACKLOG-078 / TRIAGE-14 and BACKLOG-079 / TRIAGE-13 are published through merged PRs #91/#90. BACKLOG-075 is resolved and live at `/parity/`; historical closures remain intact. TRIAGE-10/15 remain separate root worklist items.
+**Status:** BACKLOG-084 / TRIAGE-16 (real blocking counts under audit policy errors, no DR) is Resolved (merged PR #105 / `ddc2540`; PR run 42280161693 (five required jobs, policy controls 15/15) and audit dispatch run 42280180274 passed; main run 42280718309 passed all seven jobs, Pages deployed; every audit `status=pass blocking=0`). BACKLOG-083 (weekly audit-only scheduled workflow, DR-048) is Resolved (merged PR #103 / `99111e0`; PR runs 42237102597 (CI) and 42237102729 (audit) passed; `workflow_dispatch` run 42237663052 on `main` passed all three audits with no Pages deployment; expired-exception control run 42237715787 failed all three as required); the first scheduled run is due 2026-11-09 06:00 UTC. BACKLOG-082 is Resolved and CI is green again (merged PR #101 / `624a4af`; PR run 42232061531 and main run 42233130935 (all seven jobs, Pages deployed) passed; every audit `status=pass blocking=0`). Earlier state: BACKLOG-081 / TRIAGE-08 is Resolved and published through merged PR #93 at `5e9595fbbe8d27ea89e3cca557bc3c43ebb2ef50`; all seven exact-merge CI jobs passed, including Pages build/deploy. BACKLOG-080 / TRIAGE-09 is published through merged PR #92 with all seven exact-merge jobs passing; BACKLOG-078 / TRIAGE-14 and BACKLOG-079 / TRIAGE-13 are published through merged PRs #91/#90. BACKLOG-075 is resolved and live at `/parity/`; historical closures remain intact. TRIAGE-10/15 remain separate root worklist items.
 
 ---
 
@@ -26,8 +26,8 @@ Per v1.15 Section 10.1:
 | Status | Count |
 |--------|-------|
 | Open | 0 |
-| In Progress | 1 |
-| Resolved | 106 |
+| In Progress | 0 |
+| Resolved | 107 |
 | **Total** | **107** |
 
 **Update (2026-11-06, BACKLOG-084 / TRIAGE-16):** Claude review v2 Risk 2 found that the audit
@@ -103,7 +103,7 @@ both passed at `7af3dca`; this was a documentation reconciliation, not an implem
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-084 / TRIAGE-16 (real blocking counts under audit policy errors) is In Progress; BACKLOG-083 (weekly scheduled dependency audit, DR-048) is Resolved; BACKLOG-082 (restore green CI under DR-039) is Resolved; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed; TRIAGE-10/15 remain separate, unselected root candidates |
+| Current sprint focus | BACKLOG-084 / TRIAGE-16 (real blocking counts under audit policy errors) is Resolved; BACKLOG-083 (weekly scheduled dependency audit, DR-048) is Resolved; BACKLOG-082 (restore green CI under DR-039) is Resolved; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed; TRIAGE-10/15 remain separate, unselected root candidates |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -520,7 +520,7 @@ BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iter
 |----|----------|-------|----------|----------|--------|-----------------|
 | BACKLOG-082 | None (owner-approved plan) | Restore green CI: remove the withdrawn braces exception and remediate hidden advisories | All (CI policy + DEMOAPP001/DEMOAPP002 locks) | High | Resolved | DR-039 (existing policy) |
 | BACKLOG-083 | None (owner-approved plan) | Weekly scheduled dependency audit in an audit-only workflow | All (CI workflow) | Medium | Resolved | DR-048 |
-| BACKLOG-084 | TRIAGE-16 | Report real blocking counts when the dependency-audit policy has errors | All (audit tooling) | High | In Progress | None (DR-039 verdicts unchanged) |
+| BACKLOG-084 | TRIAGE-16 | Report real blocking counts when the dependency-audit policy has errors | All (audit tooling) | High | Resolved | None (DR-039 verdicts unchanged) |
 
 ## Owner-Selected Browser Contract Repair (2026-09-30)
 
@@ -1856,7 +1856,8 @@ their separate lifecycle refresh is outside TRIAGE-09.
 
 ### BACKLOG-084: Report real blocking counts when the dependency-audit policy has errors
 
-**Status:** In Progress 2026-11-06 on branch `worklist/triage-16-audit-blocking-counts`.
+**Status:** Resolved 2026-11-06; merged PR #105 / `ddc2540`; PR run 42280161693 (five required jobs, policy controls 15/15) and audit dispatch run 42280180274 passed; main run 42280718309 passed all seven jobs, Pages deployed; every audit `status=pass blocking=0`.
+**Log:** [Implementation log](../.implementation-logs/2026-11-06_triage-16-audit-blocking-counts.md)
 **Priority:** High
 **Stack(s):** All (audit tooling only)
 **Source:** Root worklist TRIAGE-16; Claude review v2 (`DOCS/.review/CODE_REVIEW_Claude_v2_20261105T1425Z/`) Risk 2 recs 3-4, 05 Recommended Refactors item 1, 07 Step 6.
@@ -1965,6 +1966,7 @@ separately unselected TRIAGE-10/15 remain unchanged.
 
 | ID | Title | Stack(s) | Resolved | Notes |
 |----|-------|----------|----------|-------|
+| BACKLOG-084 | Report real blocking counts when the dependency-audit policy has errors | All | 2026-11-06 | `.batch/evaluate-dependency-audit.ps1` classifies findings under policy errors, applies only validated exceptions and fails closed on an unreadable threshold; verdict unchanged, no DR; two new controls failed before the fix, policy controls 15/15; merged PR #105 / `ddc2540`; PR run 42280161693 (five required jobs, policy controls 15/15) and audit dispatch run 42280180274 passed; main run 42280718309 passed all seven jobs, Pages deployed; every audit `status=pass blocking=0` |
 | BACKLOG-083 | Weekly scheduled dependency audit | All | 2026-11-06 | Audit-only `dependency-audit.yml` (DR-048), Mondays 06:00 UTC plus dispatch; merged PR #103 / `99111e0`; PR runs 42237102597 (CI) and 42237102729 (audit) passed; `workflow_dispatch` run 42237663052 on `main` passed all three audits with no Pages deployment; expired-exception control run 42237715787 failed all three as required; `ci.yml`, scripts and policy unchanged |
 | BACKLOG-082 | Restore green CI under DR-039 | All | 2026-11-06 | Withdrawn braces exception removed; DEMOAPP001 body-parser/follow-redirects/fast-uri and DEMOAPP002 certifi/filelock/msgpack lock bumps; negative control still blocks 4; merged PR #101 / `624a4af`; PR run 42232061531 and main run 42233130935 (all seven jobs, Pages deployed) passed; every audit `status=pass blocking=0`; Dependabot #96-#98 closed |
 | BACKLOG-081 | Active capability and assurance documentation currency (TRIAGE-08) | All | 2026-10-07 | Eight active guides reconciled; native 113/30/28 component and eight OpenAPI inventory, five-technique/no-progress claims, historical labels, 37 precise currency controls and seven repository gates; merged PR #93 / `5e9595f`, exact-merge CI 37659303462 and Pages passed; existing history preserved |
