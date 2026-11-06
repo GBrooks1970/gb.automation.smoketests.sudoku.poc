@@ -139,6 +139,9 @@ DR-039 makes supported-runtime dependency audits part of each Stack's blocking C
 `.github/dependency-audit-policy.json`. High, critical and unknown-severity findings are blocking.
 Unknown fails closed because `pip-audit` can report an advisory without a portable severity. Low
 and moderate findings remain visible in the summary but are not blocking under DR-039.
+The summary reports real blocking and unexcepted counts even when the policy has errors: only
+exceptions that pass validation are applied, an unreadable threshold counts every finding as
+blocking, and any policy error still fails the Stack (BACKLOG-084).
 
 The evaluator also treats an invalid report, non-vulnerability tool failure or registry failure as
 an outage. A Stack passes only when the audit succeeds without unexcepted blocking findings, or a
