@@ -55,6 +55,7 @@ YYYY-MM-DD_short-session-topic.md
 | [2026-09-30_backlog-075-parity-page-build-and-publication.md](2026-09-30_backlog-075-parity-page-build-and-publication.md) | 2026-09-30 | BACKLOG-075 parity page build, CI wiring and publication |
 | [2026-11-06_backlog-082-dependency-audit-green.md](2026-11-06_backlog-082-dependency-audit-green.md) | 2026-11-06 | BACKLOG-082 restore green CI under DR-039 |
 | [2026-11-06_backlog-083-weekly-dependency-audit.md](2026-11-06_backlog-083-weekly-dependency-audit.md) | 2026-11-06 | BACKLOG-083 weekly audit-only dependency audit workflow (DR-048) |
+| [2026-11-06_triage-16-audit-blocking-counts.md](2026-11-06_triage-16-audit-blocking-counts.md) | 2026-11-06 | BACKLOG-084 / TRIAGE-16 real blocking counts when the dependency-audit policy has errors |
 
 
 ---

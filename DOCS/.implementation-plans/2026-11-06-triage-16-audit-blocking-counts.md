@@ -4,9 +4,9 @@ created: 2026-11-06T18:44Z
 project: gb.automation.smoketests.sudoku.poc
 type: implementation-plan
 item: BACKLOG-084 / TRIAGE-16
-status: approved
+status: implemented
 approved: 2026-11-06 by GBrooks1970, "Approve as recommended"; every recommended option, agent merges only when every check is green
-delivered: not yet
+delivered: PR #105, merge commit ddc254037a637f23c84508021e173f238db9ea35
 language: en-GB
 ---
 
@@ -153,4 +153,38 @@ Acceptance criteria from the worklist, each checked with recorded evidence:
 
 ## Outcome
 
-[Appended after delivery.]
+Delivered in [PR #105](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/105),
+head `526fddf`, merged as `ddc2540` on 2026-11-06T19:33:46Z.
+
+- **Must-fail, before the fix:** with the evaluator unchanged, `test-dependency-audit-policy.ps1`
+  passed the first 8 controls and then stopped with exit 1:
+  `policy-error-reports-blocking expected blockingFindingCount >= 1 (blocking finding reported), received 0`.
+  The script stops at its first failure, so the unreadable-policy case was recorded by a direct
+  evaluator run in the scratchpad on the same fixture (`$npmHigh`, `blockAtOrAbove: 'severe'`):
+  `status=fail findings=1 blocking=0 unexcepted=0`, `threshold=unknown`, exit 1.
+- **After the fix:** `Dependency audit policy controls: PASS (15/15)`, and the direct unreadable
+  run gives `status=fail findings=1 blocking=1 unexcepted=1`, `threshold=unknown`, exit 1.
+- **Local gates:** CI evidence negative controls PASS (21/21); RA/documentation currency PASS;
+  documentation currency 37/37; live audits DEMOAPP001 (`npm ci`, Node 24.18.0)
+  `status=pass findings=2 blocking=0` and DEMOAPP003 (`dotnet restore --locked-mode`, .NET 10.0.403)
+  `status=pass findings=0 blocking=0`. DEMOAPP002 was left to CI because a fresh Python 3.13 venv
+  stalls on this machine.
+- **PR CI:** run 42280161693 at `526fddf` passed all five required jobs (Pages jobs skipped on the
+  PR), logging `PASS (15/15)` and DEMOAPP001 `status=pass findings=2 blocking=0`, DEMOAPP002 and
+  DEMOAPP003 `status=pass findings=0 blocking=0`.
+- **Audit workflow:** `workflow_dispatch` run 42280180274 on the branch passed all three `Audit`
+  legs with the same verdicts.
+- **Exact merge:** `main` push run 42280718309 at `ddc2540` passed all seven jobs, including Pages
+  build and deploy (deployment 7609115968).
+
+**Differences from the plan.**
+
+1. Step 4 said no evaluator line would change apart from line 290 and the `info` fallback. The
+   fallback is a separate `$classificationThreshold`, set to `info` in the policy catch block and
+   otherwise defaulting to `$threshold`, plus two comment lines (11 changed lines in all). The
+   planned test `$threshold -eq 'unknown'` was not used because `unknown` is also a valid
+   configured `blockAtOrAbove` value, so that test would have treated a valid policy as unreadable.
+2. The second must-fail was recorded by a direct evaluator run, as described above, not by the
+   control script.
+
+Record: [implementation log](../.implementation-logs/2026-11-06_triage-16-audit-blocking-counts.md).
