@@ -265,7 +265,11 @@ and audit-tool or registry outages. Temporary vulnerability/outage exceptions li
 `.github/dependency-audit-policy.json`; exact scope, owner, reason, approver and dates are mandatory,
 the maximum window is 14 days, and stale/expired policy fails closed. Historical remediation
 (2026-07-28): `brace-expansion` GHSA-mh99-v99m-4gvg was patched at version 5.0.8 rather than excepted.
-Current findings and exceptions are reported by the governed audit and its policy. See
+Current findings and exceptions are reported by the governed audit and its policy. The audit-only
+[Dependency audit](.github/workflows/dependency-audit.yml) workflow (DR-048) also runs all three
+Stack audits every Monday at 06:00 UTC, so an expired exception or a new advisory fails within a week
+without waiting for a pull request; it cannot deploy Pages. GitHub disables scheduled workflows in a
+public repository after 60 days without activity. See
 [orchestration-design.md](DOCS/.architecture/orchestration-design.md) for commands and policy details.
 
 **Code Quality:**

@@ -1,11 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-11-06 - BACKLOG-082 Resolved: merged PR #101 / `624a4af`; PR run 42232061531 and main run 42233130935 (all seven jobs, Pages deployed) passed; every audit `status=pass blocking=0`. All 105 items are Resolved.
+**Last Updated:** 2026-11-06 - BACKLOG-083 In Progress: weekly scheduled dependency audit (DR-048, owner-approved plan). Earlier: BACKLOG-082 Resolved: merged PR #101 / `624a4af`; PR run 42232061531 and main run 42233130935 (all seven jobs, Pages deployed) passed; every audit `status=pass blocking=0`. 1 item In Progress, 105 Resolved.
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
-**Status:** BACKLOG-082 is Resolved and CI is green again (merged PR #101 / `624a4af`; PR run 42232061531 and main run 42233130935 (all seven jobs, Pages deployed) passed; every audit `status=pass blocking=0`). Earlier state: BACKLOG-081 / TRIAGE-08 is Resolved and published through merged PR #93 at `5e9595fbbe8d27ea89e3cca557bc3c43ebb2ef50`; all seven exact-merge CI jobs passed, including Pages build/deploy. BACKLOG-080 / TRIAGE-09 is published through merged PR #92 with all seven exact-merge jobs passing; BACKLOG-078 / TRIAGE-14 and BACKLOG-079 / TRIAGE-13 are published through merged PRs #91/#90. BACKLOG-075 is resolved and live at `/parity/`; historical closures remain intact. TRIAGE-10/15 remain separate root worklist items.
+**Status:** BACKLOG-083 (weekly audit-only scheduled workflow, DR-048) is In Progress. BACKLOG-082 is Resolved and CI is green again (merged PR #101 / `624a4af`; PR run 42232061531 and main run 42233130935 (all seven jobs, Pages deployed) passed; every audit `status=pass blocking=0`). Earlier state: BACKLOG-081 / TRIAGE-08 is Resolved and published through merged PR #93 at `5e9595fbbe8d27ea89e3cca557bc3c43ebb2ef50`; all seven exact-merge CI jobs passed, including Pages build/deploy. BACKLOG-080 / TRIAGE-09 is published through merged PR #92 with all seven exact-merge jobs passing; BACKLOG-078 / TRIAGE-14 and BACKLOG-079 / TRIAGE-13 are published through merged PRs #91/#90. BACKLOG-075 is resolved and live at `/parity/`; historical closures remain intact. TRIAGE-10/15 remain separate root worklist items.
 
 ---
 
@@ -26,9 +26,15 @@ Per v1.15 Section 10.1:
 | Status | Count |
 |--------|-------|
 | Open | 0 |
-| In Progress | 0 |
+| In Progress | 1 |
 | Resolved | 105 |
-| **Total** | **105** |
+| **Total** | **106** |
+
+**Update (2026-11-06, BACKLOG-083):** BACKLOG-082 showed that an expired DR-039 exception stayed
+invisible for ten days because audits ran only on pull requests and pushes. The owner approved the
+[filed plan](../.implementation-plans/2026-11-06-backlog-083-weekly-dependency-audit.md): an
+audit-only `dependency-audit.yml` workflow runs all three Stack audits every Monday at 06:00 UTC and
+cannot deploy Pages (DR-048).
 
 **Update (2026-11-06, BACKLOG-082):** A read-only [CI diagnostic](../.analysis/2026-11-06-backlog-082-ci-diagnostic.md)
 found every Stack job failing since 2026-10-22 at `Dependency audit` with "Exception 1 expired on
@@ -90,7 +96,7 @@ both passed at `7af3dca`; this was a documentation reconciliation, not an implem
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-082 (restore green CI under DR-039) is Resolved; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed; TRIAGE-10/15 remain separate, unselected root candidates |
+| Current sprint focus | BACKLOG-083 (weekly scheduled dependency audit, DR-048) is In Progress; BACKLOG-082 (restore green CI under DR-039) is Resolved; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed; TRIAGE-10/15 remain separate, unselected root candidates |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -506,6 +512,7 @@ BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iter
 | ID | Worklist | Title | Stack(s) | Priority | Status | Decision Record |
 |----|----------|-------|----------|----------|--------|-----------------|
 | BACKLOG-082 | None (owner-approved plan) | Restore green CI: remove the withdrawn braces exception and remediate hidden advisories | All (CI policy + DEMOAPP001/DEMOAPP002 locks) | High | Resolved | DR-039 (existing policy) |
+| BACKLOG-083 | None (owner-approved plan) | Weekly scheduled dependency audit in an audit-only workflow | All (CI workflow) | Medium | In Progress | DR-048 |
 
 ## Owner-Selected Browser Contract Repair (2026-09-30)
 
@@ -1838,6 +1845,22 @@ v6 handover and registry's unscheduled BACKLOG-078 note are historical/non-curre
 their separate lifecycle refresh is outside TRIAGE-09.
 
 ---
+
+### BACKLOG-083: Weekly scheduled dependency audit
+
+**Status:** In Progress
+**Priority:** Medium
+**Stack(s):** All (new CI workflow only)
+**Source:** BACKLOG-082 plan, "Prevention follow-up" decision (owner accepted the weekly schedule, 2026-11-06).
+**Plan:** [Filed implementation plan](../.implementation-plans/2026-11-06-backlog-083-weekly-dependency-audit.md)
+**Decision:** DR-048
+
+**Acceptance:** `.github/workflows/dependency-audit.yml` runs `.batch/invoke-dependency-audit.ps1`
+for all three Stacks on `schedule` (Mondays 06:00 UTC), `workflow_dispatch` and pull requests that
+change the workflow file. It grants only `contents: read` and contains no Pages permission,
+environment, job or action. The adding PR's audit legs pass, a `workflow_dispatch` run on `main`
+passes with no new `github-pages` deployment, and a dispatch on a throwaway branch with an expired
+exception fails. `ci.yml`, the audit scripts and the policy file are unchanged.
 
 ### BACKLOG-082: Restore green CI under DR-039
 
