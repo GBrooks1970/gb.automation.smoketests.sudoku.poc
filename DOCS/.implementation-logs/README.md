@@ -53,6 +53,7 @@ YYYY-MM-DD_short-session-topic.md
 | [2026-09-30_backlog-075-reqnroll-results-spike.md](2026-09-30_backlog-075-reqnroll-results-spike.md) | 2026-09-30 | BACKLOG-075 Reqnroll results spike and three-Stack result comparison |
 | [2026-09-30_backlog-075-mockup-and-ordering-finding.md](2026-09-30_backlog-075-mockup-and-ordering-finding.md) | 2026-09-30 | BACKLOG-075 parity page mock-up, prototype gate and execution-order finding |
 | [2026-09-30_backlog-075-parity-page-build-and-publication.md](2026-09-30_backlog-075-parity-page-build-and-publication.md) | 2026-09-30 | BACKLOG-075 parity page build, CI wiring and publication |
+| [2026-11-06_backlog-082-dependency-audit-green.md](2026-11-06_backlog-082-dependency-audit-green.md) | 2026-11-06 | BACKLOG-082 restore green CI under DR-039 |
 
 
 ---
