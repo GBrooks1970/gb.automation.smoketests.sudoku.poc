@@ -8,6 +8,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 
 ## [Unreleased]
 
+### Added
+- BACKLOG-083 / DR-048: `.github/workflows/dependency-audit.yml` runs the DR-039 dependency audit for all three Stacks every Monday at 06:00 UTC, on manual dispatch, and on pull requests that change the workflow. Audit only: read-only permissions and no Pages job, so it cannot deploy Pages. `ci.yml`, the audit scripts and the policy are unchanged.
+
 ### Security
 - BACKLOG-082: restore green CI under DR-039. The expired braces exception (advisory GHSA-vfj7-8cjw-p6xm, withdrawn 2026-10-23) is removed from `.github/dependency-audit-policy.json`. DEMOAPP001 lock updates body-parser to 2.4.0, follow-redirects to 1.16.2 and fast-uri to 3.1.9 (Dependabot #97, #98, #96). DEMOAPP002 test-tooling lock updates certifi to 2026.10.18, filelock to 4.2.1 and msgpack to 1.2.3. No product, test or workflow change.
 

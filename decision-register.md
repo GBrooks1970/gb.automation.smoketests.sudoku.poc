@@ -1,7 +1,7 @@
 # Decision Register
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-09-30 — DR-046 records tutor request ownership and auto-play cancellation for TRIAGE-07; DR-044/045 govern technique grading and generator exhaustion; DR-047 bounds the three-stack parity evidence page (BACKLOG-075).
+**Last Updated:** 2026-11-06 - DR-048 runs the DR-039 dependency audits weekly in an audit-only workflow (BACKLOG-083). Earlier, 2026-09-30: DR-046 records tutor request ownership and auto-play cancellation for TRIAGE-07; DR-044/045 govern technique grading and generator exhaustion; DR-047 bounds the three-stack parity evidence page (BACKLOG-075).
 **Governed by:** `reference-architecture.md` v1.15 §10.6
 **Template:** `DOCS/.templates/decision-record.template.md`
 
@@ -2694,6 +2694,74 @@ Authorise one scoped backlog item that publishes a three-stack parity evidence p
 - BACKLOG-075 — the authorised implementation item.
 
 ---
+
+## DR-048 - Run the DR-039 dependency audits weekly in an audit-only workflow
+
+**Date:** 2026-11-06
+**Status:** Accepted - 2026-11-06 by the project owner ("Approve as recommended", BACKLOG-083 plan)
+
+### Context
+
+DR-039 makes the dependency audits blocking and lets exceptions expire, but the audits ran only on
+pull requests, pushes to `main` and manual dispatch. The only exception (braces
+GHSA-vfj7-8cjw-p6xm) expired on 2026-10-12 and nothing failed until a pull request ran on
+2026-10-22; the backlog showed 0 Open for those ten days (BACKLOG-082). New advisories against
+unchanged locks have the same blind spot. Adding a `schedule:` to `ci.yml` would also rebuild and
+redeploy Pages every week, because its Pages jobs run for every non-pull-request event on `main`.
+
+### Decision
+
+Add `.github/workflows/dependency-audit.yml`, which runs every Monday at 06:00 UTC, on manual
+dispatch, and on pull requests that change that file. One matrix job per Stack (`fail-fast: false`)
+repeats the Stack's locked restore from `ci.yml` and runs `.batch/invoke-dependency-audit.ps1`
+against the unchanged `.github/dependency-audit-policy.json`, then retains the audit evidence for
+seven days. The workflow holds only `contents: read` and has no Pages permission, environment, job
+or action, so it cannot deploy Pages. A red scheduled run is the signal to remediate or to raise an
+approved exception through the normal DR-039 policy PR.
+
+### Status
+
+`Accepted` - 2026-11-06.
+
+### Consequences
+
+**Outcomes:**
+
+- An exception expiry or a new blocking advisory surfaces within seven days without a pull request.
+  Because exceptions last at most 14 days, every exception is evaluated at least once before it
+  expires.
+- Scheduled and pull-request verdicts mean the same thing: same tools, scripts and policy.
+- Pages publication remains confined to `ci.yml`'s `pages-deploy` job.
+
+**Trade-offs:**
+
+- Weekly, not daily: up to seven days of latency, in exchange for fewer runs and less registry noise.
+- GitHub disables scheduled workflows in a public repository after 60 days without repository
+  activity; the workflow must then be re-enabled.
+- Alerting is GitHub's default failure notification to the user who last changed the cron line; no
+  issue is opened automatically.
+- Policy errors stay global, as in DR-039: an expired exception for one Stack fails every Stack's
+  audit. Scoping expiry to its own Stack would need a separate decision.
+
+### Alternatives Considered
+
+**Alternative: Add `schedule:` to `ci.yml`** - rejected because both Pages jobs would need new guards
+and every scheduled run would repeat the full test suite.
+
+**Alternative: Daily cadence** - rejected for now; weekly already checks every exception before its
+14-day maximum and was the cadence the owner accepted for BACKLOG-082's follow-up.
+
+**Alternative: Per-Stack expiry scoping** - deferred; it changes DR-039 behaviour and is not needed
+to make expiries visible.
+
+### Related Decisions
+
+- DR-039 - Blocking dependency audits with bounded exceptions; unchanged.
+- DR-022 - CI/CD pipeline requirements; the multi-Stack isolation rule is kept by `fail-fast: false`.
+- DR-047 - Pages publication from `ci.yml` only; unchanged.
+- BACKLOG-083 - the authorised implementation item.
+
+---
 ## Proposed Decisions
 
 *None at this time.*
@@ -2713,5 +2781,5 @@ Authorise one scoped backlog item that publishes a three-stack parity evidence p
 
 ---
 
-*Last entry: DR-047 (Accepted). Next ID: DR-048.*
+*Last entry: DR-048 (Accepted). Next ID: DR-049.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*
