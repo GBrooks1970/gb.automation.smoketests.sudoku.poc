@@ -1,11 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-10-07 — reconciled BACKLOG-081 / TRIAGE-08 publication after merged PR #93 and all seven exact-merge CI jobs passed. Local delivery evidence and all 104 resolved items are preserved. The exact DR-039 braces exception remains approved through 2026-10-12 inclusive.
+**Last Updated:** 2026-11-06 - opened BACKLOG-082 (In Progress) to restore green CI. The DR-039 braces exception expired on 2026-10-12 and its advisory was withdrawn on 2026-10-23; every Stack audit has failed on the expiry since 2026-10-22. All 104 resolved items are preserved.
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
-**Status:** BACKLOG-081 / TRIAGE-08 is Resolved and published through merged PR #93 at `5e9595fbbe8d27ea89e3cca557bc3c43ebb2ef50`; all seven exact-merge CI jobs passed, including Pages build/deploy. BACKLOG-080 / TRIAGE-09 is published through merged PR #92 with all seven exact-merge jobs passing; BACKLOG-078 / TRIAGE-14 and BACKLOG-079 / TRIAGE-13 are published through merged PRs #91/#90. BACKLOG-075 is resolved and live at `/parity/`; historical closures remain intact. TRIAGE-10/15 remain separate root worklist items.
+**Status:** BACKLOG-082 is In Progress: all-Stack CI has been red since 2026-10-22 on the expired DR-039 exception, which also hides blocking DEMOAPP001 and DEMOAPP002 advisories. Earlier state: BACKLOG-081 / TRIAGE-08 is Resolved and published through merged PR #93 at `5e9595fbbe8d27ea89e3cca557bc3c43ebb2ef50`; all seven exact-merge CI jobs passed, including Pages build/deploy. BACKLOG-080 / TRIAGE-09 is published through merged PR #92 with all seven exact-merge jobs passing; BACKLOG-078 / TRIAGE-14 and BACKLOG-079 / TRIAGE-13 are published through merged PRs #91/#90. BACKLOG-075 is resolved and live at `/parity/`; historical closures remain intact. TRIAGE-10/15 remain separate root worklist items.
 
 ---
 
@@ -26,9 +26,16 @@ Per v1.15 Section 10.1:
 | Status | Count |
 |--------|-------|
 | Open | 0 |
-| In Progress | 0 |
+| In Progress | 1 |
 | Resolved | 104 |
-| **Total** | **104** |
+| **Total** | **105** |
+
+**Update (2026-11-06, BACKLOG-082):** A read-only [CI diagnostic](../.analysis/2026-11-06-backlog-082-ci-diagnostic.md)
+found every Stack job failing since 2026-10-22 at `Dependency audit` with "Exception 1 expired on
+2026-10-12". The braces advisory GHSA-vfj7-8cjw-p6xm was withdrawn on 2026-10-23, so the exception
+cannot be renewed. The expiry hides four blocking DEMOAPP001 npm findings and 14 DEMOAPP002
+pip-audit findings. The owner approved the [filed plan](../.implementation-plans/2026-11-06-backlog-082-dependency-audit-green.md)
+to remove the exception and remediate through lock updates in one PR.
 
 **Update (2026-10-07, TRIAGE-08):** The owner selected active capability and assurance currency.
 The [filed plan](../.implementation-plans/2026-10-07-triage-08-documentation-currency.md)
@@ -83,7 +90,7 @@ both passed at `7af3dca`; this was a documentation reconciliation, not an implem
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed; TRIAGE-10/15 remain separate, unselected root candidates |
+| Current sprint focus | BACKLOG-082 (restore green CI under DR-039) is In Progress; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed; TRIAGE-10/15 remain separate, unselected root candidates |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -493,6 +500,12 @@ BACKLOG-015/016 closures. Allocate each subsequent candidate during its own iter
 | ID | Worklist | Title | Stack(s) | Priority | Status | Decision Record |
 |----|----------|-------|----------|----------|--------|-----------------|
 | BACKLOG-076 | TRIAGE-12 | Restore supported-runtime dependency audits with patched locks | DEMOAPP001 / DEMOAPP002 | High | Resolved | DR-039 (existing policy) |
+
+## Dependency-audit CI Restoration (2026-11-06)
+
+| ID | Worklist | Title | Stack(s) | Priority | Status | Decision Record |
+|----|----------|-------|----------|----------|--------|-----------------|
+| BACKLOG-082 | None (owner-approved plan) | Restore green CI: remove the withdrawn braces exception and remediate hidden advisories | All (CI policy + DEMOAPP001/DEMOAPP002 locks) | High | In Progress | DR-039 (existing policy) |
 
 ## Owner-Selected Browser Contract Repair (2026-09-30)
 
@@ -1825,6 +1838,21 @@ v6 handover and registry's unscheduled BACKLOG-078 note are historical/non-curre
 their separate lifecycle refresh is outside TRIAGE-09.
 
 ---
+
+### BACKLOG-082: Restore green CI under DR-039
+
+**Status:** In Progress (2026-11-06).
+**Priority:** High
+**Stack(s):** All (CI dependency policy; DEMOAPP001 npm lock; DEMOAPP002 test-tooling lock)
+**Source:** Claude v2 review Risks 1-2 and Codex v3 review (2026-11-05); [CI diagnostic](../.analysis/2026-11-06-backlog-082-ci-diagnostic.md); Dependabot PRs #96, #97 and #98.
+**Plan:** [Filed implementation plan](../.implementation-plans/2026-11-06-backlog-082-dependency-audit-green.md)
+
+**Acceptance:** `.github/dependency-audit-policy.json` holds no exceptions and keeps
+`blockAtOrAbove: high` and `maximumExceptionDays: 14`. Every Stack audit reports `status=pass` with
+zero blocking findings in PR CI, the parity gate and `Gate (all stacks green)` pass, and the
+`main` push run redeploys Pages. The pre-fix npm audit output evaluated against the new policy
+still reports four blocking findings, proving the repair is remediation rather than a weaker
+policy. Product sources, tests, features, workflows and coverage floors are unchanged.
 
 ### BACKLOG-081: Active capability and assurance documentation currency (TRIAGE-08)
 
