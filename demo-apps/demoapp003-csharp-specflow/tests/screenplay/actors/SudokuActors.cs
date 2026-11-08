@@ -8,5 +8,5 @@ public static class SudokuActors
     public const string SolverActor = "Solver";
 
     public static Actor MakeSolverActor() =>
-        Actor.Named(SolverActor).WhoCan(new UseSudokuSolver(), LoadPuzzles.From("puzzles.json"));
+        Actor.Named(SolverActor).WhoCan(new UseSudokuSolver(), LoadPuzzles.From(Path.Combine(AppContext.BaseDirectory, "puzzles.json")));
 }

@@ -6,7 +6,8 @@
     "The currency guard only checks recorded counts/provenance and portable source fingerprints; it does not execute tests.",
     "Source SHA256 uses UTF-8 without BOM and LF-normalised line endings, with repository-relative paths sorted ordinally. Output SHA256 hashes exact retained bytes.",
     "Native logs/XML/TRX remain ignored local evidence; their absence in a clean checkout is expected. Their hashes and commands preserve provenance.",
-    "Refresh after collection/source drift: rerun all four native commands, retain zero-failure/skip results and UTC timings, update output hashes and sorted source fingerprints, reconcile active count claims, then run the guard and isolated controls."
+    "Refresh after collection/source drift: rerun all four native commands, retain zero-failure/skip results and UTC timings, update output hashes and sorted source fingerprints, reconcile active count claims, then run the guard and isolated controls.",
+    "2026-11-08 (BACKLOG-086 / TRIAGE-18): only the demoapp003-component suite was re-measured, after two missing-path controls were added (28 to 30 tests). The other three suites keep their 2026-10-07 measurements because their sources are unchanged; recordedOn stays the original date."
   ],
   "suites": [
     {
@@ -245,15 +246,15 @@
     },
     {
       "id": "demoapp003-component",
-      "tests": 28,
-      "passed": 28,
+      "tests": 30,
+      "passed": 30,
       "failed": 0,
       "skipped": 0,
-      "runtime": ".NET SDK 10.0.401",
-      "sourceSha": "eaaeb79a9ec7d9bb4c5eb6338a956e4308efceee",
-      "startedUtc": "2026-10-07T15:56:58.2106809Z",
-      "commandDurationMs": 36554,
-      "runnerDurationMs": 356,
+      "runtime": ".NET SDK 10.0.403",
+      "sourceSha": "029fb43508ef690d9aeeac2f00808adc6a931735",
+      "startedUtc": "2026-11-08T01:50:32.8517399Z",
+      "commandDurationMs": 5289,
+      "runnerDurationMs": 271,
       "command": {
         "executable": "dotnet",
         "arguments": [
@@ -263,7 +264,7 @@
           "--logger",
           "trx;LogFileName=component.trx",
           "--results-directory",
-          "$REPOSITORY_ROOT/.results/triage-08/20261007/csharp"
+          "$REPOSITORY_ROOT/.results/triage-18/20261108/csharp"
         ],
         "workingDirectory": "demo-apps/demoapp003-csharp-specflow"
       },
@@ -302,7 +303,7 @@
         },
         {
           "path": "demo-apps/demoapp003-csharp-specflow/tests/component/PuzzleLoaderContractTests.cs",
-          "sha256": "62f31f3b15b742a9667e72e29a378428a56138ec6428f77672a0ce102b4907a6"
+          "sha256": "4fbe272956573fb87af65a808ec76d20e56059cc8cfb1c1d81323737aec4d624"
         },
         {
           "path": "demo-apps/demoapp003-csharp-specflow/tests/component/SolverTechniqueContractTests.cs",
@@ -315,12 +316,12 @@
       ],
       "outputs": [
         {
-          "path": ".results/triage-08/20261007/cs-component.log",
-          "sha256": "9eb3053777861035f10b843f402fa2dc65c741aeeec62f270d8dd8fa7aff7c8c"
+          "path": ".results/triage-18/20261108/cs-component.log",
+          "sha256": "18b901a207242f7183db02b636ae5a0d6b6f6975edbfde370407a5bca7549fea"
         },
         {
-          "path": ".results/triage-08/20261007/csharp/component.trx",
-          "sha256": "a28e588266b3dce4d7fbdf7fad7e3ad60f8a2ea13376669bdbb84ef0ea31edd7"
+          "path": ".results/triage-18/20261108/csharp/component.trx",
+          "sha256": "ca84d5c22be02abf65d83a8b3e4d9da0440a6339b970d328bafdbd730e5c4050"
         }
       ]
     }

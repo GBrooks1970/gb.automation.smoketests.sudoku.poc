@@ -152,7 +152,7 @@ Run DEMOAPP003 commands from `demo-apps/demoapp003-csharp-specflow/`.
 | Command | Purpose |
 |---------|---------|
 | `dotnet restore --locked-mode` | Restore locked C# Stack dependencies |
-| `dotnet test --no-restore` | Run 28 component tests plus 55 Reqnroll tests (83 total) |
+| `dotnet test --no-restore` | Run 30 component tests plus 55 Reqnroll tests (85 total) |
 | `dotnet package list --vulnerable --include-transitive --format json --no-restore` | Audit the locked .NET 10 dependency graph |
 | `dotnet run --project tooling/performance/DemoApp003.Performance.csproj --configuration Release` | Run C# reporting-only benchmarks |
 

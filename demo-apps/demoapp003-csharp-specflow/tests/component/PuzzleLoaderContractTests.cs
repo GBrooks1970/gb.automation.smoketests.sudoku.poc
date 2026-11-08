@@ -61,6 +61,21 @@ public sealed class PuzzleLoaderContractTests
     }
 
     [Test]
+    [NonParallelizable]
+    public void MissingAbsolutePathDoesNotLoadFallbackData()
+    {
+        AssertMissingPathDoesNotLoadFallback(
+            directory => Path.Combine(directory, $"missing-puzzles-{Guid.NewGuid():N}.json"));
+    }
+
+    [Test]
+    [NonParallelizable]
+    public void MissingRelativePathDoesNotLoadFallbackData()
+    {
+        AssertMissingPathDoesNotLoadFallback(_ => $"missing-puzzles-{Guid.NewGuid():N}.json");
+    }
+
+    [Test]
     public void RejectsIncorrectRowCount()
     {
         var grid = EmptyGrid()[..^1];
@@ -105,6 +120,29 @@ public sealed class PuzzleLoaderContractTests
         Assert.That(
             () => new PuzzleLoader(WritePuzzle(grid)),
             Throws.TypeOf<JsonException>());
+    }
+
+    private void AssertMissingPathDoesNotLoadFallback(Func<string, string> missingPathIn)
+    {
+        var originalDirectory = Directory.GetCurrentDirectory();
+        var isolatedDirectory = Directory.CreateTempSubdirectory("sudoku-loader-fallback-");
+
+        try
+        {
+            // A valid puzzles.json beside the working directory must never stand in for the
+            // requested file.
+            File.Copy(WritePuzzle(EmptyGrid()), Path.Combine(isolatedDirectory.FullName, "puzzles.json"));
+            Directory.SetCurrentDirectory(isolatedDirectory.FullName);
+
+            Assert.That(
+                () => new PuzzleLoader(missingPathIn(isolatedDirectory.FullName)),
+                Throws.TypeOf<FileNotFoundException>().With.Message.Contains("Puzzle file not found"));
+        }
+        finally
+        {
+            Directory.SetCurrentDirectory(originalDirectory);
+            isolatedDirectory.Delete(recursive: true);
+        }
     }
 
     private string WritePuzzle(object[][] grid)

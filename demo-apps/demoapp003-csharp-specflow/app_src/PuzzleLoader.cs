@@ -38,29 +38,13 @@ public sealed class PuzzleLoader
 
     public int GetPuzzleCount() => _puzzles.Count;
 
-    private static string ResolvePuzzlePath(string filePath)
-    {
-        if (Path.IsPathRooted(filePath) && File.Exists(filePath))
-        {
-            return filePath;
-        }
-
-        var candidates = new List<string>
-        {
-            Path.GetFullPath(filePath),
-            Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, filePath)),
-        };
-
-        var directory = new DirectoryInfo(Directory.GetCurrentDirectory());
-        while (directory is not null)
-        {
-            candidates.Add(Path.Combine(directory.FullName, filePath));
-            candidates.Add(Path.Combine(directory.FullName, "puzzles.json"));
-            directory = directory.Parent;
-        }
-
-        return candidates.FirstOrDefault(File.Exists) ?? Path.GetFullPath(filePath);
-    }
+    // An explicit path is authoritative: a rooted path is used as given, and a relative path is
+    // resolved once against the assembly directory (as the TypeScript and Python loaders anchor to
+    // their own location). There is no directory search and no fallback file.
+    private static string ResolvePuzzlePath(string filePath) =>
+        Path.IsPathRooted(filePath)
+            ? filePath
+            : Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, filePath));
 
     private void ValidatePuzzles()
     {

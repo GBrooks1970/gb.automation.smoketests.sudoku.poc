@@ -40,7 +40,7 @@ dotnet run --project tooling/performance/DemoApp003.Performance.csproj --configu
 | `docs/` | Stack-level architecture, Screenplay, and QA documentation |
 
 Feature files are owned by `features-shared/`; only stack-local tags belong in `tests/features/`.
-The solution test command runs 55 Reqnroll tests plus 28 focused component tests (83 total). The
+The solution test command runs 55 Reqnroll tests plus 30 focused component tests (85 total). The
 selected production scope must retain at least 80% line and 80% branch coverage under DR-038.
 CI emits separate component and Reqnroll TRX files plus the component Cobertura report and summary.
 It also runs the supported NuGet vulnerability command after locked restore; native output and
@@ -65,6 +65,11 @@ per-cell check: `Puzzle.Grid` is declared `int[][]`, so `System.Text.Json`
 rejects any non-integer JSON token (for example `1.5`, `"x"`, or `true`) while
 deserialising `puzzles.json`, before `ValidatePuzzles()` runs the range check on
 the already-typed integers.
+
+An explicit path is authoritative: a rooted path is used as given and a relative path resolves
+once against the assembly directory (`AppContext.BaseDirectory`). There is no directory search and
+no fallback file, so a missing path fails with "Puzzle file not found". The Reqnroll project copies
+`puzzles.json` to its build output, so the suite loads the same data in and out of the source tree.
 
 This is a **mechanism difference, not a responsibility difference** from
 DEMOAPP001 (TypeScript, explicit `Number.isInteger`) and DEMOAPP002 (Python,

@@ -43,7 +43,7 @@ The Stack runs the full canonical Sudoku solver feature contract against the C# 
 | Metric | Value | Target |
 |--------|-------|--------|
 | Scenarios | 55 | 55 |
-| Focused component tests | 28 | All passing |
+| Focused component tests | 30 | All passing |
 | Pass rate | 100% | 100% |
 | Scenarios tagged @pending | 0 | 0 |
 
