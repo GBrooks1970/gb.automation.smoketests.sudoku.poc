@@ -1,11 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-11-08 - BACKLOG-086 / TRIAGE-18 Resolved: DEMOAPP003 fixture data anchored, explicit loader paths authoritative and loader errors surfaced; merged PR #108 / `f1481eb`; out-of-tree Reqnroll 38/55 before and 55/55 after; both missing-path controls failed against the old loader and pass now (components 30/30); PR run 42436430723 passed all five required jobs; main run 42436704351 passed all seven jobs, Pages deployed. Earlier: BACKLOG-085 / TRIAGE-17 Resolved: the 14 open root worklist items are mirrored as `Open` (BACKLOG-086..099), so Open is 14. Earlier: BACKLOG-084 / TRIAGE-16 Resolved: the dependency-audit summary reports real blocking counts when the policy has errors; merged PR #105 / `ddc2540`; PR run 42280161693 (five required jobs, policy controls 15/15) and audit dispatch run 42280180274 passed; main run 42280718309 passed all seven jobs, Pages deployed; every audit `status=pass blocking=0`. Earlier: BACKLOG-083 Resolved: weekly audit-only dependency audit workflow (DR-048); merged PR #103 / `99111e0`; PR runs 42237102597 (CI) and 42237102729 (audit) passed; `workflow_dispatch` run 42237663052 on `main` passed all three audits with no Pages deployment; expired-exception control run 42237715787 failed all three as required. Earlier: BACKLOG-082 Resolved: merged PR #101 / `624a4af`; PR run 42232061531 and main run 42233130935 (all seven jobs, Pages deployed) passed; every audit `status=pass blocking=0`. All 107 items are Resolved.
+**Last Updated:** 2026-11-08 - BACKLOG-086 / TRIAGE-18 Resolved: DEMOAPP003 fixture data anchored, explicit loader paths authoritative and loader errors surfaced; merged PR #108 / `f1481eb`; out-of-tree Reqnroll 38/55 before and 55/55 after; both missing-path controls failed against the old loader and pass now (components 30/30); PR run 42436430723 passed all five required jobs; main run 42436704351 passed all seven jobs, Pages deployed. Earlier: BACKLOG-085 / TRIAGE-17 Resolved: the 14 open root worklist items are mirrored as `Open` (BACKLOG-086..099), so Open is 14. Earlier: BACKLOG-084 / TRIAGE-16 Resolved: the dependency-audit summary reports real blocking counts when the policy has errors; merged PR #105 / `ddc2540`; PR run 42280161693 (five required jobs, policy controls 15/15) and audit dispatch run 42280180274 passed; main run 42280718309 passed all seven jobs, Pages deployed; every audit `status=pass blocking=0`. Earlier: BACKLOG-083 Resolved: weekly audit-only dependency audit workflow (DR-048); merged PR #103 / `99111e0`; PR runs 42237102597 (CI) and 42237102729 (audit) passed; `workflow_dispatch` run 42237663052 on `main` passed all three audits with no Pages deployment; expired-exception control run 42237715787 failed all three as required. Earlier: BACKLOG-082 Resolved: merged PR #101 / `624a4af`; PR run 42232061531 and main run 42233130935 (all seven jobs, Pages deployed) passed; every audit `status=pass blocking=0`. Now 14 items are Open (BACKLOG-087..100), 0 In Progress and 109 Resolved, 123 in total.
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
-**Status:** BACKLOG-086 / TRIAGE-18 is Resolved (merged PR #108 / `f1481eb`; out-of-tree Reqnroll 38/55 before and 55/55 after; both missing-path controls failed against the old loader and pass now (components 30/30); PR run 42436430723 passed all five required jobs; main run 42436704351 passed all seven jobs, Pages deployed); 13 items are Open (BACKLOG-087..099, mirrored from the root worklist by BACKLOG-085 / TRIAGE-17). BACKLOG-084 / TRIAGE-16 (real blocking counts under audit policy errors, no DR) is Resolved (merged PR #105 / `ddc2540`; PR run 42280161693 (five required jobs, policy controls 15/15) and audit dispatch run 42280180274 passed; main run 42280718309 passed all seven jobs, Pages deployed; every audit `status=pass blocking=0`). BACKLOG-083 (weekly audit-only scheduled workflow, DR-048) is Resolved (merged PR #103 / `99111e0`; PR runs 42237102597 (CI) and 42237102729 (audit) passed; `workflow_dispatch` run 42237663052 on `main` passed all three audits with no Pages deployment; expired-exception control run 42237715787 failed all three as required); the first scheduled run is due 2026-11-09 06:00 UTC. BACKLOG-082 is Resolved and CI is green again (merged PR #101 / `624a4af`; PR run 42232061531 and main run 42233130935 (all seven jobs, Pages deployed) passed; every audit `status=pass blocking=0`). Earlier state: BACKLOG-081 / TRIAGE-08 is Resolved and published through merged PR #93 at `5e9595fbbe8d27ea89e3cca557bc3c43ebb2ef50`; all seven exact-merge CI jobs passed, including Pages build/deploy. BACKLOG-080 / TRIAGE-09 is published through merged PR #92 with all seven exact-merge jobs passing; BACKLOG-078 / TRIAGE-14 and BACKLOG-079 / TRIAGE-13 are published through merged PRs #91/#90. BACKLOG-075 is resolved and live at `/parity/`; historical closures remain intact. TRIAGE-10/15 are now recorded as BACKLOG-091/090.
+**Status:** BACKLOG-086 / TRIAGE-18 is Resolved (merged PR #108 / `f1481eb`; out-of-tree Reqnroll 38/55 before and 55/55 after; both missing-path controls failed against the old loader and pass now (components 30/30); PR run 42436430723 passed all five required jobs; main run 42436704351 passed all seven jobs, Pages deployed); 14 items are Open (BACKLOG-087..100, mirrored from the root worklist under the BACKLOG-085 / TRIAGE-17 convention; BACKLOG-100 is TRIAGE-30, added 2026-11-08 from TRIAGE-18 Decision 6). BACKLOG-084 / TRIAGE-16 (real blocking counts under audit policy errors, no DR) is Resolved (merged PR #105 / `ddc2540`; PR run 42280161693 (five required jobs, policy controls 15/15) and audit dispatch run 42280180274 passed; main run 42280718309 passed all seven jobs, Pages deployed; every audit `status=pass blocking=0`). BACKLOG-083 (weekly audit-only scheduled workflow, DR-048) is Resolved (merged PR #103 / `99111e0`; PR runs 42237102597 (CI) and 42237102729 (audit) passed; `workflow_dispatch` run 42237663052 on `main` passed all three audits with no Pages deployment; expired-exception control run 42237715787 failed all three as required); the first scheduled run is due 2026-11-09 06:00 UTC. BACKLOG-082 is Resolved and CI is green again (merged PR #101 / `624a4af`; PR run 42232061531 and main run 42233130935 (all seven jobs, Pages deployed) passed; every audit `status=pass blocking=0`). Earlier state: BACKLOG-081 / TRIAGE-08 is Resolved and published through merged PR #93 at `5e9595fbbe8d27ea89e3cca557bc3c43ebb2ef50`; all seven exact-merge CI jobs passed, including Pages build/deploy. BACKLOG-080 / TRIAGE-09 is published through merged PR #92 with all seven exact-merge jobs passing; BACKLOG-078 / TRIAGE-14 and BACKLOG-079 / TRIAGE-13 are published through merged PRs #91/#90. BACKLOG-075 is resolved and live at `/parity/`; historical closures remain intact. TRIAGE-10/15 are now recorded as BACKLOG-091/090.
 
 ---
 
@@ -25,10 +25,10 @@ Per v1.15 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 13 |
+| Open | 14 |
 | In Progress | 0 |
 | Resolved | 109 |
-| **Total** | **122** |
+| **Total** | **123** |
 
 **Update (2026-11-08, BACKLOG-086 / TRIAGE-18):** The DEMOAPP003 Reqnroll suite passed 55/55 only
 inside the source tree: `PuzzleLoader` searched the working directory and its ancestors and fell
@@ -117,7 +117,7 @@ both passed at `7af3dca`; this was a documentation reconciliation, not an implem
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | 13 Open items mirrored from the root worklist (BACKLOG-087..099); next is BACKLOG-087 / TRIAGE-19. BACKLOG-086 / TRIAGE-18 (DEMOAPP003 fixture anchoring and authoritative loader paths) is Resolved. BACKLOG-085 / TRIAGE-17 (backlog mirror) is Resolved; BACKLOG-084 / TRIAGE-16 (real blocking counts under audit policy errors) is Resolved; BACKLOG-083 (weekly scheduled dependency audit, DR-048) is Resolved; BACKLOG-082 (restore green CI under DR-039) is Resolved; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed; TRIAGE-10/15 are now BACKLOG-091/090 |
+| Current sprint focus | 14 Open items mirrored from the root worklist (BACKLOG-087..100); next is BACKLOG-087 / TRIAGE-19. BACKLOG-086 / TRIAGE-18 (DEMOAPP003 fixture anchoring and authoritative loader paths) is Resolved. BACKLOG-085 / TRIAGE-17 (backlog mirror) is Resolved; BACKLOG-084 / TRIAGE-16 (real blocking counts under audit policy errors) is Resolved; BACKLOG-083 (weekly scheduled dependency audit, DR-048) is Resolved; BACKLOG-082 (restore green CI under DR-039) is Resolved; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed; TRIAGE-10/15 are now BACKLOG-091/090 |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -564,6 +564,7 @@ execution order.
 | BACKLOG-097 | TRIAGE-27 | Make Compose run the same verification as CI and pin container base images | All (config) | Low | Open | None expected |
 | BACKLOG-098 | TRIAGE-28 | Untrack agent-local settings and explain the legacy Stack directory names | All (docs + config) | Low | Open | None expected |
 | BACKLOG-099 | TRIAGE-29 | Document that Naked Pairs and X-Wing eliminations are transient | All (docs) | Low | Open | None expected |
+| BACKLOG-100 | TRIAGE-30 | Surface loader errors from the TypeScript and Python `LoadPuzzles` abilities | DEMOAPP001 / DEMOAPP002 | Low | Open | None expected |
 
 ## Owner-Selected Browser Contract Repair (2026-09-30)
 
@@ -1894,6 +1895,22 @@ forwarding; it is retained and explicitly excluded from acceptance. The correcte
 assertion failure and final positive run above are the accepted controls. The manifest-selected
 v6 handover and registry's unscheduled BACKLOG-078 note are historical/non-current;
 their separate lifecycle refresh is outside TRIAGE-09.
+
+---
+
+### BACKLOG-100: Surface loader errors from the TypeScript and Python `LoadPuzzles` abilities
+
+**Status:** Open (added 2026-11-08).
+**Priority:** Low
+**Stack(s):** DEMOAPP001, DEMOAPP002
+**Source:** Root worklist TRIAGE-30, owner-approved via the BACKLOG-086 / TRIAGE-18 plan's Decision 6 on 2026-11-08.
+
+The DEMOAPP001 `LoadPuzzles.ts` and DEMOAPP002 `load_puzzles.py` abilities catch the loader error
+and return empty results from their getters, the pattern BACKLOG-086 removed from DEMOAPP003. Their
+loaders already anchor paths, so the masking is latent. Acceptance (full text in the root
+worklist): every getter rethrows the captured error while `getError()`/`get_error()` keep returning
+it; a focused must-fail check per Stack proves a missing path raises "Puzzle file not found"; all
+scenario, parity, component and coverage gates pass.
 
 ---
 
