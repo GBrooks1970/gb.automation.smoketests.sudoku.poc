@@ -1,3 +1,4 @@
+using System.Runtime.ExceptionServices;
 using DemoApp003.Specs.Screenplay.Support;
 using DemoApp003.Sudoku;
 
@@ -22,16 +23,27 @@ public sealed class LoadPuzzles : IAbility
 
     public static LoadPuzzles From(string filePath) => new(filePath);
 
-    public IReadOnlyList<Puzzle> GetAll() => _loader?.GetAllPuzzles() ?? [];
+    public IReadOnlyList<Puzzle> GetAll() => Loader().GetAllPuzzles();
 
-    public Puzzle? GetByName(string name) => _loader?.GetPuzzleByName(name);
+    public Puzzle? GetByName(string name) => Loader().GetPuzzleByName(name);
 
     public IReadOnlyList<Puzzle> GetByDifficulty(string difficulty) =>
-        _loader?.GetPuzzlesByDifficulty(difficulty) ?? [];
+        Loader().GetPuzzlesByDifficulty(difficulty);
 
-    public Puzzle? GetByIndex(int index) => _loader?.GetPuzzleByIndex(index);
+    public Puzzle? GetByIndex(int index) => Loader().GetPuzzleByIndex(index);
 
-    public int GetCount() => _loader?.GetPuzzleCount() ?? 0;
+    public int GetCount() => Loader().GetPuzzleCount();
 
     public Exception? GetError() => _error;
+
+    // A failed load surfaces as the original loader error, not as empty results.
+    private PuzzleLoader Loader()
+    {
+        if (_error is not null)
+        {
+            ExceptionDispatchInfo.Capture(_error).Throw();
+        }
+
+        return _loader!;
+    }
 }

@@ -33,4 +33,9 @@
     <Compile Remove="component\**\*.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- The fixture travels with the test assembly, so the suite loads the same data in and out of the source tree. -->
+    <None Include="..\puzzles.json" Link="puzzles.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>
