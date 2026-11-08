@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Fixed
+- BACKLOG-087 / TRIAGE-19: DEMOAPP001 `GET /api/visualise/:name` no longer decodes its path parameter a second time. A name containing a literal `%` (sent as `%25`) now returns 404 `PUZZLE_NOT_FOUND` instead of 500, and a double-encoded name no longer resolves to a different puzzle, matching `GET /api/puzzles/:name`. Three API integration cases guard it. The documented OpenAPI responses are unchanged.
 - BACKLOG-086 / TRIAGE-18: the DEMOAPP003 `PuzzleLoader` treats an explicit path as authoritative (rooted as given, relative from `AppContext.BaseDirectory`) and no longer searches ancestor directories or falls back to another `puzzles.json`. The Reqnroll project copies `puzzles.json` to its output and the actor loads it from there, and `LoadPuzzles` rethrows loader errors instead of returning empty results. An out-of-tree `dotnet test --artifacts-path` run now passes 55/55 (was 38/55). Two component controls bring DEMOAPP003 to 30 component tests. No DR.
 - BACKLOG-084 / TRIAGE-16: `.batch/evaluate-dependency-audit.ps1` now classifies findings even when the dependency-audit policy has errors, so an expired or invalid exception shows the high finding it was covering (`blockingFindingCount` and `unexceptedFindingCount` were 0). Only exceptions that pass validation apply, an unreadable threshold counts every finding as blocking, and the verdict is unchanged (`status=fail`). Two new controls bring the policy controls to 15. No DR.
 

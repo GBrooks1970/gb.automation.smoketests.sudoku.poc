@@ -5,6 +5,7 @@ directory convention adapts the portfolio default to this dot-prefixed location.
 
 | Item | Plan | Approval | Outcome |
 |---|---|---|---|
+| BACKLOG-087 / TRIAGE-19 | [Decode the visualise route parameter once](2026-11-08-triage-19-visualise-decode.md) | Owner approved as recommended, 2026-11-08 | Not yet delivered; project PR to follow |
 | BACKLOG-086 / TRIAGE-18 | [Anchor DEMOAPP003 fixture data and authoritative loader paths](2026-11-08-triage-18-csharp-fixture-path.md) | Owner approved as recommended, 2026-11-08 | Delivered in PR #108 / `f1481eb`; out-of-tree Reqnroll 38/55 to 55/55, missing-path controls failed before the fix, components 30/30, PR and main CI green, Pages deployed |
 | BACKLOG-084 / TRIAGE-16 | [Real blocking counts when the audit policy has errors](2026-11-06-triage-16-audit-blocking-counts.md) | Owner approved as recommended, 2026-11-06 | Delivered in PR #105 / `ddc2540`; both new controls failed before the fix, policy controls 15/15, PR, dispatch and main CI green, Pages deployed |
 | BACKLOG-083 | [Weekly scheduled dependency audit](2026-11-06-backlog-083-weekly-dependency-audit.md) | Owner approved as recommended, 2026-11-06 | Delivered in PR #103 / `99111e0`; dispatch run green, expired-exception control red, no Pages deployment from the audit workflow |

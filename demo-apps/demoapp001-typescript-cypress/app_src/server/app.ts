@@ -101,7 +101,7 @@ export function createApp(
   app.get(
     '/api/visualise/:name',
     route((req, res) => {
-      res.json(tracker.trackSolve(decodeURIComponent(firstParam(req.params.name))));
+      res.json(tracker.trackSolve(firstParam(req.params.name)));
     })
   );
 
