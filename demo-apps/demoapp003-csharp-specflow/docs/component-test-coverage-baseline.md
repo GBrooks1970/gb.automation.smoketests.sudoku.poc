@@ -19,7 +19,7 @@ behaviour contract; these tests do not replace it.
 
 | Production layer | Focused evidence | Test file |
 |---|---|---|
-| Puzzle loading | Valid `0`/`9` boundaries and query paths; missing file; row/column shape; typed non-integer and out-of-range cells | `tests/component/PuzzleLoaderContractTests.cs` |
+| Puzzle loading | Valid `0`/`9` boundaries and query paths; missing file; missing absolute and relative paths never load fallback data; row/column shape; typed non-integer and out-of-range cells | `tests/component/PuzzleLoaderContractTests.cs` |
 | Solver techniques | One minimal grid each for Unit Completion, Hidden Singles and Naked Singles | `tests/component/SolverTechniqueContractTests.cs` |
 | Orchestration | SUD-22 attempt order/immutability, fixpoint/no-progress evidence and early-complete exit | `tests/component/OrchestrationAttemptContractTests.cs` |
 | Validation mapping | Valid placement, row/column/block conflicts, clean/duplicate constraint states and complete/invalid solution results | `tests/component/SudokuValidationContractTests.cs` |
@@ -50,6 +50,11 @@ the three production types named by SUD-26:
 | `SudokuOrchestrator` | 68 / 90 | 75.56% | 23 / 34 | 67.65% |
 | `SudokuSolver` | 256 / 296 | 86.49% | 128 / 146 | 87.67% |
 | **Selected-type total** | **388 / 451** | **86.03%** | **180 / 212** | **84.91%** |
+
+**Later observation (2026-11-08, BACKLOG-086 / TRIAGE-18):** after the ancestor search was removed
+and two missing-path controls were added, 30 component tests give `PuzzleLoader` 49 / 50 lines and
+24 / 26 branches, and the whole runsettings scope 530 / 607 lines (87.31%) and 270 / 314 branches
+(85.99%). The table above is kept as the SUD-26 baseline.
 
 These numbers remain the starting observation, not a quality target. SUD-28 reviewed the selected
 scope and adopted floors of 80% lines and 80% branches. The floors sit below the measured baseline

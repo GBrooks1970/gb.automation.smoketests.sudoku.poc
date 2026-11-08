@@ -229,7 +229,7 @@ All implementations follow established software engineering principles:
 
 The [current execution inventory (2026-10-07)](DOCS/.analysis/2026-10-07-component-execution-inventory.json)
 records native test results: DEMOAPP001 has 113 component tests and 8 OpenAPI contract tests,
-DEMOAPP002 has 30 component tests, and DEMOAPP003 has 28 component tests. Each Stack also runs the
+DEMOAPP002 has 30 component tests, and DEMOAPP003 has 30 component tests. Each Stack also runs the
 canonical 55-scenario behaviour contract. Component coverage is enforced against deliberately
 selected production scope using conservative floors. The retained percentages below are
 historical measured baselines, with their capture dates beside each observation:
