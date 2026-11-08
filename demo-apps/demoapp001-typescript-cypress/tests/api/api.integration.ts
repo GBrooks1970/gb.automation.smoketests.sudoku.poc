@@ -114,6 +114,10 @@ async function puzzleEndpoints(): Promise<void> {
 
   const missingResponse = await request(app).get('/api/puzzles/Unknown').expect(404);
   assert.strictEqual(missingResponse.body.error, 'PUZZLE_NOT_FOUND');
+
+  // A literal '%' in a name (sent as %25) is a client-side miss, not a server fault.
+  const percentResponse = await request(app).get('/api/puzzles/100%25').expect(404);
+  assert.strictEqual(percentResponse.body.error, 'PUZZLE_NOT_FOUND');
 }
 
 async function validateEndpoint(): Promise<void> {
@@ -263,6 +267,15 @@ async function visualiseEndpoint(): Promise<void> {
 
   const missingResponse = await request(app).get('/api/visualise/Unknown').expect(404);
   assert.strictEqual(missingResponse.body.error, 'PUZZLE_NOT_FOUND');
+
+  // The route decodes its parameter exactly once, like /api/puzzles/:name: a literal '%' is a
+  // miss, and a double-encoded name does not resolve to a different puzzle.
+  const percentResponse = await request(app).get('/api/visualise/100%25').expect(404);
+  assert.strictEqual(percentResponse.body.error, 'PUZZLE_NOT_FOUND');
+  const doubleEncodedResponse = await request(app)
+    .get('/api/visualise/Easy%2520Scan%2520Grid')
+    .expect(404);
+  assert.strictEqual(doubleEncodedResponse.body.error, 'PUZZLE_NOT_FOUND');
 }
 
 async function tutorEndpoint(): Promise<void> {

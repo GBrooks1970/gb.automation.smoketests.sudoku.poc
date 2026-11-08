@@ -1,11 +1,11 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-11-08 - BACKLOG-086 / TRIAGE-18 Resolved: DEMOAPP003 fixture data anchored, explicit loader paths authoritative and loader errors surfaced; merged PR #108 / `f1481eb`; out-of-tree Reqnroll 38/55 before and 55/55 after; both missing-path controls failed against the old loader and pass now (components 30/30); PR run 42436430723 passed all five required jobs; main run 42436704351 passed all seven jobs, Pages deployed. Earlier: BACKLOG-085 / TRIAGE-17 Resolved: the 14 open root worklist items are mirrored as `Open` (BACKLOG-086..099), so Open is 14. Earlier: BACKLOG-084 / TRIAGE-16 Resolved: the dependency-audit summary reports real blocking counts when the policy has errors; merged PR #105 / `ddc2540`; PR run 42280161693 (five required jobs, policy controls 15/15) and audit dispatch run 42280180274 passed; main run 42280718309 passed all seven jobs, Pages deployed; every audit `status=pass blocking=0`. Earlier: BACKLOG-083 Resolved: weekly audit-only dependency audit workflow (DR-048); merged PR #103 / `99111e0`; PR runs 42237102597 (CI) and 42237102729 (audit) passed; `workflow_dispatch` run 42237663052 on `main` passed all three audits with no Pages deployment; expired-exception control run 42237715787 failed all three as required. Earlier: BACKLOG-082 Resolved: merged PR #101 / `624a4af`; PR run 42232061531 and main run 42233130935 (all seven jobs, Pages deployed) passed; every audit `status=pass blocking=0`. Now 14 items are Open (BACKLOG-087..100), 0 In Progress and 109 Resolved, 123 in total.
+**Last Updated:** 2026-11-08 - BACKLOG-087 / TRIAGE-19 In Progress: `/api/visualise/:name` decodes its parameter once ([filed plan](../.implementation-plans/2026-11-08-triage-19-visualise-decode.md), owner approved). Earlier: BACKLOG-086 / TRIAGE-18 Resolved: DEMOAPP003 fixture data anchored, explicit loader paths authoritative and loader errors surfaced; merged PR #108 / `f1481eb`; out-of-tree Reqnroll 38/55 before and 55/55 after; both missing-path controls failed against the old loader and pass now (components 30/30); PR run 42436430723 passed all five required jobs; main run 42436704351 passed all seven jobs, Pages deployed. Earlier: BACKLOG-085 / TRIAGE-17 Resolved: the 14 open root worklist items are mirrored as `Open` (BACKLOG-086..099), so Open is 14. Earlier: BACKLOG-084 / TRIAGE-16 Resolved: the dependency-audit summary reports real blocking counts when the policy has errors; merged PR #105 / `ddc2540`; PR run 42280161693 (five required jobs, policy controls 15/15) and audit dispatch run 42280180274 passed; main run 42280718309 passed all seven jobs, Pages deployed; every audit `status=pass blocking=0`. Earlier: BACKLOG-083 Resolved: weekly audit-only dependency audit workflow (DR-048); merged PR #103 / `99111e0`; PR runs 42237102597 (CI) and 42237102729 (audit) passed; `workflow_dispatch` run 42237663052 on `main` passed all three audits with no Pages deployment; expired-exception control run 42237715787 failed all three as required. Earlier: BACKLOG-082 Resolved: merged PR #101 / `624a4af`; PR run 42232061531 and main run 42233130935 (all seven jobs, Pages deployed) passed; every audit `status=pass blocking=0`. Now 13 items are Open (BACKLOG-088..100), 1 In Progress (BACKLOG-087) and 109 Resolved, 123 in total.
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
-**Status:** BACKLOG-086 / TRIAGE-18 is Resolved (merged PR #108 / `f1481eb`; out-of-tree Reqnroll 38/55 before and 55/55 after; both missing-path controls failed against the old loader and pass now (components 30/30); PR run 42436430723 passed all five required jobs; main run 42436704351 passed all seven jobs, Pages deployed); 14 items are Open (BACKLOG-087..100, mirrored from the root worklist under the BACKLOG-085 / TRIAGE-17 convention; BACKLOG-100 is TRIAGE-30, added 2026-11-08 from TRIAGE-18 Decision 6). BACKLOG-084 / TRIAGE-16 (real blocking counts under audit policy errors, no DR) is Resolved (merged PR #105 / `ddc2540`; PR run 42280161693 (five required jobs, policy controls 15/15) and audit dispatch run 42280180274 passed; main run 42280718309 passed all seven jobs, Pages deployed; every audit `status=pass blocking=0`). BACKLOG-083 (weekly audit-only scheduled workflow, DR-048) is Resolved (merged PR #103 / `99111e0`; PR runs 42237102597 (CI) and 42237102729 (audit) passed; `workflow_dispatch` run 42237663052 on `main` passed all three audits with no Pages deployment; expired-exception control run 42237715787 failed all three as required); the first scheduled run is due 2026-11-09 06:00 UTC. BACKLOG-082 is Resolved and CI is green again (merged PR #101 / `624a4af`; PR run 42232061531 and main run 42233130935 (all seven jobs, Pages deployed) passed; every audit `status=pass blocking=0`). Earlier state: BACKLOG-081 / TRIAGE-08 is Resolved and published through merged PR #93 at `5e9595fbbe8d27ea89e3cca557bc3c43ebb2ef50`; all seven exact-merge CI jobs passed, including Pages build/deploy. BACKLOG-080 / TRIAGE-09 is published through merged PR #92 with all seven exact-merge jobs passing; BACKLOG-078 / TRIAGE-14 and BACKLOG-079 / TRIAGE-13 are published through merged PRs #91/#90. BACKLOG-075 is resolved and live at `/parity/`; historical closures remain intact. TRIAGE-10/15 are now recorded as BACKLOG-091/090.
+**Status:** BACKLOG-087 / TRIAGE-19 is In Progress on branch `worklist/triage-19-visualise-decode`. BACKLOG-086 / TRIAGE-18 is Resolved (merged PR #108 / `f1481eb`; out-of-tree Reqnroll 38/55 before and 55/55 after; both missing-path controls failed against the old loader and pass now (components 30/30); PR run 42436430723 passed all five required jobs; main run 42436704351 passed all seven jobs, Pages deployed); 13 items are Open (BACKLOG-088..100, mirrored from the root worklist under the BACKLOG-085 / TRIAGE-17 convention; BACKLOG-100 is TRIAGE-30, added 2026-11-08 from TRIAGE-18 Decision 6). BACKLOG-084 / TRIAGE-16 (real blocking counts under audit policy errors, no DR) is Resolved (merged PR #105 / `ddc2540`; PR run 42280161693 (five required jobs, policy controls 15/15) and audit dispatch run 42280180274 passed; main run 42280718309 passed all seven jobs, Pages deployed; every audit `status=pass blocking=0`). BACKLOG-083 (weekly audit-only scheduled workflow, DR-048) is Resolved (merged PR #103 / `99111e0`; PR runs 42237102597 (CI) and 42237102729 (audit) passed; `workflow_dispatch` run 42237663052 on `main` passed all three audits with no Pages deployment; expired-exception control run 42237715787 failed all three as required); the first scheduled run is due 2026-11-09 06:00 UTC. BACKLOG-082 is Resolved and CI is green again (merged PR #101 / `624a4af`; PR run 42232061531 and main run 42233130935 (all seven jobs, Pages deployed) passed; every audit `status=pass blocking=0`). Earlier state: BACKLOG-081 / TRIAGE-08 is Resolved and published through merged PR #93 at `5e9595fbbe8d27ea89e3cca557bc3c43ebb2ef50`; all seven exact-merge CI jobs passed, including Pages build/deploy. BACKLOG-080 / TRIAGE-09 is published through merged PR #92 with all seven exact-merge jobs passing; BACKLOG-078 / TRIAGE-14 and BACKLOG-079 / TRIAGE-13 are published through merged PRs #91/#90. BACKLOG-075 is resolved and live at `/parity/`; historical closures remain intact. TRIAGE-10/15 are now recorded as BACKLOG-091/090.
 
 ---
 
@@ -25,8 +25,8 @@ Per v1.15 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 14 |
-| In Progress | 0 |
+| Open | 13 |
+| In Progress | 1 |
 | Resolved | 109 |
 | **Total** | **123** |
 
@@ -117,7 +117,7 @@ both passed at `7af3dca`; this was a documentation reconciliation, not an implem
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | 14 Open items mirrored from the root worklist (BACKLOG-087..100); next is BACKLOG-087 / TRIAGE-19. BACKLOG-086 / TRIAGE-18 (DEMOAPP003 fixture anchoring and authoritative loader paths) is Resolved. BACKLOG-085 / TRIAGE-17 (backlog mirror) is Resolved; BACKLOG-084 / TRIAGE-16 (real blocking counts under audit policy errors) is Resolved; BACKLOG-083 (weekly scheduled dependency audit, DR-048) is Resolved; BACKLOG-082 (restore green CI under DR-039) is Resolved; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed; TRIAGE-10/15 are now BACKLOG-091/090 |
+| Current sprint focus | BACKLOG-087 / TRIAGE-19 (single decode on `/api/visualise/:name`) is In Progress; 13 Open items mirrored from the root worklist (BACKLOG-088..100). BACKLOG-086 / TRIAGE-18 (DEMOAPP003 fixture anchoring and authoritative loader paths) is Resolved. BACKLOG-085 / TRIAGE-17 (backlog mirror) is Resolved; BACKLOG-084 / TRIAGE-16 (real blocking counts under audit policy errors) is Resolved; BACKLOG-083 (weekly scheduled dependency audit, DR-048) is Resolved; BACKLOG-082 (restore green CI under DR-039) is Resolved; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed; TRIAGE-10/15 are now BACKLOG-091/090 |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -551,7 +551,7 @@ execution order.
 |----|----------|-------|----------|----------|--------|-----------------|
 | BACKLOG-085 | TRIAGE-17 | Mirror open root candidates into the canonical backlog | All (backlog records) | Medium | Resolved | None (records only) |
 | BACKLOG-086 | TRIAGE-18 | Anchor DEMOAPP003 fixture data, make explicit paths authoritative and surface loader errors | DEMOAPP003 | Medium | Resolved | None (DR-035 validation boundary unchanged; owner-approved plan) |
-| BACKLOG-087 | TRIAGE-19 | Remove the double URL decode on `/api/visualise/:name` | DEMOAPP001 | Medium | Open | None expected |
+| BACKLOG-087 | TRIAGE-19 | Remove the double URL decode on `/api/visualise/:name` | DEMOAPP001 | Medium | In Progress | None (documented contract unchanged; owner-approved plan) |
 | BACKLOG-088 | TRIAGE-24 | Run the Then-assertion mutation controls on a temporary copy | All (tooling) | Low (pulled forward by the owner) | Open | None expected |
 | BACKLOG-089 | TRIAGE-20 | Give the empty Then steps real observations and dispose of no-op and tautological bindings | All | Medium | Open | None expected; canonical feature edited first if reworded |
 | BACKLOG-090 | TRIAGE-15 | Assess candidate-qualified and fixed-fixture step arguments | All | Medium | Open | DR required before candidate-observation APIs, new Memory shapes or de-parameterised step text |
@@ -1895,6 +1895,24 @@ forwarding; it is retained and explicitly excluded from acceptance. The correcte
 assertion failure and final positive run above are the accepted controls. The manifest-selected
 v6 handover and registry's unscheduled BACKLOG-078 note are historical/non-current;
 their separate lifecycle refresh is outside TRIAGE-09.
+
+---
+
+### BACKLOG-087: Remove the double URL decode on `/api/visualise/:name`
+
+**Status:** In Progress 2026-11-08 on branch `worklist/triage-19-visualise-decode`.
+**Priority:** Medium
+**Stack(s):** DEMOAPP001
+**Source:** Root worklist TRIAGE-19; Claude review v2 (`DOCS/.review/CODE_REVIEW_Claude_v2_20261105T1425Z/`) Risk 4.
+**Plan:** [Filed implementation plan](../.implementation-plans/2026-11-08-triage-19-visualise-decode.md) (owner approved, 2026-11-08)
+**Decision:** None. The documented OpenAPI responses are unchanged.
+
+**Acceptance:** `app_src/server/app.ts` (line 104) no longer calls `decodeURIComponent`; API
+integration cases prove `GET /api/visualise/100%25` and `GET /api/puzzles/100%25` both return 404
+`PUZZLE_NOT_FOUND`, `GET /api/visualise/Easy%2520Scan%2520Grid` returns 404 like the puzzles route,
+and `Easy%20Scan%20Grid` still returns 200; the new visualise cases fail against the unchanged
+route; API, OpenAPI (8), component, BDD and coverage gates pass. The OpenAPI per-path `500` entries
+are kept (owner decision).
 
 ---
 
