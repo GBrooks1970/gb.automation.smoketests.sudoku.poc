@@ -4,9 +4,9 @@ created: 2026-11-08T01:45Z
 project: gb.automation.smoketests.sudoku.poc
 type: implementation-plan
 item: BACKLOG-086 / TRIAGE-18
-status: approved
+status: implemented
 approved: 2026-11-08 by GBrooks1970, "Approved both as recommended"; every recommended option, main session merges only when every check is green
-delivered: not yet
+delivered: PR #108, merge commit f1481eb60f629fc559b9f43bf29d0c3c17532a8b
 language: en-GB
 ---
 
@@ -228,4 +228,44 @@ options.
 
 ## Outcome
 
-[Appended after delivery.]
+Delivered in [PR #108](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/108),
+head `4c02078`, merged as `f1481eb` on 2026-11-08T02:01:03Z, with every recommended option.
+
+- **Must-fail, Reqnroll out of tree:** unchanged code 38/55 (17 failed: 12
+  `Puzzle not found: "<name>"`, 5 empty-result assertions). After the `LoadPuzzles` rethrow alone,
+  38/55 with all 17 failures reading `FileNotFoundException : Puzzle file not found`. After the
+  loader fix and anchoring, on a fresh `--artifacts-path`, 55/55, with `puzzles.json` in the
+  artifacts output.
+- **Must-fail, component controls:** against the unchanged loader, 28 passed and 2 failed
+  (`MissingAbsolutePathDoesNotLoadFallbackData`, `MissingRelativePathDoesNotLoadFallbackData`:
+  "Expected: <FileNotFoundException> ... But was: no exception thrown"). After the fix, 30/30.
+- **Local gates:** Reqnroll 55/55 in tree; `dotnet restore --locked-mode` left the lock files
+  unchanged; component coverage 530/607 lines (87.31%) and 270/314 branches (85.99%), floors 80/80
+  satisfied, with `PuzzleLoader` at 49/50 lines and 24/26 branches; `run-parity-checks.ps1`,
+  feature parity, step text (217 lines x3), memory keys and RA/documentation currency PASS;
+  documentation currency 37/37. The Then-assertion mutation controls ran in CI only.
+- **Inventory:** the `demoapp003-component` record was re-measured at `029fb43`: 30/30 on
+  .NET SDK 10.0.403, started 2026-11-08T01:50:32.8517399Z, command 5289 ms, runner 271 ms, with new
+  output hashes and the new `PuzzleLoaderContractTests.cs` fingerprint. The other three suites are
+  unchanged.
+- **PR CI:** run 42436430723 at `4c02078` passed all five required jobs, with DEMOAPP003
+  components 30/30, Reqnroll 55/55 and coverage 87.31% / 85.99%.
+- **Exact merge:** `main` push run 42436704351 at `f1481eb` passed all seven jobs, including Pages
+  build and deploy (deployment 7630049775).
+
+**Differences from the plan.**
+
+1. Two commits instead of one. The inventory's `sourceSha` must be a real commit, so the code was
+   committed first (`029fb43`), the governed component command was measured at that commit, and the
+   inventory and docs followed as `4c02078`. No history was rewritten.
+2. Two `test-documentation-currency.ps1` control anchors changed. Lines 135 and 138 quote the counts
+   as mutation anchors ("Expected output: 83 tests ..." and "| Focused component tests | 28 |"). After
+   the count update they failed with "Expected one mutation anchor ... found 0", so their `Before`
+   strings moved to 85 and 30. The mutation targets are unchanged and the run is 37/37.
+3. The coverage baseline row was not rewritten. The `PuzzleLoader` row in
+   `docs/component-test-coverage-baseline.md` is the dated SUD-26 baseline of 24 tests, so it was kept,
+   and a dated "Later observation (2026-11-08)" paragraph plus an inventory-table note were added.
+4. The coverage run wrote to the scratchpad rather than `.results/component-coverage`; the governed
+   inventory run wrote to the ignored `.results/triage-18/20261108/` in the worktree.
+
+Record: [implementation log](../.implementation-logs/2026-11-08_triage-18-csharp-fixture-path.md).
