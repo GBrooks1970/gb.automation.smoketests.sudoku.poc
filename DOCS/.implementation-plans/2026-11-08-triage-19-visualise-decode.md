@@ -4,9 +4,9 @@ created: 2026-11-08T06:10Z
 project: gb.automation.smoketests.sudoku.poc
 type: implementation-plan
 item: BACKLOG-087 / TRIAGE-19
-status: approved
+status: implemented
 approved: 2026-11-08 by GBrooks1970, "Approved both"; every recommended option, main session merges only when every check is green
-delivered: not yet
+delivered: PR #110, merge commit be26d730340112f0778e7ff3478605625aaf466d
 language: en-GB
 ---
 
@@ -124,4 +124,36 @@ options.
 
 ## Outcome
 
-[Appended after delivery.]
+Delivered in [PR #110](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/110),
+head `65ed5e7`, merged as `be26d73` on 2026-11-08T08:31:39Z, with every recommended option.
+
+- **Must-fail:** with the three new cases in `tests/api/api.integration.ts` and the route unchanged,
+  `npm run test:api` exited 1 with `Error: expected 404 "Not Found", got 500 "Internal Server Error"`
+  at the `/api/visualise/100%25` case (`api.integration.ts:273`). The harness stops at its first
+  failure, so the double-encoded case's "before" was taken from the scratch probe:
+  `/api/visualise/Easy%2520Scan%2520Grid` returned 200 ("Easy Scan Grid"). After the fix
+  `npm run test:api` printed `API integration tests: PASS`.
+- **Probe after the fix:** `100%25` and `Easy%2520Scan%2520Grid` give 404 `PUZZLE_NOT_FOUND` on both
+  routes, `Easy%20Scan%20Grid` gives 200 on both, and `Unknown` gives 404. `%ZZ` still gives 500 on
+  both routes, recorded as BACKLOG-101 (Decision 4).
+- **Local gates (Node 24.18.0):** `tsc --noEmit`, lint, `format:check`, build and `test:api` pass;
+  `verify:openapi` valid with 8/8 contract tests; components 113/113 with 80.11% lines / 91.94%
+  branches / 80.17% functions (one test worker); `npm test` 113 components plus 55 scenarios /
+  309 steps; RA/documentation currency PASS; documentation currency 37/37.
+- **PR CI:** run 42463066910 at `65ed5e7` passed all five required jobs (DEMOAPP001 2m48s, DEMOAPP002
+  22s, DEMOAPP003 1m58s, parity and `Gate (all stacks green)`); Pages jobs were skipped on the PR.
+- **Exact merge:** `main` push run 42463312104 at `be26d73` passed all seven jobs, including Pages build and deploy (deployment 7633561566).
+
+**Differences from the plan.**
+
+1. The second must-fail (double-encoded name) was recorded from the scratch probe, not from
+   `test:api`, because the harness stops at its first failure.
+2. Locally, `npm run test:coverage` with default parallel workers failed one wall-clock budget test
+   on each of two runs, a different test each time ("Average time per solution (15.2ms) was not
+   below 15ms"; "Clue reduction time (157ms) exceeded 150ms budget"). Those files are unchanged by
+   this item, and with `--test-concurrency=1` all 113 passed. CI's coverage step passed without a
+   flake.
+
+Decision 4's follow-on is recorded as root TRIAGE-31 and mirrored here as Open BACKLOG-101.
+
+Record: [implementation log](../.implementation-logs/2026-11-08_triage-19-visualise-decode.md).

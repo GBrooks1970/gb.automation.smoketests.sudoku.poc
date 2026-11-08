@@ -57,6 +57,7 @@ YYYY-MM-DD_short-session-topic.md
 | [2026-11-06_backlog-083-weekly-dependency-audit.md](2026-11-06_backlog-083-weekly-dependency-audit.md) | 2026-11-06 | BACKLOG-083 weekly audit-only dependency audit workflow (DR-048) |
 | [2026-11-06_triage-16-audit-blocking-counts.md](2026-11-06_triage-16-audit-blocking-counts.md) | 2026-11-06 | BACKLOG-084 / TRIAGE-16 real blocking counts when the dependency-audit policy has errors |
 | [2026-11-08_triage-18-csharp-fixture-path.md](2026-11-08_triage-18-csharp-fixture-path.md) | 2026-11-08 | BACKLOG-086 / TRIAGE-18 DEMOAPP003 fixture anchoring, authoritative loader paths and surfaced loader errors |
+| [2026-11-08_triage-19-visualise-decode.md](2026-11-08_triage-19-visualise-decode.md) | 2026-11-08 | BACKLOG-087 / TRIAGE-19 single decode on `/api/visualise/:name` |
 
 
 ---
