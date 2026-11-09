@@ -54,8 +54,12 @@ Given('every cell in the 9x9 grid contains a non-zero digit', async () => {
   await actorCalled(SOLVER_ACTOR).attemptsTo(InitialiseGrid.withCompleteGrid(completedGrid));
 });
 
-Given('no digits violate row, column, or block rules', () => {
-  // Context only — grid already set up correctly
+Given('no digits violate row, column, or block rules', async () => {
+  const valid = await actorCalled(SOLVER_ACTOR).answer(GridCell.isValidSolution());
+  assert.ok(
+    valid,
+    'Expected initialized grid to satisfy row, column, and block rules with no violations'
+  );
 });
 
 Given('a puzzle that cannot be solved with basic techniques', async () => {

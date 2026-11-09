@@ -170,6 +170,9 @@ $pairBlock = @{ Title='Identify a Naked Pair in a 3x3 block and eliminate candid
 $xWingRow = @{ Title='Detect X-Wing in rows and eliminate candidate from columns to place a single'; Python='detect_xwing_in_rows_and_eliminate_candidate_from_columns_to_place_a_single'; CSharp='DetectX_WingInRowsAndEliminateCandidateFromColumnsToPlaceASingle' }
 $xWingColumn = @{ Title='Detect X-Wing in columns and eliminate candidate from rows to place a single'; Python='detect_xwing_in_columns_and_eliminate_candidate_from_rows_to_place_a_single'; CSharp='DetectX_WingInColumnsAndEliminateCandidateFromRowsToPlaceASingle' }
 $easy = @{ Title='Solve an easy puzzle end-to-end'; Python='solve_an_easy_puzzle_endtoend'; CSharp='SolveAnEasyPuzzleEnd_To_End' }
+$difficulty = @{ Title='Get puzzles by difficulty'; Python='get_puzzles_by_difficulty'; CSharp='GetPuzzlesByDifficulty' }
+$noProgress = @{ Title='Verify algorithm returns false when no progress made'; Python='verify_algorithm_returns_false_when_no_progress_made'; CSharp='VerifyAlgorithmReturnsFalseWhenNoProgressMade' }
+$emptyGrid = @{ Title='Handle empty grid appropriately'; Python='handle_empty_grid_appropriately'; CSharp='HandleEmptyGridAppropriately' }
 
 $mutations = @(
     @{ Id='unit-missing-digit'; Scenario=$row; Old='| 1, 2, 0, 4, 5, 6, 7, 8, 9 | 3       |'; New='| 1, 2, 0, 4, 5, 6, 7, 8, 9 | 4       |' },
@@ -193,7 +196,10 @@ $mutations = @(
     @{ Id='pair-block-column'; Scenario=$pairBlock; Old='Then the cell in block (0, 0) with candidates "1, 6, 9" should be updated to 9'; New='Then the cell in block (0, 1) with candidates "1, 6, 9" should be updated to 9' },
     @{ Id='xwing-row-position'; Scenario=$xWingRow; Old='Then the cell at row 7, column 1 should be updated to 3'; New='Then the cell at row 7, column 2 should be updated to 3' },
     @{ Id='xwing-column-position'; Scenario=$xWingColumn; Old='Then the cell at row 1, column 7 should be updated to 3'; New='Then the cell at row 2, column 7 should be updated to 3' },
-    @{ Id='valid-digit-count'; Scenario=$easy; Old='And all 81 cells should contain valid digits'; New='And all 80 cells should contain valid digits' }
+    @{ Id='valid-digit-count'; Scenario=$easy; Old='And all 81 cells should contain valid digits'; New='And all 80 cells should contain valid digits' },
+    @{ Id='puzzles-array-count'; Scenario=$difficulty; Old='When requesting puzzles with difficulty "easy"'; New='When requesting puzzles with difficulty "medium"' },
+    @{ Id='main-loop-progress'; Scenario=$noProgress; Old='Given a grid state where no algorithm can make progress'; New='Given the "Easy Scan Grid" puzzle is loaded' },
+    @{ Id='no-errors-planted'; Scenario=$emptyGrid; Old='And no errors should occur'; New='And an error should be thrown' }
 )
 if ($MutationIds.Count -gt 0) {
     foreach ($id in $MutationIds) { if ($id -notin $mutations.Id) { throw "Unknown mutation ID: $id" } }

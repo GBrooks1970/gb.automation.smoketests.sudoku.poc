@@ -5,6 +5,7 @@ directory convention adapts the portfolio default to this dot-prefixed location.
 
 | Item | Plan | Approval | Outcome |
 |---|---|---|---|
+| BACKLOG-089 / TRIAGE-20 | [Real Then observations, no-op disposal and tautology replacement](2026-11-09-triage-20-real-then-observations.md) | Owner approved as recommended across all 8 decisions, 2026-11-09 | In progress |
 | BACKLOG-088 / TRIAGE-24 | [Then-assertion mutation controls on a temporary copy](2026-11-08-triage-24-then-mutation-controls.md) | Owner approved as recommended, 2026-11-09 | Delivered in PR #112 / `811fb79`; isolated Stack copy under %TEMP%, tracked features untouched, must-fail baseline red then green, PR and main CI green, Pages deployed |
 | BACKLOG-087 / TRIAGE-19 | [Decode the visualise route parameter once](2026-11-08-triage-19-visualise-decode.md) | Owner approved as recommended, 2026-11-08 | Delivered in PR #110 / `be26d73`; `/api/visualise/100%25` 500 to 404 (must-fail red then green), PR CI green; malformed-escape follow-on mirrored as BACKLOG-101 |
 | BACKLOG-086 / TRIAGE-18 | [Anchor DEMOAPP003 fixture data and authoritative loader paths](2026-11-08-triage-18-csharp-fixture-path.md) | Owner approved as recommended, 2026-11-08 | Delivered in PR #108 / `f1481eb`; out-of-tree Reqnroll 38/55 to 55/55, missing-path controls failed before the fix, components 30/30, PR and main CI green, Pages deployed |

@@ -342,8 +342,9 @@ def attempting_to_place(actor: Actor, value: int) -> None:
 
 
 @then("the move should be validated against row, column, and block constraints")
-def move_validated() -> None:
-    pass
+def move_validated(actor: Actor) -> None:
+    validity = actor.answer(PlacementValidity.of_last_attempt())
+    assert validity in ("VALID", "INVALID"), f"Expected placement validity to be VALID or INVALID, got {validity}"
 
 
 @then(parsers.parse("the validation result should be {expected}"))
@@ -378,8 +379,8 @@ def completed_grid(actor: Actor) -> None:
 
 
 @given("no digits violate row, column, or block rules")
-def no_digits_violate_rules() -> None:
-    pass
+def no_digits_violate_rules(actor: Actor) -> None:
+    assert actor.answer(GridCell.is_valid_solution()), "Expected grid to be a valid Sudoku solution"
 
 
 @given("a puzzle that cannot be solved with basic techniques")
@@ -596,18 +597,19 @@ def puzzles_loaded_from_json() -> None:
 
 
 @given("the puzzles.json file does not exist")
-def puzzles_file_missing() -> None:
-    pass
+def puzzles_file_missing(actor: Actor) -> None:
+    actor.who_can(LoadPuzzles.from_path("nonexistent_puzzles.json"))
 
 
 @when(parsers.parse('the PuzzleLoader is initialized with "{file_path}"'))
-def puzzle_loader_initialised_with(file_path: str) -> None:
-    assert file_path
+def puzzle_loader_initialised_with(actor: Actor, file_path: str) -> None:
+    actor.who_can(LoadPuzzles.from_path(file_path))
 
 
 @when("the PuzzleLoader attempts to load the file")
-def puzzle_loader_attempts_load() -> None:
-    pass
+def puzzle_loader_attempts_load(actor: Actor) -> None:
+    error = actor.answer(ErrorThrown.last())
+    assert error is not None, "Expected an error to be captured when attempting to load an invalid puzzle file"
 
 
 @when(parsers.parse('requesting a puzzle by name "{name}"'))
@@ -627,6 +629,8 @@ def requesting_puzzle_at_index(actor: Actor, index: int) -> None:
 
 @when("the PuzzleLoader is initialized")
 def puzzle_loader_initialised(actor: Actor) -> None:
+    loader_error = actor.ability_to(LoadPuzzles).get_error()
+    assert loader_error is not None, "Expected PuzzleLoader to have captured an error for nonexistent file"
     actor.attempts_to(SimulateError.for_missing_file())
 
 
@@ -676,7 +680,8 @@ def only_matching_puzzles(actor: Actor, difficulty: str) -> None:
 
 @then("the result should be an array of matching puzzles")
 def result_array_matching(actor: Actor) -> None:
-    assert actor.answer(MultipleSolvers.count()) >= 0
+    count = actor.answer(MultipleSolvers.count())
+    assert count == 1, f"Expected 1 matching puzzle for difficulty 'easy', got {count}"
 
 
 @then("the first puzzle in the collection should be returned")
@@ -787,8 +792,9 @@ def no_cells_filled(actor: Actor) -> None:
 
 
 @then("no errors should occur")
-def no_errors_occur() -> None:
-    pass
+def no_errors_occur(actor: Actor) -> None:
+    error = actor.answer(ErrorThrown.last())
+    assert error is None, f"Expected no error, but found: {error}"
 
 
 @given(parsers.parse("a grid with {rows:d} rows instead of {expected:d}"))
@@ -813,8 +819,8 @@ def different_puzzles_loaded(actor: Actor, count: int) -> None:
 
 
 @when("attempting to create a SudokuSolver")
-def attempting_to_create_solver() -> None:
-    pass
+def attempting_to_create_solver(actor: Actor) -> None:
+    assert actor.answer(ErrorThrown.last()) is not None, "Expected an error to have been recorded when creating solver"
 
 
 @when("the solver attempts to solve")
@@ -953,8 +959,22 @@ def cell_in_block_updated_to(actor: Actor, br: int, bc: int, candidates: str, va
 
 
 @then("the main loop should exit")
-def main_loop_exits() -> None:
-    pass
+def main_loop_exits(actor: Actor) -> None:
+    ability = actor.ability_to(UseSudokuSolver)
+    ability.reinitialise_from_snapshot()
+    ability.solve_puzzle()
+    assert (
+        ability.last_attempt_iterations == 1
+    ), f"Expected main loop to exit after 1 attempt cycle, got {ability.last_attempt_iterations}"
+    assert (
+        len(ability.last_attempt_events) > 0
+    ), "Expected attempt events to be recorded for the failed solve cycle"
+    assert all(
+        not e.changed for e in ability.last_attempt_events
+    ), "Expected every algorithm in the cycle to have made zero progress (changed is False)"
+    assert (
+        ability.result == "STUCK_ON_ADVANCED_LOGIC"
+    ), f"Expected STUCK_ON_ADVANCED_LOGIC, got {ability.result}"
 
 
 @then("each solver should maintain its own independent grid state")
