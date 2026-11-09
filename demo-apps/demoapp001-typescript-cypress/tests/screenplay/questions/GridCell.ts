@@ -15,6 +15,11 @@ export const GridCell = {
       (actor) => UseSudokuSolver.as(actor).getSolver().grid[row][col]
     ),
 
+  candidatesAt: (row: number, col: number) =>
+    Question.about(`candidates at [${row},${col}]`, (actor) =>
+      UseSudokuSolver.as(actor).getSolver().getCellCandidates(row, col)
+    ),
+
   containsValue: (value: number) =>
     Question.about(`grid contains ${value}`, (actor) =>
       UseSudokuSolver.as(actor)

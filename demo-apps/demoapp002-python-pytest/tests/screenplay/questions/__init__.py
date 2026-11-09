@@ -50,6 +50,10 @@ class ErrorThrown:
 
 class GridCell:
     @staticmethod
+    def candidates_at(row: int, col: int) -> Question:
+        return Question(lambda actor: actor.ability_to(UseSudokuSolver).get_solver().get_cell_candidates(row, col))
+
+    @staticmethod
     def at(row: int, col: int) -> Question:
         return Question(lambda actor: actor.ability_to(UseSudokuSolver).get_solver().grid[row][col])
 

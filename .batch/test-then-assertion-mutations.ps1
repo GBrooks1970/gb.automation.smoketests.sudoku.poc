@@ -199,7 +199,10 @@ $mutations = @(
     @{ Id='valid-digit-count'; Scenario=$easy; Old='And all 81 cells should contain valid digits'; New='And all 80 cells should contain valid digits' },
     @{ Id='puzzles-array-count'; Scenario=$difficulty; Old='When requesting puzzles with difficulty "easy"'; New='When requesting puzzles with difficulty "medium"' },
     @{ Id='main-loop-progress'; Scenario=$noProgress; Old='Given a grid state where no algorithm can make progress'; New='Given the "Easy Scan Grid" puzzle is loaded' },
-    @{ Id='no-errors-planted'; Scenario=$emptyGrid; Old='And no errors should occur'; New='And an error should be thrown' }
+    @{ Id='no-errors-planted'; Scenario=$emptyGrid; Old='And no errors should occur'; New='And an error should be thrown' },
+    @{ Id='naked-pair-candidates'; Scenario=$pairRow; Old='Given row 0 contains exactly two cells sharing candidate pair "2, 7"'; New='Given row 0 contains exactly two cells sharing candidate pair "3, 8"' },
+    @{ Id='another-cell-candidates'; Scenario=$pairRow; Old='And another cell in row 0 has candidates "2, 7, 4"'; New='And another cell in row 0 has candidates "2, 7, 5"' },
+    @{ Id='xwing-rows-pattern'; Scenario=$xWingRow; Old='Given rows 1 and 4 have candidate 7 only in columns 1 and 5'; New='Given rows 2 and 5 have candidate 7 only in columns 1 and 5' }
 )
 if ($MutationIds.Count -gt 0) {
     foreach ($id in $MutationIds) { if ($id -notin $mutations.Id) { throw "Unknown mutation ID: $id" } }
