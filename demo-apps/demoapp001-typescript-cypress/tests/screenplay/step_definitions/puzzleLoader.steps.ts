@@ -73,7 +73,7 @@ Given('puzzles are loaded from JSON', () => {
 });
 
 Given('the puzzles.json file does not exist', () => {
-  // Context only — error captured in the When step
+  actorCalled(SOLVER_ACTOR).whoCan(LoadPuzzles.from('nonexistent_puzzles.json'));
 });
 
 // ---------------------------------------------------------------------------
@@ -84,8 +84,12 @@ When('the PuzzleLoader is initialized with {string}', (_filePath: string) => {
   // LoadPuzzles ability is already initialised by the Cast with the real puzzles.json
 });
 
-When('the PuzzleLoader attempts to load the file', () => {
-  // Error already captured in the Given step for invalid-data scenarios
+When('the PuzzleLoader attempts to load the file', async () => {
+  const error = await actorCalled(SOLVER_ACTOR).answer(ErrorThrown.last());
+  assert.ok(
+    error,
+    'Expected an error to be captured when attempting to load an invalid puzzle file'
+  );
 });
 
 When('requesting a puzzle by name {string}', async (name: string) => {
@@ -101,7 +105,8 @@ When('requesting puzzle at index {int}', async (index: number) => {
 });
 
 When('the PuzzleLoader is initialized', async () => {
-  // For the "file does not exist" scenario, simulate the missing file error
+  const loaderError = LoadPuzzles.as(actorCalled(SOLVER_ACTOR)).getError();
+  assert.ok(loaderError, 'Expected PuzzleLoader to encounter an error for missing file');
   await actorCalled(SOLVER_ACTOR).attemptsTo(SimulateError.forMissingFile());
 });
 
@@ -154,7 +159,7 @@ Then('only puzzles marked as {string} should be returned', async (difficulty: st
 
 Then('the result should be an array of matching puzzles', async () => {
   const count = await actorCalled(SOLVER_ACTOR).answer(MultipleSolvers.count());
-  assert.ok(count >= 0, 'Expected an array of solvers');
+  assert.strictEqual(count, 1, `Expected exactly 1 matching puzzle, got ${count}`);
 });
 
 Then('the first puzzle in the collection should be returned', async () => {

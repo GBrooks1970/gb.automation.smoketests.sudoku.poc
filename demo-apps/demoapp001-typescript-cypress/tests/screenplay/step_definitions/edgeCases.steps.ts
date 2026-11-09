@@ -12,6 +12,7 @@ import { SolveStatus } from '../questions/SolveStatus';
 import { AlgorithmMadeProgress } from '../questions/AlgorithmMadeProgress';
 import { ErrorThrown } from '../questions/ErrorThrown';
 import { MultipleSolvers } from '../questions/MultipleSolvers';
+import { UseSudokuSolver } from '../abilities/UseSudokuSolver';
 import { GRID_SIZE } from '../../../app_src/constants';
 
 // ---------------------------------------------------------------------------
@@ -40,8 +41,12 @@ Given('{int} different puzzles are loaded', async (count: number) => {
 // Edge Cases - When steps
 // ---------------------------------------------------------------------------
 
-When('attempting to create a SudokuSolver', () => {
-  // Error already captured in the Given step for invalid-dimensions scenario
+When('attempting to create a SudokuSolver', async () => {
+  const error = await actorCalled(SOLVER_ACTOR).answer(ErrorThrown.last());
+  assert.ok(
+    error,
+    'Expected an error to be captured when attempting to create a solver with invalid dimensions'
+  );
 });
 
 When('the solver attempts to solve', async () => {
@@ -117,7 +122,21 @@ Then('"X-Wing" should return false', async () => {
 });
 
 Then('the main loop should exit', () => {
-  // Verified by algorithm returning false above — loop condition exits
+  const ability = UseSudokuSolver.as(actorCalled(SOLVER_ACTOR));
+  ability.reinitialiseFromSnapshot();
+  ability.solvePuzzle();
+  const events = ability.lastAttemptEvents;
+  assert.ok(events && events.length > 0, 'Expected attempt events from orchestrator loop');
+  assert.strictEqual(
+    ability.lastAttemptIterations,
+    1,
+    'Expected main loop to exit after 1 iteration'
+  );
+  assert.ok(
+    events.every((e) => !e.changed),
+    'Expected all technique attempts to have made no changes'
+  );
+  assert.strictEqual(ability.result, 'STUCK_ON_ADVANCED_LOGIC');
 });
 
 Then('each solver should maintain its own independent grid state', async () => {

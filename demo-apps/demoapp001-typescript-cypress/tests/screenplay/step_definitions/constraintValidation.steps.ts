@@ -23,8 +23,12 @@ When('attempting to place {int} at that position', async (value: number) => {
   await actorCalled(SOLVER_ACTOR).attemptsTo(AttemptPlacement.ofValue(value));
 });
 
-Then('the move should be validated against row, column, and block constraints', () => {
-  // Validation already performed in the When step by AttemptPlacement
+Then('the move should be validated against row, column, and block constraints', async () => {
+  const result = await actorCalled(SOLVER_ACTOR).answer(PlacementValidity.ofLastAttempt());
+  assert.ok(
+    result === 'VALID' || result === 'INVALID',
+    `Expected validation result to be evaluated, got "${result}"`
+  );
 });
 
 Then('the validation result should be {word}', async (expected: string) => {

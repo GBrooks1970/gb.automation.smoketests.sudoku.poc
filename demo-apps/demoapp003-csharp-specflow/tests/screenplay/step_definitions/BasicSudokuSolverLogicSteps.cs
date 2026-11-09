@@ -1,3 +1,4 @@
+using System.Linq;
 using DemoApp003.Specs.Screenplay.Abilities;
 using DemoApp003.Specs.Screenplay.Actors;
 using DemoApp003.Specs.Screenplay.Questions;
@@ -268,6 +269,8 @@ public sealed class BasicSudokuSolverLogicSteps
     [Then(@"the move should be validated against row, column, and block constraints")]
     public void MoveValidated()
     {
+        var validity = _actor.Answer(PlacementValidity.OfLastAttempt());
+        Assert.That(validity, Is.EqualTo("VALID").Or.EqualTo("INVALID"));
     }
 
     [Then(@"the validation result should be ([A-Z]+)")]
@@ -287,9 +290,8 @@ public sealed class BasicSudokuSolverLogicSteps
         _actor.AttemptsTo(InitialiseGrid.WithCompleteGrid(SolvedGrid()));
 
     [Given(@"no digits violate row, column, or block rules")]
-    public void NoDigitsViolateRules()
-    {
-    }
+    public void NoDigitsViolateRules() =>
+        Assert.That(_actor.Answer(GridCell.IsValidSolution()), Is.True);
 
     [Given(@"a puzzle that cannot be solved with basic techniques")]
     public void PuzzleCannotBeSolved() =>
@@ -513,9 +515,8 @@ public sealed class BasicSudokuSolverLogicSteps
     }
 
     [Given(@"the puzzles.json file does not exist")]
-    public void PuzzlesFileMissing()
-    {
-    }
+    public void PuzzlesFileMissing() =>
+        _actor.WhoCan(LoadPuzzles.From("nonexistent_puzzles.json"));
 
     [When(@"the PuzzleLoader is initialized with ""([^""]*)""")]
     public void PuzzleLoaderInitialisedWith(string filePath) =>
@@ -524,6 +525,8 @@ public sealed class BasicSudokuSolverLogicSteps
     [When(@"the PuzzleLoader attempts to load the file")]
     public void PuzzleLoaderAttemptsLoad()
     {
+        var error = _actor.Answer(ErrorThrown.Last());
+        Assert.That(error, Is.Not.Null, "Expected an error to be captured when attempting to load an invalid puzzle file");
     }
 
     [When(@"requesting a puzzle by name ""([^""]*)""")]
@@ -539,8 +542,12 @@ public sealed class BasicSudokuSolverLogicSteps
         _actor.AttemptsTo(LoadPuzzleByIndex.AndInitialise(index));
 
     [When(@"the PuzzleLoader is initialized")]
-    public void PuzzleLoaderInitialised() =>
+    public void PuzzleLoaderInitialised()
+    {
+        var loaderError = _actor.AbilityTo<LoadPuzzles>().GetError();
+        Assert.That(loaderError, Is.Not.Null, "Expected PuzzleLoader to have captured an error for nonexistent file");
         _actor.AttemptsTo(SimulateError.ForMissingFile());
+    }
 
     [Then(@"(\d+) puzzles should be successfully loaded")]
     public void PuzzlesLoaded(int count) =>
@@ -585,7 +592,7 @@ public sealed class BasicSudokuSolverLogicSteps
 
     [Then(@"the result should be an array of matching puzzles")]
     public void ResultArrayMatching() =>
-        Assert.That(_actor.Answer(MultipleSolvers.Count()), Is.GreaterThanOrEqualTo(0));
+        Assert.That(_actor.Answer(MultipleSolvers.Count()), Is.EqualTo(1));
 
     [Then(@"the first puzzle in the collection should be returned")]
     public void FirstPuzzleReturned() =>
@@ -674,9 +681,8 @@ public sealed class BasicSudokuSolverLogicSteps
         Assert.That(_actor.Answer(GridCell.HasEmptyCells()), Is.True);
 
     [Then(@"no errors should occur")]
-    public void NoErrorsOccur()
-    {
-    }
+    public void NoErrorsOccur() =>
+        Assert.That(_actor.Answer(ErrorThrown.Last()), Is.Null);
 
     [Given(@"a grid with (\d+) rows instead of (\d+)")]
     public void GridWithWrongRows(int rows, int expected)
@@ -700,9 +706,8 @@ public sealed class BasicSudokuSolverLogicSteps
         _actor.AttemptsTo(SetupGridState.MultipleSolvers(count));
 
     [When(@"attempting to create a SudokuSolver")]
-    public void AttemptingToCreateSolver()
-    {
-    }
+    public void AttemptingToCreateSolver() =>
+        Assert.That(_actor.Answer(ErrorThrown.Last()), Is.Not.Null, "Expected an error to have been recorded when creating solver");
 
     [When(@"the solver attempts to solve")]
     public void SolverAttemptsSolveInvalid() =>
@@ -831,6 +836,13 @@ public sealed class BasicSudokuSolverLogicSteps
     [Then(@"the main loop should exit")]
     public void MainLoopExits()
     {
+        var ability = _actor.AbilityTo<UseSudokuSolver>();
+        ability.ReinitialiseFromSnapshot();
+        ability.SolvePuzzle();
+        Assert.That(ability.LastAttemptIterations, Is.EqualTo(1), "Expected main loop to exit after 1 attempt cycle");
+        Assert.That(ability.LastAttemptEvents, Is.Not.Empty, "Expected attempt events to be recorded for the failed solve cycle");
+        Assert.That(ability.LastAttemptEvents.All(e => !e.Changed), Is.True, "Expected every algorithm in the cycle to have made zero progress");
+        Assert.That(ability.Result, Is.EqualTo("STUCK_ON_ADVANCED_LOGIC"), "Expected solver result to be STUCK_ON_ADVANCED_LOGIC");
     }
 
     [Then(@"each solver should maintain its own independent grid state")]

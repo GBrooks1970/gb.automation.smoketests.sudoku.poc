@@ -7,6 +7,7 @@ import { InitialiseGrid } from '../tasks/InitialiseGrid';
 import { SolvePuzzle } from '../tasks/SolvePuzzle';
 import { SolveStatus } from '../questions/SolveStatus';
 import { GridCell } from '../questions/GridCell';
+import { ErrorThrown } from '../questions/ErrorThrown';
 
 // ---------------------------------------------------------------------------
 // Integration Tests - Given steps
@@ -71,6 +72,7 @@ Then('no cells should be filled', async () => {
   assert.ok(!filled, 'Expected all cells to be empty');
 });
 
-Then('no errors should occur', () => {
-  // Verifies the scenario completed without exceptions
+Then('no errors should occur', async () => {
+  const error = await actorCalled(SOLVER_ACTOR).answer(ErrorThrown.last());
+  assert.strictEqual(error, null, `Expected no errors to occur, but found: ${error?.message}`);
 });
