@@ -7,7 +7,7 @@ param(
     [string[]]$MutationIds = @()
 )
 
-# BACKLOG-078: real runner controls, isolated evidence, byte-exact feature restoration.
+# BACKLOG-078 / BACKLOG-088 (TRIAGE-24): real runner controls, isolated evidence, temporary Stack copy (tracked features never mutated).
 $ErrorActionPreference = 'Stop'
 $repoRoot = (Resolve-Path -LiteralPath "$PSScriptRoot/..").Path
 if (-not [IO.Path]::IsPathRooted($EvidenceRoot)) { $EvidenceRoot = Join-Path $repoRoot $EvidenceRoot }
@@ -20,10 +20,136 @@ $stackDirectory = @{
     demoapp003 = 'demo-apps/demoapp003-csharp-specflow'
 }[$Stack]
 $stackRoot = Join-Path $repoRoot $stackDirectory
+
+# Track all canonical and Stack features to guarantee the working tree is never touched
 $canonicalPath = Join-Path $repoRoot 'features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature'
-$stackFeature = Join-Path $stackRoot $featureRelative
-$originals = @{}
-foreach ($path in @($canonicalPath, $stackFeature)) { $originals[$path] = [IO.File]::ReadAllBytes($path) }
+$trackedFeaturePaths = @(
+    $canonicalPath,
+    (Join-Path $repoRoot 'demo-apps/demoapp001-typescript-cypress/tests/features/BasicSudokuSolverLogic.feature'),
+    (Join-Path $repoRoot 'demo-apps/demoapp002-python-pytest/tests/features/BasicSudokuSolverLogic.feature'),
+    (Join-Path $repoRoot 'demo-apps/demoapp003-csharp-specflow/tests/features/BasicSudokuSolverLogic.feature')
+)
+$trackedOriginals = @{}
+foreach ($path in $trackedFeaturePaths) {
+    if (-not (Test-Path -LiteralPath $path)) { throw "Tracked feature file missing: $path" }
+    $trackedOriginals[$path] = [IO.File]::ReadAllBytes($path)
+}
+
+function Remove-MutationWorkspace {
+    param([string]$WorkspacePath)
+    if ([string]::IsNullOrWhiteSpace($WorkspacePath)) { return }
+    if (-not (Test-Path -LiteralPath $WorkspacePath)) { return }
+    $resolved = (Resolve-Path -LiteralPath $WorkspacePath).Path
+    $temporary = (Resolve-Path -LiteralPath ([IO.Path]::GetTempPath())).Path.TrimEnd('\', '/')
+    $parent = (Split-Path -Parent $resolved).TrimEnd('\', '/')
+    $leaf = Split-Path -Leaf $resolved
+    $comparison = if ([IO.Path]::DirectorySeparatorChar -eq '\') { [StringComparer]::OrdinalIgnoreCase } else { [StringComparer]::Ordinal }
+    $item = Get-Item -LiteralPath $resolved
+    if (-not $comparison.Equals($parent, $temporary) -or
+        $leaf -notmatch '^sudoku-then-mutations-[a-z0-9]+-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$' -or
+        -not $item.PSIsContainer -or ($item.Attributes -band [IO.FileAttributes]::ReparsePoint)) {
+        throw "Refusing recursive cleanup outside generated temporary workspace: $resolved"
+    }
+    $nm = Join-Path $resolved 'node_modules'
+    if (Test-Path -LiteralPath $nm) {
+        $nmItem = Get-Item -LiteralPath $nm -Force
+        if ($nmItem.Attributes -band [IO.FileAttributes]::ReparsePoint) {
+            $nmItem.Delete()
+        } elseif (-not $IsWindows) {
+            Remove-Item -LiteralPath $nm -Force
+        }
+    }
+    for ($attempt = 1; $attempt -le 3; $attempt++) {
+        try {
+            Remove-Item -LiteralPath $resolved -Recurse -Force
+            break
+        } catch {
+            if ($attempt -eq 3) { throw }
+            Start-Sleep -Milliseconds 1000
+        }
+    }
+}
+
+function Sweep-StaleMutationWorkspaces {
+    $tempDir = (Resolve-Path -LiteralPath ([IO.Path]::GetTempPath())).Path
+    $candidates = Get-ChildItem -LiteralPath $tempDir -Directory -Filter 'sudoku-then-mutations-*' -ErrorAction SilentlyContinue
+    $threshold = (Get-Date).AddHours(-24)
+    foreach ($cand in $candidates) {
+        if ($cand.Name -match '^sudoku-then-mutations-[a-z0-9]+-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$' -and
+            $cand.CreationTime -lt $threshold) {
+            try {
+                Remove-MutationWorkspace $cand.FullName
+            } catch {
+                Write-Warning "Could not sweep stale workspace $($cand.FullName): $_"
+            }
+        }
+    }
+}
+
+function Copy-FilteredDirectory {
+    param([string]$Source, [string]$Destination, [string[]]$ExcludeNames)
+    New-Item -ItemType Directory -Path $Destination -Force | Out-Null
+    foreach ($entry in (Get-ChildItem -LiteralPath $Source -Force)) {
+        if ($entry.Name -in $ExcludeNames) { continue }
+        $destPath = Join-Path $Destination $entry.Name
+        if ($entry.PSIsContainer) {
+            Copy-FilteredDirectory -Source $entry.FullName -Destination $destPath -ExcludeNames $ExcludeNames
+        } else {
+            Copy-Item -LiteralPath $entry.FullName -Destination $destPath -Force
+        }
+    }
+}
+
+function New-MutationWorkspace {
+    param([string]$SourceStackDir, [string]$StackName)
+    $guid = [guid]::NewGuid().ToString()
+    $workspaceName = "sudoku-then-mutations-$StackName-$guid"
+    $workspacePath = Join-Path ([IO.Path]::GetTempPath()) $workspaceName
+    New-Item -ItemType Directory -Path $workspacePath -Force | Out-Null
+    try {
+        $excludeDirs = @('node_modules', 'bin', 'obj', '.results', 'dist', '__pycache__', '.pytest_cache', '.venv')
+        $srcResolved = (Resolve-Path -LiteralPath $SourceStackDir).Path
+        Copy-FilteredDirectory -Source $srcResolved -Destination $workspacePath -ExcludeNames $excludeDirs
+        
+        if ($StackName -eq 'demoapp001') {
+            $sourceNm = Join-Path $srcResolved 'node_modules'
+            $destNm = Join-Path $workspacePath 'node_modules'
+            if (-not (Test-Path -LiteralPath $sourceNm)) {
+                throw "DEMOAPP001 node_modules not found at $sourceNm; run npm ci before running mutation controls"
+            }
+            $linkType = if ($IsWindows) { 'Junction' } else { 'SymbolicLink' }
+            New-Item -ItemType $linkType -Path $destNm -Target $sourceNm | Out-Null
+        } elseif ($StackName -eq 'demoapp003') {
+            Push-Location $workspacePath
+            try {
+                $restoreLog = Join-Path $EvidenceRoot 'dotnet-restore.log'
+                dotnet restore --locked-mode *> $restoreLog
+                if ($LASTEXITCODE -ne 0) {
+                    throw "dotnet restore --locked-mode failed in temporary workspace; see $restoreLog"
+                }
+            } finally {
+                Pop-Location
+            }
+        }
+    } catch {
+        Remove-MutationWorkspace $workspacePath
+        throw
+    }
+    return $workspacePath
+}
+
+# Sweep any stale workspaces older than 24 hours
+Sweep-StaleMutationWorkspaces
+
+# Create isolated workspace for this run
+$workspaceRoot = New-MutationWorkspace -SourceStackDir $stackRoot -StackName $Stack
+$copyFeaturePath = Join-Path $workspaceRoot $featureRelative
+$copyOriginalBytes = [IO.File]::ReadAllBytes($copyFeaturePath)
+
+function Restore-CopyFeature {
+    [IO.File]::WriteAllBytes($copyFeaturePath, $copyOriginalBytes)
+}
+
 $utf8 = [Text.UTF8Encoding]::new($false)
 $records = [Collections.Generic.List[object]]::new()
 $summaryPath = Join-Path $EvidenceRoot 'summary.json'
@@ -74,9 +200,6 @@ if ($MutationIds.Count -gt 0) {
     $mutations = @($mutations | Where-Object { $_.Id -in $MutationIds })
 }
 
-function Restore-Features {
-    foreach ($path in $originals.Keys) { [IO.File]::WriteAllBytes($path, $originals[$path]) }
-}
 function Invoke-Scenario([string]$Id, [hashtable]$Scenario, [bool]$ExpectedFailure) {
     $resultPath = Join-Path $EvidenceRoot "$Id.result"
     $logPath = Join-Path $EvidenceRoot "$Id.log"
@@ -96,7 +219,7 @@ function Invoke-Scenario([string]$Id, [hashtable]$Scenario, [bool]$ExpectedFailu
         $commandArgs = @('test','tests/DemoApp003.Specs.csproj','--no-restore','--filter',$filter,'--logger',"trx;LogFileName=$resultPath")
     }
     $watch = [Diagnostics.Stopwatch]::StartNew()
-    Push-Location $stackRoot
+    Push-Location $workspaceRoot
     try { & $command @commandArgs *> $logPath; $exitCode = $LASTEXITCODE }
     finally { Pop-Location; $watch.Stop() }
     if (-not (Test-Path -LiteralPath $resultPath)) { throw "$Id produced no native result; see $logPath" }
@@ -153,31 +276,42 @@ try {
             $seen[$mutation.Scenario.Title] = $true
         }
     }
-    Restore-Features
+    Restore-CopyFeature
     Invoke-Scenario 'positive-controls' @{ Items=$positives.ToArray() } $false
     foreach ($mutation in $mutations) {
-        Restore-Features
-        foreach ($path in @($canonicalPath, $stackFeature)) {
-            $text = $utf8.GetString($originals[$path])
-            $matches = [regex]::Matches($text, [regex]::Escape($mutation.Old)).Count
-            if ($matches -ne 1) { throw "$($mutation.Id) must match once in $path; found $matches" }
-            [IO.File]::WriteAllText($path, $text.Replace($mutation.Old, $mutation.New), $utf8)
-        }
+        Restore-CopyFeature
+        $text = $utf8.GetString($copyOriginalBytes)
+        $matches = [regex]::Matches($text, [regex]::Escape($mutation.Old)).Count
+        if ($matches -ne 1) { throw "$($mutation.Id) must match once in $copyFeaturePath; found $matches" }
+        [IO.File]::WriteAllText($copyFeaturePath, $text.Replace($mutation.Old, $mutation.New), $utf8)
         Invoke-Scenario $mutation.Id $mutation.Scenario $true
     }
     $success = $true
 } finally {
-    Restore-Features
-    $restored = $true
-    foreach ($path in $originals.Keys) {
+    $trackedFeaturesUnchanged = $true
+    foreach ($path in $trackedFeaturePaths) {
         $actual = [IO.File]::ReadAllBytes($path)
-        $expectedHash = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($originals[$path]))
+        $expectedHash = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($trackedOriginals[$path]))
         $actualHash = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($actual))
-        if ($actualHash -ne $expectedHash) { $restored = $false }
+        if ($actualHash -ne $expectedHash) {
+            $trackedFeaturesUnchanged = $false
+            Write-Error "Tracked feature modified: $path (expected $expectedHash, got $actualHash)"
+        }
     }
+    Remove-MutationWorkspace $workspaceRoot
     $positiveCount = ($records | Where-Object { -not $_.ExpectedFailure } | Measure-Object -Property Tests -Sum).Sum
-    [pscustomobject]@{ Stack=$Stack; Success=($success -and $restored); FeaturesRestored=$restored; PositiveControls=$positiveCount; Mutations=@($records | Where-Object { $_.ExpectedFailure }).Count; ExpectedMutations=$mutations.Count; Runs=$records } | ConvertTo-Json -Depth 7 | Set-Content -LiteralPath $summaryPath
-    if (-not $restored) { throw 'Feature restoration failed' }
+    [pscustomobject]@{
+        Stack = $Stack
+        Success = ($success -and $trackedFeaturesUnchanged)
+        FeaturesRestored = $trackedFeaturesUnchanged
+        TrackedFeaturesUnchanged = $trackedFeaturesUnchanged
+        WorkspaceRoot = $workspaceRoot
+        PositiveControls = $positiveCount
+        Mutations = @($records | Where-Object { $_.ExpectedFailure }).Count
+        ExpectedMutations = $mutations.Count
+        Runs = $records
+    } | ConvertTo-Json -Depth 7 | Set-Content -LiteralPath $summaryPath
+    if (-not $trackedFeaturesUnchanged) { throw 'Tracked feature files were modified during the run' }
 }
-Write-Output "$Stack Then assertion controls PASS: $($mutations.Count) mutations killed; features restored byte-for-byte"
+Write-Output "$Stack Then assertion controls PASS: $($mutations.Count) mutations killed; tracked features untouched"
 exit 0
