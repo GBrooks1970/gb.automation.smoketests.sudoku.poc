@@ -11,10 +11,15 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   demoapp001-typescript-cypress:
     name: DEMOAPP001 TypeScript Cypress
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout
@@ -118,6 +123,7 @@ jobs:
   demoapp002-python-pytest:
     name: DEMOAPP002 Python Pytest
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout
@@ -177,6 +183,7 @@ jobs:
   demoapp003-csharp-specflow:
     name: DEMOAPP003 C# Reqnroll
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout
@@ -305,6 +312,7 @@ jobs:
   gate:
     name: Gate (all stacks green)
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     needs:
       - demoapp001-typescript-cypress
       - demoapp002-python-pytest
