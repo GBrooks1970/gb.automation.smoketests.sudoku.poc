@@ -4,9 +4,9 @@ created: 2026-11-08T10:45Z
 project: gb.automation.smoketests.sudoku.poc
 type: implementation-plan
 item: BACKLOG-088 / TRIAGE-24
-status: approved
+status: delivered
 approved: 2026-11-09 (owner, as recommended across all 9 decisions)
-delivered: not yet
+delivered: 2026-11-09 in PR #112 / 811fb79
 language: en-GB
 ---
 
@@ -145,4 +145,21 @@ options.
 
 ## Outcome
 
-[Appended after delivery.]
+Delivered 2026-11-09 in PR [#112](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/112),
+merged as `811fb79`.
+
+1. **Isolation in GUID temporary workspace:** `.batch/test-then-assertion-mutations.ps1` creates
+   `%TEMP%/sudoku-then-mutations-<stack>-<guid>/` per run and copies the Stack excluding
+   dependency/build artifacts. DEMOAPP001 links `node_modules` via junction (unlinked before delete).
+   DEMOAPP003 runs `dotnet restore --locked-mode` once in the workspace.
+2. **Tracked features untouched:** Mutations edit only the temporary workspace's feature file.
+   Canonical and all three Stack features are checked before and in `finally`; all four SHA-256
+   hashes remain byte-identical (`TrackedFeaturesUnchanged = true`).
+3. **Must-fail baseline (before):** Killed run against unpatched script permanently mutated canonical
+   and Stack feature files in the repository.
+4. **Kill-recovery verification (after):** Killed run against patched script left all 4 tracked features
+   100% byte-identical.
+5. **Full controls:** DEMOAPP001 (15 positive / 22 killed) and DEMOAPP003 (15 positive / 22 killed)
+   pass locally; DEMOAPP002 in CI.
+6. **Stale workspace cleanup:** Workspaces older than 24 hours swept at script start with guarded remover.
+7. **CI:** PR run `42624564441` and `main` merge run `42640018272` passed all jobs, including Pages deploy.
