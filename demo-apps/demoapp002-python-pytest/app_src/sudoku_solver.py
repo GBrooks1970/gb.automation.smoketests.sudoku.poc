@@ -432,7 +432,9 @@ class SudokuSolver:
                 values.append(self.grid[row][col])
         return values
 
-    def _get_cell_candidates(self, row: int, col: int) -> set[int]:
+    def get_cell_candidates(self, row: int, col: int) -> set[int]:
+        if self.grid[row][col] != EMPTY_CELL:
+            return set()
         candidates = set(range(1, GRID_SIZE + 1))
         candidates.difference_update(self.grid[row])
         candidates.difference_update(self.grid[r][col] for r in range(GRID_SIZE))
@@ -444,6 +446,8 @@ class SudokuSolver:
                 candidates.discard(self.grid[r][c])
         candidates.discard(EMPTY_CELL)
         return candidates
+
+    _get_cell_candidates = get_cell_candidates
 
     def _find_missing_digit(self, values: list[int]) -> int:
         present = {value for value in values if value != EMPTY_CELL}

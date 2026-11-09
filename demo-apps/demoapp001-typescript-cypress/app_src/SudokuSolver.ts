@@ -595,7 +595,10 @@ export class SudokuSolver {
     return values;
   }
 
-  private getCellCandidates(row: number, col: number): Set<number> {
+  public getCellCandidates(row: number, col: number): Set<number> {
+    if (this.grid[row][col] !== EMPTY_CELL) {
+      return new Set<number>();
+    }
     const candidates = new Set<number>([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
     // Remove values in same row

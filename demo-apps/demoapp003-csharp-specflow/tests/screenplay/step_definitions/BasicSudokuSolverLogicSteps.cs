@@ -773,31 +773,115 @@ public sealed class BasicSudokuSolverLogicSteps
         Assert.That(_actor.Answer(AlgorithmMadeProgress.AfterLastCall()), Is.False);
     }
 
+        private static HashSet<int> ParseCandidates(string candidatesStr) =>
+        new HashSet<int>(candidatesStr.Split(',').Select(s => int.Parse(s.Trim())));
+
     [Given(@"row (\d+) contains exactly two cells sharing candidate pair ""([^""]*)""")]
-    public void RowContainsNakedPair(int row, string candidates) =>
+    public void RowContainsNakedPair(int row, string candidates)
+    {
         _actor.AttemptsTo(SetupGridState.NakedPairRow());
+        var expected = ParseCandidates(candidates);
+        int matching = 0;
+        for (int c = 0; c < Constants.GridSize; c++)
+        {
+            var cellCands = _actor.Answer(GridCell.CandidatesAt(row, c));
+            if (cellCands.SetEquals(expected))
+                matching++;
+        }
+        Assert.That(matching, Is.EqualTo(2), $"Expected exactly 2 cells sharing candidate pair {candidates} in row {row}, found {matching}");
+    }
 
     [Given(@"another cell in row (\d+) has candidates ""([^""]*)""")]
     public void AnotherCellInRowCandidates(int row, string candidates)
     {
+        var expected = ParseCandidates(candidates);
+        int? foundCol = null;
+        for (int c = 0; c < Constants.GridSize; c++)
+        {
+            if (_actor.Answer(GridCell.CandidatesAt(row, c)).SetEquals(expected))
+            {
+                foundCol = c;
+                break;
+            }
+        }
+        Assert.That(foundCol, Is.Not.Null, $"Expected a cell in row {row} with candidates {candidates}");
+        _actor.Remember(MemoryKeys.TARGET_CELL, new CellPosition(row, foundCol.Value));
+        _actor.AbilityTo<UseSudokuSolver>().SetTargetCell(row, foundCol.Value);
     }
 
     [Given(@"column (\d+) contains exactly two cells sharing candidate pair ""([^""]*)""")]
-    public void ColumnContainsNakedPair(int col, string candidates) =>
+    public void ColumnContainsNakedPair(int col, string candidates)
+    {
         _actor.AttemptsTo(SetupGridState.NakedPairColumn());
+        var expected = ParseCandidates(candidates);
+        int matching = 0;
+        for (int r = 0; r < Constants.GridSize; r++)
+        {
+            var cellCands = _actor.Answer(GridCell.CandidatesAt(r, col));
+            if (cellCands.SetEquals(expected))
+                matching++;
+        }
+        Assert.That(matching, Is.EqualTo(2), $"Expected exactly 2 cells sharing candidate pair {candidates} in col {col}, found {matching}");
+    }
 
     [Given(@"another cell in column (\d+) has candidates ""([^""]*)""")]
     public void AnotherCellInColumnCandidates(int col, string candidates)
     {
+        var expected = ParseCandidates(candidates);
+        int? foundRow = null;
+        for (int r = 0; r < Constants.GridSize; r++)
+        {
+            if (_actor.Answer(GridCell.CandidatesAt(r, col)).SetEquals(expected))
+            {
+                foundRow = r;
+                break;
+            }
+        }
+        Assert.That(foundRow, Is.Not.Null, $"Expected a cell in column {col} with candidates {candidates}");
+        _actor.Remember(MemoryKeys.TARGET_CELL, new CellPosition(foundRow.Value, col));
+        _actor.AbilityTo<UseSudokuSolver>().SetTargetCell(foundRow.Value, col);
     }
 
     [Given(@"a 3x3 block at position \((\d+), (\d+)\) contains exactly two cells sharing candidate pair ""([^""]*)""")]
-    public void BlockContainsNakedPair(int br, int bc, string candidates) =>
+    public void BlockContainsNakedPair(int br, int bc, string candidates)
+    {
         _actor.AttemptsTo(SetupGridState.NakedPairBlock());
+        var expected = ParseCandidates(candidates);
+        int matching = 0;
+        int startRow = br * Constants.BlockSize;
+        int startCol = bc * Constants.BlockSize;
+        for (int r = startRow; r < startRow + Constants.BlockSize; r++)
+            for (int c = startCol; c < startCol + Constants.BlockSize; c++)
+                if (_actor.Answer(GridCell.CandidatesAt(r, c)).SetEquals(expected))
+                    matching++;
+        Assert.That(matching, Is.EqualTo(2), $"Expected exactly 2 cells sharing candidate pair {candidates} in block ({br}, {bc}), found {matching}");
+    }
 
     [Given(@"another cell in that block has candidates ""([^""]*)""")]
     public void AnotherCellInBlockCandidates(string candidates)
     {
+        var expected = ParseCandidates(candidates);
+        var target = _actor.Answer(TargetCell.Current());
+        int br = target.Row / Constants.BlockSize;
+        int bc = target.Col / Constants.BlockSize;
+        int startRow = br * Constants.BlockSize;
+        int startCol = bc * Constants.BlockSize;
+        CellPosition? found = null;
+        for (int r = startRow; r < startRow + Constants.BlockSize; r++)
+        {
+            for (int c = startCol; c < startCol + Constants.BlockSize; c++)
+            {
+                if (_actor.Answer(GridCell.CandidatesAt(r, c)).SetEquals(expected))
+                {
+                    found = new CellPosition(r, c);
+                    break;
+                }
+            }
+            if (found != null) break;
+        }
+        Assert.That(found, Is.Not.Null, $"Expected a cell in block ({br}, {bc}) with candidates {candidates}");
+        _actor.Remember(MemoryKeys.TARGET_CELL, found);
+        _actor.AbilityTo<UseSudokuSolver>().SetTargetCell(found.Row, found.Col);
     }
 
     [Given(@"a grid state where no unit contains a naked pair")]
@@ -805,16 +889,43 @@ public sealed class BasicSudokuSolverLogicSteps
         _actor.AttemptsTo(SetupGridState.NoNakedPairs());
 
     [Given(@"rows (\d+) and (\d+) have candidate (\d+) only in columns (\d+) and (\d+)")]
-    public void RowsHaveXWing(int r1, int r2, int digit, int c1, int c2) =>
+    public void RowsHaveXWing(int r1, int r2, int digit, int c1, int c2)
+    {
         _actor.AttemptsTo(SetupGridState.XWingRow());
+        var expectedCols = new HashSet<int> { c1, c2 };
+        foreach (int r in new[] { r1, r2 })
+        {
+            var colsWithDigit = new HashSet<int>();
+            for (int c = 0; c < Constants.GridSize; c++)
+                if (_actor.Answer(GridCell.CandidatesAt(r, c)).Contains(digit))
+                    colsWithDigit.Add(c);
+            Assert.That(colsWithDigit.SetEquals(expectedCols), Is.True, $"Expected row {r} to have candidate {digit} only in columns [{c1}, {c2}]");
+        }
+    }
 
     [Given(@"columns (\d+) and (\d+) have candidate (\d+) only in rows (\d+) and (\d+)")]
-    public void ColsHaveXWing(int c1, int c2, int digit, int r1, int r2) =>
+    public void ColsHaveXWing(int c1, int c2, int digit, int r1, int r2)
+    {
         _actor.AttemptsTo(SetupGridState.XWingColumn());
+        var expectedRows = new HashSet<int> { r1, r2 };
+        foreach (int c in new[] { c1, c2 })
+        {
+            var rowsWithDigit = new HashSet<int>();
+            for (int r = 0; r < Constants.GridSize; r++)
+                if (_actor.Answer(GridCell.CandidatesAt(r, c)).Contains(digit))
+                    rowsWithDigit.Add(r);
+            Assert.That(rowsWithDigit.SetEquals(expectedRows), Is.True, $"Expected col {c} to have candidate {digit} only in rows [{r1}, {r2}]");
+        }
+    }
 
     [Given(@"another cell at row (\d+), column (\d+) has candidates ""([^""]*)""")]
     public void AnotherCellAtRowColCandidates(int row, int col, string candidates)
     {
+        var expected = ParseCandidates(candidates);
+        var actual = _actor.Answer(GridCell.CandidatesAt(row, col));
+        Assert.That(actual.SetEquals(expected), Is.True, $"Expected cell ({row}, {col}) to have candidates {candidates}");
+        _actor.Remember(MemoryKeys.TARGET_CELL, new CellPosition(row, col));
+        _actor.AbilityTo<UseSudokuSolver>().SetTargetCell(row, col);
     }
 
     [Given(@"a grid state where no X-Wing pattern exists")]
@@ -822,18 +933,49 @@ public sealed class BasicSudokuSolverLogicSteps
         _actor.AttemptsTo(SetupGridState.NoXWing());
 
     [Then(@"the cell in row (\d+) with candidates ""([^""]*)"" should be updated to (\d+)")]
-    public void CellInRowUpdatedTo(int row, string candidates, int val) =>
+    public void CellInRowUpdatedTo(int row, string candidates, int val)
+    {
+        var expected = ParseCandidates(candidates);
+        Assert.That(expected.Contains(val), Is.True, $"Expected candidate set {candidates} to contain placement value {val}");
+        var snapshot = _actor.Answer(GridSnapshot.Current());
+        var snapSolver = new SudokuSolver("snap", snapshot);
+        var target = _actor.Answer(TargetCell.Current());
+        Assert.That(target.Row, Is.EqualTo(row));
+        var snapCandidates = snapSolver.GetCellCandidates(target.Row, target.Col);
+        Assert.That(snapCandidates.SetEquals(expected), Is.True, $"Expected cell initial candidates to match {candidates}");
         AssertPreparedPlacement(val, row: row);
+    }
 
     [Then(@"the cell in column (\d+) with candidates ""([^""]*)"" should be updated to (\d+)")]
-    public void CellInColumnUpdatedTo(int col, string candidates, int val) =>
+    public void CellInColumnUpdatedTo(int col, string candidates, int val)
+    {
+        var expected = ParseCandidates(candidates);
+        Assert.That(expected.Contains(val), Is.True, $"Expected candidate set {candidates} to contain placement value {val}");
+        var snapshot = _actor.Answer(GridSnapshot.Current());
+        var snapSolver = new SudokuSolver("snap", snapshot);
+        var target = _actor.Answer(TargetCell.Current());
+        Assert.That(target.Col, Is.EqualTo(col));
+        var snapCandidates = snapSolver.GetCellCandidates(target.Row, target.Col);
+        Assert.That(snapCandidates.SetEquals(expected), Is.True, $"Expected cell initial candidates to match {candidates}");
         AssertPreparedPlacement(val, col: col);
+    }
 
     [Then(@"the cell in block \((\d+), (\d+)\) with candidates ""([^""]*)"" should be updated to (\d+)")]
-    public void CellInBlockUpdatedTo(int br, int bc, string candidates, int val) =>
+    public void CellInBlockUpdatedTo(int br, int bc, string candidates, int val)
+    {
+        var expected = ParseCandidates(candidates);
+        Assert.That(expected.Contains(val), Is.True, $"Expected candidate set {candidates} to contain placement value {val}");
+        var snapshot = _actor.Answer(GridSnapshot.Current());
+        var snapSolver = new SudokuSolver("snap", snapshot);
+        var target = _actor.Answer(TargetCell.Current());
+        Assert.That(target.Row / Constants.BlockSize, Is.EqualTo(br));
+        Assert.That(target.Col / Constants.BlockSize, Is.EqualTo(bc));
+        var snapCandidates = snapSolver.GetCellCandidates(target.Row, target.Col);
+        Assert.That(snapCandidates.SetEquals(expected), Is.True, $"Expected cell initial candidates to match {candidates}");
         AssertPreparedPlacement(val, blockRow: br, blockCol: bc);
+    }
 
-    [Then(@"the main loop should exit")]
+[Then(@"the main loop should exit")]
     public void MainLoopExits()
     {
         var ability = _actor.AbilityTo<UseSudokuSolver>();

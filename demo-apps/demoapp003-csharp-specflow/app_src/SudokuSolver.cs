@@ -622,8 +622,12 @@ public sealed class SudokuSolver
         return values;
     }
 
-    private HashSet<int> GetCellCandidates(int row, int col)
+    public HashSet<int> GetCellCandidates(int row, int col)
     {
+        if (Grid[row][col] != Constants.EmptyCell)
+        {
+            return new HashSet<int>();
+        }
         var candidates = Enumerable.Range(1, Constants.GridSize).ToHashSet();
         candidates.ExceptWith(Grid[row]);
         candidates.ExceptWith(Enumerable.Range(0, Constants.GridSize).Select(r => Grid[r][col]));

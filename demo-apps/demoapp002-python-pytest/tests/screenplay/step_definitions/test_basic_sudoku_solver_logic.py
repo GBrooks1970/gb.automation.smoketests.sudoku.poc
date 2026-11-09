@@ -24,7 +24,8 @@ from tests.screenplay.questions import (
 )
 from tests.screenplay.support.actor import Actor
 from tests.screenplay.support.actors import make_solver_actor
-from tests.screenplay.support.memory_keys import LAST_ERROR
+from app_src.sudoku_solver import SudokuSolver
+from tests.screenplay.support.memory_keys import LAST_ERROR, TARGET_CELL
 from tests.screenplay.tasks import (
     ApplyAlgorithm,
     AttemptPlacement,
@@ -888,34 +889,93 @@ def x_wing_false(actor: Actor) -> None:
     assert actor.answer(AlgorithmMadeProgress.after_last_call()) is False
 
 
+def _parse_candidates(candidates_str: str) -> set[int]:
+    return {int(s.strip()) for s in candidates_str.split(",") if s.strip()}
+
+
 @given(parsers.parse('row {row:d} contains exactly two cells sharing candidate pair "{candidates}"'))
 def row_contains_naked_pair(actor: Actor, row: int, candidates: str) -> None:
     actor.attempts_to(SetupGridState.naked_pair_row())
+    expected = _parse_candidates(candidates)
+    matching = 0
+    for col in range(GRID_SIZE):
+        cell_cands = actor.answer(GridCell.candidates_at(row, col))
+        if cell_cands == expected:
+            matching += 1
+    assert matching == 2, f"Expected exactly 2 cells sharing candidate pair {candidates} in row {row}, found {matching}"
 
 
 @given(parsers.parse('another cell in row {row:d} has candidates "{candidates}"'))
 def another_cell_in_row_candidates(actor: Actor, row: int, candidates: str) -> None:
-    pass
+    expected = _parse_candidates(candidates)
+    found_col = None
+    for col in range(GRID_SIZE):
+        if actor.answer(GridCell.candidates_at(row, col)) == expected:
+            found_col = col
+            break
+    assert found_col is not None, f"Expected a cell in row {row} with candidates {candidates}"
+    actor.remember(TARGET_CELL, {"row": row, "col": found_col})
+    actor.ability_to(UseSudokuSolver).set_target_cell(row, found_col)
 
 
 @given(parsers.parse('column {col:d} contains exactly two cells sharing candidate pair "{candidates}"'))
 def column_contains_naked_pair(actor: Actor, col: int, candidates: str) -> None:
     actor.attempts_to(SetupGridState.naked_pair_column())
+    expected = _parse_candidates(candidates)
+    matching = 0
+    for row in range(GRID_SIZE):
+        cell_cands = actor.answer(GridCell.candidates_at(row, col))
+        if cell_cands == expected:
+            matching += 1
+    assert matching == 2, f"Expected exactly 2 cells sharing candidate pair {candidates} in col {col}, found {matching}"
 
 
 @given(parsers.parse('another cell in column {col:d} has candidates "{candidates}"'))
 def another_cell_in_column_candidates(actor: Actor, col: int, candidates: str) -> None:
-    pass
+    expected = _parse_candidates(candidates)
+    found_row = None
+    for row in range(GRID_SIZE):
+        if actor.answer(GridCell.candidates_at(row, col)) == expected:
+            found_row = row
+            break
+    assert found_row is not None, f"Expected a cell in column {col} with candidates {candidates}"
+    actor.remember(TARGET_CELL, {"row": found_row, "col": col})
+    actor.ability_to(UseSudokuSolver).set_target_cell(found_row, col)
 
 
 @given(parsers.parse('a 3x3 block at position ({br:d}, {bc:d}) contains exactly two cells sharing candidate pair "{candidates}"'))
 def block_contains_naked_pair(actor: Actor, br: int, bc: int, candidates: str) -> None:
     actor.attempts_to(SetupGridState.naked_pair_block())
+    expected = _parse_candidates(candidates)
+    matching = 0
+    start_row = br * BLOCK_SIZE
+    start_col = bc * BLOCK_SIZE
+    for r in range(start_row, start_row + BLOCK_SIZE):
+        for c in range(start_col, start_col + BLOCK_SIZE):
+            if actor.answer(GridCell.candidates_at(r, c)) == expected:
+                matching += 1
+    assert matching == 2, f"Expected exactly 2 cells sharing candidate pair {candidates} in block ({br}, {bc}), found {matching}"
 
 
 @given(parsers.parse('another cell in that block has candidates "{candidates}"'))
 def another_cell_in_block_candidates(actor: Actor, candidates: str) -> None:
-    pass
+    expected = _parse_candidates(candidates)
+    target = actor.answer(TargetCell.current())
+    br = target["row"] // BLOCK_SIZE
+    bc = target["col"] // BLOCK_SIZE
+    start_row = br * BLOCK_SIZE
+    start_col = bc * BLOCK_SIZE
+    found = None
+    for r in range(start_row, start_row + BLOCK_SIZE):
+        for c in range(start_col, start_col + BLOCK_SIZE):
+            if actor.answer(GridCell.candidates_at(r, c)) == expected:
+                found = {"row": r, "col": c}
+                break
+        if found:
+            break
+    assert found is not None, f"Expected a cell in block ({br}, {bc}) with candidates {candidates}"
+    actor.remember(TARGET_CELL, found)
+    actor.ability_to(UseSudokuSolver).set_target_cell(found["row"], found["col"])
 
 
 @given("a grid state where no unit contains a naked pair")
@@ -926,16 +986,30 @@ def grid_state_no_naked_pairs(actor: Actor) -> None:
 @given(parsers.parse("rows {r1:d} and {r2:d} have candidate {digit:d} only in columns {c1:d} and {c2:d}"))
 def rows_have_x_wing(actor: Actor, r1: int, r2: int, digit: int, c1: int, c2: int) -> None:
     actor.attempts_to(SetupGridState.x_wing_row())
+    for r in (r1, r2):
+        cols_with_digit = [c for c in range(GRID_SIZE) if digit in actor.answer(GridCell.candidates_at(r, c))]
+        assert sorted(cols_with_digit) == sorted([c1, c2]), (
+            f"Expected row {r} to have candidate {digit} only in columns [{c1}, {c2}], found {cols_with_digit}"
+        )
 
 
 @given(parsers.parse("columns {c1:d} and {c2:d} have candidate {digit:d} only in rows {r1:d} and {r2:d}"))
 def cols_have_x_wing(actor: Actor, c1: int, c2: int, digit: int, r1: int, r2: int) -> None:
     actor.attempts_to(SetupGridState.x_wing_column())
+    for c in (c1, c2):
+        rows_with_digit = [r for r in range(GRID_SIZE) if digit in actor.answer(GridCell.candidates_at(r, c))]
+        assert sorted(rows_with_digit) == sorted([r1, r2]), (
+            f"Expected col {c} to have candidate {digit} only in rows [{r1}, {r2}], found {rows_with_digit}"
+        )
 
 
 @given(parsers.parse('another cell at row {row:d}, column {col:d} has candidates "{candidates}"'))
 def another_cell_at_row_col_candidates(actor: Actor, row: int, col: int, candidates: str) -> None:
-    pass
+    expected = _parse_candidates(candidates)
+    actual = actor.answer(GridCell.candidates_at(row, col))
+    assert actual == expected, f"Expected cell ({row}, {col}) to have candidates {candidates}, found {actual}"
+    actor.remember(TARGET_CELL, {"row": row, "col": col})
+    actor.ability_to(UseSudokuSolver).set_target_cell(row, col)
 
 
 @given("a grid state where no X-Wing pattern exists")
@@ -945,16 +1019,40 @@ def grid_state_no_x_wing(actor: Actor) -> None:
 
 @then(parsers.parse('the cell in row {row:d} with candidates "{candidates}" should be updated to {val:d}'))
 def cell_in_row_updated_to(actor: Actor, row: int, candidates: str, val: int) -> None:
+    expected = _parse_candidates(candidates)
+    assert val in expected, f"Expected candidate set {candidates} to contain placement value {val}"
+    snapshot = actor.answer(GridSnapshot.current())
+    snap_solver = SudokuSolver("snap", snapshot)
+    target = actor.answer(TargetCell.current())
+    assert target["row"] == row, f"Target cell row {target['row']} does not match expected row {row}"
+    snap_candidates = snap_solver.get_cell_candidates(target["row"], target["col"])
+    assert snap_candidates == expected, f"Expected cell {target} initial candidates to match {candidates}, found {snap_candidates}"
     _assert_target_placement(actor, val, row=row)
 
 
 @then(parsers.parse('the cell in column {col:d} with candidates "{candidates}" should be updated to {val:d}'))
 def cell_in_column_updated_to(actor: Actor, col: int, candidates: str, val: int) -> None:
+    expected = _parse_candidates(candidates)
+    assert val in expected, f"Expected candidate set {candidates} to contain placement value {val}"
+    snapshot = actor.answer(GridSnapshot.current())
+    snap_solver = SudokuSolver("snap", snapshot)
+    target = actor.answer(TargetCell.current())
+    assert target["col"] == col, f"Target cell col {target['col']} does not match expected col {col}"
+    snap_candidates = snap_solver.get_cell_candidates(target["row"], target["col"])
+    assert snap_candidates == expected, f"Expected cell {target} initial candidates to match {candidates}, found {snap_candidates}"
     _assert_target_placement(actor, val, col=col)
 
 
 @then(parsers.parse('the cell in block ({br:d}, {bc:d}) with candidates "{candidates}" should be updated to {val:d}'))
 def cell_in_block_updated_to(actor: Actor, br: int, bc: int, candidates: str, val: int) -> None:
+    expected = _parse_candidates(candidates)
+    assert val in expected, f"Expected candidate set {candidates} to contain placement value {val}"
+    snapshot = actor.answer(GridSnapshot.current())
+    snap_solver = SudokuSolver("snap", snapshot)
+    target = actor.answer(TargetCell.current())
+    assert (target["row"] // BLOCK_SIZE, target["col"] // BLOCK_SIZE) == (br, bc)
+    snap_candidates = snap_solver.get_cell_candidates(target["row"], target["col"])
+    assert snap_candidates == expected, f"Expected cell {target} initial candidates to match {candidates}, found {snap_candidates}"
     _assert_target_placement(actor, val, block=(br, bc))
 
 

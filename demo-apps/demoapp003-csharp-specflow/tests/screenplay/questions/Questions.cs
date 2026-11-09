@@ -30,6 +30,9 @@ public static class ErrorThrown
 
 public static class GridCell
 {
+    public static IQuestion<HashSet<int>> CandidatesAt(int row, int col) =>
+        new DelegateQuestion<HashSet<int>>(actor => actor.AbilityTo<UseSudokuSolver>().GetSolver().GetCellCandidates(row, col));
+
     public static IQuestion<int> At(int row, int col) =>
         new DelegateQuestion<int>(actor => actor.AbilityTo<UseSudokuSolver>().GetSolver().Grid[row][col]);
 

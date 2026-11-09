@@ -5,6 +5,23 @@ import { GridCell } from '../questions/GridCell';
 import { GridSnapshot } from '../questions/GridSnapshot';
 import { TargetCell } from '../questions/TargetCell';
 
+export function parseCandidates(candidatesStr: string): Set<number> {
+  return new Set(
+    candidatesStr
+      .split(',')
+      .map((s) => parseInt(s.trim(), 10))
+      .filter((n) => !isNaN(n))
+  );
+}
+
+export function setsEqual<T>(a: Set<T>, b: Set<T>): boolean {
+  if (a.size !== b.size) return false;
+  for (const item of a) {
+    if (!b.has(item)) return false;
+  }
+  return true;
+}
+
 type ExpectedPosition = { row?: number; col?: number; block?: [number, number] };
 
 async function fixtureSnapshot(actor: Actor): Promise<number[][]> {
