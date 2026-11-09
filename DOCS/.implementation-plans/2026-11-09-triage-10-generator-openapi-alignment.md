@@ -4,7 +4,7 @@ created: 2026-11-09T19:45:00Z
 project: gb.automation.smoketests.sudoku.poc
 type: implementation-plan
 item: BACKLOG-091 / TRIAGE-10
-status: approved
+status: delivered
 language: en-GB
 ---
 
@@ -116,3 +116,21 @@ Probing the unpatched OpenAPI document with `openapi-backend` confirms active sc
    - Push branch `worklist/triage-10-openapi-generator-schema` and open PR.
    - Verify all 5 CI jobs pass.
    - Merge on all-green, fast-forward `main`, and deliver outcome PR.
+
+
+---
+
+## Outcome (Delivered 2026-11-09)
+
+- **PR:** [#118](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/118)
+- **Merge Commit on main:** 803cd2- **Delivered Scope:**
+  - \docs/openapi.yaml\: Represented both string and numeric PRNG seeds using \oneOf: [{type: string}, {type: integer}]\ in \GeneratePuzzleRequestBody\ and \GeneratedPuzzleResponse\.
+  - Added four missing generator 400 validation error codes (\INVALID_DIFFICULTY\, \INVALID_CLUE_COUNT\, \INVALID_SYMMETRICAL_OPTION\, \INVALID_SEED\) to \ErrorResponse.properties.error.enum\, and updated \BadRequest\ component description.
+  - Added 3 dedicated contract tests in \demo-apps/demoapp001-typescript-cypress/tests/api/openapi.contract.test.ts\ (total 11 tests) verifying seed request types, live Express 200 response with numeric seed, and live Express 400 responses with the 4 generator validation error codes.
+  - Re-measured \demoapp001-openapi\ in \DOCS/.analysis/2026-10-07-component-execution-inventory.json\ from 8 to 11 tests, updating all doc references and \.batch/test-documentation-currency.ps1\.
+- **Verification Evidence:**
+  - Redocly CLI lint: PASS (0 errors, 0 warnings).
+  - DEMOAPP001 tests: PASS (113 component + 11 openapi + 55 BDD scenarios / 309 steps).
+  - Parity gates: PASS (7/7 gates clean).
+  - Then-assertion mutations: PASS (28/28 killed).
+  - GitHub Actions CI (PR run 42695824590): all 5 required jobs passed green.
