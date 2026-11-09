@@ -4,7 +4,7 @@ created: 2026-11-09T17:05:00Z
 project: gb.automation.smoketests.sudoku.poc
 type: implementation-plan
 item: BACKLOG-090 / TRIAGE-15
-status: approved
+status: delivered
 language: en-GB
 ---
 
@@ -162,3 +162,17 @@ All work will take place on branch `worklist/triage-15-candidate-arguments` cut 
 - **Parity Gate:** All 7 parity checks in `.batch/run-parity-checks.ps1` PASS.
 - **Mutation Controls:** `.batch/test-then-assertion-mutations.ps1` reports 100% killed mutations (28 killed per Stack).
 - **CI Fan-in:** PR and main runs pass all required jobs.
+
+
+---
+
+## Outcome
+
+Delivered in PR #116 (10a7ed6, 2026-11-09).
+
+- **Decision Record:** Adopted **DR-049** (*Candidate-Qualified Gherkin Steps and Read-Only Candidate Observation*).
+- **Candidate Observation APIs:** Promoted internal candidate calculation methods to public on SudokuSolver across all three Stacks (getCellCandidates in TS, get_cell_candidates in Python, GetCellCandidates in C#) with safe empty-set return for filled cells; added Screenplay Question GridCell.candidatesAt(row, col).
+- **Step Parameter Validations:** Faithfully bound candidate-set and coordinate parameters in Naked Pairs and X-Wing Givens and Thens across TypeScript, Python, and C#.
+- **Mutation Suite Expansion:** Added 3 planted candidate mutation controls to .batch/test-then-assertion-mutations.ps1 (
+aked-pair-candidates, nother-cell-candidates, xwing-rows-pattern), bringing total to 28 mutations per Stack. All 28/28 mutations killed on DEMOAPP001, DEMOAPP002, and DEMOAPP003.
+- **Verification:** All 55 scenarios and 309 steps passed across all three Stacks; all 7 parity checks in .batch/run-parity-checks.ps1 passed; PR CI run 42668719528 passed all jobs.
