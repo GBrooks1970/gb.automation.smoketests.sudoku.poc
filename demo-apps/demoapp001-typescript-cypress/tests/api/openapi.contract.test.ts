@@ -151,6 +151,88 @@ test('OpenAPI rejects an intentionally drifted response', async () => {
   assert.ok(validation.errors?.some((error) => error.keyword === 'required'));
 });
 
+test('OpenAPI validates generator request schemas for string/numeric seeds and invalid options', async () => {
+  await contractReady;
+
+  const validString = await validateRequest('postGeneratePuzzle', { seed: 'string-seed' });
+  assert.equal(validString.valid, true);
+
+  const validNumeric = await validateRequest('postGeneratePuzzle', { seed: 12345 });
+  assert.equal(validNumeric.valid, true);
+
+  const validFull = await validateRequest('postGeneratePuzzle', {
+    difficulty: 'Hard',
+    seed: 99999,
+    symmetrical: false,
+    clueCount: 28,
+  });
+  assert.equal(validFull.valid, true);
+
+  const invalidSeedType = await validateRequest('postGeneratePuzzle', { seed: true });
+  assert.equal(invalidSeedType.valid, false);
+
+  const invalidDifficulty = await validateRequest('postGeneratePuzzle', { difficulty: 'Extreme' });
+  assert.equal(invalidDifficulty.valid, false);
+
+  const invalidClueCount = await validateRequest('postGeneratePuzzle', { clueCount: 10 });
+  assert.equal(invalidClueCount.valid, false);
+});
+
+test('OpenAPI accepts a real generated-puzzle response using a numeric seed', async () => {
+  const response = await request(app)
+    .post('/api/generator/generate')
+    .send({ seed: 424242, difficulty: 'Easy' })
+    .expect(200);
+
+  assert.equal(typeof response.body.seed, 'string');
+  assert.equal(response.body.difficulty, 'Easy');
+  await assertContractResponse('postGeneratePuzzle', response);
+});
+
+test('OpenAPI accepts all generator validation error codes (400) from the Express app', async () => {
+  // INVALID_DIFFICULTY
+  const invalidDiff = await request(app)
+    .post('/api/generator/generate')
+    .send({ difficulty: 'Impossible' })
+    .expect(400);
+  assert.equal(invalidDiff.body.error, 'INVALID_DIFFICULTY');
+  await assertContractResponse('postGeneratePuzzle', invalidDiff);
+
+  // INVALID_CLUE_COUNT
+  const invalidClues = await request(app)
+    .post('/api/generator/generate')
+    .send({ clueCount: 10 })
+    .expect(400);
+  assert.equal(invalidClues.body.error, 'INVALID_CLUE_COUNT');
+  await assertContractResponse('postGeneratePuzzle', invalidClues);
+
+  // INVALID_SYMMETRICAL_OPTION
+  const invalidSymm = await request(app)
+    .post('/api/generator/generate')
+    .send({ symmetrical: 'yes' })
+    .expect(400);
+  assert.equal(invalidSymm.body.error, 'INVALID_SYMMETRICAL_OPTION');
+  await assertContractResponse('postGeneratePuzzle', invalidSymm);
+
+  // INVALID_SEED
+  const invalidSeed = await request(app)
+    .post('/api/generator/generate')
+    .send({ seed: { nested: 'bad' } })
+    .expect(400);
+  assert.equal(invalidSeed.body.error, 'INVALID_SEED');
+  await assertContractResponse('postGeneratePuzzle', invalidSeed);
+});
+
+async function validateRequest(_operationId: string, body: unknown) {
+  await contractReady;
+  return contract.validateRequest({
+    path: '/api/generator/generate',
+    method: 'post',
+    body,
+    headers: {},
+  });
+}
+
 async function assertContractResponse(operationId: string, response: Response): Promise<void> {
   const validation = await validateResponse(operationId, response.status, response.body);
   assert.equal(

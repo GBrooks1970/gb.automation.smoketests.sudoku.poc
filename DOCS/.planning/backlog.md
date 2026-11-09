@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-11-09 - BACKLOG-090 / TRIAGE-15 Resolved: candidate observation APIs and faithful precondition validation under owner-approved plan across all three Stacks; merged PR #116 / `10a7ed6`; 3 new candidate mutations killed (28 total per Stack); 55 scenarios / 309 steps and 7 parity gates clean. Earlier: BACKLOG-089 / TRIAGE-20 Resolved: real observations for empty Then steps, no-op disposal and tautology replacement; merged PR #114 / `ebe0dc2`; 3 new Then mutations killed (25 total per Stack); 55 scenarios / 309 steps and 7 parity gates clean. Earlier: BACKLOG-088 / TRIAGE-24 Resolved: Then-assertion mutation controls run on a temporary copy; merged PR #112 / `811fb79`. Earlier: BACKLOG-087 / TRIAGE-19 Resolved. Now 11 items are Open (BACKLOG-091..101), 0 In Progress and 113 Resolved, 124 in total.
+**Last Updated:** 2026-11-09 - BACKLOG-091 / TRIAGE-10 In Progress: generator OpenAPI request/response schema alignment and 400 validation error codes under owner-approved plan on DEMOAPP001. Earlier: BACKLOG-090 / TRIAGE-15 Resolved: candidate observation APIs and faithful precondition validation under owner-approved plan across all three Stacks; merged PR #116 / `10a7ed6`; 3 new candidate mutations killed (28 total per Stack); 55 scenarios / 309 steps and 7 parity gates clean. Earlier: BACKLOG-089 / TRIAGE-20 Resolved. Earlier: BACKLOG-088 / TRIAGE-24 Resolved. Earlier: BACKLOG-087 / TRIAGE-19 Resolved. Now 10 items are Open (BACKLOG-092..101), 1 In Progress and 113 Resolved, 124 in total.
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,10 +25,12 @@ Per v1.15 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 11 |
+| Open | 10 |
 | In Progress | 1 |
-| Resolved | 112 |
+| Resolved | 113 |
 | **Total** | **124** |
+
+**Update (2026-11-09, BACKLOG-090 / TRIAGE-15):** Candidate observation APIs under DR-049 exposed on SudokuSolver and Screenplay GridCell across TS, Python, and C#; faithful validations implemented for Naked Pairs and X-Wing Givens and Thens; 3 new candidate mutations killed (28 total per Stack). Delivered in PR #116, merged as `10a7ed6`.
 
 **Update (2026-11-09, BACKLOG-089 / TRIAGE-20):** Empty Then steps and no-op/tautological bindings across all three Stacks (DEMOAPP001 TS, DEMOAPP002 Python, DEMOAPP003 C#) now perform real empirical assertions (LAST_ERROR null checking, loop attempt event and termination verification, placement validity checking, valid solution verification, puzzle collection size assertion). 3 new planted mutation controls added to `.batch/test-then-assertion-mutations.ps1` (25 total per Stack), all killed. Delivered in PR #114, merged as `ebe0dc2`.
 
@@ -129,7 +131,7 @@ both passed at `7af3dca`; this was a documentation reconciliation, not an implem
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-089 / TRIAGE-20 is In Progress (give empty Then steps real observations, dispose no-op and tautological bindings under owner-approved plan across all three Stacks); 12 Open items mirrored from the root worklist (BACKLOG-090..101). Earlier: BACKLOG-088 / TRIAGE-24 (Then-assertion mutation controls on a temporary copy) is Resolved. BACKLOG-087 / TRIAGE-19 (single decode on `/api/visualise/:name`) is Resolved. BACKLOG-086 / TRIAGE-18 (DEMOAPP003 fixture anchoring and authoritative loader paths) is Resolved. BACKLOG-085 / TRIAGE-17 (backlog mirror) is Resolved; BACKLOG-084 / TRIAGE-16 (real blocking counts under audit policy errors) is Resolved; BACKLOG-083 (weekly scheduled dependency audit, DR-048) is Resolved; BACKLOG-082 (restore green CI under DR-039) is Resolved; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed; TRIAGE-10/15 are now BACKLOG-091/090 |
+| Current sprint focus | BACKLOG-091 / TRIAGE-10 is In Progress (align generator request and validation-error schemas with runtime under owner-approved plan on DEMOAPP001); 10 Open items mirrored from the root worklist (BACKLOG-092..101). Earlier: BACKLOG-090 / TRIAGE-15 is Resolved; BACKLOG-089 / TRIAGE-20 is Resolved; BACKLOG-088 / TRIAGE-24 is Resolved; BACKLOG-087 / TRIAGE-19 is Resolved; BACKLOG-086 / TRIAGE-18 is Resolved; BACKLOG-085 / TRIAGE-17 is Resolved; BACKLOG-084 / TRIAGE-16 is Resolved; BACKLOG-083 is Resolved; BACKLOG-082 is Resolved; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -565,9 +567,9 @@ execution order.
 | BACKLOG-086 | TRIAGE-18 | Anchor DEMOAPP003 fixture data, make explicit paths authoritative and surface loader errors | DEMOAPP003 | Medium | Resolved | None (DR-035 validation boundary unchanged; owner-approved plan) |
 | BACKLOG-087 | TRIAGE-19 | Remove the double URL decode on `/api/visualise/:name` | DEMOAPP001 | Medium | Resolved | None (documented contract unchanged; owner-approved plan) |
 | BACKLOG-088 | TRIAGE-24 | Run the Then-assertion mutation controls on a temporary copy | All (tooling) | Low (pulled forward by the owner) | Resolved | None (tooling safety only; owner-approved plan) |
-| BACKLOG-089 | TRIAGE-20 | Give the empty Then steps real observations and dispose of no-op and tautological bindings | All | Medium | In Progress | None expected; canonical feature edited first if reworded |
-| BACKLOG-090 | TRIAGE-15 | Assess candidate-qualified and fixed-fixture step arguments | All | Medium | In Progress | [Filed plan](../.implementation-plans/2026-11-09-triage-15-candidate-arguments.md); DR-049 accepted |
-| BACKLOG-091 | TRIAGE-10 | Align generator request and validation-error schemas with runtime | DEMOAPP001 | Low | Open | None expected |
+| BACKLOG-089 | TRIAGE-20 | Give the empty Then steps real observations and dispose of no-op and tautological bindings | All | Medium | Resolved | None (owner-approved plan; merged PR #114 / `ebe0dc2`) |
+| BACKLOG-090 | TRIAGE-15 | Assess candidate-qualified and fixed-fixture step arguments | All | Medium | Resolved | [Delivered plan](../.implementation-plans/2026-11-09-triage-15-candidate-arguments.md); DR-049 accepted; merged PR #116 / `10a7ed6` |
+| BACKLOG-091 | TRIAGE-10 | Align generator request and validation-error schemas with runtime | DEMOAPP001 | Low | In Progress | [Approved plan](../.implementation-plans/2026-11-09-triage-10-generator-openapi-alignment.md) |
 | BACKLOG-092 | TRIAGE-21 | Add Stack job timeouts and PR-scoped CI concurrency | All (CI config) | Low | Open | None expected |
 | BACKLOG-093 | TRIAGE-22 | Pin workflow actions to full SHAs and commit a Dependabot configuration | All (CI config) | Low | Open | None expected |
 | BACKLOG-094 | TRIAGE-23 | Gate `puzzles.json` copy parity and correct the guide's Stack-tag and Add-a-Puzzle wording | All (docs + tooling) | Low | Open | New DR or explicit note to supersede the existing DR text |
@@ -1908,6 +1910,19 @@ forwarding; it is retained and explicitly excluded from acceptance. The correcte
 assertion failure and final positive run above are the accepted controls. The manifest-selected
 v6 handover and registry's unscheduled BACKLOG-078 note are historical/non-current;
 their separate lifecycle refresh is outside TRIAGE-09.
+
+---
+
+### BACKLOG-091: Align generator request and validation-error schemas with runtime (TRIAGE-10)
+
+**Status:** In Progress
+**Priority:** Low
+**Stack(s):** DEMOAPP001
+**Source:** Root worklist TRIAGE-10; adjacent contract drift.
+**Plan:** [Approved implementation plan](../.implementation-plans/2026-11-09-triage-10-generator-openapi-alignment.md) (owner approved, 2026-11-09)
+**Decision:** None expected (contract alignment only; Decisions 1–4 approved).
+
+**Acceptance:** OpenAPI represents existing string/numeric seeds and the existing 400 codes `INVALID_DIFFICULTY`, `INVALID_CLUE_COUNT`, `INVALID_SYMMETRICAL_OPTION` and `INVALID_SEED`; focused request and real-response contract tests prove parity without narrowing parser behaviour.
 
 ---
 
