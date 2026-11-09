@@ -1,7 +1,7 @@
 # Decision Register
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-11-06 - DR-048 runs the DR-039 dependency audits weekly in an audit-only workflow (BACKLOG-083). Earlier, 2026-09-30: DR-046 records tutor request ownership and auto-play cancellation for TRIAGE-07; DR-044/045 govern technique grading and generator exhaustion; DR-047 bounds the three-stack parity evidence page (BACKLOG-075).
+**Last Updated:** 2026-11-09 - DR-049 candidate observation APIs and precondition validation for advanced strategy scenarios (BACKLOG-090). Earlier, 2026-11-06: DR-048 runs the DR-039 dependency audits weekly in an audit-only workflow (BACKLOG-083). Earlier, 2026-09-30: DR-046 records tutor request ownership and auto-play cancellation for TRIAGE-07; DR-044/045 govern technique grading and generator exhaustion; DR-047 bounds the three-stack parity evidence page (BACKLOG-075).
 **Governed by:** `reference-architecture.md` v1.15 §10.6
 **Template:** `DOCS/.templates/decision-record.template.md`
 
@@ -2762,6 +2762,75 @@ to make expiries visible.
 - BACKLOG-083 - the authorised implementation item.
 
 ---
+## DR-049 - Candidate observation APIs and precondition validation for advanced strategy scenarios
+
+**Date:** 2026-11-09
+**Status:** Accepted - 2026-11-09 by the project owner ("Approve as recommended", BACKLOG-090 plan)
+
+### Context
+
+The canonical feature `BasicSudokuSolverLogic.feature` contains scenarios for Naked Pairs and
+X-Wing with candidate-qualified steps (e.g. `contains exactly two cells sharing candidate pair "2, 7"`,
+`another cell in row 0 has candidates "2, 7, 4"`, `rows 1 and 4 have candidate 7 only in columns 1 and 5`,
+`another cell at row 7, column 1 has candidates "3, 7"`). Previously, step definitions in all three
+Stacks (DEMOAPP001 TypeScript, DEMOAPP002 Python, DEMOAPP003 C#) discarded those arguments, relied on
+opaque hardcoded fixtures (`SetupGridState.nakedPairRow()`, etc.), and left secondary Givens as empty
+no-ops (`pass`). Mutating the Gherkin text survived undetected (Claude review v2 Risk 3 recs 3-4,
+Codex review v3 S-06).
+
+### Decision
+
+1. **Expose read-only candidate calculation on `SudokuSolver`:**
+   Promote existing private `getCellCandidates(row, col)` to public across all three Stacks:
+   - TypeScript: `public getCellCandidates(row: number, col: number): Set<number>`
+   - Python: `def get_cell_candidates(self, row: int, col: int) -> set[int]:`
+   - C#: `public HashSet<int> GetCellCandidates(int row, int col)`
+2. **Expose Screenplay question for cell candidates:**
+   - `GridCell.candidatesAt(row: number, col: number)` returning the candidate set for a cell.
+3. **Faithful precondition validation in Given steps:**
+   - Every candidate-qualified Given step MUST assert that the requested unit and coordinates actually
+     contain the specified candidate sets in the current grid state.
+   - For `Given row {row} contains exactly two cells sharing candidate pair "{candidates}"`: Parse the
+     CSV string into integer set; verify that `row` has exactly two empty cells whose candidates equal that pair.
+   - For `And another cell in {unit} has candidates "{candidates}"`: Verify that the unit contains an
+     empty cell whose candidates match the expected set, and remember that cell in Actor Memory (`TARGET_CELL`).
+   - For X-Wing: Verify that the two rows/cols have candidate `digit` only in the specified two columns/rows.
+4. **Then step candidate association:**
+   - In `Then the cell in {unit} with candidates "{candidates}" should be updated to {val}`, verify that
+     the cell identified by `TARGET_CELL` has been updated to `val`, and that the pre-solve snapshot candidates
+     for that cell matched `{candidates}`.
+5. **Zero feature file rewording:**
+   The canonical `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature` remains the
+   single source of truth. All 55 scenarios and 309 steps remain byte-for-byte identical across all three Stacks.
+6. **Mutation harness integration:**
+   Add planted candidate mutations to `.batch/test-then-assertion-mutations.ps1` to continuously prove
+   these bindings cannot be bypassed.
+
+### Status
+
+`Accepted` - 2026-11-09.
+
+### Consequences
+
+**Outcomes:**
+
+- Advanced strategy Gherkin examples actively verify their advertised preconditions and candidates.
+- Changing candidate pairs, row/col coordinates, or candidate strings fails with clear assertion errors.
+- No living-documentation drift between business-readable examples and test execution.
+
+**Trade-offs:**
+
+- Additional read-only method exposed on public solver interface; candidate query remains pure and side-effect-free.
+
+### Related Decisions
+
+- DR-013 / MIG-04 - Screenplay architecture and standardized memory keys (`TARGET_CELL`).
+- DR-016 - Canonical feature as single source of truth across all three Stacks.
+- DR-035 - Validation layer boundaries: solvers expose constraint queries.
+- DR-037 - Orchestration attempt events.
+- BACKLOG-090 / TRIAGE-15 - The authorised implementation item.
+
+---
 ## Proposed Decisions
 
 *None at this time.*
@@ -2781,5 +2850,5 @@ to make expiries visible.
 
 ---
 
-*Last entry: DR-048 (Accepted). Next ID: DR-049.*
+*Last entry: DR-049 (Accepted). Next ID: DR-050.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

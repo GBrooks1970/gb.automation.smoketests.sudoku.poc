@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-11-09 - BACKLOG-089 / TRIAGE-20 Resolved: real observations for empty Then steps, no-op disposal and tautology replacement under owner-approved plan across all three Stacks; merged PR #114 / be0dc2; 3 new Then mutations killed (25 total per Stack); 55 scenarios / 309 steps and 7 parity gates clean. Earlier: BACKLOG-088 / TRIAGE-24 Resolved: Then-assertion mutation controls run on a temporary copy; merged PR #112 / 811fb79; must-fail killed run corrupted tracked features before the fix and leaves them untouched now; PR run 42624564441 and main run 42640018272 passed; all seven jobs green, Pages deployed. Earlier: BACKLOG-087 / TRIAGE-19 Resolved: /api/visualise/:name decodes its parameter once; merged PR #110 / e26d73; the new /api/visualise/100%25 case failed with 500 before the fix and passes now; PR run 42463066910 passed all five required jobs. BACKLOG-101 (TRIAGE-31, malformed-escape 500) added as Open. Earlier: BACKLOG-086 / TRIAGE-18 Resolved: DEMOAPP003 fixture data anchored, explicit loader paths authoritative and loader errors surfaced; merged PR #108 / 1481eb; out-of-tree Reqnroll 38/55 before and 55/55 after; both missing-path controls failed against the old loader and pass now (components 30/30); PR run 42436430723 passed all five required jobs; main run 42436704351 passed all seven jobs, Pages deployed. Earlier: BACKLOG-085 / TRIAGE-17 Resolved: the 14 open root worklist items are mirrored as Open (BACKLOG-086..099), so Open is 14. Earlier: BACKLOG-084 / TRIAGE-16 Resolved: the dependency-audit summary reports real blocking counts when the policy has errors; merged PR #105 / ddc2540; PR run 42280161693 (five required jobs, policy controls 15/15) and audit dispatch run 42280180274 passed; main run 42280718309 passed all seven jobs, Pages deployed; every audit status=pass blocking=0. Earlier: BACKLOG-083 Resolved: weekly audit-only dependency audit workflow (DR-048); merged PR #103 / 99111e0; PR runs 42237102597 (CI) and 42237102729 (audit) passed; workflow_dispatch run 42237663052 on main passed all three audits with no Pages deployment; expired-exception control run 42237715787 failed all three as required. Earlier: BACKLOG-082 Resolved: merged PR #101 / 624a4af; PR run 42232061531 and main run 42233130935 (all seven jobs, Pages deployed) passed; every audit status=pass blocking=0. Now 12 items are Open (BACKLOG-090..101), 0 In Progress and 112 Resolved, 124 in total.
+**Last Updated:** 2026-11-09 - BACKLOG-090 / TRIAGE-15 In Progress: candidate observation APIs and faithful precondition validation under owner-approved plan across all three Stacks. Earlier: BACKLOG-089 / TRIAGE-20 Resolved: real observations for empty Then steps, no-op disposal and tautology replacement; merged PR #114 / `ebe0dc2`; 3 new Then mutations killed (25 total per Stack); 55 scenarios / 309 steps and 7 parity gates clean. Earlier: BACKLOG-088 / TRIAGE-24 Resolved: Then-assertion mutation controls run on a temporary copy; merged PR #112 / `811fb79`. Earlier: BACKLOG-087 / TRIAGE-19 Resolved. Now 11 items are Open (BACKLOG-091..101), 1 In Progress (BACKLOG-090) and 112 Resolved, 124 in total.
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,8 +25,8 @@ Per v1.15 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 12 |
-| In Progress | 0 |
+| Open | 11 |
+| In Progress | 1 |
 | Resolved | 112 |
 | **Total** | **124** |
 
@@ -566,7 +566,7 @@ execution order.
 | BACKLOG-087 | TRIAGE-19 | Remove the double URL decode on `/api/visualise/:name` | DEMOAPP001 | Medium | Resolved | None (documented contract unchanged; owner-approved plan) |
 | BACKLOG-088 | TRIAGE-24 | Run the Then-assertion mutation controls on a temporary copy | All (tooling) | Low (pulled forward by the owner) | Resolved | None (tooling safety only; owner-approved plan) |
 | BACKLOG-089 | TRIAGE-20 | Give the empty Then steps real observations and dispose of no-op and tautological bindings | All | Medium | In Progress | None expected; canonical feature edited first if reworded |
-| BACKLOG-090 | TRIAGE-15 | Assess candidate-qualified and fixed-fixture step arguments | All | Medium | Open | DR required before candidate-observation APIs, new Memory shapes or de-parameterised step text |
+| BACKLOG-090 | TRIAGE-15 | Assess candidate-qualified and fixed-fixture step arguments | All | Medium | In Progress | [Filed plan](../.implementation-plans/2026-11-09-triage-15-candidate-arguments.md); DR-049 accepted |
 | BACKLOG-091 | TRIAGE-10 | Align generator request and validation-error schemas with runtime | DEMOAPP001 | Low | Open | None expected |
 | BACKLOG-092 | TRIAGE-21 | Add Stack job timeouts and PR-scoped CI concurrency | All (CI config) | Low | Open | None expected |
 | BACKLOG-093 | TRIAGE-22 | Pin workflow actions to full SHAs and commit a Dependabot configuration | All (CI config) | Low | Open | None expected |
@@ -1908,6 +1908,19 @@ forwarding; it is retained and explicitly excluded from acceptance. The correcte
 assertion failure and final positive run above are the accepted controls. The manifest-selected
 v6 handover and registry's unscheduled BACKLOG-078 note are historical/non-current;
 their separate lifecycle refresh is outside TRIAGE-09.
+
+---
+
+### BACKLOG-090: Assess candidate-qualified and fixed-fixture step arguments (TRIAGE-15)
+
+**Status:** In Progress
+**Priority:** Medium
+**Stack(s):** All
+**Source:** Root worklist TRIAGE-15; Claude review v2 (`DOCS/.review/CODE_REVIEW_Claude_v2_20261105T1425Z/`) Risk 3 recs 3-4 + Codex review v3 (`DOCS/.review/CODE_REVIEW_CODEX_v3_20261105T0858Z/`) S-06.
+**Plan:** [Filed implementation plan](../.implementation-plans/2026-11-09-triage-15-candidate-arguments.md) (owner approved, 2026-11-09)
+**Decision:** DR-049 accepted.
+
+**Acceptance:** inventory candidate-string and related Given arguments ignored by fixed-fixture bindings; demonstrate which changed expectations survive; implement faithful binding contract with read-only candidate calculation on `SudokuSolver` and Screenplay `GridCell.candidatesAt(row, col)`; validate candidate preconditions and coordinates in Given steps; verify Then step candidates; add 3 planted candidate mutations to `.batch/test-then-assertion-mutations.ps1`; 55 scenarios / 309 steps and all 7 parity gates clean.
 
 ---
 
