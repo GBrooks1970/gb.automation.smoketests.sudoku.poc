@@ -4,7 +4,7 @@ created: 2026-11-09T15:27:00Z
 project: gb.automation.smoketests.sudoku.poc
 type: implementation-plan
 item: BACKLOG-089 / TRIAGE-20
-status: approved
+status: delivered
 approved: 2026-11-09 (owner, as recommended across all 8 decisions)
 language: en-GB
 ---
@@ -136,3 +136,32 @@ All work happens on branch `worklist/triage-20-real-then-observations` cut from 
 - **Parity Gate:** All 7 parity checks in `.batch/run-parity-checks.ps1` PASS.
 - **Mutation Controls:** `.batch/test-then-assertion-mutations.ps1` runs safely in temporary copies and reports 100% killed mutations (25 killed mutations per Stack).
 - **CI Fan-in:** PR and main runs pass all required jobs.
+
+---
+
+## Outcome
+
+Delivered 2026-11-09 in PR [#114](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/114),
+merged as `ebe0dc2`.
+
+1. **Real observations for empty Then steps:**
+   - `"no errors should occur"`: Asserts `ErrorThrown.last()` / `ErrorThrown.Last()` is `null` in Actor Memory. In DEMOAPP001 Serenity/JS, safely wrapped note retrieval in `try/catch` to return `null` instead of throwing `LogicError`.
+   - `"the main loop should exit"`: Re-initialises solver from snapshot and executes `solvePuzzle()`; asserts `lastAttemptIterations == 1`, all attempts in `lastAttemptEvents` have `changed == false`, and solve result is `'STUCK_ON_ADVANCED_LOGIC'`.
+   - `"the move should be validated against row, column, and block constraints"`: Asserts `PlacementValidity.ofLastAttempt()` is `'VALID'` or `'INVALID'`.
+   - `"no digits violate row, column, or block rules"`: Asserts `GridCell.isValidSolution()`.
+2. **Tautological assertion replacement:**
+   - `"the result should be an array of matching puzzles"`: Replaced `count >= 0` with `assert count == 1` matching the deterministic count of "easy" puzzles in `puzzles.json`.
+3. **Missing puzzle file scenario alignment:**
+   - Configured `LoadPuzzles.from('nonexistent_puzzles.json')` in Given step, asserting loader error capture before triggering error simulation.
+4. **Disposed Python no-ops:**
+   - All targeted Python `pass` statements replaced with active assertions or ability setup across all steps.
+5. **Mutation controls expansion:**
+   - Added 3 new planted mutation controls to `.batch/test-then-assertion-mutations.ps1` (`puzzles-array-count`, `main-loop-progress`, `no-errors-planted`), bringing total mutation controls to 25 per Stack.
+   - All 25 mutations killed across all three Stacks.
+6. **Local verification:**
+   - DEMOAPP001: 113 component tests passed, 55 BDD scenarios (309 steps) passed. ESLint and Prettier clean.
+   - DEMOAPP002: 30 unit tests passed, 55 BDD scenarios passed (85 passed total).
+   - DEMOAPP003: 55 SpecFlow scenarios passed.
+   - Parity: All 7 parity gates passed.
+7. **CI:**
+   - PR run `42655272551` passed all jobs.
