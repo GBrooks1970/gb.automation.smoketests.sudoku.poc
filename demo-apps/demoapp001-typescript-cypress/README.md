@@ -376,7 +376,7 @@ Test scenarios are defined in [BasicSudokuSolverLogic.feature](tests/features/Ba
 **Total Scenarios:** 55 scenarios / 309 steps
 
 The [current native execution inventory (2026-10-07)](../../DOCS/.analysis/2026-10-07-component-execution-inventory.json)
-records 113 focused component tests and 8 OpenAPI response-contract tests. REST API integration and
+records 113 focused component tests and 11 OpenAPI response-contract tests. REST API integration and
 selected-scope coverage floors complement the canonical acceptance contract. Historical mutation
 observation (2026-07-28): the focused loader/orchestrator trial killed 10/10 mutations. Run
 `npm test`, `npm run test:coverage`, `npm run verify:openapi`, and `npm run test:mutation-trial`

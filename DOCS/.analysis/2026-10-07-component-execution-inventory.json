@@ -7,7 +7,8 @@
     "Source SHA256 uses UTF-8 without BOM and LF-normalised line endings, with repository-relative paths sorted ordinally. Output SHA256 hashes exact retained bytes.",
     "Native logs/XML/TRX remain ignored local evidence; their absence in a clean checkout is expected. Their hashes and commands preserve provenance.",
     "Refresh after collection/source drift: rerun all four native commands, retain zero-failure/skip results and UTC timings, update output hashes and sorted source fingerprints, reconcile active count claims, then run the guard and isolated controls.",
-    "2026-11-08 (BACKLOG-086 / TRIAGE-18): only the demoapp003-component suite was re-measured, after two missing-path controls were added (28 to 30 tests). The other three suites keep their 2026-10-07 measurements because their sources are unchanged; recordedOn stays the original date."
+    "2026-11-08 (BACKLOG-086 / TRIAGE-18): only the demoapp003-component suite was re-measured, after two missing-path controls were added (28 to 30 tests). The other three suites keep their 2026-10-07 measurements because their sources are unchanged; recordedOn stays the original date.",
+    "2026-11-09 (BACKLOG-091 / TRIAGE-10): only the demoapp001-openapi suite was re-measured, after adding three generator request/response contract tests and 400 validation error code assertions (8 to 11 tests). The other three suites keep their measurements because their sources are unchanged; recordedOn stays the original date."
   ],
   "suites": [
     {
@@ -116,15 +117,15 @@
     },
     {
       "id": "demoapp001-openapi",
-      "tests": 8,
-      "passed": 8,
+      "tests": 11,
+      "passed": 11,
       "failed": 0,
       "skipped": 0,
       "runtime": "Node 24.18.0 / npm 11.16.0",
-      "sourceSha": "eaaeb79a9ec7d9bb4c5eb6338a956e4308efceee",
-      "startedUtc": "2026-10-07T15:56:58.1701675Z",
-      "commandDurationMs": 43206,
-      "runnerDurationMs": 7595.1412,
+      "sourceSha": "8024c877e37e2907705e67f8a6a3f12c077dac5b",
+      "startedUtc": "2026-11-09T20:27:30.0000000Z",
+      "commandDurationMs": 7858,
+      "runnerDurationMs": 3020,
       "command": {
         "executable": "npm.cmd",
         "arguments": [
@@ -159,7 +160,7 @@
         },
         {
           "path": "demo-apps/demoapp001-typescript-cypress/tests/api/openapi.contract.test.ts",
-          "sha256": "83e3856a84476489d41db748db893cf48ec045bddf8b9aada0ed3fd7ad27c7ba"
+          "sha256": "53ae0632c05ac116d831a20da3a13cb220b995241407a6132e50bf9db33634d4"
         },
         {
           "path": "demo-apps/demoapp001-typescript-cypress/tsconfig.json",

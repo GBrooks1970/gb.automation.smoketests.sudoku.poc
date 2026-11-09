@@ -324,8 +324,10 @@ components:
     BadRequest:
       description: |
         Malformed request: `MISSING_GRID` (no grid field), `INVALID_GRID_FORMAT`
-        (structure validation failed; details carry the offending field), or
-        `INVALID_JSON` (unparseable body).
+        (structure validation failed; details carry the offending field),
+        `INVALID_JSON` (unparseable body), or generator option validation errors
+        (`INVALID_DIFFICULTY`, `INVALID_CLUE_COUNT`, `INVALID_SYMMETRICAL_OPTION`,
+        `INVALID_SEED`).
       content:
         application/json:
           schema:
@@ -693,6 +695,10 @@ components:
             - INTERNAL_SERVER_ERROR
             - GENERATOR_EXHAUSTED
             - GENERATOR_TIMEOUT
+            - INVALID_DIFFICULTY
+            - INVALID_CLUE_COUNT
+            - INVALID_SYMMETRICAL_OPTION
+            - INVALID_SEED
         message:
           type: string
         details:
@@ -819,8 +825,10 @@ components:
           type: string
           enum: [Easy, Medium, Hard, Expert]
         seed:
-          type: string
           description: Seed string or number for 100% reproducible puzzle generation
+          oneOf:
+            - type: string
+            - type: integer
         symmetrical:
           type: boolean
           default: true
@@ -836,7 +844,10 @@ components:
       required: [seed, difficulty, clueCount, symmetrical, highestTechnique, solveSteps, grid, solution]
       properties:
         seed:
-          type: string
+          description: Seed string or number used for generation
+          oneOf:
+            - type: string
+            - type: integer
         difficulty:
           type: string
           enum: [Easy, Medium, Hard, Expert]
