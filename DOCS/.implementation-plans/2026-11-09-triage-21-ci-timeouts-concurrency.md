@@ -4,7 +4,7 @@ created: 2026-11-09T21:05:00Z
 project: gb.automation.smoketests.sudoku.poc
 type: implementation-plan
 item: BACKLOG-092 / TRIAGE-21
-status: approved
+status: delivered
 language: en-GB
 ---
 
@@ -115,3 +115,27 @@ From recent CI runs on GitHub Actions (e.g. PR #118 run `42695824590` and PR #11
 3. **Verification:** Run documentation currency, parity checks, and validate YAML syntax.
 4. **PR & Merge:** Push `worklist/triage-21-ci-timeouts-concurrency`, open PR, watch CI, and merge on all-green.
 5. **Outcome:** Open and merge outcome PR, update root worklist tick.
+
+
+---
+
+## Outcome (Delivered 2026-11-09)
+
+- **PR:** [#120](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/120)
+- **Merge Commit on main:** `3e42a2a`
+- **Delivered Scope:**
+  - Added top-level workflow concurrency in `.github/workflows/ci.yml`:
+    ```yaml
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+    ```
+  - Added `timeout-minutes: 15` across all three Stack jobs (`demoapp001-typescript-cypress`, `demoapp002-python-pytest`, `demoapp003-csharp-specflow`).
+  - Added `timeout-minutes: 5` to `gate`.
+  - Preserved job-level Pages deploy concurrency (`group: pages, cancel-in-progress: false`).
+  - Kept `dependency-audit.yml` unchanged.
+- **Verification Evidence:**
+  - RA header currency: PASS (`.batch/check-ra-header-currency.ps1`).
+  - Documentation currency negative controls: PASS (`.batch/test-documentation-currency.ps1`, 37/37 rejected).
+  - Parity gates: PASS (`.batch/run-parity-checks.ps1`, 7/7 gates clean).
+  - GitHub Actions CI (PR run 42718709534): all 5 required jobs passed green.
