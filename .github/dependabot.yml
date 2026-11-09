@@ -1,0 +1,16 @@
+# Dependabot configuration for GitHub Actions supply chain management.
+#
+# Language package managers (npm, pip, nuget) are deliberately omitted.
+# Dependencies for DEMOAPP001, DEMOAPP002, and DEMOAPP003 are strictly governed
+# by DR-039 and DR-048 locked restores (package-lock.json, requirements-test.lock,
+# packages.lock.json) and audited weekly via .github/workflows/dependency-audit.yml.
+# Uncoordinated automated PRs for language ecosystems bypass deterministic lockfiles
+# and cause transitive peer-dependency failures (as observed in Dependabot run 42237665533).
+
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
