@@ -87,3 +87,12 @@ the Pair Then candidates from `2, 7, 4` to `1, 7, 4` passed one selected scenari
 0 failures/errors, command 2762 ms); canonical and Stack bytes restored. TypeScript/C# candidate
 survival was not run in this probe. Root TRIAGE-15 records further assessment without expanding
 BACKLOG-078's approved repair.
+
+## Addendum (2026-11-09, BACKLOG-088 / TRIAGE-24)
+
+Under BACKLOG-088, `.batch/test-then-assertion-mutations.ps1` runs against an isolated, GUID-named
+temporary copy of the Stack under `%TEMP%` (`sudoku-then-mutations-<stack>-<guid>`), with
+`node_modules` linked via junction in DEMOAPP001 and locked-mode package restore in DEMOAPP003.
+Mutations are applied only to the copied feature; canonical and tracked Stack features are never
+written. A hard-killed run leaves tracked feature hashes 100% byte-identical, and stranded temporary
+workspaces older than 24 hours are swept automatically at script startup.

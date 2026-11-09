@@ -8,6 +8,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 
 ## [Unreleased]
 
+### Changed
+- BACKLOG-088 / TRIAGE-24: `.batch/test-then-assertion-mutations.ps1` runs against an isolated GUID-named temporary copy of the Stack under `%TEMP%` instead of mutating tracked repository files in place. `node_modules` is linked via junction in DEMOAPP001; DEMOAPP003 restores with locked mode; mutations apply only to the temporary copy's feature. A hard-killed run leaves all tracked features byte-identical, and stranded temporary workspaces older than 24 hours are swept automatically at startup.
+
 ### Fixed
 - BACKLOG-087 / TRIAGE-19: DEMOAPP001 `GET /api/visualise/:name` no longer decodes its path parameter a second time. A name containing a literal `%` (sent as `%25`) now returns 404 `PUZZLE_NOT_FOUND` instead of 500, and a double-encoded name no longer resolves to a different puzzle, matching `GET /api/puzzles/:name`. Three API integration cases guard it. The documented OpenAPI responses are unchanged.
 - BACKLOG-086 / TRIAGE-18: the DEMOAPP003 `PuzzleLoader` treats an explicit path as authoritative (rooted as given, relative from `AppContext.BaseDirectory`) and no longer searches ancestor directories or falls back to another `puzzles.json`. The Reqnroll project copies `puzzles.json` to its output and the actor loads it from there, and `LoadPuzzles` rethrows loader errors instead of returning empty results. An out-of-tree `dotnet test --artifacts-path` run now passes 55/55 (was 38/55). Two component controls bring DEMOAPP003 to 30 component tests. No DR.
