@@ -1,8 +1,8 @@
 # Screenplay-BDD Test Automation — Agnostic Reference Architecture
 
-**Version:** 1.15
+**Version:** 1.16
 **Status:** Accepted
-**Date:** 2026-05-20
+**Date:** 2026-11-10
 **Applies to:** Any project adopting the Screenplay-BDD structure described herein
 
 ---
@@ -440,9 +440,11 @@ Test data is any fixture, seed, configuration file, or in-memory value required 
 | Used by two or more Stacks | `packages/` or a dedicated `data/` directory at the repository root |
 | Shared test data path | MUST be documented in `DOCS/.architecture/subject-app-contract.md` |
 
-**Inline literal prohibition:**
+**Inline literal policy:**
 
-Test data MUST NOT be embedded as inline literals in canonical feature files. Inline literals tie a scenario to a specific input value, preventing reuse and making the canonical file a de-facto test data store. Use parameterised steps (Section 5.4) and provide values in Stack-local Scenario Outline `Examples` tables.
+Arbitrary bulk test datasets MUST NOT be embedded as inline literals in canonical feature files; broad fixture collections or enumerated test puzzle banks belong in governed fixture stores (e.g. `puzzles.json`) or data-driven `Examples` tables.
+
+However, exact behavioural literals that define the normative behavioral contract of a scenario (such as expected elimination coordinates, target cell row/column indices, candidate sets, or specific solved digits as established under BACKLOG-078 and DR-049) ARE PERMITTED in canonical features. Such literals specify exact verification criteria rather than arbitrary test data stores, ensuring high-fidelity assertion and exact parity across all Stacks.
 
 **Scenario isolation:**
 
@@ -457,7 +459,7 @@ Test data MUST NOT be embedded as inline literals in canonical feature files. In
 
 **Data-driven scenarios:**
 
-Data-driven scenarios SHOULD use Gherkin `Scenario Outline` with `Examples` tables. The `Examples` data belongs in the Stack's local feature copy, not in `features-shared/`. Canonical feature files MAY include a single illustrative `Examples` row to document the expected parameter format, but MUST NOT enumerate all test data cases.
+Data-driven scenarios SHOULD use Gherkin `Scenario Outline` with `Examples` tables. Canonical Scenario Outlines MAY include governed `Examples` tables where parameter variants define cross-Stack behavioural specifications. Arbitrary bulk test data variations remain managed via governed fixture stores or Stack-local extensions.
 
 ---
 

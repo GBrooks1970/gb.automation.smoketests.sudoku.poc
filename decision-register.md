@@ -2,7 +2,7 @@
 
 **Project:** gb.automation.smoketests.sudoku.poc
 **Last Updated:** 2026-11-10 - DR-050 three-stack puzzles fixture copy parity and tagless canonical feature replication (BACKLOG-094). Earlier, 2026-11-09: DR-049 candidate observation APIs and precondition validation for advanced strategy scenarios (BACKLOG-090). Earlier, 2026-11-06: DR-048 runs the DR-039 dependency audits weekly in an audit-only workflow (BACKLOG-083). Earlier, 2026-09-30: DR-046 records tutor request ownership and auto-play cancellation for TRIAGE-07; DR-044/045 govern technique grading and generator exhaustion; DR-047 bounds the three-stack parity evidence page (BACKLOG-075).
-**Governed by:** `reference-architecture.md` v1.15 §10.6
+**Governed by:** `reference-architecture.md` v1.16 §10.6
 **Template:** `DOCS/.templates/decision-record.template.md`
 
 > This register is the authoritative source for every structural and process decision in this project.
@@ -1400,7 +1400,7 @@ Update `reference-architecture.md` v1.9 to resolve the conflict:
 Add Section 5.6 "Test Data Management" to `reference-architecture.md` v1.10:
 
 - **Location rules table:** Stack-local data stays in the Stack directory; shared data (two or more Stacks) MUST live in `packages/` or a dedicated `data/` directory at the repository root; shared data path MUST be documented in `DOCS/architecture/subject-app-contract.md`.
-- **Inline literal prohibition (MUST NOT):** Test data MUST NOT be embedded as inline literals in canonical feature files. Use parameterised steps (Section 5.4) and provide values in Stack-local `Examples` tables.
+- **Inline literal prohibition (MUST NOT):** Test data MUST NOT be embedded as inline literals in canonical feature files. Use parameterised steps (Section 5.4) and provide values in Stack-local `Examples` tables. *(Note: Amended by DR-052 on 2026-11-10 in RA v1.16 to permit exact behavioural verification literals in canonical features per BACKLOG-078 and DR-049)*.
 - **Scenario isolation (MUST NOT):** A scenario MUST NOT modify shared test data. It MUST operate on a copy or in-memory representation. Read-only shared files MUST be treated as read-only during execution; mutable state requires a deep copy per scenario.
 - **Versioning:** Stack-local data versioned with the Stack. Shared data versioned independently; changes affecting scenario outcomes treated as breaking changes (Section 5.5) and require a DR entry.
 - **Data-driven pattern:** Scenario Outlines with Examples SHOULD be used for data-driven scenarios; Examples data belongs in Stack-local feature copies; canonical files MAY include one illustrative row but MUST NOT enumerate all test cases.
@@ -2926,6 +2926,55 @@ Claude Code Review v2 (Risk 7) identified this inconsistency between the feature
 - BACKLOG-081 — Active capability and assurance documentation currency (TRIAGE-08).
 - BACKLOG-095 / TRIAGE-25 — The authorised implementation item.
 ---
+
+## DR-052 — Permit Exact Behavioural Literals in Canonical Features and Bump Reference Architecture to v1.16
+
+**Date:** 2026-11-10
+**Status:** Accepted — 2026-11-10
+
+### Context
+
+When Section 5.6 ("Test Data Management") was originally introduced into the Reference Architecture under DR-026 (v1.10), it established a blanket prohibition stating:
+> "Test data MUST NOT be embedded as inline literals in canonical feature files. Inline literals tie a scenario to a specific input value, preventing reuse and making the canonical file a de-facto test data store. Use parameterised steps (Section 5.4) and provide values in Stack-local Scenario Outline Examples tables."
+
+As the platform and solver logic evolved across all three Stacks, the project established high-fidelity BDD assertion practices:
+- Under BACKLOG-078 (Exact Then assertions), 16 Then step patterns were hardened across all Stacks with exact behavioural literals (e.g. `the missing value should be 7`, `the cell at row 0, column 1 should have value 5`) backed by mutation controls.
+- Under BACKLOG-090 / TRIAGE-15 (DR-049), candidate observation APIs and fixed-coordinate step arguments were introduced (e.g. `the candidate values for row 0, column 0 should be "1, 2, 4"`).
+
+Claude Code Review v2 Risk 7 identified this as an architectural inconsistency: the canonical feature files routinely and deliberately use exact behavioural literals, directly contradicting the blanket "MUST NOT" in Section 5.6. The review recommended either moving all literals into `Examples` tables or amending Section 5.6 to formally permit exact behavioural literals in canonical features. The project owner approved the amend option.
+
+### Decision
+
+1. **Section 5.6 Amendment:** Amend `DOCS/reference-architecture.md` Section 5.6, replacing the blanket "Inline literal prohibition" with an "Inline literal policy" that explicitly distinguishes between bulk test datasets and exact behavioural verification literals:
+   - Bulk test datasets and multi-case puzzle banks MUST NOT be embedded as inline literals in canonical feature files; such data belongs in dedicated fixture files (`puzzles.json`) or data-driven `Examples` tables.
+   - Exact behavioural literals that define the normative behavioural contract of a scenario (including elimination coordinates, target cell row/column indices, candidate sets, and exact solved digits) ARE PERMITTED in canonical feature files.
+   - Canonical Scenario Outlines MAY include governed `Examples` tables when parameter variants define cross-Stack behavioural specifications.
+2. **Reference Architecture Version Bump:** Bump the Reference Architecture version from v1.15 to v1.16 (dated 2026-11-10).
+3. **Repository Citation Alignment:** Synchronously update governing RA citations from v1.15 to v1.16 across `reference-architecture.md`, `decision-register.md`, `CLAUDE.md`, `DOCS/.planning/backlog.md`, `DOCS/README.md`, `DOCS/.implementation-logs/README.md`, `DOCS/.review/README.md`, and `CHANGELOG.md`.
+4. **Historical Annotation:** Annotate DR-026 to record that its blanket prohibition is superseded by DR-052.
+
+### Consequences
+
+**Outcomes:**
+- The Reference Architecture's normative rules align with real-world project practice and high-fidelity test assertions.
+- Resolves the governance contradiction identified in Claude review v2 Risk 7 without necessitating disruptive refactoring of the 55 canonical scenarios or step definitions.
+- All 8 repository parity gates continue to pass cleanly under RA v1.16.
+
+**Trade-offs:**
+- None. Executable steps, scenarios, and step definitions remain untouched.
+
+### Related Decisions
+
+- DR-007 — Establish `features-shared/` as Canonical Feature Store.
+- DR-016 — Canonical feature as single source of truth across all three Stacks.
+- DR-018 — Parameterize over-specified canonical Gherkin steps.
+- DR-026 — Add test data management specification as Section 5.6 to RA v1.10 (amended by this decision).
+- DR-049 — Candidate observation and fixed-coordinate step arguments.
+- DR-050 — Automated `puzzles.json` copy parity gate and tagless canonical feature replication.
+- DR-051 — Align canonical feature narrative with five implemented solving techniques.
+- BACKLOG-078 — Exact Then assertions.
+- BACKLOG-096 / TRIAGE-26 — The authorised implementation item.
+---
 ## Proposed Decisions
 
 *None at this time.*
@@ -2945,5 +2994,5 @@ Claude Code Review v2 (Risk 7) identified this inconsistency between the feature
 
 ---
 
-*Last entry: DR-051 (Accepted). Next ID: DR-052.*
+*Last entry: DR-052 (Accepted). Next ID: DR-053.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

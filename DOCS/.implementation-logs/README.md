@@ -1,7 +1,7 @@
 # Implementation Logs
 
 **Status:** Authoritative (DR-019, 2026-05-16)
-**Governed by:** `reference-architecture.md` v1.15 §10.8
+**Governed by:** `reference-architecture.md` v1.16 §10.8
 **Template:** `DOCS/.templates/implementation-log.template.md`
 
 This directory is the authoritative location for implementation logs. Logs document development sessions, design decisions, bugs fixed, and lessons learned.

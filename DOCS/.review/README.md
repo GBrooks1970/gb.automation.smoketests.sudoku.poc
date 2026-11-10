@@ -1,7 +1,7 @@
 # Code Review Outputs
 
 **Status:** Authoritative location for all project review outputs
-**Governed by:** `reference-architecture.md` v1.15 Section 10.7
+**Governed by:** `reference-architecture.md` v1.16 Section 10.7
 **Decision:** `DR-029`
 
 This directory contains historical and current code review outputs for comprehensive assessment of the Sudoku Solver project and related test automation codebases.
