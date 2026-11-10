@@ -64,6 +64,7 @@ YYYY-MM-DD_short-session-topic.md
 | [2026-11-09_triage-10-generator-openapi-alignment.md](2026-11-09_triage-10-generator-openapi-alignment.md) | 2026-11-09 | BACKLOG-091 / TRIAGE-10 Align generator request and validation-error schemas with runtime |
 | [2026-11-09_triage-21-ci-timeouts-concurrency.md](2026-11-09_triage-21-ci-timeouts-concurrency.md) | 2026-11-09 | BACKLOG-092 / TRIAGE-21 Add Stack job timeouts and PR-scoped CI concurrency |
 | [2026-11-09_triage-22-pin-workflow-actions.md](2026-11-09_triage-22-pin-workflow-actions.md) | 2026-11-09 | BACKLOG-093 / TRIAGE-22 Pin workflow actions to full SHAs and commit a Dependabot configuration |
+| [2026-11-10_triage-23-puzzles-parity-guide-cleanup.md](2026-11-10_triage-23-puzzles-parity-guide-cleanup.md) | 2026-11-10 | BACKLOG-094 / TRIAGE-23 Gate puzzles.json copy parity and correct the guide's Stack-tag and Add-a-Puzzle wording |
 
 
 ---

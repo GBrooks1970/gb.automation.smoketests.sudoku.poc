@@ -4,7 +4,7 @@ created: 2026-11-10T00:15:00Z
 project: gb.automation.smoketests.sudoku.poc
 type: implementation-plan
 item: BACKLOG-094 / TRIAGE-23
-status: approved
+status: delivered
 language: en-GB
 ---
 
@@ -102,3 +102,17 @@ Audited on 2026-11-10 on branch `worklist/triage-23-puzzles-parity-guide-cleanup
 5. **Record DR-050:** Add DR-050 to `decision-register.md` and annotate DR-008, DR-026, DR-028.
 6. **Local Verification:** Run RA header currency, documentation currency, and all 8 parity checks.
 7. **PR & Merge:** Push `worklist/triage-23-puzzles-parity-guide-cleanup`, open PR, watch CI, merge on green, and deliver outcome PR.
+
+
+---
+
+## Outcome and Verification
+
+Delivered in PR #127 (`7711e57`), merged into `main` on 2026-11-10.
+
+- **Puzzles Parity Gate**: Authored `.batch/check-puzzles-parity.ps1` verifying SHA256 copy parity across all three Stacks (`demoapp001`, `demoapp002`, `demoapp003`), with built-in scratch temp-directory negative controls (6/6 single-copy and missing-file mutations rejected).
+- **Parity Suite & CI Integration**: Added `.batch/check-puzzles-parity.ps1` to `.batch/run-parity-checks.ps1` (as the 8th parity gate) and to `.github/workflows/ci.yml`.
+- **Guide Alignment**: Updated `CLAUDE.md` to instruct updating all three `puzzles.json` copies in "Add a Puzzle" and retired obsolete `@stack-demoapp001` tag claims from the canonical feature update procedure.
+- **Dead Marker Removal**: Removed unused `stack-demoapp002` pytest marker from `demo-apps/demoapp002-python-pytest/pyproject.toml` and refreshed source hash in `DOCS/.analysis/2026-10-07-component-execution-inventory.json`.
+- **Governance**: Authored DR-050 in `decision-register.md`, annotated DR-007, DR-008, DR-026, and DR-028, and updated accepted range in `CLAUDE.md` to DR-001 through DR-050.
+- **CI Verification**: PR #127 passed all 5 required CI jobs on run `42779177460`.
