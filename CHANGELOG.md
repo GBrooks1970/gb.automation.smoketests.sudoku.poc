@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 ## [Unreleased]
 
 ### Changed
+- DR-052 / Reference Architecture v1.16: Section 5.6 amended to replace blanket inline literal prohibition with an inline literal policy permitting exact behavioural verification literals in canonical features per BACKLOG-078 and DR-049.
 - BACKLOG-088 / TRIAGE-24: `.batch/test-then-assertion-mutations.ps1` runs against an isolated GUID-named temporary copy of the Stack under `%TEMP%` instead of mutating tracked repository files in place. `node_modules` is linked via junction in DEMOAPP001; DEMOAPP003 restores with locked mode; mutations apply only to the temporary copy's feature. A hard-killed run leaves all tracked features byte-identical, and stranded temporary workspaces older than 24 hours are swept automatically at startup.
 
 ### Fixed
