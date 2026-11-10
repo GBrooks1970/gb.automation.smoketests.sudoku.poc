@@ -23,7 +23,6 @@ pythonpath = ["."]
 testpaths = ["tests"]
 markers = [
   "util: shared @util Sudoku feature surface",
-  "stack-demoapp002: DEMOAPP002 Python pytest Stack scenarios",
 ]
 
 [tool.coverage.run]
