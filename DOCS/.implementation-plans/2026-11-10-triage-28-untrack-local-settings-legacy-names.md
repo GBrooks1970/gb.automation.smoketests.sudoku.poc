@@ -4,7 +4,7 @@ created: 2026-11-10T21:15:00Z
 project: gb.automation.smoketests.sudoku.poc
 type: implementation-plan
 item: BACKLOG-098 / TRIAGE-28
-status: draft
+status: approved
 language: en-GB
 ---
 

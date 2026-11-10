@@ -67,7 +67,7 @@ gb.automation.smoketests.sudoku.poc/
 │   ├── .review/                             # Historical review evidence
 │   └── reference-architecture.md            # Multi-stack governance baseline
 ├── demo-apps/                               # Technology-specific implementations
-│   ├── demoapp001-typescript-cypress/       # TypeScript + Node.js implementation
+│   ├── demoapp001-typescript-cypress/       # TypeScript + Node.js (Cucumber.js + Serenity/JS; stable legacy path)
 │   │   ├── README.md                        # Implementation-specific guide
 │   │   ├── app_src/                         # TypeScript source code
 │   │   ├── tests/                           # Test specifications
@@ -99,6 +99,8 @@ gb.automation.smoketests.sudoku.poc/
 | [rest-api-wrapper.md](DOCS/.design/rest-api-wrapper.md) | Historical REST API design proposal | Superseded as implementation authority by [OpenAPI](demo-apps/demoapp001-typescript-cypress/docs/openapi.yaml) (DR-035) |
 
 ## Demo Applications
+
+> **Note on directory naming:** Directory names are stable legacy IDs: DEMOAPP001 uses Cucumber.js + Serenity/JS (no Cypress); DEMOAPP003 uses Reqnroll. See [naming-conventions.md](DOCS/.design/naming-conventions.md).
 
 ### DEMOAPP001: TypeScript + Node.js
 

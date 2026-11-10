@@ -35,3 +35,6 @@ pages-dist/
 
 # Parity page build output (tools/parity-page/build-page.mjs)
 /parity-page-dist/
+
+# Agent and IDE local settings
+.claude/*.local.json
