@@ -4,7 +4,7 @@ created: 2026-11-10T21:15:00Z
 project: gb.automation.smoketests.sudoku.poc
 type: implementation-plan
 item: BACKLOG-098 / TRIAGE-28
-status: approved
+status: delivered
 language: en-GB
 ---
 
@@ -134,3 +134,19 @@ Audited on 2026-11-10 on branch `worklist/triage-28-untrack-local-settings-legac
 | Accidental deletion of local settings file | Developer/agent loses local permissions | Medium | Use `git rm --cached` (not `git rm`), which removes the file from the index while keeping the working copy intact. |
 | Inadvertently ignoring `.claude/settings.json` | Loss of shared team permissions tracking | Low | Use explicit pattern `.claude/*.local.json` in `.gitignore` rather than `.claude/*`. |
 | Documentation currency check break | Parity gate failure in `check-ra-header-currency.ps1` | Low | Ensure the new callout in `README.md` does not alter existing regex-matched claims or section headers checked by the currency guard. Verified locally before commit. |
+
+---
+
+## Outcome and Delivery
+
+- **Status:** Delivered
+- **Implementation PR:** [#135](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/135)
+- **Merged commit:** `ced4df8` (2026-11-10)
+- **CI Run:** [42908287976](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/actions/runs/42908287976) (all 5 jobs passed)
+- **Delivered Scope:**
+  - Untracked `.claude/settings.local.json` from version control using `git rm --cached` while preserving the file on local disk.
+  - Added `.claude/*.local.json` to `.gitignore` to prevent future tracking of workstation-specific permissions while keeping team-shared `.claude/settings.json` tracked.
+  - Added an explanatory callout under `## Demo Applications` in the root `README.md` clarifying that directory names (`demoapp001-typescript-cypress`, `demoapp003-csharp-specflow`) are stable legacy IDs (DEMOAPP001 uses Cucumber.js + Serenity/JS with no Cypress; DEMOAPP003 uses Reqnroll).
+  - Annotated the project structure tree in `README.md`.
+  - Added entry to `CHANGELOG.md` under `[Unreleased] > Changed`.
+  - Verified that all 8 repository parity gates and 37 documentation currency negative controls pass cleanly.

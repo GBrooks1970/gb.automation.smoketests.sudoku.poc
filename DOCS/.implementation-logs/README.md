@@ -68,6 +68,7 @@ YYYY-MM-DD_short-session-topic.md
 | [2026-11-10_triage-25-feature-narrative-five-techniques.md](2026-11-10_triage-25-feature-narrative-five-techniques.md) | 2026-11-10 | BACKLOG-095 / TRIAGE-25 Update the canonical feature narrative to the five implemented techniques |
 | [2026-11-10_triage-26-amend-ra-exact-literals.md](2026-11-10_triage-26-amend-ra-exact-literals.md) | 2026-11-10 | BACKLOG-096 / TRIAGE-26 Amend RA Section 5.6 to permit exact behavioural literals in canonical features |
 | [2026-11-10_triage-27-compose-ci-verification-parity.md](2026-11-10_triage-27-compose-ci-verification-parity.md) | 2026-11-10 | BACKLOG-097 / TRIAGE-27 Make Compose run the same verification as CI and pin container base images |
+| [2026-11-10_triage-28-untrack-local-settings-legacy-names.md](2026-11-10_triage-28-untrack-local-settings-legacy-names.md) | 2026-11-10 | BACKLOG-098 / TRIAGE-28 Untrack agent-local settings and explain the legacy Stack directory names |
 
 
 ---
