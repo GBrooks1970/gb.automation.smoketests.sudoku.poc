@@ -8,6 +8,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) conventi
 
 ## [Unreleased]
 
+### Documentation
+- BACKLOG-099 / TRIAGE-29: Documented the "elimination-to-single only, transient candidate state (no persistent candidate grid)" simplification in `DOCS/.algorithm/naked-pairs.md`, `DOCS/.algorithm/x-wing.md`, and `DOCS/.design/sudoku-solver-platform-specification.md` (citing `app_src/SudokuSolver.ts` lines 294–314 and 383–395).
+
 ### Changed
 - BACKLOG-098 / TRIAGE-28: Untracked agent-local settings (.claude/settings.local.json) from version control and ignored .claude/*.local.json in .gitignore while retaining shared team settings (.claude/settings.json). Added explicit explanatory notes to the root README.md clarifying that Stack directory names (demoapp001-typescript-cypress and demoapp003-csharp-specflow) are stable legacy filesystem identifiers (DEMOAPP001 demonstrates Cucumber.js + Serenity/JS with no Cypress dependency; DEMOAPP003 demonstrates Reqnroll).
 - BACKLOG-097 / TRIAGE-27: Compose runs the same verification as CI across all three Stacks. DEMOAPP001 invokes `npm run verify` (build, lint, format check, API integration, OpenAPI contract, coverage floor, and Serenity/JS Cucumber suite); DEMOAPP002 invokes `python -m tooling.verify` (component coverage floor, coverage report, and pytest-bdd suite); DEMOAPP003 invokes `dotnet test --no-restore` (component tests and Reqnroll suite). Dockerfile base images (Node, Python, .NET SDK, and PowerShell) are digest-pinned with non-root users where supported.

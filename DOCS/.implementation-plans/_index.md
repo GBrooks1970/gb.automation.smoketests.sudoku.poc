@@ -5,7 +5,7 @@ directory convention adapts the portfolio default to this dot-prefixed location.
 
 | Item | Plan | Approval | Outcome |
 |---|---|---|---|
-| BACKLOG-099 / TRIAGE-29 | [Document that Naked Pairs and X-Wing eliminations are transient](2026-11-10-triage-29-document-transient-eliminations.md) | Draft pending owner review | In drafting |
+| BACKLOG-099 / TRIAGE-29 | [Document that Naked Pairs and X-Wing eliminations are transient](2026-11-10-triage-29-document-transient-eliminations.md) | Owner approved Decisions 1–4, 2026-11-10 | In execution |
 | BACKLOG-098 / TRIAGE-28 | [Untrack agent-local settings and explain the legacy Stack directory names](2026-11-10-triage-28-untrack-local-settings-legacy-names.md) | Owner approved Decisions 1–4, 2026-11-10 | Delivered in PR #135 / `ced4df8`; .claude/settings.local.json untracked and ignored, stable legacy names explained in README, all 8 parity gates pass, all-green CI |
 | BACKLOG-097 / TRIAGE-27 | [Make Compose run the same verification as CI and pin container base images](2026-11-10-triage-27-compose-ci-verification-parity.md) | Owner approved Decisions 1–4, 2026-11-10 | Delivered in PR #133 / `52a4ad7`; unified verify entry points added, Dockerfiles and Compose digest-pinned with non-root users, all 8 parity gates pass, all-green CI |
 | BACKLOG-096 / TRIAGE-26 | [Amend RA Section 5.6 to permit exact behavioural literals in canonical features](2026-11-10-triage-26-amend-ra-exact-literals.md) | Owner approved Decisions 1–4, 2026-11-10 | Delivered in PR #131 / `a353a34`; DR-052 accepted, RA Section 5.6 amended to permit exact behavioural literals and bumped to v1.16, citations aligned, all 8 parity gates pass, all-green CI |

@@ -135,6 +135,20 @@ FUNCTION ApplyNakedPairs(grid, candidates):
 
 ---
 
+## Transient Candidate State & Elimination-to-Single Boundary
+
+In this proof-of-concept solver, candidate sets are **dynamically computed** from the physical working grid on each pass via `getCellCandidates(r, c)`. The solver maintains **no persistent candidate grid** (pencil-mark state) between algorithm steps or solving iterations.
+
+Consequently, candidate eliminations performed by Naked Pairs are **transient**:
+- Eliminations apply to a local candidate map constructed for the active unit.
+- An elimination takes permanent effect on the puzzle **if and only if** it immediately reduces a cell's candidate set to a single digit ($|\mathcal{C}(r, c)| = 1$), which triggers an immediate grid cell placement (`this.grid[r][c] = val`).
+- If a cell's candidates are reduced but remain ambiguous ($|\mathcal{C}(r, c)| > 1$), the elimination is discarded upon unit completion.
+- Reference: `app_src/SudokuSolver.ts` lines 294–314.
+
+Compounding pencil marks across multiple advanced techniques is a known educational simplification; persistent candidate tracking remains an architectural consideration for future iterations.
+
+---
+
 ## References
 
 - [Sudoku Advanced Solver Overview](./sudoku-advanced-solver.md)

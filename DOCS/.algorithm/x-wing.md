@@ -171,6 +171,19 @@ FUNCTION ApplyXWing(grid, candidates):
 
 ---
 
+## Transient Candidate State & Elimination-to-Single Boundary
+
+Similar to Naked Pairs, the X-Wing implementation operates on a **transient candidate model**:
+- Candidates are freshly generated from the grid state on each invocation.
+- When an X-Wing pattern is detected, candidate deletions occur within a local execution map.
+- An elimination results in permanent puzzle progress **if and only if** the elimination leaves exactly one candidate ($|\mathcal{C}(r, c)| = 1$), immediately placing the value on the grid.
+- If empty cells remain with reduced but non-singleton candidate sets ($|\mathcal{C}(r, c)| > 1$), those eliminations are not preserved into subsequent iterations.
+- Reference: `app_src/SudokuSolver.ts` lines 383–395.
+
+Compounding pencil marks across multiple advanced techniques is a known educational simplification; persistent candidate tracking remains an architectural consideration for future iterations.
+
+---
+
 ## References
 
 - [Sudoku Advanced Solver Overview](./sudoku-advanced-solver.md)
