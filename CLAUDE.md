@@ -12,7 +12,7 @@ When documents conflict, use this order:
 4. Stack-level docs under `demo-apps/demoapp001-typescript-cypress/docs/`
 5. This guide
 
-`decision-register.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-049 (excluding superseded/deprecated entries).
+`decision-register.md` is authoritative for structural and process decisions. Current accepted range: DR-001 through DR-050 (excluding superseded/deprecated entries).
 
 ## Current Architecture Baseline
 
@@ -203,16 +203,23 @@ Solver result strings:
 - `SOLVED`
 - `STUCK_ON_ADVANCED_LOGIC`
 
-Available puzzle data is in `demo-apps/demoapp001-typescript-cypress/puzzles.json`.
+Available puzzle data is replicated across all three Stacks in byte-identical copies (verified by `.\.batch\check-puzzles-parity.ps1`):
+
+- `demo-apps/demoapp001-typescript-cypress/puzzles.json`
+- `demo-apps/demoapp002-python-pytest/puzzles.json`
+- `demo-apps/demoapp003-csharp-specflow/puzzles.json`
 
 ## Canonical Feature Update Procedure
 
 When adding or changing Gherkin behavior:
 
 1. Edit the canonical feature first: `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature`.
-2. Copy the changed feature body to `demo-apps/demoapp001-typescript-cypress/tests/features/BasicSudokuSolverLogic.feature`.
+2. Copy the changed feature body to all three Stack locations:
+   - `demo-apps/demoapp001-typescript-cypress/tests/features/BasicSudokuSolverLogic.feature`
+   - `demo-apps/demoapp002-python-pytest/tests/features/BasicSudokuSolverLogic.feature`
+   - `demo-apps/demoapp003-csharp-specflow/tests/features/BasicSudokuSolverLogic.feature`
 3. Keep canonical tags limited to the canonical scope tag, currently `@util`.
-4. Add stack-local tags only in the Stack copy, currently `@stack-demoapp001`.
+4. Preserve byte-identical feature copies across all Stacks without Stack-specific tags (DR-050).
 5. Update step definitions under `tests/screenplay/step_definitions/`.
 6. Run `npm test` from the Stack directory or `.\.batch\run-demoapp001.ps1` from the repository root.
 7. If a scenario cannot yet be implemented, tag it `@pending` locally and add a backlog item to `DOCS/.planning/backlog.md`.
@@ -297,10 +304,13 @@ the Authority Order above.
 
 ### Add a Puzzle
 
-1. Edit `demo-apps/demoapp001-typescript-cypress/puzzles.json`.
-2. Add a puzzle object with `name`, `difficulty`, `description`, and a 9x9 `grid`.
-3. Add or update canonical Gherkin if behavior changes.
-4. Run `.\.batch\run-demoapp001.ps1`.
+1. Add the puzzle object with `name`, `difficulty`, `description`, and a 9x9 `grid` to all three Stack copies to preserve byte-for-byte parity:
+   - `demo-apps/demoapp001-typescript-cypress/puzzles.json`
+   - `demo-apps/demoapp002-python-pytest/puzzles.json`
+   - `demo-apps/demoapp003-csharp-specflow/puzzles.json`
+2. Add or update canonical Gherkin if behavior changes (propagating byte-for-byte to all three Stacks).
+3. Run `.\.batch\check-puzzles-parity.ps1` (or `.\.batch\run-parity-checks.ps1`) to verify puzzle parity.
+4. Run tests across all Stacks (`.\.batch\run-demoapp001.ps1`, `pytest`, `dotnet test`).
 
 ### Add a Solving Algorithm
 

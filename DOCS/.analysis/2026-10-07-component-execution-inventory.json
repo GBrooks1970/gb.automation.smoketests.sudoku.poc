@@ -8,7 +8,8 @@
     "Native logs/XML/TRX remain ignored local evidence; their absence in a clean checkout is expected. Their hashes and commands preserve provenance.",
     "Refresh after collection/source drift: rerun all four native commands, retain zero-failure/skip results and UTC timings, update output hashes and sorted source fingerprints, reconcile active count claims, then run the guard and isolated controls.",
     "2026-11-08 (BACKLOG-086 / TRIAGE-18): only the demoapp003-component suite was re-measured, after two missing-path controls were added (28 to 30 tests). The other three suites keep their 2026-10-07 measurements because their sources are unchanged; recordedOn stays the original date.",
-    "2026-11-09 (BACKLOG-091 / TRIAGE-10): only the demoapp001-openapi suite was re-measured, after adding three generator request/response contract tests and 400 validation error code assertions (8 to 11 tests). The other three suites keep their measurements because their sources are unchanged; recordedOn stays the original date."
+    "2026-11-09 (BACKLOG-091 / TRIAGE-10): only the demoapp001-openapi suite was re-measured, after adding three generator request/response contract tests and 400 validation error code assertions (8 to 11 tests). The other three suites keep their measurements because their sources are unchanged; recordedOn stays the original date.",
+    "2026-11-10 (BACKLOG-094 / TRIAGE-23): demoapp002-component pyproject.toml source hash refreshed after retiring unused stack-demoapp002 pytest marker (30 tests unchanged). The other three suites keep their measurements because their sources are unchanged; recordedOn stays the original date."
   ],
   "suites": [
     {
@@ -215,7 +216,7 @@
       "sources": [
         {
           "path": "demo-apps/demoapp002-python-pytest/pyproject.toml",
-          "sha256": "de2cf761f3151a47a19ac1c851aaede8714dc8d25168093340f5120a24a2543b"
+          "sha256": "aa50f5c7f5257cae528a2cbc39bea1e26186f363fceddd47e8ef6fb791092195"
         },
         {
           "path": "demo-apps/demoapp002-python-pytest/tests/component/test_orchestration_attempts.py",

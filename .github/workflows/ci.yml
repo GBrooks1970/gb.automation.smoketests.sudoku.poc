@@ -91,6 +91,10 @@ jobs:
         shell: pwsh
         run: ./.batch/check-step-text-parity.ps1
 
+      - name: Puzzles fixture parity
+        shell: pwsh
+        run: ./.batch/check-puzzles-parity.ps1
+
       - name: CI evidence negative controls
         shell: pwsh
         run: ./.batch/test-ci-evidence-contract.ps1

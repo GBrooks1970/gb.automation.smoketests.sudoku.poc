@@ -1,7 +1,7 @@
 # Decision Register
 
 **Project:** gb.automation.smoketests.sudoku.poc
-**Last Updated:** 2026-11-09 - DR-049 candidate observation APIs and precondition validation for advanced strategy scenarios (BACKLOG-090). Earlier, 2026-11-06: DR-048 runs the DR-039 dependency audits weekly in an audit-only workflow (BACKLOG-083). Earlier, 2026-09-30: DR-046 records tutor request ownership and auto-play cancellation for TRIAGE-07; DR-044/045 govern technique grading and generator exhaustion; DR-047 bounds the three-stack parity evidence page (BACKLOG-075).
+**Last Updated:** 2026-11-10 - DR-050 three-stack puzzles fixture copy parity and tagless canonical feature replication (BACKLOG-094). Earlier, 2026-11-09: DR-049 candidate observation APIs and precondition validation for advanced strategy scenarios (BACKLOG-090). Earlier, 2026-11-06: DR-048 runs the DR-039 dependency audits weekly in an audit-only workflow (BACKLOG-083). Earlier, 2026-09-30: DR-046 records tutor request ownership and auto-play cancellation for TRIAGE-07; DR-044/045 govern technique grading and generator exhaustion; DR-047 bounds the three-stack parity evidence page (BACKLOG-075).
 **Governed by:** `reference-architecture.md` v1.15 §10.6
 **Template:** `DOCS/.templates/decision-record.template.md`
 
@@ -310,6 +310,10 @@ Create `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature`
 **Compliance note:**
 - Fully aligned with RA v1.1 §5.1 (single source of truth), §5.2 (feature distribution), §5.3 (tag taxonomy).
 
+### Supersession Note (DR-050)
+
+- **Superseded in part by DR-050 (2026-11-10):** The early planned addition of `@stack-demoapp001` to Stack-local copies was retired in favor of byte-identical replication across all three Stacks bearing only canonical `@util`.
+
 ### Alternatives Considered
 
 **Alternative: Symlink tests/features/ to features-shared/**
@@ -365,6 +369,7 @@ The Screenplay migration design (`screenplay-migration.md`) was authored against
 
 - DR-002 — TypeScript + Cucumber.js Stack choice; Serenity/JS is the migration target
 - DR-003 — @util surface; Abilities wrap in-process classes, not CLI or HTTP clients
+- DR-050 — Reconciles multi-Stack fixture parity and tagless Gherkin feature replication across all Stacks
 
 ---
 
@@ -1417,7 +1422,7 @@ Add Section 5.6 "Test Data Management" to `reference-architecture.md` v1.10:
 - The "one illustrative Examples row" allowance in canonical feature files is a compromise. Some teams prefer no Examples in canonical files at all; others want the parameter format visible. The MUST NOT on enumeration prevents canonical files from becoming data tables while still allowing format documentation.
 
 **Compliance note:**
-- DEMOAPP001's `puzzles.json` is Stack-local (single Stack). It is in compliance with Section 5.6: Stack-local location, never modified by scenarios (scenarios read it, create in-memory solver instances). No remediation required.
+- DEMOAPP001's `puzzles.json` is Stack-local (single Stack). It is in compliance with Section 5.6: Stack-local location, never modified by scenarios (scenarios read it, create in-memory solver instances). No remediation required. *(Note: Reconciled by DR-050 on 2026-11-10: when DEMOAPP002 and DEMOAPP003 were added, puzzles fixture data was replicated to each Stack root and gated by `.batch/check-puzzles-parity.ps1`)*.
 
 ### Alternatives Considered
 
@@ -1530,7 +1535,7 @@ Add Section 4.4 "Shared Packages Directory" to `reference-architecture.md` v1.13
 - The change governance requirement (DR entry for every public interface change) is intentionally strict. Projects that iterate rapidly on shared utilities will find this friction. The alternative — ungoverned shared packages — produces the exact fragmentation and coupling problems the architecture is designed to prevent.
 
 **Compliance note:**
-- DEMOAPP001 currently uses no `packages/` directory. `puzzles.json` is Stack-local. No remediation required. When DEMOAPP002 is onboarded, any shared data loader should be placed in `packages/` and governed per this section.
+- DEMOAPP001 currently uses no `packages/` directory. `puzzles.json` is Stack-local. No remediation required. When DEMOAPP002 is onboarded, any shared data loader should be placed in `packages/` and governed per this section. *(Note: Reconciled by DR-050 on 2026-11-10: rather than introducing a shared packages directory, puzzles fixture data is maintained across Stack-local copies with automated SHA256 copy parity).* 
 
 ### Alternatives Considered
 
@@ -2830,6 +2835,48 @@ Codex review v3 S-06).
 - DR-037 - Orchestration attempt events.
 - BACKLOG-090 / TRIAGE-15 - The authorised implementation item.
 
+
+---
+
+## DR-050 — Reconcile three-Stack puzzles fixture parity and retire obsolete stack-tag claims
+
+**Date:** 2026-11-10
+**Status:** Accepted — 2026-11-10
+
+### Context
+
+During early project phases (DR-007, 2026-05-14), Gherkin feature replication to `demoapp001` was planned to carry an additional `@stack-demoapp001` tag, and test fixture data (`puzzles.json`) was treated as single-Stack (DR-026, DR-028). As DEMOAPP002 (Python) and DEMOAPP003 (C#) were onboarded (DR-033, DR-038), all four feature files (`features-shared/` and the three Stack copies) were maintained as 100% byte-identical files bearing only the canonical `@util` tag, and `puzzles.json` was replicated to each Stack root.
+
+However, Claude Code Review v2 (Risk 7) identified several documentation and tooling gaps resulting from this evolution:
+1. `puzzles.json` existed in three copies without an automated parity gate in `.batch/run-parity-checks.ps1` or CI, creating a risk of silent single-copy drift.
+2. `CLAUDE.md` line 206 and lines 298–304 ("Add a Puzzle") instructed contributors to edit only DEMOAPP001's copy, which would desynchronise Python and C# test data.
+3. `CLAUDE.md` line 215 claimed that Stack copies carry an `@stack-demoapp001` tag, and `pyproject.toml` declared an unused `stack-demoapp002` marker, contradicting the byte-identical feature reality.
+
+### Decision
+
+1. **Automated `puzzles.json` Copy Parity Gate:** Mandate that all three Stack copies of `puzzles.json` (`demo-apps/demoapp001-typescript-cypress/puzzles.json`, `demo-apps/demoapp002-python-pytest/puzzles.json`, and `demo-apps/demoapp003-csharp-specflow/puzzles.json`) MUST remain 100% byte-identical. Implement `.batch/check-puzzles-parity.ps1` to assert SHA256 hash equality across all three files and wire it into `.batch/run-parity-checks.ps1` (as the 8th parity gate) and `.github/workflows/ci.yml`.
+2. **Negative Control Assurance:** `.batch/check-puzzles-parity.ps1` MUST verify that any planted single-copy mismatch in a temporary scratch directory fails closed with exit code 1 across all three Stacks.
+3. **Guide Alignment:** Update `CLAUDE.md` to instruct contributors to add new puzzles to all three copies, run `.batch/check-puzzles-parity.ps1`, and retire the claim that Stack-local feature copies carry `@stack-demoapp001`.
+4. **Pytest Marker Cleanup:** Remove the unused `stack-demoapp002` marker from `demo-apps/demoapp002-python-pytest/pyproject.toml`.
+5. **Historical DR Supersession/Reconciliation:** Supersede the `@stack-demoapp001` tag requirement in DR-007, and reconcile the single-Stack test data assumptions in DR-026 and DR-028.
+
+### Consequences
+
+**Outcomes:**
+- All three Stacks' puzzle fixture data is guarded against silent divergence by automated SHA256 parity checking in CI and local checks.
+- Contributor documentation in `CLAUDE.md` accurately describes the three-Stack puzzle workflow and byte-identical feature replication.
+- Dead markers and obsolete tag claims are eliminated from repository configuration and governance docs.
+
+**Trade-offs:**
+- Contributors adding a puzzle must maintain all three `puzzles.json` files identically (or run a replication script), which is verified immediately by `.batch/check-puzzles-parity.ps1`.
+
+### Related Decisions
+
+- DR-007 — Establish `features-shared/` as Canonical Feature Store (superseded in part regarding `@stack-demoapp001`).
+- DR-016 — Canonical feature as single source of truth across all three Stacks.
+- DR-026 — Test data management specification (reconciled for multi-Stack `puzzles.json` replication).
+- DR-028 — Shared packages directory specification (reconciled).
+- BACKLOG-094 / TRIAGE-23 — The authorised implementation item.
 ---
 ## Proposed Decisions
 
@@ -2850,5 +2897,5 @@ Codex review v3 S-06).
 
 ---
 
-*Last entry: DR-049 (Accepted). Next ID: DR-050.*
+*Last entry: DR-050 (Accepted). Next ID: DR-051.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*

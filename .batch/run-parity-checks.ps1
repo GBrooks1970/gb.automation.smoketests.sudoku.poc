@@ -13,7 +13,8 @@ $checks = @(
   ".\.batch\test-ci-evidence-contract.ps1",
   ".\.batch\check-memory-key-parity.ps1",
   ".\.batch\generate-feature-parity-report.ps1",
-  ".\.batch\check-step-text-parity.ps1"
+  ".\.batch\check-step-text-parity.ps1",
+  ".\.batch\check-puzzles-parity.ps1"
 )
 
 foreach ($check in $checks) {
