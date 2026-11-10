@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-11-10 - BACKLOG-097 / TRIAGE-27 In Progress: make Compose run the same verification as CI and pin container base images under owner-approved plan; 4 Open, 1 In Progress, 119 Resolved, 124 Total. Earlier: BACKLOG-096 / TRIAGE-26 Resolved: amend RA Section 5.6 to permit exact behavioural literals in canonical features, record DR-052, bump RA to v1.16 under owner-approved plan; merged PR #131 / `a353a34`; all 5 CI jobs green. Earlier: BACKLOG-095 / TRIAGE-25 Resolved: update canonical feature narrative to five implemented techniques, record DR-051 under owner-approved plan; merged PR #129 / `0c667bf`; all 5 CI jobs green. Earlier: BACKLOG-094 / TRIAGE-23 Resolved: gate puzzles.json copy parity, correct guide wording, remove dead pytest marker, record DR-050 under owner-approved plan; merged PR #127 / `7711e57`; all 5 CI jobs green. Earlier: BACKLOG-093 / TRIAGE-22 Resolved: pin workflow actions to full commit SHAs and configure Dependabot under owner-approved plan; merged PR #122 / `5ebcec6`; CI and dependency-audit workflows all green. Earlier: BACKLOG-092 / TRIAGE-21 Resolved. Earlier: BACKLOG-091 / TRIAGE-10 Resolved. Earlier: BACKLOG-090 / TRIAGE-15 Resolved. Earlier: BACKLOG-089 / TRIAGE-20 Resolved. Earlier: BACKLOG-088 / TRIAGE-24 Resolved. Earlier: BACKLOG-087 / TRIAGE-19 Resolved.
+**Last Updated:** 2026-11-10 - BACKLOG-097 / TRIAGE-27 Resolved: make Compose run the same verification as CI and pin container base images under owner-approved plan; merged PR #133 / `52a4ad7`; all 5 CI jobs green. Now 4 Open (BACKLOG-098..101), 0 In Progress, 120 Resolved, 124 Total. Earlier: BACKLOG-096 / TRIAGE-26 Resolved: amend RA Section 5.6 to permit exact behavioural literals in canonical features, record DR-052, bump RA to v1.16 under owner-approved plan; merged PR #131 / `a353a34`; all 5 CI jobs green. Earlier: BACKLOG-095 / TRIAGE-25 Resolved: update canonical feature narrative to five implemented techniques, record DR-051 under owner-approved plan; merged PR #129 / `0c667bf`; all 5 CI jobs green. Earlier: BACKLOG-094 / TRIAGE-23 Resolved: gate puzzles.json copy parity, correct guide wording, remove dead pytest marker, record DR-050 under owner-approved plan; merged PR #127 / `7711e57`; all 5 CI jobs green. Earlier: BACKLOG-093 / TRIAGE-22 Resolved: pin workflow actions to full commit SHAs and configure Dependabot under owner-approved plan; merged PR #122 / `5ebcec6`; CI and dependency-audit workflows all green. Earlier: BACKLOG-092 / TRIAGE-21 Resolved. Earlier: BACKLOG-091 / TRIAGE-10 Resolved. Earlier: BACKLOG-090 / TRIAGE-15 Resolved. Earlier: BACKLOG-089 / TRIAGE-20 Resolved. Earlier: BACKLOG-088 / TRIAGE-24 Resolved. Earlier: BACKLOG-087 / TRIAGE-19 Resolved.
 **Governed by:** `reference-architecture.md` v1.16 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -26,9 +26,11 @@ Per v1.16 Section 10.1:
 | Status | Count |
 |--------|-------|
 | Open | 4 |
-| In Progress | 1 |
-| Resolved | 119 |
+| In Progress | 0 |
+| Resolved | 120 |
 | **Total** | **124** |
+
+**Update (2026-11-10, BACKLOG-097 / TRIAGE-27):** Made Compose run the exact same verification suite as CI across all three Stacks via unified verify entry points (`npm run verify`, `python -m tooling.verify`, and `dotnet test --no-restore`), pinned container base images to multi-arch SHA256 digests in Dockerfiles and `docker-compose.yml`, and configured unprivileged container users (`USER node`, `USER appuser`). Delivered in PR #133, merged as `52a4ad7`.
 
 **Update (2026-11-09, BACKLOG-092 / TRIAGE-21):** Hardened `.github/workflows/ci.yml` by adding top-level workflow concurrency (`group: ${{ github.workflow }}-${{ github.ref }}`, `cancel-in-progress: ${{ github.event_name == 'pull_request' }}`) to cancel superseded PR runs while running `main` to completion, adding `timeout-minutes: 15` across all three Stack jobs, and adding `timeout-minutes: 5` to `gate`. Delivered in PR #120, merged as `3e42a2a`.
 
@@ -135,7 +137,7 @@ both passed at `7af3dca`; this was a documentation reconciliation, not an implem
 | Active Reference Architecture | v1.16 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-097 / TRIAGE-27 is In Progress (Make Compose run the same verification as CI and pin container base images); 4 Open items mirrored from the root worklist (BACKLOG-098..101), 1 In Progress, 119 Resolved, 124 Total. Earlier: BACKLOG-096 / TRIAGE-26 is Resolved; BACKLOG-095 / TRIAGE-25 is Resolved; BACKLOG-094 / TRIAGE-23 is Resolved; BACKLOG-093 / TRIAGE-22 is Resolved; BACKLOG-092 / TRIAGE-21 is Resolved; BACKLOG-091 / TRIAGE-10 is Resolved; BACKLOG-090 / TRIAGE-15 is Resolved; BACKLOG-089 / TRIAGE-20 is Resolved; BACKLOG-088 / TRIAGE-24 is Resolved; BACKLOG-087 / TRIAGE-19 is Resolved; BACKLOG-086 / TRIAGE-18 is Resolved; BACKLOG-085 / TRIAGE-17 is Resolved; BACKLOG-084 / TRIAGE-16 is Resolved; BACKLOG-083 is Resolved; BACKLOG-082 is Resolved; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed |
+| Current sprint focus | BACKLOG-098 / TRIAGE-28 is next (Untrack agent-local settings and explain the legacy Stack directory names); 4 Open items mirrored from the root worklist (BACKLOG-098..101), 0 In Progress, 120 Resolved, 124 Total. Earlier: BACKLOG-097 / TRIAGE-27 is Resolved (merged PR #133 / `52a4ad7`); Earlier: BACKLOG-096 / TRIAGE-26 is Resolved; BACKLOG-095 / TRIAGE-25 is Resolved; BACKLOG-094 / TRIAGE-23 is Resolved; BACKLOG-093 / TRIAGE-22 is Resolved; BACKLOG-092 / TRIAGE-21 is Resolved; BACKLOG-091 / TRIAGE-10 is Resolved; BACKLOG-090 / TRIAGE-15 is Resolved; BACKLOG-089 / TRIAGE-20 is Resolved; BACKLOG-088 / TRIAGE-24 is Resolved; BACKLOG-087 / TRIAGE-19 is Resolved; BACKLOG-086 / TRIAGE-18 is Resolved; BACKLOG-085 / TRIAGE-17 is Resolved; BACKLOG-084 / TRIAGE-16 is Resolved; BACKLOG-083 is Resolved; BACKLOG-082 is Resolved; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -579,7 +581,7 @@ execution order.
 | BACKLOG-094 | TRIAGE-23 | Gate `puzzles.json` copy parity and correct the guide's Stack-tag and Add-a-Puzzle wording | All (docs + tooling) | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-10-triage-23-puzzles-parity-guide-cleanup.md); DR-050 accepted; merged PR #127 / `7711e57` |
 | BACKLOG-095 | TRIAGE-25 | Update the canonical feature narrative to the five implemented techniques | All (canonical feature) | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-10-triage-25-feature-narrative-five-techniques.md); DR-051 accepted; merged PR #129 / `0c667bf` |
 | BACKLOG-096 | TRIAGE-26 | Amend RA Section 5.6 to permit exact behavioural literals in canonical features | All (RA) | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-10-triage-26-amend-ra-exact-literals.md); DR-052 accepted; merged PR #131 / `a353a34` |
-| BACKLOG-097 | TRIAGE-27 | Make Compose run the same verification as CI and pin container base images | All (config) | Low | In Progress | [Approved plan](../.implementation-plans/2026-11-10-triage-27-compose-ci-verification-parity.md) |
+| BACKLOG-097 | TRIAGE-27 | Make Compose run the same verification as CI and pin container base images | All (config) | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-10-triage-27-compose-ci-verification-parity.md); merged PR #133 / `52a4ad7` |
 | BACKLOG-098 | TRIAGE-28 | Untrack agent-local settings and explain the legacy Stack directory names | All (docs + config) | Low | Open | None expected |
 | BACKLOG-099 | TRIAGE-29 | Document that Naked Pairs and X-Wing eliminations are transient | All (docs) | Low | Open | None expected |
 | BACKLOG-100 | TRIAGE-30 | Surface loader errors from the TypeScript and Python `LoadPuzzles` abilities | DEMOAPP001 / DEMOAPP002 | Low | Open | None expected |
@@ -1914,6 +1916,27 @@ forwarding; it is retained and explicitly excluded from acceptance. The correcte
 assertion failure and final positive run above are the accepted controls. The manifest-selected
 v6 handover and registry's unscheduled BACKLOG-078 note are historical/non-current;
 their separate lifecycle refresh is outside TRIAGE-09.
+
+---
+
+### BACKLOG-097: Make Compose run the same verification as CI and pin container base images (TRIAGE-27)
+
+**Status:** Resolved
+**Delivered:** PR [#133](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/133), merged as `52a4ad7` (2026-11-10)
+**Priority:** Low
+**Stack(s):** All (config)
+**Source:** Root worklist TRIAGE-27; Claude review v2 (`DOCS/.review/CODE_REVIEW_Claude_v2_20261105T1425Z/`) Risk 8.
+**Plan:** [Delivered implementation plan](../.implementation-plans/2026-11-10-triage-27-compose-ci-verification-parity.md) (owner approved, 2026-11-10)
+**Decision:** None required (operational configuration & parity hardening).
+
+**Acceptance:** Compose runs the exact same verification suite as CI across all three Stacks via unified verify entry points (`npm run verify`, `python -m tooling.verify`, and `dotnet test --no-restore`); container base images are pinned to multi-arch SHA256 digests in both Dockerfiles and `docker-compose.yml`; non-root users are configured for unprivileged services; local Docker compose configuration validates cleanly; all 8 parity gates and 37 documentation currency negative controls pass; CI passes across all 5 jobs.
+
+**Verification:**
+- Unified Verify Entry Points: DEMOAPP001 `npm run verify` runs build, lint, format:check, test:api, verify:openapi, and test (113 component tests, 55 BDD scenarios); DEMOAPP002 `python -m tooling.verify` runs component tests with 85% coverage floor, coverage report, and pytest-bdd suite (30 component tests, 55 BDD scenarios); DEMOAPP003 uses `dotnet test --no-restore` (30 component tests, 55 Reqnroll scenarios).
+- Image Digest Pinning: Pinned `node:24-alpine`, `python:3.13-slim`, `mcr.microsoft.com/dotnet/sdk:10.0`, and `mcr.microsoft.com/powershell:7.5-ubuntu-24.04` to multi-arch SHA256 digests in Dockerfiles and `docker-compose.yml`.
+- Non-Root Security: Configured `USER node` for DEMOAPP001 and `USER appuser` (UID/GID 10001) for DEMOAPP002.
+- Local Validation: `docker compose config` valid; all 8 parity gates clean; 37/37 documentation currency negative controls pass.
+- CI Validation: PR #133 CI run 42899452106 passed all 5 jobs cleanly.
 
 ---
 
