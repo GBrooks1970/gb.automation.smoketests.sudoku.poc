@@ -4,7 +4,7 @@ created: 2026-11-10T08:18:00Z
 project: gb.automation.smoketests.sudoku.poc
 type: implementation-plan
 item: BACKLOG-095 / TRIAGE-25
-status: approved
+status: delivered
 language: en-GB
 ---
 
@@ -154,3 +154,17 @@ Audited on 2026-11-10 on branch `worklist/triage-25-feature-narrative-five-techn
 | Line-ending or whitespace mismatch during feature copying | Parity failure | Low | Use exact byte copy or PowerShell `Copy-Item` / UTF-8 without BOM, verified by `Get-FileHash -Algorithm SHA256`. |
 | Scenario/step count mismatch | Gate failure | Very Low | Only lines 3–5 (Feature header description) are altered. No Scenario Outline, Background, or Step definitions are modified. |
 | RA header currency failure | Gate failure | Low | Synchronously update `CLAUDE.md` line 15 when adding DR-051 to `decision-register.md`. |
+
+---
+
+## Outcome and Delivery
+
+- **Status:** Delivered
+- **Implementation PR:** [#129](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/129)
+- **Merged commit:** `0c667bf` (2026-11-10)
+- **CI Run:** [42826936108](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/actions/runs/42826936108) (all 5 jobs passed)
+- **Delivered Scope:**
+  - Recorded Decision Record DR-051 in `decision-register.md` (*Align Canonical Feature Narrative with Five Implemented Solving Techniques*), updated footer to `Next ID: DR-052`, and advanced `CLAUDE.md` accepted range to `DR-001 through DR-051`.
+  - Updated lines 3–5 of `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature` to name the five implemented solving techniques: Unit Completion, Hidden Singles, Naked Singles, Naked Pairs, and X-Wing.
+  - Propagated byte-for-byte across all three Stack copies (`demoapp001`, `demoapp002`, `demoapp003`), verifying identical SHA256 (`F1FF2FA664C6DC4078A5A56E81B71E2F944E3DDE02E1AF2C199984AFB6E00D62`) across all 4 feature files.
+  - Verified all 8 repository parity gates and 37 documentation currency controls pass cleanly.

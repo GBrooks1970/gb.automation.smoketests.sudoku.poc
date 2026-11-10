@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-11-10 - BACKLOG-095 / TRIAGE-25 In Progress: update canonical feature narrative to five implemented techniques, record DR-051 under owner-approved plan; 6 Open, 1 In Progress, 117 Resolved, 124 Total. Earlier: BACKLOG-094 / TRIAGE-23 Resolved: gate puzzles.json copy parity, correct guide wording, remove dead pytest marker, record DR-050 under owner-approved plan; merged PR #127 / `7711e57`; all 5 CI jobs green. Earlier: BACKLOG-093 / TRIAGE-22 Resolved: pin workflow actions to full commit SHAs and configure Dependabot under owner-approved plan; merged PR #122 / `5ebcec6`; CI and dependency-audit workflows all green. Earlier: BACKLOG-092 / TRIAGE-21 Resolved. Earlier: BACKLOG-091 / TRIAGE-10 Resolved. Earlier: BACKLOG-090 / TRIAGE-15 Resolved. Earlier: BACKLOG-089 / TRIAGE-20 Resolved. Earlier: BACKLOG-088 / TRIAGE-24 Resolved. Earlier: BACKLOG-087 / TRIAGE-19 Resolved.
+**Last Updated:** 2026-11-10 - BACKLOG-095 / TRIAGE-25 Resolved: update canonical feature narrative to five implemented techniques, record DR-051 under owner-approved plan; merged PR #129 / `0c667bf`; all 5 CI jobs green. Earlier: BACKLOG-094 / TRIAGE-23 Resolved: gate puzzles.json copy parity, correct guide wording, remove dead pytest marker, record DR-050 under owner-approved plan; merged PR #127 / `7711e57`; all 5 CI jobs green. Earlier: BACKLOG-093 / TRIAGE-22 Resolved: pin workflow actions to full commit SHAs and configure Dependabot under owner-approved plan; merged PR #122 / `5ebcec6`; CI and dependency-audit workflows all green. Earlier: BACKLOG-092 / TRIAGE-21 Resolved. Earlier: BACKLOG-091 / TRIAGE-10 Resolved. Earlier: BACKLOG-090 / TRIAGE-15 Resolved. Earlier: BACKLOG-089 / TRIAGE-20 Resolved. Earlier: BACKLOG-088 / TRIAGE-24 Resolved. Earlier: BACKLOG-087 / TRIAGE-19 Resolved. Now 6 items are Open (BACKLOG-096..101), 0 In Progress and 118 Resolved, 124 in total.
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -135,7 +135,7 @@ both passed at `7af3dca`; this was a documentation reconciliation, not an implem
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-095 / TRIAGE-25 is In Progress (Update the canonical feature narrative to the five implemented techniques across canonical feature); 6 Open items mirrored from the root worklist (BACKLOG-096..101), 1 In Progress, 117 Resolved, 124 Total. Earlier: BACKLOG-094 / TRIAGE-23 is Resolved; BACKLOG-093 / TRIAGE-22 is Resolved; BACKLOG-092 / TRIAGE-21 is Resolved; BACKLOG-091 / TRIAGE-10 is Resolved; BACKLOG-090 / TRIAGE-15 is Resolved; BACKLOG-089 / TRIAGE-20 is Resolved; BACKLOG-088 / TRIAGE-24 is Resolved; BACKLOG-087 / TRIAGE-19 is Resolved; BACKLOG-086 / TRIAGE-18 is Resolved; BACKLOG-085 / TRIAGE-17 is Resolved; BACKLOG-084 / TRIAGE-16 is Resolved; BACKLOG-083 is Resolved; BACKLOG-082 is Resolved; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed |
+| Current sprint focus | BACKLOG-096 / TRIAGE-26 is next Open item (Amend RA Section 5.6 to permit exact behavioural literals in canonical features); 6 Open items mirrored from the root worklist (BACKLOG-096..101), 0 In Progress, 118 Resolved, 124 Total. Earlier: BACKLOG-095 / TRIAGE-25 is Resolved; BACKLOG-094 / TRIAGE-23 is Resolved; BACKLOG-093 / TRIAGE-22 is Resolved; BACKLOG-092 / TRIAGE-21 is Resolved; BACKLOG-091 / TRIAGE-10 is Resolved; BACKLOG-090 / TRIAGE-15 is Resolved; BACKLOG-089 / TRIAGE-20 is Resolved; BACKLOG-088 / TRIAGE-24 is Resolved; BACKLOG-087 / TRIAGE-19 is Resolved; BACKLOG-086 / TRIAGE-18 is Resolved; BACKLOG-085 / TRIAGE-17 is Resolved; BACKLOG-084 / TRIAGE-16 is Resolved; BACKLOG-083 is Resolved; BACKLOG-082 is Resolved; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -577,7 +577,7 @@ execution order.
 | BACKLOG-092 | TRIAGE-21 | Add Stack job timeouts and PR-scoped CI concurrency | All (CI config) | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-09-triage-21-ci-timeouts-concurrency.md); merged PR #120 / `3e42a2a` |
 | BACKLOG-093 | TRIAGE-22 | Pin workflow actions to full SHAs and commit a Dependabot configuration | All (CI config) | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-09-triage-22-pin-workflow-actions.md); merged PR #122 / `5ebcec6` |
 | BACKLOG-094 | TRIAGE-23 | Gate `puzzles.json` copy parity and correct the guide's Stack-tag and Add-a-Puzzle wording | All (docs + tooling) | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-10-triage-23-puzzles-parity-guide-cleanup.md); DR-050 accepted; merged PR #127 / `7711e57` |
-| BACKLOG-095 | TRIAGE-25 | Update the canonical feature narrative to the five implemented techniques | All (canonical feature) | Low | In Progress | [Approved plan](../.implementation-plans/2026-11-10-triage-25-feature-narrative-five-techniques.md); DR-051 in authoring |
+| BACKLOG-095 | TRIAGE-25 | Update the canonical feature narrative to the five implemented techniques | All (canonical feature) | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-10-triage-25-feature-narrative-five-techniques.md); DR-051 accepted; merged PR #129 / `0c667bf` |
 | BACKLOG-096 | TRIAGE-26 | Amend RA Section 5.6 to permit exact behavioural literals in canonical features | All (RA) | Low | Open | New DR (owner chose the amend option) |
 | BACKLOG-097 | TRIAGE-27 | Make Compose run the same verification as CI and pin container base images | All (config) | Low | Open | None expected |
 | BACKLOG-098 | TRIAGE-28 | Untrack agent-local settings and explain the legacy Stack directory names | All (docs + config) | Low | Open | None expected |
@@ -1917,6 +1917,25 @@ their separate lifecycle refresh is outside TRIAGE-09.
 
 ---
 
+### BACKLOG-095: Update the canonical feature narrative to the five implemented techniques (TRIAGE-25)
+
+**Status:** Resolved
+**Delivered:** PR [#129](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/129), merged as `0c667bf` (2026-11-10)
+**Priority:** Low
+**Stack(s):** All (canonical feature)
+**Source:** Root worklist TRIAGE-25; Claude review v2 (`DOCS/.review/CODE_REVIEW_Claude_v2_20261105T1425Z/`) Risk 7 (part).
+**Plan:** [Delivered implementation plan](../.implementation-plans/2026-11-10-triage-25-feature-narrative-five-techniques.md) (owner approved, 2026-11-10)
+**Decision:** DR-051 accepted.
+
+**Acceptance:** The next free DR is recorded first; `BasicSudokuSolverLogic.feature` lines 3-5 name Unit Completion, Hidden Singles, Naked Singles, Naked Pairs and X-Wing; the four feature files hash identically; feature and step-text parity pass in all three Stacks.
+
+**Verification:**
+- Decision Record: Recorded DR-051 in `decision-register.md`, updated footer to `Next ID: DR-052`, and advanced `CLAUDE.md` accepted range to `DR-001 through DR-051`.
+- Feature Narrative Alignment: Updated lines 3–5 in `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature` to name the five implemented techniques.
+- Byte-Identical Replication: Propagated byte-for-byte to all three Stack locations (`demoapp001`, `demoapp002`, `demoapp003`), verifying identical SHA256 hashes (`F1FF2FA664C6DC4078A5A56E81B71E2F944E3DDE02E1AF2C199984AFB6E00D62`) across all 4 files.
+- Parity Gates & Tests: All 8 parity gates PASS; documentation currency PASS (37/37 rejected); step text parity PASS (217 lines match); PR CI run 42826936108 passed all 5 required jobs.
+
+---
 ### BACKLOG-094: Gate puzzles.json copy parity and correct the guide's Stack-tag and Add-a-Puzzle wording (TRIAGE-23)
 
 **Status:** Resolved
