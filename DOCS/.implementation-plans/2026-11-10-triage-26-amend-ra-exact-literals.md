@@ -4,7 +4,7 @@ created: 2026-11-10T14:02:00Z
 project: gb.automation.smoketests.sudoku.poc
 type: implementation-plan
 item: BACKLOG-096 / TRIAGE-26
-status: approved
+status: delivered
 language: en-GB
 ---
 
@@ -165,3 +165,17 @@ Audited on 2026-11-10 on branch `worklist/triage-26-amend-ra-exact-literals` cut
 | Missed RA version citation across documentation | Gate failure in `check-ra-header-currency.ps1` | Low | Audited all occurrences of `v1.15` beforehand; updated synchronously in Phase 3. |
 | Overly permissive wording encourages test data sprawl | Architecture erosion | Low | The amended wording explicitly restricts inline literals to normative behavioural contracts (elimination coordinates, expected outputs, candidate subsets) and reiterates that bulk datasets belong in `puzzles.json`. |
 | Unintentional modification of executable steps | Test failure | Zero | This is a docs-only task; no feature files, step definitions, or subject app code are modified. |
+
+---
+
+## Outcome and Delivery
+
+- **Status:** Delivered
+- **Implementation PR:** [#131](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/131)
+- **Merged commit:** `a353a34` (2026-11-10)
+- **CI Run:** [42860036701](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/actions/runs/42860036701) (all 5 jobs passed)
+- **Delivered Scope:**
+  - Recorded Decision Record DR-052 in `decision-register.md` (*Permit Exact Behavioural Literals in Canonical Features and Bump Reference Architecture to v1.16*), annotated DR-026, updated footer to `Next ID: DR-053`, and advanced `CLAUDE.md` accepted range to `DR-001 through DR-052`.
+  - Amended Section 5.6 of `DOCS/reference-architecture.md` to replace blanket prohibition with an inline literal policy permitting exact behavioural verification literals per BACKLOG-078 and DR-049 while prohibiting arbitrary bulk test data embedding. Clarified `Examples` guidance for cross-Stack specifications.
+  - Bumped Reference Architecture version to v1.16 (dated 2026-11-10) and synchronously aligned governing citations across `reference-architecture.md`, `decision-register.md`, `CLAUDE.md`, `DOCS/.planning/backlog.md`, `DOCS/README.md`, `DOCS/.implementation-logs/README.md`, `DOCS/.review/README.md`, and `CHANGELOG.md`.
+  - Verified all 8 repository parity gates and 37 documentation currency controls pass cleanly.
