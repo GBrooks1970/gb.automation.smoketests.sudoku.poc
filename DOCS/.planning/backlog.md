@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-11-10 - BACKLOG-094 / TRIAGE-23 In Progress: gate puzzles.json copy parity, correct guide wording, remove dead pytest marker, record DR-050 under owner-approved plan. Earlier: BACKLOG-093 / TRIAGE-22 Resolved: pin workflow actions to full commit SHAs and configure Dependabot under owner-approved plan; merged PR #122 / `5ebcec6`; CI and dependency-audit workflows all green. Earlier: BACKLOG-092 / TRIAGE-21 Resolved. Earlier: BACKLOG-091 / TRIAGE-10 Resolved. Earlier: BACKLOG-090 / TRIAGE-15 Resolved. Earlier: BACKLOG-089 / TRIAGE-20 Resolved. Earlier: BACKLOG-088 / TRIAGE-24 Resolved. Earlier: BACKLOG-087 / TRIAGE-19 Resolved. Now 7 items are Open (BACKLOG-095..101), 1 In Progress and 116 Resolved, 124 in total.
+**Last Updated:** 2026-11-10 - BACKLOG-094 / TRIAGE-23 Resolved: gate puzzles.json copy parity, correct guide wording, remove dead pytest marker, record DR-050 under owner-approved plan; merged PR #127 / `7711e57`; all 5 CI jobs green. Earlier: BACKLOG-093 / TRIAGE-22 Resolved: pin workflow actions to full commit SHAs and configure Dependabot under owner-approved plan; merged PR #122 / `5ebcec6`; CI and dependency-audit workflows all green. Earlier: BACKLOG-092 / TRIAGE-21 Resolved. Earlier: BACKLOG-091 / TRIAGE-10 Resolved. Earlier: BACKLOG-090 / TRIAGE-15 Resolved. Earlier: BACKLOG-089 / TRIAGE-20 Resolved. Earlier: BACKLOG-088 / TRIAGE-24 Resolved. Earlier: BACKLOG-087 / TRIAGE-19 Resolved. Now 7 items are Open (BACKLOG-095..101), 0 In Progress and 117 Resolved, 124 in total.
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -26,8 +26,8 @@ Per v1.15 Section 10.1:
 | Status | Count |
 |--------|-------|
 | Open | 7 |
-| In Progress | 1 |
-| Resolved | 116 |
+| In Progress | 0 |
+| Resolved | 117 |
 | **Total** | **124** |
 
 **Update (2026-11-09, BACKLOG-092 / TRIAGE-21):** Hardened `.github/workflows/ci.yml` by adding top-level workflow concurrency (`group: ${{ github.workflow }}-${{ github.ref }}`, `cancel-in-progress: ${{ github.event_name == 'pull_request' }}`) to cancel superseded PR runs while running `main` to completion, adding `timeout-minutes: 15` across all three Stack jobs, and adding `timeout-minutes: 5` to `gate`. Delivered in PR #120, merged as `3e42a2a`.
@@ -135,7 +135,7 @@ both passed at `7af3dca`; this was a documentation reconciliation, not an implem
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-094 / TRIAGE-23 is In Progress (Gate `puzzles.json` copy parity and correct the guide's Stack-tag and Add-a-Puzzle wording under owner-approved plan across docs + tooling); 7 Open items mirrored from the root worklist (BACKLOG-095..101). Earlier: BACKLOG-093 / TRIAGE-22 is Resolved; BACKLOG-092 / TRIAGE-21 is Resolved; BACKLOG-091 / TRIAGE-10 is Resolved; BACKLOG-090 / TRIAGE-15 is Resolved; BACKLOG-089 / TRIAGE-20 is Resolved; BACKLOG-088 / TRIAGE-24 is Resolved; BACKLOG-087 / TRIAGE-19 is Resolved; BACKLOG-086 / TRIAGE-18 is Resolved; BACKLOG-085 / TRIAGE-17 is Resolved; BACKLOG-084 / TRIAGE-16 is Resolved; BACKLOG-083 is Resolved; BACKLOG-082 is Resolved; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed |
+| Current sprint focus | BACKLOG-095 / TRIAGE-25 is next Open item (Update the canonical feature narrative to the five implemented techniques across canonical feature); 7 Open items mirrored from the root worklist (BACKLOG-095..101). Earlier: BACKLOG-094 / TRIAGE-23 is Resolved; BACKLOG-093 / TRIAGE-22 is Resolved; BACKLOG-092 / TRIAGE-21 is Resolved; BACKLOG-091 / TRIAGE-10 is Resolved; BACKLOG-090 / TRIAGE-15 is Resolved; BACKLOG-089 / TRIAGE-20 is Resolved; BACKLOG-088 / TRIAGE-24 is Resolved; BACKLOG-087 / TRIAGE-19 is Resolved; BACKLOG-086 / TRIAGE-18 is Resolved; BACKLOG-085 / TRIAGE-17 is Resolved; BACKLOG-084 / TRIAGE-16 is Resolved; BACKLOG-083 is Resolved; BACKLOG-082 is Resolved; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -576,7 +576,7 @@ execution order.
 | BACKLOG-091 | TRIAGE-10 | Align generator request and validation-error schemas with runtime | DEMOAPP001 | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-09-triage-10-generator-openapi-alignment.md); merged PR #118 / `3803cd2` |
 | BACKLOG-092 | TRIAGE-21 | Add Stack job timeouts and PR-scoped CI concurrency | All (CI config) | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-09-triage-21-ci-timeouts-concurrency.md); merged PR #120 / `3e42a2a` |
 | BACKLOG-093 | TRIAGE-22 | Pin workflow actions to full SHAs and commit a Dependabot configuration | All (CI config) | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-09-triage-22-pin-workflow-actions.md); merged PR #122 / `5ebcec6` |
-| BACKLOG-094 | TRIAGE-23 | Gate `puzzles.json` copy parity and correct the guide's Stack-tag and Add-a-Puzzle wording | All (docs + tooling) | Low | In Progress | [Approved plan](../.implementation-plans/2026-11-10-triage-23-puzzles-parity-guide-cleanup.md); DR-050 |
+| BACKLOG-094 | TRIAGE-23 | Gate `puzzles.json` copy parity and correct the guide's Stack-tag and Add-a-Puzzle wording | All (docs + tooling) | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-10-triage-23-puzzles-parity-guide-cleanup.md); DR-050 accepted; merged PR #127 / `7711e57` |
 | BACKLOG-095 | TRIAGE-25 | Update the canonical feature narrative to the five implemented techniques | All (canonical feature) | Low | Open | Next free DR, recorded first |
 | BACKLOG-096 | TRIAGE-26 | Amend RA Section 5.6 to permit exact behavioural literals in canonical features | All (RA) | Low | Open | New DR (owner chose the amend option) |
 | BACKLOG-097 | TRIAGE-27 | Make Compose run the same verification as CI and pin container base images | All (config) | Low | Open | None expected |
@@ -1919,14 +1919,23 @@ their separate lifecycle refresh is outside TRIAGE-09.
 
 ### BACKLOG-094: Gate puzzles.json copy parity and correct the guide's Stack-tag and Add-a-Puzzle wording (TRIAGE-23)
 
-**Status:** In Progress
+**Status:** Resolved
+**Delivered:** PR [#127](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/127), merged as `7711e57` (2026-11-10)
 **Priority:** Low
 **Stack(s):** All (docs + tooling)
 **Source:** Root worklist TRIAGE-23; Claude review v2 (`DOCS/.review/CODE_REVIEW_Claude_v2_20261105T1425Z/`) Risk 7 (part).
-**Plan:** [Approved implementation plan](../.implementation-plans/2026-11-10-triage-23-puzzles-parity-guide-cleanup.md) (owner approved, 2026-11-10)
+**Plan:** [Delivered implementation plan](../.implementation-plans/2026-11-10-triage-23-puzzles-parity-guide-cleanup.md) (owner approved, 2026-11-10)
 **Decision:** DR-050 accepted.
 
 **Acceptance:** `.batch/run-parity-checks.ps1` asserts the three `puzzles.json` copies hash identically and fails on a planted single-copy edit; `CLAUDE.md` "Add a Puzzle" names all three copies; `CLAUDE.md` line 215 no longer claims an `@stack-demoapp001` tag that the byte-identical copies do not carry; the unused `stack-demoapp002` marker (`pyproject.toml` line 26) is removed or justified; superseding `decision-register.md` lines (DR-014 said only one copy existed; note it was superseded at DR-040) is captured in DR-050 and annotated on existing DRs.
+
+**Verification:**
+- Puzzles Parity Gate: `.batch/check-puzzles-parity.ps1` asserts byte-identical SHA256 hashes across all 3 Stacks (`demoapp001`, `demoapp002`, `demoapp003`) and executes negative controls in a scratch directory (6/6 mutations rejected).
+- Parity Suite & CI: Wired into `.batch/run-parity-checks.ps1` as the 8th parity gate and `.github/workflows/ci.yml`.
+- Guide Alignment: `CLAUDE.md` updated to cite all 3 copies in "Add a Puzzle" and retired `@stack-demoapp001` tag claims.
+- Pytest Marker Cleanup: Removed unused `stack-demoapp002` marker from `demo-apps/demoapp002-python-pytest/pyproject.toml` and refreshed source hash in `DOCS/.analysis/2026-10-07-component-execution-inventory.json`.
+- Decision Record: Recorded DR-050 in `decision-register.md`, annotated DR-007, DR-008, DR-026, and DR-028, and updated accepted range in `CLAUDE.md` to DR-001 through DR-050.
+- All 8 parity gates PASS; documentation currency PASS (37/37 rejected); PR CI run 42779177460 passed all 5 jobs.
 
 ---
 
