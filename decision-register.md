@@ -2878,6 +2878,54 @@ However, Claude Code Review v2 (Risk 7) identified several documentation and too
 - DR-028 — Shared packages directory specification (reconciled).
 - BACKLOG-094 / TRIAGE-23 — The authorised implementation item.
 ---
+
+## DR-051 — Align Canonical Feature Narrative with Five Implemented Solving Techniques
+
+**Date:** 2026-11-10
+**Status:** Accepted — 2026-11-10
+
+### Context
+
+Originally, the Sudoku solver specification and canonical feature file (`BasicSudokuSolverLogic.feature`) described three fundamental solving techniques: Unit Completion, Hidden Singles, and Naked Singles (DR-007, DR-016).
+
+Subsequently, under BACKLOG-019 (Naked Pairs) and BACKLOG-020 (X-Wing) / TRIAGE-15, Naked Pairs and X-Wing solver logic and BDD scenarios were implemented and validated across all three technology stacks (`DEMOAPP001_TYPESCRIPT_CYPRESS`, `DEMOAPP002_PYTHON_PYTEST`, `DEMOAPP003_CSHARP_SPECFLOW`), expanding the suite to 55 scenarios and 309 steps. While repository documentation across eight guides was reconciled in BACKLOG-081 / TRIAGE-08 to document all five techniques, lines 3–5 of `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature` retained the original three-technique narrative:
+```gherkin
+  As an automated Sudoku solver
+  I want to apply three fundamental solving techniques systematically
+  So that I can solve Sudoku puzzles using Unit Completion, Hidden Singles, and Naked Singles
+```
+Claude Code Review v2 (Risk 7) identified this inconsistency between the feature user story header and the actual 55 scenarios contained in the feature.
+
+### Decision
+
+1. **Canonical Narrative Alignment:** Update lines 3–5 of `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature` to state:
+   ```gherkin
+     As an automated Sudoku solver
+     I want to apply five solving techniques systematically
+     So that I can solve Sudoku puzzles using Unit Completion, Hidden Singles, Naked Singles, Naked Pairs, and X-Wing
+   ```
+2. **Byte-Identical Feature Replication:** Maintain strict byte-identical SHA256 copy parity across `features-shared/util-tests/sudoku-solver/BasicSudokuSolverLogic.feature` and all three Stack copies (`demo-apps/demoapp001-typescript-cypress/tests/features/BasicSudokuSolverLogic.feature`, `demo-apps/demoapp002-python-pytest/tests/features/BasicSudokuSolverLogic.feature`, and `demo-apps/demoapp003-csharp-specflow/tests/features/BasicSudokuSolverLogic.feature`), per DR-050.
+3. **Preservation of Executable Steps:** Confirm that all scenario outlines, steps, tags, and step definitions remain untouched; scenario counts (55) and step counts (309) remain invariant across all three Stacks.
+
+### Consequences
+
+**Outcomes:**
+- The top-level user story narrative in the canonical feature and all three Stack copies matches the actual five-technique solving capabilities of the platform.
+- Eliminates the contradiction between the feature header narrative and the Naked Pairs and X-Wing scenarios within the file.
+- All 8 repository parity gates continue to pass cleanly.
+
+**Trade-offs:**
+- None. Step definitions and execution counts are unchanged.
+
+### Related Decisions
+
+- DR-007 — Establish `features-shared/` as Canonical Feature Store.
+- DR-016 — Canonical feature as single source of truth across all three Stacks.
+- DR-049 — Candidate observation and fixed-coordinate step arguments.
+- DR-050 — Automated `puzzles.json` copy parity gate and tagless canonical feature replication.
+- BACKLOG-081 — Active capability and assurance documentation currency (TRIAGE-08).
+- BACKLOG-095 / TRIAGE-25 — The authorised implementation item.
+---
 ## Proposed Decisions
 
 *None at this time.*
@@ -2897,5 +2945,5 @@ However, Claude Code Review v2 (Risk 7) identified several documentation and too
 
 ---
 
-*Last entry: DR-050 (Accepted). Next ID: DR-051.*
+*Last entry: DR-051 (Accepted). Next ID: DR-052.*
 *Any change to a normative rule in this register MUST be applied to all Stacks simultaneously.*
