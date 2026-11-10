@@ -50,7 +50,7 @@
       "sources": [
         {
           "path": "demo-apps/demoapp001-typescript-cypress/package.json",
-          "sha256": "d57c5b4bb0ef18ed82dad397b3e837ab90c2ea7ddb14375d2a6d90f9f55830f7"
+          "sha256": "10d12cf9ace9e1480fdb9177feb85e191703a0b56ea1b58dd1a71f5dbbcbe580"
         },
         {
           "path": "demo-apps/demoapp001-typescript-cypress/tests/component/api-service.contract.test.ts",
@@ -153,7 +153,7 @@
       "sources": [
         {
           "path": "demo-apps/demoapp001-typescript-cypress/package.json",
-          "sha256": "d57c5b4bb0ef18ed82dad397b3e837ab90c2ea7ddb14375d2a6d90f9f55830f7"
+          "sha256": "10d12cf9ace9e1480fdb9177feb85e191703a0b56ea1b58dd1a71f5dbbcbe580"
         },
         {
           "path": "demo-apps/demoapp001-typescript-cypress/redocly.yaml",
