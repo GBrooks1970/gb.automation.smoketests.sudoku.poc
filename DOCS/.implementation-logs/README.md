@@ -66,6 +66,7 @@ YYYY-MM-DD_short-session-topic.md
 | [2026-11-09_triage-22-pin-workflow-actions.md](2026-11-09_triage-22-pin-workflow-actions.md) | 2026-11-09 | BACKLOG-093 / TRIAGE-22 Pin workflow actions to full SHAs and commit a Dependabot configuration |
 | [2026-11-10_triage-23-puzzles-parity-guide-cleanup.md](2026-11-10_triage-23-puzzles-parity-guide-cleanup.md) | 2026-11-10 | BACKLOG-094 / TRIAGE-23 Gate puzzles.json copy parity and correct the guide's Stack-tag and Add-a-Puzzle wording |
 | [2026-11-10_triage-25-feature-narrative-five-techniques.md](2026-11-10_triage-25-feature-narrative-five-techniques.md) | 2026-11-10 | BACKLOG-095 / TRIAGE-25 Update the canonical feature narrative to the five implemented techniques |
+| [2026-11-10_triage-26-amend-ra-exact-literals.md](2026-11-10_triage-26-amend-ra-exact-literals.md) | 2026-11-10 | BACKLOG-096 / TRIAGE-26 Amend RA Section 5.6 to permit exact behavioural literals in canonical features |
 
 
 ---
