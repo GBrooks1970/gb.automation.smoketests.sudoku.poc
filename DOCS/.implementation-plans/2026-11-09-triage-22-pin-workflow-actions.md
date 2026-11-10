@@ -4,7 +4,7 @@ created: 2026-11-09T23:30:00Z
 project: gb.automation.smoketests.sudoku.poc
 type: implementation-plan
 item: BACKLOG-093 / TRIAGE-22
-status: approved
+status: delivered
 language: en-GB
 ---
 
@@ -122,3 +122,15 @@ Worklist acceptance requires investigating the failed run:
 4. **Local Verification:** Run documentation currency, parity checks, and validate YAML formatting.
 5. **PR & Merge:** Push `worklist/triage-22-pin-workflow-actions`, open PR, watch CI (both CI and audit workflows), and merge on all-green.
 6. **Outcome:** Open and merge outcome PR, update root worklist tick.
+
+---
+
+## Outcome and Verification
+
+Delivered in PR #122 (`5ebcec6`), merged into `main` on 2026-11-09.
+
+- **Pinned Actions**: Pinned all 20 action references in `.github/workflows/ci.yml` and all 5 action references in `.github/workflows/dependency-audit.yml` to full 40-character commit SHAs with inline version comments (`# v7`, `# v6`, `# v5`).
+- **Dependabot Configuration**: Created and committed `.github/dependabot.yml` configured for `package-ecosystem: "github-actions"` on a weekly schedule (PR limit 5). Language ecosystems documented as governed by locked restores under DR-039 / DR-048.
+- **RCA of Dynamic Run**: Documented root cause of failed dynamic Dependabot run `42237665533` in Section 3 of this plan.
+- **CI & Audit Verification**: PR #122 triggered both `CI` (run `42724029815`) and `Dependency audit` (run `42724029722`), with all jobs passing completely.
+- **Parity & Currency**: All 7 parity gates and documentation currency negative controls (37/37 rejected) passed 100% green.

@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-11-09 - BACKLOG-093 / TRIAGE-22 In Progress: pin workflow actions to full SHAs and commit Dependabot configuration across all workflows. Earlier: BACKLOG-092 / TRIAGE-21 Resolved: add Stack job timeouts and PR-scoped CI concurrency under owner-approved plan across all Stacks; merged PR #120 / `3e42a2a`; all 5 required CI jobs green. Earlier: BACKLOG-091 / TRIAGE-10 Resolved. Earlier: BACKLOG-090 / TRIAGE-15 Resolved. Earlier: BACKLOG-089 / TRIAGE-20 Resolved. Earlier: BACKLOG-088 / TRIAGE-24 Resolved. Earlier: BACKLOG-087 / TRIAGE-19 Resolved. Now 8 items are Open (BACKLOG-094..101), 1 In Progress and 115 Resolved, 124 in total.
+**Last Updated:** 2026-11-09 - BACKLOG-093 / TRIAGE-22 Resolved: pin workflow actions to full commit SHAs and configure Dependabot under owner-approved plan; merged PR #122 / `5ebcec6`; CI and dependency-audit workflows all green. Earlier: BACKLOG-092 / TRIAGE-21 Resolved: add Stack job timeouts and PR-scoped CI concurrency under owner-approved plan across all Stacks; merged PR #120 / `3e42a2a`; all 5 required CI jobs green. Earlier: BACKLOG-091 / TRIAGE-10 Resolved. Earlier: BACKLOG-090 / TRIAGE-15 Resolved. Earlier: BACKLOG-089 / TRIAGE-20 Resolved. Earlier: BACKLOG-088 / TRIAGE-24 Resolved. Earlier: BACKLOG-087 / TRIAGE-19 Resolved. Now 8 items are Open (BACKLOG-094..101), 0 In Progress and 116 Resolved, 124 in total.
 **Governed by:** `reference-architecture.md` v1.15 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -26,8 +26,8 @@ Per v1.15 Section 10.1:
 | Status | Count |
 |--------|-------|
 | Open | 8 |
-| In Progress | 1 |
-| Resolved | 115 |
+| In Progress | 0 |
+| Resolved | 116 |
 | **Total** | **124** |
 
 **Update (2026-11-09, BACKLOG-092 / TRIAGE-21):** Hardened `.github/workflows/ci.yml` by adding top-level workflow concurrency (`group: ${{ github.workflow }}-${{ github.ref }}`, `cancel-in-progress: ${{ github.event_name == 'pull_request' }}`) to cancel superseded PR runs while running `main` to completion, adding `timeout-minutes: 15` across all three Stack jobs, and adding `timeout-minutes: 5` to `gate`. Delivered in PR #120, merged as `3e42a2a`.
@@ -135,7 +135,7 @@ both passed at `7af3dca`; this was a documentation reconciliation, not an implem
 | Active Reference Architecture | v1.15 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-093 / TRIAGE-22 is In Progress (Pin workflow actions to full SHAs and commit a Dependabot configuration under owner-approved plan across all workflows); 8 Open items mirrored from the root worklist (BACKLOG-094..101). Earlier: BACKLOG-092 / TRIAGE-21 is Resolved; BACKLOG-091 / TRIAGE-10 is Resolved; BACKLOG-090 / TRIAGE-15 is Resolved; BACKLOG-089 / TRIAGE-20 is Resolved; BACKLOG-088 / TRIAGE-24 is Resolved; BACKLOG-087 / TRIAGE-19 is Resolved; BACKLOG-086 / TRIAGE-18 is Resolved; BACKLOG-085 / TRIAGE-17 is Resolved; BACKLOG-084 / TRIAGE-16 is Resolved; BACKLOG-083 is Resolved; BACKLOG-082 is Resolved; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed |
+| Current sprint focus | BACKLOG-094 / TRIAGE-23 is next Open item (Gate `puzzles.json` copy parity and correct the guide's Stack-tag and Add-a-Puzzle wording across docs + tooling); 8 Open items mirrored from the root worklist (BACKLOG-094..101). Earlier: BACKLOG-093 / TRIAGE-22 is Resolved; BACKLOG-092 / TRIAGE-21 is Resolved; BACKLOG-091 / TRIAGE-10 is Resolved; BACKLOG-090 / TRIAGE-15 is Resolved; BACKLOG-089 / TRIAGE-20 is Resolved; BACKLOG-088 / TRIAGE-24 is Resolved; BACKLOG-087 / TRIAGE-19 is Resolved; BACKLOG-086 / TRIAGE-18 is Resolved; BACKLOG-085 / TRIAGE-17 is Resolved; BACKLOG-084 / TRIAGE-16 is Resolved; BACKLOG-083 is Resolved; BACKLOG-082 is Resolved; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -575,7 +575,7 @@ execution order.
 | BACKLOG-090 | TRIAGE-15 | Assess candidate-qualified and fixed-fixture step arguments | All | Medium | Resolved | [Delivered plan](../.implementation-plans/2026-11-09-triage-15-candidate-arguments.md); DR-049 accepted; merged PR #116 / `10a7ed6` |
 | BACKLOG-091 | TRIAGE-10 | Align generator request and validation-error schemas with runtime | DEMOAPP001 | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-09-triage-10-generator-openapi-alignment.md); merged PR #118 / `3803cd2` |
 | BACKLOG-092 | TRIAGE-21 | Add Stack job timeouts and PR-scoped CI concurrency | All (CI config) | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-09-triage-21-ci-timeouts-concurrency.md); merged PR #120 / `3e42a2a` |
-| BACKLOG-093 | TRIAGE-22 | Pin workflow actions to full SHAs and commit a Dependabot configuration | All (CI config) | Low | In Progress | [Approved plan](../.implementation-plans/2026-11-09-triage-22-pin-workflow-actions.md) |
+| BACKLOG-093 | TRIAGE-22 | Pin workflow actions to full SHAs and commit a Dependabot configuration | All (CI config) | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-09-triage-22-pin-workflow-actions.md); merged PR #122 / `5ebcec6` |
 | BACKLOG-094 | TRIAGE-23 | Gate `puzzles.json` copy parity and correct the guide's Stack-tag and Add-a-Puzzle wording | All (docs + tooling) | Low | Open | New DR or explicit note to supersede the existing DR text |
 | BACKLOG-095 | TRIAGE-25 | Update the canonical feature narrative to the five implemented techniques | All (canonical feature) | Low | Open | Next free DR, recorded first |
 | BACKLOG-096 | TRIAGE-26 | Amend RA Section 5.6 to permit exact behavioural literals in canonical features | All (RA) | Low | Open | New DR (owner chose the amend option) |
@@ -1919,14 +1919,22 @@ their separate lifecycle refresh is outside TRIAGE-09.
 
 ### BACKLOG-093: Pin workflow actions to full SHAs and commit a Dependabot configuration (TRIAGE-22)
 
-**Status:** In Progress
+**Status:** Resolved
+**Delivered:** PR [#122](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/122), merged as `5ebcec6` (2026-11-09)
 **Priority:** Low
 **Stack(s):** All (CI config)
 **Source:** Root worklist TRIAGE-22; Claude review v2 (`DOCS/.review/CODE_REVIEW_Claude_v2_20261105T1425Z/`) Risk 8 (residual).
-**Plan:** [Approved implementation plan](../.implementation-plans/2026-11-09-triage-22-pin-workflow-actions.md) (owner approved, 2026-11-09)
+**Plan:** [Delivered implementation plan](../.implementation-plans/2026-11-09-triage-22-pin-workflow-actions.md) (owner approved, 2026-11-09)
 **Decision:** None expected (CI supply-chain hardening only; Decisions 1–4 approved).
 
 **Acceptance:** Every `uses:` in `ci.yml` and `dependency-audit.yml` is a full commit SHA with a version comment; `.github/dependabot.yml` covers `github-actions` (and records whether `pip` is included); CI and the audit workflow green. Also investigate the failed "Dependabot Updates" run (`dynamic`, `99111e0`, 2026-11-06T14:51Z) observed at triage.
+
+**Verification:**
+- Pinned Actions: All 20 `uses:` in `.github/workflows/ci.yml` and 5 `uses:` in `.github/workflows/dependency-audit.yml` pinned to 40-character SHAs with inline version comments (`# v7`, `# v6`, `# v5`).
+- Dependabot Configuration: Authored `.github/dependabot.yml` covering `github-actions` on a weekly schedule; documented omission of language ecosystems governed by DR-039 / DR-048 locked restores.
+- RCA of Dynamic Run: Documented root cause of failed dynamic Dependabot run `42237665533` in implementation plan Section 3.
+- Parity & Currency: All 7 parity gates PASS; 37/37 negative documentation currency controls PASS.
+- PR CI & Audit: Run 42724029815 (CI) and run 42724029722 (Audit) both passed completely on PR #122.
 
 ---
 

@@ -63,6 +63,7 @@ YYYY-MM-DD_short-session-topic.md
 | [2026-11-09_triage-15-candidate-arguments.md](2026-11-09_triage-15-candidate-arguments.md) | 2026-11-09 | BACKLOG-090 / TRIAGE-15 Assess candidate-qualified and fixed-fixture step arguments |
 | [2026-11-09_triage-10-generator-openapi-alignment.md](2026-11-09_triage-10-generator-openapi-alignment.md) | 2026-11-09 | BACKLOG-091 / TRIAGE-10 Align generator request and validation-error schemas with runtime |
 | [2026-11-09_triage-21-ci-timeouts-concurrency.md](2026-11-09_triage-21-ci-timeouts-concurrency.md) | 2026-11-09 | BACKLOG-092 / TRIAGE-21 Add Stack job timeouts and PR-scoped CI concurrency |
+| [2026-11-09_triage-22-pin-workflow-actions.md](2026-11-09_triage-22-pin-workflow-actions.md) | 2026-11-09 | BACKLOG-093 / TRIAGE-22 Pin workflow actions to full SHAs and commit a Dependabot configuration |
 
 
 ---
