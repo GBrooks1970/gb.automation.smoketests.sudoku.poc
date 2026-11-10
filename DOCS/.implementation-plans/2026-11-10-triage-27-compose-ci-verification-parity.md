@@ -4,7 +4,7 @@ created: 2026-11-10T17:18:00Z
 project: gb.automation.smoketests.sudoku.poc
 type: implementation-plan
 item: BACKLOG-097 / TRIAGE-27
-status: approved
+status: delivered
 language: en-GB
 ---
 
@@ -150,3 +150,27 @@ Using `docker buildx imagetools inspect`, the active multi-platform index/manife
 | Non-root user lacks write permissions in container | Test failure (e.g. coverage file creation) | Medium | Explicitly ensure workspace ownership (`chown -R ...`) before switching `USER`. |
 | Out-of-tree evidence paths in Compose verify | Script failure | Low | Use in-tree coverage validation (`test:coverage` rather than `test:coverage:ci`) in `npm run verify` so it does not depend on `../../.results` existing. |
 | Parity checks or currency checks break | Gate failure | Low | No Gherkin features, step definitions, or RA normative text modified. Currency guard verified locally. |
+
+---
+
+## Outcome and Delivery
+
+- **Status:** Delivered
+- **Implementation PR:** [#133](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/133)
+- **Merged commit:** `52a4ad7` (2026-11-10)
+- **CI Run:** [42899452106](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/actions/runs/42899452106) (all 5 jobs passed)
+- **Delivered Scope:**
+  - Established unified verification entry points across all three Stacks:
+    - DEMOAPP001: `"verify": "npm run build && npm run lint && npm run format:check && npm run test:api && npm run verify:openapi && npm test"` in `package.json` executing build, lint, formatting check, API integration tests, OpenAPI schema validation, 113 component tests, and 55 Cucumber scenarios.
+    - DEMOAPP002: Cross-platform runner `tooling/verify.py` (`python -m tooling.verify`) executing component tests with 85% coverage floor enforcement, coverage reporting, and the 55-scenario pytest-bdd test suite.
+    - DEMOAPP003: Solution-level `dotnet test --no-restore` executing 30 component tests and 55 Reqnroll scenarios.
+  - Digest-pinned base images across all Dockerfiles and `docker-compose.yml`:
+    - `node:24-alpine@sha256:a34ab6d7f6f4813f4d0c5469d74685604b962fbdbf5793a7bc7b4998ecb867c8`
+    - `python:3.13-slim@sha256:e48f59cdba69a3cbd9ed2cf0f348d90d45a8d350d98134cf1070bc106ee9ed90`
+    - `mcr.microsoft.com/dotnet/sdk:10.0@sha256:212fe4cb74627d5adf9817a4088906ae3edff1bd853bb27565d4b46731efe61e`
+    - `mcr.microsoft.com/powershell:7.5-ubuntu-24.04@sha256:042240d57ec9e47e511033b92625a8d95875ee5860af3015992c248b58a8be81`
+  - Added non-root unprivileged container users (`USER node` in DEMOAPP001, `USER appuser` with UID/GID 10001 in DEMOAPP002) with proper workspace directory ownership.
+  - Aligned `docker-compose.yml` service commands to invoke unified verify entry points.
+  - Refreshed portable source hash in `DOCS/.analysis/2026-10-07-component-execution-inventory.json` for DEMOAPP001 `package.json`.
+  - Added entry to `CHANGELOG.md` under `[Unreleased] > Changed`.
+  - Verified local `docker compose config`, all 8 parity gates, and 37 documentation currency controls pass cleanly.
