@@ -1,8 +1,8 @@
 @util
 Feature: Basic Sudoku Solver Logic
   As an automated Sudoku solver
-  I want to apply three fundamental solving techniques systematically
-  So that I can solve Sudoku puzzles using Unit Completion, Hidden Singles, and Naked Singles
+  I want to apply five solving techniques systematically
+  So that I can solve Sudoku puzzles using Unit Completion, Hidden Singles, Naked Singles, Naked Pairs, and X-Wing
 
   Background:
     Given a standard 9x9 Sudoku grid is initialized
