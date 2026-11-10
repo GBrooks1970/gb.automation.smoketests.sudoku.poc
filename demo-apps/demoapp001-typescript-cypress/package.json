@@ -30,6 +30,7 @@
     "openapi:lint": "redocly lint --config redocly.yaml docs/openapi.yaml",
     "test:openapi": "node --test -r ts-node/register tests/api/openapi.contract.test.ts",
     "verify:openapi": "npm run openapi:lint && npm run test:openapi",
+    "verify": "npm run build && npm run lint && npm run format:check && npm run test:api && npm run verify:openapi && npm test",
     "benchmark": "ts-node tooling/performance/benchmark.ts"
   },
   "keywords": [
