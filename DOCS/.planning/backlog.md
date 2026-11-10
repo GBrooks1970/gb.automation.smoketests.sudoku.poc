@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-11-10 - BACKLOG-098 / TRIAGE-28 In Progress: untrack agent-local settings and explain legacy Stack directory names under owner-approved plan; 3 Open, 1 In Progress, 120 Resolved, 124 Total. Earlier: BACKLOG-097 / TRIAGE-27 Resolved: make Compose run the same verification as CI and pin container base images under owner-approved plan; merged PR #133 / `52a4ad7`; all 5 CI jobs green. Earlier: BACKLOG-096 / TRIAGE-26 Resolved: amend RA Section 5.6 to permit exact behavioural literals in canonical features, record DR-052, bump RA to v1.16 under owner-approved plan; merged PR #131 / `a353a34`; all 5 CI jobs green. Earlier: BACKLOG-095 / TRIAGE-25 Resolved: update canonical feature narrative to five implemented techniques, record DR-051 under owner-approved plan; merged PR #129 / `0c667bf`; all 5 CI jobs green. Earlier: BACKLOG-094 / TRIAGE-23 Resolved: gate puzzles.json copy parity, correct guide wording, remove dead pytest marker, record DR-050 under owner-approved plan; merged PR #127 / `7711e57`; all 5 CI jobs green. Earlier: BACKLOG-093 / TRIAGE-22 Resolved: pin workflow actions to full commit SHAs and configure Dependabot under owner-approved plan; merged PR #122 / `5ebcec6`; CI and dependency-audit workflows all green. Earlier: BACKLOG-092 / TRIAGE-21 Resolved. Earlier: BACKLOG-091 / TRIAGE-10 Resolved. Earlier: BACKLOG-090 / TRIAGE-15 Resolved. Earlier: BACKLOG-089 / TRIAGE-20 Resolved. Earlier: BACKLOG-088 / TRIAGE-24 Resolved. Earlier: BACKLOG-087 / TRIAGE-19 Resolved.
+**Last Updated:** 2026-11-10 - BACKLOG-098 / TRIAGE-28 Resolved: untrack agent-local settings and explain legacy Stack directory names under owner-approved plan; merged PR #135 / `ced4df8`; all 5 CI jobs green. Now 3 Open (BACKLOG-099..101), 0 In Progress, 121 Resolved, 124 Total. Earlier: BACKLOG-097 / TRIAGE-27 Resolved: make Compose run the same verification as CI and pin container base images under owner-approved plan; merged PR #133 / `52a4ad7`; all 5 CI jobs green. Earlier: BACKLOG-096 / TRIAGE-26 Resolved: amend RA Section 5.6 to permit exact behavioural literals in canonical features, record DR-052, bump RA to v1.16 under owner-approved plan; merged PR #131 / `a353a34`; all 5 CI jobs green. Earlier: BACKLOG-095 / TRIAGE-25 Resolved: update canonical feature narrative to five implemented techniques, record DR-051 under owner-approved plan; merged PR #129 / `0c667bf`; all 5 CI jobs green. Earlier: BACKLOG-094 / TRIAGE-23 Resolved: gate puzzles.json copy parity, correct guide wording, remove dead pytest marker, record DR-050 under owner-approved plan; merged PR #127 / `7711e57`; all 5 CI jobs green. Earlier: BACKLOG-093 / TRIAGE-22 Resolved: pin workflow actions to full commit SHAs and configure Dependabot under owner-approved plan; merged PR #122 / `5ebcec6`; CI and dependency-audit workflows all green. Earlier: BACKLOG-092 / TRIAGE-21 Resolved. Earlier: BACKLOG-091 / TRIAGE-10 Resolved. Earlier: BACKLOG-090 / TRIAGE-15 Resolved. Earlier: BACKLOG-089 / TRIAGE-20 Resolved. Earlier: BACKLOG-088 / TRIAGE-24 Resolved. Earlier: BACKLOG-087 / TRIAGE-19 Resolved.
 **Governed by:** `reference-architecture.md` v1.16 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -26,9 +26,11 @@ Per v1.16 Section 10.1:
 | Status | Count |
 |--------|-------|
 | Open | 3 |
-| In Progress | 1 |
-| Resolved | 120 |
+| In Progress | 0 |
+| Resolved | 121 |
 | **Total** | **124** |
+
+**Update (2026-11-10, BACKLOG-098 / TRIAGE-28):** Untracked agent-local settings (`.claude/settings.local.json`) from version control and ignored `.claude/*.local.json` in `.gitignore` while retaining shared team settings (`.claude/settings.json`). Added explanatory callout under `## Demo Applications` in root `README.md` noting that directory names are stable legacy IDs (DEMOAPP001 uses Cucumber.js + Serenity/JS with no Cypress; DEMOAPP003 uses Reqnroll), and annotated the directory tree. Delivered in PR #135, merged as `ced4df8`.
 
 **Update (2026-11-10, BACKLOG-097 / TRIAGE-27):** Made Compose run the exact same verification suite as CI across all three Stacks via unified verify entry points (`npm run verify`, `python -m tooling.verify`, and `dotnet test --no-restore`), pinned container base images to multi-arch SHA256 digests in Dockerfiles and `docker-compose.yml`, and configured unprivileged container users (`USER node`, `USER appuser`). Delivered in PR #133, merged as `52a4ad7`.
 
@@ -137,7 +139,7 @@ both passed at `7af3dca`; this was a documentation reconciliation, not an implem
 | Active Reference Architecture | v1.16 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-098 / TRIAGE-28 is In Progress (Untrack agent-local settings and explain the legacy Stack directory names); 3 Open items mirrored from the root worklist (BACKLOG-099..101), 1 In Progress, 120 Resolved, 124 Total. Earlier: BACKLOG-097 / TRIAGE-27 is Resolved (merged PR #133 / `52a4ad7`); Earlier: BACKLOG-096 / TRIAGE-26 is Resolved; BACKLOG-095 / TRIAGE-25 is Resolved; BACKLOG-094 / TRIAGE-23 is Resolved; BACKLOG-093 / TRIAGE-22 is Resolved; BACKLOG-092 / TRIAGE-21 is Resolved; BACKLOG-091 / TRIAGE-10 is Resolved; BACKLOG-090 / TRIAGE-15 is Resolved; BACKLOG-089 / TRIAGE-20 is Resolved; BACKLOG-088 / TRIAGE-24 is Resolved; BACKLOG-087 / TRIAGE-19 is Resolved; BACKLOG-086 / TRIAGE-18 is Resolved; BACKLOG-085 / TRIAGE-17 is Resolved; BACKLOG-084 / TRIAGE-16 is Resolved; BACKLOG-083 is Resolved; BACKLOG-082 is Resolved; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed |
+| Current sprint focus | BACKLOG-099 / TRIAGE-29 is next (Document that Naked Pairs and X-Wing eliminations are transient); 3 Open items mirrored from the root worklist (BACKLOG-099..101), 0 In Progress, 121 Resolved, 124 Total. Earlier: BACKLOG-098 / TRIAGE-28 is Resolved (merged PR #135 / `ced4df8`); Earlier: BACKLOG-097 / TRIAGE-27 is Resolved (merged PR #133 / `52a4ad7`); Earlier: BACKLOG-096 / TRIAGE-26 is Resolved; BACKLOG-095 / TRIAGE-25 is Resolved; BACKLOG-094 / TRIAGE-23 is Resolved; BACKLOG-093 / TRIAGE-22 is Resolved; BACKLOG-092 / TRIAGE-21 is Resolved; BACKLOG-091 / TRIAGE-10 is Resolved; BACKLOG-090 / TRIAGE-15 is Resolved; BACKLOG-089 / TRIAGE-20 is Resolved; BACKLOG-088 / TRIAGE-24 is Resolved; BACKLOG-087 / TRIAGE-19 is Resolved; BACKLOG-086 / TRIAGE-18 is Resolved; BACKLOG-085 / TRIAGE-17 is Resolved; BACKLOG-084 / TRIAGE-16 is Resolved; BACKLOG-083 is Resolved; BACKLOG-082 is Resolved; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -582,7 +584,7 @@ execution order.
 | BACKLOG-095 | TRIAGE-25 | Update the canonical feature narrative to the five implemented techniques | All (canonical feature) | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-10-triage-25-feature-narrative-five-techniques.md); DR-051 accepted; merged PR #129 / `0c667bf` |
 | BACKLOG-096 | TRIAGE-26 | Amend RA Section 5.6 to permit exact behavioural literals in canonical features | All (RA) | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-10-triage-26-amend-ra-exact-literals.md); DR-052 accepted; merged PR #131 / `a353a34` |
 | BACKLOG-097 | TRIAGE-27 | Make Compose run the same verification as CI and pin container base images | All (config) | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-10-triage-27-compose-ci-verification-parity.md); merged PR #133 / `52a4ad7` |
-| BACKLOG-098 | TRIAGE-28 | Untrack agent-local settings and explain the legacy Stack directory names | All (docs + config) | Low | In Progress | [Approved plan](../.implementation-plans/2026-11-10-triage-28-untrack-local-settings-legacy-names.md) |
+| BACKLOG-098 | TRIAGE-28 | Untrack agent-local settings and explain the legacy Stack directory names | All (docs + config) | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-10-triage-28-untrack-local-settings-legacy-names.md); merged PR #135 / `ced4df8` |
 | BACKLOG-099 | TRIAGE-29 | Document that Naked Pairs and X-Wing eliminations are transient | All (docs) | Low | Open | None expected |
 | BACKLOG-100 | TRIAGE-30 | Surface loader errors from the TypeScript and Python `LoadPuzzles` abilities | DEMOAPP001 / DEMOAPP002 | Low | Open | None expected |
 | BACKLOG-101 | TRIAGE-31 | Map a malformed percent-escape in an API path to a client error, not 500 | DEMOAPP001 | Low | Open | None expected |
@@ -1916,6 +1918,26 @@ forwarding; it is retained and explicitly excluded from acceptance. The correcte
 assertion failure and final positive run above are the accepted controls. The manifest-selected
 v6 handover and registry's unscheduled BACKLOG-078 note are historical/non-current;
 their separate lifecycle refresh is outside TRIAGE-09.
+
+---
+
+### BACKLOG-098: Untrack agent-local settings and explain the legacy Stack directory names (TRIAGE-28)
+
+**Status:** Resolved
+**Delivered:** PR [#135](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/135), merged as `ced4df8` (2026-11-10)
+**Priority:** Low
+**Stack(s):** All (docs + config)
+**Source:** Root worklist TRIAGE-28; Claude review v2 (`DOCS/.review/CODE_REVIEW_Claude_v2_20261105T1425Z/`) Risk 11.
+**Plan:** [Delivered implementation plan](../.implementation-plans/2026-11-10-triage-28-untrack-local-settings-legacy-names.md) (owner approved, 2026-11-10)
+**Decision:** None required (repository hygiene & documentation clarification).
+
+**Acceptance:** `.claude/settings.local.json` is removed from the git index (`git rm --cached`) and ignored, with `.claude/settings.json` kept; the root `README.md` states that directory names are stable legacy IDs (DEMOAPP001 uses Cucumber.js + Serenity/JS with no Cypress; DEMOAPP003 uses Reqnroll); all 8 parity gates and 37 documentation currency negative controls pass; CI passes across all 5 jobs.
+
+**Verification:**
+- Git Tracking & Ignore: Untracked `.claude/settings.local.json` via `git rm --cached` while preserving the file on local disk; added `.claude/*.local.json` to `.gitignore`; verified `.claude/settings.json` remains tracked.
+- Root README Callout: Added explicit note under `## Demo Applications` in `README.md` explaining stable legacy IDs, and annotated the directory tree.
+- Parity & Currency Gates: Local `.batch/check-ra-header-currency.ps1` PASS; `.batch/test-documentation-currency.ps1` PASS (37/37 negative controls rejected); `.batch/run-parity-checks.ps1` PASS (all 8 parity gates clean).
+- CI Validation: PR #135 CI run 42908287976 passed all 5 jobs cleanly.
 
 ---
 
