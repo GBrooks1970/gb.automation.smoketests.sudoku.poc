@@ -70,6 +70,7 @@ YYYY-MM-DD_short-session-topic.md
 | [2026-11-10_triage-27-compose-ci-verification-parity.md](2026-11-10_triage-27-compose-ci-verification-parity.md) | 2026-11-10 | BACKLOG-097 / TRIAGE-27 Make Compose run the same verification as CI and pin container base images |
 | [2026-11-10_triage-28-untrack-local-settings-legacy-names.md](2026-11-10_triage-28-untrack-local-settings-legacy-names.md) | 2026-11-10 | BACKLOG-098 / TRIAGE-28 Untrack agent-local settings and explain the legacy Stack directory names |
 | [2026-11-11_triage-29-document-transient-eliminations.md](2026-11-11_triage-29-document-transient-eliminations.md) | 2026-11-11 | BACKLOG-099 / TRIAGE-29 Document that Naked Pairs and X-Wing eliminations are transient |
+| [2026-11-11_triage-30-surface-loader-errors.md](2026-11-11_triage-30-surface-loader-errors.md) | 2026-11-11 | BACKLOG-100 / TRIAGE-30 Surface loader errors from the TypeScript and Python LoadPuzzles abilities |
 
 
 ---
