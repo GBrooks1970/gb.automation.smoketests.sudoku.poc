@@ -6,7 +6,8 @@ import * as path from 'path';
  * Ability: LoadPuzzles
  *
  * Wraps PuzzleLoader to give an actor access to the puzzle data source.
- * The path is resolved once at construction; all queries are read-only.
+ * The path is resolved once at construction; all queries are read-only and
+ * surface any captured loader failure rather than masking it with empty results.
  */
 export class LoadPuzzles extends Ability {
   private loader: PuzzleLoader | null = null;
@@ -21,30 +22,43 @@ export class LoadPuzzles extends Ability {
     try {
       this.loader = new PuzzleLoader(path.resolve(filePath));
     } catch (e) {
-      this.lastError = e as Error;
+      this.lastError = e instanceof Error ? e : new Error(String(e));
     }
   }
 
   getByName(name: string): Puzzle | undefined {
-    return this.loader?.getPuzzleByName(name);
+    return this.requireLoader().getPuzzleByName(name);
   }
 
   getByIndex(index: number): Puzzle | undefined {
-    return this.loader?.getPuzzleByIndex(index);
+    return this.requireLoader().getPuzzleByIndex(index);
   }
 
   getByDifficulty(difficulty: string): Puzzle[] {
-    return this.loader?.getPuzzlesByDifficulty(difficulty) ?? [];
+    return this.requireLoader().getPuzzlesByDifficulty(difficulty);
   }
 
   getAll(): Puzzle[] {
-    return this.loader?.getAllPuzzles() ?? [];
+    return this.requireLoader().getAllPuzzles();
   }
 
   getCount(): number {
-    return this.loader?.getPuzzleCount() ?? 0;
+    return this.requireLoader().getPuzzleCount();
   }
+
   getError(): Error | null {
     return this.lastError;
+  }
+
+  private requireLoader(): PuzzleLoader {
+    if (this.lastError !== null) {
+      throw this.lastError;
+    }
+
+    if (this.loader === null) {
+      throw new Error('PuzzleLoader is not initialised');
+    }
+
+    return this.loader;
   }
 }

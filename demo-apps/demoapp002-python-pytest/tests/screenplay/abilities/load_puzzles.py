@@ -17,19 +17,26 @@ class LoadPuzzles:
             self._last_error = error
 
     def get_by_name(self, name: str) -> Puzzle | None:
-        return self._loader.get_puzzle_by_name(name) if self._loader else None
+        return self._require_loader().get_puzzle_by_name(name)
 
     def get_by_index(self, index: int) -> Puzzle | None:
-        return self._loader.get_puzzle_by_index(index) if self._loader else None
+        return self._require_loader().get_puzzle_by_index(index)
 
     def get_by_difficulty(self, difficulty: str) -> list[Puzzle]:
-        return self._loader.get_puzzles_by_difficulty(difficulty) if self._loader else []
+        return self._require_loader().get_puzzles_by_difficulty(difficulty)
 
     def get_all(self) -> list[Puzzle]:
-        return self._loader.get_all_puzzles() if self._loader else []
+        return self._require_loader().get_all_puzzles()
 
     def get_count(self) -> int:
-        return self._loader.get_puzzle_count() if self._loader else 0
+        return self._require_loader().get_puzzle_count()
 
     def get_error(self) -> Exception | None:
         return self._last_error
+
+    def _require_loader(self) -> PuzzleLoader:
+        if self._last_error is not None:
+            raise self._last_error
+        if self._loader is None:
+            raise RuntimeError("PuzzleLoader is not initialised")
+        return self._loader
