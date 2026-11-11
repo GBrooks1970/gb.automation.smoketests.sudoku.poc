@@ -95,6 +95,7 @@ The core solver contract binds **every** stack, present and future:
 5. **Validation:** structure validation (shape, 0–9 range, integer values) is mandatory at the
    loader; constraint validation lives in solver/API layers (§2.2 item 4).
 6. **Status strings:** exactly the two values in §2.3.
+7. **Transient candidate state:** candidate sets are dynamically computed from the physical working grid on each pass (`getCellCandidates(r, c)`). The solver maintains no persistent candidate grid across technique steps or orchestration iterations. Candidate eliminations (e.g. from Naked Pairs and X-Wing) take permanent effect if and only if they immediately reduce a peer cell's candidate set to a single digit ($|\mathcal{C}(r, c)| = 1$), prompting cell placement on the grid (`app_src/SudokuSolver.ts` lines 294–314, 383–395). Non-singleton eliminations are discarded when the technique method completes. Compounding multi-technique pencil marks remains a future capability.
 
 ## 4. Deliberate Extensions Beyond v1.0
 
