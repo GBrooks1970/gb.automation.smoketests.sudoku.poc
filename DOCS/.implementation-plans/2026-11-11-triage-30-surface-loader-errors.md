@@ -4,7 +4,7 @@ created: 2026-11-11T00:12:00Z
 project: gb.automation.smoketests.sudoku.poc
 type: implementation-plan
 item: BACKLOG-100 / TRIAGE-30
-status: approved
+status: delivered
 language: en-GB
 ---
 
@@ -122,3 +122,11 @@ Create focused ability contract test suites in each Stack:
 3. **DEMOAPP002 gates:** `.venv\Scripts\python.exe -m pytest tests/component` (32 passed), `.venv\Scripts\python.exe -m pytest` (32 component + 55 pytest-bdd scenarios = 87 passed); CI runs full `coverage` 85% floor and `pip-audit`.
 4. **Repository parity & currency gates:** `.batch/check-ra-header-currency.ps1`, `.batch/test-documentation-currency.ps1` (37/37), `.batch/run-parity-checks.ps1` (all 8 parity gates: RA currency, doc currency, audit policy, CI evidence, memory keys, feature parity, step text parity, puzzles parity).
 5. **CI Verification:** All 5 required CI jobs (`DEMOAPP001 TypeScript Cypress`, `DEMOAPP002 Python Pytest`, `DEMOAPP003 C# Reqnroll`, `Parity gate and evidence page`, `Gate (all stacks green)`) pass completely green.
+
+---
+
+## Outcome
+
+- **Status:** Delivered in PR [#139](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/139) (head `076c4d4`, merged as `06692e2c99db7514a83d40e6bdf3e81438d63cab`).
+- **CI Run:** Workflow run `42983555157` passed all 5 required jobs (`DEMOAPP001 TypeScript Cypress`, `DEMOAPP002 Python Pytest`, `DEMOAPP003 C# Reqnroll`, `Parity gate and evidence page`, `Gate (all stacks green)`).
+- **Summary of Delivered Changes:** Added `requireLoader()` / `_require_loader()` to `LoadPuzzles.ts` and `load_puzzles.py` so all 5 query getters rethrow/reraise captured loader errors while `getError()`/`get_error()` remain non-throwing; added missing-file must-fail component contract tests (`tests/component/load-puzzles-ability.contract.test.ts`, `tests/component/test_load_puzzles_ability.py`) verified red before the fix and green after; re-measured `demoapp001-component` (113 -> 115) and `demoapp002-component` (30 -> 32) in `DOCS/.analysis/2026-10-07-component-execution-inventory.json`; aligned active count claims, mutation anchors, and `CHANGELOG.md`; passed all 8 parity gates and 37 documentation currency controls.
