@@ -39,7 +39,7 @@ Expected output, backed by the
 and canonical feature contract:
 
 ```text
-113 component tests (113 passed)
+115 component tests (115 passed)
 55 scenarios (55 passed)
 309 steps (309 passed)
 API integration tests: PASS

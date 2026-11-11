@@ -9,20 +9,21 @@
     "Refresh after collection/source drift: rerun all four native commands, retain zero-failure/skip results and UTC timings, update output hashes and sorted source fingerprints, reconcile active count claims, then run the guard and isolated controls.",
     "2026-11-08 (BACKLOG-086 / TRIAGE-18): only the demoapp003-component suite was re-measured, after two missing-path controls were added (28 to 30 tests). The other three suites keep their 2026-10-07 measurements because their sources are unchanged; recordedOn stays the original date.",
     "2026-11-09 (BACKLOG-091 / TRIAGE-10): only the demoapp001-openapi suite was re-measured, after adding three generator request/response contract tests and 400 validation error code assertions (8 to 11 tests). The other three suites keep their measurements because their sources are unchanged; recordedOn stays the original date.",
-    "2026-11-10 (BACKLOG-094 / TRIAGE-23): demoapp002-component pyproject.toml source hash refreshed after retiring unused stack-demoapp002 pytest marker (30 tests unchanged). The other three suites keep their measurements because their sources are unchanged; recordedOn stays the original date."
+    "2026-11-10 (BACKLOG-094 / TRIAGE-23): demoapp002-component pyproject.toml source hash refreshed after retiring unused stack-demoapp002 pytest marker (30 tests unchanged). The other three suites keep their measurements because their sources are unchanged; recordedOn stays the original date.",
+    "2026-11-11 (BACKLOG-100 / TRIAGE-30): re-measured demoapp001-component (113 to 115 tests) and demoapp002-component (30 to 32 tests) after adding LoadPuzzles ability error-surfacing component contracts. Other suites remain unchanged; recordedOn stays the original date."
   ],
   "suites": [
     {
       "id": "demoapp001-component",
-      "tests": 113,
-      "passed": 113,
+      "tests": 115,
+      "passed": 115,
       "failed": 0,
       "skipped": 0,
       "runtime": "Node 24.18.0 / npm 11.16.0",
-      "sourceSha": "eaaeb79a9ec7d9bb4c5eb6338a956e4308efceee",
-      "startedUtc": "2026-10-07T15:56:58.1278560Z",
-      "commandDurationMs": 33109,
-      "runnerDurationMs": 31638.1744,
+      "sourceSha": "26fd608f4af42479e367b1ae94e05aaaaabe5b27",
+      "startedUtc": "2026-11-11T07:57:46.6391510Z",
+      "commandDurationMs": 23264,
+      "runnerDurationMs": 22901.4642,
       "command": {
         "executable": "node",
         "arguments": [
@@ -77,6 +78,10 @@
           "sha256": "1a3af41fc9c8460bd4ee49c1659d6b7c6c95f21f371d408798775fb6a7c242e2"
         },
         {
+          "path": "demo-apps/demoapp001-typescript-cypress/tests/component/load-puzzles-ability.contract.test.ts",
+          "sha256": "d68acee91024cdc9d904403ba720be91d3b990501b3ddd0f7c482bfdc4f4f4c3"
+        },
+        {
           "path": "demo-apps/demoapp001-typescript-cypress/tests/component/orchestration.contract.test.ts",
           "sha256": "72180f458289020dbe1fbb02ce31abc4299e0e362b5ca697f9389e16a82b1973"
         },
@@ -111,8 +116,8 @@
       ],
       "outputs": [
         {
-          "path": ".results/triage-08/20261007/ts-component.log",
-          "sha256": "484d2f3a60fe3adb3238326714ba832750d1588a455dec8037a84f76663ef6d8"
+          "path": ".results/triage-30/20261111/ts-component.log",
+          "sha256": "bf7da33d95e2ce3cd7ec021ce98e26bde0ab1abbddc8bb5ea5c7f2a6632f1f6d"
         }
       ]
     },
@@ -177,22 +182,22 @@
     },
     {
       "id": "demoapp002-component",
-      "tests": 30,
-      "passed": 30,
+      "tests": 32,
+      "passed": 32,
       "failed": 0,
       "skipped": 0,
       "runtime": "Python 3.13.1",
-      "sourceSha": "eaaeb79a9ec7d9bb4c5eb6338a956e4308efceee",
-      "startedUtc": "2026-10-07T15:56:58.2059100Z",
-      "commandDurationMs": 9288,
-      "runnerDurationMs": 3490,
+      "sourceSha": "26fd608f4af42479e367b1ae94e05aaaaabe5b27",
+      "startedUtc": "2026-11-11T07:58:11.0208040Z",
+      "commandDurationMs": 2440,
+      "runnerDurationMs": 830,
       "command": {
         "executable": "$REPOSITORY_ROOT/demo-apps/demoapp002-python-pytest/.venv/Scripts/python.exe",
         "arguments": [
           "-m",
           "pytest",
           "tests/component",
-          "--junitxml=$REPOSITORY_ROOT/.results/triage-08/20261007/python-component.xml"
+          "--junitxml=$REPOSITORY_ROOT/.results/triage-30/20261111/python-component.xml"
         ],
         "workingDirectory": "demo-apps/demoapp002-python-pytest"
       },
@@ -219,6 +224,10 @@
           "sha256": "aa50f5c7f5257cae528a2cbc39bea1e26186f363fceddd47e8ef6fb791092195"
         },
         {
+          "path": "demo-apps/demoapp002-python-pytest/tests/component/test_load_puzzles_ability.py",
+          "sha256": "7b1e3a6c2b0a5a360799a7acf64c81ac592d36372525972c775330cb3014881e"
+        },
+        {
           "path": "demo-apps/demoapp002-python-pytest/tests/component/test_orchestration_attempts.py",
           "sha256": "fe9ea214c834234ea4efe717e78f213495b6214d2ddaf5ccfd29a1d0a6e867e8"
         },
@@ -237,12 +246,12 @@
       ],
       "outputs": [
         {
-          "path": ".results/triage-08/20261007/py-component.log",
-          "sha256": "52340792ac4655f71617d41deb811fccdc506e88dbb9e00dd5621403aaf4e2f6"
+          "path": ".results/triage-30/20261111/py-component.log",
+          "sha256": "986f5ed420f35c9fd0291ef8516fa4fe0f5ae4710ad6f44d98dd3097f2f01952"
         },
         {
-          "path": ".results/triage-08/20261007/python-component.xml",
-          "sha256": "300f3e027f96dac6b1db6ce8bd1989b63e557d3029d633e006b73de88488802b"
+          "path": ".results/triage-30/20261111/python-component.xml",
+          "sha256": "68faa34c64d605f24a4cbb2e5c16584cfc4c22952c171beb6201cfb780fba883"
         }
       ]
     },

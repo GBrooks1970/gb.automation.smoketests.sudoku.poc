@@ -1,7 +1,7 @@
 """Unified verification entry point for DEMOAPP002 (Python Pytest).
 
 Runs component coverage floor enforcement (fail_under = 85) followed by the
-complete test suite (30 component tests + 55 Gherkin scenarios).
+complete test suite (32 component tests + 55 Gherkin scenarios).
 """
 
 from __future__ import annotations

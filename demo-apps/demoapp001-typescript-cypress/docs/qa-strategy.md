@@ -68,7 +68,7 @@ on 2026-07-28. Both are historical evidence, not newly measured results.
 |--------|-------|--------|
 | Scenarios | 55 | 55 |
 | Steps | 309 | — |
-| Focused component tests | 113 | All passing |
+| Focused component tests | 115 | All passing |
 | OpenAPI contract tests | 11 | All passing |
 | Historical coverage baseline (2026-07-27) | 73.23% lines / 87.67% branches / 79.59% functions | 70% / 85% / 75% floors |
 | Historical mutation observation (2026-07-28) | 10/10 killed | No material survivor |
