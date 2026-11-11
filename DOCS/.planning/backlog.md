@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-11-11 - BACKLOG-100 / TRIAGE-30 Resolved: surface loader errors from TypeScript and Python LoadPuzzles abilities under owner-approved plan; merged PR #139 / `06692e2`; all 5 CI jobs green; BACKLOG-101 / TRIAGE-31 In Progress under owner-approved plan; 0 Open, 1 In Progress (BACKLOG-101), 123 Resolved, 124 Total. Earlier: BACKLOG-099 / TRIAGE-29 Resolved: document that Naked Pairs and X-Wing eliminations are transient under owner-approved plan; merged PR #137 / `20cdf4d`; all 5 CI jobs green. Earlier: BACKLOG-098 / TRIAGE-28 Resolved: untrack agent-local settings and explain legacy Stack directory names under owner-approved plan; merged PR #135 / `ced4df8`; all 5 CI jobs green. Earlier: BACKLOG-097 / TRIAGE-27 Resolved: make Compose run the same verification as CI and pin container base images under owner-approved plan; merged PR #133 / `52a4ad7`; all 5 CI jobs green. Earlier: BACKLOG-096 / TRIAGE-26 Resolved: amend RA Section 5.6 to permit exact behavioural literals in canonical features, record DR-052, bump RA to v1.16 under owner-approved plan; merged PR #131 / `a353a34`; all 5 CI jobs green. Earlier: BACKLOG-095 / TRIAGE-25 Resolved: update canonical feature narrative to five implemented techniques, record DR-051 under owner-approved plan; merged PR #129 / `0c667bf`; all 5 CI jobs green. Earlier: BACKLOG-094 / TRIAGE-23 Resolved: gate puzzles.json copy parity, correct guide wording, remove dead pytest marker, record DR-050 under owner-approved plan; merged PR #127 / `7711e57`; all 5 CI jobs green. Earlier: BACKLOG-093 / TRIAGE-22 Resolved: pin workflow actions to full commit SHAs and configure Dependabot under owner-approved plan; merged PR #122 / `5ebcec6`; CI and dependency-audit workflows all green. Earlier: BACKLOG-092 / TRIAGE-21 Resolved. Earlier: BACKLOG-091 / TRIAGE-10 Resolved. Earlier: BACKLOG-090 / TRIAGE-15 Resolved. Earlier: BACKLOG-089 / TRIAGE-20 Resolved. Earlier: BACKLOG-088 / TRIAGE-24 Resolved. Earlier: BACKLOG-087 / TRIAGE-19 Resolved.
+**Last Updated:** 2026-11-11 - BACKLOG-101 / TRIAGE-31 Resolved: map malformed percent-escape in API path to 400 `INVALID_URL_ENCODING` under owner-approved plan; merged PR #141 / `927e755`; all 5 CI jobs green; 0 Open, 0 In Progress, 124 Resolved, 124 Total. Earlier: BACKLOG-099 / TRIAGE-29 Resolved: document that Naked Pairs and X-Wing eliminations are transient under owner-approved plan; merged PR #137 / `20cdf4d`; all 5 CI jobs green. Earlier: BACKLOG-098 / TRIAGE-28 Resolved: untrack agent-local settings and explain legacy Stack directory names under owner-approved plan; merged PR #135 / `ced4df8`; all 5 CI jobs green. Earlier: BACKLOG-097 / TRIAGE-27 Resolved: make Compose run the same verification as CI and pin container base images under owner-approved plan; merged PR #133 / `52a4ad7`; all 5 CI jobs green. Earlier: BACKLOG-096 / TRIAGE-26 Resolved: amend RA Section 5.6 to permit exact behavioural literals in canonical features, record DR-052, bump RA to v1.16 under owner-approved plan; merged PR #131 / `a353a34`; all 5 CI jobs green. Earlier: BACKLOG-095 / TRIAGE-25 Resolved: update canonical feature narrative to five implemented techniques, record DR-051 under owner-approved plan; merged PR #129 / `0c667bf`; all 5 CI jobs green. Earlier: BACKLOG-094 / TRIAGE-23 Resolved: gate puzzles.json copy parity, correct guide wording, remove dead pytest marker, record DR-050 under owner-approved plan; merged PR #127 / `7711e57`; all 5 CI jobs green. Earlier: BACKLOG-093 / TRIAGE-22 Resolved: pin workflow actions to full commit SHAs and configure Dependabot under owner-approved plan; merged PR #122 / `5ebcec6`; CI and dependency-audit workflows all green. Earlier: BACKLOG-092 / TRIAGE-21 Resolved. Earlier: BACKLOG-091 / TRIAGE-10 Resolved. Earlier: BACKLOG-090 / TRIAGE-15 Resolved. Earlier: BACKLOG-089 / TRIAGE-20 Resolved. Earlier: BACKLOG-088 / TRIAGE-24 Resolved. Earlier: BACKLOG-087 / TRIAGE-19 Resolved.
 **Governed by:** `reference-architecture.md` v1.16 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -26,9 +26,11 @@ Per v1.16 Section 10.1:
 | Status | Count |
 |--------|-------|
 | Open | 0 |
-| In Progress | 1 |
-| Resolved | 123 |
+| In Progress | 0 |
+| Resolved | 124 |
 | **Total** | **124** |
+
+**Update (2026-11-11, BACKLOG-101 / TRIAGE-31):** Mapped Express route-parameter `URIError` decode failures carrying a 4xx `.status` (`isRouteDecodeError`) to HTTP `400` (`INVALID_URL_ENCODING`) on `GET /api/puzzles/%ZZ` and `GET /api/visualise/%ZZ` while preserving `500 INTERNAL_SERVER_ERROR` for unexpected internal `URIError` failures; updated `docs/openapi.yaml` per DR-035; verified must-fail baseline red before the fix and green after; and re-measured `demoapp001-openapi` (`11 -> 12` contract tests) plus active currency docs. Delivered in PR #141, merged as `927e755`. All 124 backlog items are now Resolved.
 
 **Update (2026-11-11, BACKLOG-100 / TRIAGE-30):** Surfaced captured loader errors from `LoadPuzzles.ts` (DEMOAPP001) and `load_puzzles.py` (DEMOAPP002) across all five query getters via `requireLoader()` / `_require_loader()` while keeping `getError()`/`get_error()` non-throwing, added missing-file contract tests verified red before the fix and green after (`115` TS / `32` Python component tests), and re-measured the execution inventory and currency documentation. Delivered in PR #139, merged as `06692e2`.
 
@@ -591,7 +593,7 @@ execution order.
 | BACKLOG-098 | TRIAGE-28 | Untrack agent-local settings and explain the legacy Stack directory names | All (docs + config) | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-10-triage-28-untrack-local-settings-legacy-names.md); merged PR #135 / `ced4df8` |
 | BACKLOG-099 | TRIAGE-29 | Document that Naked Pairs and X-Wing eliminations are transient | All (docs) | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-10-triage-29-document-transient-eliminations.md); merged PR #137 / `20cdf4d` |
 | BACKLOG-100 | TRIAGE-30 | Surface loader errors from the TypeScript and Python `LoadPuzzles` abilities | DEMOAPP001 / DEMOAPP002 | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-11-triage-30-surface-loader-errors.md); merged PR #139 / `06692e2` |
-| BACKLOG-101 | TRIAGE-31 | Map a malformed percent-escape in an API path to a client error, not 500 | DEMOAPP001 | Low | In Progress | [Approved plan](../.implementation-plans/2026-11-11-triage-31-malformed-percent-escape.md); no DR required |
+| BACKLOG-101 | TRIAGE-31 | Map a malformed percent-escape in an API path to a client error, not 500 | DEMOAPP001 | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-11-triage-31-malformed-percent-escape.md); merged PR #141 / `927e755` |
 
 ## Owner-Selected Browser Contract Repair (2026-09-30)
 
@@ -2199,7 +2201,8 @@ are kept (owner decision).
 
 ### BACKLOG-101: Map a malformed percent-escape in an API path to a client error, not 500
 
-**Status:** In Progress (owner approved Decisions 1–4 on 2026-11-11; [approved plan](../.implementation-plans/2026-11-11-triage-31-malformed-percent-escape.md)).
+**Status:** Resolved 2026-11-11; merged PR #141 / `927e755`; CI run 42986207472 passed all 5 required jobs.
+**Log:** [Implementation log](../.implementation-logs/2026-11-11_triage-31-malformed-percent-escape.md)
 **Priority:** Low
 **Stack(s):** DEMOAPP001
 **Source:** Root worklist TRIAGE-31, owner-approved via the BACKLOG-087 / TRIAGE-19 plan's Decision 4 on 2026-11-08.

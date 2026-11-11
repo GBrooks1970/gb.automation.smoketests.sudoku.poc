@@ -4,7 +4,7 @@ created: 2026-11-11T08:10:00Z
 project: gb.automation.smoketests.sudoku.poc
 type: implementation-plan
 item: BACKLOG-101 / TRIAGE-31
-status: approved
+status: delivered
 language: en-GB
 ---
 
@@ -95,3 +95,11 @@ Probed directly against `createApp()` under Node `v24.18.0` and Express 5 (`expr
 2. **DEMOAPP001 gates:** `npm run build`, `npm run lint`, `npm run format:check`, `npm run test:api`, `npm run verify:openapi` (`redocly lint` + `12/12` OpenAPI contract tests), `npm run test:coverage` (`115/115` with 70%/85%/75% floors), `npm test` (`115` component + `55` scenarios / `309` steps).
 3. **Repository parity & currency gates:** `.batch/check-ra-header-currency.ps1`, `.batch/test-documentation-currency.ps1` (`37/37`), `.batch/run-parity-checks.ps1` (all 8 parity gates).
 4. **CI Verification:** All 5 required CI jobs (`DEMOAPP001 TypeScript Cypress`, `DEMOAPP002 Python Pytest`, `DEMOAPP003 C# Reqnroll`, `Parity gate and evidence page`, `Gate (all stacks green)`) pass completely green.
+
+---
+
+## Outcome
+
+- **Implementation PR:** [#141](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/141) (`worklist/triage-31-malformed-percent-escape` @ `1475b5e`), merged into `main` as `927e7556bde83bbd2f429917f32856ade547101b` on 2026-11-11.
+- **CI Verification:** All 5 required CI jobs passed (run `42986207472`: `DEMOAPP001 TypeScript Cypress` 3m58s, `DEMOAPP002 Python Pytest` 43s, `DEMOAPP003 C# Reqnroll` 1m24s, `Parity gate and evidence page` 11s, `Gate (all stacks green)` 3s).
+- **Delivered Scope:** Express route-parameter `URIError` decode failures carrying a 4xx `.status` now return `400 INVALID_URL_ENCODING` (`"Invalid URL percent-encoding in request path"`) on `GET /api/puzzles/%ZZ` and `GET /api/visualise/%ZZ`; `docs/openapi.yaml` updated with `'400'` responses and `INVALID_URL_ENCODING` enum entry per DR-035; `demoapp001-openapi` re-measured at `12/12` passing contract tests; active currency claims and all 8 parity gates pass cleanly.
