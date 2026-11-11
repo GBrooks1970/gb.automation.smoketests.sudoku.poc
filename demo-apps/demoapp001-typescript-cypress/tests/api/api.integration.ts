@@ -118,6 +118,11 @@ async function puzzleEndpoints(): Promise<void> {
   // A literal '%' in a name (sent as %25) is a client-side miss, not a server fault.
   const percentResponse = await request(app).get('/api/puzzles/100%25').expect(404);
   assert.strictEqual(percentResponse.body.error, 'PUZZLE_NOT_FOUND');
+
+  // A malformed percent-escape is a client-side 400 error, not a 500 server fault.
+  const malformedEscapeResponse = await request(app).get('/api/puzzles/%ZZ').expect(400);
+  assert.strictEqual(malformedEscapeResponse.body.success, false);
+  assert.strictEqual(malformedEscapeResponse.body.error, 'INVALID_URL_ENCODING');
 }
 
 async function validateEndpoint(): Promise<void> {
@@ -276,6 +281,11 @@ async function visualiseEndpoint(): Promise<void> {
     .get('/api/visualise/Easy%2520Scan%2520Grid')
     .expect(404);
   assert.strictEqual(doubleEncodedResponse.body.error, 'PUZZLE_NOT_FOUND');
+
+  // A malformed percent-escape is a client-side 400 error, not a 500 server fault.
+  const malformedEscapeResponse = await request(app).get('/api/visualise/%ZZ').expect(400);
+  assert.strictEqual(malformedEscapeResponse.body.success, false);
+  assert.strictEqual(malformedEscapeResponse.body.error, 'INVALID_URL_ENCODING');
 }
 
 async function tutorEndpoint(): Promise<void> {

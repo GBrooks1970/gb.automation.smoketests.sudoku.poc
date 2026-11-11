@@ -223,6 +223,28 @@ test('OpenAPI accepts all generator validation error codes (400) from the Expres
   await assertContractResponse('postGeneratePuzzle', invalidSeed);
 });
 
+test('OpenAPI accepts 400 INVALID_URL_ENCODING for malformed percent-escapes and preserves 500 for internal URIError', async () => {
+  const puzzleMalformed = await request(app).get('/api/puzzles/%ZZ').expect(400);
+  assert.equal(puzzleMalformed.body.success, false);
+  assert.equal(puzzleMalformed.body.error, 'INVALID_URL_ENCODING');
+  assert.equal(typeof puzzleMalformed.body.requestId, 'string');
+  await assertContractResponse('getPuzzleByName', puzzleMalformed);
+
+  const visualiseMalformed = await request(app).get('/api/visualise/%ZZ').expect(400);
+  assert.equal(visualiseMalformed.body.success, false);
+  assert.equal(visualiseMalformed.body.error, 'INVALID_URL_ENCODING');
+  assert.equal(typeof visualiseMalformed.body.requestId, 'string');
+  await assertContractResponse('getVisualise', visualiseMalformed);
+
+  const failingUriApp = createApp(new UnexpectedUriErrorPuzzleService());
+  const internalUriFailure = await request(failingUriApp)
+    .get('/api/puzzles/Easy%20Scan%20Grid')
+    .expect(500);
+  assert.equal(internalUriFailure.body.success, false);
+  assert.equal(internalUriFailure.body.error, 'INTERNAL_SERVER_ERROR');
+  await assertContractResponse('getPuzzleByName', internalUriFailure);
+});
+
 async function validateRequest(_operationId: string, body: unknown) {
   await contractReady;
   return contract.validateRequest({
@@ -254,6 +276,12 @@ async function validateResponse(operationId: string, status: number, body: unkno
 class FailingPuzzleService extends SudokuApiService {
   override listPuzzles(): never {
     throw new Error('intentional contract-test failure');
+  }
+}
+
+class UnexpectedUriErrorPuzzleService extends SudokuApiService {
+  override getPuzzleByName(): never {
+    throw new URIError('intentional internal URIError failure');
   }
 }
 

@@ -173,6 +173,16 @@ function errorHandler(
     return;
   }
 
+  if (isRouteDecodeError(error)) {
+    res.status(error.status).json({
+      success: false,
+      error: 'INVALID_URL_ENCODING',
+      message: 'Invalid URL percent-encoding in request path',
+      requestId,
+    });
+    return;
+  }
+
   res.status(500).json({
     success: false,
     error: 'INTERNAL_SERVER_ERROR',
@@ -183,6 +193,16 @@ function errorHandler(
 
 function isJsonParseError(error: unknown): error is SyntaxError & { status: number } {
   return error instanceof SyntaxError && 'status' in error;
+}
+
+function isRouteDecodeError(error: unknown): error is URIError & { status: number } {
+  return (
+    error instanceof URIError &&
+    'status' in error &&
+    typeof error.status === 'number' &&
+    error.status >= 400 &&
+    error.status < 500
+  );
 }
 
 function createRequestId(): string {
