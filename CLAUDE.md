@@ -127,7 +127,7 @@ Run DEMOAPP001 commands from `demo-apps/demoapp001-typescript-cypress/`.
 | `npm run build` | Compile TypeScript |
 | `npm run lint` | Run ESLint over app source |
 | `npm run format:check` | Check Prettier formatting for app source |
-| `npm test` | Run 113 component tests, then 55 Cucumber/Serenity Screenplay scenarios |
+| `npm test` | Run 115 component tests, then 55 Cucumber/Serenity Screenplay scenarios |
 | `npm run test:ci` | Run the same tests while emitting Cucumber JSON and JUnit evidence |
 | `npm run test:coverage` | Enforce the DR-038 component-coverage floors |
 | `npm run test:coverage:ci` | Enforce the same floors and emit LCOV evidence |
@@ -144,7 +144,7 @@ Run DEMOAPP002 commands from `demo-apps/demoapp002-python-pytest/`.
 | Command | Purpose |
 |---------|---------|
 | `python -m pip install -c requirements-test.lock -e ".[test]"` | Install constrained Python Stack test dependencies |
-| `python -m pytest` | Run 30 component tests plus 55 pytest-bdd scenarios (85 total) |
+| `python -m pytest` | Run 32 component tests plus 55 pytest-bdd scenarios (87 total) |
 | `python -m pip_audit --local --skip-editable --format=json` | Audit the resolved Python environment with the governed tool |
 
 Run DEMOAPP003 commands from `demo-apps/demoapp003-csharp-specflow/`.

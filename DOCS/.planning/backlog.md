@@ -1,7 +1,7 @@
 # Project Backlog
 
 **Project:** Sudoku Solver POC
-**Last Updated:** 2026-11-11 - BACKLOG-099 / TRIAGE-29 Resolved: document that Naked Pairs and X-Wing eliminations are transient under owner-approved plan; merged PR #137 / `20cdf4d`; all 5 CI jobs green. Now 2 Open (BACKLOG-100..101), 0 In Progress, 122 Resolved, 124 Total. Earlier: BACKLOG-098 / TRIAGE-28 Resolved: untrack agent-local settings and explain legacy Stack directory names under owner-approved plan; merged PR #135 / `ced4df8`; all 5 CI jobs green. Earlier: BACKLOG-097 / TRIAGE-27 Resolved: make Compose run the same verification as CI and pin container base images under owner-approved plan; merged PR #133 / `52a4ad7`; all 5 CI jobs green. Earlier: BACKLOG-096 / TRIAGE-26 Resolved: amend RA Section 5.6 to permit exact behavioural literals in canonical features, record DR-052, bump RA to v1.16 under owner-approved plan; merged PR #131 / `a353a34`; all 5 CI jobs green. Earlier: BACKLOG-095 / TRIAGE-25 Resolved: update canonical feature narrative to five implemented techniques, record DR-051 under owner-approved plan; merged PR #129 / `0c667bf`; all 5 CI jobs green. Earlier: BACKLOG-094 / TRIAGE-23 Resolved: gate puzzles.json copy parity, correct guide wording, remove dead pytest marker, record DR-050 under owner-approved plan; merged PR #127 / `7711e57`; all 5 CI jobs green. Earlier: BACKLOG-093 / TRIAGE-22 Resolved: pin workflow actions to full commit SHAs and configure Dependabot under owner-approved plan; merged PR #122 / `5ebcec6`; CI and dependency-audit workflows all green. Earlier: BACKLOG-092 / TRIAGE-21 Resolved. Earlier: BACKLOG-091 / TRIAGE-10 Resolved. Earlier: BACKLOG-090 / TRIAGE-15 Resolved. Earlier: BACKLOG-089 / TRIAGE-20 Resolved. Earlier: BACKLOG-088 / TRIAGE-24 Resolved. Earlier: BACKLOG-087 / TRIAGE-19 Resolved.
+**Last Updated:** 2026-11-11 - BACKLOG-100 / TRIAGE-30 In Progress: surface loader errors from TypeScript and Python LoadPuzzles abilities under owner-approved plan; 1 Open (BACKLOG-101), 1 In Progress, 122 Resolved, 124 Total. Earlier: BACKLOG-099 / TRIAGE-29 Resolved: document that Naked Pairs and X-Wing eliminations are transient under owner-approved plan; merged PR #137 / `20cdf4d`; all 5 CI jobs green. Earlier: BACKLOG-098 / TRIAGE-28 Resolved: untrack agent-local settings and explain legacy Stack directory names under owner-approved plan; merged PR #135 / `ced4df8`; all 5 CI jobs green. Earlier: BACKLOG-097 / TRIAGE-27 Resolved: make Compose run the same verification as CI and pin container base images under owner-approved plan; merged PR #133 / `52a4ad7`; all 5 CI jobs green. Earlier: BACKLOG-096 / TRIAGE-26 Resolved: amend RA Section 5.6 to permit exact behavioural literals in canonical features, record DR-052, bump RA to v1.16 under owner-approved plan; merged PR #131 / `a353a34`; all 5 CI jobs green. Earlier: BACKLOG-095 / TRIAGE-25 Resolved: update canonical feature narrative to five implemented techniques, record DR-051 under owner-approved plan; merged PR #129 / `0c667bf`; all 5 CI jobs green. Earlier: BACKLOG-094 / TRIAGE-23 Resolved: gate puzzles.json copy parity, correct guide wording, remove dead pytest marker, record DR-050 under owner-approved plan; merged PR #127 / `7711e57`; all 5 CI jobs green. Earlier: BACKLOG-093 / TRIAGE-22 Resolved: pin workflow actions to full commit SHAs and configure Dependabot under owner-approved plan; merged PR #122 / `5ebcec6`; CI and dependency-audit workflows all green. Earlier: BACKLOG-092 / TRIAGE-21 Resolved. Earlier: BACKLOG-091 / TRIAGE-10 Resolved. Earlier: BACKLOG-090 / TRIAGE-15 Resolved. Earlier: BACKLOG-089 / TRIAGE-20 Resolved. Earlier: BACKLOG-088 / TRIAGE-24 Resolved. Earlier: BACKLOG-087 / TRIAGE-19 Resolved.
 **Governed by:** `reference-architecture.md` v1.16 Section 10.1
 **Template:** `DOCS/.templates/backlog.template.md`
 **Authoritative path:** `DOCS/.planning/backlog.md`
@@ -25,8 +25,8 @@ Per v1.16 Section 10.1:
 
 | Status | Count |
 |--------|-------|
-| Open | 2 |
-| In Progress | 0 |
+| Open | 1 |
+| In Progress | 1 |
 | Resolved | 122 |
 | **Total** | **124** |
 
@@ -141,7 +141,7 @@ both passed at `7af3dca`; this was a documentation reconciliation, not an implem
 | Active Reference Architecture | v1.16 |
 | Active platform specification | `sudoku-solver-platform-specification.md` v1.1 (Accepted, DR-034); `sudoku-solver-specification.md` v1.0 is the original core baseline |
 | Active Stacks | `DEMOAPP001_TYPESCRIPT_CYPRESS` (dir: `demo-apps/demoapp001-typescript-cypress/`), `DEMOAPP002_PYTHON_PYTEST` (dir: `demo-apps/demoapp002-python-pytest/`), `DEMOAPP003_CSHARP_SPECFLOW` (dir: `demo-apps/demoapp003-csharp-specflow/`) |
-| Current sprint focus | BACKLOG-100 / TRIAGE-30 is next (Surface loader errors from the TypeScript and Python LoadPuzzles abilities); 2 Open items mirrored from the root worklist (BACKLOG-100..101), 0 In Progress, 122 Resolved, 124 Total. Earlier: BACKLOG-099 / TRIAGE-29 is Resolved (merged PR #137 / `20cdf4d`); Earlier: BACKLOG-098 / TRIAGE-28 is Resolved (merged PR #135 / `ced4df8`); Earlier: BACKLOG-097 / TRIAGE-27 is Resolved (merged PR #133 / `52a4ad7`); Earlier: BACKLOG-096 / TRIAGE-26 is Resolved; BACKLOG-095 / TRIAGE-25 is Resolved; BACKLOG-094 / TRIAGE-23 is Resolved; BACKLOG-093 / TRIAGE-22 is Resolved; BACKLOG-092 / TRIAGE-21 is Resolved; BACKLOG-091 / TRIAGE-10 is Resolved; BACKLOG-090 / TRIAGE-15 is Resolved; BACKLOG-089 / TRIAGE-20 is Resolved; BACKLOG-088 / TRIAGE-24 is Resolved; BACKLOG-087 / TRIAGE-19 is Resolved; BACKLOG-086 / TRIAGE-18 is Resolved; BACKLOG-085 / TRIAGE-17 is Resolved; BACKLOG-084 / TRIAGE-16 is Resolved; BACKLOG-083 is Resolved; BACKLOG-082 is Resolved; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed |
+| Current sprint focus | BACKLOG-100 / TRIAGE-30 is In Progress (Surface loader errors from the TypeScript and Python LoadPuzzles abilities); 1 Open item mirrored from the root worklist (BACKLOG-101), 1 In Progress, 122 Resolved, 124 Total. Earlier: BACKLOG-099 / TRIAGE-29 is Resolved (merged PR #137 / `20cdf4d`); Earlier: BACKLOG-098 / TRIAGE-28 is Resolved (merged PR #135 / `ced4df8`); Earlier: BACKLOG-097 / TRIAGE-27 is Resolved (merged PR #133 / `52a4ad7`); Earlier: BACKLOG-096 / TRIAGE-26 is Resolved; BACKLOG-095 / TRIAGE-25 is Resolved; BACKLOG-094 / TRIAGE-23 is Resolved; BACKLOG-093 / TRIAGE-22 is Resolved; BACKLOG-092 / TRIAGE-21 is Resolved; BACKLOG-091 / TRIAGE-10 is Resolved; BACKLOG-090 / TRIAGE-15 is Resolved; BACKLOG-089 / TRIAGE-20 is Resolved; BACKLOG-088 / TRIAGE-24 is Resolved; BACKLOG-087 / TRIAGE-19 is Resolved; BACKLOG-086 / TRIAGE-18 is Resolved; BACKLOG-085 / TRIAGE-17 is Resolved; BACKLOG-084 / TRIAGE-16 is Resolved; BACKLOG-083 is Resolved; BACKLOG-082 is Resolved; BACKLOG-078/079/080/081 are published; BACKLOG-081 exact-merge CI and Pages passed |
 | Highest parity risks | RA-001 through RA-006 all Resolved — RA v1.9 structural gaps closed |
 
 ---
@@ -588,7 +588,7 @@ execution order.
 | BACKLOG-097 | TRIAGE-27 | Make Compose run the same verification as CI and pin container base images | All (config) | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-10-triage-27-compose-ci-verification-parity.md); merged PR #133 / `52a4ad7` |
 | BACKLOG-098 | TRIAGE-28 | Untrack agent-local settings and explain the legacy Stack directory names | All (docs + config) | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-10-triage-28-untrack-local-settings-legacy-names.md); merged PR #135 / `ced4df8` |
 | BACKLOG-099 | TRIAGE-29 | Document that Naked Pairs and X-Wing eliminations are transient | All (docs) | Low | Resolved | [Delivered plan](../.implementation-plans/2026-11-10-triage-29-document-transient-eliminations.md); merged PR #137 / `20cdf4d` |
-| BACKLOG-100 | TRIAGE-30 | Surface loader errors from the TypeScript and Python `LoadPuzzles` abilities | DEMOAPP001 / DEMOAPP002 | Low | Open | None expected |
+| BACKLOG-100 | TRIAGE-30 | Surface loader errors from the TypeScript and Python `LoadPuzzles` abilities | DEMOAPP001 / DEMOAPP002 | Low | In Progress | [Approved plan](../.implementation-plans/2026-11-11-triage-30-surface-loader-errors.md) |
 | BACKLOG-101 | TRIAGE-31 | Map a malformed percent-escape in an API path to a client error, not 500 | DEMOAPP001 | Low | Open | None expected |
 
 ## Owner-Selected Browser Contract Repair (2026-09-30)
@@ -2212,7 +2212,7 @@ are red first, and the OpenAPI, API, component and BDD gates pass.
 
 ### BACKLOG-100: Surface loader errors from the TypeScript and Python `LoadPuzzles` abilities
 
-**Status:** Open (added 2026-11-08).
+**Status:** In Progress (plan approved 2026-11-11: [implementation plan](../.implementation-plans/2026-11-11-triage-30-surface-loader-errors.md)).
 **Priority:** Low
 **Stack(s):** DEMOAPP001, DEMOAPP002
 **Source:** Root worklist TRIAGE-30, owner-approved via the BACKLOG-086 / TRIAGE-18 plan's Decision 6 on 2026-11-08.
