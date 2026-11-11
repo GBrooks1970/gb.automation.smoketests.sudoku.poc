@@ -4,7 +4,7 @@ created: 2026-11-10T22:00:00Z
 project: gb.automation.smoketests.sudoku.poc
 type: implementation-plan
 item: BACKLOG-099 / TRIAGE-29
-status: approved
+status: delivered
 language: en-GB
 ---
 
@@ -142,3 +142,13 @@ Audited on 2026-11-10 on branch `worklist/triage-29-document-transient-eliminati
 | Inaccurate description of code behavior | Misleading documentation | Low | Verified directly against `app_src/SudokuSolver.ts` lines 294–314 and 383–395 prior to drafting. |
 | Accidental breakage of documentation currency | Parity gate failure in `check-ra-header-currency.ps1` | Low | Ensure existing section headings and regex-tested claim strings in `sudoku-solver-platform-specification.md` remain untouched. |
 | Inadvertent edits to code or step definitions | Test suite regression | Zero | Strictly documentation-only task; no code files touched. |
+
+---
+
+## Outcome and Delivery
+
+- **Status:** Delivered
+- **Implementation PR:** [#137](https://github.com/GBrooks1970/gb.automation.smoketests.sudoku.poc/pull/137)
+- **Merge Commit:** `20cdf4d2625c2af8fc01021ff61a14b58da4c109` (`20cdf4d`, merged 2026-11-11T00:05:22Z)
+- **CI Verification:** All 5 required CI jobs passed (Run: 42927867410). All 8 local parity gates and 37 documentation currency negative controls passed cleanly.
+- **Implementation Log:** [`2026-11-11_triage-29-document-transient-eliminations.md`](../.implementation-logs/2026-11-11_triage-29-document-transient-eliminations.md)
