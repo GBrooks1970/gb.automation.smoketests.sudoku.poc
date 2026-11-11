@@ -5,6 +5,7 @@ directory convention adapts the portfolio default to this dot-prefixed location.
 
 | Item | Plan | Approval | Outcome |
 |---|---|---|---|
+| BACKLOG-101 / TRIAGE-31 | [Map a malformed percent-escape in an API path to a client error, not 500](2026-11-11-triage-31-malformed-percent-escape.md) | Draft (pending owner review) | Pending |
 | BACKLOG-100 / TRIAGE-30 | [Surface loader errors from the TypeScript and Python LoadPuzzles abilities](2026-11-11-triage-30-surface-loader-errors.md) | Owner approved Decisions 1–4, 2026-11-11 | Delivered in PR #139 / `06692e2`; `LoadPuzzles.ts` and `load_puzzles.py` surface captured errors across all 5 getters (must-fail baseline proven), execution inventory re-measured (115 TS / 32 Python), all 8 parity gates pass, all-green CI |
 | BACKLOG-099 / TRIAGE-29 | [Document that Naked Pairs and X-Wing eliminations are transient](2026-11-10-triage-29-document-transient-eliminations.md) | Owner approved Decisions 1–4, 2026-11-10 | Delivered in PR #137 / `20cdf4d`; transient candidate state documented in algorithm docs and platform spec, all 8 parity gates pass, all-green CI |
 | BACKLOG-098 / TRIAGE-28 | [Untrack agent-local settings and explain the legacy Stack directory names](2026-11-10-triage-28-untrack-local-settings-legacy-names.md) | Owner approved Decisions 1–4, 2026-11-10 | Delivered in PR #135 / `ced4df8`; .claude/settings.local.json untracked and ignored, stable legacy names explained in README, all 8 parity gates pass, all-green CI |
