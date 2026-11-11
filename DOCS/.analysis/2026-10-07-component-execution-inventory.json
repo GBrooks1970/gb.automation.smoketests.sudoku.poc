@@ -10,7 +10,8 @@
     "2026-11-08 (BACKLOG-086 / TRIAGE-18): only the demoapp003-component suite was re-measured, after two missing-path controls were added (28 to 30 tests). The other three suites keep their 2026-10-07 measurements because their sources are unchanged; recordedOn stays the original date.",
     "2026-11-09 (BACKLOG-091 / TRIAGE-10): only the demoapp001-openapi suite was re-measured, after adding three generator request/response contract tests and 400 validation error code assertions (8 to 11 tests). The other three suites keep their measurements because their sources are unchanged; recordedOn stays the original date.",
     "2026-11-10 (BACKLOG-094 / TRIAGE-23): demoapp002-component pyproject.toml source hash refreshed after retiring unused stack-demoapp002 pytest marker (30 tests unchanged). The other three suites keep their measurements because their sources are unchanged; recordedOn stays the original date.",
-    "2026-11-11 (BACKLOG-100 / TRIAGE-30): re-measured demoapp001-component (113 to 115 tests) and demoapp002-component (30 to 32 tests) after adding LoadPuzzles ability error-surfacing component contracts. Other suites remain unchanged; recordedOn stays the original date."
+    "2026-11-11 (BACKLOG-100 / TRIAGE-30): re-measured demoapp001-component (113 to 115 tests) and demoapp002-component (30 to 32 tests) after adding LoadPuzzles ability error-surfacing component contracts. Other suites remain unchanged; recordedOn stays the original date.",
+    "2026-11-11 (BACKLOG-101 / TRIAGE-31): only the demoapp001-openapi suite was re-measured, after adding malformed percent-escape 400 INVALID_URL_ENCODING and internal URIError 500 contract assertions (11 to 12 tests). The other three suites keep their measurements because their sources are unchanged; recordedOn stays the original date."
   ],
   "suites": [
     {
@@ -123,15 +124,15 @@
     },
     {
       "id": "demoapp001-openapi",
-      "tests": 11,
-      "passed": 11,
+      "tests": 12,
+      "passed": 12,
       "failed": 0,
       "skipped": 0,
       "runtime": "Node 24.18.0 / npm 11.16.0",
-      "sourceSha": "8024c877e37e2907705e67f8a6a3f12c077dac5b",
-      "startedUtc": "2026-11-09T20:27:30.0000000Z",
-      "commandDurationMs": 7858,
-      "runnerDurationMs": 3020,
+      "sourceSha": "9be08bb009ca68a0f5564f9699dc43f77eeda857",
+      "startedUtc": "2026-11-11T08:15:44.5503847Z",
+      "commandDurationMs": 8502,
+      "runnerDurationMs": 3848,
       "command": {
         "executable": "npm.cmd",
         "arguments": [
@@ -166,7 +167,7 @@
         },
         {
           "path": "demo-apps/demoapp001-typescript-cypress/tests/api/openapi.contract.test.ts",
-          "sha256": "53ae0632c05ac116d831a20da3a13cb220b995241407a6132e50bf9db33634d4"
+          "sha256": "e9cc53bdea614d2ca5022b4801af3bd019bdd26bc4d17ab97bb1dd76ded309af"
         },
         {
           "path": "demo-apps/demoapp001-typescript-cypress/tsconfig.json",
@@ -175,8 +176,8 @@
       ],
       "outputs": [
         {
-          "path": ".results/triage-08/20261007/ts-openapi.log",
-          "sha256": "00e80a14b708ad9c3b5f84d11aa7d73aed5727e5b6f03b97ca4af8bc1ddaee4a"
+          "path": ".results/triage-31/20261111/ts-openapi.log",
+          "sha256": "87aaba74aa3868d1f1352ff058dcb02cb3344283c7debd88dbf569eed6611098"
         }
       ]
     },

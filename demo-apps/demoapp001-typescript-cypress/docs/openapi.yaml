@@ -221,6 +221,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PuzzleResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
         '404':
           $ref: '#/components/responses/PuzzleNotFound'
         '500':
@@ -240,6 +242,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VisualiseResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
         '404':
           $ref: '#/components/responses/PuzzleNotFound'
         '500':
@@ -325,7 +329,8 @@ components:
       description: |
         Malformed request: `MISSING_GRID` (no grid field), `INVALID_GRID_FORMAT`
         (structure validation failed; details carry the offending field),
-        `INVALID_JSON` (unparseable body), or generator option validation errors
+        `INVALID_JSON` (unparseable body), `INVALID_URL_ENCODING` (malformed
+        percent-escape in a route parameter), or generator option validation errors
         (`INVALID_DIFFICULTY`, `INVALID_CLUE_COUNT`, `INVALID_SYMMETRICAL_OPTION`,
         `INVALID_SEED`).
       content:
@@ -688,6 +693,7 @@ components:
             - MISSING_GRID
             - INVALID_GRID_FORMAT
             - INVALID_JSON
+            - INVALID_URL_ENCODING
             - INVALID_TARGET_NUMBER
             - PUZZLE_NOT_FOUND
             - ROUTE_NOT_FOUND
